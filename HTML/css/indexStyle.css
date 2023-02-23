@@ -99,7 +99,6 @@ header > .header_inner .header_searchBar .btnSearch {
 /* 메인 */
 main {
     min-width: 1200px;
-    margin: 0 37px;
     padding: 20px 30px;
 }
 main > .main_inner {
