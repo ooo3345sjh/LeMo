@@ -1,4 +1,4 @@
-# [LeMo, ("Le" from "Lettuce" and "Mo" from "Memories")](https://docs.google.com/spreadsheets/d/1g1_pXSo88nbbJbCdhzgQ4fqB4OPCF-Uaa3gWi8o0Ogw/edit#gid=0)
+# [LEMO](https://docs.google.com/spreadsheets/d/1g1_pXSo88nbbJbCdhzgQ4fqB4OPCF-Uaa3gWi8o0Ogw/edit#gid=0)
 
 ## 프로젝트 소개 Introduction
 프로젝트에 대한 간략한 소개와 의의를 설명합니다.
