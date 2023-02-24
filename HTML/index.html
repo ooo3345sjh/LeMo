@@ -10,6 +10,34 @@
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
         <!-- 스타일 css 적용 -->
         <link rel="stylesheet" href="./css/indexStyle.css">
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <!-- bxslider plugin -->
+        <script src="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+        <script>
+            $( document ).ready( function() {
+                $( '.slider' ).bxSlider( {
+                    auto: true,         // 자동 실행 여부
+                    pause: 4000,        // 멈춤 속도 
+                    minSlides: 1,       // 최소 노출 개수
+                    maxSlides: 5,       // 최대 노출 개수
+                    slideWidth: 1100,   // 슬라이드 너비
+                    pager: false,       // 현재 위치 페이징 표시 여부 설정
+                    controls: false     // 이전 다음 버튼 노출 여부
+                } );
+
+                $('#dropdown').click(function(){
+                    let content = document.getElementById("dropdown_content");
+                    if(content.style.display=='none'){ 	
+                        content.style.display = 'block'; 	
+                    }else{ 		
+                        content.style.display = 'none'; 	
+                    } 
+                });
+            } );
+        </script>   
     </head>
     <body>
         <div id="wrapper">
@@ -24,7 +52,30 @@
                         </div>
                         <div class="header_service">
                             <a href="#">로그인</a>
-                            <a href="#">마이페이지</a>
+                            <div class="dropdown_menu">
+                                <button id="dropdown">마이페이지</button>
+                                <div class="dropdown_content" id="dropdown_content" style="display: none;">
+                                    <a href="#">나의 정보</a>
+                                    <a href="#">포인트</a>
+                                    <a href="#">쿠폰함</a>
+                                    <a href="#">예약내역</a>
+                                    <a href="#">위시리스트</a>
+                                    <a href="#">나의 여행일기</a>
+                                    <a href="#">나의 리뷰</a>
+                                </div>
+                            </div>
+                            <div class="dropdown_menu">
+                                <button id="dropdown2">마이페이지</button>
+                                <div class="dropdown_content" id="dropdown_content2" style="display: none;">
+                                    <a href="#">나의 정보</a>
+                                    <a href="#">포인트</a>
+                                    <a href="#">쿠폰함</a>
+                                    <a href="#">예약내역</a>
+                                    <a href="#">위시리스트</a>
+                                    <a href="#">나의 여행일기</a>
+                                    <a href="#">나의 리뷰</a>
+                                </div>
+                            </div>
                             <a href="#">고객센터</a>
                         </div>
                         <div class="header_searchBar">
@@ -40,12 +91,479 @@
                     </div>
                 </div>
             </header>
+
+
+
+
             <!-- 메인 -->
             <main>
                 <div class="main_inner">
-                    메인
+                    <!-- 슬라이더 -->
+                    <div class="main_slider">
+                        <div class="slider">
+                            <div><img src="./img/indexImg/main_banner1.png" alt="메인 배너"></div>
+                            <div><img src="./img/indexImg/main_banner2.png" alt="메인 배너"></div>
+                            <div><img src="./img/indexImg/main_banner3.png" alt="메인 배너"></div>
+                            <div><img src="./img/indexImg/main_banner4.png" alt="메인 배너"></div>
+                            <div><img src="./img/indexImg/main_banner5.png" alt="메인 배너"></div>
+                        </div>
+                    </div>
+                    <div class="blank60"></div>
+                    <!-- 인기 TOP4 -->
+                    <div class="main_top_container">
+                        <div class="main_top_tit">#BEST <i>TOP 4</i></div>
+                        <div class="main_top_box">
+                            <div class="main_top_table">
+                                <!-- item 1 -->
+                                <div class="main_top_item1">
+                                    <a href="#">
+                                        <div class="main_top_item1_click">
+                                            <div class="main_top_item1_img">
+                                                <div class="main_label">
+                                                    <span>1</span>
+                                                </div>
+                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                            </div>
+                                            <div class="main_top_item_stayName">
+                                                <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="main_top_item_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <div class="main_review_count">
+                                                    <span>132</span>
+                                                </div>
+                                            </div>
+                                            <div class="main_top_item_day">
+                                                <span>1박 요금</span>
+                                            </div>
+                                            <div class="main_top_item_price">
+                                                <span>KRW <i>102,068</i></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- item 2 -->
+                                <div class="main_top_item1">
+                                    <a href="#">
+                                        <div class="main_top_item1_click">
+                                            <div class="main_top_item1_img">
+                                                <div class="main_label">
+                                                    <span>2</span>
+                                                </div>
+                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                            </div>
+                                            <div class="main_top_item_stayName">
+                                                <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="main_top_item_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <div class="main_review_count">
+                                                    <span>132</span>
+                                                </div>
+                                            </div>
+                                            <div class="main_top_item_day">
+                                                <span>1박 요금</span>
+                                            </div>
+                                            <div class="main_top_item_price">
+                                                <span>KRW <i>102,068</i></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- item 3 -->
+                                <div class="main_top_item1">
+                                    <a href="#">
+                                        <div class="main_top_item1_click">
+                                            <div class="main_top_item1_img">
+                                                <div class="main_label">
+                                                    <span>3</span>
+                                                </div>
+                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                            </div>
+                                            <div class="main_top_item_stayName">
+                                                <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="main_top_item_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <div class="main_review_count">
+                                                    <span>132</span>
+                                                </div>
+                                            </div>
+                                            <div class="main_top_item_day">
+                                                <span>1박 요금</span>
+                                            </div>
+                                            <div class="main_top_item_price">
+                                                <span>KRW <i>102,068</i></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- item 4 -->
+                                <div class="main_top_item1">
+                                    <a href="#">
+                                        <div class="main_top_item1_click">
+                                            <div class="main_top_item1_img">
+                                                <div class="main_label">
+                                                    <span>4</span>
+                                                </div>
+                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                            </div>
+                                            <div class="main_top_item_stayName">
+                                                <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="main_top_item_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <div class="main_review_count">
+                                                    <span>132</span>
+                                                </div>
+                                            </div>
+                                            <div class="main_top_item_day">
+                                                <span>1박 요금</span>
+                                            </div>
+                                            <div class="main_top_item_price">
+                                                <span>KRW <i>102,068</i></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blank60"></div>
+                    <!-- 재방문율 인기 TOP4 -->
+                    <div class="main_top_container">
+                        <div class="main_top_tit">#재방문 <i>TOP4</i></div>
+                        <div class="main_top_box">
+                            <div class="main_top_table">
+                                <!-- item 1 -->
+                                <div class="main_top_item1">
+                                    <a href="#">
+                                        <div class="main_top_item1_click">
+                                            <div class="main_top_item1_img">
+                                                <div class="main_label">
+                                                    <span>1</span>
+                                                </div>
+                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                            </div>
+                                            <div class="main_top_item_stayName">
+                                                <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="main_top_item_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <div class="main_review_count">
+                                                    <span>132</span>
+                                                </div>
+                                            </div>
+                                            <div class="main_top_item_day">
+                                                <span>1박 요금</span>
+                                            </div>
+                                            <div class="main_top_item_price">
+                                                <span>KRW <i>102,068</i></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- item 2 -->
+                                <div class="main_top_item1">
+                                    <a href="#">
+                                        <div class="main_top_item1_click">
+                                            <div class="main_top_item1_img">
+                                                <div class="main_label">
+                                                    <span>2</span>
+                                                </div>
+                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                            </div>
+                                            <div class="main_top_item_stayName">
+                                                <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="main_top_item_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <div class="main_review_count">
+                                                    <span>132</span>
+                                                </div>
+                                            </div>
+                                            <div class="main_top_item_day">
+                                                <span>1박 요금</span>
+                                            </div>
+                                            <div class="main_top_item_price">
+                                                <span>KRW <i>102,068</i></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- item 3 -->
+                                <div class="main_top_item1">
+                                    <a href="#">
+                                        <div class="main_top_item1_click">
+                                            <div class="main_top_item1_img">
+                                                <div class="main_label">
+                                                    <span>3</span>
+                                                </div>
+                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                            </div>
+                                            <div class="main_top_item_stayName">
+                                                <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="main_top_item_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <div class="main_review_count">
+                                                    <span>132</span>
+                                                </div>
+                                            </div>
+                                            <div class="main_top_item_day">
+                                                <span>1박 요금</span>
+                                            </div>
+                                            <div class="main_top_item_price">
+                                                <span>KRW <i>102,068</i></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- item 4 -->
+                                <div class="main_top_item1">
+                                    <a href="#">
+                                        <div class="main_top_item1_click">
+                                            <div class="main_top_item1_img">
+                                                <div class="main_label">
+                                                    <span>4</span>
+                                                </div>
+                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                            </div>
+                                            <div class="main_top_item_stayName">
+                                                <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="main_top_item_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <div class="main_review_count">
+                                                    <span>132</span>
+                                                </div>
+                                            </div>
+                                            <div class="main_top_item_day">
+                                                <span>1박 요금</span>
+                                            </div>
+                                            <div class="main_top_item_price">
+                                                <span>KRW <i>102,068</i></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blank60"></div>
+                    <!-- Weekly Best Diary -->
+                    <div class="main_top_container">
+                        <div class="main_top_tit">#<i>Weekly</i> Best Diary</div>
+                        <div class="main_top_box">
+                            <div class="main_best_table">
+                                <!-- item 1 -->
+                                <div class="main_best_item1">
+                                    <a href="#">
+                                        <div class="main_best_item1_click">
+                                            <div class="main_best_item1_img">
+                                                <img src="./img/indexImg/main_item2.png"></img>
+                                            </div>
+                                            <div class="main_top_item1_writer">
+                                                <div class="item_left">
+                                                    <span class="nick">김레모</span>
+                                                </div>
+                                                <div class="item_right">
+                                                    <span class="heart">
+                                                        <img src="./img/indexImg/full-heart.png">
+                                                        <p>400</p>
+                                                    </span>
+                                                    <span class="date">
+                                                        23.02.24
+                                                    </span>
+                                                    <span class="replyCount">
+                                                        <img src="./img/indexImg/comment.png">
+                                                        <p>28</p>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="main_top_item1_review">
+                                                <div class="review_txt">
+                                                    지난 8월부터 주인이 바뀌고 리모델링 했다고 해서 조금 걱정하며 가봤는데 전의 모습은 볼수 없이 깨끗하고 향긋한 디퓨저까지 있어서 좋았다. 
+                                                    침대커버도 올화이트에 도어락이라 프라이빗한 느낌이 제일 만족스러움
+                                                    다음에도 계속 이용할 마음 100퍼!!
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- item 2 -->
+                                <div class="main_best_item1">
+                                    <a href="#">
+                                        <div class="main_best_item1_click">
+                                            <div class="main_best_item1_img">
+                                                <img src="./img/indexImg/main_item2.png"></img>
+                                            </div>
+                                            <div class="main_top_item1_writer">
+                                                <div class="item_left">
+                                                    <span class="nick">김레모</span>
+                                                </div>
+                                                <div class="item_right">
+                                                    <span class="heart">
+                                                        <img src="./img/indexImg/full-heart.png">
+                                                        <p>400</p>
+                                                    </span>
+                                                    <span class="date">
+                                                        23.02.24
+                                                    </span>
+                                                    <span class="replyCount">
+                                                        <img src="./img/indexImg/comment.png">
+                                                        <p>28</p>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="main_top_item1_review">
+                                                <div class="review_txt">
+                                                    지난 8월부터 주인이 바뀌고 리모델링 했다고 해서 조금 걱정하며 가봤는데 전의 모습은 볼수 없이 깨끗하고 향긋한 디퓨저까지 있어서 좋았다. 
+                                                    침대커버도 올화이트에 도어락이라 프라이빗한 느낌이 제일 만족스러움
+                                                    다음에도 계속 이용할 마음 100퍼!!
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- item 3 -->
+                                <div class="main_best_item1">
+                                    <a href="#">
+                                        <div class="main_best_item1_click">
+                                            <div class="main_best_item1_img">
+                                                <img src="./img/indexImg/main_item2.png"></img>
+                                            </div>
+                                            <div class="main_top_item1_writer">
+                                                <div class="item_left">
+                                                    <span class="nick">김레모</span>
+                                                </div>
+                                                <div class="item_right">
+                                                    <span class="heart">
+                                                        <img src="./img/indexImg/full-heart.png">
+                                                        <p>400</p>
+                                                    </span>
+                                                    <span class="date">
+                                                        23.02.24
+                                                    </span>
+                                                    <span class="replyCount">
+                                                        <img src="./img/indexImg/comment.png">
+                                                        <p>28</p>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="main_top_item1_review">
+                                                <div class="review_txt">
+                                                    지난 8월부터 주인이 바뀌고 리모델링 했다고 해서 조금 걱정하며 가봤는데 전의 모습은 볼수 없이 깨끗하고 향긋한 디퓨저까지 있어서 좋았다. 
+                                                    침대커버도 올화이트에 도어락이라 프라이빗한 느낌이 제일 만족스러움
+                                                    다음에도 계속 이용할 마음 100퍼!!
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blank60"></div>
+                    <!-- 공지사항 -->
+                    <div class="main_top_container">
+                        <div class="main_top_tit"># NOTICE
+                            <p class="main_top_sub_tit">> 더보기</p>
+                        </div>
+                        <div class="main_notice_board">
+                            <ul class="notice_board_inner">
+                                <li class="notice_item1">
+                                    <a class="notice_link" href="#">
+                                        <span class="text_tit"><i>이벤트 당첨자 안내</i> 2023 2월 이벤트 당첨자 발표</span>
+                                        <span class="text_date">23.02.24</span>
+                                    </a>
+                                </li>
+                                <li class="notice_item1">
+                                    <a class="notice_link" href="#">
+                                        <span class="text_tit"><i>이벤트 당첨자 안내</i> 2023 2월 이벤트 당첨자 발표</span>
+                                        <span class="text_date">23.02.24</span>
+                                    </a>
+                                </li>
+                                <li class="notice_item1">
+                                    <a class="notice_link" href="#">
+                                        <span class="text_tit"><i>이벤트 당첨자 안내</i> 2023 2월 이벤트 당첨자 발표</span>
+                                        <span class="text_date">23.02.24</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="blank120"></div>
                 </div>
             </main>
+
+
+
+
             <!-- 푸터 -->
             <footer>
                 <div class="footer_inner">
