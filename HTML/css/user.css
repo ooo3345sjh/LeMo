@@ -24,15 +24,15 @@ main {width: 1200px; margin: auto;}
 label {cursor: pointer;}
 
 
-/* 로그인(login) */
-#login > section {
+main > section {
     width: 336px;
     margin: 100px auto 0 auto;
 }
 
-#login > section .title {
+/* 로고 공통 스타일 */
+main > section .title {
     display: block !important;
-    margin-bottom: 16px;
+    margin-bottom: 25px;
     position: relative;
     top: 0;
     left: 0;
@@ -46,24 +46,62 @@ label {cursor: pointer;}
     text-align: center;
 }
 
-#login > section .title > .logo {
+section .title > .logo {
     display: inline-block;
-    width: 112px;
+    width: auto;
     height: 44px;
-    background: url('./img/ic_bi_yeogi_250px.png') 50% 50% no-repeat;
     background-size: 112px 23px;
     font-size: 24px;
     font-weight: bold;
     line-height: 44px;
 }
 
-#login > section .title > .logo > a {
-    font-size: 32px;
-    font-weight: 800;
-    color: #bbd444;
-
+section .title > .logo > img{
+    position: relative;
+    bottom: 13px;
+    margin-right: 5px;
+    display: inline-block;
+    float: left;
+    height: 60px;
 }
 
+section .title > .logo > a {
+    font-size: 36px;
+    font-weight: 800;
+    color: #bbd444;
+}
+
+/* 약관동의, 회원가입 최종 제출 버튼 공통  */
+.btn_link {
+    height: 56px;
+    line-height: 56px;
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    border-radius: 6px;
+    color: #dad5d5;
+    text-align: center;
+    border: none;
+    
+}
+
+.btn_link > span {
+    font-size: 16px;
+}
+
+.btn_link.on{
+    background: linear-gradient(to right, rgba(255,0,85,1) 1%,rgba(230,34,67,1) 100%);
+    color: #fff;
+}
+
+.btn_link > span {font-size: 16px; line-height: 56px;}
+
+
+
+
+
+/* 로그인(login) */
 
 /* 연동 로그인 버튼 */
 .btn_start {
@@ -92,22 +130,24 @@ label {cursor: pointer;}
 }
 
 .btn_naver {
-    background: rgb(40,209,17);
+    background: #03C75A;
     color: #fff;
 }
-
+/*
 .btn_google {
     background: #e04a32;
     color: #fff;
 }
-
-/* 
-.btn_google {
-    background: #dcdcdc;
-    color: #040404;
-}
 */
 
+.btn_google {
+    box-shadow: 0px 8px 3px -8px #d3d3d3;
+    background: #ffffff;
+    color: #6c6868;
+    border: 1px solid #dcdcdc;
+}
+
+.btn_google > span > i {font-family: 'Roboto';}
 
 .btn_start > span > img {margin-right: 10px; width: 20px; position: relative; top: 3px;}
 .btn_start > span > img {}
@@ -174,12 +214,17 @@ section  div > input {
     box-sizing: border-box;
 }
 
+
+.inp_type1 input::placeholder {font-weight: 300; color:#c2c2c2;}
+
 .inp_type1 input {
     position: relative;
     top: 11px;
     width: 100%;
     height: 24px;
-    font-size: 18px;   
+    font-size: 17px;   
+    font-weight: 500;
+    color: #111;
 }
 
 /* 이메일, 비밀번호 input 아이콘 */
@@ -392,8 +437,6 @@ section  div > input {
     bottom:39px;
 }
 
-
-
         
 /* 약관(terms) */
 #terms {}
@@ -475,28 +518,187 @@ section  div > input {
     
 }
 
-.terms_agree .btn_link {
-    height: 56px;
-    line-height: 56px;
-    font-size: 16px;
-    display: block;
-    width: 100%;
-    margin-top: 16px;
-    border-radius: 6px;
-    color: #fff;
-    text-align: center;
-    border: none;
-}
 
-.terms_agree .btn_link.on{
-    background: linear-gradient(to right, rgba(255,0,85,1) 1%,rgba(230,34,67,1) 100%);
-}
-
-.terms_agree .btn_link > span {font-size: 16px; line-height: 56px;}
 
 
 /* 일반회원가입(signup_general) */
 
+/* 회원가입 공통 */
+main > section .signup > .sub_title {
+    display: block;
+    margin: 30px 0 10px 0;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+.signup b {
+    display: block;
+    margin-bottom: 9px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(0,0,0,0.56);
+}
+
+.signup div {
+    margin-bottom: 38px;
+}
+
+.inp_type2 {
+    padding: 0 10px;
+}
+
+.inp_type2 {
+    position: relative;
+    height: 48px;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.inp_type2 input::placeholder {font-weight: 300; color:#c2c2c2;}
+.inp_type2 input {
+    font-weight: 500;
+    color: #111;
+}
+
+.btn_common {
+    position: absolute;
+    top: 0;
+    right: -100px;
+    width: 93px;
+    height: 48px;
+    border-radius: 6px;
+    background: #ebebeb;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    color: rgba(0,0,0,0.56);
+}
+
+.btn_common:hover {
+    background: #FCF951;
+}
+
+.validate_msg {
+    margin-top: 20px;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 28px;
+    color: red;
+} 
+
+#signup .btn_link {
+    height: 56px;
+    line-height: 56px;
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    border-radius: 6px;
+    line-height: 56px;
+    text-align: center;
+    border: none;
+    font-weight: 400;
+}
+
+/* 인증번호 timer */
+.inp_type2 .timer {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    height: 48px;
+    line-height: 48px;
+    font-size: 16px;
+    color: #ff0055;
+}
+
+/* 위치를 중앙으로 정렬
+
+#signup > section {
+    width: 435px;
+}
+
+main > section .signup > .sub_title {
+    display: block;
+    margin: 30px 0 10px 0;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.signup {
+    position: relative;
+    
+}
+
+.signup b {
+    display: block;
+    margin-bottom: 9px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(0,0,0,0.56);
+}
+
+.signup div {
+    margin-bottom: 38px;
+}
+
+.inp_type2 {
+    padding: 0 10px;
+    width: 336px;
+}
+
+.inp_type2 {
+    position: relative;
+    height: 48px;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.btn_common {
+    position: absolute;
+    top: 0;
+    width: 93px;
+    height: 48px;
+    border-radius: 6px;
+    background: #ebebeb;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    color: rgba(0,0,0,0.56);
+}
+
+.validate_msg {
+    margin-top: 20px;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 28px;
+    color: red;
+} 
+
+
+*/
+
+
 /* 사업자회원가입(signup_business) */
+
+.inp_type2 #bis_openDate {
+    font-weight: 300; color:#c2c2c2;
+}
+
+.inp_type2 #bis_openDate.on{
+    font-weight: 500;
+    color: #111;
+}
+
+
+#div_addr div{
+    margin-bottom: 4px;
+}
+
+
 
 /* 비밀번호 재설정(restPw) */
