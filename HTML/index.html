@@ -16,6 +16,10 @@
         <!-- bxslider plugin -->
         <script src="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+        <!-- slick slider plugin-->
+        <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
         <script>
             $( document ).ready( function() {
                 $( '.slider' ).bxSlider( {
@@ -28,8 +32,26 @@
                     controls: false     // 이전 다음 버튼 노출 여부
                 } );
 
+                $( document ).ready( function() {
+                    $( '.main_top_table' ).slick( {
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        autoplay: true,
+                        autoplaySpeed: 2000,
+                    } );
+                } );
+
                 $('#dropdown').click(function(){
                     let content = document.getElementById("dropdown_content");
+                    if(content.style.display=='none'){ 	
+                        content.style.display = 'block'; 	
+                    }else{ 		
+                        content.style.display = 'none'; 	
+                    } 
+                });
+
+                $('#dropdown2').click(function(){
+                    let content = document.getElementById("dropdown_content2");
                     if(content.style.display=='none'){ 	
                         content.style.display = 'block'; 	
                     }else{ 		
@@ -53,7 +75,9 @@
                         <div class="header_service">
                             <a href="#">로그인</a>
                             <div class="dropdown_menu">
-                                <button id="dropdown">마이페이지</button>
+                                <button id="dropdown">마이페이지
+                                    <img src="./img/indexImg/down-arrow.png">
+                                </button>
                                 <div class="dropdown_content" id="dropdown_content" style="display: none;">
                                     <a href="#">나의 정보</a>
                                     <a href="#">포인트</a>
@@ -65,18 +89,17 @@
                                 </div>
                             </div>
                             <div class="dropdown_menu">
-                                <button id="dropdown2">마이페이지</button>
+                                <button id="dropdown2">고객센터
+                                    <img src="./img/indexImg/down-arrow.png">
+                                </button>
                                 <div class="dropdown_content" id="dropdown_content2" style="display: none;">
-                                    <a href="#">나의 정보</a>
-                                    <a href="#">포인트</a>
-                                    <a href="#">쿠폰함</a>
-                                    <a href="#">예약내역</a>
-                                    <a href="#">위시리스트</a>
-                                    <a href="#">나의 여행일기</a>
-                                    <a href="#">나의 리뷰</a>
+                                    <a href="#">공지사항</a>
+                                    <a href="#">이벤트</a>
+                                    <a href="#">자주 묻는 질문</a>
+                                    <a href="#">1:1 문의</a>
+                                    <a href="#">여행일기</a>
                                 </div>
                             </div>
-                            <a href="#">고객센터</a>
                         </div>
                         <div class="header_searchBar">
                             <form class="search-container" action="#">
@@ -94,10 +117,15 @@
 
 
 
-
+            <div class="sticky">
+                <p>MY PICK</p>
+                <p>TALK</p>
+            </div>
             <!-- 메인 -->
             <main>
+                
                 <div class="main_inner">
+                        
                     <!-- 슬라이더 -->
                     <div class="main_slider">
                         <div class="slider">
@@ -108,10 +136,55 @@
                             <div><img src="./img/indexImg/main_banner5.png" alt="메인 배너"></div>
                         </div>
                     </div>
-                    <div class="blank60"></div>
+                    <div class="blank30"></div>
+                    <!-- 바로 가기 -->
+                    <div class="main_shortCut">
+                        <ul>
+                            <li class="main_shortCut_icon">
+                                <a href="#">
+                                    <span><img src="./img/indexImg/shortcut_motel.png" alt="shortCut motel" style="width: 59px;"></span>
+                                </a>
+                            </li>
+                            <li class="main_shortCut_icon">
+                                <a href="#">
+                                    <span><img src="./img/indexImg/shortcut_hotel.png" alt="shortCut motel" style="width: 66px;"></span>
+                                </a>
+                            </li>
+                            <li class="main_shortCut_icon">
+                                <a href="#">
+                                    <span><img src="./img/indexImg/shortcut_pension.png" alt="shortCut motel" style="width: 55px;"></span>
+                                </a>
+                            </li>
+                            <li class="main_shortCut_icon">
+                                <a href="#">
+                                    <span><img src="./img/indexImg/shortcut_dormitory.png" alt="shortCut motel" style="width: 59px;"></span>
+                                </a>
+                            </li>
+                            <li class="main_shortCut_icon">
+                                <a href="#">
+                                    <span><img src="./img/indexImg/shortcut_camp.png" alt="shortCut motel" style="width: 60px;"></span>
+                                </a>
+                            </li>
+                            <li class="main_shortCut_icon">
+                                <a href="#">
+                                    <span><img src="./img/indexImg/shortcut_airplane.png" alt="shortCut motel" style="padding-top: 6px;width: 53px;"></span>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li><p>모텔</p></li>
+                            <li><p>호텔</p></li>
+                            <li><p>펜션</p></li>
+                            <li><p>게스트하우스</p></li>
+                            <li><p>캠핑・글램핑</p></li>
+                            <li><p>해외 여행</p></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="blank80"></div>
                     <!-- 인기 TOP4 -->
                     <div class="main_top_container">
-                        <div class="main_top_tit">#BEST <i>TOP 4</i></div>
+                        <div class="main_top_tit"># <i>BEST</i></div>
                         <div class="main_top_box">
                             <div class="main_top_table">
                                 <!-- item 1 -->
@@ -119,9 +192,6 @@
                                     <a href="#">
                                         <div class="main_top_item1_click">
                                             <div class="main_top_item1_img">
-                                                <div class="main_label">
-                                                    <span>1</span>
-                                                </div>
                                                 <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
                                             </div>
                                             <div class="main_top_item_stayName">
@@ -145,7 +215,7 @@
                                                 <span>1박 요금</span>
                                             </div>
                                             <div class="main_top_item_price">
-                                                <span>KRW <i>102,068</i></span>
+                                                <span>KRW <i>102,001</i></span>
                                             </div>
                                         </div>
                                     </a>
@@ -155,10 +225,7 @@
                                     <a href="#">
                                         <div class="main_top_item1_click">
                                             <div class="main_top_item1_img">
-                                                <div class="main_label">
-                                                    <span>2</span>
-                                                </div>
-                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                                <img src="./img/indexImg/main_item2.jpg" alt="메인 아이템">
                                             </div>
                                             <div class="main_top_item_stayName">
                                                 <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
@@ -181,7 +248,7 @@
                                                 <span>1박 요금</span>
                                             </div>
                                             <div class="main_top_item_price">
-                                                <span>KRW <i>102,068</i></span>
+                                                <span>KRW <i>102,002</i></span>
                                             </div>
                                         </div>
                                     </a>
@@ -191,10 +258,7 @@
                                     <a href="#">
                                         <div class="main_top_item1_click">
                                             <div class="main_top_item1_img">
-                                                <div class="main_label">
-                                                    <span>3</span>
-                                                </div>
-                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                                <img src="./img/indexImg/main_item3.jpg" alt="메인 아이템">
                                             </div>
                                             <div class="main_top_item_stayName">
                                                 <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
@@ -217,7 +281,7 @@
                                                 <span>1박 요금</span>
                                             </div>
                                             <div class="main_top_item_price">
-                                                <span>KRW <i>102,068</i></span>
+                                                <span>KRW <i>102,003</i></span>
                                             </div>
                                         </div>
                                     </a>
@@ -227,10 +291,7 @@
                                     <a href="#">
                                         <div class="main_top_item1_click">
                                             <div class="main_top_item1_img">
-                                                <div class="main_label">
-                                                    <span>4</span>
-                                                </div>
-                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                                <img src="./img/indexImg/main_item4.jpg" alt="메인 아이템">
                                             </div>
                                             <div class="main_top_item_stayName">
                                                 <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
@@ -253,7 +314,40 @@
                                                 <span>1박 요금</span>
                                             </div>
                                             <div class="main_top_item_price">
-                                                <span>KRW <i>102,068</i></span>
+                                                <span>KRW <i>102,004</i></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- item 5 -->
+                                <div class="main_top_item1">
+                                    <a href="#">
+                                        <div class="main_top_item1_click">
+                                            <div class="main_top_item1_img">
+                                                <img src="./img/indexImg/main_item5.jpg" alt="메인 아이템">
+                                            </div>
+                                            <div class="main_top_item_stayName">
+                                                <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="main_top_item_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <div class="main_review_count">
+                                                    <span>132</span>
+                                                </div>
+                                            </div>
+                                            <div class="main_top_item_day">
+                                                <span>1박 요금</span>
+                                            </div>
+                                            <div class="main_top_item_price">
+                                                <span>KRW <i>102,005</i></span>
                                             </div>
                                         </div>
                                     </a>
@@ -264,7 +358,7 @@
                     <div class="blank60"></div>
                     <!-- 재방문율 인기 TOP4 -->
                     <div class="main_top_container">
-                        <div class="main_top_tit">#재방문 <i>TOP4</i></div>
+                        <div class="main_top_tit"># 재방문<i> 100%</i></div>
                         <div class="main_top_box">
                             <div class="main_top_table">
                                 <!-- item 1 -->
@@ -272,9 +366,6 @@
                                     <a href="#">
                                         <div class="main_top_item1_click">
                                             <div class="main_top_item1_img">
-                                                <div class="main_label">
-                                                    <span>1</span>
-                                                </div>
                                                 <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
                                             </div>
                                             <div class="main_top_item_stayName">
@@ -308,10 +399,7 @@
                                     <a href="#">
                                         <div class="main_top_item1_click">
                                             <div class="main_top_item1_img">
-                                                <div class="main_label">
-                                                    <span>2</span>
-                                                </div>
-                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                                <img src="./img/indexImg/main_item2.jpg" alt="메인 아이템">
                                             </div>
                                             <div class="main_top_item_stayName">
                                                 <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
@@ -344,10 +432,7 @@
                                     <a href="#">
                                         <div class="main_top_item1_click">
                                             <div class="main_top_item1_img">
-                                                <div class="main_label">
-                                                    <span>3</span>
-                                                </div>
-                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                                <img src="./img/indexImg/main_item3.jpg" alt="메인 아이템">
                                             </div>
                                             <div class="main_top_item_stayName">
                                                 <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
@@ -380,10 +465,40 @@
                                     <a href="#">
                                         <div class="main_top_item1_click">
                                             <div class="main_top_item1_img">
-                                                <div class="main_label">
-                                                    <span>4</span>
+                                                <img src="./img/indexImg/main_item4.jpg" alt="메인 아이템">
+                                            </div>
+                                            <div class="main_top_item_stayName">
+                                                <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="main_top_item_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
                                                 </div>
-                                                <img src="./img/indexImg/main_item1.jpg" alt="메인 아이템">
+                                                <div class="main_review_count">
+                                                    <span>132</span>
+                                                </div>
+                                            </div>
+                                            <div class="main_top_item_day">
+                                                <span>1박 요금</span>
+                                            </div>
+                                            <div class="main_top_item_price">
+                                                <span>KRW <i>102,068</i></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- item 5 -->
+                                <div class="main_top_item1">
+                                    <a href="#">
+                                        <div class="main_top_item1_click">
+                                            <div class="main_top_item1_img">
+                                                <img src="./img/indexImg/main_item5.jpg" alt="메인 아이템">
                                             </div>
                                             <div class="main_top_item_stayName">
                                                 <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
@@ -559,6 +674,7 @@
                     </div>
                     <div class="blank120"></div>
                 </div>
+                
             </main>
 
 
