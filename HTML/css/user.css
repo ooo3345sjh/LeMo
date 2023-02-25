@@ -3,8 +3,6 @@
 * {
     margin: 0;
     padding: 0;
-    margin: 0;
-    padding: 0;
     font-family: 'Red Hat Display', 'Noto Sans KR', sans-serif;
     font-size: 11px;
     font-weight: 400;
@@ -21,17 +19,16 @@ a {
 input, textarea {outline:  none;}
 
 #wrapper {width: 100%;}
+main {width: 1200px; margin: auto;}
 
 
 /* 로그인 페이지 */
-main {}
-
-main > section {
+#login > section {
     width: 336px;
     margin: 100px auto 0 auto;
 }
 
-main > section .title {
+#login > section .title {
     display: block !important;
     margin-bottom: 16px;
     position: relative;
@@ -47,7 +44,7 @@ main > section .title {
     text-align: center;
 }
 
-main > section .title > .logo {
+#login > section .title > .logo {
     display: inline-block;
     width: 112px;
     height: 44px;
@@ -58,7 +55,7 @@ main > section .title > .logo {
     line-height: 44px;
 }
 
-main > section .title > .logo > a {
+#login > section .title > .logo > a {
     font-size: 32px;
     font-weight: 800;
     color: #bbd444;
@@ -304,3 +301,97 @@ section  div > input {
     height: 16px;
     background: rgba(0,0,0,0.08);
 }
+
+
+/* 회원 가입 구분 */
+
+/* 안내 문구 */
+
+.join {}
+
+.join > p {
+    margin-top: 150px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.join > p > strong {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+/* 가입구분 */
+.join > .type {
+    width: 900px;
+    margin: 0 auto;
+    margin-top: 100px;
+    text-align: center;
+}
+
+.join > .type > div {
+    width: 420px;
+    height: 180px;
+    border: 1px solid #d5d5d5;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.join > .type > div > div:first-child {
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    background-color: #FCF951;
+}
+
+.join .type .txt {  
+    position: relative;
+    padding-left: 50px;
+}
+
+.join .type .txt > span {
+    display: block;
+    font-size: 15px;
+    text-align: left;
+}
+
+.join > .type > .general {float: left;}
+.join > .type > .business {float: right;}
+
+.join .type .txt > .txt1 {font-size: 18px; padding-top: 40px;}
+.join .type .txt > .txt2 {font-size: 12px; color: gray;}
+
+
+/* 회원가입 버튼 */
+.join .type .txt .register {
+    float: right;
+    position: relative;
+    bottom: 40px;
+    right: 40px;
+
+
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+	background-color:#ededed;
+	border-radius:3px;
+	border:1px solid #dcdcdc;
+	cursor:pointer;
+	color:#777777;
+	font-size:13px;
+	font-weight:bold;
+	padding:8px 13px;
+	text-decoration:none;
+}
+
+.join .type .txt .register:hover {
+    background: linear-gradient(to bottom, #fcf951 5%, rgb(252 229 30) 100%);
+    background-color: #fcf951;
+    color: #7f4141;
+}
+
+.join .type .txt .register:active {
+	position:relative;
+    bottom:39px;
+}
+
+        
+
