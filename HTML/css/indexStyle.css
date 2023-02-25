@@ -175,6 +175,7 @@ main > .main_inner {
     z-index: 9999;
     right: 10px;
     float: right;
+    cursor: pointer;
 }
 .sticky p:nth-of-type(1) {
     border: 1px solid;
