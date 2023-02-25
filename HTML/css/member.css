@@ -1,0 +1,306 @@
+/* 회원 공통 */
+
+* {
+    margin: 0;
+    padding: 0;
+    margin: 0;
+    padding: 0;
+    font-family: 'Red Hat Display', 'Noto Sans KR', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    box-sizing: border-box;
+}
+
+ul, ol {list-style: none;}
+
+a {
+    text-decoration: none;
+    color: #111;
+}
+
+input, textarea {outline:  none;}
+
+#wrapper {width: 100%;}
+
+
+/* 로그인 페이지 */
+main {}
+
+main > section {
+    width: 336px;
+    margin: 100px auto 0 auto;
+}
+
+main > section .title {
+    display: block !important;
+    margin-bottom: 16px;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 300;
+    width: 100%;
+    height: 44px;
+    background: #fff;
+    font-size: 18px;
+    line-height: 44px;
+    text-align: center;
+}
+
+main > section .title > .logo {
+    display: inline-block;
+    width: 112px;
+    height: 44px;
+    background: url('./img/ic_bi_yeogi_250px.png') 50% 50% no-repeat;
+    background-size: 112px 23px;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 44px;
+}
+
+main > section .title > .logo > a {
+    font-size: 32px;
+    font-weight: 800;
+    color: #bbd444;
+
+}
+
+
+/* 연동 로그인 버튼 */
+.btn_start {
+    height: 56px;
+    font-size: 16px;
+    line-height: 56px;
+    display: block;
+    position: relative;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    text-align: center;
+    width: 100%;
+    border: none;
+}
+
+.btn_start > span >{}
+
+.btn_start > span > i {
+    font-size: 16px;
+    font-style: initial;
+}
+
+.btn_kakao {
+    background: rgb(252,229,30);
+    color: rgb(59,29,20);
+}
+
+.btn_naver {
+    background: rgb(40,209,17);
+    color: #fff;
+}
+
+.btn_google {
+    background: #e04a32;
+    color: #fff;
+}
+
+/* 
+.btn_google {
+    background: #dcdcdc;
+    color: #040404;
+}
+*/
+
+
+.btn_start > span > img {margin-right: 10px; width: 20px; position: relative; top: 3px;}
+.btn_start > span > img {}
+.btn_kakao > span > img {}
+.btn_naver > span > img {}
+
+
+button {
+    padding: 0;
+    cursor: pointer;
+}
+
+.or {
+    position: relative;
+    height: 56px;
+    margin-bottom: 8px;
+}
+
+.or::after {
+    content:'';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: rgba(0,0,0,0.08);
+}
+
+.or span {
+    width: 60px;
+    height: 56px;
+    margin: 0 0 0 -25px;
+    font-size: 16px;
+    line-height: 56px;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 10;
+    color: rgba(0,0,0,0.38);
+    text-align: center;
+    background: #fff;
+
+}
+
+section  div > input {
+    position: relative;
+    top: 11px;
+    width: 100%;
+    height: 24px;
+    font-size: 18px;
+    padding: 0;
+    border: none;
+    vertical-align: top;
+}
+
+.inp_type1 {
+    height: 48px;
+    padding: 0 16px 0 46px;
+    position: relative;
+    margin-bottom: 8px;
+    border: 1px solid rgba(0,0,0,0.26);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.inp_type1 input {
+    position: relative;
+    top: 11px;
+    width: 100%;
+    height: 24px;
+    font-size: 18px;   
+}
+
+/* 이메일, 비밀번호 input 아이콘 */
+.inp_type1::after {
+    display: inline-block;
+    content: '';
+    position: absolute;
+}
+
+.ico_email::after{
+    top: 16px;
+    left: 15px;
+    width: 18px;
+    height: 14px;
+    background: url('../user/img/ico_inp_mail.png') 0 0 no-repeat;
+    background-size: 18px auto;
+}
+
+.ico_pw::after {
+    top: 15px;
+    left: 16px;
+    width: 18px;
+    height: 15px;
+    background: url('../user/img/ico_inp_pw.png') 50% 0 no-repeat;
+    background-size: 14px auto;
+
+}
+
+
+/* 유효성 검사에 어긋날때 .error -> display:block 으로 변경 */
+.inp_error {
+    margin-bottom: 37px;
+    border: 1px solid rgb(230,28,81) !important;;
+}
+
+.error {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    top: 44px;
+    left: 0;
+    font-size: 13px;
+    line-height: 1;
+    color: rgb(230,28,81) !important;
+
+    top: 54px;
+    left: 0;
+    font-size: 15px;
+}
+
+.ico_email.inp_error::after {
+    top: 15px;
+    left: 15px;
+    width: 18px;
+    height: 14px;
+    background: url('../user/img/ico_inp_mail.png') 0 -28px no-repeat;
+    background-size: 18px auto;
+}
+
+
+.ico_pw.inp_error::after {
+    width: 18px;
+    height: 15px;
+    background: url('../user/img/ico_inp_pw.png') 50% -30px no-repeat;
+    background-size: 14px auto;
+}
+
+
+/* 최종 로그인 버튼 */
+.login {
+    height: 56px;
+    font-size: 16px;
+    line-height: 56px;
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    border-radius: 6px;
+    color: #fff;
+    text-align: center;
+    border: none;
+    background: linear-gradient(to right, rgba(255,0,85,1) 1%,rgba(230,34,67,1) 100%);
+    /*background: linear-gradient(to right,#bbd444 1%,#00bbfe 100%);*/
+}
+
+.login > span {
+    position: relative;
+    font-size: 16px;
+    line-height: 56px;
+}
+
+/* 비밀번호 재설정, 회원가입 */
+
+.link_half {
+    overflow: hidden;
+    position: relative;
+    height: 56px;
+    margin-top: 9px;
+}
+
+.link_half > div {
+    display: inline-block;
+    float: left;
+    width: 50%;
+    height: 40px;
+    text-align: center;
+}
+
+.link_half span {
+    height: 56px;
+    font-size: 16px;
+    line-height: 56px;
+}
+
+.link_half::after {
+    display: inline-block;
+    content: '';
+    position: absolute;
+    top: 21px;
+    left: 50%;
+    width: 1px;
+    height: 16px;
+    background: rgba(0,0,0,0.08);
+}
