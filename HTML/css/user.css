@@ -1,5 +1,4 @@
 /* 회원 공통 */
-
 * {
     margin: 0;
     padding: 0;
@@ -239,7 +238,7 @@ section  div > input {
     left: 15px;
     width: 18px;
     height: 14px;
-    background: url('../user/img/ico_inp_mail.png') 0 0 no-repeat;
+    background: url('../img/userImg/ico_inp_mail.png') 0 0 no-repeat;
     background-size: 18px auto;
 }
 
@@ -248,7 +247,7 @@ section  div > input {
     left: 16px;
     width: 18px;
     height: 15px;
-    background: url('../user/img/ico_inp_pw.png') 50% 0 no-repeat;
+    background: url('../img/userImg/ico_inp_pw.png') 50% 0 no-repeat;
     background-size: 14px auto;
 
 }
@@ -506,14 +505,14 @@ section  div > input {
     width: 24px;
     height: 24px;
     border: none;
-    background: url('../user/img/ico_chk.png') 0 0 no-repeat;
+    background: url('../img/userImg/ico_chk.png') 0 0 no-repeat;
     background-size: 24px auto;
     cursor: pointer;
     appearance: none;
 }
 
 .terms_agree .chk:checked {
-    background: url('../user/img/ico_chk.png')  0 -24px no-repeat;
+    background: url('../img/userImg/ico_chk.png')  0 -24px no-repeat;
     background-size: 24px auto;
     
 }
@@ -523,8 +522,8 @@ section  div > input {
 
 /* 일반회원가입(signup_general) */
 
-/* 회원가입 공통 */
-main > section .signup > .sub_title {
+/* 회원가입 공통 - .common부분은 비밀번호 재설정 페이지까지 공통됨 */
+main > section .common > .sub_title {
     display: block;
     margin: 30px 0 10px 0;
     font-size: 18px;
@@ -532,8 +531,7 @@ main > section .signup > .sub_title {
     font-weight: bold;
 }
 
-
-.signup b {
+.common b {
     display: block;
     margin-bottom: 9px;
     font-size: 16px;
@@ -541,7 +539,7 @@ main > section .signup > .sub_title {
     color: rgba(0,0,0,0.56);
 }
 
-.signup div {
+.common div {
     margin-bottom: 38px;
 }
 
@@ -615,7 +613,6 @@ main > section .signup > .sub_title {
 }
 
 /* 위치를 중앙으로 정렬
-
 #signup > section {
     width: 435px;
 }
@@ -678,8 +675,6 @@ main > section .signup > .sub_title {
     line-height: 28px;
     color: red;
 } 
-
-
 */
 
 
@@ -694,11 +689,16 @@ main > section .signup > .sub_title {
     color: #111;
 }
 
-
 #div_addr div{
     margin-bottom: 4px;
 }
 
-
-
 /* 비밀번호 재설정(restPw) */
+.resetPw > p {
+    font-size: 15px;
+    color: #a8a8a8;
+    margin-bottom: 25px;
+}
+
+#section1 {display: block;}
+#section2 {display: block;}

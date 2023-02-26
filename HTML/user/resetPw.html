@@ -1,7 +1,7 @@
 <!--
-    날짜 : 2023/
+    날짜 : 2023/02/26
     이름 : 이해빈
-    내용 : 
+    내용 : 회원 비밀번호 찾기 화면설계
 -->
 
 <!DOCTYPE html>
@@ -20,8 +20,61 @@
     <body>
         <div id="wrapper">
             <header></header>
-            <main id="terms">
+            <main id="resetPW">
+                <section>
+                    <form action="#">
+                        <div class="title">
+                            <strong class="logo">
+                                <img src="../img/indexImg/lemo_logo-removebg-preview.png" alt="">
+                                <a href="#">LEMO</a>
+                            </strong>
+                        </div>
+                        <div class="common resetPw">
+                            <strong class="sub_title">비밀번호 재설정</strong>
+                            <p>회원가입시 등록한 이메일 주소를 입력해 주세요.</p>
 
+                            <section id="section1">
+                                <b>이메일 아이디</b>
+                                <div class="inp_type2 form-errors">
+                                    <input type="email" name="user_email" placeholder="이메일 주소를 입력해주세요.">
+                                    <label id="email_msg" class="validate_msg">이메일 주소를 올바르게 입력하세요.</label>
+                                    <button type="button" class="btn_common">인증메일 전송</button>
+                                </div>
+    
+                                <b>인증번호</b>
+                                <div class="inp_type2 form-errors">
+                                    <input type="text" name="authcode" placeholder="인증번호를 입력해주세요.">
+                                    <!-- timer 활성/비활성 display:inline-block / none -->
+                                    <span class="timer">02:43</span>
+                                    <label id="authcode_msg" class="validate_msg"></label>
+                                    <button type="button" class="btn_common">인증확인</button>
+                                </div>
+                            </section>
+
+                            <section id="section2">
+                                <b>비밀번호</b>
+                                <div class="inp_type2 form-errors">
+                                    <input type="password" name="pass1" placeholder="비밀번호를 입력해주세요.">
+                                    <label id="pass1_msg" class="validate_msg"></label>
+                                    
+                                </div>
+    
+                                <b>비밀번호 확인</b>
+                                <div class="inp_type2 form-errors">
+                                    <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요.">
+                                    <label id="pass2_msg" class="validate_msg"></label>
+                                </div>
+                            </section>
+
+
+                            <!-- 유효성 검사 통과 시 class에 on 추가 -->
+                            <button type="button" class="btn_link on" id="signup_btn" disabled="disabled">
+                                <span>확인</span>
+                            </button>
+                        </div>
+
+                    </form>
+                </section>
             </main>        
             <footer></footer>
         </div>  

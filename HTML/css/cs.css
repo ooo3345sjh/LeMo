@@ -1,0 +1,178 @@
+/* 고객센터 공통 css */
+main > #cs {
+    width: 1130px;
+    min-height: 400px;
+    margin: 0 auto;
+    padding-top: 30px;
+    margin-bottom: 100px;
+    overflow: hidden;
+}
+
+
+/* 카테고리 */
+.category {
+    display: block;
+    float: left;
+    width: 238px;
+    padding-left: 31px;
+}
+
+.category > ul li {
+    margin-bottom: 26px;
+}
+
+.category > ul li a {
+    display: block;
+    font-size: 18px;
+    color: rgba(0,0,0,0.56);
+}
+
+.category > ul li a.on {
+    font-size: 18px;
+    font-weight: bold;
+    color: #bbd444;
+}
+
+
+/* 공지사항 */
+.content {
+    float: right;
+    width: 800px;
+    margin-right: 31px;
+}
+
+
+.tab {
+    height: auto;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.tab > span {
+    display: inline-block;
+    float: none;
+    position: relative;
+    width: auto;
+    height: 40px;
+    margin-right: 22px;
+    line-height: normal;
+    color: #bbd444;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    cursor: pointer;
+
+    border-bottom: 1px solid #bbd444;
+}
+
+.tab .new {
+    font-style: italic;
+}
+
+#notices li {
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+#notices li .list_n {
+    display: block;
+    position: relative;
+    height: auto;
+    margin-bottom: 0;
+    padding: 38px 24px 35px 0;
+    border-radius: 0;
+    background: #fff;
+    line-height: normal;
+    cursor: pointer;
+    color: rgba(0,0,0,0.87);
+    box-sizing: border-box;
+}
+
+#notices li .list_n p {
+    padding-bottom: 7px;
+    overflow: visible;
+    white-space: normal;
+    text-overflow: initial;
+    line-height: normal;
+    word-wrap: break-word;
+    font-size: 18px;
+    width: 100%;
+}
+
+
+#notices li .list_n span {
+    font-size: 16px;
+    color: rgba(0,0,0,0.38);
+}
+
+#notices li .list_n::after {
+    display: inline-block;
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 14px;
+    height: 9px;
+    margin-top: -5px;
+    background: #fff url('../img/csImg/ico_arr.png') 0 0 no-repeat;
+    background-size: 14px auto;
+}
+
+
+/* list를 누르면 클래스 open 추가 */
+#notices li .open::after {
+    background-position: 0 -9px;
+}
+
+#notices li div {
+    display: none;
+    margin-bottom: 12px;
+    padding: 20px 20px;
+    border-radius: 4px;
+    background: #f6f5f5;
+    font-size: 14px;
+    line-height: 22px;
+    box-sizing: border-box;
+    overflow: hidden;
+    
+}
+
+.paging{
+    border-top: none;
+  
+    padding: 32px 0 0 0;
+    display: block;
+    text-align: center;
+}
+
+.paging button {
+    width: 32px;
+    height: 32px;
+    box-sizing: inherit;
+    border-radius: 3px;
+    border: none;
+    box-shadow: none;
+    background: none;
+    font-size: 13px;
+    text-align: center;
+}
+
+.paging .prev {
+    background: url('../img/csImg/ico_paging_arr1.png') 50% 50% no-repeat;
+    background-size: 10px auto;
+    text-indent: -9999px;
+    margin-right: 5px;
+}
+
+.paging .next {
+    background: url('../img/csImg/ico_paging_arr2.png') 50% 50% no-repeat;
+    background-size: 10px auto;
+    text-indent: -9999px;
+    margin-left: 5px;
+}
+
+.paging .on{
+    border: 1px solid rgba(0,0,0,0.27);
+    border-radius: 4px;
+    font-weight: bold;
+    color: rgba(0,0,0,0.87);
+}
+
