@@ -2,11 +2,627 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Travel with Lemo::product</title>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
+        <!-- 스타일 -->
+        <link rel="stylesheet" href="./css/productStyle.css">
+        <!-- Date Range Picker -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     </head>
-    <body>
+    <style>
+        main { 
+            min-width: 1500px; 
+            padding: 20px 30px;
+            border: 1px solid red;
+        }
+
+        #result { 
+            width: 1400px; 
+            margin: 0 auto;
+            border: 1px solid black;
+        }
+
+        /** 검색 */
+        .search {
+            width: 600px; height: 100px;
+            margin: 20px auto;
+            box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
+        }
+
+        .search > form { overflow: hidden; padding-left: 70px; }
+
+        /** 검색 - 테이블 */
+        .search > form >  table { float: left; }
+
+        .search > form >  table th {
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        .search > form >  table th:nth-child(2) { width: 200px; }
+
+        .search > form > table tr > td { text-align: center; }
+
+        .search > form > table tr > td > input { text-align: center; font-size: 14px; }
+
+        .search > form > table tr > td:nth-child(1) > input { width: 100px; height: 35px; }
+
+        .search > form > table tr > td:nth-child(2) > input { width: 180px; height: 35px; }
+
+        .search > form > table tr > td:nth-child(3) > input { width: 68px; height: 35px; }
+
+        /** 검색 - 검색버튼 */
+        .search > form > .result {
+            float: left;
+            margin: 19px;
+            width: 60px; height: 60px;
+            font-size: 0;
+            background-image: url(./img/search.png);
+            background-size: cover;
+            background-color: rgba(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /** 메인(목록, Map) */
+        .content {
+            overflow: hidden;
+            width: 1100px;
+            margin: 0 auto;
+        }
+
+        /** 메인(목록) */
+        .list {
+            float: left;
+            width: 650px;
+            height: auto;
+            border: 1px solid blue;
+        }
+
+        /** 목록 - 필터 */
+        .list > #filter { 
+            position: relative;
+            width: 80%; height: 50px;
+            margin: 20px;
+        }
+
+        .list > #filter > a { 
+            display: block;
+            float: left;
+            width: 50px; height: 50px;
+            margin-left: 10px;
+            background-image: url(./img/list.png);
+            background-size: cover;
+        }
+
+        .list > #filter > select {
+            width: 200px; height: 40px;
+            margin-top: 5px;
+            margin-left: 10px;
+            font-size: 19px;
+            text-align: center;
+        }
+
+        .list > #filter > select > option { font-size: 15px; }
+
+        .list > #filter > .popup {
+            overflow: auto;
+            position: relative;
+            left: 15px; top: 15px;
+            width: 500px; height: 500px;
+            box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
+            background-color: white;
+            border-radius: 5px;
+            z-index: 5;
+        }
+
+        .list > #filter > .popup::-webkit-scrollbar { width: 10px; }
+
+        .list > #filter > .popup::-webkit-scrollbar-thumb { 
+            height: 30%; /* 스크롤바의 길이 */
+            background: #fcf951; /* 스크롤바의 색상 */
+            border-radius: 10px;
+         }
+
+         .list > #filter > .popup::-webkit-scrollbar-track { background: rgb(245 244 183 / 51%);;  /*스크롤바 뒷 배경 색상*/ }
         
+        .list > #filter > .popup.on {
+            display: block;
+        }
+
+        /** 목록 - 상품 목록 */
+        .list > .list-area {
+            width: 100%; height: auto;
+            border: 1px solid black;
+            padding: 20px;
+        }
+
+        .list > .list-area > ul {}
+
+        .list > .list-area > ul > li { 
+            overflow: hidden;
+            border: 1px solid black;
+            padding: 15px 0;
+        }
+
+        .list > .list-area > ul > li > img { 
+            float: left; 
+            width: 170px;
+            height: 300px;
+        }
+
+        /** 목록 - 상품 목록 - 상품 */
+        .list > .list-area > ul > li > .stage {
+            position: relative;
+            float: right;
+            width: 417px; height: 300px;
+            border: 1px solid black;
+        }
+
+        .list > .list-area .stage-name { border: 1px solid black; }
+
+        .list > .list-area .stage-name > strong { font-size: 20px; }
+
+        .list > .list-area .stage-name > p:nth-child(2) { }
+
+        .list > .list-area .stage-name > p:nth-child(2) > span { font-size: 12px; }
+        .list > .list-area .stage-name > p:nth-child(2) > em { font-size: 12px; }
+
+        .list > .list-area .stage-name > p:nth-child(3) {}
+
+        .list > .list-area .stage-name > p:nth-child(3) > span { font-size: 15px; }
+
+        .list > .list-area .stage-descript {
+            margin-top: 10px;
+            border: 1px solid black; 
+        }
+
+        .list > .list-area .stage-descript > span { 
+            display: inline-block;
+            font-size: 20px;
+            height: 145px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .list > .list-area .stage-info { 
+            position: absolute;
+            right: 0; bottom: 0;
+            width: 200px; height: 50px;
+            border: 1px solid black; 
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .list > .list-area .stage-info > p:nth-child(1) > span { font-size: 15px; }
+
+        .list > .list-area .stage-info > p:nth-child(2) > b { font-size: 20px; }
+
+        .list > .list-area .paging { margin-top: 10px; text-align: center; }
+
+        .list > .list-area .paging > span > a { 
+            padding-left: 5px;
+            border: 1px solid black;
+            font-size: 20px; 
+        }
+
+        .list > .list-area .paging > span > a > img {
+            width: 20px; height: 20px;
+            vertical-align: -3px;
+        }
+
+        /** 메인(Map) */
+        .listMap {
+            float: left;
+            width: 450px; height: 800px;
+            border: 1px solid blue;
+        }
+        
+
+        .list > #filter > #popupFilter {  }
+
+        .list > #filter > #popupFilter > h3 {
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .list > #filter > #popupFilter > article:nth-child(2) { 
+            width: 95%;
+            margin: 10px auto; 
+            border: 1px solid black;
+            box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
+            border-radius: 10px;
+        }
+
+        .list > #filter > #popupFilter > article:nth-child(2) > strong { font-size: 20px; padding-left: 10px; }
+
+        .list > #filter > #popupFilter > article:nth-child(2) > table {
+            width: 100%;
+            margin-top: 5px;
+            padding: 10px;
+        }
+
+        .list > #filter > #popupFilter > article:nth-child(2) > table label { font-size: 15px; }
+
+        .list > #filter > #popupFilter > article:nth-child(2) > table label > input { margin-right: 5px; }
+
+        .list > #filter > #popupFilter > article:nth-child(3) {
+            width: 95%;
+            margin: 10px auto; 
+            border: 1px solid black;
+            box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
+            border-radius: 10px;
+        }
+
+        .list > #filter > #popupFilter > article:nth-child(3) > strong { font-size: 20px; padding-left: 10px; }
+    </style>
+    <script>
+        /** 현재 날짜 구하기 */
+        let now        = new Date();
+        let nowYear    = now.getFullYear();
+        let nowMonth   = now.getMonth() + 1;
+        let nowDate    = now.getDate();
+
+        let date      = nowYear + '-' + nowMonth + '-' + nowDate;
+
+        $(function(){
+            /** Jquery UI Date Picker */
+            $('#daterange').daterangepicker({
+                "locale": {
+                    "format": "YYYY-MM-DD",
+                    "separator": " ~ ",
+                    "applyLabel": "확인",
+                    "cancelLabel": "취소",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "W",
+                    "daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"],
+                    "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+                    "firstDay": 1
+                },
+                "startDate": date,
+                "endDate": date,
+                "drops": "down",
+                "opens": "center"
+            }, function (start, end, label) {
+                alert(" 체크인 :  " + start.format('YYYY-MM-DD') + " 체크아웃 : " + end.format('YYYY-MM-DD'));
+            });
+
+            /** filter 확장 */
+            $(document).on('click', '#filter > a', function(){
+                $('#popupFilter').addClass('on');
+            });
+        });
+    </script>
+    <body>
+        <div id="wrapper">
+            <!-- 헤더 -->
+            <header>
+                <div class="header_inner">
+                    <div class="header_flex">
+                        <div class="header_logo">
+                            <!-- 메인으로 이동 -->
+                            <a href="#"><img src="../img/indexImg/lemo_logo.png" alt="레모 로고"></a>
+                            <div class="logo">LEMO</div>
+                        </div>
+                        <div class="header_service">
+                            <a href="#">로그인</a>
+                            <div class="dropdown_menu">
+                                <button id="dropdown">마이페이지
+                                    <img src="../img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content" style="display: none;">
+                                    <a href="#">나의 정보</a>
+                                    <a href="#">포인트</a>
+                                    <a href="#">쿠폰함</a>
+                                    <a href="#">예약내역</a>
+                                    <a href="#">위시리스트</a>
+                                    <a href="#">나의 여행일기</a>
+                                    <a href="#">나의 리뷰</a>
+                                </div>
+                            </div>
+                            <div class="dropdown_menu">
+                                <button id="dropdown2">고객센터
+                                    <img src="../img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content2" style="display: none;">
+                                    <a href="#">공지사항</a>
+                                    <a href="#">이벤트</a>
+                                    <a href="#">자주 묻는 질문</a>
+                                    <a href="#">1:1 문의</a>
+                                    <a href="#">여행일기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="header_searchBar">
+                            <form class="search-container" action="#">
+                                <div class="search">
+                                    <input id="search-box" type="text" class="search-box" name="q"/>
+                                    <button type="submit" class="btnSearch">
+                                        <input type="image" src="../img/indexImg/btn_search.png" id="search-submit"/>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main>
+                <div id="result">
+                    <div class="search">
+                        <form>
+                            <table>
+                                <tr>
+                                    <th>검색어</th>
+                                    <th>체크인 / 체크아웃</th>
+                                    <th>인원수</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="searchPlace">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="daterange" id="daterange">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="numPeople">
+                                    </td>
+                                </tr>
+                            </table>
+                            <input type="submit" name="result" value="필터결과" class="result">
+                        </form>
+                    </div>
+                    <div class="content">
+                        <div class="list">
+                            <div id="filter">
+                                <a href="#" onclick="return false"></a>
+                                <select>
+                                    <option value="review">후기 많은 순</option>
+                                    <option value="score">평점 높은 순</option>
+                                    <option value="revisit">재방문율 높은 순</option>
+                                    <option value="rowPrice">낮은 가격 순</option>
+                                    <option value="distance">거리 순</option>
+                                </select>
+                                <!-- 팝업 메뉴 -->
+                                <div id="popupFilter" class="popup">
+                                    <h3>필터를 골라주세요</h3>
+                                    <article>
+                                        <strong>편의 시설</strong>
+                                        <table>
+                                            <tr>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">수영장</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">주차장</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">금연</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">VOD</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">사우나</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">패밀리</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">와이파이</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">노래방</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">바다전망</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">해수욕장인근</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">바비큐</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">스파/월풀/욕조</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">애견동반</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">조식</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">픽업가능</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">무료세탁</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">여성전용</label></td>
+                                            </tr>
+                                        </table>
+                                    </article>
+                                    <article>
+                                        <strong>가격</strong>
+                                    </article>
+                                </div>
+                            </div>
+                            <div class="list-area">
+                                <ul>
+                                    <li>
+                                        <img src="http://placehold.it/170x300" alt="상품 이미지">
+                                        <article class="stage">
+                                            <div class="stage-name">
+                                                <strong>테스트 호텔</strong>
+                                                <p>
+                                                    <span>별점</span>
+                                                    <em>(100)</em>
+                                                </p>
+                                                <p>
+                                                    <span>테스트시 테스트구 테스트동</span>
+                                                </p>
+                                            </div>
+                                            <div class="stage-descript">
+                                                <span>테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트</span>
+                                            </div>
+                                            <div class="stage-info">
+                                                <p>
+                                                    <span>남은 객실 : 1</span>
+                                                </p>
+                                                <p>
+                                                    <b>999,999원 &nbsp;/1박</b>
+                                                </p>
+                                            </div>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <img src="http://placehold.it/130x250" alt="상품 이미지">
+                                        <article class="stage">
+                                            <div class="stage-name">
+                                                <strong>테스트 호텔</strong>
+                                                <p>
+                                                    <span>별점</span>
+                                                    <em>(100)</em>
+                                                </p>
+                                                <p>
+                                                    <span>테스트시 테스트구 테스트동</span>
+                                                </p>
+                                            </div>
+                                            <div class="stage-descript">
+                                                <span>테스트 테스트 테스트 테스트</span>
+                                            </div>
+                                            <div class="stage-info">
+                                                <p>
+                                                    <span>남은 객실 : 1</span>
+                                                </p>
+                                                <p>
+                                                    <b>999,999원 &nbsp;/1박</b>
+                                                </p>
+                                            </div>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <img src="http://placehold.it/130x250" alt="상품 이미지">
+                                        <article class="stage">
+                                            <div class="stage-name">
+                                                <strong>테스트 호텔</strong>
+                                                <p>
+                                                    <span>별점</span>
+                                                    <em>(100)</em>
+                                                </p>
+                                                <p>
+                                                    <span>테스트시 테스트구 테스트동</span>
+                                                </p>
+                                            </div>
+                                            <div class="stage-descript">
+                                                <span>테스트 테스트 테스트 테스트</span>
+                                            </div>
+                                            <div class="stage-info">
+                                                <p>
+                                                    <span>남은 객실 : 1</span>
+                                                </p>
+                                                <p>
+                                                    <b>999,999원 &nbsp;/1박</b>
+                                                </p>
+                                            </div>
+                                        </article>
+                                    </li>
+                                    <li>
+                                        <img src="http://placehold.it/130x250" alt="상품 이미지">
+                                        <article class="stage">
+                                            <div class="stage-name">
+                                                <strong>테스트 호텔</strong>
+                                                <p>
+                                                    <span>별점</span>
+                                                    <em>(100)</em>
+                                                </p>
+                                                <p>
+                                                    <span>테스트시 테스트구 테스트동</span>
+                                                </p>
+                                            </div>
+                                            <div class="stage-descript">
+                                                <span>테스트 테스트 테스트 테스트</span>
+                                            </div>
+                                            <div class="stage-info">
+                                                <p>
+                                                    <span>남은 객실 : 1</span>
+                                                </p>
+                                                <p>
+                                                    <b>999,999원 &nbsp;/1박</b>
+                                                </p>
+                                            </div>
+                                        </article>
+                                    </li>
+                                </ul>
+                                <div class="paging">
+                                    <span>
+                                        <a href="#" onclick="return false">
+                                            <img src="./img/left.png" alt="previous">
+                                        </a>
+                                    </span>
+                                    <span>
+                                        <a href="#" onclick="return false"> 1 </a>
+                                        <a href="#" onclick="return false"> 2 </a>
+                                        <a href="#" onclick="return false"> 3 </a>
+                                        <a href="#" onclick="return false"> 4 </a>
+                                        <a href="#" onclick="return false"> 5 </a>
+                                        <a href="#" onclick="return false"> 6 </a>
+                                        <a href="#" onclick="return false"> 7 </a>
+                                        <a href="#" onclick="return false"> 8 </a>
+                                        <a href="#" onclick="return false"> 9 </a>
+                                        <a href="#" onclick="return false"> 10 </a>
+                                    </span>
+                                    <span>
+                                        <a href="#" onclick="return false">
+                                            <img src="./img/right.png" alt="next">
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="listMap"></div>
+                    </div>
+                </div>
+            </main>
+            <!-- 푸터 -->
+            <footer>
+                <div class="footer_inner">
+                    <div class="footer_menu">
+                        <table>
+                            <tr>
+                                <td><a href="#">ABOUT</a></td>
+                                <td><a href="#">NOTICE</a></td>
+                                <td><a href="#">CS CENTER</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer_block">
+                        <div class="footer_block_left">
+                            <div class="footer_block_row">
+                                <!-- 로고 클릭 시 메인으로 이동 -->
+                                <div class="row_col_1"><a href="#">LEMO</a></div>
+                                <div class="row_col_2">LETTUCE MEMORIES</div>
+                                <div class="row_col_3">
+                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
+                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
+                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_block_right">
+                            <div class="footer_block_row">
+                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
+                                <div class="row_col_4"><a href="#">고객센터</a></div>
+                                <div class="row_col_5">
+                                    070-2023-0223 <br>
+                                    MON - FRI AM 09:00 - PM 17:00 <br>
+                                    BREAK PM 12:00 - PM 13:00 <br>
+                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer_terms">
+                        <div class="footer_block_row2">
+                            <a href="#">이용약관</a>
+                            <span>&nbsp;|&nbsp;</span>
+                            <a href="#">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="footer_copyright">
+                        <div class="footer_block_row2">
+                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </body>
 </html>
+
