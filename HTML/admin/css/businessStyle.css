@@ -55,6 +55,7 @@ main .sidebar {
     z-index: 999;
     box-shadow: 0 12px 30px rgb(80 143 244 / 10%);
     border: 1px solid blue;
+    background: #fff;
     overflow: auto;
 }
 main .sidebar > .sidebar_logo {
@@ -148,7 +149,7 @@ main .main_content {
     padding-top: 0 !important;
     min-height: 100vh;
     padding-bottom: 90px;
-    height: 1414px;
+    height: auto;
     overflow: hidden;
 }
 main .main_content::before {
@@ -398,7 +399,8 @@ footer {
     border-top: 1px solid #faf4e4;
 }
 footer > .footer_inner {
-    margin: 0 15px;
+    margin-left: 270px;
+    padding: 0 0 0 8px;
     border: 1px solid red;
 }
 footer > .footer_inner > .footer_menu {

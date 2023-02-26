@@ -174,48 +174,68 @@ main .main_content > .main_cotent_inner {
     padding: 40px 30px;
 }
 main .main_content .main_content_div {
+    justify-content: space-evenly;
     border: 1px solid blue;
     display: flex;
     flex-wrap: wrap;
 }
-main .main_content .col1 {
+main .main_content .col0 {
     flex: 0 0 auto;
     width: 100%;
+    margin-bottom: 5px;
 }
-main .main_content .col1 > .today_status {
-    display: grid;
-    grid-template-columns: repeat(6,1fr);
-    grid-gap: 20px;
-    margin-bottom: 30px;
+main .searchProd {
+    float: right;
+    padding: 10px 10px 20px 0px;
+    height: 34px;
+    width: 250px;
+    background: rgb(255,255,255);
+    border-radius: 8px;
+    border: 1px solid rgb(219, 219, 219);
+    resize: none;
+    margin: 10px 0;
+    position: relative;
 }
-main .main_content .col1 > .today_status .single_status {
-    background: #fff;
-    border-radius: 10px;
-    padding: 10px;
+main .searchProd > .search_box {
+    position: absolute;
+    top: 0;
+    width: 219px;
+    padding: 3px 1px 4px 10px;
+    font-size: 16px;
+    height: 32px;
+    border: none;
+    background: transparent;
 }
-main .main_content .col1 > .today_status .single_status > p {
-    font-size: 14px;
-    font-weight: 500;
-    color: #bbd444;
-    margin-bottom: 15px;
+main .searchProd > .search_box::placeholder {
+    font-size: 13px;
+    color: #dcdee0;
+    font-weight: 100;
 }
-main .main_content .col1 > .today_status .single_status > h3 {
-    font-size: 27px;
-    font-weight: 600;
-    color: #14256a;
+main .searchProd > .btnSearch {
+    position: absolute;
+    top: 8px;
+    right: 6px;
+    border: none;
+    background: transparent;
 }
-main .main_content .col1_header {
-    border-bottom: 1px solid #f4f5fa;
-    padding: 10px;
+main .searchProd > .btnSearch > input {}
+
+main .selectProd {
+    float: right;
+    padding: 10px 10px 20px 0px;
+    height: 34px;
 }
-main .main_content .col1_header > h3 {
-    font-size: 17px;
-    font-weight: 500;
-    color: #3d3d3d;
+main .selectProd > select {
+    padding: 7px;
+    font-size: 13px;
+    background: rgb(255,255,255);
+    border: 1px solid rgb(219, 219, 219);
+    resize: none;
+    width: 100%;
+    border-radius: 8px;
+    padding-right: 30px;
 }
-main .main_content .col1_graph {
-    padding: 10px;
-}
+
 main .main_content .main_content_div2 {
     border: 1px solid blue;
     display: flex;
@@ -244,117 +264,158 @@ main .main_content .col2 {
     background: #fff;
     border: 1px solid rgba(26, 54, 126, 0.125);
     border-radius: 0.25rem;
+    text-align: center;
     border: 1px solid red;
 }
-main .main_content .col2 .noticeList {
+main .main_content .col2 .board_list {
     border-top: 1px solid #bbb;
     border-collapse: collapse;
 }
-main .main_content .col2 .noticeList ul {
+main .main_content .col2 .board_list ul {
     border-bottom: 1px solid #bbb;
 }
-main .main_content .col2 .noticeList ul:first-child {
+main .main_content .col2 .board_list ul:first-child {
     background: #F7F7F7;
 }
-main .main_content .col2 .noticeList li {
+main .main_content .col2 .board_list li {
     display: inline-block;
     height: 32px;
     font-size: 12px;
     padding-top: 7px;
     text-align: center;
 }
-main .main_content .col2 .noticeList .noticeTitle {
+main .main_content .col2 .board_list .prodName {
     text-align: left;
-    padding-left: 21px;
+    padding-left: 13px;
 }
-main .main_content .col2 .noticeList li:nth-of-type(1) {
-    width: 4%;
+main .main_content .col2 .board_list li:nth-of-type(1) {
+    width: 5%;
 }
-main .main_content .col2 .noticeList li:nth-of-type(2) {
-    width: 85%;
+main .main_content .col2 .board_list li:nth-of-type(2) {
+    width: 12%;
 }
-main .main_content .col2 .noticeList li:nth-of-type(3) {
+main .main_content .col2 .board_list li:nth-of-type(3) {
+    width: 40%;
+}
+main .main_content .col2 .board_list li:nth-of-type(4) {
+    width: 20%;
+}
+main .main_content .col2 .board_list li:nth-of-type(5) {
     width: 10%;
 }
+main .main_content .col2 .board_list li:nth-of-type(6) {
+    width: 10%;
+}
+main .main_content .col2 .board_list .prodBtn > span {
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+    background-color: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    font-size: 11px;
+    padding: 2px 8px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+main .main_content .col2 .board_list .prodBtn > span:hover {
+    background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	background-color:#f6f6f6;
+}
+main .main_content .col2 .board_list .prodBtn > span:active {
+    position:relative;
+	top:1px;
+}
+main .main_content .col2 .btnProdRegister {
+    margin: 15px 0;
+    background-color: #bbd444;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    cursor: pointer;
+    color: #fff;
+    font-size: 13px;
+    padding: 3px 12px;
+    text-decoration: none;
+    font-weight: 300;
+    display: inline-block;
+    float: right;
+}
+main .main_content .col2 .btnProdRegister:active {
+    position:relative;
+	top:1px;
+}
 
-
-main .main_content .col2 .noticeList2 {
+main .main_content .col2 .board_list2 {
     border-top: 1px solid #bbb;
     border-collapse: collapse;
 }
-main .main_content .col2 .noticeList2 ul {
+main .main_content .col2 .board_list2 ul {
     border-bottom: 1px solid #bbb;
 }
-main .main_content .col2 .noticeList2 ul:first-child {
+main .main_content .col2 .board_list2 ul:first-child {
     background: #F7F7F7;
 }
-main .main_content .col2 .noticeList2 li {
+main .main_content .col2 .board_list2 li {
     display: inline-block;
     height: 32px;
     font-size: 12px;
     padding-top: 7px;
     text-align: center;
 }
-main .main_content .col2 .noticeList2 .noticeTitle {
+main .main_content .col2 .board_list2 .boardTit {
     text-align: left;
     padding-left: 21px;
 }
-main .main_content .col2 .noticeList2 li:nth-of-type(1) {
+main .main_content .col2 .board_list2 li:nth-of-type(1) {
     width: 4%;
 }
-main .main_content .col2 .noticeList2 li:nth-of-type(2) {
+main .main_content .col2 .board_list2 li:nth-of-type(2) {
     width: 74%;
 }
-main .main_content .col2 .noticeList2 li:nth-of-type(3) {
+main .main_content .col2 .board_list2 li:nth-of-type(3) {
     width: 10%;
 }
-main .main_content .col2 .noticeList2 li:nth-of-type(4) {
+main .main_content .col2 .board_list2 li:nth-of-type(4) {
     width: 10%;
 }
-main .paging {
+main .pagination {
     margin: 15px 0;
-    text-align: center;
-}
-main .paging .opg_1 {
     display: inline-block;
-    width: 200px;
 }
-main .paging .opg_1 > button {
-    border: 1px solid #dcdee0;
-    width: 19px;
-    height: 21px;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #333;
-    cursor: pointer;
-}
-main .paging .opg_1 > span {
-    font-size: 13px;
-    padding: 0px 18px;
-    color: #929294;
-}
-main .paging .opg_1 > span > b {
-    font-size: 13px;
-    padding: 0 2px;
-    font-weight: 700;
-}
-main .paging .opg_1 > span > s {
-    font-size: 13px;
+main .pagination > a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
     text-decoration: none;
-    color: #929294;
 }
+main .pagination > a.active {
+    background-color: #bbd444;
+    color: white;
+    border-radius: 5px;
+}
+main .pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+
 main .footer_inner > .footer_menu {
     margin-top: 30px;
     position: relative;
 }
+
+
+
 /* 푸터 */
 footer {
     background-color: #FCF951;
     border-top: 1px solid #faf4e4;
 }
 footer > .footer_inner {
-    padding: 0 0 0 8px;
     margin-left: 270px;
+    padding: 0 0 0 8px;
     border: 1px solid red;
 }
 footer > .footer_inner > .footer_menu {
