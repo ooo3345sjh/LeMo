@@ -523,8 +523,8 @@ section  div > input {
 
 /* 일반회원가입(signup_general) */
 
-/* 회원가입 공통 */
-main > section .signup > .sub_title {
+/* 회원가입 공통 - .common부분은 비밀번호 재설정 페이지까지 공통됨 */
+main > section .common > .sub_title {
     display: block;
     margin: 30px 0 10px 0;
     font-size: 18px;
@@ -532,8 +532,7 @@ main > section .signup > .sub_title {
     font-weight: bold;
 }
 
-
-.signup b {
+.common b {
     display: block;
     margin-bottom: 9px;
     font-size: 16px;
@@ -541,7 +540,7 @@ main > section .signup > .sub_title {
     color: rgba(0,0,0,0.56);
 }
 
-.signup div {
+.common div {
     margin-bottom: 38px;
 }
 
@@ -678,8 +677,6 @@ main > section .signup > .sub_title {
     line-height: 28px;
     color: red;
 } 
-
-
 */
 
 
@@ -702,3 +699,12 @@ main > section .signup > .sub_title {
 
 
 /* 비밀번호 재설정(restPw) */
+.resetPw > p {
+    font-size: 15px;
+    color: #a8a8a8;
+    margin-bottom: 25px;
+}
+
+#section1 {display: block;}
+
+#section2 {display: block;}
