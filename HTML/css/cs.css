@@ -135,6 +135,7 @@ main > #cs {
     
 }
 
+/* 페이징 스타일 공통 */
 .paging{
     border-top: none;
   
@@ -153,6 +154,7 @@ main > #cs {
     background: none;
     font-size: 13px;
     text-align: center;
+    cursor: pointer;
 }
 
 .paging .prev {
@@ -175,4 +177,47 @@ main > #cs {
     font-weight: bold;
     color: rgba(0,0,0,0.87);
 }
+
+
+/* event */
+
+/* event list */
+.event b {
+    display: block;
+    padding-right: 80px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.event span {
+    display: block;
+    margin: 7px 0 12px 0;
+    font-size: 16px;
+    color: rgba(0,0,0,0.56);
+}
+
+.event a {
+    display: block;
+    position: relative;
+}
+
+.event a img {width: 100%;}
+
+.event_list li {
+    margin: 0 0 40px 0;
+    padding: 0 0 47px 0;
+    border-bottom: none;
+}
+
+.event_list li:first-child {margin-top: 30px;}
+
+
+.event_list li.end {
+    opacity: 25%;
+    pointer-events: none;
+}
+
+.event_list li.end img {opacity: 30%;}
+
+
 
