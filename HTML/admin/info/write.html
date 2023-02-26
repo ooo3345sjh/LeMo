@@ -72,7 +72,13 @@
                                 </a>
                                 <ul class="sidebar_collapse_menu">
                                     <li>
-                                        <a href="#">숙박관리</a>
+                                        <a href="#" class="on">숙박관리</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">객실관리</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">쿠폰등록</a>
                                     </li>
                                     <li>
                                         <a href="#">등록리뷰</a>
@@ -181,101 +187,151 @@
                                                 <span>편의시설 및 서비스</span>
                                             </div>
                                         </div>
-                                        <div class="convenient_service">
-                                            <div class="cs_line">
-                                                <label class="container">피트니스
-                                                    <input type="checkbox" checked="checked">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">와이파이
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">레스토랑
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">TV
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">에어컨
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">냉장고
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">드라이기
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">장애인 편의시설 
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </div>
+                                        <div class="cs_checkbox">
+                                            <table style="width: 100%;">
+                                                <tr>
+                                                    <td>
+                                                        <label class="container">피트니스
+                                                            <input type="checkbox" checked="checked">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">와이파이
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">레스토랑
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">TV
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">에어컨
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">냉장고
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    
+                                                </tr>
 
-                                            <div class="cs_line">
-                                                <label class="container">주차장 &nbsp;&nbsp;
-                                                    <input type="checkbox" checked="checked">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">무료주차
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">금연
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">카페
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">수영장
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">욕조
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">스파
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">엘리베이터
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </div>
+                                                <tr>
+                                                    <td>
+                                                        <label class="container">드라이기
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">장애인편의시설
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">주차장
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">무료주차
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">금연
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">카페
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    
+                                                </tr>
 
-                                            <div class="cs_line">
-                                                <label class="container">욕실용품
-                                                    <input type="checkbox" checked="checked">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">사우나
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">짐 보관
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">세탁기
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <label class="container">건조기
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </div>
+                                                <tr>
+                                                    <td>
+                                                        <label class="container">수영장
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">욕조
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">스파
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">엘리베이터
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">욕실용품
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">사우나
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label class="container">짐보관
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">세탁기
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label class="container">건조기
+                                                            <input type="checkbox">
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </div>
                                     </div>
+                                    
                                     <!-- 숙소 썸네일 이미지 -->
                                     <div class="col_register1">
                                         <div class="stayName">
@@ -330,84 +386,18 @@
                                         </div>
                                         <div class="checkContainer">
                                             <label class="container" style="padding-right: 4px;">
-                                                <input type="checkbox" checked="checked">
+                                                <input type="checkbox">
                                                 <span class="checkmark"></span>
                                             </label>
                                             <input class="input_salePercent" type="text" value="0">
                                             <p>%</p>
                                         </div>
                                         <span class="result_stayName">
-                                            💡 체크 시 전체 상품에 할인율이 적용됩니다
+                                            💡 체크 시 전체 상품에 할인율이 적용됩니다 (개별 할인은 객실 관리에서 적용할 수 있습니다)
                                         </span>
                                     </div>
 
-                                    <!-- 객실 정보 -->
-                                    <div class="col_register1">
-                                        <div class="stayName">
-                                            <div>
-                                                <span>객실 정보</span>
-                                                <button type="button" class="stayName_right">객실 추가</button>
-                                            </div>
-                                        </div>
-                                        <table class="input_stayRoomInfo">
-                                            <tr>
-                                                <td>객실 이름</td>
-                                                <td><input type="text"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>객실 수</td>
-                                                <td><input type="text" placeholder="동일 유형의 객실 수 설정"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>객실 가격</td>
-                                                <td><input type="text" placeholder="할인 전 정가"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>할인율 (%)</td>
-                                                <td><input type="text" placeholder="할인율 (%)"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>할인 가격</td>
-                                                <td><input type="text" placeholder="할인 적용 가격"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>인원</td>
-                                                <td>
-                                                    <input class="input_200" type="text" placeholder="기준">/
-                                                    <input class="input_200" type="text" placeholder="최대">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>인원초과가격</td>
-                                                <td><input type="text" placeholder="1명 추가 시 가격"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>객실이용안내</td>
-                                                <td>
-                                                    <textarea></textarea>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>객실 이미지</td>
-                                                <td>
-                                                    <div class="stayThumb">
-                                                        <div>
-                                                            <div class="input_wrap2">
-                                                                <a href="javascript:" onclick="fileUploadAction2();" class="btnFileupload">파일 업로드</a>
-                                                                <input type="file" id="input_imgs2" multiple accept="png,jpg">
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <div class="imgs_wrap2">
-                                                                <img id="img" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
+                                    
                                     <div class="btnProdRegister">
                                         <form action="#">
                                             작성완료

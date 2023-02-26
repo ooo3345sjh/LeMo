@@ -575,7 +575,6 @@ footer {
 footer > .footer_inner {
     width: 1130px;
     margin: 0 auto;
-    border: 1px solid red;
 }
 footer > .footer_inner > .footer_menu {
     margin-top: 30px;
@@ -659,10 +658,10 @@ footer > .footer_inner .footer_terms > .footer_block_row2  > span {
     margin: 0 10px;
 }
 footer > .footer_inner .footer_copyright {
-    margin: 20px 0;
     box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
+    padding: 20px 0;
 }
 footer > .footer_inner .footer_copyright p {
     font-size: 12px;
