@@ -142,6 +142,11 @@ main .sidebar > .sidebar_menu .sidebar_collapse_menu a {
     margin-left: 0;
     z-index: 0;
 }
+main .sidebar > .sidebar_menu .sidebar_collapse_menu a.on {
+    color: #252525;
+    font-weight: 500;
+    text-decoration: underline;
+}
 /* 우측 메인 컨테이너 */
 main .main_content {
     padding-left: 270px;
@@ -547,16 +552,25 @@ main .col_register1 .stayAddr2 > input {
 main .col_register1 .stayAddr2 > input::placeholder {
     color: #dbdbdb;
 }
+
+main .col_register1 .cs_checkbox {
+    width: 100%;
+    margin-top: 10px;
+}
+main .col_register1 .cs_checkbox tr {}
+main .col_register1 .cs_checkbox td {
+    width: 17.5%;
+    padding: 5px 0;
+}
+
+
+
+
 main .col_register1 .convenient_service {
     width: 100%;
     margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
-}
-main .col_register1 .convenient_service > .cs_line {
-    flex: 0 0 auto;
-    margin: 6px 0;
-    width: 100%;
 }
 .container {
     position: relative;
