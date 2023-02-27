@@ -1,7 +1,7 @@
 <!--
-    날짜 : 2023/02/26
+    날짜 : 2023/02/27
     이름 : 이원정
-    내용 : 관리자 객실 수정 HTML 
+    내용 : 관리자 객실정보(roomInfo) 목록 HTML 
 -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -20,17 +20,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <!-- chart.js -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <!-- 다음 주소 API -->
-        <script src="../js/zipcode.js"></script>
-        <!-- smart editor -->
-        <script type="text/javascript" src="../smartEditor/js/HuskyEZCreator.js" charset="utf-8"></script>
-        <script src="../js/smartEditor.js"></script>
-        <script src="../js/fileUpload.js"></script>
-        <script type="text/javascript">
-            $(function () {
-                smarteditor();
-            });
-        </script>
+        
     </head>
     <body>
         <div id="wrapper">
@@ -143,86 +133,83 @@
                     <section class="main_content">
                         <div class="main_cotent_inner">
                             <div class="main_content_div">
+                                <div class="col0">
+                                    <form action="#">
+                                        <div class="searchProd">
+                                            <input type="text" class="search_box" placeholder="검색 키워드 입력">
+                                            <button type="submit" class="btnSearch">
+                                                <input type="image" src="../img/btn_search.png">
+                                            </button>
+                                        </div>
+                                        <div class="selectProd">
+                                            <select>
+                                                <option value="0">회사명</option>
+                                                <option value="1">푸른제주펜션</option>
+                                                <option value="2">보우힐펜션</option>
+                                                <option value="3">파라다이스호텔부산</option>
+                                                <option value="4">프리지아펜션</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
                                 <div class="col_nav">
                                     <span>상품관리 ></span>
-                                    <span>객실수정</span>
+                                    <span>객실관리</span>
                                 </div>
-
-                                <!-- 숙소 등록 폼 -->
-                                <form class="col_register_form" action="#">
-                                    
-                                    <!-- 객실 정보 -->
-                                    <div class="col_register1">
-                                        <div class="stayName">
-                                            <div>
-                                                <span>객실 정보</span>
-                                            </div>
+                                <div class="col2">
+                                    <form action="#">
+                                        <div class="board_list">
+                                            <ul>
+                                                <li>#</li>
+                                                <li>객실아이디</li>
+                                                <li style="width: 40%;">객실명</li>
+                                                <li style="width: 10%;">객실수</li>
+                                                <li style="width: 20%;">객실가격(할인가)</li>
+                                                <li>비고</li>
+                                            </ul>
+                                            <ul>
+                                                <li>1</li>
+                                                <li>11023</li>
+                                                <li style="width: 40%;" class="prodName">
+                                                    <a href="#">킹 프리미엄 룸 (King Premium Room)</a>
+                                                </li>
+                                                <li style="width: 10%;">20</li>
+                                                <li style="width: 20%;">822,224(397,150)</li>
+                                                <li class="prodBtn">
+                                                    <span class="btnDelete">삭제</span>
+                                                    <span class="btnModify">수정</span>
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li>2</li>
+                                                <li>11023</li>
+                                                <li style="width: 40%;" class="prodName">
+                                                    <a href="#">킹 프리미엄 룸 (King Premium Room)</a>
+                                                </li>
+                                                <li style="width: 10%;">20</li>
+                                                <li style="width: 20%;">822,224(397,150)</li>
+                                                <li class="prodBtn">
+                                                    <span class="btnDelete">삭제</span>
+                                                    <span class="btnModify">수정</span>
+                                                </li>
+                                            </ul>
+                                            
                                         </div>
-                                        <table class="input_stayRoomInfo">
-                                            <tr>
-                                                <td>객실 이름</td>
-                                                <td><input type="text" value="킹 프리미엄 룸 (King Premium Room)"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>객실 수</td>
-                                                <td><input type="text" value="20"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>객실 가격</td>
-                                                <td><input type="text"value="822,224"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>할인율 (%)</td>
-                                                <td><input type="text" value="52"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>할인 가격</td>
-                                                <td><input type="text" value="397,150"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>인원</td>
-                                                <td>
-                                                    <input class="input_200" type="text" placeholder="2">/
-                                                    <input class="input_200" type="text" placeholder="3">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>인원초과가격</td>
-                                                <td><input type="text" placeholder="50,000"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>객실이용안내</td>
-                                                <td>
-                                                    <textarea></textarea>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>객실 이미지</td>
-                                                <td>
-                                                    <div class="stayThumb">
-                                                        <div>
-                                                            <div class="input_wrap2">
-                                                                <a href="javascript:" onclick="fileUploadAction2();" class="btnFileupload">파일 업로드</a>
-                                                                <input type="file" id="input_imgs2" multiple accept="png,jpg">
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <div class="imgs_wrap2">
-                                                                <img id="img" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="btnProdRegister">
-                                        <form action="#">
-                                            작성완료
-                                        </form>
-                                    </div>
-                                </form>
+                                        <div class="pagination">
+                                            <a href="#">&laquo;</a>
+                                            <a href="#">1</a>
+                                            <a href="#" class="active">2</a>
+                                            <a href="#">3</a>
+                                            <a href="#">4</a>
+                                            <a href="#">5</a>
+                                            <a href="#">6</a>
+                                            <a href="#">&raquo;</a>
+                                        </div>
+                                        <div class="btnProdRegister">
+                                            숙소 등록
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                             <div class="blank30"></div>
                         </div>

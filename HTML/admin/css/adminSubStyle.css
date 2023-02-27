@@ -306,6 +306,9 @@ main .main_content .col2 .board_list .prodName {
     text-align: left;
     padding-left: 13px;
 }
+main .main_content .col2 .board_list .prodName > a {
+    font-size: 12px;
+}
 main .main_content .col2 .board_list li:nth-of-type(1) {
     width: 5%;
 }
@@ -347,6 +350,20 @@ main .main_content .col2 .board_list .prodBtn > span:active {
 	top:1px;
 }
 main .main_content .btnProdRegister {
+    margin: 15px 0;
+    background-color: #bbd444;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    cursor: pointer;
+    color: #fff;
+    font-size: 13px;
+    padding: 3px 12px;
+    text-decoration: none;
+    font-weight: 300;
+    display: inline-block;
+    float: right;
+}
+main .main_content .btnProdList {
     margin: 15px 0;
     background-color: #bbd444;
     border-radius: 5px;
@@ -512,6 +529,16 @@ main .col_register1 .stayZip > button:active {
     position: relative;
     bottom: 1px;
 }
+main .col_register1 .stayZip input {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    font-size: 11px;
+    height: 26.5px;
+    width: 250px;
+    border-radius: 6px;
+    padding: 0 8px;
+    resize: none;
+}
 main .col_register1 .stayZip input:disabled {
     background-color: #f5f5f5;
     border: 1px solid #dbdbdb;
@@ -524,6 +551,16 @@ main .col_register1 .stayZip input:disabled {
 main .col_register1 .stayAddr1 {
     margin-top: 8px;
     display: flex;
+}
+main .col_register1 .stayAddr1 > input {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    font-size: 11px;
+    height: 26.5px;
+    width: 500px;
+    border-radius: 6px;
+    padding: 0 8px;
+    resize: none;
 }
 main .col_register1 .stayAddr1 > input:disabled {
     background-color: #f5f5f5;
@@ -624,6 +661,15 @@ main .col_register1 .convenient_service {
 }
 
 main .col_register1 .stayInfoContent {}
+main .col_register1 .stayInfoContent > textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 12px;
+    height: 120px;
+    overflow: auto;
+    resize: none;
+    border: none;
+}
 
 main .col_register1 .stayThumb {
     width: 100%;
@@ -631,6 +677,27 @@ main .col_register1 .stayThumb {
     display: flex;
     flex-wrap: wrap;
 }
+main .col_register1 .stayThumb > .st_inner {
+    flex: 0 0 auto;
+    width: 100%;
+    margin-top: 10px;
+}
+main .col_register1 .stayThumb .st_content {
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(5, 1fr);
+    border: 1px solid blue;
+}
+main .col_register1 .stayThumb .st_img {
+    padding: 5px;
+}
+main .col_register1 .stayThumb .st_img > img {
+    width: 154px;
+}
+
+
+
+
 main .col_register1 .stayThumb .btnFileupload {
     box-shadow: inset 0px 1px 0px 0px #ffffff;
     background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);

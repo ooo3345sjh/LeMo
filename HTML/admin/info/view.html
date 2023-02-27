@@ -1,7 +1,7 @@
 <!--
     날짜 : 2023/02/26
     이름 : 이원정
-    내용 : 관리자 숙소정보(info) 수정 HTML 
+    내용 : 관리자 숙소정보(info) 보기 HTML 
 -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -145,10 +145,10 @@
                             <div class="main_content_div">
                                 <div class="col_nav">
                                     <span>상품관리 ></span>
-                                    <span>숙박수정</span>
+                                    <span>숙소보기</span>
                                 </div>
 
-                                <!-- 숙소 등록 폼 -->
+                                <!-- 숙소 보기 폼 -->
                                 <form class="col_register_form" action="#">
                                     <!-- 숙소명 등록 -->
                                     <div class="col_register1">
@@ -157,9 +157,12 @@
                                                 <span>숙소명</span>
                                             </div>
                                         </div>
-                                        <input class="input_stayName" type="text" value="아난티 힐튼 부산">
+                                        <input class="input_stayName" type="text" value="제주 늘보의 오후" readonly>
+                                        <span class="result_stayName">
+                                            💡 숙소명은 추후 수정가능합니다
+                                        </span>
                                     </div>
-                                    <!-- 주소등록 -->
+                                    <!-- 주소 -->
                                     <div class="col_register1">
                                         <div class="stayName">
                                             <div>
@@ -167,14 +170,14 @@
                                             </div>
                                         </div>
                                         <div class="stayZip">
-                                            <button type="button" onclick="zipcode()">주소찾기</button>
-                                            <input type="text" id="zip" disabled value="">
+                                            <!-- <button type="button">주소찾기</button> -->
+                                            <input type="text" id="zip" value="63009">
                                         </div>
                                         <div class="stayAddr1">
-                                            <input type="text" id="addr1" disabled value="">
+                                            <input type="text" id="addr1" value="제주시 한경면 한경해안로 176">
                                         </div>
                                         <div class="stayAddr2">
-                                            <input type="text" id="addr2" placeholder="상세주소 입력">
+                                            <input type="text" id="addr2" value="제주늘보의오후">
                                         </div>
                                     </div>
                                     <!-- 편의시설 및 서비스 체크박스 등록 -->
@@ -337,15 +340,23 @@
                                             </div>
                                         </div>
                                         <div class="stayThumb">
-                                            <div>
-                                                <div class="input_wrap">
-                                                    <a href="javascript:" onclick="fileUploadAction();" class="btnFileupload">파일 업로드</a>
-                                                    <input type="file" id="input_imgs" multiple accept="png,jpg">
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="imgs_wrap">
-                                                    <img id="img" />
+                                            <div class="st_inner">
+                                                <div class="st_content">
+                                                    <div class="st_img">
+                                                        <img src="../img/view1.jpeg">
+                                                    </div>
+                                                    <div class="st_img">
+                                                        <img src="../img/view2.jpeg">
+                                                    </div>
+                                                    <div class="st_img">
+                                                        <img src="../img/view3.jpeg">
+                                                    </div>
+                                                    <div class="st_img">
+                                                        <img src="../img/view4.jpeg">
+                                                    </div>
+                                                    <div class="st_img">
+                                                        <img src="../img/view5.jpeg">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -359,8 +370,7 @@
                                             </div>
                                         </div>
                                         <div class="stayInfoContent">
-                                            <textarea name="editorTxt" id="editorTxt" rows="20" cols="10" 
-                                            placeholder="내용을 입력해주세요" style="width: 100%"></textarea>
+                                            <textarea>하늘, 바다, 그리고 섬. 하늘보다 더 파란 바다와 작은 섬들이 보이는 아름다운 풍경에서의 한때의 한가로운 휴식</textarea>
                                         </div>
                                     </div>
 
@@ -371,7 +381,7 @@
                                                 <span>사장님 한마디</span>
                                             </div>
                                         </div>
-                                        <input class="input_stayMention" type="text" placeholder="내용을 입력해 주세요.">
+                                        <input class="input_stayMention" type="text" value="정원에 예쁜 캠핑장을! 10월중 오픈예정">
                                     </div>
 
                                     <!-- 할인율 전체 적용 -->
@@ -395,9 +405,9 @@
                                     </div>
 
                                     
-                                    <div class="btnProdRegister">
+                                    <div class="btnProdList">
                                         <form action="#">
-                                            작성완료
+                                            목록
                                         </form>
                                     </div>
                                 </form>
