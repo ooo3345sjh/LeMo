@@ -417,3 +417,31 @@ main > #cs {
 #faqs .list_n {
     padding: 25px 24px 25px 0;
 }
+
+
+/* 1:1 문의 */
+
+#qna_list {display: block;}
+
+
+#qnas .list_n p {
+
+}
+
+#qnas .list_n span {
+    font-weight: bold;
+    font-size: 18px; 
+    color: #252525;
+    margin-right: 10px;
+}
+
+#qnas .toggle {}
+#qnas .toggle p {font-size: 14px;}
+#qnas .toggle span {
+    display: block;
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+#qnas .toggle .qna {margin-bottom: 10px;}
+
