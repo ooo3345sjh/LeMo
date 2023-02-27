@@ -374,31 +374,73 @@
                                         <input class="input_stayMention" type="text" placeholder="내용을 입력해 주세요.">
                                     </div>
 
-                                    <!-- 할인율 전체 적용 -->
+                                    <!-- 할인율 적용 -->
                                     <div class="col_register1">
                                         <div class="stayName">
                                             <div>
-                                                <span>전체 할인율 적용</span>
+                                                <span>할인율 적용</span>
                                             </div>
                                         </div>
-                                        <div class="checkContainer">
-                                            <label class="container" style="padding-right: 4px;">
-                                                <input type="checkbox">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                            <input class="input_salePercent" type="text" value="0">
-                                            <p>%</p>
+                                        <div class="salePercent_container">
+                                            <table>
+                                                <tr class="sp_tr1">
+                                                    <th>분류</th>
+                                                    <th>기준가</th>
+                                                    <th>할인율</th>
+                                                    <th>할인가</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>성수기 주중</td> 
+                                                    <td>
+                                                        <input type="number" id="insertPrice" placeholder="기준가 입력(원)">
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" id="insertSalePercent" placeholder="할인율 입력(%)">
+                                                    </td>
+                                                    <td id="priceResult"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>성수기 주말</td> 
+                                                    <td>
+                                                        <input type="number" id="insertPrice" placeholder="기준가 입력(원)">
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" id="insertSalePercent" oninput="insertSalePercent(this)" placeholder="할인율 입력(%)">
+                                                    </td>
+                                                    <td id="priceResult"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>비성수기 주중</td> 
+                                                    <td>
+                                                        <input type="number" id="insertPrice" placeholder="기준가 입력(원)">
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" id="insertSalePercent" placeholder="할인율 입력(%)">
+                                                    </td>
+                                                    <td id="priceResult"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>비성수기 주말</td> 
+                                                    <td>
+                                                        <input type="number" id="insertPrice" placeholder="기준가 입력(원)">
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" id="insertSalePercent" placeholder="할인율 입력(%)">
+                                                    </td>
+                                                    <td id="priceResult"></td>
+                                                </tr>
+                                            </table>
+                                            
                                         </div>
                                         <span class="result_stayName">
-                                            💡 체크 시 전체 상품에 할인율이 적용됩니다 (개별 할인은 객실 관리에서 적용할 수 있습니다)
+                                            💡 해당 기준가와 할인가는 예시일뿐 실제 할인율 값이 적용됩니다
                                         </span>
                                     </div>
 
-                                    
-                                    <div class="btnProdRegister">
-                                        <form action="#">
-                                            작성완료
-                                        </form>
+                                    <div class="btnAdminProd">
+                                        <a href="#">
+                                            수정완료
+                                        </a>
                                     </div>
                                 </form>
                             </div>

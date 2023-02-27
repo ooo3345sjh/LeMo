@@ -46,23 +46,21 @@
                     } );
                 } );
 
-                $('#dropdown').click(function(){
-                    let content = document.getElementById("dropdown_content");
-                    if(content.style.display=='none'){ 	
-                        content.style.display = 'block'; 	
-                    }else{ 		
-                        content.style.display = 'none'; 	
-                    } 
+                $('#dropdown').mouseover(function(){
+                    $('#dropdown_content').addClass('on');	
+                });
+                $('#dropdown_menu').mouseleave(function(){
+                    $('#dropdown_content').removeClass('on');
                 });
 
-                $('#dropdown2').click(function(){
-                    let content = document.getElementById("dropdown_content2");
-                    if(content.style.display=='none'){ 	
-                        content.style.display = 'block'; 	
-                    }else{ 		
-                        content.style.display = 'none'; 	
-                    } 
+                $('#dropdown2').mouseover(function(){
+                    $('#dropdown_content2').addClass('on');	
                 });
+                $('#dropdown_menu2').mouseleave(function(){
+                    $('#dropdown_content2').removeClass('on');
+                });
+
+                
             } );
         </script>   
     </head>
@@ -79,11 +77,12 @@
                         </div>
                         <div class="header_service">
                             <a href="#">로그인</a>
-                            <div class="dropdown_menu">
+                            <a href="#">여행일기</a>
+                            <div class="dropdown_menu" id="dropdown_menu">
                                 <button id="dropdown">마이페이지
                                     <img src="./img/indexImg/down-arrow.png">
                                 </button>
-                                <div class="dropdown_content" id="dropdown_content" style="display: none;">
+                                <div class="dropdown_content" id="dropdown_content">
                                     <a href="#">나의 정보</a>
                                     <a href="#">포인트</a>
                                     <a href="#">쿠폰함</a>
@@ -93,11 +92,11 @@
                                     <a href="#">나의 리뷰</a>
                                 </div>
                             </div>
-                            <div class="dropdown_menu">
+                            <div class="dropdown_menu" id="dropdown_menu2">
                                 <button id="dropdown2">고객센터
                                     <img src="./img/indexImg/down-arrow.png">
                                 </button>
-                                <div class="dropdown_content" id="dropdown_content2" style="display: none;">
+                                <div class="dropdown_content" id="dropdown_content2">
                                     <a href="#">공지사항</a>
                                     <a href="#">이벤트</a>
                                     <a href="#">자주 묻는 질문</a>

@@ -56,7 +56,11 @@ main .sidebar {
     box-shadow: 0 12px 30px rgb(80 143 244 / 10%);
     border: 1px solid blue;
     background: #fff;
-    overflow: auto;
+    -ms-overflow-style: none;
+    overflow-y: scroll;
+}
+main .sidebar::-webkit-scrollbar {
+    display: none;
 }
 main .sidebar > .sidebar_logo {
     position: relative;
