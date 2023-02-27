@@ -1,12 +1,433 @@
+<!--
+    날짜 : 2023/02/27
+    이름 : 박종협
+    내용 : 상품 View HTML 
+-->
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Travel with Lemo::product</title>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
+        <!-- 스타일 -->
+        <link rel="stylesheet" href="./css/productStyle.css">
+        <!-- slickSlider -->
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+        <!-- 스크립트 모음 -->
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <!-- slickSlider -->
+        <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <!-- Date Range Picker -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     </head>
+    <style>
+        /** 메인 */
+        #productView {
+            width: 1200px;
+            border: 1px solid red;
+            margin: 0 auto;
+        }
+
+        /** View 상단 이미지 & info */
+        #topContent {
+            width: 1110px;
+            height: 550px;
+            border: 1px solid blue;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        /** View 상단 이미지 */
+        #productImg {
+            float: left;
+            width: 500px;
+            height: 500px;
+            border: 1px solid green;
+            margin-left: 50px;
+        }
+
+        #productImg .slider-single {}
+
+        #productImg .slider-single > div:nth-child(1n+2) { display: none }
+
+        #productImg .slider-single.slick-initialized > div:nth-child(1n+2) { display: block }
+
+        #productImg .slider-single h3 {
+            line-height: 10rem;
+        }
+
+        #productImg .slider-nav h3::before {
+            content: "";
+            display: block;
+            padding-top: 75%;
+        }
+
+        #productImg .slider-nav h3 span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #productImg h3 {
+            background: #f0f0f0;
+            color: #3498db;
+            font-size: 2.25rem;
+            margin: .5rem;
+            padding: 2%;
+            position: relative;
+            text-align: center;
+        }
+
+        /** View 상단 info */
+        #productInfo {  
+            float: left;
+            width: 500px;
+            height: 500px;
+            border: 1px solid green;
+            margin-right: 50px;
+        }
+
+        /** 탭 */
+        #productView > .tab {
+            width: 1000px;
+            height: 35px;
+            border: 1px solid green;
+            margin: 0 auto;
+        }
+        /** 탭 - 버튼 */
+        #productView > .tab > button {
+            width: 100px;
+            height: 30px;
+            border: 1px solid #252525;
+        }
+
+        /** 객실정보 */
+        #detail_room {
+            width: 1000px;
+            border: 1px solid green;
+            margin: 0 auto;
+        }
+
+        #detail_room > article {}
+
+        #detail_room .date {
+        }
+
+        #detail_room .room {}
+
+        #detail_room .room > a {}
+
+        #detail_room .room > a > img {}
+
+        #detail_room .room > div {}
+
+        #detail_room .room > div > strong {}
+
+        #detail_room .room > div > span {}
+
+        #detail_room .room .detail_room_info {}
+
+    </style>
+    <script>
+        /** 현재 날짜 구하기 */
+        let now        = new Date();
+        let nowYear    = now.getFullYear();
+        let nowMonth   = now.getMonth() + 1;
+        let nowDate    = now.getDate();
+        let date      = nowYear + '-' + nowMonth + '-' + nowDate;
+
+        $(function(){
+            /** Jquery UI Date Picker */
+            $('#daterange').daterangepicker({
+                "locale": {
+                    "format": "YYYY-MM-DD",
+                    "separator": " ~ ",
+                    "applyLabel": "확인",
+                    "cancelLabel": "취소",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "W",
+                    "daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"],
+                    "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+                    "firstDay": 1
+                },
+                "startDate": date,
+                "endDate": date,
+                "drops": "down",
+                "opens": "center"
+            }, function (start, end, label) {
+                alert(" 체크인 :  " + start.format('YYYY-MM-DD') + " 체크아웃 : " + end.format('YYYY-MM-DD'));
+            });
+
+            $('.slider-single').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: true,
+                fade: false,
+                adaptiveHeight: true,
+                infinite: false,
+                useTransform: true,
+                speed: 400,
+                cssEase: 'cubic-bezier(0.77, 0, 0.18, 1)',
+            });
+
+            $('.slider-nav')
+                .on('init', function(event, slick) {
+                    $('.slider-nav .slick-slide.slick-current').addClass('is-active');
+                })
+                .slick({
+                    slidesToShow: 7,
+                    slidesToScroll: 7,
+                    dots: false,
+                    focusOnSelect: false,
+                    infinite: false,
+                    responsive: [{
+                        breakpoint: 1024,
+                        settings: {
+                            slidesToShow: 5,
+                            slidesToScroll: 5,
+                        }
+                    }, {
+                        breakpoint: 640,
+                        settings: {
+                            slidesToShow: 4,
+                            slidesToScroll: 4,
+                        }
+                    }, {
+                        breakpoint: 420,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3,
+                    }
+                    }]
+                });
+
+            $('.slider-single').on('afterChange', function(event, slick, currentSlide) {
+                $('.slider-nav').slick('slickGoTo', currentSlide);
+                var currrentNavSlideElem = '.slider-nav .slick-slide[data-slick-index="' + currentSlide + '"]';
+                $('.slider-nav .slick-slide.is-active').removeClass('is-active');
+                $(currrentNavSlideElem).addClass('is-active');
+            });
+
+            $('.slider-nav').on('click', '.slick-slide', function(event) {
+                event.preventDefault();
+                var goToSingleSlide = $(this).data('slick-index');
+
+                $('.slider-single').slick('slickGoTo', goToSingleSlide);
+            });
+        });
+    </script>
     <body>
-        
+        <div id="wrapper">
+            <!-- 헤더 -->
+            <header>
+                <div class="header_inner">
+                    <div class="header_flex">
+                        <div class="header_logo">
+                            <!-- 메인으로 이동 -->
+                            <a href="#"><img src="../img/indexImg/lemo_logo.png" alt="레모 로고"></a>
+                            <div class="logo">LEMO</div>
+                        </div>
+                        <div class="header_service">
+                            <a href="#">로그인</a>
+                            <div class="dropdown_menu">
+                                <button id="dropdown">마이페이지
+                                    <img src="../img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content" style="display: none;">
+                                    <a href="#">나의 정보</a>
+                                    <a href="#">포인트</a>
+                                    <a href="#">쿠폰함</a>
+                                    <a href="#">예약내역</a>
+                                    <a href="#">위시리스트</a>
+                                    <a href="#">나의 여행일기</a>
+                                    <a href="#">나의 리뷰</a>
+                                </div>
+                            </div>
+                            <div class="dropdown_menu">
+                                <button id="dropdown2">고객센터
+                                    <img src="../img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content2" style="display: none;">
+                                    <a href="#">공지사항</a>
+                                    <a href="#">이벤트</a>
+                                    <a href="#">자주 묻는 질문</a>
+                                    <a href="#">1:1 문의</a>
+                                    <a href="#">여행일기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="header_searchBar">
+                            <form class="search-container" action="#">
+                                <div class="search">
+                                    <input id="search-box" type="text" class="search-box" name="q"/>
+                                    <button type="submit" class="btnSearch">
+                                        <input type="image" src="../img/indexImg/btn_search.png" id="search-submit"/>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- 메인 -->
+            <main id="productView">
+                <div id="topContent">
+                    <div id="productImg">
+                        <div class="row">
+                            <div class="column small-11 small-centered">
+                                <div class="slider slider-single">
+                                    <div><h3>1</h3></div>
+                                    <div><h3>2</h3></div>
+                                    <div><h3>3</h3></div>
+                                    <div><h3>4</h3></div>
+                                    <div><h3>5</h3></div>
+                                    <div><h3>6</h3></div>
+                                    <div><h3>7</h3></div>
+                                    <div><h3>8</h3></div>
+                                    <div><h3>9</h3></div>
+                                    <div><h3>10</h3></div>
+                                </div>
+                                <div class="slider slider-nav">
+                                    <div><h3><span>1</span></h3></div>
+                                    <div><h3><span>2</span></h3></div>
+                                    <div><h3><span>3</span></h3></div>
+                                    <div><h3><span>4</span></h3></div>
+                                    <div><h3><span>5</span></h3></div>
+                                    <div><h3><span>6</span></h3></div>
+                                    <div><h3><span>7</span></h3></div>
+                                    <div><h3><span>8</span></h3></div>
+                                    <div><h3><span>9</span></h3></div>
+                                    <div><h3><span>10</span></h3></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="productInfo">
+
+                    </div>
+                </div>
+                <div class="tab">
+                    <!-- 객실안내/예약 -->
+                    <button id="showRoom">객실안내/예약</button>
+                    <!-- 숙소정보 -->
+                    <button id="showInfo">숙소정보</button>
+                    <!-- 리뷰 -->
+                    <button id="showReview">리뷰</button>
+                    <!-- 여행일기 -->
+                    <button id="showDiary">여행일기</button>
+                    <!-- 문의하기 -->
+                    <button id="showQna">문의하기</button>
+                </div>
+                <!-- 객실정보 -->
+                <form id="detail_room">
+                    <article>
+                        <div class="date">
+                            <input type="text" name="daterange" id="daterange">
+                        </div>
+                        <div class="room">
+                            <a href="#">
+                                <img src="#" alt="상품 이미지">
+                            </a>
+                            <div class="detail_room_info">
+                                <strong>테스트 호텔</strong>
+                                <span>가격</span>
+                                <div>
+                                    <span>1박가능</span>
+                                    <span>999,999원/1박</span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </form>
+                <!-- 숙소정보 -->
+                <article id="detail_info" class="detail_info">
+                    <!-- 기본정보 -->
+                    <button type="button" id="detail_info_default"></button>
+                    <section class="info_default"></section>
+                    <!-- 편의시설 및 서비스 -->
+                    <button type="button" id="detail_info_service"></button>
+                    <section class="info_service"></section>
+                    <!-- 판매자 정보 -->
+                    <button type="button" id="detail_info_seller"></button>
+                    <section class="info_seller"></section>
+                </article>
+                <!-- 리뷰 -->
+                <article id="detail_review" class="detail_review">
+
+                </article>
+                <!-- 여행일기 -->
+                <article id="detail_diary" class="detail_diary">
+
+                </article>
+                <!-- 문의하기 -->
+                <article id="detail_qna" class="detail_qna">
+
+                </article>
+            </main>
+            <!-- 푸터 -->
+            <footer>
+                <div class="footer_inner">
+                    <div class="footer_menu">
+                        <table>
+                            <tr>
+                                <td><a href="#">ABOUT</a></td>
+                                <td><a href="#">NOTICE</a></td>
+                                <td><a href="#">CS CENTER</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer_block">
+                        <div class="footer_block_left">
+                            <div class="footer_block_row">
+                                <!-- 로고 클릭 시 메인으로 이동 -->
+                                <div class="row_col_1"><a href="#">LEMO</a></div>
+                                <div class="row_col_2">LETTUCE MEMORIES</div>
+                                <div class="row_col_3">
+                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
+                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
+                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_block_right">
+                            <div class="footer_block_row">
+                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
+                                <div class="row_col_4"><a href="#">고객센터</a></div>
+                                <div class="row_col_5">
+                                    070-2023-0223 <br>
+                                    MON - FRI AM 09:00 - PM 17:00 <br>
+                                    BREAK PM 12:00 - PM 13:00 <br>
+                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer_terms">
+                        <div class="footer_block_row2">
+                            <a href="#">이용약관</a>
+                            <span>&nbsp;|&nbsp;</span>
+                            <a href="#">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="footer_copyright">
+                        <div class="footer_block_row2">
+                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </body>
 </html>
