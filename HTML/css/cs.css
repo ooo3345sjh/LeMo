@@ -146,7 +146,6 @@ main > #cs {
 }
 
 /* 페이징 스타일 공통 */
-
 .paging{
     border-top: none;
     padding: 32px 0 0 0;
@@ -167,6 +166,7 @@ main > #cs {
     text-align: center;
     cursor: pointer;
     line-height: 32px;
+
 }
 
 .paging .prev {
@@ -356,7 +356,6 @@ main > #cs {
     text-overflow: ellipsis;
     color: rgba(0,0,0,0.87);
 }
-
 .page p a {
     display: block;
     padding: 0 0 0 126px;
