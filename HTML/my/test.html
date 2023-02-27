@@ -1,0 +1,646 @@
+<!--
+    날짜 : 2023/02/26
+    이름 : 황원진
+    내용 : 마이페이지 view HTML 
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Travel with Lemo::reserveration</title>
+         <!-- 구글 폰트 -->
+         <link rel="preconnect" href="https://fonts.googleapis.com">
+         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+         <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">   
+         <!-- jquery -->
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+      
+        <style>
+              /* 전체 */
+    * {
+        margin: 0;
+        padding: 0;
+        margin: 0;
+        padding: 0;
+        font-family: 'Red Hat Display', 'Noto Sans KR', sans-serif;
+        font-size: 11px;
+        font-weight: 400;
+        box-sizing: border-box;
+    }
+    ul, ol {list-style: none;}
+    a {text-decoration: none; color: #252525;}
+    input, textarea {outline: none;}
+
+    #wrapper {
+        /* overflow: hidden; */
+        min-width: 1200px;
+        height: auto;
+        margin: 0 auto;
+    }
+
+        /* 헤더 */
+        header {
+            box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%);
+            min-width: 1200px;
+        }
+        header > .header_inner {
+            height: 160px;
+            background-color: #fff;
+            border-bottom: 1px solid #faf4e4;
+        }
+        header > .header_inner .header_flex {
+            position: relative;
+            width: 1130px;
+            height: 100%;
+            margin: 0 auto;
+        }
+        header > .header_inner .header_logo {
+            position: relative;
+            height: 100%;
+        }
+        header > .header_inner .header_logo > a {
+            position: absolute;
+            top: 33px;
+        }
+        header > .header_inner .header_logo img {
+            height: 93px;
+        }
+        header > .header_inner .header_logo > .logo {
+            font-size: 44px;
+            font-weight: 800;
+            position: absolute;
+            top: 60px;
+            left: 65px;
+            color: #bbd444;
+        }
+        header > .header_inner .header_service {
+            position: absolute;
+            top: 12px;
+            right: 30px;
+        }
+        header > .header_inner .header_service > a {
+            margin-left: 30px;
+            font-size: 12px;
+            font-weight: 300;
+        }
+        header > .header_inner .header_service > a:hover {
+            font-weight: 400;
+        }
+        header > .header_inner .header_service > .dropdown_menu {
+            display: inline-block;
+        }
+        header > .header_inner .header_service > .dropdown_menu > button {
+            margin-left: 30px;
+            font-size: 12px;
+            font-weight: 300;
+            border: none;
+            background: #fff;
+            font-family: inherit; 
+            cursor: pointer;
+        }
+        header > .header_inner .header_service > .dropdown_menu img {
+            width: 9px;
+            padding-left: 2px;
+        }
+        header > .header_inner .header_service > .dropdown_menu > button:hover {
+            font-weight: 400;
+        }
+        header > .header_inner .header_service > .dropdown_menu > .dropdown_content {
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 10%);
+            z-index: 1;
+        }
+        header > .header_inner .header_service > .dropdown_menu > .dropdown_content > a {
+            float: none;
+            padding: 12px 16px;
+            font-weight: 300;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+        header > .header_inner .header_service > .dropdown_menu > .dropdown_content > a:hover {
+            background: #dcdee0;
+        }
+
+
+
+        header > .header_inner .header_searchBar {
+            position: absolute;
+            top: 74px;
+            left: 231px;
+        }
+        header > .header_inner .header_searchBar .search {
+            height: 34px;
+            width: 374px;
+            background: #f8f8f8;
+            border: 1px solid #f8f8f8;
+            border-radius: 15px;
+        }
+        header > .header_inner .header_searchBar #search-box {
+            width: 340px;
+            padding: 0 0 0 20px;
+            font-size: 24px;
+            border: none;
+            background: transparent;
+        }
+        header > .header_inner .header_searchBar .btnSearch {
+            border: none;
+            margin-left: 5px;
+            padding-top: 4px;
+            background: transparent;
+        }
+
+
+
+
+
+
+        /* 푸터 */
+        footer {
+            min-width: 1200px;
+            background-color: #FCF951;
+            border-top: 1px solid #faf4e4;
+        }
+        footer > .footer_inner {
+            width: 1130px;
+            margin: 0 auto;
+        }
+        footer > .footer_inner > .footer_menu {
+            margin-top: 30px;
+            position: relative;
+        }
+        footer > .footer_inner > .footer_menu a {
+            font-size: 16px;
+            margin-right: 50px;
+        }
+        footer > .footer_inner .footer_block {
+            margin-top: 30px;
+            box-sizing: border-box;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        footer > .footer_inner .footer_block > .footer_block_left {
+            flex: 0 0 auto;
+            width: 75%;
+            box-sizing: border-box;
+        }
+        footer > .footer_inner .footer_block_row {
+            box-sizing: border-box;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        footer > .footer_inner .footer_block .footer_block_row > .row_col_1 {
+            flex: 0 0 auto;
+            width: 100%;
+        }
+        footer > .footer_inner .footer_block .footer_block_row > .row_col_1 > a {
+            font-size: 30px;
+            font-weight: 900;
+        }
+        footer > .footer_inner .footer_block .footer_block_row > .row_col_2 {
+            flex: 0 0 auto;
+            width: 100%;
+            font-size: 17px;
+        }
+        footer > .footer_inner .footer_block .footer_block_row > .row_col_3 {
+            margin-top: 15px;
+            line-height: 17px;
+            flex: 0 0 auto;
+            width: 100%;
+        }
+        footer > .footer_inner .footer_block > .footer_block_right {
+            flex: 0 0 auto;
+            width: 25%;
+            box-sizing: border-box;
+        }
+        footer > .footer_inner .footer_block .footer_block_row > .row_col_4 {
+            flex: 0 0 auto;
+            width: 100%;
+        }
+        footer > .footer_inner .footer_block .footer_block_row > .row_col_4 > a {
+            font-size: 17px;
+            font-weight: 500;
+        }
+        footer > .footer_inner .footer_block .footer_block_row > .row_col_5 {
+            flex: 0 0 auto;
+            width: 100%;
+            margin-top: 5px;
+            line-height: 17px;
+            font-size: 14px;
+        }
+        footer > .footer_inner .footer_block .footer_block_row > .row_col_5  > span {
+            color: #F2552C;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        footer > .footer_inner .footer_terms {
+            margin-top: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        footer > .footer_inner .footer_terms > .footer_block_row2 {
+            flex: 0 0 auto;
+            width: 100%;
+        }
+        footer > .footer_inner .footer_terms > .footer_block_row2  > span {
+            margin: 0 10px;
+        }
+        footer > .footer_inner .footer_copyright {
+
+            box-sizing: border-box;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px 0;
+        }
+        footer > .footer_inner .footer_copyright p {
+            font-size: 12px;
+        }
+
+                 /*main*/
+         main{
+            width: 1200px;
+            height: auto;
+            margin: 0 auto;
+            border: 1px solid red;
+            padding: 20px;
+        }
+
+        main > #my {
+            width: 1130px;
+            min-height: 400px;
+            margin: 0 auto;
+            padding-top: 30px;
+            margin-bottom: 100px;
+            overflow: hidden;
+        }
+
+        /* 사이드 바 */
+        .category{
+            display: block;
+            float: left;
+            width: 238px;
+            padding-left: 31px;
+        }
+
+        .category > span {
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        .category > ul > li {
+            margin-bottom: 26px;
+        }
+
+        .category > ul > li > a {
+            display: block;
+            font-size: 18px;
+            color: rgba(0,0,0,0.56);
+        }
+
+        .category > ul > li > a.on {
+            font-size: 18px;
+            font-weight: bold;
+            color: #bbd444;
+        }
+
+              /* 예약 내역 상세 보기 - view */
+        .content{
+            float: right;
+            width: 800px;
+            height: 100%;
+            position: relative;
+        }
+        .tab {
+            height: auto;
+            border-bottom: 1px solid rgba(0,0,0,0.2);
+        }
+
+        .tab > span {
+            display: inline-block;
+            float: none;
+            position: relative;
+            width: auto;
+            height: 40px;
+            margin-right: 22px;
+            line-height: normal;
+            color: #252525;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: left;
+            cursor: pointer;
+
+            border-bottom: 1px solid #bbd444;
+        }
+
+        .reserve_view {
+            width: 461px;
+            position: relative;
+            left: 140px;
+            background-color: #F5F5F5;
+            margin: 25px 0px;
+        }
+        .reserve_view > p{
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .reserve_view > span {
+            font-size: 15px;
+        }
+        .reserve_view > span > span {
+            font-size: 15px;
+        }
+        .btnReserveView{
+            text-align: center;
+            background-color: white;
+        }
+        .btnReserveView .reservePrint {
+            box-shadow:inset 0px 0px 0px 0px #1c1b18;
+            background:linear-gradient(to bottom, #bbd444 5%, #bbd444 100%);
+            background-color:#bbd444;
+            border-radius:3px;
+            display:inline-block;
+            cursor:pointer;
+            color:white;
+            font-family:Arial;
+            font-size:16px;
+            padding:16px 24px;
+            text-decoration:none;
+            margin: 1px 9px;
+        }
+        .btnReserveView .reserveCancel {
+            box-shadow:inset 0px 0px 0px 0px #1c1b18;
+            background:linear-gradient(to bottom, #F5F5F5 5%, #F5F5F5 100%);
+            background-color:#F5F5F5;
+            border-radius:3px;
+            display:inline-block;
+            cursor:pointer;
+            color:#505739;
+            font-family:Arial;
+            font-size:17px;
+            padding:16px 27px;
+            text-decoration:none;
+            margin: 1px 19px;
+        }
+
+        /* 페이징 스타일 공통 */
+        .paging{
+            border-top: none;
+            padding: 32px 0 0 0;
+            display: block;
+            text-align: center;
+        }
+
+        .paging span {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            box-sizing: inherit;
+            border-radius: 3px;
+            border: none;
+            box-shadow: none;
+            background: none;
+            font-size: 13px;
+            text-align: center;
+            cursor: pointer;
+            line-height: 32px;
+
+        }
+
+        .paging .prev {
+            background: url('../img/csImg/ico_paging_arr1.png') 50% 50% no-repeat;
+            background-size: 10px auto;
+            margin-right: 5px;
+            position: relative;
+            top: 12px;
+        }
+
+        .paging .next {
+            background: url('../img/csImg/ico_paging_arr2.png') 50% 50% no-repeat;
+            background-size: 10px auto;
+            margin-left: 5px;
+            position: relative;
+            top: 12px;
+        }
+
+        .paging .on{
+            border: 1px solid rgba(0,0,0,0.27);
+            border-radius: 4px;
+            color: rgba(0,0,0,0.87);
+        }
+        .paging .on a {
+            font-weight: bold;
+        }
+
+
+        </style>
+        <script>
+            $(function(){
+                $('.reserveCancel').click(function(){
+                    console.log("1");
+                    confirm('예약을 취소하시겠습니까?');
+                });
+            });
+               
+
+        </script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <header>
+                
+                <div class="header_inner">
+                    <div class="header_flex">
+                        <div class="header_logo">
+
+                            <a href="#"><img src="../img/indexImg/lemo_logo.png" alt="레모 로고"></a>
+                            <div class="logo">LEMO</div>
+                        </div>
+                        <div class="header_service">
+                            <a href="#">로그인</a>
+                            <div class="dropdown_menu">
+                                <button id="dropdown">마이페이지
+                                    <img src="../img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content" style="display: none;">
+                                    <a href="#">나의 정보</a>
+                                    <a href="#">포인트</a>
+                                    <a href="#">쿠폰함</a>
+                                    <a href="#">예약내역</a>
+                                    <a href="#">위시리스트</a>
+                                    <a href="#">나의 여행일기</a>
+                                    <a href="#">나의 리뷰</a>
+                                </div>
+                            </div>
+                            <div class="dropdown_menu">
+                                <button id="dropdown2">고객센터
+                                    <img src="../img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content2" style="display: none;">
+                                    <a href="#">공지사항</a>
+                                    <a href="#">이벤트</a>
+                                    <a href="#">자주 묻는 질문</a>
+                                    <a href="#">1:1 문의</a>
+                                    <a href="#">여행일기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="header_searchBar">
+                            <form class="search-container" action="#">
+                                <div class="search">
+                                    <input id="search-box" type="text" class="search-box" name="q"/>
+                                    <button type="submit" class="btnSearch">
+                                        <input type="image" src="../img/indexImg/btn_search.png" id="search-submit"/>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> 
+            </header>
+            
+            <main>
+                <section id="my">
+                    <nav class="category">
+                        <span>마이페이지</span>
+                        <ul>
+                            <li>
+                                <a href="#">내정보</a>
+                            </li>
+                            <li>
+                                <a href="#">포인트</a>
+                            </li>
+                            <li>
+                                <a href="#">쿠폰함</a>
+                            </li>
+                            <li>
+                                <a href="#" class="on">예약내역</a>
+                            </li>
+                            <li>
+                                <a href="#">나의 찜</a>
+                            </li>
+                            <li>
+                                <a href="#">나의 여행일기</a>
+                            </li>
+                            <li>
+                                <a href="#">나의 리뷰</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="content">
+                        <!-- 카테고리 -->
+                        <div class="tab">
+                            <span class="my_title">
+                                예약 내역
+                            </span>
+                        </div>
+                        <div class="reserve_view">
+                            <p>예약자 정보</p>
+                            <span>홍길동</span>
+                            <br>
+                            <br>
+                            <p>휴대폰번호</p>
+                            <span>010-1234-1234</span>
+                            <br>
+                            <br>
+                            <p>숙소 정보</p>
+                            <span>이비스 앱버서더 부산 해운대<br>
+                                [레이트버드-18시 체크인] 스탠다드 더블 / 1박
+                            </span>
+                            <br>
+                            <br>
+                            <span>체크인</span>
+                            <p>2023.02.16 15:00</p>
+                            <br>
+                            <span>체크아웃</span>
+                            <p>2023.02.17 12:00</p>
+                            <br>
+                            <p>결제 정보</p>
+                            <span>예약 번호 : <span>10002132</span><br>
+                                결제 방법 : <span>신용/체크카드</span>
+                            </span>
+                            <br>
+                            <br>
+                            <span>최종 결제 금액(VAT포함)</span>
+                            <br>
+                            <br>
+                            <p>52,800원</p>
+                            <br>
+                        </div>
+                        <div class="btnReserveView">
+                            <a href="#" class="reservePrint">예약 내역 인쇄</a>
+                            <a href="#" class="reserveCancel" id="reserveCancel">예약 취소</a>
+                        </div>
+                        <!-- 페이징 -->
+                        <div class="paging">
+                            <span class="prev"><a href="#"></a></span>
+                            <span class="on"><a href="#">1</a></span>
+                            <span><a href="#">2</a></span>
+                            <span><a href="#">3</a></span>
+                            <span><a href="#">4</a></span>
+                            <span><a href="#">5</a></span>
+                            <span class="next"><a href="#"></a></span>
+                        </div>
+
+                    </div>  
+                </section>
+            </main>
+            <footer>
+                <div class="footer_inner">
+                    <div class="footer_menu">
+                        <table>
+                            <tr>
+                                <td><a href="#">ABOUT</a></td>
+                                <td><a href="#">NOTICE</a></td>
+                                <td><a href="#">CS CENTER</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer_block">
+                        <div class="footer_block_left">
+                            <div class="footer_block_row">
+                                <!-- 로고 클릭 시 메인으로 이동 -->
+                                <div class="row_col_1"><a href="#">LEMO</a></div>
+                                <div class="row_col_2">LETTUCE MEMORIES</div>
+                                <div class="row_col_3">
+                                    주식회사 레모 | CEO 서박이 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
+                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
+                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_block_right">
+                            <div class="footer_block_row">
+                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
+                                <div class="row_col_4"><a href="#">고객센터</a></div>
+                                <div class="row_col_5">
+                                    070-2023-0223 <br>
+                                    MON - FRI AM 09:00 - PM 17:00 <br>
+                                    BREAK PM 12:00 - PM 13:00 <br>
+                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer_terms">
+                        <div class="footer_block_row2">
+                            <a href="#">이용약관</a>
+                            <span>&nbsp;|&nbsp;</span>
+                            <a href="#">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="footer_copyright">
+                        <div class="footer_block_row2">
+                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>

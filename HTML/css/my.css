@@ -241,535 +241,536 @@
             font-size: 12px;
         }
 
-  
-         /*main*/
-         main{
-            width: 1200px;
-            height: auto;
-            margin: 0 auto;
-            border: 1px solid red;
-            overflow: hidden;
-            padding: 20px;
-        }
+    
 
-
-        /* 사이드 바 */
-        main > .myNav{
-            position: relative;
-            float: left;
-            width: 215px;
-            height: 490px;
-        }
-        main > .myNav > h2 {
-            font-size: 22px;
-            font-weight: 500;
-            position: absolute;
-            top: 30px;
-            left: 44px;
+           /* 페이징 스타일 공통 */
+           .paging{
+            border-top: none;
+            padding: 32px 0 0 0;
             display: block;
-            color: rgba(0,0,0,0.56);
+            text-align: center;
         }
-        main > .myNav > ul{
-            position: absolute;
-            top: 70px;
-            left: 25px;
-            height: 350px;
-            width: 100%;
-            padding: 0 20px;
-            line-height: 48px;
-            
-        }
-        main > .myNav > ul > li {
-            margin-bottom: 6px;
-        }
-
-        main > .myNav > ul > li > a {
-            display: block;
-            font-size: 18px;
-            color: rgba(0,0,0,0.56);
-        }
-
-        main >.myNav > ul > li > a.on {
-            font-size: 18px;
-            font-weight: bold;
-            color: #bbd444;
-        }
-
-
-
-
-        /* 예약 내역 - reserveration */
-        main .reserve_history{
-            width: 934px;
-            height: 100%;
-            margin-left: 247px;
-        }
-        main > .reserve_history > span {
-
-        }
-        main > .reserve_history > span > p {
-            margin-top: 30px;
-            border-bottom: 1px solid;
-            font-size: 22px;
-            font-weight: bold;
-            color: #bbd444;
-        }
-        main > .reserve_history > table {
-            width: 930px;
-            height: 100%;
-            margin: 0px auto;
-            border-spacing: 0px 30px;
-
-        }
-        main > .reserve_history > table > tbody {
-
-        }
-        main > .reserve_history > table > tbody > tr {
-            border: 1px solid #ececec;
-            position: relative;
-        }
-        main > .reserve_history > table > tbody > tr > td:nth-child(1) {
-            width: 20%;
-        }
-        main > .reserve_history > table .thumb {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-        main > .reserve_history > table .thumb > img {
-            width: 150px;
-            height: 175px;
-            margin-top: 7px;
-        }
-        main > .reserve_history > table .reserve_day {
-            font-size: 21px;
-
-        }
-        main > .reserve_history > table .reserve_more {
-            position: absolute;
-            right: 24px;
-            top: 1px;
-            font-size: 15px;
-        }
-        main > .reserve_history > table .reserve_num {
-            font-size: 17px;
-        }
-        main > .reserve_history > table .reserve_num > i {
-            font-size: 17px;
-        }
-        main > .reserve_history > table .reserve_state {
-            font-size: 17px;
-        }
-        main > .reserve_history > table .reserve_state > i {
-            font-size: 17px;
-        }
-        main > .reserve_history > table .reserve_days {
-            font-size: 17px;
-        }
-        main > .reserve_history > table .reserve_check {
-            font-size: 17px;
-        }
-        
-        /*여행일기작성 버튼*/
-        main > .reserve_history > table .myDiary {
-            box-shadow: inset 0px 0px 0px 0px #a6827e;
-            background: linear-gradient(to bottom, #7d5d3b 5%, #634b30 100%);
-            background-color: #7d5d3b;
-            border-radius: 3px;
-            border: 1px solid #54381e;
+    
+        .paging span {
             display: inline-block;
+            width: 32px;
+            height: 32px;
+            box-sizing: inherit;
+            border-radius: 3px;
+            border: none;
+            box-shadow: none;
+            background: none;
+            font-size: 13px;
+            text-align: center;
             cursor: pointer;
-            color: #ffffff;
-            font-family: Arial;
-            font-size: 12px;
-            padding: 7px 11px;
-            text-decoration: none;
-            text-shadow: 0px 1px 0px #4d3534;
-            position: absolute;
-            right: 19px;
-            bottom: 1px;
-        }
-        main > .reserve_history > .paging {
-            width: 100%;
-            padding: 30px 0;
-            text-align: center;
-        }
-        main > .reserve_history > .paging > span > a {
-            font-size: 15px;
-            margin: 0px 4px;
-        }
-
-
-
-
-         /* 예약 내역 상세 보기 - view */
-         main .reserve_view{
-            width: 934px;
-            height: 100%;
-            margin-left: 247px;
-            position: relative;
-        }
-        main .reserve_view > span {
-
-        }
-        main .reserve_view > span > p {
-            margin-top: 30px;
-            border-bottom: 1px solid;
-            font-size: 22px;
-            font-weight: bold;
-            color: #bbd444;
-        }
-        main .reserve_view > div {
-            width: 500px;
-            position: relative;
-            left: 200px;
-            background-color: #F5F5F5;
-            margin: 25px 0px;
-        }
-        main .reserve_view > div > p{
-            font-size: 16px;
-            font-weight: bold;
-        }
-        main .reserve_view > div > span {
-            font-size: 15px;
-        }
-        main .reserve_view > div > span > span {
-            font-size: 15px;
-        }
-        main .reserve_view > .btnReserveView{
-            text-align: center;
-            background-color: white;
-        }
-        main .reserve_view > .btnReserveView .reservePrint {
-            box-shadow:inset 0px 0px 0px 0px #1c1b18;
-            background:linear-gradient(to bottom, #bbd444 5%, #bbd444 100%);
-            background-color:#bbd444;
-            border-radius:3px;
-            display:inline-block;
-            cursor:pointer;
-            color:white;
-            font-family:Arial;
-            font-size:16px;
-            padding:16px 24px;
-            text-decoration:none;
-            margin: 1px 9px;
-        }
-        main .reserve_view > .btnReserveView .reserveCancel {
-            box-shadow:inset 0px 0px 0px 0px #1c1b18;
-            background:linear-gradient(to bottom, #F5F5F5 5%, #F5F5F5 100%);
-            background-color:#F5F5F5;
-            border-radius:3px;
-            display:inline-block;
-            cursor:pointer;
-            color:#505739;
-            font-family:Arial;
-            font-size:17px;
-            padding:16px 27px;
-            text-decoration:none;
-            margin: 1px 19px;
-        }
-
-
-        /* 포인트 - point */
-        main .my_point{
-            width: 934px;
-            height: 100%;
-            margin-left: 247px;
-            position: relative;
-        }
-        main .my_point > span {
-
-        }
-        main .my_point > span > p {
-            margin-top: 30px;
-            border-bottom: 1px solid;
-            font-size: 22px;
-            font-weight: bold;
-            color: #bbd444;
-        }
-
-        main .my_point > .nowPoint {
-            width: 750px;
-            height: 146px;
-            left: 72px;
-            background-color: #F5F5F5;
-            margin: 32px 0px;
-            position: relative;
-            border-radius: 30px 30px;
-            text-align: center;
-        }
-        main .my_point > .nowPoint > p{
-            font-size: 32px;
-            font-weight: bold;
-            text-indent: 19px;
-            padding-top: 22px;
-        }
-        main .my_point > .nowPoint > span {
-            font-size: 35px;
-            text-align: center;
-        }
-
-        .my_point_history {
-            margin-top: 40px;
-        }
-        .my_point_history .mph_1 {
-            display: flex;
-            -webkit-box-pack: justify;
-            justify-content: space-between;
-            -webkit-box-align: center;
-            align-items: center;
-        }
-        .my_point_history .mph_1 > h2 {
-            font-size: 24px;
             line-height: 32px;
-            font-weight: 600;
+    
         }
-        .my_point_history .mph_2 {
-            margin-top: 20px;
-        }
-        .my_point_history .mph_3 {
-            display: flex;
-            -webkit-box-align: center;
-            align-items: center;
-            border-top: 1px solid rgb(234, 237, 239);
-            padding: 20px 10px;
-        }
-        .my_point_history .mph_4 {
-            box-sizing: border-box;
-        }
-        .my_point_history .mph_4 > .mph_4_1 {
-            font-size: 15px;
-            line-height: 18px;
-            display: flex;
-            -webkit-box-align: center;
-            align-items: center;
-            color: #424242;
-        }
-        .my_point_history .mph_5 {
-            display: flex;
-            width: 100%;
-            margin-left: 20px;
-        }
-        .my_point_history .mph_5 > .save {
-            background-color: rgb(239, 251, 255);
-            color: #35c5f0;
-            font-size: 13px;
-            line-height: 20px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-        .my_point_history .mph_5 > .used {
-            background-color: rgb(255, 237, 237);
-            color: rgb(255, 119, 119);
-            font-size: 13px;
-            line-height: 20px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-        .my_point_history .mph_5 > h2 {
-            font-size: 16px;
-            margin-left: 8px;
-            font-weight: 600;
-        }
-        .my_point_history .mph_6 {
-            margin-top: 11px;
-            width: 750px;
-        }
-        .my_point_history .mph_6 > li {
-            font-size: 15px;
-            line-height: 21px;
-            padding-left: 14px;
-            color: rgb(130,140,148);
-            text-align: left;
-            margin-left: 11px;
-            font-weight: 300;
-        }
-        .my_point_history .mph_6 > li::before {
-            content:"·   ";
-            font-weight: bold;
-        }
-        .my_point_history .mph_7 > .plus {
-            text-align: right;
-            margin-left: 16px;
-            font-size: 20px;
-            line-height: 28px;
-            font-weight: 700;
-            color: #35c5f0;
-        }
-        .my_point_history .mph_7 > .minus {
-            text-align: right;
-            margin-left: 16px;
-            font-size: 20px;
-            line-height: 28px;
-            font-weight: 700;
-            color: #f2552c;
-        }
-
-
-        /* 쿠폰함 - my_Coupon*/
-        .my_Coupon{
-            width: 934px;
-            height: 100%;
-            margin-left: 247px;
+    
+        .paging .prev {
+            background: url('../img/csImg/ico_paging_arr1.png') 50% 50% no-repeat;
+            background-size: 10px auto;
+            margin-right: 5px;
             position: relative;
+            top: 12px;
         }
-        .my_Coupon > span {}
-        .my_Coupon > span > p {
-            margin-top: 30px;
-            border-bottom: 1px solid;
-            font-size: 22px;
+    
+        .paging .next {
+            background: url('../img/csImg/ico_paging_arr2.png') 50% 50% no-repeat;
+            background-size: 10px auto;
+            margin-left: 5px;
+            position: relative;
+            top: 12px;
+        }
+    
+        .paging .on{
+            border: 1px solid rgba(0,0,0,0.27);
+            border-radius: 4px;
+            color: rgba(0,0,0,0.87);
+        }
+        .paging .on a {
             font-weight: bold;
-            color: #bbd444;
-        }
-        .my_Coupon > .keepCoupon {
-            width: 700px;
-            padding-left: 77px;
-            padding-top: 30px;
-        }
-        .my_Coupon > .keepCoupon > strong {}
-        
-        .my_Coupon > .keepCoupon > strong > span {
-            font-size: 24px;
-        }
-        .my_Coupon > .keepCoupon > b {
-            font-size: 24px;
         }
 
-        .my_Coupon .consent {
-            display: flex;
-            flex-wrap: wrap;
-            box-sizing: border-box;
-        }
-        .my_Coupon .coupon_item {
-            border: 1px solid rgb(237,237,237);
-            box-sizing: border-box;
-            border-radius: 10px;
-            padding: 35px 20px 20px;
-            margin: 20px 21px 10px;
-        }
-        .my_Coupon .coupon_item_tit {
-            font-size: 23px;
-            line-height: 28px;
-            margin-bottom: 26px;
-            font-weight: 500;
-            text-overflow: ellipsis;
-            overflow-wrap: break-word;
-            overflow: hidden;
-        }
-        .my_Coupon .coupon_item_price {}
-        .my_Coupon .coupon_item_num {
-            font-size: 45px;
-            font-weight: 700;
-        }
-        .my_Coupon .coupon_item_unit {
-            font-size: 20px;
-            margin-left: 2px;
-        }
-        .my_Coupon .coupon_item_info {
-            margin-bottom: 25px;
-        }
-        .my_Coupon .coupon_item_due {
-            display: flex;
-            font-size: 15px;
-            line-height: 1.38;
-            margin-top: 17px;
-            color: #757575;
-        }
-        .my_Coupon .coupon_item_minimum {
-            display: flex;
-            font-size: 15px;
-            line-height: 1.38;
-            margin-top: 4px;
-            color: #757575;
-        }
-        .my_Coupon .coupon_btn {
-            font-size: 22px;
-            padding: 15px 10px;
-            height: 50px;
-            line-height: 20px;
-            background: #dcdee0;
-            border: 1px solid #dcdee0;
-            color: #fff;
-            width: 100%;
-            border-radius: 7px;
-        }
-        .my_Coupon .coupon_btn2 {
-            font-size: 22px;
-            padding: 15px 10px;
-            height: 50px;
-            line-height: 20px;
-            background: #000;
-            border: 1px solid #000;
-            color: #fff;
-            width: 100%;
-            border-radius: 7px;
-        }
-        .my_Coupon .un_1 {
-            display: flex;
-            flex-wrap: wrap;
-            box-sizing: border-box;
-            margin-top: 44px;
-            padding-top: 23px;
-            border-top: 1px solid #dcdee0;
-        }
+  
+     /*main*/
+     main{
+        width: 1200px;
+        height: auto;
+        margin: 0 auto;
+        border: 1px solid red;
+        padding: 20px;
+    }
+
+    main > #my {
+        width: 1130px;
+        min-height: 400px;
+        margin: 0 auto;
+        padding-top: 30px;
+        margin-bottom: 100px;
+        overflow: hidden;
+    }
+
+    /* 사이드 바 */
+    .category{
+        display: block;
+        float: left;
+        width: 238px;
+        padding-left: 31px;
+    }
+
+    .category > span {
+        display: block;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+    .category > ul > li {
+        margin-bottom: 26px;
+    }
+
+    .category > ul > li > a {
+        display: block;
+        font-size: 18px;
+        color: rgba(0,0,0,0.56);
+    }
+
+    .category > ul > li > a.on {
+        font-size: 18px;
+        font-weight: bold;
+        color: #bbd444;
+    }
 
 
 
-         /* 나의 찜 */
-         main .my_pick{
-            width: 934px;
-            height: 100%;
-            margin-left: 247px;
-        }
-        main > .my_pick > span {
+    /* 정보 규격 */
+    .content{
+        float: right;
+        width: 800px;
+        height: 100%;
+        position: relative;
+        margin-right: 31px;
+    }
 
-        }
-        main > .my_pick > span > p {
-            margin-top: 30px;
-            border-bottom: 1px solid;
-            font-size: 22px;
-            font-weight: bold;
-            color: #bbd444;
-        }
+    /* 상단 카테고리 명*/
+    .tab {
+        height: auto;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+    }
 
-        main > .my_pick > table {
-            width: 930px;
+    .tab > span {
+        display: inline-block;
+        float: none;
+        position: relative;
+        width: auto;
+        height: 40px;
+        margin-right: 22px;
+        line-height: normal;
+        color: #252525;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: left;
+        cursor: pointer;
+
+        border-bottom: 1px solid #bbd444;
+    }
+
+
+
+
+
+    /* 예약 내역 - reserveration */
+    .reserve_history{
+        width: 803px;
+        height: 100%;
+    }
+
+    .reserve_history > table {
+        width: 808px;
+        height: 100%;
+        margin: 0px auto;
+        border-spacing: 0px 30px;
+
+    }
+    .reserve_history > table > tbody {
+
+    }
+    .reserve_history > table > tbody > tr {
+        border: 1px solid #ececec;
+        position: relative;
+    }
+    .reserve_history > table > tbody > tr > td:nth-child(1) {
+        width: 20%;
+    }
+    .reserve_history > table .thumb {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+    .reserve_history > table .thumb > img {
+        width: 150px;
+        height: 175px;
+        margin-top: 7px;
+    }
+    .reserve_history > table .reserve_day {
+        font-size: 21px;
+
+    }
+    .reserve_history > table .reserve_more {
+        position: absolute;
+        right: 24px;
+        top: 1px;
+        font-size: 15px;
+    }
+    .reserve_history > table .reserve_num {
+        font-size: 17px;
+    }
+    .reserve_history > table .reserve_num > i {
+        font-size: 17px;
+    }
+    .reserve_history > table .reserve_state {
+        font-size: 17px;
+    }
+    .reserve_history > table .reserve_state > i {
+        font-size: 17px;
+    }
+    .reserve_history > table .reserve_days {
+        font-size: 17px;
+    }
+    .reserve_history > table .reserve_check {
+        font-size: 17px;
+    }
+    
+    /*여행일기작성 버튼*/
+    .reserve_history > table .myDiary {
+        box-shadow: inset 0px 0px 0px 0px #a6827e;
+        background: linear-gradient(to bottom, #7d5d3b 5%, #634b30 100%);
+        background-color: #7d5d3b;
+        border-radius: 3px;
+        border: 1px solid #54381e;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 12px;
+        padding: 7px 11px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #4d3534;
+        position: absolute;
+        right: 19px;
+        bottom: 1px;
+    }
+
+
+
+
+    /* 예약 내역 상세 보기 - view */
+    .reserve_view {
+        width: 461px;
+        position: relative;
+        left: 140px;
+        background-color: #F5F5F5;
+        margin: 25px 0px;
+    }
+    .reserve_view > p{
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .reserve_view > span {
+        font-size: 15px;
+    }
+    .reserve_view > span > span {
+        font-size: 15px;
+    }
+    .btnReserveView{
+        text-align: center;
+        background-color: white;
+    }
+    .btnReserveView .reservePrint {
+        box-shadow:inset 0px 0px 0px 0px #1c1b18;
+        background:linear-gradient(to bottom, #bbd444 5%, #bbd444 100%);
+        background-color:#bbd444;
+        border-radius:3px;
+        display:inline-block;
+        cursor:pointer;
+        color:white;
+        font-family:Arial;
+        font-size:16px;
+        padding:16px 24px;
+        text-decoration:none;
+        margin: 1px 9px;
+    }
+    .btnReserveView .reserveCancel {
+        box-shadow:inset 0px 0px 0px 0px #1c1b18;
+        background:linear-gradient(to bottom, #F5F5F5 5%, #F5F5F5 100%);
+        background-color:#F5F5F5;
+        border-radius:3px;
+        display:inline-block;
+        cursor:pointer;
+        color:#505739;
+        font-family:Arial;
+        font-size:17px;
+        padding:16px 27px;
+        text-decoration:none;
+        margin: 1px 19px;
+    }
+
+
+
+     /* 포인트 */
+     .my_point > .nowPoint {
+        width: 618px;
+        height: 146px;
+        left: 72px;
+        background-color: #F5F5F5;
+        margin: 32px 0px;
+        position: relative;
+        border-radius: 30px 30px;
+        text-align: center;
+    }
+    .my_point > .nowPoint > p{
+        font-size: 32px;
+        font-weight: bold;
+        text-indent: 19px;
+        padding-top: 22px;
+    }
+    .my_point > .nowPoint > span {
+        font-size: 35px;
+        text-align: center;
+    }
+
+    .my_point_history {
+        margin-top: 40px;
+    }
+    .my_point_history .mph_1 {
+        display: flex;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        -webkit-box-align: center;
+        align-items: center;
+    }
+    .my_point_history .mph_1 > h2 {
+        font-size: 24px;
+        line-height: 32px;
+        font-weight: 600;
+    }
+    .my_point_history .mph_2 {
+        margin-top: 20px;
+    }
+    .my_point_history .mph_3 {
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        border-top: 1px solid rgb(234, 237, 239);
+        padding: 20px 10px;
+    }
+    .my_point_history .mph_4 {
+        box-sizing: border-box;
+    }
+    .my_point_history .mph_4 > .mph_4_1 {
+        font-size: 15px;
+        line-height: 18px;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        color: #424242;
+    }
+    .my_point_history .mph_5 {
+        display: flex;
+        width: 100%;
+        margin-left: 20px;
+    }
+    .my_point_history .mph_5 > .save {
+        background-color: rgb(239, 251, 255);
+        color: #35c5f0;
+        font-size: 13px;
+        line-height: 20px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+    .my_point_history .mph_5 > .used {
+        background-color: rgb(255, 237, 237);
+        color: rgb(255, 119, 119);
+        font-size: 13px;
+        line-height: 20px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+    .my_point_history .mph_5 > h2 {
+        font-size: 16px;
+        margin-left: 8px;
+        font-weight: 600;
+    }
+    .my_point_history .mph_6 {
+        margin-top: 11px;
+        width: 580px;
+    }
+    .my_point_history .mph_6 > li {
+        font-size: 15px;
+        line-height: 21px;
+        padding-left: 14px;
+        color: rgb(130,140,148);
+        text-align: left;
+        margin-left: 11px;
+        font-weight: 300;
+    }
+    .my_point_history .mph_6 > li::before {
+        content:"·   ";
+        font-weight: bold;
+    }
+    .my_point_history .mph_7 > .plus {
+        text-align: right;
+        margin-left: 9px;
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: 700;
+        color: #35c5f0;
+    }
+    .my_point_history .mph_7 > .minus {
+        text-align: right;
+        margin-left: 16px;
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: 700;
+        color: #f2552c;
+    }
+
+
+
+     /* 쿠폰함 - my_Coupon*/
+
+    .my_Coupon > .keepCoupon {
+        width: 700px;
+        padding-left: 77px;
+        padding-top: 30px;
+    }
+    .my_Coupon > .keepCoupon > strong {}
+    
+    .my_Coupon > .keepCoupon > strong > span {
+        font-size: 24px;
+    }
+    .my_Coupon > .keepCoupon > b {
+        font-size: 24px;
+    }
+
+    .my_Coupon .consent {
+        display: flex;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+    }
+    .my_Coupon .coupon_item {
+        border: 1px solid rgb(237,237,237);
+        box-sizing: border-box;
+        border-radius: 10px;
+        padding: 35px 20px 20px;
+        margin: 20px 21px 10px;
+    }
+    .my_Coupon .coupon_item_tit {
+        font-size: 18px;
+        line-height: 28px;
+        margin-bottom: 26px;
+        font-weight: 500;
+        text-overflow: ellipsis;
+        overflow-wrap: break-word;
+        overflow: hidden;
+    }
+    .my_Coupon .coupon_item_price {}
+    .my_Coupon .coupon_item_num {
+        font-size: 45px;
+        font-weight: 700;
+    }
+    .my_Coupon .coupon_item_unit {
+        font-size: 20px;
+        margin-left: 2px;
+    }
+    .my_Coupon .coupon_item_info {
+        margin-bottom: 25px;
+    }
+    .my_Coupon .coupon_item_due {
+        display: flex;
+        font-size: 15px;
+        line-height: 1.38;
+        margin-top: 17px;
+        color: #757575;
+    }
+    .my_Coupon .coupon_item_minimum {
+        display: flex;
+        font-size: 15px;
+        line-height: 1.38;
+        margin-top: 4px;
+        color: #757575;
+    }
+    .my_Coupon .coupon_btn {
+        font-size: 22px;
+        padding: 15px 10px;
+        height: 50px;
+        line-height: 20px;
+        background: #dcdee0;
+        border: 1px solid #dcdee0;
+        color: #fff;
+        width: 100%;
+        border-radius: 7px;
+    }
+    .my_Coupon .coupon_btn2 {
+        font-size: 22px;
+        padding: 15px 10px;
+        height: 50px;
+        line-height: 20px;
+        background: #000;
+        border: 1px solid #000;
+        color: #fff;
+        width: 100%;
+        border-radius: 7px;
+    }
+    .my_Coupon .un_1 {
+        display: flex;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        margin-top: 44px;
+        padding-top: 23px;
+        border-top: 1px solid #dcdee0;
+    }
+
+
+
+
+     /* 나의 찜 */
+
+        .my_pick > table {
+            width: 800px;
             height: 100%;
             margin: 0px auto;
             border-spacing: 0px 30px;
 
         }
-        main > .reserve_history > table > tbody {
-
-        }
-        main > .my_pick > table > tbody > tr {
+        .my_pick > table > tbody > tr {
             border: 1px solid #ececec;
             position: relative;
         }
-        main > .my_pick > table > tbody > tr > td:nth-child(1) {
+        .my_pick > table > tbody > tr > td:nth-child(1) {
             width: 20%;
         }
-        main > .my_pick > table > tbody > tr > td:nth-child(2) {
+        .my_pick > table > tbody > tr > td:nth-child(2) {
         }
-        main > .my_pick > table .my_pick_img {
+        .my_pick > table .my_pick_img {
             display: block;
             width: 100%;
             height: 100%;
         }
-        main > .my_pick > table .my_pick_img > img {
-            width: 162px;
+        .my_pick > table .my_pick_img > img {
+            width: 148px;
             height: 141px;
             margin-top: 7px;
         }
 
-        main > .my_pick > table .my_pick_Name {
+        .my_pick > table .my_pick_Name {
             position: absolute;
             top: -3px;
         }
 
-        main > .my_pick > table .pickName {
+        .my_pick > table .pickName {
             font-size: 24px;
 
         }
@@ -845,4 +846,4 @@
         .my_pick > table .my_pick_room .roomNum {
             font-size: 19px;
         }
-        
+
