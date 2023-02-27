@@ -1,7 +1,7 @@
 <!--
-    날짜 : 2023/02/28
+    날짜 : 2023/02/27
     이름 : 이원정
-    내용 : 관리자 등록 리뷰 목록 HTML 
+    내용 : 관리자 쿠폰 관리 HTML 
 -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -20,7 +20,17 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <!-- chart.js -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        
+        <!-- 다음 주소 API -->
+        <script src="../js/zipcode.js"></script>
+        <!-- smart editor -->
+        <script type="text/javascript" src="../smartEditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+        <script src="../js/smartEditor.js"></script>
+        <script src="../js/fileUpload.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                smarteditor();
+            });
+        </script>
     </head>
     <body>
         <div id="wrapper">
@@ -68,7 +78,7 @@
                                         <a href="#">객실관리</a>
                                     </li>
                                     <li>
-                                        <a href="#">쿠폰등록</a>
+                                        <a href="#"  class="on">쿠폰관리</a>
                                     </li>
                                     <li>
                                         <a href="#">등록리뷰</a>
@@ -133,80 +143,109 @@
                     <section class="main_content">
                         <div class="main_cotent_inner">
                             <div class="main_content_div">
-                                <div class="col0">
-                                    <form action="#">
-                                        <div class="searchProd">
-                                            <input type="text" class="search_box" placeholder="검색 키워드 입력">
-                                            <button type="submit" class="btnSearch">
-                                                <input type="image" src="../img/btn_search.png">
-                                            </button>
-                                        </div>
-                                        <div class="selectProd">
-                                            <select>
-                                                <option value="0">회사명</option>
-                                                <option value="1">푸른제주펜션</option>
-                                                <option value="2">보우힐펜션</option>
-                                                <option value="3">파라다이스호텔부산</option>
-                                                <option value="4">프리지아펜션</option>
-                                            </select>
-                                        </div>
-                                    </form>
-                                </div>
                                 <div class="col_nav">
-                                    <span>상품관리 ></span>
-                                    <span>숙박관리</span>
+                                    <span>쿠폰관리 ></span>
+                                    <span>쿠폰목록</span>
                                 </div>
-                                <div class="col2">
-                                    <form action="#">
-                                        <div class="board_list">
-                                            <ul>
-                                                <li>#</li>
-                                                <li>숙소번호</li>
-                                                <li>회사명</li>
-                                                <li>아이디</li>
-                                                <li>등록일</li>
-                                                <li>비고</li>
-                                            </ul>
-                                            <ul>
-                                                <li>1</li>
-                                                <li>11023</li>
-                                                <li class="prodName">부산 힐튼 호텔</li>
-                                                <li>hilton@gmail.com</li>
-                                                <li>2023-02-26</li>
-                                                <li class="prodBtn">
-                                                    <span class="btnDelete">삭제</span>
-                                                    <span class="btnModify">수정</span>
-                                                </li>
-                                            </ul>
-                                            <ul>
-                                                <li>2</li>
-                                                <li>11243</li>
-                                                <li class="prodName">조선 호텔</li>
-                                                <li>josun@gmail.com</li>
-                                                <li>2023-02-26</li>
-                                                <li class="prodBtn">
-                                                    <span class="btnDelete">삭제</span>
-                                                    <span class="btnModify">수정</span>
-                                                </li>
-                                            </ul>
+
+                                <!--  -->
+                                <form class="col_register_form" action="#">
+                                    
+                                    <!-- 쿠폰 관리 -->
+                                    <div class="col_register1">
+                                        <div class="stayName">
+                                            <div>
+                                                <span>쿠폰 관리</span>
+                                            </div>
                                         </div>
-                                        <div class="pagination">
-                                            <a href="#">&laquo;</a>
-                                            <a href="#">1</a>
-                                            <a href="#" class="active">2</a>
-                                            <a href="#">3</a>
-                                            <a href="#">4</a>
-                                            <a href="#">5</a>
-                                            <a href="#">6</a>
-                                            <a href="#">&raquo;</a>
+                                        <!-- 쿠폰 검색-->
+                                        <div class="coupon_top">
+                                            <h3>발급쿠폰검색</h3>
+                                            <table class="search_coupon">
+                                                <colgroup>
+                                                    <col width="10%">
+                                                    <col width="40%">
+                                                    <col width="10%">
+                                                    <col width="40%">
+                                                </colgroup>
+                                                <tr>
+                                                    <th>쿠폰명</th>
+                                                    <td>
+                                                        <input type="text">
+                                                    </td>
+                                                    <th>발급구분</th>
+                                                    <td>
+                                                        <select name="c_role_type" id="c_role_type">
+                                                            <!-- 관리자만 볼 수 있게 -->
+                                                            <option value="A">관리자 발급</option>
+                                                            <option value="A">판매자 발급</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <div class="search_btn">
+                                                <button type="button" class="btnSearch">검색</button>
+                                            </div>
                                         </div>
-                                        <div class="btnAdminProd">
-                                            <a href="#">
-                                                숙소등록
-                                            </a>
+                                        <!-- 쿠폰 목록 -->
+                                        <div class="coupon_list">
+                                            <div class="c_list_top">
+                                                <div class="c_w70">
+                                                    <a href="#" class="btn_remove">삭제</a>
+                                                </div>
+                                                <div class="c_w30">
+                                                    <a href="#" class="btn_insert">쿠폰등록</a>
+                                                </div>
+                                            </div>
+                                            <table class="c_list">
+                                                <tr>
+                                                    <th><input type="checkbox"></th>
+                                                    <th>쿠폰아이디</th>
+                                                    <th>쿠폰명</th>
+                                                    <th>할인율</th>
+                                                    <th>할인가</th>
+                                                    <th>배포시작일</th>
+                                                    <th>배포종료일</th>
+                                                    <th>발급수</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>1</td>
+                                                    <td><a class="c_name" href="#">10만원이상 구매시 1만원 할인</a></td>
+                                                    <td>0</td>
+                                                    <td>10,000</td>
+                                                    <td>23.02.27</td>
+                                                    <td>23.03.27</td>
+                                                    <td>80</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>2</td>
+                                                    <td><a class="c_name" href="#">10만원이상 구매시 1만원 할인</a></td>
+                                                    <td>0</td>
+                                                    <td>10,000</td>
+                                                    <td>23.02.27</td>
+                                                    <td>23.03.27</td>
+                                                    <td>80</td>
+                                                </tr>
+                                            </table>
                                         </div>
-                                    </form>
-                                </div>
+                                        <div class="pagination_center">
+                                            <div class="pagination">
+                                                <a href="#">&laquo;</a>
+                                                <a href="#">1</a>
+                                                <a href="#" class="active">2</a>
+                                                <a href="#">3</a>
+                                                <a href="#">4</a>
+                                                <a href="#">5</a>
+                                                <a href="#">6</a>
+                                                <a href="#">&raquo;</a>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </form>
                             </div>
                             <div class="blank30"></div>
                         </div>
