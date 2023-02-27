@@ -364,20 +364,24 @@
             let currentPosition = parseInt($('#listMap').css('top'));
             let mapHeight = $('#listMap').height();
             let listHeight = $('.list-area').height();
+            let boxOffsetTop = $('.list-area').offset().top;
             console.log(mapHeight);
             console.log(listHeight);
+            console.log(boxOffsetTop);
             $(window).scroll(function() {
-                let position = $(window).scrollTop();
+                let scrollTop = $(window).scrollTop();
+                let point;
+                let endPoint = listHeight - mapHeight;
+                //console.log(position + currentPosition);
 
-                console.log(position + currentPosition);
-
-                if( (position + currentPosition) > (listHeight - mapHeight) ) {
-                    $('#listMap').stop().animate({"top":(listHeight - mapHeight)-50+"px"},800);
-                }else if( (position + currentPosition) >= 0 && (position + currentPosition) < 100 ){
-                    $('#listMap').stop().animate({"top":(position+currentPosition)+"px"},800);
+                if( scrollTop < boxOffsetTop ){
+                    point = 0;
+                }else if( scrollTop > endPoint ) {
+                    point = endPoint;
                 }else {
-                    $('#listMap').stop().animate({"top":(position+currentPosition)-200+"px"},800);
+                    point = scrollTop - boxOffsetTop;
                 }
+                $('#listMap').stop().animate({top: point}, 1000);
             });
         });
     </script>
