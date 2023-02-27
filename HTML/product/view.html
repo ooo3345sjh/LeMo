@@ -55,37 +55,41 @@
             margin-left: 50px;
         }
 
-        #productImg .slider-single {}
-
-        #productImg .slider-single > div:nth-child(1n+2) { display: none }
-
-        #productImg .slider-single.slick-initialized > div:nth-child(1n+2) { display: block }
-
-        #productImg .slider-single h3 {
-            line-height: 10rem;
+        .sld-wrp {
+        width: 500px;
+        margin: 0 auto;
         }
 
-        #productImg .slider-nav h3::before {
-            content: "";
-            display: block;
-            padding-top: 75%;
+        .slider-for {
+        width: 500px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 10;
         }
 
-        #productImg .slider-nav h3 span {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .slide-container {
+        height: 40vh;
+        background-color: #fff;
+        text-align: center;
+        line-height: 40vh;
+        font-size: 40px;
+        font-weight: bold;
+        border: 1px solid #000;
+        margin-bottom: 20px;
+        box-sizing: border-box;
         }
 
-        #productImg h3 {
-            background: #f0f0f0;
-            color: #3498db;
-            font-size: 2.25rem;
-            margin: .5rem;
-            padding: 2%;
-            position: relative;
-            text-align: center;
+        .slide-btn {
+        text-align: center;
+        box-sizing: border-box;
+        padding: 20px;
+        background-color: yellow;
+        border: 1px solid #000;
+        cursor: pointer;
+        }
+
+        .slide-btn:hover {
+        background-color: rgb(255, 179, 0);
         }
 
         /** View 상단 info */
@@ -170,62 +174,22 @@
                 alert(" 체크인 :  " + start.format('YYYY-MM-DD') + " 체크아웃 : " + end.format('YYYY-MM-DD'));
             });
 
-            $('.slider-single').slick({
+            $('.slider-for').slick({
                 slidesToShow: 1,
                 slidesToScroll: 1,
-                arrows: true,
-                fade: false,
-                adaptiveHeight: true,
-                infinite: false,
-                useTransform: true,
-                speed: 400,
-                cssEase: 'cubic-bezier(0.77, 0, 0.18, 1)',
+                arrows: false,
+                // fade: true,
+                asNavFor: '.slider-nav'
+            });
+            $('.slider-nav').slick({
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                asNavFor: '.slider-for',
+                dots: true,
+                centerMode: true,
+                focusOnSelect: true
             });
 
-            $('.slider-nav')
-                .on('init', function(event, slick) {
-                    $('.slider-nav .slick-slide.slick-current').addClass('is-active');
-                })
-                .slick({
-                    slidesToShow: 7,
-                    slidesToScroll: 7,
-                    dots: false,
-                    focusOnSelect: false,
-                    infinite: false,
-                    responsive: [{
-                        breakpoint: 1024,
-                        settings: {
-                            slidesToShow: 5,
-                            slidesToScroll: 5,
-                        }
-                    }, {
-                        breakpoint: 640,
-                        settings: {
-                            slidesToShow: 4,
-                            slidesToScroll: 4,
-                        }
-                    }, {
-                        breakpoint: 420,
-                        settings: {
-                            slidesToShow: 3,
-                            slidesToScroll: 3,
-                    }
-                    }]
-                });
-
-            $('.slider-single').on('afterChange', function(event, slick, currentSlide) {
-                $('.slider-nav').slick('slickGoTo', currentSlide);
-                var currrentNavSlideElem = '.slider-nav .slick-slide[data-slick-index="' + currentSlide + '"]';
-                $('.slider-nav .slick-slide.is-active').removeClass('is-active');
-                $(currrentNavSlideElem).addClass('is-active');
-            });
-
-            $('.slider-nav').on('click', '.slick-slide', function(event) {
-                event.preventDefault();
-                var goToSingleSlide = $(this).data('slick-index');
-
-                $('.slider-single').slick('slickGoTo', goToSingleSlide);
-            });
         });
     </script>
     <body>
@@ -285,34 +249,24 @@
             <main id="productView">
                 <div id="topContent">
                     <div id="productImg">
-                        <div class="row">
-                            <div class="column small-11 small-centered">
-                                <div class="slider slider-single">
-                                    <div><h3>1</h3></div>
-                                    <div><h3>2</h3></div>
-                                    <div><h3>3</h3></div>
-                                    <div><h3>4</h3></div>
-                                    <div><h3>5</h3></div>
-                                    <div><h3>6</h3></div>
-                                    <div><h3>7</h3></div>
-                                    <div><h3>8</h3></div>
-                                    <div><h3>9</h3></div>
-                                    <div><h3>10</h3></div>
-                                </div>
-                                <div class="slider slider-nav">
-                                    <div><h3><span>1</span></h3></div>
-                                    <div><h3><span>2</span></h3></div>
-                                    <div><h3><span>3</span></h3></div>
-                                    <div><h3><span>4</span></h3></div>
-                                    <div><h3><span>5</span></h3></div>
-                                    <div><h3><span>6</span></h3></div>
-                                    <div><h3><span>7</span></h3></div>
-                                    <div><h3><span>8</span></h3></div>
-                                    <div><h3><span>9</span></h3></div>
-                                    <div><h3><span>10</span></h3></div>
-                                </div>
+                        <div class="sld-wrp">
+                            <div class="slider-for">
+                              <div class="slide-container">go 1</div>
+                              <div class="slide-container">go 2</div>
+                              <div class="slide-container">go 3</div>
+                              <div class="slide-container">go 4</div>
+                              <div class="slide-container">go 5</div>
+                              <div class="slide-container">go 6</div>
                             </div>
-                        </div>
+                            <div class="slider-nav">
+                              <div class="slide-btn">go 1</div>
+                              <div class="slide-btn">go 2</div>
+                              <div class="slide-btn">go 3</div>
+                              <div class="slide-btn">go 4</div>
+                              <div class="slide-btn">go 5</div>
+                              <div class="slide-btn">go 6</div>
+                            </div>
+                          </div>
                     </div>
                     <div id="productInfo">
 
