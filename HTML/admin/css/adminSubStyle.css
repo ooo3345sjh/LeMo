@@ -56,7 +56,11 @@ main .sidebar {
     box-shadow: 0 12px 30px rgb(80 143 244 / 10%);
     border: 1px solid blue;
     background: #fff;
-    overflow: auto;
+    -ms-overflow-style: none;
+    overflow-y: scroll;
+}
+main .sidebar::-webkit-scrollbar {
+    display: none;
 }
 main .sidebar > .sidebar_logo {
     position: relative;
@@ -268,12 +272,12 @@ main .main_content .col_nav {
     padding: 8px;
 }
 main .main_content .col_nav > span:nth-of-type(1) {
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 300;
     color: #424242;
 }
 main .main_content .col_nav > span:nth-of-type(2) {
-    font-size: 11px;
+    font-size: 14px;
 }
 main .main_content .col2 {
     flex: 0 0 auto;
@@ -359,23 +363,26 @@ main .main_content .btnProdRegister {
     font-size: 13px;
     padding: 3px 12px;
     text-decoration: none;
-    font-weight: 300;
+    font-weight: 400;
     display: inline-block;
     float: right;
 }
-main .main_content .btnProdList {
+main .main_content .btnAdminProd {
     margin: 15px 0;
     background-color: #bbd444;
     border-radius: 5px;
     border: 1px solid #dcdcdc;
     cursor: pointer;
+    padding: 5px 30px;
     color: #fff;
-    font-size: 13px;
-    padding: 3px 12px;
-    text-decoration: none;
-    font-weight: 300;
     display: inline-block;
+    margin-left: 8px;
     float: right;
+}
+main .main_content .btnAdminProd > a {
+    font-size: 13px;
+    color: #fff;
+    text-decoration: none;
 }
 main .main_content .btnProdRegister:active {
     position:relative;
@@ -497,7 +504,7 @@ main .col_register1 .stayName .stayName_right {
 main .col_register1 .input_stayName {
     width: 100%;
     height: 25.6px;
-    font-size: 13px;
+    font-size: 14px;
     margin-top: 10px;
     border-bottom: 1px solid #bbb;
     border-top: none;
@@ -506,6 +513,10 @@ main .col_register1 .input_stayName {
     padding-bottom: 1px;
     margin-bottom: 6px;
 }
+main .col_register1 .result_stayName {
+    font-size: 12px;
+}
+
 main .col_register1 .stayZip {
     display: flex;
     margin-top: 8px;
@@ -748,7 +759,47 @@ main .col_register1 .input_stayMention {
     padding-bottom: 1px;
     margin-bottom: 6px;
 }
-main .col_register1 .checkContainer {}
+main .col_register1 .salePercent_container {
+    width: 100%;
+    padding: 10px;
+}
+main .col_register1 .salePercent_container > table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+main .col_register1 .salePercent_container > table tr {
+    border-bottom: 1px solid #f7f7f7;
+}
+main .col_register1 .salePercent_container > table th {
+    padding: 10px 0;
+    font-size: 12px;
+    font-weight: 500;
+    background: #f7f7f7;
+}
+main .col_register1 .salePercent_container > table th:nth-of-type(1){
+    width: 15%;
+}
+main .col_register1 .salePercent_container > table th:nth-of-type(2){
+    width: 20%;
+}
+main .col_register1 .salePercent_container > table th:nth-of-type(3){}
+main .col_register1 .salePercent_container > table th:nth-of-type(4){
+    width: 20%;
+}
+main .col_register1 .salePercent_container > table td {
+    padding: 10px 0;
+    font-size: 12px;
+}
+main .col_register1 .salePercent_container > table input {
+    width: 119px;
+    border: none;
+    text-align: center;
+}
+
+
+
+
 main .col_register1 .checkContainer .input_salePercent {
     display: inline-block;
     width: 20%;
