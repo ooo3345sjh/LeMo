@@ -77,11 +77,11 @@ main > #cs {
     color: #bbd444;
 }
 
-#notices li {
+.show_list li {
     border-bottom: 1px solid rgba(0,0,0,0.08);
 }
 
-#notices li .list_n {
+.show_list li .list_n {
     display: block;
     position: relative;
     height: auto;
@@ -95,7 +95,7 @@ main > #cs {
     box-sizing: border-box;
 }
 
-#notices li .list_n p {
+.show_list li .list_n p {
     padding-bottom: 7px;
     overflow: visible;
     white-space: normal;
@@ -107,12 +107,12 @@ main > #cs {
 }
 
 
-#notices li .list_n span {
+.show_list li .list_n span {
     font-size: 16px;
     color: rgba(0,0,0,0.38);
 }
 
-#notices li .list_n::after {
+.show_list li .list_n::after {
     display: inline-block;
     content: '';
     position: absolute;
@@ -128,11 +128,11 @@ main > #cs {
 
 
 /* list를 누르면 클래스 open 추가 */
-#notices li .open::after {
+.show_list li .open::after {
     background-position: 0 -9px;
 }
 
-#notices li div {
+.show_list li div {
     display: none;
     margin-bottom: 12px;
     padding: 20px 20px;
@@ -392,3 +392,29 @@ main > #cs {
     cursor: pointer;
 }
 
+/* 자주묻는 질문 */
+
+.sub_cate {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    padding: 20px 0;
+}
+
+.sub_cate li {
+    display: inline-block;
+    list-style: none;
+    margin-right: 20px;
+}
+
+.sub_cate li a {
+    font-size: 14px;
+}
+
+.sub_cate li a.on {
+    color: #bbd444;
+    font-weight: bold;
+}
+
+
+#faqs .list_n {
+    padding: 25px 24px 25px 0;
+}

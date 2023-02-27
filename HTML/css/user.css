@@ -98,8 +98,6 @@ section .title > .logo > a {
 
 
 
-
-
 /* 로그인(login) */
 
 /* 연동 로그인 버튼 */
@@ -702,3 +700,20 @@ main > section .signup > .sub_title {
 
 #section1 {display: block;}
 #section2 {display: block;}
+
+
+/* 휴대폰 인증 */
+.certification .inp_type2 {
+    width: 238px;
+}
+
+.certification > p {
+    font-size: 15px;
+    color: #a8a8a8;
+    margin-bottom: 25px;
+}
+
+/* 닉네임 중복확인 */
+.checknick .inp_type2 {
+    width: 238px;
+}
