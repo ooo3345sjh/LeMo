@@ -17,6 +17,13 @@ main > #cs {
     padding-left: 31px;
 }
 
+.category > span {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
 .category > ul li {
     margin-bottom: 26px;
 }
@@ -55,7 +62,7 @@ main > #cs {
     height: 40px;
     margin-right: 22px;
     line-height: normal;
-    color: #bbd444;
+    color: #252525;
     font-size: 18px;
     font-weight: bold;
     text-align: left;
@@ -64,8 +71,10 @@ main > #cs {
     border-bottom: 1px solid #bbd444;
 }
 
+
 .tab .new {
     font-style: italic;
+    color: #bbd444;
 }
 
 #notices li {
@@ -139,13 +148,13 @@ main > #cs {
 /* 페이징 스타일 공통 */
 .paging{
     border-top: none;
-  
     padding: 32px 0 0 0;
     display: block;
     text-align: center;
 }
 
-.paging button {
+.paging span {
+    display: inline-block;
     width: 32px;
     height: 32px;
     box-sizing: inherit;
@@ -156,29 +165,34 @@ main > #cs {
     font-size: 13px;
     text-align: center;
     cursor: pointer;
+    line-height: 32px;
+
 }
 
 .paging .prev {
     background: url('../img/csImg/ico_paging_arr1.png') 50% 50% no-repeat;
     background-size: 10px auto;
-    text-indent: -9999px;
     margin-right: 5px;
+    position: relative;
+    top: 12px;
 }
 
 .paging .next {
     background: url('../img/csImg/ico_paging_arr2.png') 50% 50% no-repeat;
     background-size: 10px auto;
-    text-indent: -9999px;
     margin-left: 5px;
+    position: relative;
+    top: 12px;
 }
 
 .paging .on{
     border: 1px solid rgba(0,0,0,0.27);
     border-radius: 4px;
-    font-weight: bold;
     color: rgba(0,0,0,0.87);
 }
-
+.paging .on a {
+    font-weight: bold;
+}
 
 /* event */
 
@@ -342,7 +356,6 @@ main > #cs {
     text-overflow: ellipsis;
     color: rgba(0,0,0,0.87);
 }
-
 .page p a {
     display: block;
     padding: 0 0 0 126px;
