@@ -532,7 +532,7 @@ main .col_register1 .stayZip > button {
 	color:#666666;
     width: 85px;
     margin-right: 8px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 500;
     padding: 3px 10px;
 }
@@ -590,7 +590,7 @@ main .col_register1 .stayAddr2 {
 main .col_register1 .stayAddr2 > input {
     background-color: #fff;
     border: 1px solid #dbdbdb;
-    font-size: 11px;
+    font-size: 12px;
     height: 26.5px;
     width: 500px;
     border-radius: 6px;
@@ -856,6 +856,160 @@ main .col_register1 .input_stayRoomInfo textarea {
 }
 main .col_register1 .input_stayRoomInfo #input_imgs2 {
     display: none;
+}
+
+
+/* 쿠폰 */
+main .col_register1 .coupon_top {
+    margin-bottom: 50px;
+    margin-top: 20px;
+}
+main .col_register1 .coupon_top > h3 {
+    background: #F5F5F5;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    border-left: 5px solid #50586C;
+    border-top: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+}
+main .col_register1 .search_coupon {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+}
+main .col_register1 .search_coupon th {
+    border-bottom: 1px solid #e6e6e6;
+    border-left: 1px solid #e6e6e6;
+    padding: 7px 7px;
+    vertical-align: middle;
+    min-height: 28px;
+    background: #fafafe;
+    font-weight: 500;
+    font-size: 12px;
+}
+main .col_register1 .search_coupon td {
+    border-bottom: 1px solid #e6e6e6;
+    border-left: 1px solid #e6e6e6;
+    padding: 7px 7px;
+    vertical-align: middle;
+    min-height: 28px;
+    height: 32px;
+}
+main .col_register1 .search_coupon td > input {
+    -webkit-appearance: none;
+    border: 1px solid #dedede;
+    background-color: #fcfcfc;
+    max-width: 100%;
+    vertical-align: middle;
+    text-decoration: none;
+    padding: 0px 5px;
+    font-size: 12px;
+    height: 30px;
+}
+main .col_register1 #c_role_type {
+    border: 1px solid #dcdcdc;
+    padding: 1px 20px 1px 4px;
+    max-width: 100%;
+    text-decoration: none;
+    font-size: 12px;
+    height: 30px;
+}
+main .col_register1 .search_btn {
+    text-align: center;
+}
+main .col_register1 .btnSearch {
+    margin: 15px 0;
+    background-color: #bbd444;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    cursor: pointer;
+    padding: 5px 30px;
+    color: #fff;
+    display: inline-block;
+    margin-left: 8px;
+}
+main .col_register1 .coupon_list {
+    margin-bottom: 10px;
+}
+main .col_register1 .c_list_top {
+    background: #F5F5F5;
+    border-left: 5px solid #50586C;
+    border-top: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+    padding: 10px;
+}
+main .col_register1 .c_w70 {
+    width: 69%;
+    display: inline-block;
+}
+main .col_register1 .c_w70 > a {
+    padding: 2px 13px;
+    font-size: 12px;
+    border: 1px solid #2a3954;
+    background: #2a3954;
+    color: #fff;
+}
+main .col_register1 .c_w30 > a {
+    padding: 2px 13px;
+    font-size: 12px;
+    border: 1px solid #2a3954;
+    background: #2a3954;
+    color: #fff;
+}
+main .col_register1 .c_w30 {
+    width: 30%;
+    display: inline-block;
+    text-align: right;
+}
+main .col_register1 .c_list {
+    width: 100%;
+    border-top: 1px solid #e6e6e6;
+    border-collapse: collapse;
+    border-right: 1px solid #e6e6e6;
+    text-align: center;
+}
+main .col_register1 .c_list th {
+    border-bottom: 1px solid #e6e6e6;
+    border-left: 1px solid #e6e6e6;
+    padding: 10px 7px;
+    vertical-align: middle;
+    background: #fafafa;
+    height: 32px;
+}
+main .col_register1 .c_list .c_name {
+    font-weight: 500;
+}
+main .col_register1 .c_list td {
+    border-bottom: 1px solid #e6e6e6;
+    border-left: 1px solid #e6e6e6;
+    padding: 10px 7px;
+    vertical-align: middle;
+    height: 32px;
+}
+main .col_register1 .pagination_center {
+    text-align: center;
+}
+
+/* 쿠폰 등록 */
+main .col_register1 .input_stayRoomInfo select {
+    border: 1px solid #dcdcdc;
+    padding: 1px 20px 1px 4px;
+    max-width: 100%;
+    text-decoration: none;
+    font-size: 12px;
+    height: 30px;
+}
+main .col_register1 .input_100 {
+    width: 100px !important;
+    text-align: center;
+}
+main .col_register1 .input_130 {
+    width: 130px !important;
+    border: 1px solid #dcdcdc !important;
+    height: 32px;
+    padding: 1px 4px;
 }
 
 
