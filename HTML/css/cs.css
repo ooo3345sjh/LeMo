@@ -114,6 +114,7 @@ main > #cs {
     margin-top: -5px;
     background: #fff url('../img/csImg/ico_arr.png') 0 0 no-repeat;
     background-size: 14px auto;
+    margin-right: 10px;
 }
 
 
@@ -135,6 +136,7 @@ main > #cs {
     
 }
 
+/* 페이징 스타일 공통 */
 .paging{
     border-top: none;
   
@@ -153,6 +155,7 @@ main > #cs {
     background: none;
     font-size: 13px;
     text-align: center;
+    cursor: pointer;
 }
 
 .paging .prev {
@@ -174,5 +177,204 @@ main > #cs {
     border-radius: 4px;
     font-weight: bold;
     color: rgba(0,0,0,0.87);
+}
+
+
+/* event */
+
+/* event list */
+.event b {
+    display: block;
+    padding-right: 80px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.event span {
+    display: block;
+    margin: 7px 0 12px 0;
+    font-size: 16px;
+    color: rgba(0,0,0,0.56);
+}
+
+.event a {
+    display: block;
+    position: relative;
+}
+
+.event a img {width: 100%;}
+
+.event_list li {
+    margin: 0 0 40px 0;
+    padding: 0 0 47px 0;
+    border-bottom: none;
+}
+
+.event_list li:first-child {margin-top: 30px;}
+
+
+.event_list li.end {
+    opacity: 25%;
+    pointer-events: none;
+}
+
+.event_list li.end img {opacity: 30%;}
+
+
+/* event view */
+
+.event_view > span {
+    display: block;
+    font-size: 17px;
+    margin: 15px 40px;
+}
+
+.event_content {padding: 0 40px;}
+.event_content img {width: 100%;}
+.evt-link {
+    position: relative;
+}
+.evt-link img {
+    position: relative;
+    top: -5px;
+}
+.evt-link a {
+    display: inline-block;
+    position: absolute;
+    text-indent: -9999px;
+    top: 0%;
+    height: 100%;
+    left: 4%;
+    right: 4%;
+}
+
+.precautions {
+    position: relative;
+    top: -10px;
+    padding: 0 40px;
+    background-color: #393939;
+    background-clip: content-box;
+    color: #fff;
+    font-weight: lighter;
+    box-sizing: inherit;
+}
+
+.precautions > div {
+    padding: 40px;
+}
+
+.precautions > .handle {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: normal;
+    color: #fff;
+    cursor: pointer;
+}
+
+.precautions > .handle > div {
+    display: block;
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+    margin-bottom: 0;
+    border: solid rgba(255,255,255,.15);
+    border-width: 1px 0;
+}
+
+.precautions > .handle img:first-child {
+    width: 16px;
+}
+.precautions > .handle span {
+    font-size: 1.3em;
+    padding: 2px 10px 0 5px;
+}
+.precautions > .handle img:last-of-type {
+    width: 12px;
+    transition: all ease .3s;
+    transform: rotate(180deg);
+}
+
+.precautions > .handle img:last-of-type.on {
+    transform: rotate(360deg);
+}
+
+.info {
+    display: none;
+    font-size: 12px;
+}
+
+.page {
+    margin: 56px 0 0 0;
+    padding: 0 40px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+
+.page p {
+    padding: 27px 0;
+    position: relative;
+    top: 1px;
+    border-bottom: rgba(0,0,0,0.08);
+}
+
+.page p * {
+    font-size: 15px;
+}
+
+.page p .ico_arr_up {
+    background: url('../img/csImg/arr_top.png') 100% 50% no-repeat;
+    background-size: 10px auto;
+}
+
+.page p .ico_arr_down {
+    background: url('../img/csImg/arr_down.png') 100% 50% no-repeat;
+    background-size: 10px auto;
+}
+
+.page p b {
+    display: inline-block;
+    width: 370px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: rgba(0,0,0,0.87);
+}
+
+.page p a {
+    display: block;
+    padding: 0 0 0 126px;
+    font-size: 16px;
+    line-height: normal;
+}
+
+.page p span {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -10.5px;
+    padding-right: 20px;
+}
+
+.aligncenter {
+    display: block;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.btn {
+    height: 56px;
+    line-height: 56px;
+    font-size: 16px;
+    width: 150px;
+    margin-top: 16px;
+    border-radius: 6px;
+    background-color: #FCF951;
+    text-align: center;
+    border: none;
+    cursor: pointer;
 }
 
