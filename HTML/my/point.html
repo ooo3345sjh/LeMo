@@ -1,3 +1,8 @@
+<!--
+    날짜 : 2023/02/26
+    이름 : 황원진
+    내용 : 마이페이지 point HTML 
+-->
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,7 +17,7 @@
           <!--스타일 css 적용 -->  
           <link rel="stylesheet" href="../css/my.css">
         <style>
-        
+       
         </style>
     </head>
     <body>
@@ -75,8 +80,8 @@
                         <li>
                             <a href="#">내정보</a>
                         </li>
-                        <li class="on">
-                            <a href="#">포인트</a>
+                        <li>
+                            <a href="#" class="on">포인트</a>
                         </li>
                         <li>
                             <a href="#">쿠폰함</a>
@@ -102,69 +107,35 @@
                     <div class="nowPoint">
                         <p>내 포인트</p>
                         <span>0 P</span>
-                        <div>
-                            30일 내 <span>0 P</span>가 소멸될 예정이에요.
+                    </div>
+                    <div class="my_point_history">
+                        <div class="mph_1">
+                            <h2>포인트 내역</h2>
+                        </div>
+                        <div class="mph_2">
+                            <div class="mph_3"> <!-- 반복 -->
+                                <div class="mph_4">
+                                    <div class="mph_4_1">2023.02.18</div>
+                                </div>
+                                <div>
+                                    <div class="mph_5">
+                                        <div class="save">적립</div>
+                                        <h2>사진 리뷰 작성(구매)</h2>
+                                        
+                                    </div>
+                                    <ul class="mph_6">
+                                        <li>[HEM] 헥사 인센스 스틱</li>
+                                        <li>유효기간: 2023.04.27까지</li>
+                                    </ul>
+                                </div>
+                                <div class="mph_7">
+                                    <span class="plus">
+                                        + 500P
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="btnMyPoint">
-                        <a href="#" class="btn_myPoint" id="my_TotalPoint">전체</a>
-                        <a href="#" class="btn_myPoint" id="my_SavePoint">적립</a>
-                        <a href="#" class="btn_myPoint" id="my_UsedPoint">사용</a>
-                        <a href="#" class="btn_myPoint" id="my_ExtinctPoint">소멸</a>
-                    </div>
-                    <table class="MyPointList">
-                        <tbody>
-                            <tr>
-                                <th>날짜</th>
-                                <th>구분</th>
-                                <th>금액</th>
-                                <th>비고</th>
-                                <th>유효기간</th>
-                            </tr>
-                            <tr>
-                                <td>2023-01-11</td>
-                                <td>적립</td>
-                                <td>2,000</td>
-                                <td>리뷰작성</td>
-                                <td>2023-04-01</td>
-                            </tr>
-                            <tr>
-                                <td>2023-01-11</td>
-                                <td>적립</td>
-                                <td>2,000</td>
-                                <td>리뷰작성</td>
-                                <td>2023-04-01</td>
-                            </tr>
-                            <tr>
-                                <td>2023-01-11</td>
-                                <td>적립</td>
-                                <td>2,000</td>
-                                <td>리뷰작성</td>
-                                <td>2023-04-01</td>
-                            </tr>
-                            <tr>
-                                <td>2023-01-11</td>
-                                <td>적립</td>
-                                <td>2,000</td>
-                                <td>리뷰작성</td>
-                                <td>2023-04-01</td>
-                            </tr>
-                            <tr>
-                                <td>2023-01-11</td>
-                                <td>적립</td>
-                                <td>2,000</td>
-                                <td>리뷰작성</td>
-                                <td>2023-04-01</td>
-                            </tr>
-                            <tr>
-                                <td>2023-01-11</td>
-                                <td>적립</td>
-                                <td>2,000</td>
-                                <td>리뷰작성</td>
-                                <td>2023-04-01</td>
-                            </tr>
-                        </tbody>
-                    </table>
                     <div class="paging">
                         <span class="prev">
                             <a href="#"> << </a>

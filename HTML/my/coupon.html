@@ -1,3 +1,8 @@
+<!--
+    날짜 : 2023/02/26
+    이름 : 황원진
+    내용 : 마이페이지 coupon HTML 
+-->
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,7 +17,7 @@
           <!--스타일 css 적용 -->  
           <link rel="stylesheet" href="../css/my.css">
         <style>
-           
+ 
         </style>
     </head>
     <body>
@@ -75,11 +80,11 @@
                         <li>
                             <a href="#">내정보</a>
                         </li>
-                        <li class="on">
+                        <li>
                             <a href="#">포인트</a>
                         </li>
                         <li>
-                            <a href="#">쿠폰함</a>
+                            <a href="#" class="on">쿠폰함</a>
                         </li>
                         <li>
                             <a href="#">예약내역</a>
@@ -105,82 +110,122 @@
                        </strong>
                        <b>0장</b>
                     </div>
-                    <select class="couponOption">
-                        <option value="latest">최신순</option>
-                        <option value="expire">만료임박순</option>
-                    </select>
-                    <table class="myCouponList">
-                        <tbody>
-                            <tr>
-                                <th>쿠폰명</th>
-                                <th>적용기준/제한조건</th>
-                                <th>상태</th>
-                                <th>유효기간</th>
-                            </tr>
-                            <tr>
-                                <td>회원가입 축하 5천원 할인 쿠폰</td>
-                                <td>최대 1000원 할인 가능</td>
-                                <td>사용가능</td>
-                                <td>~2023-04-01</td>
-                            </tr>
-                            <tr>
-                                <td>회원가입 축하 5천원 할인 쿠폰</td>
-                                <td>최대 1000원 할인 가능</td>
-                                <td>사용가능</td>
-                                <td>~2023-04-01</td>
-                            </tr>
-                            <tr>
-                                <td>회원가입 축하 5천원 할인 쿠폰</td>
-                                <td>최대 1000원 할인 가능</td>
-                                <td>사용가능</td>
-                                <td>~2023-04-01</td>
-                            </tr>
-                            <tr>
-                                <td>회원가입 축하 5천원 할인 쿠폰</td>
-                                <td>최대 1000원 할인 가능</td>
-                                <td>사용가능</td>
-                                <td>~2023-04-01</td>
-                            </tr>
-                            <tr>
-                                <td>회원가입 축하 5천원 할인 쿠폰</td>
-                                <td>최대 1000원 할인 가능</td>
-                                <td>사용가능</td>
-                                <td>~2023-04-01</td>
-                            </tr>
-                            <tr>
-                                <td>회원가입 축하 5천원 할인 쿠폰</td>
-                                <td>최대 1000원 할인 가능</td>
-                                <td>사용가능</td>
-                                <td>~2023-04-01</td>
-                            </tr>
-                            <tr>
-                                <td>회원가입 축하 5천원 할인 쿠폰</td>
-                                <td>최대 1000원 할인 가능</td>
-                                <td>사용가능</td>
-                                <td>~2023-04-01</td>
-                            </tr>
-                            <tr>
-                                <td>회원가입 축하 5천원 할인 쿠폰</td>
-                                <td>최대 1000원 할인 가능</td>
-                                <td>사용가능</td>
-                                <td>~2023-04-01</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <div class="paging">
-                        <span class="prev">
-                            <a href="#"> << </a>
-                        </span>
-                        <span class="num">
-                            <a href="#">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                        </span>
-                        <span class="next">
-                            <a href="#"> >> </a>
-                        </span>
+                    <div class="consent">
+                        <div class="coupon_item">
+                            <div class="coupon_item_tit">
+                                WELCOME COUPON 
+                            </div>
+                            <div class="coupon_item_price">
+                                <span class="coupon_item_num">5,000</span>
+                                <span class="coupon_item_unit">원</span>
+                            </div>
+                            <div class="coupon_item_info">
+                                <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
+                                <span class="coupon_item_minimum">∙ 10,000원 이상 구매시</span>
+                            </div>
+                            <button class="coupon_btn" type="button">보유</button>
+                        </div>
+                        <div class="coupon_item">
+                            <div class="coupon_item_tit">
+                                WELCOME COUPON 
+                            </div>
+                            <div class="coupon_item_price">
+                                <span class="coupon_item_num">5,000</span>
+                                <span class="coupon_item_unit">원</span>
+                            </div>
+                            <div class="coupon_item_info">
+                                <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
+                                <span class="coupon_item_minimum">∙ 10,000원 이상 구매시</span>
+                            </div>
+                            <button class="coupon_btn" type="button">보유</button>
+                        </div>
+                        <div class="coupon_item">
+                            <div class="coupon_item_tit">
+                                WELCOME COUPON 
+                            </div>
+                            <div class="coupon_item_price">
+                                <span class="coupon_item_num">5,000</span>
+                                <span class="coupon_item_unit">원</span>
+                            </div>
+                            <div class="coupon_item_info">
+                                <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
+                                <span class="coupon_item_minimum">∙ 10,000원 이상 구매시</span>
+                            </div>
+                            <button class="coupon_btn" type="button">보유</button>
+                        </div>
+                        <div class="coupon_item">
+                            <div class="coupon_item_tit">
+                                WELCOME COUPON 
+                            </div>
+                            <div class="coupon_item_price">
+                                <span class="coupon_item_num">5,000</span>
+                                <span class="coupon_item_unit">원</span>
+                            </div>
+                            <div class="coupon_item_info">
+                                <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
+                                <span class="coupon_item_minimum">∙ 10,000원 이상 구매시</span>
+                            </div>
+                            <button class="coupon_btn" type="button">보유</button>
+                        </div>
+                    </div>
+
+                    <div class="un_1">
+                        <div class="coupon_item">
+                            <div class="coupon_item_tit">
+                                WELCOME COUPON 
+                            </div>
+                            <div class="coupon_item_price">
+                                <span class="coupon_item_num">5,000</span>
+                                <span class="coupon_item_unit">원</span>
+                            </div>
+                            <div class="coupon_item_info">
+                                <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
+                                <span class="coupon_item_minimum">∙ 10,000원 이상 구매시</span>
+                            </div>
+                            <button class="coupon_btn2" type="button">받기</button>
+                        </div>
+                        <div class="coupon_item">
+                            <div class="coupon_item_tit">
+                                WELCOME COUPON 
+                            </div>
+                            <div class="coupon_item_price">
+                                <span class="coupon_item_num">5,000</span>
+                                <span class="coupon_item_unit">원</span>
+                            </div>
+                            <div class="coupon_item_info">
+                                <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
+                                <span class="coupon_item_minimum">∙ 10,000원 이상 구매시</span>
+                            </div>
+                            <button class="coupon_btn2" type="button">받기</button>
+                        </div>
+                        <div class="coupon_item">
+                            <div class="coupon_item_tit">
+                                WELCOME COUPON 
+                            </div>
+                            <div class="coupon_item_price">
+                                <span class="coupon_item_num">5,000</span>
+                                <span class="coupon_item_unit">원</span>
+                            </div>
+                            <div class="coupon_item_info">
+                                <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
+                                <span class="coupon_item_minimum">∙ 10,000원 이상 구매시</span>
+                            </div>
+                            <button class="coupon_btn2" type="button">받기</button>
+                        </div>
+                        <div class="coupon_item">
+                            <div class="coupon_item_tit">
+                                WELCOME COUPON 
+                            </div>
+                            <div class="coupon_item_price">
+                                <span class="coupon_item_num">5,000</span>
+                                <span class="coupon_item_unit">원</span>
+                            </div>
+                            <div class="coupon_item_info">
+                                <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
+                                <span class="coupon_item_minimum">∙ 10,000원 이상 구매시</span>
+                            </div>
+                            <button class="coupon_btn2" type="button">받기</button>
+                        </div>
                     </div>
                 </section>
             </main>
