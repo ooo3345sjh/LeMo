@@ -1,21 +1,21 @@
 <!--
-    날짜 : 2023/02/26
+    날짜 : 2023/02/27
     이름 : 이해빈
-    내용 : 고객센터 이벤트 보기 화면설계
+    내용 : 고객센터 이용약관 화면설계
 -->
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>LEMO :: 고객센터 이벤트</title>
+        <title>LEMO :: 고객센터 이용약관</title>
         <!-- 구글 폰트 -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
         <!-- 스타일 css 적용 -->
-        <link rel="stylesheet" href="../../css/indexStyle.css">
-        <link rel="stylesheet" href="../../css/cs.css">
+        <link rel="stylesheet" href="../css/indexStyle.css">
+        <link rel="stylesheet" href="../css/cs.css">
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -38,12 +38,13 @@
                         content.style.display = 'none'; 	
                     } 
                 });
-
-                $('.handle').click(function(){
-                    $('.info').slideToggle();
-                    $(this).find('img:last-of-type').toggleClass('on');
+                
+                /* 글 보기 */
+                $('.show_list > li').click(function(e){
+                    e.preventDefault();
+                    $(this).find('.toggle').slideToggle();
+                    $(this).find('.list_n').toggleClass('open');
                 });
-
             } );
         </script>   
     </head>
@@ -55,14 +56,14 @@
                     <div class="header_flex">
                         <div class="header_logo">
                             <!-- 메인으로 이동 -->
-                            <a href="#"><img src="../../img/indexImg/lemo_logo.png" alt="레모 로고"></a>
+                            <a href="#"><img src="../img/indexImg/lemo_logo.png" alt="레모 로고"></a>
                             <div class="logo">LEMO</div>
                         </div>
                         <div class="header_service">
                             <a href="#">로그인</a>
                             <div class="dropdown_menu">
                                 <button id="dropdown">마이페이지
-                                    <img src="../../img/indexImg/down-arrow.png">
+                                    <img src="../img/indexImg/down-arrow.png">
                                 </button>
                                 <div class="dropdown_content" id="dropdown_content" style="display: none;">
                                     <a href="#">나의 정보</a>
@@ -76,7 +77,7 @@
                             </div>
                             <div class="dropdown_menu">
                                 <button id="dropdown2">고객센터
-                                    <img src="../../img/indexImg/down-arrow.png">
+                                    <img src="../img/indexImg/down-arrow.png">
                                 </button>
                                 <div class="dropdown_content" id="dropdown_content2" style="display: none;">
                                     <a href="#">공지사항</a>
@@ -92,7 +93,7 @@
                                 <div class="search">
                                     <input id="search-box" type="text" class="search-box" name="q"/>
                                     <button type="submit" class="btnSearch">
-                                        <input type="image" src="../../img/indexImg/btn_search.png" id="search-submit"/>
+                                        <input type="image" src="../img/indexImg/btn_search.png" id="search-submit"/>
                                     </button>
                                 </div>
                             </form>
@@ -107,75 +108,52 @@
                     <!-- nav-->
                     <nav class="category">
                         <span>고객센터</span>
-
                         <ul>
                             <li><a href="#">공지사항</a></li>
-                            <li><a href="#" class="on">이벤트</a></li>
+                            <li><a href="#">이벤트</a></li>
                             <li><a href="#">자주묻는질문</a></li>
                             <li><a href="#">1:1 문의</a></li>
-                            <li><a href="#">약관 및 정책</a></li>
+                            <li><a href="#" class="on">약관 및 정책</a></li>
                         </ul>
                     </nav>
                     <!-- 본문 -->
                     <div class="content">
                         <!-- 카테고리 -->
                         <div class="tab">
-                            <span class="event_title">
-                                이벤트 <span class="new">NEW</span>
+                            <span class="terms_title">
+                                약관 및 정책
                             </span>
                         </div>
-                        <!-- view 내용 -->
-                        <div class="event_view">
-                            <span>23년 2월 롯데카드 즉시할인 - 신용카드</span>
-                            <div class="event_content">
-                                <p>
-                                    <img src="../../img/csImg/event_view_sample.png">
-                                </p>
-                                <!-- 이벤트 링크 
-                                <div class="evt-link">
-                                    <img src="../../img/csImg/event_link.png" alt="">
-                                    <a href="#"></a>
-                                </div>-->
-                            </div>
-                            <div class="precautions">
-                                <div class="handle">
-                                    <div>
-                                        <img src="../../img/csImg/info_blit.png">
-                                        <span>꼭 확인하세요.</span>
-                                        <img src="../../img/csImg/arrow_top.png">
-                                    </div>
-                                </div>
-                                <div class="info">
-                                    · 본 이벤트는 LEMO에서 숙소 예약 시, 선착순 결제한 고객을 대상으로 진행됩니다.<br>
-                                    · 일별 선착순 인원 종료 시점까지 할인 가능 합니다.<br>
-                                    · 선착순 쿠폰은 기간 내, 매일 오전 0시에 시작 됩니다.<br>
-                                    · 선착 순 종료 시, 최종 결제금액 동일합니다. 종료된 프로모션은 최종 결제 금액으로 프로모션 대상 여부를 확인해 주세요.<br>
-                                    · 선착순 쿠폰 잔여여부는, 혜택 박스로 확인 가능 합니다.<br>
-                                    · 타 간편 결제 수단에 등록된 카드는 할인이 적용되지 않습니다. (페이나우/네이버페이/카카오페이/페이코/삼성,LG페이 적용불가)
-                                </div>
+                        <!-- 약관 및 정책 카테고리 -->
+                        <div class="sub_cate">
+                            <li><a href="#" class="on">이용약관</a></li>
+                            <li><a href="#">개인정보 처리방침</a></li>
+                            <li><a href="#">만 14세 이상 확인</a></li>
+                            <li><a href="#">위치기반 서비스 이용약관</a></li>
+                        </div>
+
+                        <!-- 이용약관 -->
+                        <div class="terms">
+                            <h2>LEMO 이용약관</h2>
+                            <div class="terms_basic_wrap">
                             </div>
                         </div>
 
-                        <!-- 페이징 -->
-                        <div class="page">
-                            <p>
-                                <a href="#">
-                                    <span class="ico_arr_up">이전글</span>
-                                    <b>23년 2월 하나카드 즉시할인 - 신용카드</b>
-                                    <em>기간 : 2023.02.01 ~ 2023.02.28</em>
-                                </a>
-                            </p>
-                            <p>
-                                <a href="#">
-                                    <span class="ico_arr_down">다음글</span>
-                                    <b>23년 2월 우리카드 즉시할인 - 신용카드</b>
-                                    <em>기간 : 2023.02.01 ~ 2023.02.28</em>
-                                </a>
-                            </p>
+                        <!-- 개인정보 처리방침 -->
+                        <div class="privacy" style="display: none;">
+                            <h2>개인정보 처리방침</h2>
                         </div>
-                        <div class="aligncenter">
-                            <button onclick="window.location.href='#'" class="btn">목록보기</button>
-                        </div> 
+
+                        <!-- 만 14세 이상 확인 -->
+                        <div class="fourteen" style="display: none;">
+                            <h2>만 14세 이상 확인</h2>
+                        </div>
+
+                        <!-- 위치기반 서비스 이용약관 -->
+                        <div class="location" style="display: none;">
+                            <h2>위치기반 서비스 이용약관</h2>
+                        </div>
+
                     </div>
                 </section>
             </main>
