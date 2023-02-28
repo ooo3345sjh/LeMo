@@ -1,13 +1,13 @@
 <!--
     날짜 : 2023/02/27
     이름 : 이해빈
-    내용 : 고객센터 1:1 문의 목록
+    내용 : 고객센터 이용약관 화면설계
 -->
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>LEMO :: 고객센터 1:1 문의</title>
+        <title>LEMO :: 고객센터 이용약관</title>
         <!-- 구글 폰트 -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -112,117 +112,48 @@
                             <li><a href="#">공지사항</a></li>
                             <li><a href="#">이벤트</a></li>
                             <li><a href="#">자주묻는질문</a></li>
-                            <li><a href="#" class="on">1:1 문의</a></li>
-                            <li><a href="#">약관 및 정책</a></li>
+                            <li><a href="#">1:1 문의</a></li>
+                            <li><a href="#" class="on">약관 및 정책</a></li>
                         </ul>
                     </nav>
                     <!-- 본문 -->
                     <div class="content">
                         <!-- 카테고리 -->
                         <div class="tab">
-                            <span class="qna_title">
-                                1:1 문의
+                            <span class="terms_title">
+                                약관 및 정책
                             </span>
                         </div>
-                        <!-- 1:1문의 카테고리 -->
+                        <!-- 약관 및 정책 카테고리 -->
                         <div class="sub_cate">
-                            <li><a href="#" class="on">나의 문의 내역</a></li>
-                            <li><a href="#">새 문의 작성</a></li>
-                        </div>
-                        <!-- 1:1 문의 목록 -->
-                        <div class="tab_each" id="qna_list" style="display: block;">
-                            <ul id="qnas" class="show_list open_list">
-                                <li>
-                                    <!-- 제목 길이를 substring으로 자르기 -->
-                                    <a href="#" id="qna_tab" class="list_n">
-                                        <p>
-                                            <span>이용문의</span>
-                                            숙소 정보를 공유하는 기능이 있나요?<b class="reply_chk">답변완료</b>
-                                            <span><b>작성일</b>2023.02.26</span>
-                                        </p>
-                                    </a>
-                                    <div class="toggle">
-                                        <div class="qna">
-                                            <span>문의</span>
-                                            <div>
-                                                숙소 정보를 공유하고 싶은데 어떻게 해야 하나요?<br>
-                                            </div>
-                                        </p>
-                                        <div class="reply">
-                                            <span>답변</span><b>작성일 2023.02.27 17:44:19</b>
-                                            <div>
-                                                아직 등록된 답변이 없습니다.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                            <li><a href="#" class="on">이용약관</a></li>
+                            <li><a href="#">개인정보 처리방침</a></li>
+                            <li><a href="#">만 14세 이상 확인</a></li>
+                            <li><a href="#">위치기반 서비스 이용약관</a></li>
                         </div>
 
-
-
-                        <!-- 문의 작성 -->
-                        <div id="qna_write" style="display: block;">
-                            <form name="qna-form" method="post" action="#">
-                                <div class="alert_top">
-                                    <p>LEMO를 이용 중 불편하신 점을 문의주시면 최대한 빠른 시일내에 답변 드리겠습니다.</p>
-                                </div>
-            
-                                <section class="info_wrap">
-                                    <b>카테고리유형</b>
-                                    <select name="room_type" id="" class="select_opt">
-                                        <option value="">카테고리유형을 선택하세요</option>
-                                        <option value="1">모텔</option>
-                                        <option value="2">호텔·리조트</option>
-                                        <option value="3">펜션</option>
-                                        <option value="6">게스트하우스</option>
-                                        <option value="5">캠핑/글램핑</option>
-                                        <option value="7">한옥</option>
-                                        <option value="10">액티비티</option>
-                                        <option value="11">현금성(유상)포인트</option>
-                                    </select>
-            
-                                    <b>문의유형</b>
-                                    <select name="qna_type" id="qna_type" class="select_opt">
-                                        <option value="">문의유형을 선택하세요</option>
-                                        <option value="8">이벤트</option>
-                                        <option value="7">예약/결제</option>
-                                        <option value="9">취소/환불</option>
-                                        <option value="2">혜택받기</option>
-                                        <option value="1">이용문의</option>
-                                        <option value="4">회원정보</option>
-                                        <option value="3">리뷰</option>
-                                        <option value="10">환불신청</option>
-                                        <option value="99">기타</option>
-                                    </select>
-            
-                                    <div class="phone-block">
-                                        <b>휴대폰 번호</b>
-                                        <p class="qna_wrap"><input type="tel" maxlength="13" name="cs_hp" placeholder="선택사항입니다."></p>
-                                    </div>
-            
-                                    <div class="email-block">
-                                        <b>이메일</b>
-                                        <p class="qna_wrap"><input type="email" name="cs_email" placeholder="선택사항입니다."></p>
-                                    </div>
-            
-                                </section>
-            
-                                <section class="text_wrap">
-                                    <b>문의내용</b>
-                                    <div>
-                                        <textarea name="content" id="questionTextarea" placeholder="문의하실 내용을 10자이상 입력해주세요."></textarea>
-                                    </div>
-                                </section>
-            
-                                <section class="btn_wrap ">
-                                    <button class="btn" type="button">작성 완료</button>
-                                </section>
-                            </form>
+                        <!-- 이용약관 -->
+                        <div class="terms">
+                            <h2>LEMO 이용약관</h2>
+                            <div class="terms_basic_wrap">
+                            </div>
                         </div>
-                        <!-- 문의 작성 끝 -->
 
-                        <!-- 페이징 없음 -->
+                        <!-- 개인정보 처리방침 -->
+                        <div class="privacy" style="display: none;">
+                            <h2>개인정보 처리방침</h2>
+                        </div>
+
+                        <!-- 만 14세 이상 확인 -->
+                        <div class="fourteen" style="display: none;">
+                            <h2>만 14세 이상 확인</h2>
+                        </div>
+
+                        <!-- 위치기반 서비스 이용약관 -->
+                        <div class="location" style="display: none;">
+                            <h2>위치기반 서비스 이용약관</h2>
+                        </div>
+
                     </div>
                 </section>
             </main>

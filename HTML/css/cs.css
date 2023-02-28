@@ -599,3 +599,13 @@ main > #cs {
 .btn_wrap {
     text-align: center;
 }
+
+
+/* 약관 및 정책 */
+.terms h2 {
+    margin-top: 20px;
+    height: 58px;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 60px;
+}
