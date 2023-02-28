@@ -6,11 +6,6 @@
 }
 
 /** 메인(목록) */
-.list {
-    float: left;
-    width: 610px; height: auto;
-    margin-left: 85px;
-}
 
 /** 목록 - 필터 */
 .filter { 
@@ -40,6 +35,8 @@
 }
 
 .filter input {
+    position: relative;
+    bottom: 1px;
     width: 150px;
     height: 30px;
     border-radius: 5px;
@@ -47,7 +44,7 @@
     margin-left: 3px;
     margin-right: 10px;
     font-size: 13px;
-    padding-left: 5px;
+    padding: 5px;
 }
 
 .filter input::placeholder{ font-size: 12px; padding-left: 10px;}
@@ -76,96 +73,80 @@
 
 
 
-/** 목록 - 상품 목록 */
-.list > .list-area {
-    width: 100%; height: auto;
-    padding: 20px;
+/* 여행일기 목록 */
+.list {
+    float: left;
+    width: 610px; height: auto;
+    margin-left: 110px;
 }
 
-.list > .list-area > ul {}
+.list {
+    margin-top: 100px;
+    text-align: center;
+}
 
-.list > .list-area > ul > li { 
+.list > .list-area > ul > li {
+    display: inline-block;
+    width: 270px;
+    height: 270px;
+    margin-right: 30px;
+    margin-bottom: 30px;
     overflow: hidden;
-    padding: 15px;
-    border-bottom: 1px solid #e6e31f;
     border-radius: 15px;
-    margin-bottom: 10px;
 }
+
+
+
+.list ul li .img_slider {
+    overflow: hidden;
+}
+
+
+.list ul li .img_slider img {
+    object-fit: cover;
+}
+
+.list .heart {float: right;}
+.list .heart img {
+}
+
 
 .list > .list-area > ul > li:hover { 
     box-shadow: 0 14px 28px rgb(0 0 0 / 15%), 0 10px 10px rgb(0 0 0 / 15%);
 }
 
-.list > .list-area > ul > li > img { 
-    float: left; 
-    width: 170px; height: 235px;
-    box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
+
+
+/* 슬릭 슬라이드 설정 */
+
+/* arrow */
+.slick-arrow {
+    display: none !important;
+    z-index: 2; 
+    position:absolute;
+    top: 135px !important;
+    width: 50px; 
+    height: 50px; 
+    transform: translateY(-25px);
 }
 
+.slick-arrow.on {display: inline-block !important;}
 
+.slick-prev.slick-arrow{left: 0;}
+.slick-next.slick-arrow{right: 0;}
 
-
-
-
-/* 목록 - 상품 목록 - 상품*/
-.list > .list-area > ul > li > .stage {
-    position: relative;
-    float: left;
-    width: 340px; height: 235px;
-    margin-left: 20px;
+/* dots 설정 */
+.slick-dots {  
+	text-align: center;
+    bottom: 0px !important;
 }
-
-.list ul li {
+.slick-dots li{
     display: inline-block;
-    width: 250px;
-    height: 250px;
-    border: 1px solid gray;
-    margin-right: 30px;
+    margin: 0 !important;
 }
 
-.list > .list-area .stage-name {  }
 
-/** 목록 - 상품 목록 - 상품 - 상품 이름 */
-.list > .list-area .stage-name > strong { font-size: 18px; font-weight: bold; }
 
-/** 목록 - 상품 목록 - 상품 - 상품 별점 */
-.list > .list-area .stage-name > p:nth-child(2) > span { font-size: 12px; }
-.list > .list-area .stage-name > p:nth-child(2) > em { font-size: 12px; }
-
-/** 목록 - 상품 목록 - 상품 - 상품 주소 */
-.list > .list-area .stage-name > p:nth-child(3) > span { font-size: 15px; }
-
-.list > .list-area .stage-descript { margin-top: 10px; }
-
-.list > .list-area .stage-descript > span { 
-    display: inline-block;
-    font-size: 15px;
-    height: 90px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-/** 목록 - 상품 목록 - 상품 - 상품 가격, 객실 수 */
-.list > .list-area .stage-info { 
-    position: absolute;
-    right: 0; bottom: 0;
-    width: 200px; height: 50px;
-    text-align: right;
-    padding-right: 5px;
-}
-
-.list > .list-area .stage-info > p:nth-child(1) > span { font-size: 15px; }
-
-.list > .list-area .stage-info > p:nth-child(2) > b { font-size: 20px; }
-
-.list > .list-area .paging { margin-top: 10px; text-align: center; }
-
-.list > .list-area .paging > span > a { padding-left: 5px; font-size: 20px; }
-
-.list > .list-area .paging > span > a > img {
-    width: 20px; height: 20px;
-    vertical-align: -3px;
-}
 
 /** 메인(Map) */
 #listMap {

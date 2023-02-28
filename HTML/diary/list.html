@@ -21,14 +21,10 @@
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <!-- RangeSlider -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
-        <!-- Date Range Picker -->
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <!-- slick slider plugin-->
+        <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
     </head>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712"></script>
     <script>
@@ -40,51 +36,6 @@
         let date      = nowYear + '-' + nowMonth + '-' + nowDate;
 
         $(function(){
-            /** Jquery UI Date Picker */
-            $('#daterange').daterangepicker({
-                "locale": {
-                    "format": "YYYY-MM-DD",
-                    "separator": " ~ ",
-                    "applyLabel": "확인",
-                    "cancelLabel": "취소",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"],
-                    "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-                    "firstDay": 1
-                },
-                "startDate": date,
-                "endDate": date,
-                "drops": "down",
-                "opens": "center"
-            }, function (start, end, label) {
-                alert(" 체크인 :  " + start.format('YYYY-MM-DD') + " 체크아웃 : " + end.format('YYYY-MM-DD'));
-            });
-            
-            /** Range Slider */
-            $(".js-range-slider").ionRangeSlider({
-                type: "double",
-                min: 0,
-                max: 1000000,
-                from: 300000,
-                to: 600000,
-                postfix : '원',
-                onFinish : function(data){
-                    console.log(data.from);
-                    console.log(data.to);
-                }
-            });
-            
-            /** filter 확장 */
-            $('#filter > a').mouseover(function(){
-                $('#popupFilter').addClass('on');
-            });
-
-            $('#popupFilter').mouseleave(function(){
-                $(this).removeClass('on');
-            });
 
             /** 카카오맵 - 스크롤 따라 이동 */
             let currentPosition = parseInt($('#listMap').css('top'));
@@ -106,6 +57,25 @@
                 }
                 $('#listMap').stop().animate({top: point}, 700);
             });
+
+
+            /* 이미지 슬라이드 */
+
+            $('.img_slider').slick({
+                slide : 'div',
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                speed: 1000,
+                arrows: true,
+                dots:true
+            });
+
+            $('.img_slider').hover(function(){
+                $(this).find('.slick-arrow').toggleClass('on');
+            });
+
+
         });
     </script>
     <body>
@@ -186,11 +156,23 @@
                             <div class="list-area">
                                 <ul>
                                     <li>
-                                        test
+                                        <span class="heart"><img src="../img/diaryImg/heart1.png"></span>
+                                        <div class="img_slider">
+                                            <div><img src="../img/diaryImg/sample1.jpg"></div>
+                                            <div><img src="../img/diaryImg/sample2.jpg"></div>
+                                            <div><img src="../img/diaryImg/sample3.jpg"></div>
+                                            <div><img src="../img/diaryImg/sample4.jpg"></div>
+                                        </div>
                                     </li>
-                                    <li>test</li>
-                                    <li>test</li>
-                                    <li>test</li>
+                                    <li>
+                                        <span class="heart"><img src="../img/diaryImg/heart1.png"></span>
+                                        <div class="img_slider">
+                                            <div><img src="../img/diaryImg/sample1.jpg"></div>
+                                            <div><img src="../img/diaryImg/sample2.jpg"></div>
+                                            <div><img src="../img/diaryImg/sample3.jpg"></div>
+                                            <div><img src="../img/diaryImg/sample4.jpg"></div>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
