@@ -35,6 +35,17 @@ input, textarea {outline: none;}
     height: 120px;
 }
 
+/* 태그 */
+.tag {
+    border-radius: 6px;
+    background: #393939;
+    font-size: 11px;
+    color: #fff;
+    font-weight: 500;
+    padding: 1px 3px;
+    border-radius: 11px;
+}
+
 /* 헤더 */
 
 /* 메인 */
@@ -205,6 +216,21 @@ main .searchProd {
     margin: 10px 0;
     position: relative;
 }
+main .selectProdForAdmin {
+    padding: 10px 10px 20px 0px;
+    height: 34px;
+    float: left;
+}
+main .selectProdForAdmin > select {
+    padding: 7px;
+    font-size: 13px;
+    background: rgb(255,255,255);
+    border: 1px solid rgb(219, 219, 219);
+    resize: none;
+    width: 100%;
+    border-radius: 8px;
+    padding-right: 30px;
+}
 main .searchProd > .search_box {
     position: absolute;
     top: 0;
@@ -287,7 +313,6 @@ main .main_content .col2 {
     border: 1px solid rgba(26, 54, 126, 0.125);
     border-radius: 0.25rem;
     text-align: center;
-    border: 1px solid red;
 }
 main .main_content .col2 .board_list {
     border-top: 1px solid #bbb;
@@ -1011,6 +1036,73 @@ main .col_register1 .input_130 {
     height: 32px;
     padding: 1px 4px;
 }
+
+/* 리뷰 보기 */
+main .review_box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+main .r_flex {
+    flex: 0 0 auto;
+}
+main .r_flex > div {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 53px;
+}
+main .r_flex > div:first-child {}
+main .slider_box {
+    width: 360px;
+    margin:0 auto; 
+    padding: 17px;
+    position: relative;
+    background: #eae5db;
+}
+main .review_txt {
+    width: 360px;
+    margin: 0 auto;
+    position: relative;
+}
+main .review_txt > .r_nick {
+    width: 100%;
+    padding: 15px;
+    font-size: 15px;
+    font-weight: 600;
+}
+main .review_txt > .r_nick > i {
+    font-size: 12px;
+    font-style: normal;
+    margin-left: 5px;
+    color: #3d3b3b;
+}
+main .review_txt > .r_rating {
+    width: 100%;
+    padding: 15px;
+}
+main .review_txt > .r_text {
+    width: 100%;
+    padding: 15px;
+    margin-top: 22px;
+    border: 1px solid rgb(219, 219, 219);
+}
+main .review_txt > .r_text > .r_text_inner {
+    width: 100%;
+    resize: none;
+    font-size: 13px;
+    color: #424242;
+    height: 170px;
+    border: none;
+    overflow-y: scroll;
+}
+main .review_txt > .r_text > .r_text_inner::-webkit-scrollbar {
+    display: none;
+}
+.slick-prev:before, .slick-next:before {
+    color: #fcf951 !important;
+}
+
+
 
 
 /* 푸터 */
