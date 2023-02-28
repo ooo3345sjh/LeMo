@@ -1,0 +1,198 @@
+/** 메인(목록, Map) */
+.content {
+    overflow: hidden;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+/** 메인(목록) */
+.list {
+    float: left;
+    width: 610px; height: auto;
+    margin-left: 85px;
+}
+
+/** 목록 - 필터 */
+.filter { 
+    position: relative;
+    left: 115px;
+    width: 85%; height: 50px;
+    padding-top: 10px;
+    box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
+}
+
+.filter a { 
+    display: block;
+    float: left;
+    width: 45px; height: 45px;
+    margin-left: 10px;
+    background-image: url(../img/list.png);
+    background-size: cover;
+}
+
+.filter select {
+    width: 150px;
+    height: 30px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 5px;
+    outline: none;
+}
+
+.filter input {
+    width: 150px;
+    height: 30px;
+    border-radius: 5px;
+    border-width: 1px;
+    margin-left: 3px;
+    margin-right: 10px;
+    font-size: 13px;
+    padding-left: 5px;
+}
+
+.filter input::placeholder{ font-size: 12px; padding-left: 10px;}
+
+.filter button {
+    width: 60px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fcf951;
+}
+.filter button:hover {
+    background-color: rgba(255,0,85,1);
+    color: #fff;
+}
+
+.filter > select > option { font-size: 15px; }
+
+
+.filter > #filter1 {float: left;}
+.filter > #filter2 {float: right;}
+
+.filter > #filter2 select {
+    width: 115px;
+}
+
+
+
+/** 목록 - 상품 목록 */
+.list > .list-area {
+    width: 100%; height: auto;
+    padding: 20px;
+}
+
+.list > .list-area > ul {}
+
+.list > .list-area > ul > li { 
+    overflow: hidden;
+    padding: 15px;
+    border-bottom: 1px solid #e6e31f;
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
+
+.list > .list-area > ul > li:hover { 
+    box-shadow: 0 14px 28px rgb(0 0 0 / 15%), 0 10px 10px rgb(0 0 0 / 15%);
+}
+
+.list > .list-area > ul > li > img { 
+    float: left; 
+    width: 170px; height: 235px;
+    box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
+}
+
+
+
+
+
+
+/* 목록 - 상품 목록 - 상품*/
+.list > .list-area > ul > li > .stage {
+    position: relative;
+    float: left;
+    width: 340px; height: 235px;
+    margin-left: 20px;
+}
+
+.list ul li {
+    display: inline-block;
+    width: 250px;
+    height: 250px;
+    border: 1px solid gray;
+    margin-right: 30px;
+}
+
+.list > .list-area .stage-name {  }
+
+/** 목록 - 상품 목록 - 상품 - 상품 이름 */
+.list > .list-area .stage-name > strong { font-size: 18px; font-weight: bold; }
+
+/** 목록 - 상품 목록 - 상품 - 상품 별점 */
+.list > .list-area .stage-name > p:nth-child(2) > span { font-size: 12px; }
+.list > .list-area .stage-name > p:nth-child(2) > em { font-size: 12px; }
+
+/** 목록 - 상품 목록 - 상품 - 상품 주소 */
+.list > .list-area .stage-name > p:nth-child(3) > span { font-size: 15px; }
+
+.list > .list-area .stage-descript { margin-top: 10px; }
+
+.list > .list-area .stage-descript > span { 
+    display: inline-block;
+    font-size: 15px;
+    height: 90px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/** 목록 - 상품 목록 - 상품 - 상품 가격, 객실 수 */
+.list > .list-area .stage-info { 
+    position: absolute;
+    right: 0; bottom: 0;
+    width: 200px; height: 50px;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.list > .list-area .stage-info > p:nth-child(1) > span { font-size: 15px; }
+
+.list > .list-area .stage-info > p:nth-child(2) > b { font-size: 20px; }
+
+.list > .list-area .paging { margin-top: 10px; text-align: center; }
+
+.list > .list-area .paging > span > a { padding-left: 5px; font-size: 20px; }
+
+.list > .list-area .paging > span > a > img {
+    width: 20px; height: 20px;
+    vertical-align: -3px;
+}
+
+/** 메인(Map) */
+#listMap {
+    float: left;
+    width: 400px; height: 700px;
+    margin-top: 85px; margin-left: 30px;
+    box-shadow: 0 10px 10px 0 rgb(0 0 0 / 15%);
+    border-radius: 20px;
+}
+
+#listMap > p {
+    position: absolute;
+    width: 250px; height: 50px;
+    top: 10px;
+    left: 20px;
+    z-index: 99;
+}
+
+#listMap > p > button {
+    margin-left: 5px;
+    width: 110px; height: 27px;
+    font-weight: 400;
+    border-radius: 10px;
+    border: 0px solid #252525;
+    background-color: white;
+}
+
+#listMap > p > button:hover{
+    background-color: #dbcbcb;
+}
