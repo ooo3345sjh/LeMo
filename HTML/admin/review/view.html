@@ -18,8 +18,6 @@
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <!-- chart.js -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!-- swiperSlider -->
         <link rel="stylesheet"href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -30,19 +28,38 @@
                     slidesPerView: 4,
                     freeMode: true,
                     watchSlidesProgress: true,
-                    
+                    loop: true
                 });
                 var swiper2 = new Swiper(".mySwiper2", {
                     spaceBetween: 5,
                     loop : true,
-                    autoplay : {  // 자동 슬라이드 설정 , 비 활성화 시 false
-                        delay : 2000,   // 시간 설정
-                        disableOnInteraction : false,  // false로 설정하면 스와이프 후 자동 재생이 비활성화 되지 않음
+                    navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
                     },
                     thumbs: {
                     swiper: swiper,
                     },
                 });
+
+                // 리뷰 답변하기 (dialog 팝업)
+                const button = document.querySelector("button");
+                const dialog = document.querySelector("dialog");
+
+                button.addEventListener("click", ()=>{
+                    dialog.showModal();
+                });
+
+                dialog.addEventListener("close", ()=>{
+                    console.log(dialog.returnValue);
+                });
+
+                // input 엔터키 submit 막기
+                $('input[type="text"]').keydown(function() {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                };
+});
             });
         </script>
     </head>
@@ -161,50 +178,39 @@
                                     <span>리뷰관리 ></span>
                                     <span>등록리뷰</span>
                                 </div>
-                                <div class="col2" style="padding-top: 90px;">
+                                <div class="col2" style="padding-top: 90px; padding-bottom: 76px;">
                                     <form action="#">
                                         <div class="col2_r_slider">
 
 
-                                            <div class="swiper mySwiper2">
+                                            <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
                                                 <div class="swiper-wrapper">
-                                                    <div class="swiper-slide">
-                                                        <img src="../img/view1.jpeg">
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="../img/view2.jpeg">
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="../img/view3.jpeg">
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="../img/view4.jpeg">
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="../img/view5.jpeg">
-                                                    </div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-1.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-2.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-3.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-4.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-5.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-6.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-7.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-8.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-9.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-10.jpg" /></div>
                                                 </div>
-                                                
+                                                <div class="swiper-button-next"></div>
+                                                <div class="swiper-button-prev"></div>
                                             </div>
-                                            
-
                                             <div thumbsSlider="" class="swiper mySwiper">
                                                 <div class="swiper-wrapper">
-                                                    <div class="swiper-slide">
-                                                        <img src="../img/view1.jpeg" style="width: 130px !important;">
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="../img/view2.jpeg" style="width: 130px !important;">
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="../img/view3.jpeg" style="width: 130px !important;">
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="../img/view4.jpeg" style="width: 130px !important;">
-                                                    </div>
-                                                    <div class="swiper-slide">
-                                                        <img src="../img/view5.jpeg" style="width: 130px !important;">
-                                                    </div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-1.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-2.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-3.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-4.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-5.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-6.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-7.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-8.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-9.jpg" /></div>
+                                                    <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-10.jpg" /></div>
                                                 </div>
                                             </div>
 
@@ -226,31 +232,67 @@
                                                 <img src="../img/rating_star.png">
                                             </div>
                                             <div class="r_content">
-                                                <div class="r_content_tit">
-                                                    여기만 한 곳은 없을 거예요!
+                                                <div class="r_content_wrap">
+                                                    <div class="r_content_tit">
+                                                        여기만 한 곳은 없을 거예요!
+                                                    </div>
+                                                    <div class="r_content_txt">
+                                                        갑자기 지방 출장이 잡혀서 급하게 숙소를 알아봤는데 <br>
+                                                        마침 너무 좋은 위치에 리베라호텔이 있더라구요. <br>
+                                                        그래서 바로 예약했는데, 급하게 예약을 해서 기대를 안했는데 <br>
+                                                        생각보다 너무 깔끔해서 좋았습니다.<br>
+                                                        물론, 오래된 호텔이기는 하지만 중후함이라고 해야하나? <br>
+                                                        클래식하면서 관리가 잘 된 모습에 기분이 좋아졌습니다.
+                                                    </div>
                                                 </div>
-                                                <div class="r_content_txt">
-                                                    갑자기 지방 출장이 잡혀서 급하게 숙소를 알아봤는데 <br>
-                                                    마침 너무 좋은 위치에 리베라호텔이 있더라구요. <br>
-                                                    그래서 바로 예약했는데, 급하게 예약을 해서 기대를 안했는데 <br>
-                                                    생각보다 너무 깔끔해서 좋았습니다.<br>
-                                                    물론, 오래된 호텔이기는 하지만 중후함이라고 해야하나? <br>
-                                                    클래식하면서 관리가 잘 된 모습에 기분이 좋아졌습니다.
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                                 
                             </div>
+                            
+
+                            <!-- 모달 팝업 -->
+                            <button class="btn_R_answer">리뷰답변</button>
+                            <dialog>
+                                <form method="dialog">
+                                    <nav class="rr_nav">
+                                        <h1>리뷰 답변</h1>
+                                    </nav>
+                                    <div class="rr_box">
+                                        <section class="rr_content">
+                                            <div>
+                                                갑자기 지방 출장이 잡혀서 급하게 숙소를 알아봤는데 <br>
+                                                마침 너무 좋은 위치에 리베라호텔이 있더라구요. <br>
+                                                그래서 바로 예약했는데, 급하게 예약을 해서 기대를 안했는데 <br>
+                                                생각보다 너무 깔끔해서 좋았습니다.<br>
+                                                물론, 오래된 호텔이기는 하지만 중후함이라고 해야하나? <br>
+                                                클래식하면서 관리가 잘 된 모습에 기분이 좋아졌습니다.
+                                            </div>
+                                        </section>
+                                        
+                                    </div>
+                                    <div class="rr_box2">
+                                        <section class="rr_content2">
+                                            <div>
+                                                <textarea placeholder="답변을 작성해 주세요"></textarea>
+                                            </div>
+                                        </section>
+                                    </div>
+                                    <div class="rr_btn">
+                                        <button class="btnRclose" value="close">닫기</button>
+                                        <button class="btnRsubmit" value="confirm">작성</button>
+                                    </div>
+                                </form>
+                            </dialog>
+
+
+
                             <div class="btnAdminProd">
                                 <a href="#">
                                     리뷰목록
-                                </a>
-                            </div>
-                            <div class="btnAdminProd2">
-                                <a href="#">
-                                    리뷰답변
                                 </a>
                             </div>
                             <div class="btnAdminProd">
@@ -315,32 +357,7 @@
                     </div>
                 </div>
             </footer>
-            <!-- 팝업 -->
-            <div class="popup on">
-                <div class="popup_box">
-                    <nav>
-                        <h1>리뷰 답변</h1>
-                        <button class="btnClose">X</button>
-                    </nav>
-                    <section>
-                        <div class="r_content1">
-                            <div class="rc_1">
-                                갑자기 지방 출장이 잡혀서 급하게 숙소를 알아봤는데 <br>
-                                마침 너무 좋은 위치에 리베라호텔이 있더라구요. <br>
-                                그래서 바로 예약했는데, 급하게 예약을 해서 기대를 안했는데 <br>
-                                생각보다 너무 깔끔해서 좋았습니다.<br>
-                                물론, 오래된 호텔이기는 하지만 중후함이라고 해야하나? <br>
-                                클래식하면서 관리가 잘 된 모습에 기분이 좋아졌습니다.
-                            </div>
-                            <div class="rc_2">
-                                <form action="#">
-                                    <textarea>답변 어쩌고 저쩌고 ... 땡큐!</textarea>
-                                </form>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
+        
         </div>
     </body>
 </html>
