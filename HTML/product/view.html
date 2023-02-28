@@ -15,15 +15,18 @@
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
         <!-- 스타일 -->
         <link rel="stylesheet" href="./css/productStyle.css">
-        <!-- slickSlider -->
-        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+        <!-- swiperSlider -->
+        <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+        <!-- bxSlider -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
         <!-- 스크립트 모음 -->
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <!-- slickSlider -->
-        <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <!-- swiperSlider -->
+        <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+        <!-- bxSlider -->
+        <script src="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
         <!-- Date Range Picker -->
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -39,110 +42,692 @@
 
         /** View 상단 이미지 & info */
         #topContent {
-            width: 1110px;
-            height: 550px;
-            border: 1px solid blue;
-            margin: 0 auto;
+            width: 1000px;
+            margin: 20px auto 0 auto;
             overflow: hidden;
         }
 
         /** View 상단 이미지 */
         #productImg {
             float: left;
-            width: 500px;
-            height: 500px;
-            border: 1px solid green;
-            margin-left: 50px;
+            width: 490px;
+            height: 400px;
+            margin-right: 18px;
         }
 
-        .sld-wrp {
-        width: 500px;
-        margin: 0 auto;
+        /** swiper Slider */
+        .swiper {
+            width: 100%;
+            height: 100%;
         }
 
-        .slider-for {
-        width: 500px;
-        margin: 0 auto;
-        position: relative;
-        z-index: 10;
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
         }
 
-        .slide-container {
-        height: 40vh;
-        background-color: #fff;
-        text-align: center;
-        line-height: 40vh;
-        font-size: 40px;
-        font-weight: bold;
-        border: 1px solid #000;
-        margin-bottom: 20px;
-        box-sizing: border-box;
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .slide-btn {
-        text-align: center;
-        box-sizing: border-box;
-        padding: 20px;
-        background-color: yellow;
-        border: 1px solid #000;
-        cursor: pointer;
+        .swiper {
+            width: 100%;
+            height: 300px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .slide-btn:hover {
-        background-color: rgb(255, 179, 0);
+        .swiper-slide {
+            background-size: cover;
+            background-position: center;
         }
 
+        .mySwiper2 {
+            height: 80%;
+            width: 100%;
+        }
+
+        .mySwiper {
+            height: 25%;
+            box-sizing: border-box;
+            padding: 10px 0;
+        }
+
+        .mySwiper .swiper-slide {
+            width: 25%;
+            height: 100%;
+            opacity: 0.4;
+        }
+
+        .mySwiper .swiper-slide-thumb-active {
+            opacity: 1;
+        }
+
+        .swiper .swiper-button-prev {  }
+
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    
         /** View 상단 info */
         #productInfo {  
             float: left;
-            width: 500px;
-            height: 500px;
-            border: 1px solid green;
-            margin-right: 50px;
+            width: 490px;
+            height: 450px;
+            padding: 15px;
+        }
+
+        #productInfo > .info {
+
+        }
+
+        #productInfo > .info > h3 { font-size: 28px; font-weight: bold;}
+
+        #productInfo > .info > .score {
+            position: relative;
+            clear: both;
+            font-size: 18px;
+            color: rgb(255,167,38);
+        }
+
+        #productInfo > .info > .score > span {
+            display: inline-block;
+            position: relative;
+            top: -3px;
+            height: 18px;
+            margin-right: 7px;
+            padding: 0 4px;
+            border-radius: 4px;
+            background: rgb(255,167,38);
+            font-size: 14px;
+            line-height: 17px;
+            color: #fff;
+        }
+
+        #productInfo > .info > .address {
+            padding-top: 6px;
+            font-size: 18px;
+            color: rgba(0,0,0,0.56);
+        }
+
+        #productInfo > .sellerComment {
+            display: block;
+            position: relative;
+            margin-top: 25px;
+            padding: 26px 24px;
+            background: rgb(250,250,250);
+        }
+
+        #productInfo > .sellerComment > strong {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 400;
+            color: rgba(0,0,0,0.87);
+        }
+
+        #productInfo > .sellerComment > button {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: rgb(0,121,107);
+            padding: 0;
+            cursor: pointer;
+        }
+
+        #productInfo > .sellerComment > .clamp {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            height: 52px;
+            text-overflow: ellipsis;
+        }
+
+        #productInfo > .sellerComment > div {
+            display: block;
+            overflow: hidden;
+            height: auto;
+            font-size: 16px;
+            line-height: 26px;
+            color: rgba(0,0,0,0.56);
         }
 
         /** 탭 */
         #productView > .tab {
             width: 1000px;
-            height: 35px;
-            border: 1px solid green;
-            margin: 0 auto;
+            margin: 20px auto 0 auto;
         }
+
         /** 탭 - 버튼 */
         #productView > .tab > button {
-            width: 100px;
-            height: 30px;
-            border: 1px solid #252525;
+            float: none;
+            width: auto;
+            height: 72px;
+            margin-right: 24px;
+            padding: 0;
+            border: none;
+            border-bottom: 2px solid #fff;
+            background: none;
+            font-size: 18px;
+            color: rgba(0,0,0,0.38);
+            cursor: pointer;
+        }
+
+        #productView > .tab > .on {
+            border-bottom: 3px solid rgb(242,17,76);
+            font-weight: bold;
+            color: rgb(230,28,81);
         }
 
         /** 객실정보 */
         #detail_room {
             width: 1000px;
-            border: 1px solid green;
-            margin: 0 auto;
+            margin: 20px auto 0 auto;
+        }
+
+        #detail_room.on {
+            display: block;
         }
 
         #detail_room > article {}
 
         #detail_room .date {
+            width: 340px;
+            font-size: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
         }
 
-        #detail_room .room {}
+        #detail_room .date > input {
+            width: 220px; height: 40px;
+            font-size: 15px;
+            text-align: center;
+            border: none;
+        }
 
-        #detail_room .room > a {}
+        #detail_room .room {
+            overflow: hidden;
+            position: relative;
+            margin: 0 0 24px 0;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 4px;
+            background: #fff;
+            box-sizing: border-box;
+            padding: 25px;
+        }
 
-        #detail_room .room > a > img {}
+        #detail_room .room > button {
+            display: block;
+            float: left;
+            width: 500px;
+            height: 40px;
+            margin-left: 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: normal;
+            color: #fff;
+            text-align: center;
+        }
 
-        #detail_room .room > div {}
+        #detail_room .room > p {
+            float: left;
+            display: inline-block;
+            width: 376px;
+            height: 226px;
+            cursor: pointer;
+        }
 
-        #detail_room .room > div > strong {}
+        #detail_room .room > p > img { 
+            width: 376px; height: 226px; 
+        }
+
+        #detail_room .room > div > strong {
+            display: block;
+            height: 37px;
+            padding: 0;
+            font-size: 25px;
+            font-weight: 600;
+            line-height: 1;
+            margin-bottom: 30px;
+        }
 
         #detail_room .room > div > span {}
 
-        #detail_room .room .detail_room_info {}
+        #detail_room .room .detail_room_info {
+            width: 500px;
+            float: left;
+            margin-left: 20px;
+        }
+
+        #detail_room .room .detail_room_info > div {
+            height: 35px;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            margin-bottom: 15px;
+        }
+
+        #detail_room .room .detail_room_info > div > span:nth-child(1) {
+            float: left;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        #detail_room .room .detail_room_info > div > span:nth-child(2) {
+            float: right;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        #detail_room .room .detail_room_info > button {
+            display: block;
+            width: 100%; height: 48px;
+            margin: 12px 0;
+            font-size: 16px;
+            line-height: 48px;
+            padding: 0;
+            background: #fff url(./img/right-arrow.png) 100% 50% no-repeat;
+            background-size: 12px auto;
+            font-size: 16px;
+            color: rgba(0,0,0,0.87);
+            text-align: left;
+            border: none;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        #detail_room .room > .expansionImg {
+            display: none;
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background: #f9f9f9;
+            margin-top: 250px;
+            text-align: center;
+        }
+
+        #detail_room .room > .expansionImg.on {
+            display: block;
+        }
+
+        #detail_room .room > .expansionImg > button {
+            display: inline-block;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 45px;
+            height: 45px;
+            background: url(./img/close.png) 50% 50% no-repeat;
+            border: none;
+            background-size: 20px auto;
+            text-indent: -9999px;
+            cursor: pointer;
+        }
+
+        #detail_room .room > .expansionImg > .view_slider {
+            width: 70%;
+            display: inline-block;
+            margin-top: 60px;
+        }
+
+        #detail_room .room > .expansionImg > .view_slider img {
+            width: 1100px;
+            height: 400px;
+        }
+
+        /** 객실 이용안내 팝업 */
+
+        #popup_room_guide {
+            display: none;
+            overflow: hidden;
+            position: fixed;
+            top: 50%;
+            right: auto;
+            bottom: auto;
+            left: 46%;
+            width: 600px;
+            height: 500px;
+            margin: -250px 0 0 -200px;
+            border-radius: 4px;
+            background: #fff;
+            z-index: 999;
+        }
+        
+        #popup_room_guide > .fix_title {
+            display: block !important;
+            position: relative;
+            height: 64px;
+            padding-left: 32px;
+            background: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            font-size: 18px;
+            line-height: 64px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        #popup_room_guide > .fix_title > button {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: url(./img/close.png) 50% 50% no-repeat;
+            background-size: 24px auto;
+            text-indent: -9999px;
+        }
+
+        #popup_room_guide > .iscroll_cp {
+            overflow: auto;
+            position: absolute;
+            top: 64px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            margin: 0 0 0 0;
+            background: #fff;
+        }
+
+        #popup_room_guide > .iscroll_cp::-webkit-scrollbar { width: 10px; }
+
+        #popup_room_guide > .iscroll_cp::-webkit-scrollbar-thumb { 
+            height: 30%; /* 스크롤바의 길이 */
+            background: #fcf951; /* 스크롤바의 색상 */
+            border-radius: 10px; 
+        }
+
+        #popup_room_guide > .iscroll_cp::-webkit-scrollbar-track { background: rgb(245 244 183 / 51%);;  /*스크롤바 뒷 배경 색상*/ }
+
+        #popup_room_guide > .iscroll_cp section {
+            margin: 0 32px 0 32px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            font-size: 16px;
+            color: rgba(0,0,0,0.56);
+            text-align: left;
+        }
+
+        #popup_room_guide > .iscroll_cp section strong {
+            display: block;
+            margin: 37px 0 10px 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #popup_room_guide > .iscroll_cp .dot_txt {
+            font-size: 16px;
+            text-align: left;
+            line-height: 26px;
+            color: rgba(0,0,0,0.56);
+        }
+
+        #popup_room_guide > .iscroll_cp .dot_txt > li {
+            line-height: 26px;
+            margin-bottom: 7px;
+            padding-left: 14px;
+            background: url(//image.goodchoice.kr/images/web_v3/ico_bul_3.png) 0 2px no-repeat;
+            background-size: 12px auto;
+            font-size: 16px;
+        }
+
+        /** 숙소정보 */
+        .detail_info {
+            display: none;
+            width: 1000px;
+            margin: 0 auto 100px auto;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .detail_info > button {
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 56px;
+            padding: 0 16px;
+            border: none;
+            border-top: 1px solid rgba(0,0,0,0.08);
+            background: #fff;
+            font-size: 16px;
+            line-height: 56px;
+            color: rgba(0,0,0,0.87);
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .detail_info > button > span {
+            font-size: 16px;
+        }
+
+        .detail_info > button::after {
+            display: inline-block;
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            width: 12px;
+            height: 15px;
+            margin-top: -4px;
+            background: #fff url(./img/free-icon-up-down-7263381.png) 0 0 no-repeat;
+            background-size: 12px auto;
+        }
+
+        .detail_info > .info_default {
+            display: none;
+            width: 100%;
+            height: 500px;
+            border: 1px solid black;
+            background: rgb(250,250,250);
+        }
+
+        .detail_info > .info_default.on { display: block; }
+
+        .detail_info > .info_service {
+            display: none;
+            width: 100%;
+            height: 500px;
+            border: 1px solid black;
+            background: rgb(250,250,250);
+        }
+
+        .detail_info > .info_service.on { display: block; }
+
+        .detail_info > .info_seller {
+            display: none;
+            width: 100%;
+            height: 500px;
+            border: 1px solid black;
+            background: rgb(250,250,250);
+        }
+
+        .detail_info > .info_seller.on { display: block; }
+
+        /** 문의하기 */
+        .detail_qna { }
+
+        .detail_qna > .prodQna {
+            display: none;
+            width: 95%;
+            margin: 0 auto;
+        }
+
+        .detail_qna > .prodQna > h3 {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .detail_qna > .prodQna > .co_list {
+            margin-top: 23px;
+            max-height: 450px;
+            margin-bottom: 24px;
+            overflow-y: auto;
+        }
+
+        .detail_qna .co_list::-webkit-scrollbar { width: 10px; }
+
+        .detail_qna .co_list::-webkit-scrollbar-thumb { 
+            height: 30%; /* 스크롤바의 길이 */
+            background: #fcf951; /* 스크롤바의 색상 */
+            border-radius: 10px; 
+        }
+
+        .detail_qna .co_list::-webkit-scrollbar-track { background: rgb(245 244 183 / 51%);;  /*스크롤바 뒷 배경 색상*/ }
+
+        .detail_qna > .prodQna .co_item { margin-bottom: 24px; }
+
+        .detail_qna > .prodQna .co_img { float: left; }
+
+        .detail_qna > .prodQna .area_txt { 
+            text-align: left;
+            margin-left: 43px;
+            max-width: 84%;
+         }
+
+         .detail_qna > .prodQna .area_txt > span { 
+            font-size: 15px;
+         }
+
+         .detail_qna > .prodQna .area_txt > p { 
+            font-size: 13px;
+            margin-left: 10px;
+         }
+
+        .detail_qna > .prodQna .re_item { margin-left: 43px; }
+
+        .detail_qna > .prodQna .re_item > li { overflow: hidden; }
+
+        .detail_qna > .prodQna .re_item .re_item2 { 
+            margin-top: 12px;
+            border: 1px solid #f5f5f5;
+            background: #f5f5f5;
+            overflow: visible;
+            border-radius: 4px;
+            padding: 8px 12px;
+            text-align: left;
+            margin-left: 10px;
+         }
+
+        .detail_qna > .prodQna .re_item .re_item2 > .area_img { display: inline-block; }
+
+        .detail_qna > .prodQna .re_item .re_item2 > .area_img > img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .detail_qna > .prodQna .re_item .re_item2 > .area_txt_re { display: inline-block; margin-left: 8px; }
+
+        .detail_qna > .prodQna .re_item .re_item2 > .area_txt_re > span {
+            font-size: 11px;
+            font-weight: 400;
+        }
+
+        .detail_qna > .prodQna .re_item .re_item2 > .area_txt_re > p {
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .detail_qna > .prodQna > .co_write {
+            padding: 16px 0;
+            border-top: 1px solid #d9d9d9;
+        }
+
+        .detail_qna > .prodQna > .co_write > .co_write_inner {
+            height: 32px;
+            position: relative; 
+        }
+
+        .detail_qna > .prodQna .co_inner_img { text-align: left; }
+
+        .detail_qna > .prodQna .co_inner_txt { 
+            position: absolute;
+            top: 7px;
+            left: 40px;
+         }
+
+         .detail_qna > .prodQna .co_inner_txt > label {
+            border: 1px solid #dcdee0;
+            padding: 8px 10px;
+         }
+
+         .detail_qna > .prodQna .co_inner_txt > label > input {
+            font-size: 12px;
+            width: 1100px;
+            border: none;
+         }
+
+         .detail_qna .btnComment {
+            position: absolute;
+            top: -1px;
+            right: 84px;
+            width: 56px;
+            height: 32px;
+            background: #f2552c;
+            border: 1px solid #f2552c;
+            color: #fff;
+            font-size: 12px;
+            border-radius: 3px;
+            cursor: pointer;
+         }
 
     </style>
     <script>
+        /** 객실 이용 안내 팝업 */
+        function popup_room_guide(room_num){
+            
+            $('.popup_room_guide'+room_num).addClass('on');
+
+        }
+
+        /** 객실 이용 안내 팝업 해제 */
+        function popdown_room_guide(room_num){
+            
+            $('.popup_room_guide'+room_num).removeClass('on');
+
+        }
+
+        /** 탭 통합 class 제거 */
+        function remove_tab_class(){
+            $('#showRoom').removeClass('on');
+            $('#detail_room').attr('style', "display:none;");
+
+            $('#showInfo').removeClass('on');
+            $('.detail_info').attr('style', "display:none;");
+
+            $('#showReview').removeClass('on');
+            
+
+            $('#showDiary').removeClass('on');
+
+
+            $('#showQna').removeClass('on');
+            $('.prodQna').attr('style', "display:none;");
+        }
+
         /** 현재 날짜 구하기 */
         let now        = new Date();
         let nowYear    = now.getFullYear();
@@ -174,22 +759,132 @@
                 alert(" 체크인 :  " + start.format('YYYY-MM-DD') + " 체크아웃 : " + end.format('YYYY-MM-DD'));
             });
 
-            $('.slider-for').slick({
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                arrows: false,
-                // fade: true,
-                asNavFor: '.slider-nav'
+            /** swiper Slider */
+            // main slider 실행
+            var swiper = new Swiper(".mySwiper", {
+                spaceBetween: 10,
+                slidesPerView: 4,
+                freeMode: true,
+                watchSlidesProgress: true,
+                loop: true
             });
-            $('.slider-nav').slick({
-                slidesToShow: 3,
-                slidesToScroll: 1,
-                asNavFor: '.slider-for',
-                dots: true,
-                centerMode: true,
-                focusOnSelect: true
+            var swiper2 = new Swiper(".mySwiper2", {
+                spaceBetween: 10,
+                loop: true,
+                navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+                },
+                thumbs: {
+                swiper: swiper,
+                }
+            });
+            
+            /** 사장님 한마디 확장/축소 */
+            $('.sellerComment > button').click(function(){
+
+                if( $(this).text() == '더보기' ){
+                    $('.sellerComment > div').removeClass('clamp');
+                    $(this).text('접기');
+                }else if( $(this).text() == '접기' ){
+                    $('.sellerComment > div').addClass('clamp');
+                    $(this).text('더보기');
+                }
+            });
+            
+            let mySlider;
+            /** 객실 이미지 클릭 시 확장 */
+            $(document).on('click', '#expansion_Img', function(){
+
+                let name = $(this).next().next().next().attr('class');
+
+                $(this).next().next().next().addClass('on');
+
+                /** 다중 클릭 방지 */
+                if(name == 'expansionImg'){
+                    /** bxSlider 삽입 */
+                    mySlider = $(this).next().next().next().children('.view_slider').children().bxSlider({
+                        slideWidth: 1000,
+                        pager: false
+                    });
+
+                    mySlider.reloadSlider();
+                }
+            }); 
+
+            /** 확장 이미지 닫기 버튼 */
+            $('.expansionImg > button').click(function(){
+                $(this).parent().removeClass('on');
+                mySlider.destroySlider();
             });
 
+            /** 객실안내/예약 팝업 */
+            $('#showRoom').click(function(){
+                remove_tab_class();
+                $(this).addClass('on');
+                $('#detail_room').attr('style', "display:block;");
+            });
+
+            /** 탭 - 숙소정보 */
+            $('#showInfo').click(function(){
+                remove_tab_class();
+                $(this).addClass('on');
+                $('.detail_info').attr('style', "display:block;");
+            });
+
+            /** 탭 - 리뷰 */
+            $('#showReview').click(function(){
+                remove_tab_class();
+                $(this).addClass('on');
+            });
+
+            /** 탭 - 여행일기 */
+            $('#showDiary').click(function(){
+                remove_tab_class();
+                $(this).addClass('on');
+            });
+
+            /** 탭 - 문의하기 */
+            $('#showQna').click(function(){
+                remove_tab_class();
+                $(this).addClass('on');
+                $('.prodQna').attr('style', "display:block;");
+            });
+
+            /** 숙소정보 */
+            /** 숙소정보 - 기본정보 */
+            $('.detail_info_default').click(function(){
+                
+                let info_default = $(this).next().attr('class')
+
+                if( info_default == 'info_default' ){
+                    $('.info_default').addClass('on');
+                }else if( info_default == 'info_default on' ){
+                    $('.info_default').removeClass('on');
+                }
+            });
+
+            /** 숙소정보 - 편의시설 및 서비스 */
+            $('.detail_info_service').click(function(){
+                let info_service = $(this).next().attr('class')
+                
+                if( info_service == 'info_service' ){
+                    $('.info_service').addClass('on');
+                }else if( info_service == 'info_service on' ){
+                    $('.info_service').removeClass('on');
+                }
+            });
+
+            /** 숙소정보 - 판매자 정보 */
+            $('.detail_info_seller').click(function(){
+                let info_seller = $(this).next().attr('class')
+                
+                if( info_seller == 'info_seller' ){
+                    $('.info_seller').addClass('on');
+                }else if( info_seller == 'info_seller on' ){
+                    $('.info_seller').removeClass('on');
+                }
+            });
         });
     </script>
     <body>
@@ -247,34 +942,60 @@
             </header>
             <!-- 메인 -->
             <main id="productView">
+                <!-- 상단 이미지 & 상품 정보 -->
                 <div id="topContent">
                     <div id="productImg">
-                        <div class="sld-wrp">
-                            <div class="slider-for">
-                              <div class="slide-container">go 1</div>
-                              <div class="slide-container">go 2</div>
-                              <div class="slide-container">go 3</div>
-                              <div class="slide-container">go 4</div>
-                              <div class="slide-container">go 5</div>
-                              <div class="slide-container">go 6</div>
+                        <!-- swiper Slider -->
+                        <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide"><img src="./img/testImg/apollo_17_blue_marble_photo_dec_7_1972_as17-148-22727.jpg" /></div>
+                                <div class="swiper-slide"><img src="./img/testImg/apollo_8_earthrise_1968_as08-14-2383.jpg" /></div>
+                                <div class="swiper-slide"><img src="./img/testImg/iss068e036313_orig.jpg" /></div>
+                                <div class="swiper-slide"><img src="./img/testImg/pia16613_orig.jpg" /></div>
+                                <div class="swiper-slide"><img src="./img/testImg/pia21590_orig.jpg" /></div>
+                                <div class="swiper-slide"><img src="./img/testImg/iss068e047345.jpg" /></div>
                             </div>
-                            <div class="slider-nav">
-                              <div class="slide-btn">go 1</div>
-                              <div class="slide-btn">go 2</div>
-                              <div class="slide-btn">go 3</div>
-                              <div class="slide-btn">go 4</div>
-                              <div class="slide-btn">go 5</div>
-                              <div class="slide-btn">go 6</div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
                             </div>
-                          </div>
+                            <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide"><img src="./img/testImg/apollo_17_blue_marble_photo_dec_7_1972_as17-148-22727.jpg" /></div>
+                                <div class="swiper-slide"><img src="./img/testImg/apollo_8_earthrise_1968_as08-14-2383.jpg" /></div>
+                                <div class="swiper-slide"><img src="./img/testImg/iss068e036313_orig.jpg" /></div>
+                                <div class="swiper-slide"><img src="./img/testImg/pia16613_orig.jpg" /></div>
+                                <div class="swiper-slide"><img src="./img/testImg/pia21590_orig.jpg" /></div>
+                                <div class="swiper-slide"><img src="./img/testImg/iss068e047345.jpg" /></div>
+                            </div>
+                        </div>
                     </div>
                     <div id="productInfo">
-
+                        <!-- 상품 정보 -->
+                        <div class="info">
+                            <h3>테스트 호텔</h3>
+                            <div class="score">
+                                <span>9.0</span>
+                                베스트
+                            </div>
+                            <p class="address">테스트 테스트시 테스트 동</p>
+                        </div>
+                        <!-- 사장님 한마디 -->
+                        <div class="sellerComment">
+                            <strong>사장님 한마디</strong>
+                            <button>더보기</button>
+                            <div class="clamp">
+                                테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트
+                                <br>
+                                테스트 테스트 테스트 테스트 테스트 테스트
+                                <br>
+                                테스트 테스트 테스트 테스트 테스트 테스트
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="tab">
                     <!-- 객실안내/예약 -->
-                    <button id="showRoom">객실안내/예약</button>
+                    <button id="showRoom" class="on">객실안내/예약</button>
                     <!-- 숙소정보 -->
                     <button id="showInfo">숙소정보</button>
                     <!-- 리뷰 -->
@@ -288,33 +1009,81 @@
                 <form id="detail_room">
                     <article>
                         <div class="date">
+                            체크인 / 체크아웃
                             <input type="text" name="daterange" id="daterange">
                         </div>
                         <div class="room">
-                            <a href="#">
-                                <img src="#" alt="상품 이미지">
-                            </a>
+                            <p id="expansion_Img">
+                                <img src="./img/testImg/iss068e047345.jpg" alt="#">
+                            </p>
                             <div class="detail_room_info">
-                                <strong>테스트 호텔</strong>
-                                <span>가격</span>
+                                <strong>테스트 객실</strong>
                                 <div>
-                                    <span>1박가능</span>
+                                    <span>가격</span>
                                     <span>999,999원/1박</span>
+                                </div>
+                                <button type="button" onclick="popup_room_guide(1)">객실 이용 안내</button>
+                            </div>
+                            <button type="button">예약불가</button>
+                            <div class="expansionImg">
+                                <button type="button">닫기</button>
+                                <div class="view_slider">
+                                    <div class="slider">
+                                        <div><img src="./img/testImg/iss068e047345.jpg" alt="#3"></div>
+                                        <div><img src="./img/testImg/apollo_8_earthrise_1968_as08-14-2383.jpg" alt="#3"></div>
+                                        <div><img src="./img/testImg/iss068e036313_orig.jpg" alt="#3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <article>
+                        <div class="date">
+                            체크인 / 체크아웃
+                            <input type="text" name="daterange" id="daterange">
+                        </div>
+                        <div class="room">
+                            <p id="expansion_Img">
+                                <img src="./img/testImg/pia21590_orig.jpg" alt="#">
+                            </p>
+                            <div class="detail_room_info">
+                                <strong>테스트 객실</strong>
+                                <div>
+                                    <span>가격</span>
+                                    <span>999,999원/1박</span>
+                                </div>
+                                <button type="button" onclick="popup_room_guide(2)">객실 이용 안내</button>
+                            </div>
+                            <button type="button">예약불가</button>
+                            <div class="expansionImg">
+                                <button type="button">닫기</button>
+                                <div class="view_slider">
+                                    <div class="slider">
+                                        <div><img src="./img/testImg/iss068e047345.jpg" alt="#3"></div>
+                                        <div><img src="./img/testImg/apollo_8_earthrise_1968_as08-14-2383.jpg" alt="#3"></div>
+                                        <div><img src="./img/testImg/iss068e036313_orig.jpg" alt="#3"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </article>
                 </form>
                 <!-- 숙소정보 -->
-                <article id="detail_info" class="detail_info">
+                <article class="detail_info">
                     <!-- 기본정보 -->
-                    <button type="button" id="detail_info_default"></button>
+                    <button type="button" class="detail_info_default">
+                        <span>기본 정보</span>
+                    </button>
                     <section class="info_default"></section>
                     <!-- 편의시설 및 서비스 -->
-                    <button type="button" id="detail_info_service"></button>
+                    <button type="button" class="detail_info_service">
+                        <span>편의시설 및 서비스</span>
+                    </button>
                     <section class="info_service"></section>
                     <!-- 판매자 정보 -->
-                    <button type="button" id="detail_info_seller"></button>
+                    <button type="button" class="detail_info_seller">
+                        <span>판매자 정보</span>
+                    </button>
                     <section class="info_seller"></section>
                 </article>
                 <!-- 리뷰 -->
@@ -326,10 +1095,214 @@
 
                 </article>
                 <!-- 문의하기 -->
-                <article id="detail_qna" class="detail_qna">
-
+                <article class="detail_qna">
+                    <div class="prodQna">
+                        <ul class="co_list">
+                            <!-- co_item 반복 -->
+                            <li class="co_item"> 
+                                <div class="co_img">
+                                    <img src="../img/user_img3.jpeg" alt="">
+                                </div>
+                                <div class="area_txt">
+                                    <span>이동*</span>
+                                    <p>냉장 보관인가요? 실온 보관인가요?</p>
+                                </div>
+                                <ul class="re_item">
+                                    <li>
+                                        <div class="re_item2">
+                                            <div class="area_img">
+                                                <img src="../img/user_img2.jpeg" alt="">
+                                            </div>
+                                            <div class="area_txt_re">
+                                                <span><img src="../img/icon-seller.svg" alt="판매자">베리베리</span>
+                                                <p>햇빛이 들지 않는 실온에 보관해 주세요. 감사합니다 ^^</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="co_item"> 
+                                <div class="co_img">
+                                    <img src="../img/user_img3.jpeg" alt="">
+                                </div>
+                                <div class="area_txt">
+                                    <span>이동*</span>
+                                    <p>냉장 보관인가요? 실온 보관인가요?</p>
+                                </div>
+                                <ul class="re_item">
+                                    <li>
+                                        <div class="re_item2">
+                                            <div class="area_img">
+                                                <img src="../img/user_img2.jpeg" alt="">
+                                            </div>
+                                            <div class="area_txt_re">
+                                                <span><img src="../img/icon-seller.svg" alt="판매자">베리베리</span>
+                                                <p>햇빛이 들지 않는 실온에 보관해 주세요. 감사합니다 ^^</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="co_item"> 
+                                <div class="co_img">
+                                    <img src="../img/user_img3.jpeg" alt="">
+                                </div>
+                                <div class="area_txt">
+                                    <span>이동*</span>
+                                    <p>냉장 보관인가요? 실온 보관인가요?</p>
+                                </div>
+                                <ul class="re_item">
+                                    <li>
+                                        <div class="re_item2">
+                                            <div class="area_img">
+                                                <img src="../img/user_img2.jpeg" alt="">
+                                            </div>
+                                            <div class="area_txt_re">
+                                                <span><img src="../img/icon-seller.svg" alt="판매자">베리베리</span>
+                                                <p>햇빛이 들지 않는 실온에 보관해 주세요. 감사합니다 ^^</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="co_item"> 
+                                <div class="co_img">
+                                    <img src="../img/user_img3.jpeg" alt="">
+                                </div>
+                                <div class="area_txt">
+                                    <span>이동*</span>
+                                    <p>냉장 보관인가요? 실온 보관인가요?</p>
+                                </div>
+                                <ul class="re_item">
+                                    <li>
+                                        <div class="re_item2">
+                                            <div class="area_img">
+                                                <img src="../img/user_img2.jpeg" alt="">
+                                            </div>
+                                            <div class="area_txt_re">
+                                                <span><img src="../img/icon-seller.svg" alt="판매자">베리베리</span>
+                                                <p>햇빛이 들지 않는 실온에 보관해 주세요. 감사합니다 ^^</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="co_item"> 
+                                <div class="co_img">
+                                    <img src="../img/user_img3.jpeg" alt="">
+                                </div>
+                                <div class="area_txt">
+                                    <span>이동*</span>
+                                    <p>냉장 보관인가요? 실온 보관인가요?</p>
+                                </div>
+                                <ul class="re_item">
+                                    <li>
+                                        <div class="re_item2">
+                                            <div class="area_img">
+                                                <img src="../img/user_img2.jpeg" alt="">
+                                            </div>
+                                            <div class="area_txt_re">
+                                                <span><img src="../img/icon-seller.svg" alt="판매자">베리베리</span>
+                                                <p>햇빛이 들지 않는 실온에 보관해 주세요. 감사합니다 ^^</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="co_write" action="#">
+                            <div class="co_write_inner">
+                                <div class="co_inner_img">
+                                    <img src="../img/user_img1.jpeg" alt="">
+                                </div>
+                                <div class="co_inner_txt">
+                                    <label>
+                                        <input type="text" placeholder="문의 댓글을 남겨주세요." autocomplete="off">
+                                    </label>
+                                </div>
+                                <button type="button" class="btnComment">등록</button>
+                            </div>
+                        </form>
+                    </div>
                 </article>
             </main>
+            <!-- 객실 이용 안내 팝업 -->
+            <div id="popup_room_guide" data-room-guide="1" class="popup_room_guide1">
+                <div class="fix_title">
+                    객실 이용 안내 테스트 1
+                    <button type="button" onclick="popdown_room_guide(1)">닫기</button>
+                </div>
+                <div class="iscroll_cp" style="touch-action: none;">
+                    <div class="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
+                        <section>
+                            <strong>기본정보</strong>
+                            <ul class="dot_txt">
+                                <li>2인 기준 최대 2인</li>
+                                <li>더블베드 1개</li>
+                                <li>객실+욕실 / 7.14평</li>
+                            </ul>
+                        </section>
+                        <section>
+                            <strong>편의시설</strong>
+                            <ul class="dot_txt">
+                                <li>침구류, TV, 에어컨, 쇼파, 테이블, 옷장, 냉장고, 헤어드라이기, 욕실용품, 샤워가운</li>
+                            </ul>
+                        </section>
+                        <section>
+                            <strong>추가 정보</strong>
+                            <ul class="dot_txt">
+                                <li>
+                                    Room Only /  퀸베드 1개
+                                </li>
+                            </ul>
+                        </section>
+                        <section>
+                            <strong>선택 날짜</strong>
+                            <ul class="dot_txt">
+                                <li>03월 01일 ~ 03월 03일</li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+            </div>
+            <div id="popup_room_guide" data-room-guide="2" class="popup_room_guide2">
+                <div class="fix_title">
+                    객실 이용 안내 테스트 2
+                    <button type="button" onclick="popdown_room_guide(2)">닫기</button>
+                </div>
+                <div class="iscroll_cp" style="touch-action: none;">
+                    <div class="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
+                        <section>
+                            <strong>기본정보</strong>
+                            <ul class="dot_txt">
+                                <li>2인 기준 최대 2인</li>
+                                <li>더블베드 1개</li>
+                                <li>객실+욕실 / 7.14평</li>
+                            </ul>
+                        </section>
+                        <section>
+                            <strong>편의시설</strong>
+                            <ul class="dot_txt">
+                                <li>침구류, TV, 에어컨, 쇼파, 테이블, 옷장, 냉장고, 헤어드라이기, 욕실용품, 샤워가운</li>
+                            </ul>
+                        </section>
+                        <section>
+                            <strong>추가 정보</strong>
+                            <ul class="dot_txt">
+                                <li>
+                                    Room Only /  퀸베드 1개
+                                </li>
+                            </ul>
+                        </section>
+                        <section>
+                            <strong>선택 날짜</strong>
+                            <ul class="dot_txt">
+                                <li>03월 01일 ~ 03월 03일</li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+            </div>
             <!-- 푸터 -->
             <footer>
                 <div class="footer_inner">
