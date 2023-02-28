@@ -48,7 +48,6 @@ main > #cs {
     margin-right: 31px;
 }
 
-
 .tab {
     height: auto;
     border-bottom: 1px solid rgba(0,0,0,0.2);
@@ -421,27 +420,266 @@ main > #cs {
 
 /* 1:1 문의 */
 
-#qna_list {display: block;}
-
-
-#qnas .list_n p {
-
-}
-
-#qnas .list_n span {
+#qna_list {display: none;}
+#qnas .list_n span:first-child {
     font-weight: bold;
     font-size: 18px; 
     color: #252525;
     margin-right: 10px;
 }
-
-#qnas .toggle {}
-#qnas .toggle p {font-size: 14px;}
-#qnas .toggle span {
+#qnas .list_n span:last-child {
     display: block;
-    font-weight: bold;
-    font-size: 15px;
-    margin-bottom: 10px;
 }
-#qnas .toggle .qna {margin-bottom: 10px;}
 
+.list_n span > b {
+    position: relative;
+    bottom: 1px;
+    margin-right: 4px;
+    font-size: 13px;
+}
+
+#qna_tab strong {
+    font-size: 18px;
+    width: 500px;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#qna_tab .reply_chk {
+    margin-left: 8px;
+    padding: 0 5px;
+    border-radius: 3px;
+    font-size: 15px;
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    border: 1px solid rgba(0,0,0,0.87);
+    color: rgba(0,0,0,0.87);
+}
+
+#qnas .toggle {
+    margin-bottom: 0;
+    padding: 35px 32px 45px 32px;
+    border-radius: 0;
+}
+
+#qnas .toggle span {
+    display: inline-block;
+    padding-right: 8px;
+    color: rgba(0,0,0,0.87);
+    font-size: 15px;
+    line-height: 26px;
+    font-weight: bold;
+}
+
+#qnas .toggle div {
+    font-size: 14px; 
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+
+#qnas .toggle .reply {
+    margin-top: 65px;
+    padding-left: 44px;
+    background: url('../img/csImg/ico_reply.png') 11px -2px no-repeat;
+    background-size: 24px auto;
+}
+
+#qnas .toggle .reply span {
+    display: inline-block;
+}
+
+/* 문의하기 작성 */
+
+.alert_top {
+    padding: 40px 0; 
+    border-bottom: none;
+}
+
+.alert_top p {
+    border-radius: 0;
+    background: #fff;
+    padding: 0 0;
+    font-size: 15px;
+    line-height: normal;
+    color: rgba(0,0,0,0.56);
+    text-align: left;
+}
+
+
+.info_wrap b {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: rgba(0,0,0,0.56);
+}
+
+.info_wrap select {
+    height: 48px;
+    margin-bottom: 46px;
+}
+
+.info_wrap .select_opt {
+    width: 100%;
+    padding: 0 12px;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 4px;
+    background: rgb(250,250,250) url(//image.goodchoice.kr/images/web_v3/ico_arr_down_4.png) right 10px top 50% no-repeat;
+    background-size: 18px auto;
+    font-size: 16px;
+    color: rgba(0,0,0,0.56);
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+}
+
+.info_wrap .select_opt option {
+    font-size: 14px;
+}
+
+
+.qna_wrap {
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.08);
+    height: 48px;
+    padding: 0 40px 0 10px;
+    border-radius: 4px;
+}
+
+.qna_wrap input {
+    border: none;
+    background: none;
+    width: 100%;
+    line-height: 48px;
+    font-size: 16px;
+    color: rgba(0,0,0,0.56);
+}
+
+.qna_wrap input::placeholder {
+    font-weight: 300;
+}
+
+.phone-block {
+    margin-bottom: 48px;
+}
+
+.email-block {
+    margin-bottom: 48px;
+}
+
+
+.text_wrap  b {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: rgba(0,0,0,0.56);
+}
+.text_wrap textarea {
+    width: 100%;
+    height: 272px;
+    padding: 33px 32px;
+    border-radius: 4px;
+    font-size: 18px;
+    line-height: 29px;
+    border: 1px solid rgba(0,0,0,0.08);
+    color: rgba(0,0,0,0.56);
+    resize: none;
+    box-sizing: border-box;
+}
+
+
+.text_wrap textarea::placeholder {
+    font-weight: 300;
+    font-size: 15px;
+}
+
+.btn_wrap {
+    text-align: center;
+}
+
+
+/* 약관 및 정책 */
+.terms_all h2 {
+    margin-top: 20px;
+    height: 58px;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 60px;
+}
+
+
+.terms_all .list_n {
+
+}
+
+.terms_all .list_n span {
+    font-weight: bold;
+    font-size: 18px !important;
+    margin-right: 5px;
+}
+.terms_all .list_n b {
+    font-size: 16px;
+    color: #252525;
+    font-weight: bold;
+}
+
+
+
+
+.privacy table {
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    border: 1px solid #ccc;}
+
+.privacy table td:nth-child(1){width: 10%;text-align: center;}
+.privacy table td:nth-child(2){width: 20%;}
+.privacy table td:nth-child(3){width: 35%;}
+.privacy table td:nth-child(4){width: 35%;}
+
+.privacy table th {
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 5px;
+    background: rgba(0,0,0,0.08);
+    font-size: 12px;
+    color: rgba(0,0,0,0.56);
+    word-break: break-all;
+}
+
+.privacy table td {
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    text-align: left;
+    padding: 5px;
+    background: rgb(250,250,250);
+    font-size: 12px;
+    color: rgba(0,0,0,0.56);
+    word-break: break-all;
+}
+
+.privacy table td .strong {
+    font-weight: bold;
+    text-decoration: underline;
+    color: #252525;
+    font-size: 15px;
+}
+
+.fourteen {font-size: 16px;}
+.fourteen *{
+    font-size: 16px;
+}
+
+.fourteen .font_red {color: #f2114c; margin-top: 35px;}
+.fourteen b {font-weight: bold;}
+
+
+.terms {display: block;}
+.location {display: block;}
+.privacy {display: block;}
+.fourteen {display: block;}
