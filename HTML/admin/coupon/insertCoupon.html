@@ -182,12 +182,23 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>할인율 (%)</td>
-                                                <td><input type="number" placeholder="할인율 또는 할인가 택1 작성"></td>
+                                                <td>할인율/할인가</td>
+                                                <td>
+                                                    <input class="insertSaleOption" type="number" placeholder="할인율 또는 할인가 택1 작성">
+                                                    <div class="selectSaleOption">
+                                                        <input type="radio" name="sale_option" value="">퍼센트(%)
+                                                        <input type="radio" name="sale_option" value="">원(₩)
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>할인가 (원)</td>
-                                                <td><input type="number" placeholder="할인율 또는 할인가 택1 작성"></td>
+                                                <td>발급 수량</td>
+                                                <td>
+                                                    <input class="insertSaleCount" type="number" placeholder="쿠폰 발급 수량 작성">
+                                                    <div class="selectSaleLimit">
+                                                        <input type="radio" name="sales_option" value="">수량제한없음
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>금액 조건</td>

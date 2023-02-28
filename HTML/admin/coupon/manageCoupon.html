@@ -148,9 +148,7 @@
                                     <span>쿠폰목록</span>
                                 </div>
 
-                                <!--  -->
                                 <form class="col_register_form" action="#">
-                                    
                                     <!-- 쿠폰 관리 -->
                                     <div class="col_register1">
                                         <div class="stayName">
@@ -158,9 +156,9 @@
                                                 <span>쿠폰 관리</span>
                                             </div>
                                         </div>
-                                        <!-- 쿠폰 검색-->
+                                        <!-- 쿠폰 검색 (관리자)-->
                                         <div class="coupon_top">
-                                            <h3>발급쿠폰검색</h3>
+                                            <h3>발급쿠폰검색 (관리자 전용 - 해당 괄호 문구 삭제예정)</h3>
                                             <table class="search_coupon">
                                                 <colgroup>
                                                     <col width="10%">
@@ -169,14 +167,19 @@
                                                     <col width="40%">
                                                 </colgroup>
                                                 <tr>
-                                                    <th>쿠폰명</th>
+                                                    <th>
+                                                        <select class="search_option">
+                                                            <option value="A">숙소아이디</option>
+                                                            <option value="A">쿠폰명</option>
+                                                            <option value="A">판매자</option>
+                                                        </select>
+                                                    </th>
                                                     <td>
                                                         <input type="text">
                                                     </td>
                                                     <th>발급구분</th>
                                                     <td>
                                                         <select name="c_role_type" id="c_role_type">
-                                                            <!-- 관리자만 볼 수 있게 -->
                                                             <option value="A">관리자 발급</option>
                                                             <option value="A">판매자 발급</option>
                                                         </select>
@@ -184,7 +187,42 @@
                                                 </tr>
                                             </table>
                                             <div class="search_btn">
-                                                <button type="button" class="btnSearch">검색</button>
+                                                <button type="button" class="btnAdminProd3">검색</button>
+                                            </div>
+                                        </div>
+                                        <!-- 쿠폰 검색 (판매자)-->
+                                        <div class="coupon_top">
+                                            <h3>발급쿠폰검색 (판매자 전용 - 해당 괄호 문구 삭제예정)</h3>
+                                            <table class="search_coupon">
+                                                <colgroup>
+                                                    <col width="10%">
+                                                    <col width="40%">
+                                                    <col width="10%">
+                                                    <col width="40%">
+                                                </colgroup>
+                                                <tr>
+                                                    <th>
+                                                        <select class="search_option">
+                                                            <option value="A">쿠폰명</option>
+                                                            <option value="A">숙소아이디</option>
+                                                        </select>
+                                                    </th>
+                                                    <td>
+                                                        <input type="text">
+                                                    </td>
+                                                    <th>발급구분</th>
+                                                    <td>
+                                                        <select name="c_role_type" id="c_role_type">
+                                                            <option value="A">A호텔</option>
+                                                            <option value="A">B펜션</option>
+                                                            <option value="A">C펜션</option>
+                                                            <option value="A">D펜션</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <div class="search_btn">
+                                                <button type="button" class="btnAdminProd3">검색</button>
                                             </div>
                                         </div>
                                         <!-- 쿠폰 목록 -->
