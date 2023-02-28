@@ -244,7 +244,7 @@
     
 
            /* 페이징 스타일 공통 */
-           .paging{
+        .paging{
             border-top: none;
             padding: 32px 0 0 0;
             display: block;
@@ -292,9 +292,9 @@
             font-weight: bold;
         }
 
-  
-     /*main*/
-     main{
+
+    /*main*/
+    main{
         width: 1200px;
         height: auto;
         margin: 0 auto;
@@ -390,17 +390,17 @@
         height: 100%;
         margin: 0px auto;
         border-spacing: 0px 30px;
-
-    }
-    .reserve_history > table > tbody {
-
+        border-collapse: collapse;
     }
     .reserve_history > table > tbody > tr {
-        border: 1px solid #ececec;
+        border-bottom: 1px solid #ececec;
         position: relative;
     }
     .reserve_history > table > tbody > tr > td:nth-child(1) {
         width: 20%;
+    }
+    .reserve_history > table > tbody > tr > td > div {
+        margin-bottom: 9PX;
     }
     .reserve_history > table .thumb {
         display: block;
@@ -451,14 +451,13 @@
         display: inline-block;
         cursor: pointer;
         color: #ffffff;
-        font-family: Arial;
         font-size: 12px;
         padding: 7px 11px;
         text-decoration: none;
         text-shadow: 0px 1px 0px #4d3534;
         position: absolute;
         right: 19px;
-        bottom: 1px;
+        bottom: 24px;
     }
 
 
@@ -466,22 +465,33 @@
 
     /* 예약 내역 상세 보기 - view */
     .reserve_view {
-        width: 461px;
         position: relative;
-        left: 140px;
         background-color: #F5F5F5;
-        margin: 25px 0px;
+        margin: 30px 0px;
+        padding: 10px 28px;
     }
-    .reserve_view > p{
-        font-size: 16px;
+
+    .reserve_view > div {
+        border-bottom: 1px solid;
+        margin-top: 24px;
+    }
+    .reserve_view > div:last-child {
+        border-bottom: none;
+    }
+    .reserve_view > div:nth-last-child(2){
+        border-bottom: none;
+    }
+    .reserve_view > div > p {
+        font-size: 15px;
         font-weight: bold;
     }
-    .reserve_view > span {
+    .reserve_view > div > span {
         font-size: 15px;
     }
-    .reserve_view > span > span {
-        font-size: 15px;
+    .reserve_view > div > p:last-child {
+        font-size: 28px;
     }
+
     .btnReserveView{
         text-align: center;
         background-color: white;
@@ -494,7 +504,6 @@
         display:inline-block;
         cursor:pointer;
         color:white;
-        font-family:Arial;
         font-size:16px;
         padding:16px 24px;
         text-decoration:none;
@@ -508,7 +517,6 @@
         display:inline-block;
         cursor:pointer;
         color:#505739;
-        font-family:Arial;
         font-size:17px;
         padding:16px 27px;
         text-decoration:none;
@@ -518,25 +526,21 @@
 
 
      /* 포인트 */
-     .my_point > .nowPoint {
+    .my_point > .nowPoint {
         width: 618px;
         height: 146px;
-        left: 72px;
         background-color: #F5F5F5;
-        margin: 32px 0px;
-        position: relative;
+        margin: 32px auto;
         border-radius: 30px 30px;
         text-align: center;
     }
     .my_point > .nowPoint > p{
         font-size: 32px;
         font-weight: bold;
-        text-indent: 19px;
         padding-top: 22px;
     }
     .my_point > .nowPoint > span {
         font-size: 35px;
-        text-align: center;
     }
 
     .my_point_history {
@@ -639,14 +643,12 @@
 
 
 
-     /* 쿠폰함 - my_Coupon*/
+    /* 쿠폰함 - my_Coupon*/
 
     .my_Coupon > .keepCoupon {
-        width: 700px;
-        padding-left: 77px;
+        padding-left: 24px;
         padding-top: 30px;
     }
-    .my_Coupon > .keepCoupon > strong {}
     
     .my_Coupon > .keepCoupon > strong > span {
         font-size: 24px;
@@ -676,7 +678,6 @@
         overflow-wrap: break-word;
         overflow: hidden;
     }
-    .my_Coupon .coupon_item_price {}
     .my_Coupon .coupon_item_num {
         font-size: 45px;
         font-weight: 700;
@@ -738,112 +739,195 @@
 
      /* 나의 찜 */
 
-        .my_pick > table {
-            width: 800px;
-            height: 100%;
-            margin: 0px auto;
-            border-spacing: 0px 30px;
+    .my_pick > table {
+        width: 800px;
+        height: 100%;
+        margin: 0px auto;
+        border-spacing: 0px 30px;
+        border-collapse: collapse;
+    }
+    .my_pick > table > tbody > tr {
+        border-bottom: 1px solid #ececec;
+        position: relative;
+    }
+    .my_pick > table > tbody > tr > td:nth-child(1) {
+        width: 20%;
+    }
+    .my_pick > table .my_pick_img {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+    .my_pick > table .my_pick_img > img {
+        width: 148px;
+        height: 141px;
+        margin-top: 7px;
+    }
 
-        }
-        .my_pick > table > tbody > tr {
-            border: 1px solid #ececec;
-            position: relative;
-        }
-        .my_pick > table > tbody > tr > td:nth-child(1) {
-            width: 20%;
-        }
-        .my_pick > table > tbody > tr > td:nth-child(2) {
-        }
-        .my_pick > table .my_pick_img {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-        .my_pick > table .my_pick_img > img {
-            width: 148px;
-            height: 141px;
-            margin-top: 7px;
-        }
+    .my_pick > table .my_pick_Name {
+        position: absolute;
+        top: -3px;
+    }
 
-        .my_pick > table .my_pick_Name {
-            position: absolute;
-            top: -3px;
-        }
+    .my_pick > table .pickName {
+        font-size: 24px;
 
-        .my_pick > table .pickName {
-            font-size: 24px;
+    }
+    .my_pick > table .my_pick_rating{
+        box-sizing: border-box;
+        display: flex;
+        flex-basis: 100%;
+        flex-grow: 5;
+        max-width: 36px;
+        padding-top: 28px;
+    }
+    .my_pick > table .my_pick_rating .star-ratings {
+        color: #aaa9a9;
+        position: relative;
+        unicode-bidi: bidi-override;
+        width: max-content;
+        -webkit-text-fill-color: transparent;
+        -webkit-text-stroke-width: 1.3px;
+        -webkit-text-stroke-color: #2b2a29;
+    }
+    .my_pick > table  .my_pick_rating .star-ratings .star-ratings-fill {
+        color: #fff58c;
+        padding: 0;
+        position: absolute;
+        z-index: 1;
+        display: flex;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        -webkit-text-fill-color: gold;
+    }
+    .my_pick > table  .my_pick_rating .star-ratings .star-ratings-fill > span {
+        font-size: 18px;
+    }
+    .my_pick > table .my_pick_rating .star-ratings-base {
+        z-index: 0;
+        padding: 0;
+    }
+    .my_pick > table .my_pick_rating .star-ratings-base > span {
+        font-size: 18px;
+    }
 
-        }
-        .my_pick > table .my_pick_rating{
-            box-sizing: border-box;
-            display: flex;
-            flex-basis: 100%;
-            flex-grow: 5;
-            max-width: 36px;
-            padding: 2px;
-        }
-        .my_pick > table .my_pick_rating .star-ratings {
-            color: #aaa9a9;
-            position: relative;
-            unicode-bidi: bidi-override;
-            width: max-content;
-            -webkit-text-fill-color: transparent;
-            -webkit-text-stroke-width: 1.3px;
-            -webkit-text-stroke-color: #2b2a29;
-        }
-        .my_pick > table  .my_pick_rating .star-ratings .star-ratings-fill {
-            color: #fff58c;
-            padding: 0;
-            position: absolute;
-            z-index: 1;
-            display: flex;
-            top: 0;
-            left: 0;
-            overflow: hidden;
-            -webkit-text-fill-color: gold;
-        }
-        .my_pick > table  .my_pick_rating .star-ratings .star-ratings-fill > span {
-            font-size: 18px;
-        }
-        .my_pick > table .my_pick_rating .star-ratings-base {
-            z-index: 0;
-            padding: 0;
-        }
-        .my_pick > table .my_pick_rating .star-ratings-base > span {
-            font-size: 18px;
-        }
+    .my_pick > table .my_pick_rating .my_pick_review_count {
+        padding-left: 5px;
+        padding-top: 3px;
+    }
+    .my_pick > table .my_pick_rating .my_pick_review_count > span {
+        font-size: 19px;
+    }
+    .my_pick > table .my_pick_rating .my_pick_review_count > span::before {
+        content: "(";
+    }
+    .my_pick > table .my_pick_rating .my_pick_review_count > span::after {
+        content: ")";
+    }
+    .my_pick > table .blank {
+        height: 32px;
+    }
+    .my_pick > table .my_pick_address > span {
+        font-size: 24px;
+    }
 
-        .my_pick > table .my_pick_rating .my_pick_review_count {
-            padding-left: 5px;
-            padding-top: 3px;
-        }
-        .my_pick > table .my_pick_rating .my_pick_review_count > span {
-            font-size: 19px;
-        }
-        .my_pick > table .my_pick_rating .my_pick_review_count > span::before {
-            content: "(";
-        }
-        .my_pick > table .my_pick_rating .my_pick_review_count > span::after {
-            content: ")";
-        }
-        .my_pick > table .blank {
-            height: 32px;
-        }
-        .my_pick > table .my_pick_address {
-            position: absolute;
-            top: 118px;
-        }
-        .my_pick > table .my_pick_address > span {
-            font-size: 24px;
-        }
-        .my_pick > table .my_pick_room {
-            position: absolute;
-            right: 61px;
-        }
-        .my_pick > table .my_pick_room > span {
-            font-size: 19px;
-        }
-        .my_pick > table .my_pick_room .roomNum {
-            font-size: 19px;
-        }
+
+
+    /* 내정보 */
+    .my_info .my_page {
+        border-top: none;
+        padding: 0;
+        font-size: 18px;
+    }              
+    .my_page form:first-child .top_area {
+        position: relative;
+        padding-top: 29px;
+    }
+    .login_info {
+        position: relative;
+        text-align: left;
+    }
+    .login_info div img {
+        width: 100px;
+        height: 100px;
+        border-radius: 71px 71px;
+    }
+    .login_info p {
+        padding-bottom: 42px;
+        font-size: 15px;
+        font-weight: bold;
+        color: rgba(0,0,0,0.32);
+    }
+    .my_page .pw_input{
+        position: relative;
+    }
+    .my_page .pw_input_title {
+        padding-right: 240px;
+    }
+    .my_page .pw_input_title b {
+        width: 110px;
+        float: left;
+        margin-bottom: 12px;
+        display: block;
+        font-size: 18px;
+    }
+    .my_page .pw_input_title .title_uinfo {
+        font-size: 18px;
+    }
+    .my_page .pw_input_title::after{
+        content: "";
+        display: block;
+        clear: both;
+    }
+    .my_page .pw_input .pw_input_btns-warp {
+        display: block;
+        overflow: hidden;
+        margin-bottom: 50px;
+        padding-right: 110px;
+    }
+    .my_page .pw_input_btns-warp .pw_change_btn {
+        float: left;
+        margin-right: 5%;
+        height: 42px;
+        font-size: 15px;
+        background: none;
+        cursor: pointer;
+        white-space: nowrap;
+        text-align: center;
+        box-sizing: border-box;
+        width: 144px;
+        display: block;
+        border: 1px solid #ccc;
+    }
+    .bot_btn{
+        height: 56px;
+        margin-top: 48px;
+        border-top: 1px solid rgba(0,0,0,0.08);
+        background: none;
+        text-align: left;
+        padding-right: 16px;
+    }
+    .bot_btn p {
+        display: inline-block;
+        padding-top: 23px;
+        font-size: 16px;
+        color: rgba(0,0,0,0.56);
+    }
+    .bot_btn button {
+        width: 80px;
+        display: inline-block;
+        cursor: pointer;
+        color: rgba(0,0,0,0.87);
+        text-decoration: underline;
+        height: auto;
+        margin-top: 0;
+        padding: 0 8px;
+        border: none;
+        background: none;
+        font-size: 16px;
+    }
+    .bot_btn button a {
+        font-size: 15px;
+    }
 
