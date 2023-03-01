@@ -1,12 +1,235 @@
+<!--
+    날짜 : 2023/03/01
+    이름 : 황원진
+    내용 : 마이페이지 다이어리 write HTML 
+-->
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Travel with Lemo::diary-write</title>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">   
+        <!-- style css -->
+        <link rel="stylesheet" href="/css/my.css">
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>      
+        <!-- Date Range Picker -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <style>
+        .date {
+            width: 340px;
+            font-size: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .date > input {
+            width: 220px; height: 40px;
+            font-size: 15px;
+            text-align: center;
+            border: none;
+        }
+
+        </style>
+        <script>
+
+            /** 현재 날짜 구하기 */
+            let now        = new Date();
+            let nowYear    = now.getFullYear();
+            let nowMonth   = now.getMonth() + 1;
+            let nowDate    = now.getDate();
+            let date      = nowYear + '-' + nowMonth + '-' + nowDate;
+
+            $(function(){
+                /** Jquery UI Date Picker */
+                $('#daterange').daterangepicker({
+                    "locale": {
+                        "format": "YYYY-MM-DD",
+                        "separator": " ~ ",
+                        "applyLabel": "확인",
+                        "cancelLabel": "취소",
+                        "fromLabel": "From",
+                        "toLabel": "To",
+                        "customRangeLabel": "Custom",
+                        "weekLabel": "W",
+                        "daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"],
+                        "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+                        "firstDay": 1
+                    },
+                    "startDate": date,
+                    "endDate": date,
+                    "drops": "down",
+                    "opens": "center"
+                }, function (start, end, label) {
+                    alert(" 여행시작 :  " + start.format('YYYY-MM-DD') + " 여행끝 : " + end.format('YYYY-MM-DD'));
+                });
+
+            });
+
+        </script>
     </head>
     <body>
-        
+        <div id="wrapper">
+            <header>
+                
+                <div class="header_inner">
+                    <div class="header_flex">
+                        <div class="header_logo">
+
+                            <a href="#"><img src="/img/indexImg/lemo_logo.png" alt="레모 로고"></a>
+                            <div class="logo">LEMO</div>
+                        </div>
+                        <div class="header_service">
+                            <a href="#">로그인</a>
+                            <div class="dropdown_menu">
+                                <button id="dropdown">마이페이지
+                                    <img src="/img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content" style="display: none;">
+                                    <a href="#">나의 정보</a>
+                                    <a href="#">포인트</a>
+                                    <a href="#">쿠폰함</a>
+                                    <a href="#">예약내역</a>
+                                    <a href="#">위시리스트</a>
+                                    <a href="#">나의 여행일기</a>
+                                    <a href="#">나의 리뷰</a>
+                                </div>
+                            </div>
+                            <div class="dropdown_menu">
+                                <button id="dropdown2">고객센터
+                                    <img src="/img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content2" style="display: none;">
+                                    <a href="#">공지사항</a>
+                                    <a href="#">이벤트</a>
+                                    <a href="#">자주 묻는 질문</a>
+                                    <a href="#">1:1 문의</a>
+                                    <a href="#">여행일기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="header_searchBar">
+                            <form class="search-container" action="#">
+                                <div class="search">
+                                    <input id="search-box" type="text" class="search-box" name="q"/>
+                                    <button type="submit" class="btnSearch">
+                                        <input type="image" src="/img/indexImg/btn_search.png" id="search-submit"/>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> 
+            </header>
+            
+            <main>
+                <section id="my">
+                    <nav class="category">
+                        <span>마이페이지</span>
+                        <ul>
+                            <li>
+                                <a href="#">내정보</a>
+                            </li>
+                            <li>
+                                <a href="#">포인트</a>
+                            </li>
+                            <li>
+                                <a href="#">쿠폰함</a>
+                            </li>
+                            <li>
+                                <a href="#">예약내역</a>
+                            </li>
+                            <li>
+                                <a href="#">나의 찜</a>
+                            </li>
+                            <li>
+                                <a href="#" class="on">나의 여행일기</a>
+                            </li>
+                            <li>
+                                <a href="#">나의 리뷰</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="content">
+                        <!-- 카테고리 -->
+                        <div class="tab">
+                            <span class="my_title">
+                                나의 여행일기 작성하기
+                            </span>
+                        </div>
+                        <div class="diaryWrite">여행일기 작성</div>
+                        <div class="diary_namearea">
+                            <span class="diary_name">제목</span>
+                        </div>
+                        <div>
+                            <input type="text" value="제목을 입력하세요">
+                        </div>
+                        <div>
+                            <span>여행기간</span>
+                        </div>
+                        <div class="date">
+                            <input type="text" name="daterange" id="daterange">
+                        </div>
+                    </div>  
+                </section>
+            </main>
+            <footer>
+                <div class="footer_inner">
+                    <div class="footer_menu">
+                        <table>
+                            <tr>
+                                <td><a href="#">ABOUT</a></td>
+                                <td><a href="#">NOTICE</a></td>
+                                <td><a href="#">CS CENTER</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer_block">
+                        <div class="footer_block_left">
+                            <div class="footer_block_row">
+                                <!-- 로고 클릭 시 메인으로 이동 -->
+                                <div class="row_col_1"><a href="#">LEMO</a></div>
+                                <div class="row_col_2">LETTUCE MEMORIES</div>
+                                <div class="row_col_3">
+                                    주식회사 레모 | CEO 서박이 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
+                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
+                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_block_right">
+                            <div class="footer_block_row">
+                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
+                                <div class="row_col_4"><a href="#">고객센터</a></div>
+                                <div class="row_col_5">
+                                    070-2023-0223 <br>
+                                    MON - FRI AM 09:00 - PM 17:00 <br>
+                                    BREAK PM 12:00 - PM 13:00 <br>
+                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer_terms">
+                        <div class="footer_block_row2">
+                            <a href="#">이용약관</a>
+                            <span>&nbsp;|&nbsp;</span>
+                            <a href="#">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="footer_copyright">
+                        <div class="footer_block_row2">
+                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </body>
 </html>

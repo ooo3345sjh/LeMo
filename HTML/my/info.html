@@ -20,9 +20,85 @@
         <!-- style css -->
         <link rel="stylesheet" href="../css/my.css">
         <style>
+            .on-off-toggle {
+            width: 56px;
+            height: 24px;
+            position: relative;
+            float: right;
+            margin-right: 36px;
+            }
+
+            .on-off-toggle__slider {
+            width: 56px;
+            height: 24px;
+            display: block;
+            border-radius: 34px;
+            background-color: #d8d8d8;
+            transition: background-color 0.4s;
+            }
+
+            .on-off-toggle__slider:before {
+                content: '';
+                display: block;
+                background-color: #fff;
+                box-shadow: 0 0 0 1px #949494;
+                bottom: 3px;
+                height: 18px;
+                left: 3px;
+                position: absolute;
+                transition: .4s;
+                width: 18px;
+                z-index: 5;
+                border-radius: 100%;
+            }
+            
+            .on-off-toggle__slider:after {
+                display: block;
+                line-height: 24px;
+                text-transform: uppercase;
+                font-size: 12px;
+                font-weight: bold;
+                content: 'off';
+                color: #484848;
+                padding-left: 26px;
+                transition: all 0.4s;
+            }
+            
+        
+
+            .on-off-toggle__input {
+            /*
+                This way of hiding the default input is better 
+                for accessibility than using display: none;
+            */
+            position: absolute;
+            opacity: 0;
+            }
+
+            .on-off-toggle__input:checked + 
+            .on-off-toggle__slider {
+            background-color: #bbd444;
+            }
+            .on-off-toggle__input:checked + 
+            .on-off-toggle__slider:before {
+                transform: translateX(32px);
+            }
+            .on-off-toggle__input:checked + 
+            .on-off-toggle__slider:after {
+                content: 'on';
+                color: #FFFFFF;
+                padding-left: 8px;
+            }
+
+            .my_marketing{
+                font-size: 14px;
+            }
+
         
         </style>
         <script>
+
+            //회원탈퇴
             $(function(){
                 $('.withdraw').click(function(){
                     console.log("1");
@@ -30,6 +106,25 @@
                 });
             });
 
+            // 프로필 사진
+            window.addEventListener("load", function(){
+                var section =  document.querySelector(".login_info");
+                
+                var proButton = section.querySelector("#my_profile");
+                var fileButton = section.querySelector('.btn_file');
+
+                proButton.onclick=function(e){
+                    var event = new MouseEvent("click",{
+                        'view':window,
+                        'bubbles':true,
+                        'cancelable':true
+                    });
+                    fileButton.dispatchEvent(event);
+                }
+            });
+
+
+            
         </script>
     </head>
     <body>
@@ -126,8 +221,8 @@
                                 <div class="top_area">
                                     <div class="login_info">
                                         <form>
-                                            <img src="./img/profile.png" alt>
-                                            <!--<input type="file" src="./img/profile.png">-->
+                                            <img id="my_profile" src="./img/profile.png" alt>
+                                            <input class="btn_file" type="file" style="display: none;">
                                         </form>
                                         <div class="social_login">
                                             <p>Naver 회원으로 로그인</p>
@@ -147,13 +242,18 @@
                                         <li>
                                             <div class="info_phone">
                                                 <div>
-                                                    <span class="phone_text">미인증</span>
+                                                    <span id="phoneNum" class="phone_text">010-****-2541</span>
                                                     <button type="button" class="btn_edit">
-                                                        <span class="text">인증</span>
+                                                        <span class="text">수정</span>
                                                     </button>
                                                 </div>
                                             </div>
                                         </li>
+                                        <div class="on-off-toggle">
+                                            <input class="on-off-toggle__input" type="checkbox" id="bopis" />
+                                            <label for="bopis" class="on-off-toggle__slider"></label>
+                                        </div>
+                                        <div class="my_marketing">마켓팅 수신 동의</div>
                                     </ul>
                                 </div>
                             </div>
