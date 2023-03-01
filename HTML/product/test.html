@@ -121,6 +121,7 @@
                 // 지움과 동시에 markers 배열에서도 빼줘야함
                 markers.splice(count, 1);
                 console.log(markers);
+                infowindow.close();
             });
 
             $(document).on('mouseover', '#map > div:eq(0) > div > div:eq(5) > div', function(){
