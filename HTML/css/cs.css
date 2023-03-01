@@ -629,7 +629,7 @@ main > #cs {
 
 
 
-.privacy table {
+.table_common table {
     width: 100%;
     margin-top: 40px;
     margin-bottom: 20px;
@@ -641,7 +641,7 @@ main > #cs {
 .privacy table td:nth-child(3){width: 35%;}
 .privacy table td:nth-child(4){width: 35%;}
 
-.privacy table th {
+.table_common table th {
     border-collapse: collapse;
     border: 1px solid #ccc;
     text-align: center;
@@ -652,7 +652,7 @@ main > #cs {
     word-break: break-all;
 }
 
-.privacy table td {
+.table_common table td {
     border-collapse: collapse;
     border: 1px solid #ccc;
     text-align: left;
@@ -663,7 +663,7 @@ main > #cs {
     word-break: break-all;
 }
 
-.privacy table td .strong {
+.table_common table td .strong {
     font-weight: bold;
     text-decoration: underline;
     color: #252525;
@@ -679,7 +679,20 @@ main > #cs {
 .fourteen b {font-weight: bold;}
 
 
+
+.marketing table td:nth-child(1){width: 10%;text-align: center;}
+.marketing table td:nth-child(2){width: 25%;}
+.marketing table td:nth-child(3){width: 35%;}
+.marketing table td:nth-child(4){width: 30%;}
+
+
+.marketing table b {
+    font-weight: bold;
+    font-size: 13px;
+}
+
 .terms {display: block;}
 .location {display: block;}
 .privacy {display: block;}
 .fourteen {display: block;}
+.marketing{display:block}

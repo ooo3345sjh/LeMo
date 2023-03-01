@@ -78,14 +78,40 @@
 
             /* 이미지 위에 마우스 hover시 사진 넘기는 버튼 나오기 */
             $('.img_slider').hover(function(){
-                $(this).find('.slick-arrow').toggleClass('on');
+                let status = $(this).find('.slick-arrow').hasClass('on');
+                console.log(status);
+                if(!status){
+                    $(this).find('.slick-arrow').addClass('on');
+                }
             });
+
+            $('.img_slider').mouseleave(function(){
+                $(this).find('.slick-arrow').removeClass('on');
+            });
+
+            $('.img_slider').click(function(e) {
+                e.preventDefault();
+                $(this).find('.slick-arrow').removeClass('on');
+                $(this).parent().find('.diary_content').addClass('on');
+
+            });
+
+            $('.slick-arrow').click(function(event) {
+                event.stopPropagation(); // 화살표를 누를땐 클릭 이벤트 전파 중단
+            });
+
+
+            $('.diary_content').click(function(){
+                $(this).removeClass('on');
+            });
+
+
+
 
             /* 찜하기 */
             $('.heart').click(function(){
                 $(this).toggleClass('on');
             });
-
 
         });
     </script>
@@ -168,6 +194,7 @@
                                 <ul>
                                     <li>
                                         <button class="heart"><img src="../img/diaryImg/heart.png"></button>
+                                        <button class="marker"><img src="../img/diaryImg/marker2.png" alt="일정마크표시"></button>
                                         <div class="img_slider">
                                             <div><a href="#"><img src="../img/diaryImg/sample7.jpg"></a></div>
                                             <div><a href="#"><img src="../img/diaryImg/sample8.jpg"></a></div>
@@ -175,60 +202,154 @@
                                             <div><a href="#"><img src="../img/diaryImg/sample2.jpg"></a></div>
                                         </div>
                                         <div class="diary_content">
+                                            <div>
+                                                <span id="nick">홍길동</span>
+                                                <p>나의 첫 강원도 여행!</p>
+                                                <b class="location"># 남이섬</b>
+                                                <b class="location"># 낙산사</b>
+                                                <b class="location"># 강촌 레일파크</b>
+                                            </div>
+                                            <button><a href="./view.html">여행일기 보러가기</a></button>
                                         </div>
                                     </li>
                                     <li>
                                         <button class="heart"><img src="../img/diaryImg/heart.png"></button>
+                                        <button class="marker"><img src="../img/diaryImg/marker2.png" alt="일정마크표시"></button>
                                         <div class="img_slider">
+                                            <div><a href="#"><img src="../img/diaryImg/sample1.jpg"></a></div>
                                             <div><a href="#"><img src="../img/diaryImg/sample8.jpg"></a></div>
                                             <div><a href="#"><img src="../img/diaryImg/sample1.jpg"></a></div>
                                             <div><a href="#"><img src="../img/diaryImg/sample2.jpg"></a></div>
-                                            <div><a href="#"><img src="../img/diaryImg/sample3.jpg"></a></div>
+                                        </div>
+                                        <div class="diary_content">
+                                            <div>
+                                                <span id="nick">홍길동</span>
+                                                <p>나의 첫 강원도 여행!</p>
+                                                <b class="location"># 남이섬</b>
+                                                <b class="location"># 낙산사</b>
+                                                <b class="location"># 강촌 레일파크</b>
+                                            </div>
+                                            <button><a href="./view.html">여행일기 보러가기</a></button>
                                         </div>
                                     </li>
                                     <li>
                                         <button class="heart"><img src="../img/diaryImg/heart.png"></button>
+                                        <button class="marker"><img src="../img/diaryImg/marker2.png" alt="일정마크표시"></button>
                                         <div class="img_slider">
+                                            <div><a href="#"><img src="../img/diaryImg/sample2.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample8.jpg"></a></div>
                                             <div><a href="#"><img src="../img/diaryImg/sample1.jpg"></a></div>
                                             <div><a href="#"><img src="../img/diaryImg/sample2.jpg"></a></div>
-                                            <div><a href="#"><img src="../img/diaryImg/sample3.jpg"></a></div>
-                                            <div><a href="#"><img src="../img/diaryImg/sample4.jpg"></a></div>
+                                        </div>
+                                        <div class="diary_content">
+                                            <div>
+                                                <span id="nick">홍길동</span>
+                                                <p>나의 첫 강원도 여행!</p>
+                                                <b class="location"># 남이섬</b>
+                                                <b class="location"># 낙산사</b>
+                                                <b class="location"># 강촌 레일파크</b>
+                                            </div>
+                                            <button><a href="./view.html">여행일기 보러가기</a></button>
                                         </div>
                                     </li>
                                     <li>
                                         <button class="heart"><img src="../img/diaryImg/heart.png"></button>
+                                        <button class="marker"><img src="../img/diaryImg/marker2.png" alt="일정마크표시"></button>
                                         <div class="img_slider">
-                                            <div><a href="#"><img src="../img/diaryImg/sample2.jpg"></a></div>
                                             <div><a href="#"><img src="../img/diaryImg/sample3.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample8.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample1.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample2.jpg"></a></div>
+                                        </div>
+                                        <div class="diary_content">
+                                            <div>
+                                                <span id="nick">홍길동</span>
+                                                <p>나의 첫 강원도 여행!</p>
+                                                <b class="location"># 남이섬</b>
+                                                <b class="location"># 낙산사</b>
+                                                <b class="location"># 강촌 레일파크</b>
+                                            </div>
+                                            <button><a href="./view.html">여행일기 보러가기</a></button>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <button class="heart"><img src="../img/diaryImg/heart.png"></button>
+                                        <button class="marker"><img src="../img/diaryImg/marker2.png" alt="일정마크표시"></button>
+                                        <div class="img_slider">
                                             <div><a href="#"><img src="../img/diaryImg/sample4.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample8.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample1.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample2.jpg"></a></div>
+                                        </div>
+                                        <div class="diary_content">
+                                            <div>
+                                                <span id="nick">홍길동</span>
+                                                <p>나의 첫 강원도 여행!</p>
+                                                <b class="location"># 남이섬</b>
+                                                <b class="location"># 낙산사</b>
+                                                <b class="location"># 강촌 레일파크</b>
+                                            </div>
+                                            <button><a href="./view.html">여행일기 보러가기</a></button>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <button class="heart"><img src="../img/diaryImg/heart.png"></button>
+                                        <button class="marker"><img src="../img/diaryImg/marker2.png" alt="일정마크표시"></button>
+                                        <div class="img_slider">
                                             <div><a href="#"><img src="../img/diaryImg/sample5.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample8.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample1.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample2.jpg"></a></div>
+                                        </div>
+                                        <div class="diary_content">
+                                            <div>
+                                                <span id="nick">홍길동</span>
+                                                <p>나의 첫 강원도 여행!</p>
+                                                <b class="location"># 남이섬</b>
+                                                <b class="location"># 낙산사</b>
+                                                <b class="location"># 강촌 레일파크</b>
+                                            </div>
+                                            <button><a href="./view.html">여행일기 보러가기</a></button>
                                         </div>
                                     </li>
                                     <li>
                                         <button class="heart"><img src="../img/diaryImg/heart.png"></button>
+                                        <button class="marker"><img src="../img/diaryImg/marker2.png" alt="일정마크표시"></button>
                                         <div class="img_slider">
-                                            <div><a href="#"><img src="../img/diaryImg/sample7.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample6.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample8.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample1.jpg"></a></div>
                                             <div><a href="#"><img src="../img/diaryImg/sample2.jpg"></a></div>
-                                            <div><a href="#"><img src="../img/diaryImg/sample3.jpg"></a></div>
-                                            <div><a href="#"><img src="../img/diaryImg/sample4.jpg"></a></div>
+                                        </div>
+                                        <div class="diary_content">
+                                            <div>
+                                                <span id="nick">홍길동</span>
+                                                <p>나의 첫 강원도 여행!</p>
+                                                <b class="location"># 남이섬</b>
+                                                <b class="location"># 낙산사</b>
+                                                <b class="location"># 강촌 레일파크</b>
+                                            </div>
+                                            <button><a href="./view.html">여행일기 보러가기</a></button>
                                         </div>
                                     </li>
                                     <li>
                                         <button class="heart"><img src="../img/diaryImg/heart.png"></button>
+                                        <button class="marker"><img src="../img/diaryImg/marker2.png" alt="일정마크표시"></button>
                                         <div class="img_slider">
+                                            <div><a href="#"><img src="../img/diaryImg/sample8.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample8.jpg"></a></div>
+                                            <div><a href="#"><img src="../img/diaryImg/sample1.jpg"></a></div>
                                             <div><a href="#"><img src="../img/diaryImg/sample2.jpg"></a></div>
-                                            <div><a href="#"><img src="../img/diaryImg/sample3.jpg"></a></div>
-                                            <div><a href="#"><img src="../img/diaryImg/sample4.jpg"></a></div>
-                                            <div><a href="#"><img src="../img/diaryImg/sample5.jpg"></a></div>
                                         </div>
-                                    </li>
-                                    <li>
-                                        <button class="heart"><img src="../img/diaryImg/heart.png"></button>
-                                        <div class="img_slider">
-                                            <div><a href="#"><img src="../img/diaryImg/sample2.jpg"></a></div>
-                                            <div><a href="#"><img src="../img/diaryImg/sample3.jpg"></a></div>
-                                            <div><a href="#"><img src="../img/diaryImg/sample4.jpg"></a></div>
-                                            <div><a href="#"><img src="../img/diaryImg/sample5.jpg"></a></div>
+                                        <div class="diary_content">
+                                            <div>
+                                                <span id="nick">홍길동</span>
+                                                <p>나의 첫 강원도 여행!</p>
+                                                <b class="location"># 남이섬</b>
+                                                <b class="location"># 낙산사</b>
+                                                <b class="location"># 강촌 레일파크</b>
+                                            </div>
+                                            <button><a href="./view.html">여행일기 보러가기</a></button>
                                         </div>
                                     </li>
                             </div>
