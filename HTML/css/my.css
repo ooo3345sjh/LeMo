@@ -993,20 +993,20 @@
         border: 1px solid rgb(237,237,237);
         box-sizing: border-box;
         border-radius: 5px;
-        margin: 0px 6px 18px;
-        padding: 9px 19px;
+        margin: 0px 20px 19px;
     }
     .visitList .visit_info > div {
-        border-bottom: 1px solid rgba(0,0,0,0.2);
+
     }
 
     .visitList .visit_info .visit_img {
-        width: 208px;
+        width: 214px;
         height: 120px;
     }
     .visitList .visit_info .visit_img > img {
-        width: 208px;
+        width: 214px;
         height: 120px;
+        border-radius: 5px 5px 0 0;
     }
     .visitList .visit_info .visit_tit {
         font-size: 17px;
@@ -1014,21 +1014,25 @@
         font-weight: bold;
         padding: 6px;
     }
-    .visitList .visit_info .visit_checkin {
-        text-align: center;
+    .visit_info > div > div > span {
         font-size: 15px;
+        border-bottom: 1px solid #ddd;
+        display: inline-block;
+        width: 169px;
+    }
+    .visitList .visit_info .visit_checkin {
+
     }
     .visitList .visit_info .visit_checkout {
-        text-align: center;
-        font-size: 15px;
+
     }
     .visitList .visit_info > div:last-child {
-        margin: 13px 0px 4px 43px;
-        border-bottom: none;
+        margin: 0;
+        text-align: center;
     }
     .visitList .visit_info .review_btn {
         font-size: 19px;
-        padding: 3px 9px;
+        padding: 8px 12px;
         height: 43px;
         line-height: 8px;
         background: #bbd444;
@@ -1038,17 +1042,20 @@
         border-radius: 7px;
         cursor: pointer;
         font-weight: 500;
+        margin: 13px;
     }
     .visitList .visit_info .review_btn2 {
         font-size: 19px;
-        padding: 3px 9px;
+        padding: 8px 12px;
         height: 43px;
         line-height: 8px;
         background: #dcdee0;
-        border: 1px solid #dcdee0;
+        border: none;
         color: #fff;
         width: 129px;
         border-radius: 7px;
         cursor: pointer;
         font-weight: 500;
+        margin: 13px;
     }
+    
