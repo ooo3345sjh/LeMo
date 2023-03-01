@@ -204,6 +204,49 @@ main .main_content .col0 {
     width: 100%;
     margin-bottom: 5px;
 }
+main .searchProdNum {
+    padding: 10px 10px 20px 0px;
+    height: 34px;
+    float: left;
+    width: 250px;
+    background: rgb(255,255,255);
+    border-radius: 8px;
+    border: 1px solid rgb(219,219,219);
+    resize: none;
+    margin: 10px 0;
+    position: relative;
+}
+main .searchProdNum > .search_box {
+    position: absolute;
+    top: 0;
+    width: 219px;
+    padding: 3px 1px 4px 10px;
+    font-size: 16px;
+    height: 32px;
+    border: none;
+    background: transparent;
+}
+main .searchProdNum > .search_box::placeholder {
+    font-size: 13px;
+    color: #dcdee0;
+    font-weight: 100;
+}
+main .searchProdNum > .btnSearch {
+    position: absolute;
+    top: 8px;
+    right: 6px;
+    border: none;
+    background: transparent;
+}
+main .guideMsg {
+    padding: 10px 10px 20px 0px;
+    height: 34px;
+    float: left;
+    margin: 10px 13px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
 main .searchProd {
     float: right;
     padding: 10px 10px 20px 0px;
@@ -253,7 +296,13 @@ main .searchProd > .btnSearch {
     border: none;
     background: transparent;
 }
-main .searchProd > .btnSearch > input {}
+main .searchProd > .btnSearch > input {
+    position: absolute;
+    top: 1px;
+    right: 6px;
+    border: none;
+    background: transparent;
+}
 
 main .selectProd {
     float: right;
@@ -359,6 +408,26 @@ main .main_content .col2 .board_list .prodBtn > span {
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
 }
+main #width50 {
+    width: 50% !important;
+}
+main #width30 {
+    width: 30% !important;
+}
+main #width20 {
+    width: 20% !important;
+}
+main #width14 {
+    width: 14% !important;
+}
+main #width10 {
+    width: 10% !important;
+}
+main #width5 {
+    width: 5% !important;
+}
+
+
 main .main_content .col2 .board_list .prodBtn > span:hover {
     background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
 	background-color:#f6f6f6;
@@ -1281,7 +1350,7 @@ main .col2_r_box .r_content_txt {
     text-align: center;
 }
 
-/* 모달 */
+/* 모달 (admin - review - view) */
 main .btn_R_answer {
     margin: 15px 0;
     margin-left: 8px;
@@ -1316,7 +1385,7 @@ dialog {
     top: 15%;
     left: 40%;
     width: 35%;
-    height: 66.8%;
+    height: fit-content;
 }
 dialog::backdrop {
     background-color: rgba(0,0,0,0.5);
@@ -1414,7 +1483,172 @@ main .rr_btn > button {
 main .btnRclose {
     border-right: 1px solid #414f67 !important;
 }
-main .btnRsubmit {}
+main .btnRsubmit {
+    
+}
+
+/* 모달 (admin - reservation - list) */
+main #btnDetail {
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 1px 10px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+main #btnMemo {
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 1px 10px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+main #d_Detail > section {
+    width: 100%;
+    height: 100%;
+}
+main #d_Detail > section > .d_tit {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    background: #6096B4;
+    position: relative;
+}
+main #d_Detail > section > .d_tit > button {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+main #d_Detail > section > .d_sub_tit {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    background: #93BFCF;
+}
+main #d_Detail > section h1 {
+    text-align: left;
+    font-size: 17px;
+    color: #fff;
+    font-weight: 500;
+}
+main .d_box {
+    width: 100%;
+    padding: 18px;
+}
+main .d_b1 {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.3;
+}
+main .d_b1 > span {
+    font-size: 14px;
+    color: #424242;
+}
+main .d_b1 > span > i {
+    font-size: 14px;
+    font-style: normal;
+    color: #252525;
+    font-weight: 700;
+}
+main .d_b2 {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgb(189, 189, 189);
+    font-weight: 500;
+    font-size: 16px;
+}
+main .d_b3 {
+    padding: 10px;
+    box-sizing: border-box;
+}
+main .d_b3_1 {
+    display: flex;
+}
+main .d_b3_2 {
+    flex: 1 0 0px;
+}
+main .d_b_name {
+    display: flex;
+    line-height: 30px;
+    min-height: 30px;
+    padding-right: 20px;
+}
+main .d_b_name > div:first-child {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    color: rgb(117, 117, 117);
+    font-size: 14px;
+    min-width: 72px;
+    max-height: 40px;
+}
+main .d_b_name > div:last-child {
+    flex: 1 0 0px;
+    color: rgb(41, 41, 41);
+    font-size: 13px;
+    font-weight: normal;
+    white-space: pre-line;
+    text-align: left;
+}
+main .d_b_name2 {
+    display: flex;
+    line-height: 30px;
+    min-height: 30px;
+    padding-right: 20px;
+    margin-top: 20px;
+}
+main .d_b_name2 > div:first-child {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 22px;
+    min-width: 72px;
+    max-height: 40px;
+    font-weight: 500;
+}
+main .d_b_name2 > div:last-child {
+    flex: 1 0 0px;
+    color: rgb(41, 41, 41);
+    font-size: 22px;
+    font-weight: 700;
+    white-space: pre-line;
+    text-align: left;
+    margin-left: 7px;
+}
+main .d_b_name2 i {
+    font-style: normal;
+    color: #515151;
+    margin: 0 4px;
+}
+
+
 
 
 /* 푸터 */
