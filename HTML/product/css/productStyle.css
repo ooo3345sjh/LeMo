@@ -160,13 +160,14 @@ main {
 
 /** 검색 */
 .listSearch {
-    width: 600px; height: 100px;
+    position: relative;
+    width: 1000px; height: 100px;
     margin: 50px auto 20px auto;
     box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
     border-radius: 20px;
 }
 
-.listSearch > form { overflow: hidden; padding-left: 70px; }
+.listSearch > form { overflow: hidden; float: left; margin-left: 25px; }
 
 /** 검색 - 테이블 */
 .listSearch > form >  table { float: left; }
@@ -183,7 +184,7 @@ main {
 
 .listSearch > form > table tr > td > input { 
     text-align: center; font-size: 14px; 
-    border: 0.5px solid #252525;
+    border: none;
     border-radius: 8px;
 }
 
@@ -205,6 +206,129 @@ main {
     border: 0;
 }
 
+/** 목록 - 필터 */
+.listSearch > #filter { 
+    float: left;
+    margin-top: 46px;
+}
+
+.listSearch > #filter > a { 
+    display: block;
+    float: left;
+    width: 45px; height: 45px;
+    margin-left: 10px;
+    background-image: url(../img/list.png);
+    background-size: cover;
+}
+
+.listSearch > #filter > select {
+    width: 150px;
+    height: 30px;
+    margin-top: 8px;
+    margin-left: 15px;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 10px;
+    border: none;
+}
+
+.listSearch > #filter > select > option { font-size: 15px; }
+
+/** 목록 - 필터 - 팝업창 */
+.listSearch > #filter > .popup {
+    display: none;
+    overflow: auto;
+    position: absolute;
+    left: 15px; top: 90px;
+    width: 500px; height: auto;
+    box-shadow: 0 10px 10px 0 rgb(0 0 0 / 50%);
+    background-color: white;
+    border-radius: 5px;
+    z-index: 5;
+}
+
+/** 목록 - 필터 - 팝업창 - 스크롤 */
+.listSearch > #filter > .popup::-webkit-scrollbar { width: 10px; }
+
+.listSearch > #filter > .popup::-webkit-scrollbar-thumb { 
+    height: 30%; /* 스크롤바의 길이 */
+    background: #fcf951; /* 스크롤바의 색상 */
+    border-radius: 10px;
+}
+
+.listSearch > #filter > .popup::-webkit-scrollbar-track { background: rgb(245 244 183 / 51%);;  /*스크롤바 뒷 배경 색상*/ }
+
+.listSearch > #filter > .popup.on {
+    display: block;
+}
+
+.listSearch > #filter > #popupFilter {  }
+
+.listSearch > #filter > #popupFilter > form > h3 {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/** 목록 - 필터 - 팝업창 - 편의 시설 */
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) { 
+    width: 95%;
+    margin: 10px auto; 
+    box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
+    border-radius: 10px;
+}
+
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) > strong { font-size: 18px; padding-left: 10px; }
+
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) > table {
+    width: 100%;
+    margin-top: 5px;
+    padding: 10px;
+}
+
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) > table tr { height: 30px; }
+
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) > table label { font-size: 15px; }
+
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) > table label > input { margin-right: 5px; }
+
+/** 목록 - 필터 - 팝업창 - 가격 */
+.listSearch > #filter > #popupFilter > form > article:nth-child(3) {
+    width: 95%;
+    margin: 10px auto; 
+    box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.listSearch > #filter > #popupFilter > form > article:nth-child(3) > strong { font-size: 18px; padding-left: 10px; }
+
+.listSearch > #filter > #popupFilter > form > article:nth-child(3) > .priceSlide {
+    width: 95%;
+    margin: 15px 10px 15px 10px;
+    padding-bottom: 10px;
+}
+
+/** 목록 - 필터 - 팝업창 - 적용 버튼 */
+.listSearch > #filter > #popupFilter > form > article:nth-child(4) {
+    width: 95%;
+    margin: 10px auto 20px auto;
+    border-radius: 10px;
+    text-align: center;
+}
+
+
+.listSearch > #filter > #popupFilter > form > article:nth-child(4) > input {
+    width: 85px; height: 35px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 0px;
+    font-size: 17px;
+    background-color: #fcf951;
+    box-shadow: 0px 4px 0px 0px #e1de3f;
+}
+
 /** 메인(목록, Map) */
 .content {
     overflow: hidden;
@@ -217,131 +341,6 @@ main {
     float: left;
     width: 610px; height: auto;
     margin-left: 85px;
-}
-
-/** 목록 - 필터 */
-.list > #filter { 
-    position: relative;
-    width: 80%; height: 50px;
-    margin-left: 20px;
-    margin-top: 30px;
-    box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
-}
-
-.list > #filter > a { 
-    display: block;
-    float: left;
-    width: 45px; height: 45px;
-    margin-left: 10px;
-    background-image: url(../img/list.png);
-    background-size: cover;
-}
-
-.list > #filter > select {
-    width: 150px;
-    height: 30px;
-    margin-top: 8px;
-    margin-left: 15px;
-    font-size: 16px;
-    text-align: center;
-    border-radius: 10px;
-}
-
-.list > #filter > select > option { font-size: 15px; }
-
-/** 목록 - 필터 - 팝업창 */
-.list > #filter > .popup {
-    display: none;
-    overflow: auto;
-    position: relative;
-    left: 15px; top: 15px;
-    width: 500px; height: auto;
-    box-shadow: 0 10px 10px 0 rgb(0 0 0 / 50%);
-    background-color: white;
-    border-radius: 5px;
-    z-index: 5;
-}
-
-/** 목록 - 필터 - 팝업창 - 스크롤 */
-.list > #filter > .popup::-webkit-scrollbar { width: 10px; }
-
-.list > #filter > .popup::-webkit-scrollbar-thumb { 
-    height: 30%; /* 스크롤바의 길이 */
-    background: #fcf951; /* 스크롤바의 색상 */
-    border-radius: 10px;
- }
-
-.list > #filter > .popup::-webkit-scrollbar-track { background: rgb(245 244 183 / 51%);;  /*스크롤바 뒷 배경 색상*/ }
-
-.list > #filter > .popup.on {
-   display: block;
-}
-
-.list > #filter > #popupFilter {  }
-
-.list > #filter > #popupFilter > form > h3 {
-    margin-top: 15px;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-}
-
-/** 목록 - 필터 - 팝업창 - 편의 시설 */
-.list > #filter > #popupFilter > form > article:nth-child(2) { 
-    width: 95%;
-    margin: 10px auto; 
-    box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
-    border-radius: 10px;
-}
-
-.list > #filter > #popupFilter > form > article:nth-child(2) > strong { font-size: 18px; padding-left: 10px; }
-
-.list > #filter > #popupFilter > form > article:nth-child(2) > table {
-    width: 100%;
-    margin-top: 5px;
-    padding: 10px;
-}
-
-.list > #filter > #popupFilter > form > article:nth-child(2) > table tr { height: 30px; }
-
-.list > #filter > #popupFilter > form > article:nth-child(2) > table label { font-size: 15px; }
-
-.list > #filter > #popupFilter > form > article:nth-child(2) > table label > input { margin-right: 5px; }
-
-/** 목록 - 필터 - 팝업창 - 가격 */
-.list > #filter > #popupFilter > form > article:nth-child(3) {
-    width: 95%;
-    margin: 10px auto; 
-    box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
-    border-radius: 10px;
-    margin-top: 20px;
-}
-
-.list > #filter > #popupFilter > form > article:nth-child(3) > strong { font-size: 18px; padding-left: 10px; }
-
-.list > #filter > #popupFilter > form > article:nth-child(3) > .priceSlide {
-    width: 95%;
-    margin: 15px 10px 15px 10px;
-    padding-bottom: 10px;
-}
-
-/** 목록 - 필터 - 팝업창 - 적용 버튼 */
-.list > #filter > #popupFilter > form > article:nth-child(4) {
-    width: 95%;
-    margin: 10px auto 20px auto;
-    border-radius: 10px;
-    text-align: center;
-}
-
-
-.list > #filter > #popupFilter > form > article:nth-child(4) > input {
-    width: 85px; height: 35px;
-    margin-top: 10px;
-    border-radius: 8px;
-    border: 0px;
-    font-size: 17px;
-    background-color: #fcf951;
-    box-shadow: 0px 4px 0px 0px #e1de3f;
 }
 
 /** 목록 - 상품 목록 */
@@ -426,7 +425,7 @@ main {
 #listMap {
     float: left;
     width: 400px; height: 700px;
-    margin-top: 85px; margin-left: 30px;
+    margin-top: 30px; margin-left: 30px;
     box-shadow: 0 10px 10px 0 rgb(0 0 0 / 15%);
     border-radius: 20px;
 }

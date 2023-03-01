@@ -163,6 +163,63 @@
             <main>
                 <div id="result">
                     <div class="listSearch">
+                        <div id="filter">
+                            <a href="#" onclick="return false"></a>
+                            <select>
+                                <option value="review">후기 많은 순</option>
+                                <option value="score">평점 높은 순</option>
+                                <option value="revisit">재방문율 높은 순</option>
+                                <option value="rowPrice">낮은 가격 순</option>
+                                <option value="distance">거리 순</option>
+                            </select>
+                            <!-- 팝업 메뉴 -->
+                            <div id="popupFilter" class="popup">
+                                <form id="popupForm" onsubmit="clearForm(); return false;">
+                                    <h3>필터를 골라주세요</h3>
+                                    <article>
+                                        <strong>편의 시설</strong>
+                                        <table>
+                                            <tr>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">수영장</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">주차장</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">금연</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">VOD</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">사우나</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">패밀리</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">와이파이</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">노래방</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">바다전망</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">해수욕장인근</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">바비큐</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">스파/월풀/욕조</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">애견동반</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">조식</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">픽업가능</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">무료세탁</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">여성전용</label></td>
+                                            </tr>
+                                        </table>
+                                    </article>
+                                    <article>
+                                        <strong>가격</strong>
+                                        <div class="priceSlide">
+                                            <input type="text" class="js-range-slider" name="my_range" value="" />
+                                        </div>
+                                    </article>
+                                    <article>
+                                        <input type="submit" name="search" value="적용" onclick="return false">
+                                    </article>
+                                </div>
+                            </form>
+                        </div>
                         <form>
                             <table>
                                 <tr>
@@ -172,7 +229,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="text" name="searchPlace">
+                                        <input type="text" name="searchPlace" placeholder="장소를 입력해주세요.">
                                     </td>
                                     <td>
                                         <input type="text" name="daterange" id="daterange">
@@ -187,63 +244,7 @@
                     </div>
                     <div class="content">
                         <div class="list">
-                            <div id="filter">
-                                <a href="#" onclick="return false"></a>
-                                <select>
-                                    <option value="review">후기 많은 순</option>
-                                    <option value="score">평점 높은 순</option>
-                                    <option value="revisit">재방문율 높은 순</option>
-                                    <option value="rowPrice">낮은 가격 순</option>
-                                    <option value="distance">거리 순</option>
-                                </select>
-                                <!-- 팝업 메뉴 -->
-                                <div id="popupFilter" class="popup">
-                                    <form id="popupForm" onsubmit="clearForm(); return false;">
-                                        <h3>필터를 골라주세요</h3>
-                                        <article>
-                                            <strong>편의 시설</strong>
-                                            <table>
-                                                <tr>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">수영장</label></td>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">주차장</label></td>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">금연</label></td>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">VOD</label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">사우나</label></td>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">패밀리</label></td>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">와이파이</label></td>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">노래방</label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">바다전망</label></td>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">해수욕장인근</label></td>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">바비큐</label></td>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">스파/월풀/욕조</label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">애견동반</label></td>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">조식</label></td>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">픽업가능</label></td>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">무료세탁</label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label><input type="checkbox" name="chk" value="swimmingPool">여성전용</label></td>
-                                                </tr>
-                                            </table>
-                                        </article>
-                                        <article>
-                                            <strong>가격</strong>
-                                            <div class="priceSlide">
-                                                <input type="text" class="js-range-slider" name="my_range" value="" />
-                                            </div>
-                                        </article>
-                                        <article>
-                                            <input type="submit" name="search" value="적용" onclick="return false">
-                                        </article>
-                                    </div>
-                                </form>
-                            </div>
+                            
                             <div class="list-area">
                                 <ul>
                                     <li>
