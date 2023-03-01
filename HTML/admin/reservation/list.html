@@ -21,7 +21,7 @@
         <script>
             $(document).ready(function(){
                 
-
+                // 상세정보 팝업 
                 const btnDetail = document.getElementById('btnDetail');
                 const d_Detail = document.getElementById('d_Detail');
                 const btnCloseModal = document.getElementById('btnCloseModal');
@@ -29,13 +29,24 @@
                 btnDetail.addEventListener("click", ()=>{
                     d_Detail.showModal();
                 });
-
                 
                 btnCloseModal.addEventListener("click", ()=>{
                     d_Detail.close();
-                    console.log(d_Detail.returnValue);
                 });
                 
+                // 메모 팝업
+                const btnMemo  = document.getElementById('btnMemo');
+                const d_Memo = document.getElementById('d_Memo');
+                const btnCloseModal2 = document.getElementById('btnCloseModal2');
+
+                btnMemo.addEventListener("click", ()=>{
+                    d_Memo.showModal();
+                });
+
+                btnCloseModal2.addEventListener("click", ()=>{
+                    d_Memo.close();
+                });
+
                 // input 엔터키 submit 막기
                 $('input[type="text"]').keydown(function() {
                     if (event.keyCode === 13) {
@@ -237,12 +248,13 @@
                                                 <li id="width14">체크인</li>
                                                 <li id="width20">23/03/01~23/03/03</li>
                                                 <li id="width14">
+                                                    <!-- 상세정보 팝업 -->
                                                     <button id="btnDetail">상세정보</button>
                                                     <dialog id="d_Detail">
                                                         <form method="dialog">
                                                             <section>
                                                                 <nav class="d_tit">
-                                                                    <h1>예약상세정보</h1>
+                                                                    <h1 class="d_tit2">예약상세정보</h1>
                                                                     <button value="close" type="reset" id="btnCloseModal">X</button> 
                                                                 </nav>
                                                                 <nav class="d_sub_tit">
@@ -324,11 +336,24 @@
                                                                 </div>
                                                             </section>
                                                         </form>
-                                                        
                                                     </dialog>
+                                                    <!-- 메모 팝업 -->
                                                     <button id="btnMemo">메모</button>
                                                     <dialog id="d_Memo">
-                                                        memo!
+                                                        <form action="dialog">
+                                                            <section>
+                                                                <nav class="d_tit">
+                                                                    <h1 class="d_tit2">메모</h1>
+                                                                </nav>
+                                                                <div class="d_box">
+                                                                    <textarea placeholder="메모 내용을 작성하세요"></textarea>
+                                                                </div>
+                                                                <div class="rr_btn">
+                                                                    <button class="btnRclose" id="btnCloseModal2" value="close" type="reset">닫기</button>
+                                                                    <button class="btnRsubmit" id="btnCloseModal3">작성</button>
+                                                                </div>
+                                                            </section>
+                                                        </form>
                                                     </dialog>
                                                 </li>                                                
                                             </ul>
