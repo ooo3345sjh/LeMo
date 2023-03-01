@@ -36,7 +36,7 @@
         /** 메인 */
         #productView {
             width: 1200px;
-
+            overflow: hidden;
             margin: 0 auto;
         }
 
@@ -248,7 +248,6 @@
 
         /** 객실정보 */
         #detail_room {
-            display: none;
             width: 1000px;
             margin: 20px auto 0 auto;
         }
@@ -611,7 +610,7 @@
         .info_service .theme_wrap { 
             overflow: hidden;
             padding: 20px;
-         }
+        }
 
         .info_service .theme_wrap > li {
             float: left;
@@ -624,7 +623,7 @@
             font-size: 13px;
             color: rgba(0,0,0,0.56);
             text-align: center;
-         }
+        }
 
         .detail_qna > .prodQna {
             display: none;
@@ -929,6 +928,7 @@
 
         /** 여행일기 */
         .detail_diary {
+            display: none;
             width: 1000px;
             height: 1000px;
             margin: 0 auto;
@@ -945,28 +945,33 @@
             background: rgb(249 230 230);
             font-size: 25px;
             color: #252525;
-            margin: 25px;
+            margin-top: 25px;
             text-align: center;
             font-weight: bold;
             line-height: 60px;
+            box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%);
         }
 
         .detail_diary .diary_list {
-            overflow: hidden;
-            width: 90%;
-            border: 1px solid black;
-            box-sizing: border-box;
-            margin-left: 25px;
+            width: 100%;
+            margin-top: 25px;
         }
 
         .detail_diary .diary_list > li {
             float: left;
-            width: 170px;
-            height: 200px;
-            border: 1px solid black;
-            box-sizing: border-box;
-            margin-right: 10px;
+            width: 194px; height: 200px;
+            margin-right: 5px; margin-bottom: 5px;
         }
+
+        .detail_diary .diary_list > li > a > img {
+            width: 194px; height: 200px;
+        }
+
+        .detail_diary .diary_list > li > a > img:hover {
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+        }
+
+
     </style>
     <script>
         /** 객실 이용 안내 팝업 */
@@ -995,7 +1000,7 @@
             $('.detail_review').attr('style', "display:none;");
 
             $('#showDiary').removeClass('on');
-
+            $('.detail_diary').attr('style', "display:none");
 
             $('#showQna').removeClass('on');
             $('.prodQna').attr('style', "display:none;");
@@ -1122,6 +1127,7 @@
             $('#showDiary').click(function(){
                 remove_tab_class();
                 $(this).addClass('on');
+                $('.detail_diary').attr('style', 'display:block');
             });
 
             /** 탭 - 문의하기 */
@@ -1545,11 +1551,36 @@
                 <article class="detail_diary">
                     <span>테스트 호텔</span>
                     <ul class="diary_list">
-                        <li>#1</li>
-                        <li>#1</li>
-                        <li>#1</li>
-                        <li>#1</li>
-                        <li>#1</li>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
                     </ul>
                 </article>
                 <!-- 문의하기 -->
