@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS ` lemo_product_accommodationtype` (
   PRIMARY KEY (`accType_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 lemo. lemo_product_accommodationtype:~5 rows (대략적) 내보내기
+-- 테이블 데이터 lemo. lemo_product_accommodationtype:~0 rows (대략적) 내보내기
 INSERT INTO ` lemo_product_accommodationtype` (`accType_no`, `accType_type`) VALUES
 	(1, '모텔'),
 	(2, '호텔'),
@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS ` lemo_product_reservation` (
   `res_checkIn` date NOT NULL,
   `res_checkOut` date NOT NULL,
   `res_state` tinyint(1) NOT NULL,
+  `res_memo` text,
   PRIMARY KEY (`res_no`),
   KEY `fk_ lemo_product_reservation_lemo_member_userId1_idx` (`userId_id`),
   KEY `fk_ lemo_product_reservation_lemo_product_room1_idx` (`room_id`),
@@ -387,7 +388,7 @@ CREATE TABLE IF NOT EXISTS `lemo_product_province` (
   PRIMARY KEY (`province_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 lemo.lemo_product_province:~16 rows (대략적) 내보내기
+-- 테이블 데이터 lemo.lemo_product_province:~0 rows (대략적) 내보내기
 INSERT INTO `lemo_product_province` (`province_no`, `province_name`) VALUES
 	(1, '강원도'),
 	(2, '경기도'),
@@ -503,7 +504,7 @@ CREATE TABLE IF NOT EXISTS `lemo_product_servicecate` (
   PRIMARY KEY (`sc_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 lemo.lemo_product_servicecate:~21 rows (대략적) 내보내기
+-- 테이블 데이터 lemo.lemo_product_servicecate:~0 rows (대략적) 내보내기
 INSERT INTO `lemo_product_servicecate` (`sc_no`, `sc_name`) VALUES
 	(1, '피트니스'),
 	(2, '와이파이'),
