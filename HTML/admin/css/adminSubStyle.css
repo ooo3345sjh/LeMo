@@ -1522,14 +1522,14 @@ main #d_Detail > section {
     width: 100%;
     height: 100%;
 }
-main #d_Detail > section > .d_tit {
+main .d_tit {
     width: 100%;
     height: auto;
     padding: 10px;
     background: #6096B4;
     position: relative;
 }
-main #d_Detail > section > .d_tit > button {
+main .d_tit > button {
     position: absolute;
     top: 10px;
     right: 14px;
@@ -1546,7 +1546,7 @@ main #d_Detail > section > .d_sub_tit {
     padding: 10px;
     background: #93BFCF;
 }
-main #d_Detail > section h1 {
+main .d_tit2 {
     text-align: left;
     font-size: 17px;
     color: #fff;
@@ -1647,9 +1647,94 @@ main .d_b_name2 i {
     color: #515151;
     margin: 0 4px;
 }
+main .d_box > textarea {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    border: none;
+}
 
-
-
+/* 타임라인 */
+main .guideTimelineColor {
+    float: right;
+    padding: 14px;
+}
+main .guideTimelineColor td:nth-of-type(odd) {
+    width: 20px;
+    font-size: 0;
+}
+main .guideTimelineColor td:nth-of-type(even) {
+    font-size: 14px;
+    padding-left: 4px;
+    padding-right: 16px;
+    vertical-align: middle;
+}
+main .guideTimelineColor td:nth-of-type(1) {background: #2B3467;}
+main .guideTimelineColor td:nth-of-type(3) {background: #ff95a6;}
+main .guideTimelineColor td:nth-of-type(5) {background: #BAD7E9;}
+main .guideTimelineColor td:nth-of-type(7) {background: #d7d7d7;}
+main .select_data {
+    height: 34px;
+    float: left;
+    margin: 10px 13px;
+    font-size: 15px;
+    font-weight: 500;
+}
+main .select_data > input {
+    width: 250px;
+    background: rgb(255,255,255);
+    border-radius: 8px;
+    border: 1px solid rgb(219,219,219);
+    padding: 3px 8px 4px 10px;
+    font-size: 14px;
+    height: 34px;
+}
+main #calendar-container {
+    padding: 33px 0;
+}
+#calendar {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.fc-event {
+    position: relative;
+    display: block;
+    font-size: 0.85em;
+    line-height: 1.4;
+    border-radius: 3px;
+    height: 77px;
+}
+.fc-event-container > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.fc-title {
+    font-size: 20px;
+    vertical-align: middle;
+}
+.fc-toolbar h2 {
+    font-size: 27px !important;
+    margin: 0;
+    font-weight: 700 !important;
+}
+.fc-button-group > button {
+    font-size: 16px;
+}
+.fc-button-primary {
+    font-size: 16px !important;
+}
+.fc-sun, .fc-mon, .fc-tue, .fc-wed, .fc-thu, .fc-fri, .fc-sat {
+    padding: 4px 0 !important;
+}
+.fc-day-header > span {
+    font-size: 19px;
+}
+.fc-day-number {
+    font-size: 16px !important;
+    padding-right: 5px !important;
+}
 
 /* 푸터 */
 footer {
