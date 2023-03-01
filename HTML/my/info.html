@@ -21,11 +21,6 @@
         <link rel="stylesheet" href="../css/my.css">
         <style>
         
-
-
-
-
-
         </style>
         <script>
             $(function(){
@@ -127,51 +122,40 @@
                             </span>
                         </div>
                         <div class="my_info">
-                        <div class="my_page">
-                                <form name="form1" action="#">
-                                    <div class="top_area">
-                                        <div class="login_info">
-                                            <div>
-                                                <img src="./img/profile.png" alt>
-                                            </div>
+                            <div class="my_page">
+                                <div class="top_area">
+                                    <div class="login_info">
+                                        <form>
+                                            <img src="./img/profile.png" alt>
+                                            <!--<input type="file" src="./img/profile.png">-->
+                                        </form>
+                                        <div class="social_login">
                                             <p>Naver 회원으로 로그인</p>
                                         </div>
-                                        <div class="pw_input">
-                                            <div class="pw_input_title">
-                                                <b>닉네임</b>
-                                                <span class="title_uinfo">제주살이</span>
-                                            </div>
-                                            <div class="pw_modify" style="display: none;">
-                                                <p class="pw_remove">
-                                                    <input type="text">
-                                                </p>
-                                                <button class="pw_remove_btn">딴거할래요</button>
-                                            </div>
-                                            <div class="pw_input_btns-warp">
-                                                <button class="pw_change_btn" type="button">수정</button>
-                                            </div>
-                                        </div>
                                     </div>
-                                </form>
-                                <form name="form2" action="#">
-                                    <div class="top_area">
-                                        <div class="pw_input">
-                                            <div class="pw_input_title">
-                                                <b>휴대폰</b>
-                                                <span class="title_uinfo">미인증</span>
+                                    <ul class="my_data">
+                                        <li>
+                                            <div class="info_nick">
+                                                <div>
+                                                    <span class="nick_text">제주살이</span>
+                                                    <button type="button" class="btn_edit">
+                                                        <span class="text">수정</span>
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div class="pw_modify" style="display: none;">
-                                                <p class="pw_remove">
-                                                    <input type="text">
-                                                </p>
-                                                <button class="pw_remove_btn">딴거할래요</button>
+                                        </li>
+                                        <li>
+                                            <div class="info_phone">
+                                                <div>
+                                                    <span class="phone_text">미인증</span>
+                                                    <button type="button" class="btn_edit">
+                                                        <span class="text">인증</span>
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div class="pw_input_btns-warp">
-                                                <button class="pw_change_btn" type="button">인증</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="bot_btn">
                                 <p>LEMO를 이용하고 싶지 않으신가요?</p>

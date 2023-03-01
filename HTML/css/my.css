@@ -390,11 +390,13 @@
         height: 100%;
         margin: 0px auto;
         border-spacing: 0px 30px;
-        border-collapse: collapse;
     }
     .reserve_history > table > tbody > tr {
         border-bottom: 1px solid #ececec;
         position: relative;
+    }
+    .reserve_history > table > tbody > tr > td {
+        border-bottom: 1px solid;
     }
     .reserve_history > table > tbody > tr > td:nth-child(1) {
         width: 20%;
@@ -744,11 +746,13 @@
         height: 100%;
         margin: 0px auto;
         border-spacing: 0px 30px;
-        border-collapse: collapse;
     }
     .my_pick > table > tbody > tr {
         border-bottom: 1px solid #ececec;
         position: relative;
+    }
+    .my_pick > table > tbody > tr > td {
+        border-bottom: 1px solid;
     }
     .my_pick > table > tbody > tr > td:nth-child(1) {
         width: 20%;
@@ -836,70 +840,96 @@
 
     /* 내정보 */
     .my_info .my_page {
-        border-top: none;
-        padding: 0;
-        font-size: 18px;
+
     }              
-    .my_page form:first-child .top_area {
-        position: relative;
-        padding-top: 29px;
+    .my_page .top_area {
+        padding: 11px 62px 19px;
+        border-radius: 12px;
+        box-shadow: 2px 2px 14px 0 rgb(0 164 73 / 8%);
+        border: solid 1px rgba(3,213,128,.8);
+        background-color: #fff;
+        box-sizing: border-box;
+        margin: 38px 54px 1px 35px;
     }
     .login_info {
         position: relative;
         text-align: left;
     }
-    .login_info div img {
-        width: 100px;
-        height: 100px;
-        border-radius: 71px 71px;
+    .login_info form img {
+        width: 80px;
+        height: 80px;
+        border-radius: 71px;
     }
-    .login_info p {
+    .login_info .social_login {
+        position: absolute;
+        top: 34px;
+        right: 12px;
+    }
+    .login_info .social_login > p {
         padding-bottom: 42px;
         font-size: 15px;
         font-weight: bold;
         color: rgba(0,0,0,0.32);
     }
-    .my_page .pw_input{
+
+    .my_page .my_data{
+        border-top: 1px solid rgba(220,227,233,.8);
+    }
+    .my_page .my_data >li {
+        margin-bottom: 17px;
+        border-bottom: 1px solid rgba(220,227,233,.8);
+    }
+    .my_page .my_data .info_nick {
+        padding: 12px 0 12px 15px;
         position: relative;
     }
-    .my_page .pw_input_title {
-        padding-right: 240px;
+    .my_page .my_data .info_text {
+        font-size: 23px;
     }
-    .my_page .pw_input_title b {
-        width: 110px;
-        float: left;
-        margin-bottom: 12px;
-        display: block;
-        font-size: 18px;
+    .my_page .my_data .nick_text {
+        font-size: 24px;
+        font-weight: bold;
     }
-    .my_page .pw_input_title .title_uinfo {
-        font-size: 18px;
+    .my_page .my_data .info_phone {
+        padding: 0px 0 17px 15px;
     }
-    .my_page .pw_input_title::after{
-        content: "";
-        display: block;
-        clear: both;
+    .my_page .my_data .info_phone::before {
+        background-image: url(https://ssl.pstatic.net/static/nid/account/m_sp_01_home_849a216f.png);
+        background-size: 264px 230px;
+        content: '';
+        position: absolute;
+        left: 95px;
+        background-position: -121px -164px;
+        background-repeat: no-repeat;
+        width: 24px;
+        height: 24px;
+        top: 256px;
     }
-    .my_page .pw_input .pw_input_btns-warp {
-        display: block;
-        overflow: hidden;
-        margin-bottom: 50px;
-        padding-right: 110px;
+    .my_page .my_data .phone_text {
+        font-size: 21px;
+        padding-left: 15px;
     }
-    .my_page .pw_input_btns-warp .pw_change_btn {
-        float: left;
-        margin-right: 5%;
-        height: 42px;
+    .info_phone .btn_edit {}
+    
+    
+    /*수정 공동버튼*/
+    .btn_edit{
+    float: right;
+    min-width: 44px;
+    padding: 8px 18px 9px;
+    border-radius: 4px;
+    border: solid 1px rgba(212,216,229,.5);
+    background-color: rgba(212,216,229,.25);
+    box-sizing: border-box;
+    text-align: center;
+    margin-right: 31px;
+    cursor: pointer;
+    }
+    .my_data .text {
         font-size: 15px;
-        background: none;
-        cursor: pointer;
-        white-space: nowrap;
-        text-align: center;
-        box-sizing: border-box;
-        width: 144px;
-        display: block;
-        border: 1px solid #ccc;
     }
+    
+    /* 회원 탈퇴 */
     .bot_btn{
         height: 56px;
         margin-top: 48px;
@@ -931,3 +961,88 @@
         font-size: 15px;
     }
 
+
+
+    /* 마이페이지 리뷰 리스트 - my-review-list */
+    
+    .my_Review_List > .selectReview {
+        float: right;
+        margin: 18px 28px;
+    }
+    .selectReview > select {
+        padding: 7px;
+        font-size: 13px;
+        background: rgb(255,255,255);
+        border: 1px solid rgb(219, 219, 219);
+        resize: none;
+        width: 100%;
+        border-radius: 8px;
+        padding-right: 30px;
+    }
+    .selectReview > select > option {}
+    .my_Review_List .visitList{
+        display: flex;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        padding-top: 12px;
+        width: 800px;
+    }
+    .visitList .visit_info{
+        border: 1px solid rgb(237,237,237);
+        box-sizing: border-box;
+        border-radius: 10px;
+        margin: 0px 37px 18px;
+    }
+    .visitList .visit_info .visit_img {
+        width: 180px;
+        height: 120px;
+    }
+    .visitList .visit_info .visit_img > img {
+        width: 180px;
+        height: 120px;
+        border-radius: 10px;
+    }
+    .visitList .visit_info .visit_tit {
+        border-bottom: 1px solid;
+        font-size: 17px;
+        text-align: center;
+        font-weight: bold;
+        padding: 6px;
+    }
+    .visitList .visit_info .visit_checkin {
+        text-align: center;
+        font-size: 15px;
+        border-bottom: 1px solid;
+    }
+    .visitList .visit_info .visit_checkout {
+        text-align: center;
+        font-size: 15px;
+        border-bottom: 1px solid;
+    }
+    .visitList .visit_info > div:last-child {
+        margin: 8px 0px 8px 25px;
+    }
+    .visitList .visit_info .review_btn {
+        font-size: 22px;
+        padding: 5px 9px;
+        height: 43px;
+        line-height: 8px;
+        background: #000;
+        border: 1px solid #000;
+        color: #fff;
+        width: 129px;
+        border-radius: 7px;
+        cursor: pointer;
+    }
+    .visitList .visit_info .review_btn2 {
+        font-size: 22px;
+        padding: 5px 9px;
+        height: 43px;
+        line-height: 8px;
+        background: #dcdee0;
+        border: 1px solid #dcdee0;
+        color: #fff;
+        width: 129px;
+        border-radius: 7px;
+        cursor: pointer;
+    }
