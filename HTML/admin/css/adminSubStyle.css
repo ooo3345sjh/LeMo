@@ -1386,6 +1386,10 @@ dialog {
     left: 40%;
     width: 35%;
     height: fit-content;
+    overflow-y: scroll;
+}
+dialog::-webkit-scrollbar {
+    display: none;
 }
 dialog::backdrop {
     background-color: rgba(0,0,0,0.5);
@@ -1540,7 +1544,7 @@ main .d_tit > button {
     border: none;
     cursor: pointer;
 }
-main #d_Detail > section > .d_sub_tit {
+main #d_Detail .d_sub_tit {
     width: 100%;
     height: auto;
     padding: 10px;
@@ -1703,7 +1707,7 @@ main #calendar-container {
     font-size: 0.85em;
     line-height: 1.4;
     border-radius: 3px;
-    height: 77px;
+    height: 20px;
 }
 .fc-event-container > a {
     display: flex;
@@ -1711,7 +1715,7 @@ main #calendar-container {
     justify-content: center;
 }
 .fc-title {
-    font-size: 20px;
+    font-size: 15px;
     vertical-align: middle;
 }
 .fc-toolbar h2 {
@@ -1735,6 +1739,32 @@ main #calendar-container {
     font-size: 16px !important;
     padding-right: 5px !important;
 }
+
+/* 통계관리 */
+main .stats_container {
+    width: 100%;
+    border: 1px solid red;
+}
+main .current_date_div {
+    width: 100%;
+    background: pink;
+    display: flex;
+    justify-content: center;
+}
+main #datepicker {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    width: 345px;
+    height: 53px;
+}
+main .current_sales_stat {
+    width: 100%;
+    border: 1px solid blue;
+    display: flex;
+    justify-content: center;
+}
+
 
 /* 푸터 */
 footer {

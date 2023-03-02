@@ -27,6 +27,14 @@
         <script>
             // ajax로 데이터 가져오기 https://fullcalendar.io/docs/events-json-feed
             document.addEventListener('DOMContentLoaded', function() {
+
+                // 예약 상세 정보 팝업 
+                const d_Detail = document.getElementById('d_Detail');
+
+                btnCloseModal.addEventListener("click", ()=>{
+                    d_Detail.close();
+                });
+
                 var calendarEl = document.getElementById('calendar');
 
                 var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -41,7 +49,7 @@
                     navLinks: true, 
                     editable: true,
                     fixedWeekCount:false,
-                    eventLimit: true, 
+                    // eventLimit: true, 
                     locale: 'ko', 
                     eventAdd: function(obj) { 
                         console.log(obj);
@@ -53,7 +61,7 @@
                         console.log(obj);
                     },
                     eventClick:function(event){
-                        alert("Click the event...테스트...이제 여기에 예약 상세 내역 팝업창 뜨게...");
+                        d_Detail.showModal();
                     },
                     events: [
                         {
@@ -83,6 +91,30 @@
                         title: '[104] 김녹차',
                         start: '2023-03-17',
                         end: '2023-03-18',
+                        color: '#d7d7d7',
+                        textColor: '#252525'
+                        },
+                        {
+                        groupId: 5,
+                        title: '[105] 송라떼',
+                        start: '2023-03-12',
+                        end: '2023-03-12',
+                        color: '#d7d7d7',
+                        textColor: '#252525'
+                        },
+                        {
+                        groupId: 6,
+                        title: '[106] 민코딩',
+                        start: '2023-03-15',
+                        end: '2023-03-15',
+                        color: '#d7d7d7',
+                        textColor: '#252525'
+                        },
+                        {
+                        groupId: 7,
+                        title: '[107] 홍길동',
+                        start: '2023-03-11',
+                        end: '2023-03-11',
                         color: '#d7d7d7',
                         textColor: '#252525'
                         }
@@ -273,14 +305,95 @@
                                     <span>타임라인</span>
                                 </div>
                                 <div class="col2">
-
                                     <!-- 캘린더 -->
                                     <div id="calendar-container">
                                         <div id='calendar'></div>
                                     </div>
+                                    <!-- 예약 상세 내역 보기 -->
+                                    <dialog id="d_Detail">
+                                        <form action="#" method="dialog">
+                                            <section>
+                                                <nav class="d_tit">
+                                                    <h1 class="d_tit2">예약상세정보</h1>
+                                                    <button value="close" type="reset" id="btnCloseModal">X</button> 
+                                                </nav>
+                                                <nav class="d_sub_tit">
+                                                    <div class="d_b1">
+                                                        <span>예약번호:
+                                                            <i>2303011856123456</i>
+                                                        </span>
+                                                        <span>&nbsp;&nbsp;예약일자:
+                                                            <i>23.03.01</i>
+                                                        </span>
+                                                    </div>
+                                                </nav>
+                                                <div class="d_box">
 
+                                                    <div class="d_b2">
+                                                        숙소정보
+                                                    </div>
+                                                    <div class="d_b3">
+                                                        <div class="d_b3_1">
+                                                            <div class="d_b3_2">
+                                                                <div class="d_b_name">
+                                                                    <div>숙소정보</div>
+                                                                    <div>이비스 앰배서더 부산 해운대 [레이트버드-18시 체크인] 스탠다드 더블/1박</div>
+                                                                </div>
+                                                                <div class="d_b_name">
+                                                                    <div>체크인</div>
+                                                                    <div>2023.03.01 15:00</div>
+                                                                </div>
+                                                                <div class="d_b_name">
+                                                                    <div>체크아웃</div>
+                                                                    <div>2023.03.02 12:00</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
+                                                    <div class="d_b2">
+                                                        예약자정보
+                                                    </div>
+                                                    <div class="d_b3">
+                                                        <div class="d_b3_1">
+                                                            <div class="d_b3_2">
+                                                                <div class="d_b_name">
+                                                                    <div>예약자명</div>
+                                                                    <div>이동글</div>
+                                                                </div>
+                                                                <div class="d_b_name">
+                                                                    <div>휴대폰번호</div>
+                                                                    <div>010-2023-0301</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
+                                                    <div class="d_b2">
+                                                        결제정보
+                                                    </div>
+                                                    <div class="d_b3">
+                                                        <div class="d_b3_1">
+                                                            <div class="d_b3_2">
+                                                                <div class="d_b_name">
+                                                                    <div>결제방법</div>
+                                                                    <div>신용/체크카드</div>
+                                                                </div>
+                                                                <div class="d_b_name">
+                                                                    <div>예약번호</div>
+                                                                    <div>2303011931123456</div>
+                                                                </div>
+                                                                <div class="d_b_name2">
+                                                                    <div>최종결제금액 <i>(VAT포함)</i></div>
+                                                                    <div>52,800원</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </form>
+                                    </dialog>
                                 </div>
                             </div>
                             <div class="blank30"></div>
