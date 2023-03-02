@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = google.visualization.arrayToDataTable([
+                    ['객실유형', '퍼센트', { role: 'style' } ],
+                    ['전체',  44+22+12, 'color: #e63946'],
+                    ['A룸',  44 , 'color: #a8dadc'],
+                    ['B룸',  40, 'color: #a8dadc'],
+                    ['C룸',  16, 'color: #a8dadc'],
+                    ['D룸',  23, 'color: #a8dadc'],
+                    ['E룸',  60, 'color: #a8dadc']
+                ]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                            { calc: "stringify",
+                                sourceColumn: 1,
+                                type: "string",
+                                role: "annotation" },
+                            2]);
+
+            var options = {
+                'title':'객실 점유율',
+                'width':600,
+                'height':300,
+                isStacked: true,
+                 // 가로축 설정
+                hAxis: {
+                    minValue: 0,
+                    maxValue: 100   
+                },
+                format: 'percent'
+            };
+
+            
+
+            var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+            chart.draw(view, options);
+        }
+    </script>
+</head>
+<body>
+    <div id="chart_div"></div>
+</body>
+</html>

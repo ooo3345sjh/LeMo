@@ -5,32 +5,87 @@
     <title>line-graph test</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
+        // 구글 열 차트를 로드 
         google.charts.load('current', {'packages':['corechart']});
+        // callback 정의 : drawVisualization
         google.charts.setOnLoadCallback(drawVisualization);
 
+        // 오늘 날짜
+        let today = new Date();
+        // 오늘 날짜 (월)
+        let nowMonth = today.getMonth() + 1;
+        // 오늘 날짜 (일)
+        let nowDate = today.getDate();
+        // 출력 날짜 형태 지정 
+        let date = nowMonth + '/' + nowDate;
+
+        console.log(date);
+
+        // 이전 날짜 
+        // before[1] = 1일전 , before[2] = 2일전
+        let before = new Array();
+        for (let i=1; i<7; i++){
+            before[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
+            before[i] = before[i].getMonth() + '/' + before[i].getDate();
+        }
+        console.log( before[1] );
+
         function drawVisualization() {
-            // Some raw data (not necessarily accurate)
+
+            // 그래프 내용 : drawVisualization 구현 
             var data = google.visualization.arrayToDataTable([
-                ['Local', '일별매출', '누적매출'],
-                ['2/23',  444, 444],
-                ['2/24',  408, 852],
-                ['2/25',  164, 1016],
-                ['2/26',  239, 1255],
-                ['2/27',  60, 1315],
-                ['3/1',  380, 1695],
-                ['3/2',  80, 1775]
+                ['날짜', '일별매출', '누적매출'],
+                [before[6],  444, 444],
+                [before[5],  408, 852],
+                [before[4],  164, 1016],
+                [before[3],  239, 1255],
+                [before[2],  60, 1315],
+                [before[1],  380, 1695],
+                [date,  80, 1775]
             ]);
 
+            // 그래프 주석 표기 
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                            { calc: "stringify",
+                                sourceColumn: 1,
+                                type: "string",
+                                role: "annotation" },
+                            2]);
+
+            // 그래프 옵션 
             var options = {
-            title : '매출현황',
-            vAxis: {title: '(만원)'},
-            hAxis: {title: '(날짜)'},
-            seriesType: 'bars',
-            series: {1: {type: 'line'}}
+                title : '매출현황',              
+                titleTextStyle: {fontSize: 20},
+                // 세로축 설정
+                vAxis: {
+                    title: '(만원)', 
+                    titleTextStyle: {italic: false, bold: true},
+                    textStyle: {
+                        fontSize: 15,
+                        italic: false
+                    }    
+                },    
+                // 가로축 설정    
+                hAxis: {
+                    title: '(날짜)',
+                    titleTextStyle: {italic: false, bold: true},
+                    textStyle: {
+                        fontSize: 15,
+                        italic: false
+                    }    
+                },        
+                format: 'currency',             // 숫자 또는 라벨의 형식 문자열 (currency: 현지 통화)
+                seriesType: 'bars',             // 베이스 차트 종류
+                colors: ['#AACB73'],            // 베이스 차트 색상 
+                pointSize: 5,                   // 라인 포인트 
+                crosshair: { trigger: 'both', color: '#FFD4D4', opacity: 0.8 }, // Display crosshairs on focus and selection.
+                series: {1: 
+                    { pointShape: 'circle', type: 'line', color: '#FFD4D4'}}    // 라인 
             };
 
             var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
+            chart.draw(view, options);
         }
     </script>
 </head>
