@@ -7,7 +7,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Travel with Lemo::product</title>
+        <title>Travel with Lemo::diary</title>
         <!-- 구글 폰트 -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,13 +28,6 @@
     </head>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712"></script>
     <script>
-        /** 현재 날짜 구하기 */
-        let now        = new Date();
-        let nowYear    = now.getFullYear();
-        let nowMonth   = now.getMonth() + 1;
-        let nowDate    = now.getDate();
-        let date      = nowYear + '-' + nowMonth + '-' + nowDate;
-
         $(function(){
 
             /** 카카오맵 - 스크롤 따라 이동 */
@@ -48,8 +41,6 @@
                 let point;
                 let endPoint = listHeight - mapHeight;
 
-                
-                //console.log(position + currentPosition);
 
                 if( scrollTop < boxOffsetTop ){
                     point = 0;
@@ -104,8 +95,6 @@
             $('.diary_content').click(function(){
                 $(this).removeClass('on');
             });
-
-
 
 
             /* 찜하기 */
@@ -188,19 +177,21 @@
                                 <button>검색</button>
                             </div>
                         </div>
-                        <div class="list">
-                            
+                        <!-- 여행일기 목록 -->
+                        <div class="list">                            
                             <div class="list-area">
                                 <ul>
                                     <li>
                                         <button class="heart"><img src="../img/diaryImg/heart.png"></button>
                                         <button class="marker"><img src="../img/diaryImg/marker2.png" alt="일정마크표시"></button>
+                                        <!-- 사진 슬라이드 -->
                                         <div class="img_slider">
                                             <div><a href="#"><img src="../img/diaryImg/sample7.jpg"></a></div>
                                             <div><a href="#"><img src="../img/diaryImg/sample8.jpg"></a></div>
                                             <div><a href="#"><img src="../img/diaryImg/sample1.jpg"></a></div>
                                             <div><a href="#"><img src="../img/diaryImg/sample2.jpg"></a></div>
                                         </div>
+                                        <!-- 여행일기 간략한 설명 -->
                                         <div class="diary_content">
                                             <div>
                                                 <span id="nick">홍길동</span>
@@ -352,6 +343,7 @@
                                             <button><a href="./view.html">여행일기 보러가기</a></button>
                                         </div>
                                     </li>
+                                </ul>
                             </div>
                         </div>
 

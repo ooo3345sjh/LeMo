@@ -164,9 +164,6 @@
 }
 
 
-
-
-
 .list .diary_content {
     z-index: -9999;
     width: 100%;
@@ -284,3 +281,272 @@
 
 /* 버튼공통 */
 button {cursor: pointer;}
+
+
+/* 여행일기 보기 */
+
+.view {
+    float: left;
+    width: 610px; 
+    min-height: 800px;
+    padding: 40px;
+    margin-top: 85px;
+    margin-left: 110px;
+    background-color: #F5F6FF;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+
+#diary_content {
+    background-color: #ffffff;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    padding: 30px;
+}
+
+#diary_content * {margin-bottom: 20px; font-size: 15px;}
+
+#diary_content > span {
+    font-size: 18px;
+    font-weight: 500;
+    display: block;
+    
+}
+#diary_content > b {display: inline-block;}
+#diary_content > strong {
+    display: block;
+}
+
+
+#diary_content li::before {
+    position: relative;
+    top: 6px;
+    display: inline-block;
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    content: "";
+    background-size: 20px;
+}
+#diary_content li:nth-of-type(1)::before {
+    background-image: url('../img/diaryImg/calendar2.png');
+}
+#diary_content li:nth-of-type(2)::before {
+    background-image: url('../img/diaryImg/bed1.png');
+}
+#diary_content li:nth-of-type(3)::before {
+    background-image: url('../img/diaryImg/edit.png');
+}
+
+#diary_content li:nth-of-type(4)::before {
+    background-image: url('../img/diaryImg/heart3.png');
+    scale: 1.2;
+}
+
+.place {
+    margin-top: 50px;
+    background-color: #ffffff;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    padding: 10px 30px 30px 30px;
+}
+
+.place:hover {
+    box-shadow: 0 14px 28px rgb(0 0 0 / 15%), 0 10px 10px rgb(0 0 0 / 15%);
+}
+
+
+.place > .spot > span::before {
+    position: relative;
+    bottom: -10px;
+    display: inline-block;
+    width: 37px;
+    height: 37px;
+    content: "";
+    margin-right: 10px;
+    background-size: 37px;
+    background-image: url(../img/diaryImg/marker4.png);
+    background-repeat: no-repeat;
+}
+
+.place > .spot > span {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.place > .arrow {
+    position: relative;
+    bottom: 18px;
+    float: right;
+    width: 15px;
+}
+
+.place > .arrow.on {
+    content: url('../img/csImg/arr_top.png');
+}
+
+.place .toggle {
+    display: none;
+    margin-top: 30px;
+    width: 100%;
+    height: auto;
+}
+
+.toggle > .image {vertical-align: center; text-align: center; margin-bottom: 50px;}
+
+.toggle > .image > img{
+    max-width: 100%;
+    min-height: auto;
+    object-fit: cover;
+}
+
+.toggle > .text {
+    margin-bottom: 30px;
+}
+
+/* 여행일기 댓글 */
+.reply {
+    margin-top: 50px;
+    min-height: 500px;
+    background: #fafafa;
+    border-radius: 5px;
+    padding: 30px;
+}
+
+.reply > #tit > span {font-size: 15px; margin-right: 10px;}
+.reply > #tit > b {font-size: 14px; font-weight: bold;}
+
+.reply #rep li {
+    border-bottom: 1px solid #cbcbcb;
+    margin-top: 15px;
+    padding: 10px;
+    overflow: hidden;
+    padding-bottom: 20px;
+}
+
+.reply #rep li:last-child {border-bottom: 0;}
+
+.reply #rep li .repdiv1 {
+    height: 50px;
+}
+
+.repdiv1 > img {
+    float: left;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 100px;
+}
+
+.repdiv1 div {
+    position: relative;
+    left: 10px;
+    top: 10px;
+
+}
+
+.repdiv1 div strong {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.repdiv1 div span {
+    display: block;
+}
+
+.reply #rep li .repdiv2 {
+    margin: 5px 0;
+}
+
+.reply #rep li .repdiv2 > textarea {
+    width: 100%;
+    border: none;
+    font-size: 13px;
+    resize: none;
+    overflow: hidden;
+    background-color: #fafafa;
+}
+
+.reply #rep li .repdiv3 {
+}
+
+.repdiv3 a {
+    display: inline-block;
+    font-size: 12px;
+}
+
+.repdiv3 div:nth-child(1) {
+    float: left;
+}
+.repdiv3 div:nth-child(2) {
+    float: right;
+}
+
+.repdiv3 div a:nth-child(1) {
+    margin-right: 10px;
+}
+
+
+.repdiv3 div a.all {
+    font-weight: bold;
+    color: #00bbfe;
+}
+
+/* 댓글쓰기 */
+.write_reply {
+    margin-top: 30px;
+    border-radius: 5px;
+    background-color: #fafafa;
+    height: 150px;
+}
+
+.write_reply textarea {
+    position: relative;
+    top: 15px;
+    margin-left: 15px;
+    border: 1px solid #cbcbcb;
+    border-radius: 5px;
+    width: 94%;
+    height: 95px;
+    overflow: hidden;
+    resize: none;
+    padding: 15px;
+    font-size: 13px; 
+}
+
+.write_reply button {
+    position: relative;
+    top: 18px;
+    left: 453px;
+    border: none;
+    background-color: #00bbfe;
+    height: 26px;
+    width: 60px;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 12px;
+}
+
+.write_reply.re {
+    display: none;
+
+}
+
+
+.write_reply.re.open {
+    display: block;
+}
+
+.write_reply.re textarea {
+
+}
+.write_reply.re button {
+    left: 378px;
+}
+
+.write_reply.re {
+    margin-top: 0px;
+}
