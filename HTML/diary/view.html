@@ -21,6 +21,7 @@
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="./js/jquery.scrollfollow.js"></script>
         <!-- slick slider plugin-->
         <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
@@ -28,15 +29,17 @@
     </head>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712"></script>
     <script>
+
         $(function(){
 
-            /** 카카오맵 - 스크롤 따라 이동 */ 
-            let currentPosition = parseInt($('#listMap').css('top'));
-            let mapHeight = $('#listMap').height();
-            let listHeight = $('.list-area').height();
-            let boxOffsetTop = $('.list-area').offset().top;
-
+            /** 카카오맵 - 스크롤 따라 이동 */
             $(window).scroll(function() {
+
+                let currentPosition = parseInt($('#listMap').css('top'));
+                let mapHeight = $('#listMap').height();
+                let listHeight = $('.list-area').height();
+                let boxOffsetTop = $('.list-area').offset().top;
+
                 let scrollTop = $(window).scrollTop();
                 let point;
                 let endPoint = listHeight - mapHeight;
@@ -70,7 +73,30 @@
             /* 답 댓글쓰기 */
             $('.comment').click(function(e){
                 e.preventDefault();
-                $(this).parent().parent().find('.write_reply.re').toggleClass('open');
+
+                let status = $('.write_reply.re').hasClass('show');
+                if(!status){
+                    $('.write_reply.re').addClass('show');
+                }else {
+                    $('.write_reply.re').removeClass('show');
+                }
+            });
+
+            /* 댓글 모두 보기 */
+            $('.showall').click(function(e){
+                e.preventDefault();
+
+                let status = $(this).hasClass('open');
+
+                if(status) {
+                    $(this).text('댓글 모두보기');
+                    $(this).removeClass('open');
+                    $(this).parent().parent().find('.re_reply').removeClass('open');
+                }else {
+                    $(this).text('댓글 숨기기');
+                    $(this).addClass('open');
+                    $(this).parent().parent().find('.re_reply').addClass('open'); // 답댓글 보기
+                }
             });
         });
     </script>
@@ -199,6 +225,7 @@
                                     </div>
                                     <div id="rep">
                                         <ul>
+                                            <!--본 댓글 1-->
                                             <li>
                                                 <div class="repdiv1">
                                                     <img src="../img/diaryImg/sample2.jpg" alt="프사">
@@ -217,17 +244,10 @@
                                                         <a href="#">수정</a>
                                                         <a href="#">삭제</a>
                                                     </div>
-                                                    <!-- 답댓글 쓰기 -->                                      
-                                                    <div class="write_reply re open">
-                                                        <form action="#">
-                                                            <textarea></textarea>
-                                                            <button>댓글 쓰기</button>
-                                                        </form>
-                                                    </div>
-                                                    <!-- 댓글 보기-->
                                                 </div>
                                             </li>
-                                            <li>
+                                            <!-- 답댓글 class='re_reply' -->
+                                            <li class="re_reply">
                                                 <div class="repdiv1">
                                                     <img src="../img/diaryImg/sample2.jpg" alt="프사">
                                                     <div>
@@ -238,8 +258,8 @@
                                                 </textarea></div>
                                                 <div class="repdiv3">
                                                     <div>
-                                                        <a href="#" class="all">댓글 모두보기</a>
-                                                        <a href="#">댓글 쓰기</a>
+                                                        <a href="#" class="showall">댓글 모두보기</a>
+                                                        <a href="#" class="comment">댓글 쓰기</a>
                                                     </div>
                                                     <div>
                                                         <a href="#">수정</a>
@@ -247,7 +267,7 @@
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li>
+                                            <li class="re_reply">
                                                 <div class="repdiv1">
                                                     <img src="../img/diaryImg/sample2.jpg" alt="프사">
                                                     <div>
@@ -258,8 +278,8 @@
                                                 </textarea></div>
                                                 <div class="repdiv3">
                                                     <div>
-                                                        <a href="#" class="all">댓글 모두보기</a>
-                                                        <a href="#">댓글 쓰기</a>
+                                                        <a href="#" class="showall">댓글 모두보기</a>
+                                                        <a href="#" class="comment">댓글 쓰기</a>
                                                     </div>
                                                     <div>
                                                         <a href="#">수정</a>
@@ -267,6 +287,33 @@
                                                     </div>
                                                 </div>
                                             </li>
+                                            <li>
+                                                <div class="repdiv1">
+                                                    <img src="../img/diaryImg/sample4.jpg" alt="프사">
+                                                    <div>
+                                                        <strong>쭈니</strong><span>2023.03.07</span>
+                                                    </div>
+                                                </div>
+                                                <div class="repdiv2"><textarea readonly>우와 너무너무 좋아보여요ㅠㅠㅠ대박이네요 진짜로 최고에요..............어디로 가나요?ㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇ
+                                                </textarea></div>
+                                                <div class="repdiv3">
+                                                    <div>
+                                                        <a href="#" class="showall">댓글 모두보기</a>
+                                                        <a href="#" class="comment">댓글 쓰기</a>
+                                                    </div>
+                                                    <div>
+                                                        <a href="#">수정</a>
+                                                        <a href="#">삭제</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <!-- 답댓글 쓰기-->                                   
+                                            <div class="write_reply re">
+                                                <form action="#">
+                                                    <textarea></textarea>
+                                                    <button>댓글 쓰기</button>
+                                                </form>
+                                            </div>
                                         </ul>
                                     </div>
                                 </div>
