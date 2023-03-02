@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>index</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</head>
+    <style>
+        button {
+            width: 100px;
+            height: 30px;
+            font-weight: bold;
+            margin-top: 50px;
+        }
+    </style>
+	<body>
+		<p style="margin-top:-12px">
+            <button type="button" onclick="getInfo()">지도의 정보</button>
+        </p>
+        <div id="map" style="width:100%;height:600px;"></div>
+        <p>개발자도구를 통해 직접 확인해 보세요.</p>
+        <p>
+            var infowindow = new kakao.maps.InfoWindow();<br>
+            인포윈도우는 전역에서 선언하고 기능 내부에서 끌어다쓰기 가능<br>
+            <br>
+            var marker = new kakao.maps.Marker();<br>
+            마커도 마찬가지로 전역에서 선언하고 기능 내부에서 쓰일 함수만 찾는다면<br>
+            임시선택 Jquery를 바꿀 수 있을 듯
+        </p>
+		
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712"></script>
+		<script th:inline="javascript">
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                mapOption = { 
+                    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
+                };
+
+            var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+            function getInfo() {
+                // 지도의 현재 중심좌표를 얻어옵니다 
+                var center = map.getCenter(); 
+                
+                // 지도의 현재 레벨을 얻어옵니다
+                var level = map.getLevel();
+                
+                // 지도타입을 얻어옵니다
+                var mapTypeId = map.getMapTypeId(); 
+                
+                // 지도의 현재 영역을 얻어옵니다 
+                var bounds = map.getBounds();
+                
+                // 영역의 남서쪽 좌표를 얻어옵니다 
+                var swLatLng = bounds.getSouthWest(); 
+                
+                // 영역의 북동쪽 좌표를 얻어옵니다 
+                var neLatLng = bounds.getNorthEast(); 
+                
+                // 영역정보를 문자열로 얻어옵니다. ((남,서), (북,동)) 형식입니다
+                var boundsStr = bounds.toString();
+                
+                
+                var message = '지도 중심좌표는 위도 ' + center.getLat() + ', <br>';
+                message += '경도 ' + center.getLng() + ' 이고 <br>';
+                message += '지도 레벨은 ' + level + ' 입니다 <br> <br>';
+                message += '지도 타입은 ' + mapTypeId + ' 이고 <br> ';
+                message += '지도의 남서쪽 좌표는 ' + swLatLng.getLat() + ', ' + swLatLng.getLng() + ' 이고 <br>';
+                message += '북동쪽 좌표는 ' + neLatLng.getLat() + ', ' + neLatLng.getLng() + ' 입니다';
+                
+                // 개발자도구를 통해 직접 message 내용을 확인해 보세요.
+                console.log(message);
+            }
+
+            // 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록합니다
+            kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+                // 클릭한 위치에 마커를 표시합니다 
+                addMarker(mouseEvent.latLng);
+            });
+
+            // 지도에 표시된 마커 객체를 가지고 있을 배열입니다
+            var markers = [];
+
+            // 인포윈도우를 생성합니다
+            var infowindow = new kakao.maps.InfoWindow();
+
+            // 마커를 생성하고 지도위에 표시하는 함수입니다
+            function addMarker(position) {
+                
+                let place = prompt('장소를 입력하세요.');
+                
+                // 마커를 생성합니다
+                var marker = new kakao.maps.Marker({
+                    title : place,
+                    position: position
+                });
+
+                // 마커가 지도 위에 표시되도록 설정합니다
+                marker.setMap(map);
+                
+                // 생성된 마커를 배열에 추가합니다
+                markers.push(marker);
+
+                console.log(markers);
+            }
+
+            let count = 0;
+
+            // 임시 마커 선택 Jquery
+            $(document).on('click', '#map > div:eq(0) > div > div:eq(5) > div', function(){
+                // 임시 기능. marker를 생성할때 div의 특정영역에 생성되고 순차적으로 쌓임 또한 markers의 배열에 입력됨
+                // 따라서 생성된 div가 몇번째 요소인지 알 수 있다면
+                // markers 배열에 입력된 해당하는 marker의 정보를 가져 올 수 있음
+                count = $(this).index();
+
+                alert('장소 : ' + markers[count].getTitle() + ' 좌표 : ' + markers[count].getPosition());
+
+                // 마커 지우기
+                markers[count].setMap(null);
+
+                // 지움과 동시에 markers 배열에서도 빼줘야함
+                markers.splice(count, 1);
+                console.log(markers);
+                infowindow.close();
+            });
+
+            $(document).on('mouseover', '#map > div:eq(0) > div > div:eq(5) > div', function(){
+                count = $(this).index();
+                
+                var iwContent = '<div style="padding:5px;">'+markers[count].getTitle()+'</div>';
+
+                infowindow.setContent(iwContent);
+
+                infowindow.open(map, markers[count]);
+
+            });
+
+            $(document).on('mouseout', '#map > div:eq(0) > div > div:eq(5) > div', function(){
+                infowindow.close();
+            });
+
+		</script>
+	</body>
+</html>
