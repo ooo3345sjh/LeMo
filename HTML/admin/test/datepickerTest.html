@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+        $(document).ready(function() {
+            let now        = new Date();
+            let nowYear    = now.getFullYear();
+            let nowMonth   = now.getMonth() + 1;
+            let nowDate    = now.getDate();
+            let date       = nowYear + '-' + nowMonth + '-' + nowDate;
+            let edate      = (now+7);
+
+            console.log(nowYear + '-' + nowMonth + '-' + edate);
+
+            /** Jquery UI Date Picker */
+            $('input[name="dates"]').daterangepicker({
+                "maxSpan": {
+                    "days": 7
+                }, 
+                "locale": {
+                    "format": "YYYY-MM-DD",
+                    "separator": " ~ ",
+                    "applyLabel": "확인",
+                    "cancelLabel": "취소",
+                    "fromLabel": "From",
+                    "toLabel": "To",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "W",
+                    "daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"],
+                    "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+                    "firstDay": 1
+                },
+                "startDate": moment().startOf('hour'),
+                "endDate": moment().startOf('hour').add(168, 'hour'),
+                "drops": "down",
+                "opens": "center"
+            }, function (start, end, label) {
+                alert(start.format('YYYY-MM-DD')+"~"+end.format('YYYY-MM-DD'));
+            });
+
+
+
+
+        });
+    </script>
+</head>
+<body>
+    <input type="text" id="datepicker" name="dates" style="width: 400px; height: 30px;">
+</body>
+</html>

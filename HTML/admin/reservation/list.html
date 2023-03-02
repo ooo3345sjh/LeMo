@@ -26,7 +26,8 @@
                 const d_Detail = document.getElementById('d_Detail');
                 const btnCloseModal = document.getElementById('btnCloseModal');
 
-                btnDetail.addEventListener("click", ()=>{
+                btnDetail.addEventListener("click", (e)=>{
+                    e.preventDefault();
                     d_Detail.showModal();
                 });
                 
@@ -39,7 +40,8 @@
                 const d_Memo = document.getElementById('d_Memo');
                 const btnCloseModal2 = document.getElementById('btnCloseModal2');
 
-                btnMemo.addEventListener("click", ()=>{
+                btnMemo.addEventListener("click", (e)=>{
+                    e.preventDefault();
                     d_Memo.showModal();
                 });
 
