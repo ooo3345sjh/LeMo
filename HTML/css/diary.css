@@ -410,7 +410,6 @@ button {cursor: pointer;}
 /* 여행일기 댓글 */
 .reply {
     margin-top: 50px;
-    min-height: 500px;
     background: #fafafa;
     border-radius: 5px;
     padding: 30px;
@@ -424,10 +423,9 @@ button {cursor: pointer;}
     margin-top: 15px;
     padding: 10px;
     overflow: hidden;
-    padding-bottom: 20px;
 }
 
-.reply #rep li:last-child {border-bottom: 0;}
+.reply #rep li:last-of-type {border-bottom: 0;}
 
 .reply #rep li .repdiv1 {
     height: 50px;
@@ -478,14 +476,14 @@ button {cursor: pointer;}
     font-size: 12px;
 }
 
-.repdiv3 div:nth-child(1) {
+.repdiv3 > div:nth-child(1) {
     float: left;
 }
-.repdiv3 div:nth-child(2) {
+.repdiv3 > div:nth-child(2) {
     float: right;
 }
 
-.repdiv3 div a:nth-child(1) {
+.repdiv3 > div a:nth-child(1) {
     margin-right: 10px;
 }
 
@@ -530,13 +528,14 @@ button {cursor: pointer;}
     font-size: 12px;
 }
 
+
+/* 답댓글 */
 .write_reply.re {
     display: none;
 
 }
 
-
-.write_reply.re.open {
+.write_reply.re.show {
     display: block;
 }
 
@@ -544,9 +543,45 @@ button {cursor: pointer;}
 
 }
 .write_reply.re button {
-    left: 378px;
+    left: 397px;
 }
 
 .write_reply.re {
     margin-top: 0px;
+}
+
+
+
+.showall.open{
+    color: #00bbfe;
+}
+
+/* 답 댓글 목록 */
+.re_reply {
+    display: block;
+    width: 445px;
+    overflow: hidden;
+    padding: 0px;
+    position: relative;
+    margin-left: 25px;
+}
+
+.re_reply.open {
+    display: block;
+}
+
+.re_reply ul {
+    
+}
+.re_reply li {}
+.re_reply .repdiv1 {}
+.re_reply .repdiv2 {}
+.re_reply .repdiv3 {}
+.re_reply .repdiv3 .write_reply.re {}
+
+.re_reply .write_reply.re {}
+.re_reply .write_reply.re > form {
+    width: 450px;
+    position: relative;
+    right: 25px;
 }
