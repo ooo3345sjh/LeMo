@@ -1,7 +1,7 @@
 <!--
-    날짜 : 2023/03/02
+    날짜 : 2023/03/03
     이름 : 이해빈
-    내용 : 관리자 객실정보(roomInfo) 목록 HTML 
+    내용 : 관리자 고객센터 - 공지사항 수정 HTML 
 -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -14,13 +14,10 @@
         <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
         <!-- 스타일 css 적용 -->
-        <link rel="stylesheet" href="../css/adminNotice.css">
+        <link rel="stylesheet" href="../../css/adminNotice.css">
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <!-- chart.js -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        
     </head>
     <body>
         <div id="wrapper">
@@ -62,10 +59,10 @@
                                 </a>
                                 <ul class="sidebar_collapse_menu">
                                     <li>
-                                        <a href="#">숙박관리</a>
+                                        <a href="#" class="on">숙박관리</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="on">객실관리</a>
+                                        <a href="#">객실관리</a>
                                     </li>
                                     <li>
                                         <a href="#">쿠폰등록</a>
@@ -134,58 +131,43 @@
                         <div class="main_cotent_inner">
                             <div class="main_content_div">
                                 <div class="col_nav">
-                                    <span>공지사항 ></span>
-                                    <span>목록</span>
+                                    <span>고객센터 ></span>
+                                    <span>공지사항 수정</span>
                                 </div>
-                                <div class="col2">
-                                    <form action="#">
-                                        <div class="board_list">
-                                            <ul>
-                                                <li>#</li>
-                                                <li>제목</li>
-                                                <li>작성일</li>
-                                                <li>비고</li>
-                                            </ul>
-                                            <ul>
-                                                <li>1</li>
-                                                <li class="title">
-                                                    <a href="#">페이백 이벤트 당첨자 발표 안내입니다.</a>
-                                                </li>
-                                                <li>2023-03-01</li>
-                                                <li class="prodBtn">
-                                                    <span class="btnDelete">삭제</span>
-                                                    <span class="btnModify">수정</span>
-                                                </li>
-                                            </ul>
-                                            <ul>
-                                                <li>2</li>
-                                                <li class="title">
-                                                    <a href="#">페이백 이벤트 당첨자 발표 안내입니다.</a>
-                                                </li>
-                                                <li>2023-03-01</li>
-                                                <li class="prodBtn">
-                                                    <span class="btnDelete">삭제</span>
-                                                    <span class="btnModify">수정</span>
-                                                </li>
-                                            </ul>
+
+                                <!-- 공지 보기 폼 -->
+                                <form class="col_register_form">
+                                    <!-- 공지제목 등록 -->
+                                    <div class="col_register1">
+                                        <div class="stayName">
+                                            <div>
+                                                <span>제목</span>
+                                            </div>
                                         </div>
-                                        <div class="pagination">
-                                            <a href="#">&laquo;</a>
-                                            <a href="#">1</a>
-                                            <a href="#" class="active">2</a>
-                                            <a href="#">3</a>
-                                            <a href="#">4</a>
-                                            <a href="#">5</a>
-                                            <a href="#">6</a>
-                                            <a href="#">&raquo;</a>
+                                        <input class="input_stayName" type="text" placeholder="공지사항의 제목을 입력하세요.">
+                                        <span class="result_stayName">
+                                            💡 [안내], [발표] 등 말머리를 붙여주세요.
+                                        </span>
+                                    </div>
+                                    <!-- 공지내용 등록 -->
+                                    <div class="col_register1">
+                                        <div class="stayName">
+                                            <div>
+                                                <span>내용</span>
+                                            </div>
                                         </div>
-                                        <div class="btnAdminProd">
-                                            <a href="#">
-                                                공지등록
-                                            </a>
-                                        </div>
-                                    </form>
-                                </div>
+                                        <textarea class="notice_text">
+
+                                        </textarea>
+                                    </div>
+
+                                    <!-- 버튼 -->
+                                    <div class="btnAdminProd">
+                                        <a href="#">
+                                            수정완료
+                                        </a>
+                                    </div>
+                                </form>
                             </div>
                             <div class="blank30"></div>
                         </div>
