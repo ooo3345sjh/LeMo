@@ -62,6 +62,135 @@
 
         });
         </script>
+        <!-- 구글 차트 -->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            // 구글 열 차트를 로드 
+            google.charts.load('current', {'packages':['corechart']});
+            // callback 정의 : drawVisualization
+            google.charts.setOnLoadCallback(drawVisualization);
+
+            // 오늘 날짜
+            let today = new Date();
+            // 오늘 날짜 (월)
+            let nowMonth = today.getMonth() + 1;
+            // 오늘 날짜 (일)
+            let nowDate = today.getDate();
+            // 출력 날짜 형태 지정 
+            let date = nowMonth + '/' + nowDate;
+
+            console.log(date);
+
+            // 이전 날짜 
+            // before[1] = 1일전 , before[2] = 2일전
+            let before = new Array();
+            for (let i=1; i<7; i++){
+                before[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
+                before[i] = before[i].getMonth() + '/' + before[i].getDate();
+            }
+            console.log( before[1] );
+
+            function drawVisualization() {
+
+                // 그래프 내용 : drawVisualization 구현 
+                var data = google.visualization.arrayToDataTable([
+                    ['날짜', '일별매출', '누적매출'],
+                    [before[6],  444, 444],
+                    [before[5],  408, 852],
+                    [before[4],  164, 1016],
+                    [before[3],  239, 1255],
+                    [before[2],  60, 1315],
+                    [before[1],  380, 1695],
+                    [date,  80, 1775]
+                ]);
+
+                // 그래프 주석 표기 
+                var view = new google.visualization.DataView(data);
+                view.setColumns([0, 1,
+                                { calc: "stringify",
+                                    sourceColumn: 1,
+                                    type: "string",
+                                    role: "annotation" },
+                                2]);
+
+                // 그래프 옵션 
+                var options = {
+                    title : '매출현황',              
+                    titleTextStyle: {fontSize: 20},
+                    // 세로축 설정
+                    vAxis: {
+                        title: '(만원)', 
+                        titleTextStyle: {italic: false, bold: true},
+                        textStyle: {
+                            fontSize: 15,
+                            italic: false
+                        }    
+                    },    
+                    // 가로축 설정    
+                    hAxis: {
+                        title: '(날짜)',
+                        titleTextStyle: {italic: false, bold: true},
+                        textStyle: {
+                            fontSize: 15,
+                            italic: false
+                        }    
+                    },        
+                    format: 'currency',             // 숫자 또는 라벨의 형식 문자열 (currency: 현지 통화)
+                    seriesType: 'bars',             // 베이스 차트 종류
+                    colors: ['#AACB73'],            // 베이스 차트 색상 
+                    pointSize: 5,                   // 라인 포인트 
+                    crosshair: { trigger: 'both', color: '#FFD4D4', opacity: 0.8 }, // Display crosshairs on focus and selection.
+                    series: {1: 
+                        { pointShape: 'circle', type: 'line', color: '#FFD4D4'}}    // 라인 
+                };
+
+                var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+                chart.draw(view, options);
+            }
+    </script>
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data2 = google.visualization.arrayToDataTable([
+                    ['객실유형', '퍼센트', { role: 'style' } ],
+                    ['전체',  44+22+12, 'color: #e63946'],
+                    ['A룸',  44 , 'color: #a8dadc'],
+                    ['B룸',  40, 'color: #a8dadc'],
+                    ['C룸',  16, 'color: #a8dadc'],
+                    ['D룸',  23, 'color: #a8dadc'],
+                    ['E룸',  60, 'color: #a8dadc']
+                ]);
+
+            var view2 = new google.visualization.DataView(data2);
+            view2.setColumns([0, 1,
+                            { calc: "stringify",
+                                sourceColumn: 1,
+                                type: "string",
+                                role: "annotation" },
+                            2]);
+
+            var options = {
+                'title':'객실 점유율',
+                'width':600,
+                'height':300,
+                isStacked: true,
+                    // 가로축 설정
+                hAxis: {
+                    minValue: 0,
+                    maxValue: 100   
+                },
+                format: 'percent'
+            };
+
+            
+
+            var chart = new google.visualization.BarChart(document.getElementById('chart_div2'));
+            chart.draw(view2, options);
+        }
+    </script>
     </head>
     <body>
         <div id="wrapper">
@@ -217,7 +346,106 @@
                                             </div>
                                             <!-- 매출현황 -->
                                             <div class="current_sales_stat">
-                                                asdfaf
+                                                <!-- 총 매출 -->
+                                                <div class="tot_sales">
+                                                    <div class="tot_sales_box">
+                                                        <div class="ts_tit1">총매출</div>
+                                                        <div class="ts_count">53</div>
+                                                        <div class="ts_tit2">건</div>
+                                                        <div class="ts_price">5,000,000</div>
+                                                        <div class="ts_tit3">원</div>
+                                                    </div>
+                                                </div>
+                                                <!-- 매출 그래프 -->
+                                                <div class="sales_graph">
+                                                    <div class="chart_box">
+                                                        <div id="chart_div" style="width: 900px; height: 500px;"></div>
+                                                    </div>
+                                                </div>
+                                                <!-- 매풀 테이블 -->
+                                                <div class="sales_table">
+                                                    <div class="sales_div">
+                                                        <table>
+                                                            <tr>
+                                                                <th>결제방법</th>
+                                                                <th>주문건수</th>
+                                                                <th>매출액</th>
+                                                                <th>비율</th>
+                                                                <th>그래프</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>신용/체크카드</td>
+                                                                <td>1</td>
+                                                                <td>123,000</td>
+                                                                <td>36%</td>
+                                                                <td>
+                                                                    <progress id="progress1" value="36" min="0" max="100"></progress>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>간편계좌이체</td>
+                                                                <td>2</td>
+                                                                <td>123,000</td>
+                                                                <td>36%</td>
+                                                                <td>
+                                                                    <progress id="progress1" value="36" min="0" max="100"></progress>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>토스페이</td>
+                                                                <td>3</td>
+                                                                <td>123,000</td>
+                                                                <td>36%</td>
+                                                                <td>
+                                                                    <progress id="progress1" value="36" min="0" max="100"></progress>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>네이버페이</td>
+                                                                <td>4</td>
+                                                                <td>123,000</td>
+                                                                <td>36%</td>
+                                                                <td>
+                                                                    <progress id="progress1" value="36" min="0" max="100"></progress>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>PAYCO</td>
+                                                                <td>5</td>
+                                                                <td>123,000</td>
+                                                                <td>36%</td>
+                                                                <td>
+                                                                    <progress id="progress1" value="36" min="0" max="100"></progress>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>법인카드</td>
+                                                                <td>6</td>
+                                                                <td>123,000</td>
+                                                                <td>36%</td>
+                                                                <td>
+                                                                    <progress id="progress1" value="36" min="0" max="100"></progress>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>휴대폰결제</td>
+                                                                <td>7</td>
+                                                                <td>123,000</td>
+                                                                <td>36%</td>
+                                                                <td>
+                                                                    <progress id="progress1" value="36" min="0" max="100"></progress>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <!-- 객실 점유율 -->
+                                                <div class="sales_room_percent">
+                                                    <div class="chart_box">
+                                                        <div id="chart_div2"></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </form>
