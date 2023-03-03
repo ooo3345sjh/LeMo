@@ -67,7 +67,8 @@
             /* 여행일기 목록 */
         .my_diary_list {
             float: left;
-            width: 607px; height: auto;
+            width: 906px; 
+            height: auto;
 
         }
 
@@ -85,6 +86,20 @@
             border-radius: 15px;
         }
 
+        .diary_map{
+            float: right;
+        }
+        .diary_map > button {
+            border: none;
+        }
+        .diary_map > button > input{}
+
+        #my_diary_listMap{
+            width: 1000px; 
+            height: 300px; 
+            border: 1px solid black;
+
+        }
 
         .my_diary_list ul li .img_slider {
             overflow: hidden;
@@ -238,8 +253,10 @@
 
 
 
+        
 
         /** 메인(Map) */
+        /*
         #my_diary_listMap {
             float: right;
             width: 299px;
@@ -269,6 +286,7 @@
         #my_diary_listMap > p > button:hover{
             background-color: #dbcbcb;
         }
+        */
 
 
         /* 버튼공통 */
@@ -350,6 +368,16 @@
                     $(this).toggleClass('on');
                 });
     
+
+                /* 지도 펼치기*/
+                $('#btn_map').click(function(){
+                    if($('#my_diary_listMap').css("display") == "none"){
+                        $("#my_diary_listMap").show();
+                        // 여기에 밑에 스크립트 부분 추가
+                    }else if($('#my_diary_listMap').css("dispaly") != "none"){
+                        $('#my_diary_listMap').hide();
+                    }
+                });
             });
         </script>
     </head>
@@ -442,7 +470,14 @@
                                 나의 여행일기
                             </span>
                         </div>
-                        <div class="my_diary_list">                            
+                        <div class="diary_map">
+                            <button type="button" id="btn_map">
+                                <input type="image" src="/my/img/marker2_40px.png">
+                            </button>
+                        </div>
+                        <div class="my_diary_list">
+                            <div id="my_diary_listMap">
+                            </div>                            
                             <div class="list-area">
                                 <ul>
                                     <li>
@@ -669,19 +704,21 @@
                             </div>
                         </div>
 
-                        <!-- 지도 -->
+                        <!-- 지도 
                         <div id="my_diary_listMap">
                             <p>
                                 <button onclick="setZoomable(false)">지도 확대/축소 끄기</button>
                                 <button onclick="setZoomable(true)">지도 확대/축소 켜기</button>
                             </p>
-                        </div>
+                        </div>-->
                         <script>
+                            
                             /** 카카오 맵 */
+                            
                             var container = document.getElementById('my_diary_listMap'); //지도를 담을 영역의 DOM 레퍼런스
                             var options = { //지도를 생성할 때 필요한 기본 옵션
                                 center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-                                level: 5 //지도의 레벨(확대, 축소 정도)
+                                level: 3 //지도의 레벨(확대, 축소 정도)
                             };
 
                             var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
@@ -689,7 +726,26 @@
                             function setZoomable(zoomable) {
                                 // 마우스 휠로 지도 확대,축소 가능여부를 설정합니다
                                 map.setZoomable(zoomable);    
-                            }
+                            } 
+
+                            $(function(){
+                                $('.marker').click(function(){
+                                    var container = document.getElementById('my_diary_listMap'),
+                                        options = {
+                                            center: new kakao.maps.LatLng(33.450701, 126.570667),
+                                            level: 3
+                                        };
+                                    var map = new kakao.maps.Map(container, options);
+
+                                    container.style.width = '800px';
+                                    container.style.height = '600px';
+
+                                    map.relayout();
+                                });
+                            });
+                            
+
+
                         </script>
                         
                     </div>  

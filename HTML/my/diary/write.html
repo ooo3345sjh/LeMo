@@ -1,360 +1,282 @@
 <!--
-    날짜 : 2023/03/01
+    날짜 : 2023/03/03
     이름 : 황원진
-    내용 : 마이페이지 다이어리 write HTML 
+    내용 : 여행일기 write HTML 화면구현
 -->
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Travel with Lemo::diary-write</title>
+        <title>Travel with Lemo::diary</title>
         <!-- 구글 폰트 -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">   
-        <!-- style css -->
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
+        <!-- 스타일 -->
+        <!--<link rel="stylesheet" href="/css/indexStyle.css">
+        <link rel="stylesheet" href="/css/diary.css">-->
         <link rel="stylesheet" href="/css/my.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+        <!-- 스크립트 모음 (Date Range Picker, slider 등) -->
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>      
-        <!-- dialog 라이브러리 -->
-        <script type="text/javascript" src="https://nowonbun.github.io/Loader/dialog.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <!-- slick slider plugin-->
+        <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
         <!-- Date Range Picker -->
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <!-- kakaoMap -->
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712&libraries=services"></script>
+        
         <style>
-        .date {
-            width: 340px;
-            font-size: 15px;
-        }
-
-        .date > input {
-            width: 236px; height: 40px;
-            font-size: 19px;
-            text-align: center;
-            border: none;
-        }
-        .consent_write{}
-        .diaryWrite{
-            padding: 9px 5px 0px 0px;
-            font-size: 22px;
-            font-weight: 500;
-        }
-        .diary_write_namearea {
-            margin-top: 13px;
-        }
-        .diary_write_namearea > span {
-            font-size: 18px;
-        }
-        .diary_write_tit {}
-        .diary_write_tit > input {
-            height: 35px;
-            width: 249px;
-            text-align: center;
-            font-size: 15px;
-        }
-        .diary_write_day {
-            margin-top: 16px;
-        }
-        .diary_write_day > span {
-            font-size: 18px;
-        }
-        .diary_write_plan {
-            margin-top: 15px;
-            margin-bottom: 10px;
-        }
-        .diary_write_plan > span {
-            font-size: 23px;
-        }
-        .diary_write_box {
-            border: 1px solid #dddada;
-            overflow: hidden;
-            border-radius: 8px;
-        }
-        .diary_write_box .diary_write_map {
-            width: 27px;
-            height: 21px;
-        }
-        .diary_write_box .diary_write_file {
-            display: flex;
-            flex-direction: column;
-            margin-top: 14px;
-            float: left;
-            margin-left: 21px;
-        }
-        .diary_write_img {
-            width: 232px;
-            height: 238px;
-            border-radius: 4px;
-        }
-        .diary_write_img > img {
-            width: 100%;
-            height: 100%;
-            border-radius: 4px;
-        }
-        .diary_write_file > label {
-            width: 45px;
-            height: 27px;
-            margin: 4px 0px 4px 1px;
-            box-shadow: inset 0px 1px 0px 0px #ffffff;
-            background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-            background-color: #f9f9f9;
-            border-radius: 6px;
-            border: 1px solid #dcdcdc;
-            display: inline-block;
-            cursor: pointer;
-            color: #666666;
-            font-size: 15px;
-            font-weight: 500;
-            text-align: center;
+            /** 메인(목록, Map) */
+            .diary_write_content {
+                overflow: hidden;
+                width: 1200px;
+                margin: 0 auto;
+                position: relative;
             }
-        .diary_write_file > input[type="file"] {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0,0,0,0);
-            border: 0;
-        }
-        .diary_write_box .diary_write_write {
-            float: right;
-            width: 499px;
-            height: 239px;
-            margin: 14px 21px 18px 0;
-        }
-        .diary_write_write > textarea {
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.05);
-            font-size: 15px;
-            resize: none;
-            border: none;
-            border-radius: 6px;
-        }
-        .diary_write_add {}
-        .diary_write_add > button {
-            width: 70px;
-            height: 35px;
-            margin: 18px 82px 4px 0px;
-            box-shadow: inset 0px 1px 0px 0px #ffffff;
-            background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-            background-color: #f9f9f9;
-            border-radius: 6px;
-            border: 1px solid #dcdcdc;
-            display: block;
-            cursor: pointer;
-            color: #666666;
-            font-size: 15px;
-            font-weight: 500;
-            text-align: center;
-            float: right;
-        }
-        .diary_write_add > button:hover {
-            background:linear-gradient(to bottom, #e0e0e0 5%, #ffffff 100%);
-            background-color:#f6f6f6;
-        }
+            .diary_write {
+                float: left;
+                width: 610px; 
+                min-height: 800px;
+                padding: 40px;
+                margin-top: 85px;
+                margin-left: 110px;
+                background-color: #F5F6FF;
+                border-radius: 20px;
+                overflow: hidden;
+                min-height: auto;
+            }
 
-        /** 모달 팝업 **/
-        .btn_map{
-            width: 48px;
-            height: 26px;
-            margin: 4px 0px 4px 22px;
-            box-shadow: inset 0px 1px 0px 0px #ffffff;
-            background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-            background-color: #f9f9f9;
-            border-radius: 6px;
-            border: 1px solid #dcdcdc;
-            display: inline-block;
-            cursor: pointer;
-            color: #666666;
-            font-size: 15px;
-            font-weight: 500;
-            text-decoration: none;
-            text-shadow: 0px 1px 0px #ffffff;
-        }
-        .btn_map:hover {}
-        .btn_map:active {}
-        dialog {
-            box-shadow: 0 14px 28px rgb(0 0 0 / 6%), 0 10px 10px rgb(0 0 0 / 6%);
-            border: none;
-            text-align: center;
+            h3 {
+                font-size: 23px;
+                font-weight: 500;
+                position: absolute;
+                top: 38px;
+                left: 126px;
+            }
+
+            #write_content {
+                background-color: #ffffff;
+                width: 100%;
+                height: auto;
+                border-radius: 5px;
+                padding: 30px;
+            }
+
+            #write_content * {margin-bottom: 20px; font-size: 15px;}
+
+            #write_content #tit {
+                border: none;
+                font-size: 18px;
+            }
+
+            #daterange {
+                vertical-align: text-top;
+                border: none;
+                width: 191px;
+            }
+
+
+            #write_content > b {display: inline-block;}
+            #write_content > strong {
+                display: block;
+            }
+
+
+            #write_content li::before {
+                position: relative;
+                top: 6px;
+                display: inline-block;
+                margin-right: 10px;
+                width: 20px;
+                height: 20px;
+                content: "";
+                background-size: 20px;
+            }
+
+            #write_content li:nth-of-type(1)::before {
+                background-image: url('/img/diaryImg/calendar2.png');
+            }
+            #write_content li:nth-of-type(2)::before {
+                background-image: url('/img/diaryImg/bed1.png');
+            }
+            #write_content li:nth-of-type(3)::before {
+                background-image: url('../img/diaryImg/edit.png');
+            }
+
+            #write_content li:nth-of-type(4)::before {
+                background-image: url('../img/diaryImg/heart3.png');
+                scale: 1.2;
+            }
+            #diary_content > ul > li {
+                margin-bottom: 0px;
+            }
+
+            
+            #write_content > ul > li > span {
+                font-weight: 500;
+                font-size: 12px;
+                color: #a39797;
+            }
+
+            .write_search{
+                margin: 44px 0px 1px 42px;
+            }
+            .write_search > input {
+                width: 411px;
+                height: 57px;
+                font-size: 21px;
+                border: none;
+                text-align: center;
+            }
+            .write_search .btnWrite_search {
+                border: none;
+                margin-left: -31px;
+                padding-top: 4px;
+                background: transparent;
+            }
+
+
+            .write_place {
+            margin-top: 50px;
+            background-color: #ffffff;
+            width: 100%;
+            height: auto;
             border-radius: 5px;
-            position: absolute;
-            top: 15%;
-            left: 33%;
-            width: 35%;
-            height: fit-content;
-        }
-        .modal-small-content {
-            vertical-align: baseline;
-            padding: 16px;
-            outline: 0;
-            position: relative;
-            background-color: #fff;
-            transition: box-shadow 0.25s, -webkit-box-shadow 0.25s;
-            border-radius: 2px;
-        }
-        .modal-small-content .black-text {
-            color: #000 !important;
-        }
-        .black-text .cancle {
-            position: absolute;
-            top: 0;
-            right: 8px !important;
-            cursor: pointer;
-            border: none;
-            font-size: 26px;
-            background-color: white;
-        }
-        .black-text .modal-small-title {
-            font-size: 2.5rem;
-            line-height: 2.4;
-            margin: 0 0 20px 0;
-            font-weight: 400;
-            color: #333;
-            text-transform: none;
-        }
-        .black-text > p {
-            margin: 0 0 8px 0;
-            box-sizing: inherit;
-            color: #000 !important;
-        }
-        .black-text > p > h7 {
-            color: #999;
-            font-size: 16px;
-        }
-        .modal_main {}
-        .modal_main .place_modal {
-            margin: 16px 0;
-        }
-        .place_modal .place {
-            margin: 0 0 20px 0;
-        }
-        .place_modal .place > span {
-            font-size: 21px;
-        }
-        .text_modal {
-            margin: 10px 0 0 0 !important;
-            vertical-align: baseline;
-        }
-        .text_modal .col {
-            float: left;
-            box-sizing: border-box;
-            padding: 0 0.75rem;
-            min-height: 1px;
-            width: 100%;
-            margin-left: auto;
-        }
-        .text_modal .row {
-            margin-left: -0.75rem;
-            margin-right: -0.75rem;
-            height: 60px;
-            margin-bottom: 20px;
-            vertical-align: baseline;
-            box-sizing: inherit;
-        }
-        .text_modal .row .input-field {
-            width: 100%;
-            left: auto;
-            right: auto;
-            position: relative;
-            vertical-align: baseline;
-            margin: 3px 0;
-        }
-        .input-field > input {
-            line-height: 1.15;
-            overflow: visible;
-            background-color: transparent;
-            border: none;
-            border-radius: 0;
-            outline: none;
-            height: 3rem;
-            width: 100%;
-            font-size: 16px;
-            margin: 0 0 8px 0;
-            padding: 0;
-            box-shadow: none;
-            box-sizing: content-box;
-            transition: box-shadow 0.3s, border 0.3s, -webkit-box-shadow 0.3s;
-        }
-        .input-field > label {
-            box-sizing: inherit;
-            color: #bdbdbd;
-            position: absolute;
-            top: -6px;
-            font-size: 1.4rem;
-            cursor: text;
-            transition: transform 0.2s ease-out, color 0.2s ease-out, -webkit-transform 0.2s ease-out;
-            -webkit-transform-origin: 0% 100%;
-            transform-origin: 0% 100%;
-            text-align: initial;
-            -webkit-transform: translateY(12px);
-            transform: translateY(12px);
-            left: 0.75rem;
-        }
-        .input-field > label::after {
-            display: block;
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 0;
-            opacity: 0;
-            transition: 0.2s opacity ease-out, 0.2s color ease-out;
-        }
-        input [type='text']:focus:not([readonly]) + label {
-            color: #26dbe1;
-        }
-        #text_label:active {
-            transform: translateY(-14px)
-            scale(0.8);
-            transform-origin: 0 0;
-            color: #26dbe1;
-        }
-        .input-field  #reqSpotRegDesc {}
-        .modal-footer {}
-        .modal-footer .btn_place_search {
-            color: #fff !important;
-            border: none;
-            height: 36px;
-            line-height: 36px;
-            padding: 0 16px;
-            text-transform: uppercase;
-            font-size: 14px;
-            outline: 0;
-            box-shadow: none;
-            position: relative;
-            cursor: pointer;
-            display: inline-block;
-            overflow: hidden;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            vertical-align: middle;
-            z-index: 1;
-            transition: 0.3s ease-out;
-            border-radius: unset !important;
-            width: 30% !important;
-            background-color: #000000 !important;
-            margin-bottom: 5px;
-            text-decoration: unset;
-        }
+            padding: 20px 25px 20px 15px;
+            }
+
+            .write_place:hover {
+                box-shadow: 0 14px 28px rgb(0 0 0 / 15%), 0 10px 10px rgb(0 0 0 / 15%);
+            }
+            .write_place > .spot > img {
+                vertical-align: bottom;
+                width: 36px;
+            }
+
+            .write_place > .spot > span::before {
+                position: relative;
+                bottom: -10px;
+                display: inline-block;
+                width: 37px;
+                height: 37px;
+                content: "";
+                margin-right: 10px;
+                background-size: 37px;
+                background-image: url(../img/diaryImg/marker4.png);
+                background-repeat: no-repeat;
+                background: none;
+                margin-right: 0;
+                display: inline;
+            }
+
+            .write_place > .spot > span {
+                font-size: 20px;
+                font-weight: bold;
+            }
+
+            .write_place > .arrow {
+                position: relative;
+                bottom: 18px;
+                float: right;
+                width: 15px;
+            }
+
+            .write_place > .arrow.on {
+                content: url('/img/csImg/arr_top.png');
+            }
+
+            .write_place .write_toggle {
+                margin-top: 30px;
+                width: 100%;
+                height: auto;
+                display: none;
+            }
+
+            
+            .write_toggle > .image {
+                vertical-align: center; 
+                text-align: center; 
+                margin-bottom: 50px;
+                width: 470px;
+                margin: 0 auto;    
+                margin-bottom: 20px;
+                cursor: pointer;
+            }
+
+            .write_toggle > .image .ex_file {
+                display: none;
+            }
+
+
+            .write_toggle > .image > img{
+                max-width: 100%;
+                min-height: auto;
+                object-fit: cover;
+                width: 100%;
+                height: 350px;
+                object-fit: contain;
+            }
+
+            .write_toggle > .text {
+                margin-bottom: 30px;
+            }
+            .write_place .diary_text_content {
+                font-size: 14px;
+                width: 100%;
+                border: 0px solid #ddd;
+                resize: none;
+                min-height: 150px;
+            }
+
+
+            /** 메인(Map) */
+            #listMap {
+                float: left;
+                width: 400px; height: 700px;
+                margin-top: 85px; margin-left: 30px;
+                box-shadow: 0 10px 10px 0 rgb(0 0 0 / 15%);
+                border-radius: 20px;
+            }
+
+            #listMap > p {
+                position: absolute;
+                width: 250px; height: 50px;
+                top: 10px;
+                left: 20px;
+                z-index: 99;
+            }
+
+            #listMap > p > button {
+                margin-left: 5px;
+                width: 110px; height: 27px;
+                font-weight: 400;
+                border-radius: 10px;
+                border: 0px solid #252525;
+                background-color: white;
+            }
+
+            #listMap > p > button:hover{
+                background-color: #dbcbcb;
+            }
+
         </style>
-
-
-
-
     </head>
     <body>
         <div id="wrapper">
+            <!-- 헤더 -->
             <header>
-                
                 <div class="header_inner">
                     <div class="header_flex">
                         <div class="header_logo">
-
+                            <!-- 메인으로 이동 -->
                             <a href="#"><img src="/img/indexImg/lemo_logo.png" alt="레모 로고"></a>
                             <div class="logo">LEMO</div>
                         </div>
@@ -398,127 +320,76 @@
                             </form>
                         </div>
                     </div>
-                </div> 
+                </div>
             </header>
-            
-            <main>
-                <section id="my">
-                    <nav class="category">
-                        <span>마이페이지</span>
-                        <ul>
-                            <li>
-                                <a href="#">내정보</a>
-                            </li>
-                            <li>
-                                <a href="#">포인트</a>
-                            </li>
-                            <li>
-                                <a href="#">쿠폰함</a>
-                            </li>
-                            <li>
-                                <a href="#">예약내역</a>
-                            </li>
-                            <li>
-                                <a href="#">나의 찜</a>
-                            </li>
-                            <li>
-                                <a href="#" class="on">나의 여행일기</a>
-                            </li>
-                            <li>
-                                <a href="#">나의 리뷰</a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <div class="content">
-                        <!-- 카테고리 -->
-                        <div class="tab">
-                            <span class="my_title">
-                                나의 여행일기
-                            </span>
-                        </div>
-                        <form>
-                            <div class="consent_write">
-                                <div class="diaryWrite">여행일기 작성</div>
-                                <div class="diary_write_namearea">
-                                    <span class="diary_write_name">제목</span>
-                                </div>
-                                <div class="diary_write_tit">
-                                    <input type="text" placeholder="제목을 입력하세요">
-                                </div>
-                                <div class="diary_write_day">
-                                    <span>여행기간</span>
-                                </div>
-                                <div class="date">
-                                    <input type="text" name="daterange" id="daterange">
-                                </div>
-                                <div class="diary_write_plan">
-                                    <span>여행일정</span>
-                                </div>
-                                <div class="diary_box">
-                                    <div class="diary_write_box">
-                                        <div class="diary_write_map">
-
-
-                                            <!-- 모달팝업 -->
-                                            <button class="btn_map" type="button">지도</button>
-                                            <dialog>
-                                                <form method="dialog">
-                                                    <div class="modal-small-content" style="margin: auto">
-                                                        <div class="black-text">
-                                                            <button class="cancle">x</button>
-                                                            <h3 class="modal-small-title">장 소 등 록</h3>
-                                                            <p style="margin-top: 0; margin: 0 0 8px 0">
-                                                                <h7 style="color: #999">검색해도 나오지 않는 장소를 이곳에서 등록 후 다시 검색해보세요.</h7>
-                                                            </p>
-                                                        </div>
-                                                        <div class="modal_main">
-                                        
-                                                            <div class="text_modal">
-                                                                <div class="col s12">
-                                                                    <div class="row">
-                                                                        <div class="input-field col s12">
-                                                                            <input id="search_text" type="text" placeholder="장소이름(최대 50자)">
-                                                                            <!--<label id="text_label" for="search_name" data-langnum="38" class="">장소이름(최대 50자)</label>-->
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="input-field col s12">
-                                                                            <input id="search_text" type="text" placeholder="설명사항 (생략가능)">
-                                                                            <!--<label id="text_label" for="reqSpotRegDesc" data-langnum="39" class="">설명사항(최대 200자, 생략 가능)</label>-->
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <a class="btn_place_search">검색</a>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </dialog>
+            <main id="diary">
+                <div id="result">
+                    <div class="diary_write_content">
+                        <h3>#여행일기 작성</h3>
+                        <!-- 여행일기 작성 -->
+                        <div class="diary_write">
+                            <div class="list-area">
+                                <form>
+                                    <div id="write_content">
+                                        <input type="text" placeholder="제목을 작성해주세요" id="tit">
+                                        <ul> 
+                                            <li>
+                                                <input  type="text" name="daterange" id="daterange">
+                                                <span>※여행기간을 선택해주세요</span>
+                                            </li>
+                                            <li>스카이베이호텔 경포</li>
+                                        </ul>
+                                    </div>
+                                    <div class="write_search">
+                                        <input type="text" placeholder="장소를 검색해주세요">
+                                        <button type="button" class="btnWrite_search">
+                                            <input type="image" src="/my/img/download.png">
+                                        </button>
+                                    </div>
+                                    <!-- 여행장소 -->
+                                    <div class="write_place">
+                                        <div class="spot">
+                                            <img src="../../img/diaryImg/marker4.png">
+                                            <span>지도에서 여행 장소를 클릭해주세요.</span>
                                         </div>
-                                        <div>
-                                            <div class="diary_write_file">
-                                                <div class="diary_write_img">
-                                                    <img id="image" src="../img/hotel_main.jpg">
-                                                </div>
-                                                <label for="ex_file">업로드</label>
-                                                <input type="file" id="ex_file" accept="image/png, image/jpeg">
+                                        <img src="/img/csImg/arr_down.png" class="arrow">
+                                        <div class="write_toggle">
+                                            <div class="image">
+                                                <input  type="file" class="ex_file" accept="image/png, image/jpeg" required>
+                                                <img class="inputImage" src="../img/hotel_main.jpg">
                                             </div>
-                                            <div class="diary_write_write">
-                                                <textarea></textarea>
-                                            </div>
+                                            <textarea class="diary_text_content" placeholder="내용을 입력해주세요"></textarea>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="diary_write_add">
-                                    <button type="button" class="add_button">추가하기</button>
-                                </div>
+                                    <div class="write_place">
+                                        <div class="spot">
+                                            <img src="../../img/diaryImg/marker4.png">
+                                            <span>광안리</span>
+                                        </div>
+                                        <img src="/img/csImg/arr_down.png" class="arrow">
+                                        <div class="write_toggle">
+                                            <div class="image">
+                                                <input  type="file" class="ex_file" accept="image/png, image/jpeg" required >
+                                                <img class="inputImage" src="../img/hotel_main2.jpg">
+                                            </div>
+                                            <textarea class="diary_text_content" placeholder="내용을 입력해주세요"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
-                    </div> 
-                </section>
+                        </div>
+                        <!-- 지도 -->
+                        <div id="listMap">
+                            <p>
+                                <button onclick="setZoomable(false)">지도 확대/축소 끄기</button>
+                                <button onclick="setZoomable(true)">지도 확대/축소 켜기</button>
+                            </p>
+                        </div>
+                        
+                    </div>
+                </div>
             </main>
+            <!-- 푸터 -->
             <footer>
                 <div class="footer_inner">
                     <div class="footer_menu">
@@ -537,7 +408,7 @@
                                 <div class="row_col_1"><a href="#">LEMO</a></div>
                                 <div class="row_col_2">LETTUCE MEMORIES</div>
                                 <div class="row_col_3">
-                                    주식회사 레모 | CEO 서박이 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
+                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
                                     통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
                                     E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
                                 </div>
@@ -571,80 +442,170 @@
                 </div>
             </footer>
         </div>
-    </body>
-    <script>
+        <script>
+            /** 카카오 맵 */
 
-        /** 현재 날짜 구하기 */
-        let now        = new Date();
-        let nowYear    = now.getFullYear();
-        let nowMonth   = now.getMonth() + 1;
-        let nowDate    = now.getDate();
-        let date      = nowYear + '-' + nowMonth + '-' + nowDate;
+            // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+            var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+            var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
+            var options = { //지도를 생성할 때 필요한 기본 옵션
+                center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+                level: 5 //지도의 레벨(확대, 축소 정도)
+            };
 
-        $(function(){
-            /** Jquery UI Date Picker */
-            $('#daterange').daterangepicker({
-                "locale": {
-                    "format": "YYYY-MM-DD",
-                    "separator": " ~ ",
-                    "applyLabel": "확인",
-                    "cancelLabel": "취소",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"],
-                    "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-                    "firstDay": 1
-                },
-                "startDate": date,
-                "endDate": date,
-                "drops": "down",
-                "opens": "center"
-            }, function (start, end, label) {
-                alert(" 여행시작 :  " + start.format('YYYY-MM-DD') + " 여행끝 : " + end.format('YYYY-MM-DD'));
+            var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+
+            // 장소 검색 객체를 생성합니다
+            var ps = new kakao.maps.services.Places(); 
+
+            // 키워드로 장소를 검색합니다
+            ps.keywordSearch('이태원 맛집', placesSearchCB); 
+
+            // 키워드 검색 완료 시 호출되는 콜백함수 입니다
+            function placesSearchCB (data, status, pagination) {
+                if (status === kakao.maps.services.Status.OK) {
+
+                    // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+                    // LatLngBounds 객체에 좌표를 추가합니다
+                    var bounds = new kakao.maps.LatLngBounds();
+
+                    for (var i=0; i<data.length; i++) {
+                        displayMarker(data[i]);    
+                        bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+                    }       
+
+                    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+                    map.setBounds(bounds);
+                } 
+            }
+
+            // 지도에 마커를 표시하는 함수입니다
+            function displayMarker(place) {
+                
+                // 마커를 생성하고 지도에 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: new kakao.maps.LatLng(place.y, place.x) 
+                });
+
+                // 마커에 클릭이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+                    infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+                    infowindow.open(map, marker);
+                });
+            }
+
+
+            map.setZoomable(false);
+            function setZoomable(zoomable) {
+                // 마우스 휠로 지도 확대,축소 가능여부를 설정합니다
+                map.setZoomable(zoomable);    
+            }
+        </script>
+        <script>
+
+            $(function(){
+
+                /** 카카오맵 - 스크롤 따라 이동 */
+                $(window).scroll(function() {
+
+                    let currentPosition = parseInt($('#listMap').css('top'));
+                    let mapHeight = $('#listMap').height();
+                    let listHeight = $('.list-area').height();
+                    let boxOffsetTop = $('.list-area').offset().top;
+
+                    let scrollTop = $(window).scrollTop();
+                    let point;
+                    let endPoint = listHeight - mapHeight;
+
+
+                    if( scrollTop < boxOffsetTop ){
+                        point = 0;
+                    }else if( scrollTop > endPoint ) {
+                        point = endPoint+45;
+                    }else {
+                        point = (scrollTop - boxOffsetTop)+100;
+                    }
+
+                    if(point < 0) {point = 0}
+
+                    $('#listMap').stop().animate({top: point}, 700);
+                });
+
+                /* 글 토글 */
+                $('.write_place').click(function(e){
+                    e.preventDefault();
+                    $(this).find('.write_toggle').slideToggle();
+                    $(this).find('.write_toggle').prev().addClass('on');
+                });
+
+                /* 내용 input */
+                $('.write_place > .write_toggle > .diary_text_content').click(function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+
+
+
+                /** 현재 날짜 구하기 */
+                let now        = new Date();
+                let nowYear    = now.getFullYear();
+                let nowMonth   = now.getMonth() + 1;
+                let nowDate    = now.getDate();
+                let date      = nowYear + '-' + nowMonth + '-' + nowDate;
+
+                /** Jquery UI Date Picker */
+                $('#daterange').daterangepicker({
+                    "locale": {
+                        "format": "YYYY-MM-DD",
+                        "separator": " ~ ",
+                        "applyLabel": "확인",
+                        "cancelLabel": "취소",
+                        "fromLabel": "From",
+                        "toLabel": "To",
+                        "customRangeLabel": "Custom",
+                        "weekLabel": "W",
+                        "daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"],
+                        "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+                        "firstDay": 1
+                    },
+                    "drops": "down",
+                    "opens": "center"
+                }, function (start, end, label) {});
+
+
+                /** 이미지 미리보기 **/
+                const fileDOM = $('.ex_file');
+                const image = $('.image');
+                
+                fileDOM.click(function(e){
+                    e.stopPropagation();
+                    
+                    let inputFile = $(this).parent('.image');
+                    $(this).change(function(e){
+                        let preview = $('.inputImage', inputFile);
+                        console.log(preview);
+                        const reader = new FileReader();
+                        reader.onload = function(event){
+                            preview.attr("src", event.target.result);
+                        };
+                        reader.readAsDataURL(e.target.files[0]);
+    
+                    });
+                })
+                
+                /* 사진 클릭시 파일 업로드 화면 띄우기 */
+                image.click(function(e){
+                    e.stopPropagation();
+                    $(this).find('input[type=file]').trigger("click");
+                })
+                
+                
+
+                
             });
-        });
-
-        /** 이미지 미리보기 **/
-        const fileDOM = document.querySelector('#ex_file');
-        const previews = document.querySelectorAll('#image');
-
-        
-        fileDOM.addEventListener('change', () => {
-        const reader = new FileReader();
-        reader.onload = ({ target }) => {
-            previews[0].src = target.result;
-        };
-        reader.readAsDataURL(fileDOM.files[0]);
-        });
-    
-
-        $(document).ready(function(){
-
-                  // 리뷰 답변하기 (dialog 팝업)
-                const button = document.querySelector(".btn_map");
-                const dialog = document.querySelector("dialog");
-
-                button.addEventListener("click", ()=>{
-                    console.log("1");
-                    dialog.showModal();
-                });
-
-                $(".cancle").on("click", function(){
-                    dialog.close();
-                });
-
-                // input 엔터키 submit 막기
-                $('input[type="text"]').keydown(function() {
-                    if (event.keyCode === 13) {
-                        event.preventDefault();
-                    };
-                });
-        });
-    
-
-
-    
-    </script>
+        </script>
+    </body>
 </html>
+
