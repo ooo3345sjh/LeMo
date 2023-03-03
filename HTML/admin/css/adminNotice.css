@@ -11,7 +11,7 @@
     scroll-behavior: smooth;
 }
 ul, ol {list-style: none;}
-a {text-decoration: none; color: #252525;}
+a {text-decoration: none !important; color: #252525 !important;}
 input, textarea {outline: none;}
 
 #wrapper {
