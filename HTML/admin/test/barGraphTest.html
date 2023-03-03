@@ -10,7 +10,7 @@
 
         function drawChart() {
 
-            var data = google.visualization.arrayToDataTable([
+            var data2 = google.visualization.arrayToDataTable([
                     ['객실유형', '퍼센트', { role: 'style' } ],
                     ['전체',  44+22+12, 'color: #e63946'],
                     ['A룸',  44 , 'color: #a8dadc'],
@@ -20,8 +20,8 @@
                     ['E룸',  60, 'color: #a8dadc']
                 ]);
 
-            var view = new google.visualization.DataView(data);
-            view.setColumns([0, 1,
+            var view2 = new google.visualization.DataView(data2);
+            view2.setColumns([0, 1,
                             { calc: "stringify",
                                 sourceColumn: 1,
                                 type: "string",
@@ -43,12 +43,12 @@
 
             
 
-            var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-            chart.draw(view, options);
+            var chart = new google.visualization.BarChart(document.getElementById('chart_div2'));
+            chart.draw(view2, options);
         }
     </script>
 </head>
 <body>
-    <div id="chart_div"></div>
+    <div id="chart_div2"></div>
 </body>
 </html>
