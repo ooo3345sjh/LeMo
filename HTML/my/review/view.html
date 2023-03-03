@@ -7,29 +7,270 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
         <title>Travel with Lemo::reserveration</title>
         <!-- 구글 폰트 -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">   
+        <!-- style css -->
+        <link rel="stylesheet" href="/css/my.css">
+        <!-- swiperSlider -->
+        <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+        <!-- bxSlider -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+        <!-- 스크립트 -->
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>      
-        <!-- style css -->
-        <link rel="stylesheet" href="/css/my.css">
+        <!-- swiperSlider -->
+        <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+        <!-- bxSlider -->
+        <script src="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+
         <style>
-            
+        .my_review_view{
+            background-color: #F5F5F5;
+            border-radius: 6px;
+            position: relative;
+            width: 752px;
+            margin: 25px 0px 0 16px;
+        }
+        .my_review_view .my_review_tit {
+            margin: 11px 0 0 0;
+            padding: 20px 0px 0px 36px;
+            font-size: 25px;
+            font-weight: 500;
+        }
+        
+        .my_review_view .my_review_rating {
+            padding-top: 28px;
+        }
+        .my_review_rating .star-ratings {
+            color: #aaa9a9;
+            unicode-bidi: bidi-override;
+            width: max-content;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke-width: 1.3px;
+            -webkit-text-stroke-color: #2b2a29;
+        }
+
+        .my_review_rating .star-ratings .star-ratings-fill {
+            color: #fff58c;
+            padding: 0px;
+            position: absolute;
+            z-index: 1;
+            display: flex;
+            top: 17px;
+            right: 75px;
+            overflow: hidden;
+            -webkit-text-fill-color: gold;
+        }
+        .my_review_rating .star-ratings .star-ratings-fill > span {
+            font-size: 27px;
+
+        }
+        .my_review_rating .star-ratings-base {
+            z-index: 0;
+            padding: 0;
+            position: absolute;
+            top: 17px;
+            right: 75px;
+        }
+        .my_review_rating .star-ratings-base > span {
+            font-size: 27px;
+        }
+        .my_review_view .my_review_days{
+            margin-left: 74px;
+        }
+        .my_review_view .my_review_days > span {
+            font-weight: 200;
+            font-size: 15px;
+        }
+        .my_review_view .my_review_days > p {
+            font-weight: 200;
+            font-size: 15px;
+        }
+        .my_review_view .my_review_textbox {
+            width: 540px;
+            margin-left: 94px;
+            margin-top: 13px;
+            border-radius: 23px;
+        }
+        .my_review_view .my_review_text {
+            background-color: white;
+            font-size: 19px;
+            border-radius: 23px;
+            text-align: center;
+            padding: 34px 59px 35px 59px;
+        }
+    
+        .review_swiper-container {
+            width: 79%;
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+            margin: 11px 0px;
+            margin-left: 70px;
+            padding: 0 22px 0 20px;
+            }
+            .review_swiper-container .swiper-button-next {color: #bbd444;}
+            .review_swiper-container .swiper-button-prev {color: #bbd444;}
+
+            .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            }
+            .swiper-slide > img {
+                width: 137px;
+                height: 103px;
+            }
+
+
+        .swiper-container-vertical>.swiper-pagination-bullets{
+            top: unset !important;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+        }
+
+        .swiper-container-vertical>.swiper-pagination-bullets .swiper-pagination-bullet{
+        display : inline-block !important;
+        margin: 6px 2px !important;
+        }
+
+        .my_review_del {
+            margin: 2px 0;
+            margin-right: 33px;
+            box-shadow: inset 0px 1px 0px 0px #ffffff;
+            background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            border: 1px solid #dcdcdc;
+            cursor: pointer;
+            color: #666666;
+            font-size: 15px;
+            padding: 10px 23px;
+            text-decoration: none;
+            text-shadow: 0px 1px 0px #ffffff;
+            float: right;
+        }
+        .my_review_del:hover {
+            background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+            background-color:#f6f6f6;
+        }
+
+        .my_review_del > a {
+            font-size: 14px;
+            font-weight: 300;
+        }
+        .my_review_modify {
+            margin: 2px 0;
+            margin-right: 15px;
+            box-shadow: inset 0px 1px 0px 0px #ffffff;
+            background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            border: 1px solid #dcdcdc;
+            cursor: pointer;
+            color: #666666;
+            font-size: 15px;
+            padding: 10px 23px;
+            text-decoration: none;
+            text-shadow: 0px 1px 0px #ffffff;
+            float: right;
+        }
+        .my_review_modify:hover {
+            background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+            background-color:#f6f6f6;
+        }
+        .my_review_modify > a{
+            font-size: 14px;
+            font-weight: 300;
+        }
+        .my_review_list {
+            margin: 2px 0;
+            margin-right: 18px;
+            box-shadow: inset 0px 1px 0px 0px #ffffff;
+            background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            border: 1px solid #dcdcdc;
+            cursor: pointer;
+            color: #666666;
+            font-size: 15px;
+            padding: 10px 23px;
+            text-decoration: none;
+            text-shadow: 0px 1px 0px #ffffff;
+            float: right;
+        }
+        .my_review_list:hover {
+            background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+            background-color:#f6f6f6;
+        }
+
+        .my_review_list > a {
+            font-size: 14px;
+            font-weight: 300;
+        }
+    
+        
+
 
         </style>
         <script>
             $(function(){
-                $('.reserveCancel').click(function(){
-                    console.log("1");
-                    confirm('예약을 취소하시겠습니까?');
-                });
+
+                /** Swiper Slider **/
+                const swiper = new Swiper('.review_swiper-container', {
+                //기본 셋팅
+                //방향 셋팅 vertical 수직, horizontal 수평 설정이 없으면 수평
+                direction: 'horizontal',
+                //한번에 보여지는 페이지 숫자
+                slidesPerView: 3,
+                //페이지와 페이지 사이의 간격
+                spaceBetween: 10,
+                //드레그 기능 true 사용가능 false 사용불가
+                debugger: true,
+                //마우스 휠기능 true 사용가능 false 사용불가
+                mousewheel: false,
+                //반복 기능 true 사용가능 false 사용불가
+                loop: false,
+                //선택된 슬라이드를 중심으로 true 사용가능 false 사용불가 djqt
+                centeredSlides: false,
+                // 페이지 전환효과 slidesPerView효과와 같이 사용 불가
+                // effect: 'fade',
+                
+                //방향표
+                navigation: {
+                    //다음페이지 설정
+                    nextEl: '.swiper-button-next',
+                    //이전페이지 설정
+                    prevEl: '.swiper-button-prev',
+                },
             });
 
+            /** 삭제 시 확인 **/
+            $('.my_review_del').click(function(){
+                confirm('정말 삭제하시겠습니까?');
+            });
+        });
         </script>
     </head>
     <body>
@@ -101,7 +342,7 @@
                                 <a href="#">쿠폰함</a>
                             </li>
                             <li>
-                                <a href="#" class="on">예약내역</a>
+                                <a href="#">예약내역</a>
                             </li>
                             <li>
                                 <a href="#">나의 찜</a>
@@ -110,7 +351,7 @@
                                 <a href="#">나의 여행일기</a>
                             </li>
                             <li>
-                                <a href="#">나의 리뷰</a>
+                                <a href="#" class="on">나의 리뷰</a>
                             </li>
                         </ul>
                     </nav>
@@ -122,7 +363,7 @@
                             </span>
                         </div>
                         <div class="my_review_view">
-                            <div>여기만한 곳은 어디에도 없을 거예요</div>
+                            <div class="my_review_tit">여기만한 곳은 어디에도 없을 거예요</div>
                             <div class="my_review_rating">
                                 <!-- 임시 평점 -->
                                 <div class="star-ratings">
@@ -134,39 +375,45 @@
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <span>부산 힐튼 호텔 슈페리어 더블  2023-02-13 ~ 2023-02-14</span>
+                            <div class="my_review_days">
+                                <span>부산 힐튼 호텔 슈페리어 더블</span>
+                                <p>2023-02-13 ~ 2023-02-14</p>
                             </div>
-                            <div>
-                                갑자기 지방 출장이 잡혀서 급하게 숙소를 알아봤는데 마침 너무 좋은 위치에 리베
-                                라호텔이 있더라구요.
-                                그래서 바로 예약했는데, 급하게 예약을 해서 기대를 안했는데 생각보다 너무 깔끔
-                                해서 좋았습니다.
-                                물론, 오래된 호텔이기는 하지만 중후함이라고 해야하나? 클래식하면서 관리가 잘
-                                된 모습에 기분이 좋아졌습니다.
-                                외국에서는 이렇게 오래됐지만 관리가 잘 된 호텔이 인기 많다고 하더니 그 이유를
-                                알겠더라구요.
-                                인포 직원분들부터 너무 친절하셨고 따뜻하게 안내해주셔서 묶는 내내 기분이 좋았
-                                습니다.
+                            <div class="my_review_textbox">
+                                <div class="my_review_text">
+                                    갑자기 지방 출장이 잡혀서 급하게 숙소를 알아봤는데 마침 너무 좋은 위치에 리베
+                                    라호텔이 있더라구요.<br>
+                                    그래서 바로 예약했는데, 급하게 예약을 해서 기대를 안했는데 생각보다 너무 깔끔
+                                    해서 좋았습니다.<br>
+                                    물론, 오래된 호텔이기는 하지만 중후함이라고 해야하나? 클래식하면서 관리가 잘
+                                    된 모습에 기분이 좋아졌습니다.<br>
+                                    외국에서는 이렇게 오래됐지만 관리가 잘 된 호텔이 인기 많다고 하더니 그 이유를
+                                    알겠더라구요.<br>
+                                    인포 직원분들부터 너무 친절하셨고 따뜻하게 안내해주셔서 묶는 내내 기분이 좋았
+                                    습니다.
+                                </div>
                             </div>
-                            <div id="productImg">
+                            <div class="review_swiper-container">
                                 <!-- swiper Slider -->
-                                <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide"><img src="../img/hotel_main.jpg" /></div>
                                         <div class="swiper-slide"><img src="../img/hotel_main1.jpg" /></div>
                                         <div class="swiper-slide"><img src="../img/hotel_main2.jpg" /></div>
                                         <div class="swiper-slide"><img src="../img/hotel_main3.png" /></div>
+                                        <div class="swiper-slide"><img src="../img/hotel_main.jpg" /></div>
                                     </div>
                                     <div class="swiper-button-next"></div>
                                     <div class="swiper-button-prev"></div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                        <div class="btnReserveView">
-                            <a href="#" class="reservePrint">예약 내역 인쇄</a>
-                            <a href="#" class="reserveCancel" id="reserveCancel">예약 취소</a>
+                        <div class="my_review_del">
+                            <a href="#">삭제</a>
+                        </div>
+                        <div class="my_review_modify">
+                            <a href="#">수정</a>
+                        </div>
+                        <div class="my_review_list">
+                            <a href="#">목록으로</a>
                         </div>
                     </div>  
                 </section>
