@@ -5,7 +5,6 @@
     margin: 0;
     padding: 0;
     font-family: 'Red Hat Display', 'Noto Sans KR', sans-serif;
-    font-size: 11px;
     font-weight: 400;
     box-sizing: border-box;
     scroll-behavior: smooth;
@@ -1746,23 +1745,22 @@ main .stats_container {
     border: 1px solid red;
 }
 main .current_date_div {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+    background: #fff;
     position: relative;
-
+    border-bottom: 1px solid #e4e4e400;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 0px 6px 0 rgb(206 206 238 / 54%);
+}
+main .dateImg {
+    position: absolute;
+    top: 4px;
 }
 main #datepicker {
     font-size: 24px;
-    font-weight: 700;
     text-align: center;
-    width: 420px;
-    height: 53px;
-    border: 1px solid #ececec;
-    border-radius: 30px;
-    padding-right: 30px;
-    box-shadow: 0 4px 5px rgb(0 0 0 / 0%), 0 6px 4px rgb(0 0 0 / 3%);
-
+    width: 330px;
+    height: 60px;
+    color: #6c757d!important;
+    border: none;
 }
 main .current_date_div img {
     width: 23px;
@@ -1775,21 +1773,23 @@ main .current_sales_stat {
     width: 100%;
 }
 main .tot_sales {
-    width: 100%;
-    margin: 30px 0;
-    display: flex;
-    justify-content: center;
-    border: 1px solid #ececec;
-    border-radius: -1px;
-    box-shadow: 0 4px 5px rgb(0 0 0 / 0%), 0 6px 4px rgb(0 0 0 / 3%);
-    padding: 7px 0;
-    margin: 50px 0 70px;
+    margin: 18px 0;
 }
 main .tot_sales_box {
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+    color: #6c757d!important;
+    padding: 5px 80px 0 78px;
+    border: 1px solid #ececec;
+    border-radius: 11px;
+    border-left: 6px solid #bbd444;
+    background: #fff;
+    height: 59px;
+    display: inline-block;
+    margin: 10px 0 20px;
 }
 main .tot_sales_box > div {
     display: inline-block;
-    font-size: 25px;
+    font-size: 22px;
     color: #6f6d6d;
 }
 main .ts_tit1 {
@@ -1798,40 +1798,60 @@ main .ts_tit1 {
 main .ts_count {
     font-size: 35px !important;
     margin-right: 3px;
-    font-weight: 900;
-    color: #242424 !important;
+    font-weight: 500;
+    color: #32393f !important;
 }
 main .ts_tit2 {
     margin-right: 26px;
+    font-weight: 300;
 }
 main .ts_price {
     font-size: 35px !important;
     margin-right: 3px;
-    font-weight: 900;
-    color: #242424 !important;
+    font-weight: 500;
+    color: #32393f !important;
 }
 main .sales_graph {
-    width: 100%;
+    flex: 0 0 auto;
+    width: 66.66666667%;
+}
+main .payment_stat_graph {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+}
+main #donutchart {
+    border: 0 solid #e3e3e3;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+    border-radius: 10px;
+}
+main .sales_stat_chart {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
 }
 main .chart_box {
-    border: 1px solid #ececec;
-    box-shadow: 0 4px 5px rgb(0 0 0 / 3%), 0 6px 4px rgb(0 0 0 / 3%);
+    width: 100%;
 }
-
+main #chart_div {
+    border: 0 solid #e3e3e3;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+    border-radius: 10px;
+}
 main .sales_div {
-    width: 1200px;
+    width: 100%;
     padding: 30px 0 30px 0;
-    border: 1px solid #ececec;
-    box-shadow: 0 4px 5px rgb(0 0 0 / 3%), 0 6px 4px rgb(0 0 0 / 3%);
+    border: 0 solid #e3e3e3;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+    border-radius: 4px;
+    background: #fff;
 }
-
 main .sales_table {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin: 70px 0;
+    margin: 20px 0;
 }
 main .sales_table table {
     width: 96%;
@@ -1852,10 +1872,10 @@ main .sales_table th {
     padding: 10px 0;
     background: #f2f1f1;
 }
-main .sales_table th:nth-of-type(1) {width: 18;}
-main .sales_table th:nth-of-type(2) {width: 18;}
-main .sales_table th:nth-of-type(3) {width: 20;}
-main .sales_table th:nth-of-type(4) {width: 18;}
+main .sales_table th:nth-of-type(1) {width: 19%;}
+main .sales_table th:nth-of-type(2) {width: 10%;}
+main .sales_table th:nth-of-type(3) {width: 17%;}
+main .sales_table th:nth-of-type(4) {width: 15%;}
 main .sales_table th:nth-of-type(5) {}
 main .sales_table td {
     color: #424242;
@@ -1873,28 +1893,67 @@ main #progress1 {
     overflow: hidden;
     background: #e9ecef;
     animation: progressbar 2s ease-out;
+    border-radius:10px;
 }
 #progress1::-webkit-progress-value {
     border-radius:10px;
     background: #AACB73;
     background: -webkit-linear-gradient(to right, #AACB73, #4ca16e);
     background: linear-gradient(to right, #AACB73, #4ca16e);
+    
 }
 #progress1::-moz-progress-bar {
     background-color: #eee;
-    border-radius: 4px;
+    border-radius: 10px;
 }
 main .sales_room_percent {
     width: 100%;
     display: flex;
     justify-content: center;
     margin-bottom: 100px;
+    flex-wrap: wrap;
 }
 main #chart_div2 {
     padding: 30px 0 30px 0;
 }
-
-
+main .today_stat {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+main .today_div {
+    width: 100%;
+    padding: 30px 0 30px 0;
+    border: 0 solid #e3e3e3;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+    border-radius: 4px;
+    background: #fff;
+    flex: 0 0 auto;
+    width: 100%;
+}
+main .today_grid {
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    grid-gap: 10px;
+}
+main .today_grid_item {
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    padding: 10px 0px;
+}
+main .today_grid_item > p {
+    font-size: 20px;
+    font-weight: 500;
+    color: #bbd444;
+    margin-bottom: 15px;
+}
+main .today_grid_item > h3 {
+    font-size: 27px;
+    font-weight: 600;
+    color: #14256a;
+}
 
 
 
