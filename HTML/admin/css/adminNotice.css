@@ -1818,3 +1818,19 @@ footer > .footer_inner .footer_copyright {
 footer > .footer_inner .footer_copyright p {
     font-size: 12px;
 }
+
+
+/* 관리자 - 공지사항 - 보기 */
+.col_register1 .noticeContent {padding: 20px;}
+.col_register1 .noticeContent > div {
+    font-size: 14px;
+}
+
+.col_register1 .notice_text {
+    width: 100%;
+    min-height: 450px;
+    font-size: 14px;
+    resize: none;
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+}
