@@ -2,11 +2,706 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
+        <!-- 스타일 -->
+        <link rel="stylesheet" href="../css/productReservation.css">
     </head>
+    <style>
+        #reserv_reserv {
+            width: 1000px;
+            margin: 0 auto 100px auto;
+        }
+
+        #content {
+            overflow: hidden;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        #reserv_info_left {
+            float: left;
+            width: 564px;
+            margin: 40px 88px 0 0;
+        }
+
+        #reserv_info_right {
+            float: right;
+            width: 310px;
+            margin: 90px 31px 0 0;
+            background: rgb(250,250,250);
+        }
+
+        /** 예약자 정보 */
+        #reserv_chkin {
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        #reserv_chkin > h3 {
+            display: block;
+            margin: 54px 0 42px 0;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        #reserv_chkin > strong {
+            display: block;
+            padding: 0 0 12px 0;
+            font-size: 18px;
+            font-weight: normal;
+            color: rgba(0,0,0,0.56);
+        }
+
+        #reserv_chkin > p:nth-of-type(1) {
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 8px 14px 8px 16px;
+        }
+
+        #reserv_chkin > p:nth-of-type(1) > input {
+            border: none;
+            background: none;
+            width: 100%;
+            margin-top: 5px;
+            font-size: 18px;
+            color: rgba(0, 0, 0, 0.56);
+        }
+
+        #reserv_chkin > p:nth-of-type(2) {
+            height: 46px;
+            padding-top: 5px;
+            font-size: 14px;
+            color: rgb(230,28,81);
+        }
+
+        #reserv_chkin > div {
+            margin-top: 30px;
+        }
+
+        #reserv_chkin > div > strong {
+            display: block;
+            padding: 0 0 12px 0;
+            font-size: 18px;
+            font-weight: normal;
+            color: rgba(0,0,0,0.56);
+        }
+
+        #reserv_chkin > div > span {
+            display: block;
+            padding-top: 14px;
+            padding-bottom: 14px;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.56);
+        }
+
+        /** 예약자 정보 - 휴대폰 */
+        #reserv_chkin .phone {
+            position: relative;
+        }
+
+        #reserv_chkin .phone > input {
+            box-sizing: border-box;
+            padding: 8px 14px 8px 16px;
+            width: 100%; height: 48px;
+            border: none;
+            border: 1px solid rgba(0,0,0,.08);
+            border-radius: 4px;
+            font-weight: 400;
+            font-size: 18px;
+            color: rgba(0,0,0,.56);
+        }
+
+        #reserv_chkin .phone > button {
+            position: absolute;
+            width: 30px; height: 30px;
+            right: 10px; top: 9px;
+            border: none;
+            background: url(../img/letter-x.png);
+        }
+
+        /** 예약자 정보 - 방문 방법 */
+        #reserv_chkin .visit {
+            position: relative;
+            margin-top: 30px;
+            padding: 0;
+            text-align: left;
+        }
+
+        #reserv_chkin .visit > strong {
+            position: relative;
+            top: 0;
+            left: 0;
+            height: 32px;
+            padding: 0;
+            color: rgba(0,0,0,0.56);
+            font-weight: normal;
+            font-size: 18px;
+            line-height: normal;
+            text-align: left;
+        }
+
+        #reserv_chkin .visit > div {}
+
+        #reserv_chkin .visit > div > button {
+            display: inline-block;
+            width: 120px;
+            height: 40px;
+            margin-top: 20px;
+            border: 1px solid rgb(242,17,76);
+            border-radius: 4px;
+            background: #fff;
+            font-size: 16px;
+            color: rgb(230,28,81);
+        }
+
+        #reserv_chkin .visit > div > button > span {
+            font-size: 15px;
+        }
+
+        #reserv_chkin .visit > span {}
+
+        /** 할인 수단 선택 */
+        #price {
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        #price > h3 {
+            display: block;
+            margin: 54px 0 42px 0;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        #price .product_amount {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            font-size: 18px;
+            color: rgba(0,0,0,.56);
+        }
+
+        #price .product_amount > strong {
+            font-size: 18px;
+            color: rgba(0,0,0,.56);
+        }
+
+        #price .product_amount > b {
+            font-size: 18px;
+            color: #000;
+            font-weight: 600;
+        }
+
+        #price .discount_container {
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        #price .discount_header {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 40px;
+        }
+
+        #price .discount_header .discount_button {
+            padding: 0 14px;
+            height: 40px;
+            line-height: 40px;
+            border: 1px solid rgba(0,0,0,.08);
+            border-radius: 4px;
+            background: #fafafa;
+            font-size: 16px;
+            color: rgba(0,0,0,.56);
+        }
+
+        #price .discount_header .discount_input {
+            margin-left: 4px;
+            margin-right: 4px;
+            padding: 8px 14px 8px 16px;
+            width: 100px;
+            height: 100%;
+            background: none;
+            border: 1px solid rgba(0,0,0,.08);
+            border-radius: 4px;
+            color: rgba(0,0,0,.56);
+            font-size: 18px;
+            text-align: right;
+        }
+
+        #price .discount_header > div > div > span {
+            font-size: 18px;
+            color: #000;
+            font-weight: 600;
+        }
+
+        #price .discount_coupons_amount {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 32px;
+            color: rgba(0,0,0,.48);
+        }
+
+        #price .discount_coupons_amount > span {
+            font-size: 15px;
+        }
+
+        /** 결제수단 */
+        #pay_select {
+            margin-top: 50px;
+        }
+
+        #pay_select > h3 {
+            display: block;
+            margin-bottom: 19px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #pay_select #payment_select {
+            width: 288px; height: 48px;
+            padding: 0 12px;
+            border: 1px solid rgba(0,0,0,.08);
+            border-radius: 4px;
+            background-size: 25px auto;
+            font-size: 18px;
+            color: rgba(0,0,0,.56);
+            cursor: pointer;
+            margin-bottom: 25px;
+        }
+
+        #pay_select #payment_select > option {
+            font-size: 15px;
+            color: rgba(0, 0, 0, 0.56); 
+        }
+
+        /** 동의 */
+        #agree {
+            padding-left: 4px;
+        }
+
+        #agree #checkAll { 
+            font-weight: 700; 
+            position: relative;
+            padding-top: 11px;
+            padding-bottom: 10px;
+            line-height: 1.2;
+            padding-left: 37px;
+        }
+
+        #agree #checkAll > label { cursor: pointer; }
+
+        #agree #checkAll > label > input { 
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            top: 50%; left: 0;
+            margin-top: -12px;
+         }
+
+        #agree #checkAll > label > span { 
+            color: rgba(0,0,0,.87);
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+         }
+
+        #agree > p {
+            position: relative;
+            padding-top: 11px;
+            padding-bottom: 10px;
+            line-height: 1.2;
+            padding-left: 37px;
+        }
+
+        #agree > p > input {
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            margin-top: -12px;
+        }
+
+        #agree > p > span {
+            display: inline-block;
+            color: rgba(0,0,0,.56);
+            cursor: pointer;
+        }
+
+        #agree > p > span > b {
+            font-weight: 400;
+            color: #e61c51;
+            font-size: 15px;
+        }
+
+        #agree > p > span > i {
+            font-style: normal;
+            text-decoration: underline;
+            font-size: 15px;
+        }
+
+        /** 오른쪽 정보 */
+        #reserv_info_right .info {
+            margin: 39px 24px 0 24px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            background: none;
+        }
+
+        #reserv_info_right .info_name {
+            height: auto;
+            margin: 0 0 29px 0;
+            padding: 0;
+            border-bottom: none;
+            line-height: 32px;
+            text-align: left;
+        }
+
+        #reserv_info_right .info_name > strong {
+            display: block !important;
+            position: relative;
+            margin-bottom: 6px;
+            font-size: 16px !important;
+            line-height: 1;
+            color: rgba(0,0,0,0.38);
+        }
+
+        #reserv_info_right .info > p {
+            position: relative;
+            margin-bottom: 29px;
+            padding-left: 0;
+            font-size: 18px;
+            line-height: 32px;
+            color: rgba(0,0,0,0.87);
+            text-align: left;
+        }
+
+        #reserv_info_right .info > p > strong {
+            display: block !important;
+            position: relative;
+            margin-bottom: 6px;
+            font-size: 18px !important;
+            line-height: 1;
+            color: rgba(0,0,0,0.38);
+        }
+
+        #reserv_info_right .total_price {
+            padding: 39px 24px 33px!important;
+        }
+
+        #reserv_info_right .total_price > p {}
+
+        #reserv_info_right .total_price > p > strong {
+            display: block;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        #reserv_info_right .total_price > p > strong > b {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        #reserv_info_right .total_price .in_price {
+            display: block;
+            padding: 19px 0 23px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #e61c51;
+        }
+
+        #reserv_info_right .total_price > ul {}
+
+        #reserv_info_right .total_price > ul > li {
+            margin-bottom: 2px;
+            padding-left: 16px;
+            background: url(//image.goodchoice.kr/images/web_v3/ico_bul.png) 0 0 no-repeat;
+            background-size: 14px auto;
+            font-size: 14px;
+            line-height: 26px;
+            color: rgba(0,0,0,.72);
+        }
+
+        #reserv_info_right .total_price > ul > li > span { 
+            font-size: 16px;
+            color: #e61c51; 
+        }
+
+        #reserv_info_right .btn_pay {
+            display: block;
+            width: 100%; height: 56px;
+            border: none;
+            font-size: 18px;
+            line-height: 56px;
+            color: #fff;
+            text-align: center;
+            background: linear-gradient( to right, rgba(255, 0, 85, 1) 1%, rgba(230, 34, 67, 1) 100% );
+        }
+
+    </style>
     <body>
-        
+        <div id="wrapper">
+            <header>
+                <div class="header_inner">
+                    <div class="header_flex">
+                        <div class="header_logo">
+                            <!-- 메인으로 이동 -->
+                            <a href="#"><img src="/HTML/img/indexImg/lemo_logo.png" alt="레모 로고"></a>
+                            <div class="logo">LEMO</div>
+                        </div>
+                        <div class="header_service">
+                            <a href="#">로그인</a>
+                            <div class="dropdown_menu">
+                                <button id="dropdown">마이페이지
+                                    <img src="/HTML/img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content" style="display: none;">
+                                    <a href="#">나의 정보</a>
+                                    <a href="#">포인트</a>
+                                    <a href="#">쿠폰함</a>
+                                    <a href="#">예약내역</a>
+                                    <a href="#">위시리스트</a>
+                                    <a href="#">나의 여행일기</a>
+                                    <a href="#">나의 리뷰</a>
+                                </div>
+                            </div>
+                            <div class="dropdown_menu">
+                                <button id="dropdown2">고객센터
+                                    <img src="/HTML/img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content2" style="display: none;">
+                                    <a href="#">공지사항</a>
+                                    <a href="#">이벤트</a>
+                                    <a href="#">자주 묻는 질문</a>
+                                    <a href="#">1:1 문의</a>
+                                    <a href="#">여행일기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="header_searchBar">
+                            <form class="search-container" action="#">
+                                <div class="search">
+                                    <input id="search-box" type="text" class="search-box" name="q"/>
+                                    <button type="submit" class="btnSearch">
+                                        <input type="image" src="/HTML/img/indexImg/btn_search.png" id="search-submit"/>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main id="reserv_reserv">
+                <div id="content">
+                    <div id="reserv_info_left">
+                        <div id="reserv_chkin">
+                            <h3>예약자 정보</h3>
+                            <strong>예약자 이름</strong>
+                            <p>
+                                <input type="text" name="name" placeholder="체크인시 필요한 정보입니다.">
+                            </p>
+                            <p> 한글, 영문, 숫자만 입력 가능.</p>
+                            <div>
+                                <strong>휴대폰 번호</strong>
+                                <span>개인 정보 보호를 위해 안심번호로 숙소에 전송됩니다.</span>
+                                <div class="phone">
+                                    <input type="text" name="phone" placeholder="체크인시 필요한 정보입니다.">
+                                    <button type="button">X</button>
+                                </div>
+                            </div>
+                            <div class="visit">
+                                <strong>방문 방법</strong>
+                                <div>
+                                    <button type="button"><span>도보</span></button>
+                                    <button type="button"><span>차량</span></button>
+                                </div>
+                                <span>주차장 만차 시 주차가 어려울 수 있어요</span>
+                            </div>
+                        </div>
+                        <div id="price">
+                            <h3>할인 수단 선택</h3>
+                            <div class="product_amount">
+                                <strong>구매총액</strong>
+                                <b>999,999원</b>
+                            </div>
+                            <div class="discount_container">
+                                <div class="discount_header">
+                                    <button type="button" class="discount_button">사용 가능한 쿠폰 1장</button>
+                                    <span>-</span>
+                                </div>
+                                <div class="discount_coupons_amount">
+                                    <span>일반쿠폰</span>
+                                    <span>-</span>
+                                </div>
+                                <div class="discount_coupons_amount">
+                                    <span>더하기쿠폰</span>
+                                    <span>-</span>
+                                </div>
+                            </div>
+                            <div class="discount_container">
+                                <div class="discount_header">
+                                    <button type="button" class="discount_button">포인트 사용 0P</button>
+                                    <div>
+                                        <div>
+                                            <input type="text" value="0" class="discount_input">
+                                            <span>P</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="discount_container">
+                                <div class="discount_header">
+                                    <button type="button" class="discount_button">상품권 사용</button>
+                                    <span>-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="pay_select">
+                            <h3>결제수단 선택</h3>
+                            <select id="payment_select">
+                                <option value="TOSS">토스페이</option>
+                                <option value="CARD">신용/체크카드</option>
+                                <option value="AT_QUICK">간편계좌이체</option>
+                                <option value="NAVER">네이버페이</option>
+                                <option value="PAYCO">PAYCO</option>
+                                <option value="CARD_BIZ">법인카드</option>
+                                <option value="CELLPHONE">휴대폰결제</option>
+                            </select>
+                        </div>
+                        <div id="agree">
+                            <p id="checkAll">
+                                <label>
+                                    <input type="checkbox" name="checkAll">
+                                    <span>전체 동의</span>
+                                </label>
+                            </p>
+                            <p>
+                                <input type="checkbox" name="checkOne">
+                                <span>
+                                    <i>숙소이용규칙 및 취소/환불규정 동의</i>
+                                    <b>(필수)</b>
+                                </span>
+                            </p>
+                            <p>
+                                <input type="checkbox" name="checkOne">
+                                <span>
+                                    <i>숙소이용규칙 및 취소/환불규정 동의</i>
+                                    <b>(필수)</b>
+                                </span>
+                            </p>
+                            <p>
+                                <input type="checkbox" name="checkOne">
+                                <span>
+                                    <i>숙소이용규칙 및 취소/환불규정 동의</i>
+                                    <b>(필수)</b>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div id="reserv_info_right">
+                        <div class="info">
+                            <p class="info_name">
+                                <strong>숙소이름</strong>
+                                테스트 호텔
+                            </p>
+                            <p>
+                                <strong>객실타입/기간</strong>
+                                테스트테스트테스트테스트테스트
+                            </p>
+                            <p>
+                                <strong>체크인</strong>
+                                03.03 월 14:00
+                            </p>
+                            <p>
+                                <strong>체크아웃</strong>
+                                03.06 월 14:00
+                            </p>
+                        </div>
+                        <div class="total_price">
+                            <p>
+                                <strong>
+                                    <b>총 결제 금액</b>
+                                    (VAT포함)
+                                </strong>
+                                <span class="in_price">999,999원</span>
+                            </p>
+                            <ul>
+                                <li>해당 객실가는 세금, 봉사료가 포함된 금액입니다</li>
+                                <li>
+                                    결제완료 후
+                                    <span>예약자 이름</span>
+                                    으로 바로
+                                    <span>체크인</span>
+                                    하시면 됩니다.
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn_pay">결제하기</button>
+                    </div>
+                </div>
+            </main>
+            <!-- 푸터 -->
+            <footer>
+                <div class="footer_inner">
+                    <div class="footer_menu">
+                        <table>
+                            <tr>
+                                <td><a href="#">ABOUT</a></td>
+                                <td><a href="#">NOTICE</a></td>
+                                <td><a href="#">CS CENTER</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer_block">
+                        <div class="footer_block_left">
+                            <div class="footer_block_row">
+                                <!-- 로고 클릭 시 메인으로 이동 -->
+                                <div class="row_col_1"><a href="#">LEMO</a></div>
+                                <div class="row_col_2">LETTUCE MEMORIES</div>
+                                <div class="row_col_3">
+                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
+                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
+                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_block_right">
+                            <div class="footer_block_row">
+                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
+                                <div class="row_col_4"><a href="#">고객센터</a></div>
+                                <div class="row_col_5">
+                                    070-2023-0223 <br>
+                                    MON - FRI AM 09:00 - PM 17:00 <br>
+                                    BREAK PM 12:00 - PM 13:00 <br>
+                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer_terms">
+                        <div class="footer_block_row2">
+                            <a href="#">이용약관</a>
+                            <span>&nbsp;|&nbsp;</span>
+                            <a href="#">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="footer_copyright">
+                        <div class="footer_block_row2">
+                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </body>
 </html>
