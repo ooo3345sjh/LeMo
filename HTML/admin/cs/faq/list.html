@@ -1,7 +1,7 @@
 <!--
-    날짜 : 2023/03/02
-    이름 : 이해빈
-    내용 : 관리자 고객센터 - 공지사항 목록 HTML 
+    날짜 : 2023/03/04
+    이름 : 이원정
+    내용 : 관리자 고객센터 자주묻는질문 목록 HTML 
 -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -14,11 +14,21 @@
         <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
         <!-- 스타일 css 적용 -->
-        <link rel="stylesheet" href="../../css/adminNotice.css">
+        <link rel="stylesheet" href="../../css/adminFaq.css">
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        
+        <script>
+            $(document).ready(function() {
+                $('.faq_list_a').click(function(e){
+                    e.preventDefault();
+                    // $(this).find('div').slideToggle();
+                    // $(this).find('.faq_list_a').toggleClass('open');
+                    $(this).next().next().slideToggle();
+                    $(this).toggleClass('open');
+                });
+            });
+        </script>
     </head>
     <body>
         <div id="wrapper">
@@ -63,7 +73,7 @@
                                         <a href="#">숙박관리</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="on">객실관리</a>
+                                        <a href="#">객실관리</a>
                                     </li>
                                     <li>
                                         <a href="#">쿠폰등록</a>
@@ -123,6 +133,9 @@
                                     <li>
                                         <a href="#">문의사항</a>
                                     </li>
+                                    <li>
+                                        <a href="#"  class="on">자주묻는질문</a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
@@ -131,41 +144,74 @@
                     <section class="main_content">
                         <div class="main_cotent_inner">
                             <div class="main_content_div">
+                                <!-- 판매자인 경우 출력-->
+                                <div class="col0" style="margin-bottom: 20px;">
+                                    <form action="#">
+                                        <div class="selectProdForAdmin">
+                                            <select>
+                                                <option value="0">유형선택</option>
+                                                <option value="1">이벤트</option>
+                                                <option value="2">예약/결제</option>
+                                                <option value="3">취소/환불</option>
+                                                <option value="4">이용문의</option>
+                                                <option value="4">회원정보</option>
+                                                <option value="4">리뷰</option>
+                                                <option value="4">환불신청</option>
+                                                <option value="4">쿠폰/포인트</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+
                                 <div class="col_nav">
                                     <span>고객센터 ></span>
-                                    <span>공지사항 목록</span>
+                                    <span>자주묻는질문</span>
                                 </div>
                                 <div class="col2">
                                     <form action="#">
-                                        <div class="board_list">
+                                        <div class="faq_list">
                                             <ul>
-                                                <li>#</li>
-                                                <li>제목</li>
-                                                <li>작성일</li>
-                                                <li>비고</li>
+                                                <!-- li 반복 -->
+                                                <li class="faq_tit">
+                                                    <a href="#" id="faq_tab" class="faq_list_a">
+                                                        <p>[취소/환불] 예약 취소 시 요금이 부과되나요?</p>
+                                                    </a>
+                                                    <span>
+                                                        <a class="btnFaqModify" href="#">수정</a>
+                                                        <a class="btnFaqDelete" href="#">삭제</a>
+                                                    </span>
+                                                    
+                                                    <div class="faq_content">
+                                                        <p>
+                                                            예약 무료 취소 기한 내 예약을 취소하신 경우 취소 요금이 부과되지 않지만, <br>
+                                                            예약 무료 취소 기한이 지났거나 '환불 불가' 예약인 경우 예약 취소 요금이 부과될 수 있습니다. <br>
+                                                            예약 취소 요금은 숙소에서 결정합니다.
+                                                        </p>
+                                                        
+                                                    </div>
+                                                </li>
+                                                <!-- li 반복 -->
+                                                <li class="faq_tit">
+                                                    <a href="#" id="faq_tab" class="faq_list_a">
+                                                        <p>[취소/환불] 예약 취소 시 요금이 부과되나요?</p>
+                                                    </a>
+                                                    <span>
+                                                        <a class="btnFaqModify" href="#">수정</a>
+                                                        <a class="btnFaqDelete" href="#">삭제</a>
+                                                    </span>
+                                                    
+                                                    <div class="faq_content">
+                                                        <p>
+                                                            예약 무료 취소 기한 내 예약을 취소하신 경우 취소 요금이 부과되지 않지만, <br>
+                                                            예약 무료 취소 기한이 지났거나 '환불 불가' 예약인 경우 예약 취소 요금이 부과될 수 있습니다. <br>
+                                                            예약 취소 요금은 숙소에서 결정합니다.
+                                                        </p>
+                                                        
+                                                    </div>
+                                                </li>
                                             </ul>
-                                            <ul>
-                                                <li>1</li>
-                                                <li class="title">
-                                                    <a href="#">페이백 이벤트 당첨자 발표 안내입니다.</a>
-                                                </li>
-                                                <li>2023-03-01</li>
-                                                <li class="prodBtn">
-                                                    <span class="btnDelete">삭제</span>
-                                                    <span class="btnModify">수정</span>
-                                                </li>
-                                            </ul>
-                                            <ul>
-                                                <li>2</li>
-                                                <li class="title">
-                                                    <a href="#">페이백 이벤트 당첨자 발표 안내입니다.</a>
-                                                </li>
-                                                <li>2023-03-01</li>
-                                                <li class="prodBtn">
-                                                    <span class="btnDelete">삭제</span>
-                                                    <span class="btnModify">수정</span>
-                                                </li>
-                                            </ul>
+
+
                                         </div>
                                         <div class="pagination">
                                             <a href="#">&laquo;</a>
@@ -177,9 +223,9 @@
                                             <a href="#">6</a>
                                             <a href="#">&raquo;</a>
                                         </div>
-                                        <div class="btnAdminProd">
+                                        <div class="btnAdminProd4">
                                             <a href="#">
-                                                공지등록
+                                                작성
                                             </a>
                                         </div>
                                     </form>
