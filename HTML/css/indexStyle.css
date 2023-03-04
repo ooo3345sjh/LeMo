@@ -76,7 +76,7 @@ header > .header_inner .header_service {
 }
 header > .header_inner .header_service > a {
     margin-left: 30px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 300;
 }
 header > .header_inner .header_service > a:hover {
@@ -87,7 +87,7 @@ header > .header_inner .header_service > .dropdown_menu {
 }
 header > .header_inner .header_service > .dropdown_menu > button {
     margin-left: 30px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 300;
     border: none;
     background: #fff;
@@ -115,10 +115,10 @@ header > .header_inner .header_service > .dropdown_menu > .dropdown_content.on {
 header > .header_inner .header_service > .dropdown_menu > .dropdown_content > a {
     float: none;
     padding: 12px 16px;
-    font-weight: 300;
     text-decoration: none;
     display: block;
     text-align: left;
+    font-size: 12px;
 }
 header > .header_inner .header_service > .dropdown_menu > .dropdown_content > a:hover {
     background: #dcdee0;
@@ -149,7 +149,7 @@ header > .header_inner .header_searchBar #search-box {
 header > .header_inner .header_searchBar .btnSearch {
     border: none;
     margin-left: 5px;
-    padding-top: 4px;
+    padding-top: 7px;
     background: transparent;
 }
 
@@ -201,6 +201,32 @@ main > .main_inner {
     padding-top: 23px;
 }
 
+/* 우측 미니 사이드바 수정 버전 */
+.btn_quick {
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    width: 58px;
+    z-index: 1000;
+}
+.btn_quick .btn_wishlist {
+    margin-bottom: 4px;
+    border: 1px solid #e8e8e8;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    background: #fff;
+    opacity: 0.7;
+}
+.btn_quick .btn_wishlist > a {
+    margin: auto;
+    margin-top: 13px;
+    cursor: pointer;
+}
+.btn_quick .btn_wishlist img {
+    width: 33px;
+}
+
 /* 메인 슬라이더 */
 main .main_slider {
     background: pink;
@@ -242,6 +268,7 @@ main .main_shortCut > ul > li p {
     text-align: center;
 }
 
+
 /* 메인 TOP4 */
 main .main_top_container {
     width: 1100px;
@@ -260,10 +287,12 @@ main .main_top_container > .main_top_tit {
     flex: 0 0 auto;
     width: 100%;
     position: relative;
+    border-bottom: 2px solid #424242;
+    padding-bottom: 8px;
 }
 main .main_top_container .main_top_sub_tit {
     position: absolute;
-    bottom: 0px;
+    bottom: 3px;
     right: 9px;
     font-size: 12px;
     color: #424242;
@@ -333,6 +362,7 @@ main .main_top_container .main_top_table .main_top_item_stayName {
     flex-grow: 0;
     max-width: 100%;
     padding: 2px;
+    margin-top: 6px;
 }
 main .main_top_container .main_top_table .main_top_item_stayName > span {
     font-size: 14px;
@@ -395,7 +425,7 @@ main .main_top_container .main_top_table .main_top_item_day {
     padding: 2px;
 }
 main .main_top_container .main_top_table .main_top_item_day > span {
-    font-size: 12px;
+    font-size: 13px;
     color: #737373;
     line-height: 16px;
 }
@@ -453,6 +483,7 @@ main .main_best_table .main_top_item1_writer {
     max-width: 100%;
     padding: 2px;
     position: relative;
+    margin-top: 4px;
 }
 main .main_best_table .item_left {}
 main .main_best_table .item_right {
@@ -461,7 +492,7 @@ main .main_best_table .item_right {
     right: 7px;
 }
 main .main_best_table .main_top_item1_writer .nick {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     line-height: 20px;
 }
@@ -480,7 +511,7 @@ main .main_best_table .main_top_item1_writer .heart > p {
     display: inline-block;
 }
 main .main_best_table .main_top_item1_writer .date {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 400;
     line-height: 20px;
     padding-right: 4px;
@@ -508,7 +539,7 @@ main .main_best_table .main_top_item1_review {
     margin-top: 9px;
 }
 main .main_best_table .main_top_item1_review > .review_txt {
-    font-size: 12px;
+    font-size: 13px;
     overflow: hidden;
     white-space: normal;
     text-overflow: ellipsis;
@@ -519,7 +550,6 @@ main .main_best_table .main_top_item1_review > .review_txt {
 
 /* 메인 Notice */
 main .main_notice_board {
-    border-top: 1px solid #bbb;
     word-break: break-all;
     width: 100%;
     margin-top: 4px;
@@ -531,7 +561,6 @@ main .main_notice_board .notice_board_inner > li {
     border-bottom: 1px solid #ccc;
 }
 main .main_notice_board .notice_board_inner > li:first-child {
-    border-top: 2px solid #000;
 }
 main .main_notice_board .notice_board_inner .notice_link {
     overflow: hidden;
@@ -542,7 +571,7 @@ main .main_notice_board .notice_board_inner .text_tit {
     float: left;
     overflow: hidden;
     width: 790px;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 22px;
     color: #000;
     text-overflow: ellipsis;
@@ -563,7 +592,7 @@ main .main_notice_board .notice_board_inner .text_date {
     float: right;
     width: 70px;
     margin-left: 20px;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 22px;
     color: #777;
 }

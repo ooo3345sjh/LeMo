@@ -5,7 +5,6 @@
     margin: 0;
     padding: 0;
     font-family: 'Red Hat Display', 'Noto Sans KR', sans-serif;
-    font-size: 11px;
     font-weight: 400;
     box-sizing: border-box;
     scroll-behavior: smooth;
@@ -245,9 +244,13 @@ main .main_content .col1_graph {
     padding: 10px;
 }
 
-main .main_content .col1_2 {
+main .main_content .col1_2:first-child {
     flex: 0 0 auto;
-    width: 48%;
+    width: 39%;
+}
+main .main_content .col1_2:last-child {
+    flex: 0 0 auto;
+    width: 59%;
 }
 main .main_content .col1_2_header {
     border-bottom: 1px solid #f4f5fa;
@@ -260,10 +263,17 @@ main .main_content .col1_2_header > h3 {
 }
 main .main_content .col1_2_graph {
     padding: 10px;
+    height: 500px;
     background: #fff;
-    border-radius: 10px;
+    border-radius: 4px;
+    border: 0 solid #e3e3e3;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
 }
-
+main .donutchart {
+    border-radius: 4px;
+    border: 0 solid #e3e3e3;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+}
 
 
 main .main_content .main_content_div2 {
@@ -309,7 +319,7 @@ main .main_content .col2 .noticeList ul:first-child {
 main .main_content .col2 .noticeList li {
     display: inline-block;
     height: 32px;
-    font-size: 12px;
+    font-size: 13px;
     padding-top: 7px;
     text-align: center;
 }
@@ -341,7 +351,7 @@ main .main_content .col2 .noticeList2 ul:first-child {
 main .main_content .col2 .noticeList2 li {
     display: inline-block;
     height: 32px;
-    font-size: 12px;
+    font-size: 13px;
     padding-top: 7px;
     text-align: center;
 }
@@ -397,6 +407,80 @@ main .footer_inner > .footer_menu {
     margin-top: 30px;
     position: relative;
 }
+main .sales_div {
+    width: 100%;
+    padding: 30px 0 30px 0;
+    margin-bottom: 1.5rem;
+    background: #fff;
+}
+main .sales_table {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+main .sales_table table {
+    width: 96%;
+    height: auto;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+main .sales_table tr {
+    border-bottom: 1px solid #ececec;
+}
+main .sales_table tr:first-child {
+    border-top: 1px solid #ececec;
+}
+main .sales_table th {
+    font-size: 16px;
+    font-weight: 500;
+    color: #424242;
+    padding: 10px 0;
+    background: #f2f1f1;
+}
+main .sales_table th:nth-of-type(1) {width: 19%;}
+main .sales_table th:nth-of-type(2) {width: 10%;}
+main .sales_table th:nth-of-type(3) {width: 17%;}
+main .sales_table th:nth-of-type(4) {width: 15%;}
+main .sales_table th:nth-of-type(5) {}
+main .sales_table td {
+    color: #424242;
+    padding: 10px 0;
+    font-size: 14px;
+}
+main #progress1 {
+    text-align: left;
+    width: 100%;
+    appearance: none;
+}
+#progress1::-webkit-progress-bar {
+    width: 100%;
+    height: 10px;
+    overflow: hidden;
+    background: #e9ecef;
+    animation: progressbar 2s ease-out;
+    border-radius:10px;
+}
+#progress1::-webkit-progress-value {
+    border-radius:10px;
+    background: #AACB73;
+    background: -webkit-linear-gradient(to right, #AACB73, #4ca16e);
+    background: linear-gradient(to right, #AACB73, #4ca16e);
+    
+}
+#progress1::-moz-progress-bar {
+    background-color: #eee;
+    border-radius: 10px;
+}
+main .sales_room_percent {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px;
+    flex-wrap: wrap;
+}
+
+
 /* 푸터 */
 footer {
     background-color: #FCF951;

@@ -997,6 +997,10 @@ main .col_register1 .input_stayRoomInfo .input_200 {
     width: 40px;
     text-align: center;
 }
+main .col_register1 .input_stayRoomInfo .input60 {
+    width: 60px;
+    text-align: center;
+}
 main .col_register1 .input_stayRoomInfo textarea {
     width: 100%;
     font-size: 13px;
