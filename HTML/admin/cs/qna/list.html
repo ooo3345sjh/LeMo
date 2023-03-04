@@ -1,7 +1,7 @@
 <!--
-    날짜 : 2023/03/02
-    이름 : 이해빈
-    내용 : 관리자 고객센터 - 공지사항 목록 HTML 
+    날짜 : 2023/03/04
+    이름 : 이원정
+    내용 : 관리자 고객센터 문의사항 목록 HTML 
 -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -14,7 +14,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
         <!-- 스타일 css 적용 -->
-        <link rel="stylesheet" href="../../css/adminNotice.css">
+        <link rel="stylesheet" href="../../css/adminQna.css">
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -63,7 +63,7 @@
                                         <a href="#">숙박관리</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="on">객실관리</a>
+                                        <a href="#">객실관리</a>
                                     </li>
                                     <li>
                                         <a href="#">쿠폰등록</a>
@@ -121,7 +121,7 @@
                                         <a href="#">공지사항</a>
                                     </li>
                                     <li>
-                                        <a href="#">문의사항</a>
+                                        <a href="#"  class="on">문의사항</a>
                                     </li>
                                 </ul>
                             </li>
@@ -133,38 +133,44 @@
                             <div class="main_content_div">
                                 <div class="col_nav">
                                     <span>고객센터 ></span>
-                                    <span>공지사항 목록</span>
+                                    <span>문의사항</span>
                                 </div>
                                 <div class="col2">
                                     <form action="#">
                                         <div class="board_list">
                                             <ul>
+                                                <li>
+                                                    <input type="checkbox" name="all">
+                                                </li>
                                                 <li>#</li>
                                                 <li>제목</li>
+                                                <li>작성자</li>
                                                 <li>작성일</li>
-                                                <li>비고</li>
+                                                <li>상태</li>
                                             </ul>
                                             <ul>
+                                                <li>
+                                                    <input type="checkbox" name="문의번호">
+                                                </li>
                                                 <li>1</li>
                                                 <li class="title">
-                                                    <a href="#">페이백 이벤트 당첨자 발표 안내입니다.</a>
+                                                    <a href="#">예약을 어떻게 취소하나요?</a>
                                                 </li>
-                                                <li>2023-03-01</li>
-                                                <li class="prodBtn">
-                                                    <span class="btnDelete">삭제</span>
-                                                    <span class="btnModify">수정</span>
-                                                </li>
+                                                <li>이동*</li>
+                                                <li>2023-03-04</li>
+                                                <li class="re_off">검토중</li>
                                             </ul>
                                             <ul>
+                                                <li>
+                                                    <input type="checkbox" name="문의번호">
+                                                </li>
                                                 <li>2</li>
                                                 <li class="title">
-                                                    <a href="#">페이백 이벤트 당첨자 발표 안내입니다.</a>
+                                                    <a href="#">신종 코로나바이러스 감염증(코로나19)으로 인한 예약변경이 가능한가요?</a>
                                                 </li>
-                                                <li>2023-03-01</li>
-                                                <li class="prodBtn">
-                                                    <span class="btnDelete">삭제</span>
-                                                    <span class="btnModify">수정</span>
-                                                </li>
+                                                <li>이동*</li>
+                                                <li>2023-03-04</li>
+                                                <li class="re_on">답변완료</li>
                                             </ul>
                                         </div>
                                         <div class="pagination">
@@ -177,9 +183,9 @@
                                             <a href="#">6</a>
                                             <a href="#">&raquo;</a>
                                         </div>
-                                        <div class="btnAdminProd">
+                                        <div class="btnAdminProd4">
                                             <a href="#">
-                                                공지등록
+                                                선택삭제
                                             </a>
                                         </div>
                                     </form>
