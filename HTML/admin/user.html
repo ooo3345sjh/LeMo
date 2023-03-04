@@ -1,12 +1,383 @@
+<!--
+    날짜 : 2023/03/04
+    이름 : 이원정
+    내용 : 관리자 회원관리 HTML 
+-->
 <!DOCTYPE html>
 <html lang="ko">
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Travel with Lemo::admin-index</title>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
+        <!-- 스타일 css 적용 -->
+        <link rel="stylesheet" href="./css/adminUser.css">
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                // 메모 팝업
+                $(document).on('click', '.btnNote', function(e){
+                    e.preventDefault();
+                    alert('here');
+                    $(this).next().show();
+                });
+                $('.btnRclose').click(function(e){
+                    e.preventDefault();
+                    alert('here2');
+                    $(this).closest('li').find('#d_Memo').hide();
+                });
+                // input 엔터키 submit 막기
+                $('input[type="text"]').keydown(function() {
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+                    };
+                });
+                
+            });
+        </script>        
     </head>
     <body>
-        
+        <div id="wrapper">
+            <!-- 헤더 -->
+            <header></header>
+            <!-- 메인 -->
+            <main>
+                <div class="main_inner">
+                    <!-- 죄측 사이드바 -->
+                    <nav class="sidebar">
+                        <div class="sidebar_logo">
+                            <a href="#">
+                                <img src="./img/lemo_logo-removebg-preview.png" alt="logo">
+                                <div class="logo">LEMO</div>
+                            </a>
+                        </div>
+                        <ul class="sidebar_menu">
+                            <!-- 사이드 메뉴 item1 -->
+                            <li>
+                                <a class="sidebar_arrow" href="#">
+                                    <div class="icon_menu">
+                                        <img src="./img/dashboard.svg">
+                                    </div>
+                                    <span>HOME</span>
+                                </a>
+                                <ul class="sidebar_collapse_menu">
+                                    <li>
+                                        <a href="#">로그아웃</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- 사이드 메뉴 item2 -->
+                            <li>
+                                <a class="sidebar_arrow" href="#">
+                                    <div class="icon_menu">
+                                        <img src="./img/manage.svg">
+                                    </div>
+                                    <span>상품관리</span>
+                                </a>
+                                <ul class="sidebar_collapse_menu">
+                                    <li>
+                                        <a href="#">숙박관리</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">객실관리</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">쿠폰등록</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">등록리뷰</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- 사이드 메뉴 item3 -->
+                            <li>
+                                <a class="sidebar_arrow" href="#">
+                                    <div class="icon_menu">
+                                        <img src="./img/manage.svg">
+                                    </div>
+                                    <span>예약관리</span>
+                                </a>
+                                <ul class="sidebar_collapse_menu">
+                                    <li>
+                                        <a href="#">예약정보</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">타임라인</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- 사이드 메뉴 item4 -->
+                            <li>
+                                <a class="sidebar_arrow" href="#">
+                                    <div class="icon_menu">
+                                        <img src="./img/dashboard.svg">
+                                    </div>
+                                    <span>통계관리</span>
+                                </a>
+                            </li>
+                            <!-- 사이드 메뉴 item5 -->
+                            <li>
+                                <a class="sidebar_arrow" href="#">
+                                    <div class="icon_menu">
+                                        <img src="./img/dashboard.svg">
+                                    </div>
+                                    <span>회원관리</span>
+                                </a>
+                                <ul class="sidebar_collapse_menu">
+                                    <li>
+                                        <a href="#" class="on">회원관리</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- 사이드 메뉴 item6 -->
+                            <li>
+                                <a class="sidebar_arrow" href="#">
+                                    <div class="icon_menu">
+                                        <img src="./img/manage.svg">
+                                    </div>
+                                    <span>고객센터</span>
+                                </a>
+                                <ul class="sidebar_collapse_menu">
+                                    <li>
+                                        <a href="#">공지사항</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">문의사항</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">자주묻는질문</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- 우측 메인 컨테이너 -->
+                    <section class="main_content">
+                        <div class="main_cotent_inner">
+                            <div class="main_content_div">
+                                <div class="col0">
+                                    <form action="#">
+                                        <div class="selectProd">
+                                            <select>
+                                                <option value="1">이메일아이디</option>
+                                                <option value="1">회원명</option>
+                                                <option value="1">닉네임</option>
+                                            </select>
+                                        </div>
+                                        <div class="searchProd">
+                                            
+                                            <input type="text" class="search_box" placeholder="회원 검색">
+                                            <button type="submit" class="btnSearch">
+                                                <input type="image" src="./img/btn_search.png">
+                                            </button>
+                                        </div>
+                                        <button type="button" class="download_list">
+                                            엑셀 다운로드
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="col_nav">
+                                    <span>회원관리 ></span>
+                                    <span>회원목록</span>
+                                </div>
+                                <div class="col2">
+                                    <form action="#">
+                                        <!-- 선택 -->
+                                        <div class="select_user_type">
+                                            <ul>
+                                                <li>
+                                                    <a href="#" class="on">차단회원</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">탈퇴회원</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">일반회원</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">엘리트회원</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- 목록 -->
+                                        <div class="board_list">
+                                            <ul>
+                                                <li>번호</li>
+                                                <li>이메일아이디</li>
+                                                <li>닉네임</li>
+                                                <li>상태</li>
+                                                <li>등급</li>
+                                                <li>소셜</li>
+                                                <li>가입일</li>
+                                                <li>비고</li>
+                                            </ul>
+                                            <ul>
+                                                <li>1</li>
+                                                <li>circle@naver.com</li>
+                                                <li>강아지에게쫓기는지니요정</li>
+                                                <li>정상</li>
+                                                <li>일반</li>
+                                                <li>일반</li>
+                                                <li>2023/03/04 20:50:12</li>
+                                                <li>
+                                                    <button class="btnNote">메모</button>
+                                                    <!-- 메모 팝업 -->
+                                                    <dialog id="d_Memo">
+                                                        <form method="dialog">
+                                                            <section>
+                                                                <nav class="d_tit">
+                                                                    <h1 class="d_tit2">메모</h1>
+                                                                </nav>
+                                                                <div class="d_box">
+                                                                    <textarea placeholder="메모 내용을 작성하세요"></textarea>
+                                                                </div>
+                                                                <div class="rr_btn">
+                                                                    <button class="btnRclose" id="btnCloseModal2" value="close" type="reset">닫기</button>
+                                                                    <button class="btnRsubmit" id="btnCloseModal3">작성</button>
+                                                                </div>
+                                                            </section>
+                                                        </form>
+                                                    </dialog>
+                                                    <button class="btnNote2" type="button">차단</button>
+                                                    <button class="btnNote2" type="button">삭제</button>
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li>2</li>
+                                                <li>mango@gmail.com</li>
+                                                <li>고민중인흰둥이</li>
+                                                <li class="drop">탈퇴</li>
+                                                <li>엘리트</li>
+                                                <li>카카오</li>
+                                                <li>2023/03/04 20:50:12</li>
+                                                <li>
+                                                    <button class="btnNote">메모</button>
+                                                    <!-- 메모 팝업 -->
+                                                    <section id="d_Memo" style="display: none;">
+                                                        <form method="dialog">
+                                                            <section>
+                                                                <nav class="d_tit">
+                                                                    <h1 class="d_tit2">메모</h1>
+                                                                </nav>
+                                                                <div class="d_box">
+                                                                    <textarea placeholder="메모 내용을 작성하세요"></textarea>
+                                                                </div>
+                                                                <div class="rr_btn">
+                                                                    <button class="btnRclose" id="btnCloseModal2" value="close" type="reset">닫기</button>
+                                                                    <button class="btnRsubmit" id="btnCloseModal3">작성</button>
+                                                                </div>
+                                                            </section>
+                                                        </form>
+                                                    </section>
+                                                    <button class="btnNote2" type="button">차단</button>
+                                                    <button class="btnNote2" type="button">삭제</button>
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li>3</li>
+                                                <li>qwerty@gmail.com</li>
+                                                <li>읽씹하는얼죽아</li>
+                                                <li class="block">차단</li>
+                                                <li>일반</li>
+                                                <li>네이버</li>
+                                                <li>2023/03/04 20:50:12</li>
+                                                <li>
+                                                    <button class="btnNote">메모</button>
+                                                    <!-- 메모 팝업 -->
+                                                    <section id="d_Memo" style="display: none;">
+                                                        <form method="dialog">
+                                                            <section>
+                                                                <nav class="d_tit">
+                                                                    <h1 class="d_tit2">메모</h1>
+                                                                </nav>
+                                                                <div class="d_box">
+                                                                    <textarea placeholder="메모 내용을 작성하세요"></textarea>
+                                                                </div>
+                                                                <div class="rr_btn">
+                                                                    <button class="btnRclose" id="btnCloseModal2" value="close" type="reset">닫기</button>
+                                                                    <button class="btnRsubmit" id="btnCloseModal3">작성</button>
+                                                                </div>
+                                                            </section>
+                                                        </form>
+                                                    </section>
+                                                    <button class="btnNote2" type="button">차단</button>
+                                                    <button class="btnNote2" type="button">삭제</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="pagination">
+                                            <a href="#">&laquo;</a>
+                                            <a href="#">1</a>
+                                            <a href="#" class="active">2</a>
+                                            <a href="#">3</a>
+                                            <a href="#">4</a>
+                                            <a href="#">5</a>
+                                            <a href="#">6</a>
+                                            <a href="#">&raquo;</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="blank30"></div>
+                        </div>
+                    <!-- -->
+                </div>
+            </main>
+            <footer class="main_footer">
+                <div class="footer_inner">
+                    <div class="footer_menu">
+                        <table>
+                            <tr>
+                                <td><a href="#">ABOUT</a></td>
+                                <td><a href="#">NOTICE</a></td>
+                                <td><a href="#">CS CENTER</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer_block">
+                        <div class="footer_block_left">
+                            <div class="footer_block_row">
+                                <!-- 로고 클릭 시 메인으로 이동 -->
+                                <div class="row_col_1"><a href="#">LEMO</a></div>
+                                <div class="row_col_2">LETTUCE MEMORIES</div>
+                                <div class="row_col_3">
+                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
+                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
+                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_block_right">
+                            <div class="footer_block_row">
+                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
+                                <div class="row_col_4"><a href="#">고객센터</a></div>
+                                <div class="row_col_5">
+                                    070-2023-0223 <br>
+                                    MON - FRI AM 09:00 - PM 17:00 <br>
+                                    BREAK PM 12:00 - PM 13:00 <br>
+                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer_terms">
+                        <div class="footer_block_row2">
+                            <a href="#">이용약관</a>
+                            <span>&nbsp;|&nbsp;</span>
+                            <a href="#">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="footer_copyright">
+                        <div class="footer_block_row2">
+                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </body>
 </html>
