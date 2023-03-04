@@ -148,6 +148,8 @@
                         { pointShape: 'circle', type: 'line', color: '#FFD4D4'}}    // 라인 
                 };
 
+                
+
                 var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
                 chart.draw(view, options);
             }
@@ -397,9 +399,7 @@
                                                 <div class="sales_stat_chart">
                                                     <!-- 매출 현황 -->
                                                     <div class="sales_graph">
-                                                        <div class="chart_box">
-                                                            <div id="chart_div" style="width: 99%; height: 500px;"></div>
-                                                        </div> 
+                                                        <div id="chart_div" style="width: 99%; height: 500px;"></div>
                                                     <!-- 결제 현황 -->
                                                     </div>
                                                     <div class="payment_stat_graph">
@@ -443,7 +443,7 @@
                                                         <div id="chart_div2"></div>
                                                     </div>
                                                 </div> -->
-                                                <!-- 매출 테이블 -->
+                                                <!-- 객실 점유율 -->
                                                 <div class="sales_table">
                                                     <div class="sales_div">
                                                         <table>

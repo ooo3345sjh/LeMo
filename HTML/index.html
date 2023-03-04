@@ -60,8 +60,24 @@
                     $('#dropdown_content2').removeClass('on');
                 });
 
-                
-            } );
+                // 최상단
+                $("#scrollToTop").click(function(){
+                    $('html, body').animate({
+                        scrollTop : 0
+                    }, 400);
+                    return false;
+                });
+
+                // 최하단
+                $("#scrollToBottom").click(function(){
+                    // alert(document.body.scrollHeight);
+                    $('html, body').animate({
+                        scrollTop : 2963
+                    }, 600);
+                    return false;
+                });
+
+            });
         </script>   
     </head>
     <body>
@@ -120,11 +136,6 @@
             </header>
 
 
-            <!-- 우측 미니 사이드바 -->
-            <div class="sticky">
-                <p>MY PICK</p>
-                <p>TALK</p>
-            </div>
             <!-- 메인 -->
             <main>
                 <div class="main_inner">
@@ -534,7 +545,9 @@
                     <div class="blank60"></div>
                     <!-- Weekly Best Diary -->
                     <div class="main_top_container">
-                        <div class="main_top_tit">#<i>Weekly</i> Best Diary</div>
+                        <div class="main_top_tit">#<i>Weekly</i> Best Diary
+                            <p class="main_top_sub_tit">> 더보기</p>
+                        </div>
                         <div class="main_top_box">
                             <div class="main_best_table">
                                 <!-- item 1 -->
@@ -676,7 +689,36 @@
                     </div>
                     <div class="blank120"></div>
                 </div>
-                
+                <!-- 우측 미니 사이드바 -->
+                <div class="btn_quick">
+                    <ul>
+                        <li class="btn_wishlist">
+                            <a href="javascript:;">
+                                <img src="./img/indexImg/empty-heart.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img src="./img/indexImg/naver_quick.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img src="./img/indexImg/kakao_quick.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" id="scrollToTop" onclick="return false;">
+                                <img src="./img/indexImg/top_btn.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" id="scrollToBottom" onclick="return false;">
+                                <img src="./img/indexImg/bottom_btn.png">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </main>
 
 

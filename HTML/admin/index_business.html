@@ -18,9 +18,40 @@
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <!-- chart.js -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        
+        <!-- 구글 차트 -->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load("current", {packages:["corechart"]});
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable([
+                ['payment', 'Percent'],
+                ['신용/체크카드', 35],
+                ['간편계좌이체', 8],
+                ['토스페이', 7],
+                ['네이버페이', 3],
+                ['PAYCO', 23],
+                ['법인카드', 2],
+                ['휴대폰결제', 27]
+                ]);
+    
+                var options = {
+                    title: '결제현황',
+                    titleTextStyle: {fontSize:18, bold: true},
+                    fontSize: 15,
+                    pieHole: 0.3,
+                    legend: {
+                    position: 'bottom',
+                    maxLines: 7
+                    },
+                    colors: ['#4F650D', '#637A15', '#7F9822', '#9CB631', '#BBD444','#D3E570','#E4F28F'],
+                };
+    
+                var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+                chart.draw(data, options);
+                
+            }
+        </script>
     </head>
     <body>
         <div id="wrapper">
@@ -180,20 +211,89 @@
                                     <div class="col1_2_header">
                                         <h3>예상 거래액</h3>
                                     </div>
-                                    <div class="col1_2_graph">
-                                        <div class="graph_inner" style="width: 851px; height: 250px;">
-                                            <canvas id="myChart"></canvas>
-                                        </div>
-                                    </div>
+                                            <div id="donutchart" style="width: 100%; height: 500px;"></div> 
                                 </div>
                                 <div class="col1_2">
                                     <div class="col1_2_header">
                                         <h3>객실 점유율</h3>
                                     </div>
                                     <div class="col1_2_graph">
-                                        <div class="graph_inner" style="width: 851px; height: 250px;">
-                                            <canvas id="myChart"></canvas>
-                                        </div>
+                                            <div class="sales_table">
+                                                <div class="sales_div">
+                                                    <table>
+                                                        <tr>
+                                                            <th>객실</th>
+                                                            <th>주문건수</th>
+                                                            <th>매출액</th>
+                                                            <th>비율</th>
+                                                            <th>그래프</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>A룸</td>
+                                                            <td>1</td>
+                                                            <td>123,000</td>
+                                                            <td>36%</td>
+                                                            <td>
+                                                                <progress id="progress1" value="36" min="0" max="100"></progress>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>B룸</td>
+                                                            <td>2</td>
+                                                            <td>234,000</td>
+                                                            <td>52%</td>
+                                                            <td>
+                                                                <progress id="progress1" value="52" min="0" max="100"></progress>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>C룸</td>
+                                                            <td>3</td>
+                                                            <td>123,000</td>
+                                                            <td>16%</td>
+                                                            <td>
+                                                                <progress id="progress1" value="16" min="0" max="100"></progress>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>D룸</td>
+                                                            <td>4</td>
+                                                            <td>123,000</td>
+                                                            <td>76%</td>
+                                                            <td>
+                                                                <progress id="progress1" value="76" min="0" max="100"></progress>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>E룸</td>
+                                                            <td>5</td>
+                                                            <td>123,000</td>
+                                                            <td>36%</td>
+                                                            <td>
+                                                                <progress id="progress1" value="36" min="0" max="100"></progress>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>F룸</td>
+                                                            <td>6</td>
+                                                            <td>123,000</td>
+                                                            <td>12%</td>
+                                                            <td>
+                                                                <progress id="progress1" value="12" min="0" max="100"></progress>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>G룸</td>
+                                                            <td>7</td>
+                                                            <td>123,000</td>
+                                                            <td>36%</td>
+                                                            <td>
+                                                                <progress id="progress1" value="36" min="0" max="100"></progress>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
                                 
