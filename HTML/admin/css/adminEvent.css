@@ -1912,3 +1912,38 @@ footer > .footer_inner .footer_copyright p {
     display: none;
     font-size: 12px;
 }
+
+/* 드래그앤드롭 파일업로드 */
+#fileDropzone{
+    width: 99%;
+    min-height: 95px;
+    background-color: white;
+    border-radius: 6px;
+    padding: 4px 0;
+    text-align: center;
+    font-size: 24px;
+    border: none;
+    border: 2px dashed #e3e3e3;
+    display: table-cell;
+}
+#fileDropzone > div > button {
+    font-size: 20px;
+    border: none;
+    background-color: white;
+    height: 73px;
+    padding-bottom: 9px;
+    font-weight: 300;
+    width: 693px;
+    color: #797979;
+}
+#fileDropzone .dz-progress{
+    background-color: #ff000000;
+}
+#fileDropzone .dz-image {
+    border-radius: 0%;
+    width: 90px;
+    height: 90px;
+}
+#fileDropzone .dz-details {
+    padding: 0 0;
+}

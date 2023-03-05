@@ -18,6 +18,10 @@
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <!-- 드래그앤드롭 파일 업로드 -->
+        <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>    
+        <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+        <script src="../../js/dragNdrop.js"></script>
         <!-- summernote -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -191,15 +195,11 @@
                                                 <td>배너 이미지</td>
                                                 <td>
                                                     <div class="stayThumb">
-                                                        <div>
-                                                            <div class="input_wrap2">
-                                                                <a href="javascript:" onclick="fileUploadAction2();" class="btnFileupload">파일 업로드</a>
-                                                                <input type="file" id="input_imgs2" multiple accept="png,jpg">
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <div class="imgs_wrap2">
-                                                                <img id="img" />
+                                                        <div class="dropzone" id="fileDropzone">
+                                                            <div>
+                                                                <button class="dz-default dz-message" type="button">
+                                                                    사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -210,15 +210,11 @@
                                                 <td>이벤트 이미지</td>
                                                 <td>
                                                     <div class="stayThumb">
-                                                        <div>
-                                                            <div class="input_wrap2">
-                                                                <a href="javascript:" onclick="fileUploadAction2();" class="btnFileupload">파일 업로드</a>
-                                                                <input type="file" id="input_imgs2" multiple accept="png,jpg">
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <div class="imgs_wrap2">
-                                                                <img id="img" />
+                                                        <div class="dropzone" id="fileDropzone">
+                                                            <div>
+                                                                <button class="dz-default dz-message" type="button">
+                                                                    사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
