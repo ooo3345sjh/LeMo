@@ -751,7 +751,7 @@ main .col_register1 .stayAddr2 > input::placeholder {
 
 main .col_register1 .cs_checkbox {
     width: 100%;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 main .col_register1 .cs_checkbox tr {}
 main .col_register1 .cs_checkbox td {
@@ -768,7 +768,7 @@ main .col_register1 .convenient_service {
     display: flex;
     flex-wrap: wrap;
 }
-.container {
+.c_container {
     position: relative;
     padding-left: 25px;
     padding-right: 29px;
@@ -777,7 +777,7 @@ main .col_register1 .convenient_service {
     font-size: 14px;
     user-select: none;
 }
-.container input {
+.c_container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -794,10 +794,10 @@ main .col_register1 .convenient_service {
     border: 1px solid #dbdbdb;
     border-radius: 50%;
 }
-.container:hover input ~ .checkmark {
+.c_container:hover input ~ .checkmark {
     background-color: #ccc;
 }
-.container input:checked ~ .checkmark {
+.c_container input:checked ~ .checkmark {
     background-color: #fcf951;
 }
 .checkmark:after {
@@ -805,10 +805,10 @@ main .col_register1 .convenient_service {
     position: absolute;
     display: none;
 }
-.container input:checked ~ .checkmark:after {
+.c_container input:checked ~ .checkmark:after {
     display: block;
 }
-.container .checkmark:after {
+.c_container .checkmark:after {
     left: 6px;
     top: 2px;
     width: 0;
@@ -843,15 +843,17 @@ main .col_register1 .stayThumb > .st_inner {
 }
 main .col_register1 .stayThumb .st_content {
     display: grid;
-    gap: 5px;
+    gap: 20px;
     grid-template-columns: repeat(5, 1fr);
     border: 1px solid blue;
 }
 main .col_register1 .stayThumb .st_img {
+    display: flex;
     padding: 5px;
+    justify-content: space-evenly;
 }
 main .col_register1 .stayThumb .st_img > img {
-    width: 154px;
+    width: 100%;
 }
 
 
@@ -1962,15 +1964,52 @@ main .today_grid_item > h3 {
     color: #14256a;
 }
 
-
+/* 드래그앤드롭 파일업로드 */
+#fileDropzone{
+    width: 99%;
+    min-height: 95px;
+    background-color: white;
+    border-radius: 6px;
+    padding: 4px 0;
+    text-align: center;
+    font-size: 24px;
+    border: none;
+    border: 2px dashed #e3e3e3;
+    display: table-cell;
+}
+#fileDropzone > div > button {
+    font-size: 20px;
+    border: none;
+    background-color: white;
+    height: 73px;
+    padding-bottom: 9px;
+    font-weight: 300;
+    width: 693px;
+    color: #797979;
+}
+#fileDropzone .dz-progress{
+    background-color: #ff000000;
+}
+#fileDropzone .dz-image {
+    border-radius: 0%;
+    width: 90px;
+    height: 90px;
+}
+#fileDropzone .dz-details {
+    padding: 0 0;
+}
 
 
 
 
 /* 푸터 */
+
 footer {
     background-color: #FCF951;
     border-top: 1px solid #faf4e4;
+}
+footer a {
+    color: #252525 !important;
 }
 footer > .footer_inner {
     margin-left: 270px;
