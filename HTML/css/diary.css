@@ -270,7 +270,7 @@
     width: 110px; height: 27px;
     font-weight: 400;
     border-radius: 10px;
-    border: 0px solid #252525;
+    border: 1px solid #252525;
     background-color: white;
 }
 

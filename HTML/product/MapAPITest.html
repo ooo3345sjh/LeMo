@@ -8,6 +8,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Travel with Lemo::diary</title>
+        <!-- googleSearchAPI -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcPQyeUiX2cJ4rCH6DU36v4D3LsfO-o4s&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC" async defer></script>
         <!-- 구글 폰트 -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,8 +33,6 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
         <!-- kakaoMap -->
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712&libraries=services"></script>
-        <!-- googleSearchAPI -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcPQyeUiX2cJ4rCH6DU36v4D3LsfO-o4s&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC" async defer></script>
         <style>
             * {
                 margin: 0;
@@ -164,9 +164,11 @@
                                         <li>스카이베이호텔 경포</li>
                                     </ul>
                                 </div>
-                                <div style="margin-top: 50px;">
-                                    <input type="text" id="searchAddr" style="width: 150px; height: 30px; font-size: 15px;"/>
-                                    <button type="button" id="searchBtn" style="height: 30px;">주소 검색</button>
+                                <div class="write_search" style="margin-top: 40px; font-size: 13px; color: #342929;">
+                                    <span style="display: block; margin: 0 0 10px 5px; font-size: 13px;">보다 상세한 검색은 자동완성을 이용해주세요.</span>
+                                    <input type="text" id="searchAddr" style="width: 250px; height: 30px; font-size: 15px; border: none; padding-left: 10px; margin-right: 10px;"/>
+                                    주소 검색 후 Enter키를 눌러주세요.!
+                                    <br>
                                 </div>
                             </div>
                         </div>
@@ -242,7 +244,7 @@
             var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
             var options = { //지도를 생성할 때 필요한 기본 옵션
                 center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-                level: 5 //지도의 레벨(확대, 축소 정도)
+                level: 7 //지도의 레벨(확대, 축소 정도)
             };
 
             var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
@@ -257,60 +259,78 @@
             // #4 키워드 검색 완료 시 호출되는 콜백함수 입니다
             let lat;
             let lng;
-            let autocompleteInput
+            let autocompleteInput = document.getElementById('searchAddr');
+            let searchBtn = document.getElementById('searchBtn');
+            let option    = {fields: ["address_components", "formatted_address", "geometry", "icon", "name"]};
+            const autocomplete = new google.maps.places.Autocomplete(autocompleteInput, option);
+            autocomplete.setComponentRestrictions({country: ["kr"]});
+            
             $(function(){
-                autocompleteInput = document.getElementById('searchAddr');
-                const searchBtn = document.getElementById('searchBtn');
-                    const autocomplete = new google.maps.places.Autocomplete(autocompleteInput, 
-                    {fields: ["address_components", "formatted_address", "geometry", "icon", "name"]});
-                    autocomplete.setComponentRestrictions({country: ["kr"]});
-                
-                searchBtn.addEventListener('click', function(){
+                autocomplete.addListener('place_changed', function(){
+                    /** 재검색 시 이전 검색 마커 초기화 */
+                    for(var i=0; i<searchMarkers.length; i++){
+                        searchMarkers[i].setMap(null);
+                    }
+
                     const place = autocomplete.getPlace();
                     
-                    if (place == null) {
-                        ps.keywordSearch('부산역', placesSearchCB); 
+                    if (!place.geometry || !place.geometry.location) {
+                                                                   /** #5  */
+                        ps.keywordSearch($('#searchAddr').val(), placesSearchCB); 
                         return;
-                    } else {
-                        console.log(place);
-                        console.log("위도 " + place.geometry.location.lat());
-                        console.log("경도 " + place.geometry.location.lng());
-                        lat = place.geometry.location.lat();
-                        lng = place.geometry.location.lng();
-                        
-                        var bounds = new kakao.maps.LatLngBounds();
-                        bounds.extend(new kakao.maps.LatLng(lat, lng));
-                        map.setBounds(bounds);
-
-                        var imageSrc = './img/pin.png', // 마커이미지의 주소입니다    
-                        imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
-                        imageOption = {offset: new kakao.maps.Point(20, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-
-                        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-
-                        // 마커가 표시될 위치입니다 
-                        var markerPosition  = new kakao.maps.LatLng(lat, lng); 
-                        
-                        var marker = new kakao.maps.Marker({
-                            map: map,
-                            image: markerImage,
-                            position: new kakao.maps.LatLng(lat, lng)
-                        });                        
                     }
+
+                    lat = place.geometry.location.lat();
+                    lng = place.geometry.location.lng();
+                    
+                    /** 검색 시 해당하는 좌표로 이동 */
+                    var bounds = new kakao.maps.LatLngBounds();
+                    bounds.extend(new kakao.maps.LatLng(lat, lng));
+                    map.setBounds(bounds);
+
+                    /** 마커 이미지 변경 */
+                    var imageSrc = './img/pin.png', // 마커이미지의 주소입니다    
+                    imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
+                    imageOption = {offset: new kakao.maps.Point(20, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+                    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+                    // 마커가 표시될 위치입니다 
+                    var markerPosition  = new kakao.maps.LatLng(lat, lng); 
+                    
+                    var marker = new kakao.maps.Marker({
+                        map: map,
+                        image: markerImage,
+                        position: new kakao.maps.LatLng(lat, lng)
+                    });       
+
+                    // 마커에 mouseover이벤트를 등록합니다
+                    kakao.maps.event.addListener(marker, 'mouseover', function() {
+                        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+                        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.name + '</div>');
+                        infowindow.open(map, marker);
+                    });
+
+                    // 마커에 mouseout이벤트를 등록합니다
+                    kakao.maps.event.addListener(marker, 'mouseout', function() {
+                        infowindow.close();
+                    });
+                    
+                    searchMarkers.push(marker);
+
                 });
             })
 
             // #5 키워드 검색 완료 시 호출되는 콜백함수 입니다
             function placesSearchCB (data, status, pagination) {
                 if (status === kakao.maps.services.Status.OK) {
-                    
-                    console.log(data);
-
+                
                     // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                     // LatLngBounds 객체에 좌표를 추가합니다
                     var bounds = new kakao.maps.LatLngBounds();
 
                     for (var i=0; i<data.length; i++) {
+                        /** #6 */
                         displayMarker(data[i]);    
                         bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
                     }       
@@ -322,13 +342,12 @@
 
             // #6 지도에 마커를 표시하는 함수입니다
             function displayMarker(place) {
-                console.log(place);
+                
                 var imageSrc = './img/pin.png', // 마커이미지의 주소입니다    
                 imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
                 imageOption = {offset: new kakao.maps.Point(20, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
                 var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-
 
                 // 마커를 생성하고 지도에 표시합니다
                 var marker = new kakao.maps.Marker({
@@ -337,7 +356,7 @@
                     position: new kakao.maps.LatLng(place.y, place.x)
                 });
 
-                markers.push(marker);
+                searchMarkers.push(marker);
 
                 // 마커에 mouseover이벤트를 등록합니다
                 kakao.maps.event.addListener(marker, 'mouseover', function() {
@@ -362,7 +381,10 @@
             function addMarker(position) {
                 
                 let place = prompt('장소를 입력하세요.');
-                
+                if(!place){
+                    alert('장소를 입력하지 않으셨습니다.!');
+                    return false;
+                }
                 // 마커를 생성합니다
                 var marker = new kakao.maps.Marker({
                     position: position
@@ -458,7 +480,6 @@
                     let point;
                     let endPoint = listHeight - mapHeight;
 
-
                     if( scrollTop < boxOffsetTop ){
                         point = 0;
                     }else if( scrollTop > endPoint ) {
@@ -476,7 +497,16 @@
                 $(document).on('click', '.place', function(e){
                     e.preventDefault();
                     $(this).find('.toggle').slideToggle();
-                    $(this).find('.toggle').prev().addClass('on');
+
+                    let currentPosition = parseInt($('#listMap').css('top'));
+
+                    /** 토글 + 화살표 변경 */
+                    const arrow = $(this).find('.toggle').prev();
+                    if(arrow.attr('class') == 'arrow'){
+                        arrow.addClass('on');
+                    }else if(arrow.attr('class') == 'arrow on'){
+                        arrow.removeClass('on');
+                    }
                 });
 
                 /* 내용 input */
@@ -522,7 +552,6 @@
                     let inputFile = $(this).parent('.image');
                     $(this).change(function(e){
                         let preview = $('.inputImage', inputFile);
-                        console.log(preview);
                         const reader = new FileReader();
                         reader.onload = function(event){
                             preview.attr("src", event.target.result);
