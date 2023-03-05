@@ -1197,7 +1197,7 @@
         margin-top: 18px;
     }
     .my_review_write .my_review_w_place > span {
-        font-size: 18px;
+        font-size: 19px;
         color: #646466;
         font-weight: 400;
     }
@@ -1208,7 +1208,7 @@
 
     }
     .my_review_write .my_review_w_days > span {
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 200;
     }
     
@@ -1218,7 +1218,7 @@
     }
     .my_review_write .my_review_w_tit > div {}
     .my_review_write .my_review_w_tit > div > input {
-        width: 423px;
+        width: 721px;
         height: 57px;
         font-size: 23px;
         text-align: center;
@@ -1226,9 +1226,9 @@
         border-radius: 4px;
     }
     .my_review_write .my_review_w_rating {
-        margin-left: 205px;
+        margin: 0 auto;
         margin-top: 32px;
-        width: 386px;
+        width: 721px;
         height: 168px;
         text-align: center;
         background-color: white;
@@ -1266,9 +1266,8 @@
     }
 
     .my_review_write .my_review_w_textbox {
-        margin-left: 149px;
-        margin-top: 40px;
-        width: 518px;
+        margin: 30px auto;
+        width: 721px;
         height: 261px;
         background-color: white;
         border-radius: 18px;
@@ -1387,7 +1386,7 @@
     }
     .my_review_view .my_review_tit {
         margin: 11px 0 0 0;
-        padding: 20px 0px 0px 36px;
+        padding: 20px 0px 0px 50px;
         font-size: 25px;
         font-weight: 500;
     }
@@ -1411,7 +1410,7 @@
         z-index: 1;
         display: flex;
         top: 17px;
-        right: 75px;
+        right: 54px;
         overflow: hidden;
         -webkit-text-fill-color: gold;
     }
@@ -1424,13 +1423,13 @@
         padding: 0;
         position: absolute;
         top: 17px;
-        right: 75px;
+        right: 54px;
     }
     .my_review_rating .star-ratings-base > span {
         font-size: 27px;
     }
     .my_review_view .my_review_days{
-        margin-left: 74px;
+        margin-left: 107px;
     }
     .my_review_view .my_review_days > span {
         font-weight: 200;
@@ -1442,8 +1441,8 @@
     }
     .my_review_view .my_review_textbox {
         width: 540px;
-        margin-left: 94px;
-        margin-top: 13px;
+        margin: 0 auto;
+        margin-top: 15px;
         border-radius: 23px;
     }
     .my_review_view .my_review_text {
@@ -1456,20 +1455,26 @@
 
     .review_swiper-container {
         width: 79%;
-        height: 150px;
+        height: 303px;
         overflow: hidden;
         position: relative;
-        margin-top: 11px;
-        margin-left: 70px;
+        margin: 17px auto;
         padding: 0 22px 0 20px;
         }
-        .review_swiper-container .swiper-button-next {color: #bbd444;}
-        .review_swiper-container .swiper-button-prev {color: #bbd444;}
+        .review_swiper-container .swiper-button-next {
+            color: #bbd444;
+            right: -2px;
+        }
+        .review_swiper-container .swiper-button-prev {
+            color: #bbd444;
+            left: 18px;
+        }
 
         .swiper-slide {
         text-align: center;
         font-size: 18px;
-
+        width: 198.333px;
+        margin-right: 10px;
 
         /* Center slide text vertically */
         display: -webkit-box;
@@ -1486,8 +1491,9 @@
         align-items: center;
         }
         .swiper-slide > img {
-            width: 137px;
-            height: 103px;
+            width: 470px;
+            height: 290px;
+            object-fit: cover;
         }
 
 
@@ -1506,7 +1512,7 @@
 
     .my_review_view .review_comment{
         width: 386px;
-        margin-left: 218px;
+        margin-left: 230px;
         margin-top: 13px;
         border-radius: 23px;
     }
@@ -1633,7 +1639,7 @@
         margin-top: 18px;
     }
     .my_review_modify .my_review_m_place > span {
-        font-size: 18px;
+        font-size: 19px;
         color: #646466;
         font-weight: 400;
     }
@@ -1644,7 +1650,7 @@
 
     }
     .my_review_modify .my_review_m_days > span {
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 200;
     }
     
@@ -1654,7 +1660,7 @@
     }
     .my_review_modify .my_review_m_tit > div {}
     .my_review_modify .my_review_m_tit > div > input {
-        width: 423px;
+        width: 721px;
         height: 57px;
         font-size: 23px;
         text-align: center;
@@ -1662,9 +1668,9 @@
         border-radius: 4px;
     }
     .my_review_modify .my_review_m_rating {
-        margin-left: 205px;
+        margin: 0 auto;
         margin-top: 32px;
-        width: 386px;
+        width: 721px;
         height: 168px;
         text-align: center;
         background-color: white;
@@ -1702,9 +1708,8 @@
     }
 
     .my_review_modify .my_review_m_textbox {
-        margin-left: 149px;
-        margin-top: 40px;
-        width: 518px;
+        margin: 30px auto;
+        width: 721px;
         height: 261px;
         background-color: white;
         border-radius: 18px;
@@ -1785,7 +1790,7 @@
         padding: 4px 0;
         margin-top: 35px;
         text-align: center;
-        margin-left: 43px;
+        margin: 0 auto;
         font-size: 24px;
         border: none;
     }
