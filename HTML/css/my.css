@@ -895,8 +895,8 @@
     .my_pick > table .my_pick_rating .my_pick_review_count > span::after {
         content: ")";
     }
-    .my_pick > table .blank {
-        height: 32px;
+    .my_pick > table .blank30 {
+        height: 30px;
     }
     .my_pick > table .my_pick_address > span {
         font-size: 24px;
@@ -1142,30 +1142,671 @@
     }
     .visitList .visit_info .review_btn {
         font-size: 19px;
-        padding: 8px 12px;
-        height: 43px;
+        padding: 18px 12px;
+        height: 42px;
         line-height: 8px;
         background: #bbd444;
         border: none;
+        display: inline-block;
         color: #fff;
         width: 129px;
         border-radius: 7px;
         cursor: pointer;
         font-weight: 500;
         margin: 13px;
+        text-align: center;
     }
     .visitList .visit_info .review_btn2 {
         font-size: 19px;
-        padding: 8px 12px;
-        height: 43px;
+        padding: 18px 12px;
+        height: 42px;
         line-height: 8px;
         background: #dcdee0;
         border: none;
+        display: inline-block;
         color: #fff;
         width: 129px;
         border-radius: 7px;
         cursor: pointer;
         font-weight: 500;
         margin: 13px;
+        text-align: center;
+    }
+
+
+    /** 마이페이지 나의 리뷰 등록 my-review-write **/
+    .my_review_write{
+        background-color: #F5F5F5;
+        width: 100%;
+        position: relative;
+        margin-top: 37px;
+    }
+    .my_review_write .my_review_nick {
+        font-size: 19px;
+        margin-left: 46px;
+        padding-top: 25px;
+    }
+    .my_review_write .my_review_nick > i {
+        font-style: normal;
+        font-size: 14px;
+        font-weight: 200;
+        color: #545454;
+    }
+    .my_review_write .my_review_w_place {
+        text-align: center;
+        margin-top: 18px;
+    }
+    .my_review_write .my_review_w_place > span {
+        font-size: 18px;
+        color: #646466;
+        font-weight: 400;
     }
     
+    .my_review_write .my_review_w_days {
+        text-align: center;
+        margin: 10px;
+
+    }
+    .my_review_write .my_review_w_days > span {
+        font-size: 14px;
+        font-weight: 200;
+    }
+    
+    .my_review_write .my_review_w_tit {
+        text-align: center;
+        margin-top: 27px;
+    }
+    .my_review_write .my_review_w_tit > div {}
+    .my_review_write .my_review_w_tit > div > input {
+        width: 423px;
+        height: 57px;
+        font-size: 23px;
+        text-align: center;
+        border: none;
+        border-radius: 4px;
+    }
+    .my_review_write .my_review_w_rating {
+        margin-left: 205px;
+        margin-top: 32px;
+        width: 386px;
+        height: 168px;
+        text-align: center;
+        background-color: white;
+        border-radius: 18px;
+    }
+    .my_review_write .my_review_w_rating .reating_q {
+        margin-bottom: 12px;
+        padding-top: 21px;
+    }
+    .my_review_write .my_review_w_rating .reating_q > span {
+        font-size: 25px;
+        color: #5e5e5eb0;
+    }
+    .my_review_w_rating .star-ratings {
+        display: inline-block;
+        direction: rtl;
+        border: none;
+    }
+    .my_review_w_rating .star-ratings input[type=radio] {
+        display: none;
+    }
+    .my_review_w_rating .star-ratings input[type=radio]:checked ~ label {
+        text-shadow: 0 0 0 gold;
+    }
+    .my_review_w_rating .star-ratings label {
+        font-size: 42px;
+        color: transparent;
+        text-shadow: 0 0 0 #f0f0f0;
+    }
+    .my_review_w_rating .star-ratings label:hover {
+        text-shadow: 0 0 0 gold;
+    }
+    .my_review_w_rating .star-ratings label:hover ~ label {
+        text-shadow: 0 0 0 gold;
+    }
+
+    .my_review_write .my_review_w_textbox {
+        margin-left: 149px;
+        margin-top: 40px;
+        width: 518px;
+        height: 261px;
+        background-color: white;
+        border-radius: 18px;
+    }
+    .my_review_write .my_review_w_text {
+        height: 100%;
+        border-radius: 18px;
+    }
+    .my_review_write .my_review_w_text > textarea {
+        width: 100%;
+        height: 100%;
+        border: none;
+        resize: none;
+        border-radius: 18px;
+        padding: 21px 15px;
+        font-size: 15px;
+    }
+
+    
+    .blank30{
+        height: 30px;
+    }
+    .my_review_w_complete{
+        float: right;
+    }
+    .my_review_w_complete > button {
+        margin: 11px 0;
+        margin-right: 11px;
+        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+        background-color: #f9f9f9;
+        border-radius: 6px;
+        border: 1px solid #dcdcdc;
+        cursor: pointer;
+        color: #666666;
+        font-size: 16px;
+        padding: 10px 23px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+    }
+    .my_review_w_complete > button:hover {
+        background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+        background-color:#f6f6f6;
+    }
+
+    .my_review_cancel{
+        margin: 13px 0;
+        margin-right: 18px;
+        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+        background-color: #f9f9f9;
+        border-radius: 6px;
+        border: 1px solid #dcdcdc;
+        cursor: pointer;
+        color: #666666;
+        font-size: 15px;
+        padding: 10px 23px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+        float: right;
+    }
+    .my_review_cancel:hover{
+        background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+        background-color:#f6f6f6;
+    }
+
+    .my_review_cancel > a {
+        font-size: 15px;
+        color: #666666;
+    }
+
+
+    /** dropzone **/
+    #fileDropzone{
+        width: 721px;
+        min-height: 95px;
+        background-color: white;
+        border-radius: 21px;
+        padding: 4px 0;
+        margin-top: 35px;
+        text-align: center;
+        margin-left: 43px;
+        font-size: 24px;
+        border: none;
+    }
+    #fileDropzone > div > button {
+        font-size: 20px;
+        border: none;
+        background-color: white;
+        height: 73px;
+        padding-bottom: 9px;
+        font-weight: 300;
+        width: 693px;
+        color: #797979;
+    }
+    #fileDropzone .dz-progress{
+        background-color: #ff000000;
+    }
+    #fileDropzone .dz-image {
+        border-radius: 0%;
+        width: 90px;
+        height: 90px;
+    }
+    #fileDropzone .dz-details {
+        padding: 0 0;
+    }
+    
+
+    /** 마이페이지 나의 리뷰 - 보기 my-review-view **/
+    .my_review_view{
+        background-color: #F5F5F5;
+        border-radius: 6px;
+        position: relative;
+        width: 752px;
+        margin: 25px 0px 0 16px;
+    }
+    .my_review_view .my_review_tit {
+        margin: 11px 0 0 0;
+        padding: 20px 0px 0px 36px;
+        font-size: 25px;
+        font-weight: 500;
+    }
+    
+    .my_review_view .my_review_rating {
+        padding-top: 28px;
+    }
+    .my_review_rating .star-ratings {
+        color: #aaa9a9;
+        unicode-bidi: bidi-override;
+        width: max-content;
+        -webkit-text-fill-color: transparent;
+        -webkit-text-stroke-width: 1.3px;
+        -webkit-text-stroke-color: #2b2a29;
+    }
+
+    .my_review_rating .star-ratings .star-ratings-fill {
+        color: #fff58c;
+        padding: 0px;
+        position: absolute;
+        z-index: 1;
+        display: flex;
+        top: 17px;
+        right: 75px;
+        overflow: hidden;
+        -webkit-text-fill-color: gold;
+    }
+    .my_review_rating .star-ratings .star-ratings-fill > span {
+        font-size: 27px;
+
+    }
+    .my_review_rating .star-ratings-base {
+        z-index: 0;
+        padding: 0;
+        position: absolute;
+        top: 17px;
+        right: 75px;
+    }
+    .my_review_rating .star-ratings-base > span {
+        font-size: 27px;
+    }
+    .my_review_view .my_review_days{
+        margin-left: 74px;
+    }
+    .my_review_view .my_review_days > span {
+        font-weight: 200;
+        font-size: 15px;
+    }
+    .my_review_view .my_review_days > p {
+        font-weight: 200;
+        font-size: 15px;
+    }
+    .my_review_view .my_review_textbox {
+        width: 540px;
+        margin-left: 94px;
+        margin-top: 13px;
+        border-radius: 23px;
+    }
+    .my_review_view .my_review_text {
+        background-color: white;
+        font-size: 19px;
+        border-radius: 23px;
+        text-align: center;
+        padding: 34px 59px 35px 59px;
+    }
+
+    .review_swiper-container {
+        width: 79%;
+        height: 150px;
+        overflow: hidden;
+        position: relative;
+        margin-top: 11px;
+        margin-left: 70px;
+        padding: 0 22px 0 20px;
+        }
+        .review_swiper-container .swiper-button-next {color: #bbd444;}
+        .review_swiper-container .swiper-button-prev {color: #bbd444;}
+
+        .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        }
+        .swiper-slide > img {
+            width: 137px;
+            height: 103px;
+        }
+
+
+    .swiper-container-vertical>.swiper-pagination-bullets{
+        top: unset !important;
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+    }
+
+    .swiper-container-vertical>.swiper-pagination-bullets .swiper-pagination-bullet{
+    display : inline-block !important;
+    margin: 6px 2px !important;
+    }
+
+
+    .my_review_view .review_comment{
+        width: 386px;
+        margin-left: 218px;
+        margin-top: 13px;
+        border-radius: 23px;
+    }
+    .review_comment .review_commentarea{
+        position: relative;
+        background-color: #eff0f6;
+        font-size: 18px;
+        border-radius: 5px;
+        min-height: 141px;
+        padding: 14px 15px 20px 21px;
+        font-weight: 200;
+    }
+    .review_comment .review_commentarea::after{
+        content: "";
+        position: absolute;
+        top: 15px;
+        right: -27px;
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        border-left: 30px solid #eff0f6;
+    }
+
+    .blank30{
+        height: 30px;
+    }
+
+    .my_review_v_del {
+        margin-top: 10px;
+        margin-right: 33px;
+        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+        background-color: #f9f9f9;
+        border-radius: 6px;
+        border: 1px solid #dcdcdc;
+        cursor: pointer;
+        color: #666666;
+        font-size: 15px;
+        padding: 10px 23px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+        float: right;
+    }
+    .my_review_v_del:hover {
+        background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+        background-color:#f6f6f6;
+    }
+
+    .my_review_v_del > a {
+        font-size: 14px;
+        font-weight: 300;
+    }
+    .my_review_v_modify {
+        margin-top: 10px;
+        margin-right: 15px;
+        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+        background-color: #f9f9f9;
+        border-radius: 6px;
+        border: 1px solid #dcdcdc;
+        cursor: pointer;
+        color: #666666;
+        font-size: 15px;
+        padding: 10px 23px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+        float: right;
+    }
+    .my_review_v_modify:hover {
+        background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+        background-color:#f6f6f6;
+    }
+    .my_review_v_modify > a{
+        font-size: 14px;
+        font-weight: 300;
+    }
+    .my_review_v_list {
+        margin-top: 10px;
+        margin-right: 18px;
+        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+        background-color: #f9f9f9;
+        border-radius: 6px;
+        border: 1px solid #dcdcdc;
+        cursor: pointer;
+        color: #666666;
+        font-size: 15px;
+        padding: 10px 23px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+        float: right;
+    }
+    .my_review_v_list:hover {
+        background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+        background-color:#f6f6f6;
+    }
+
+    .my_review_v_list > a {
+        font-size: 14px;
+        font-weight: 300;
+    }
+
+
+    /**마이페이지 나의 리뷰 수정 my-review-modify **/
+    
+    .my_review_modify{
+        background-color: #F5F5F5;
+        width: 100%;
+        position: relative;
+        margin-top: 37px;
+    }
+    .my_review_modify .my_review_nick {
+        font-size: 19px;
+        margin-left: 46px;
+        padding-top: 25px;
+    }
+    .my_review_modify .my_review_nick > i {
+        font-style: normal;
+        font-size: 14px;
+        font-weight: 200;
+        color: #545454;
+    }
+    .my_review_modify .my_review_m_place {
+        text-align: center;
+        margin-top: 18px;
+    }
+    .my_review_modify .my_review_m_place > span {
+        font-size: 18px;
+        color: #646466;
+        font-weight: 400;
+    }
+    
+    .my_review_modify .my_review_m_days {
+        text-align: center;
+        margin: 10px;
+
+    }
+    .my_review_modify .my_review_m_days > span {
+        font-size: 14px;
+        font-weight: 200;
+    }
+    
+    .my_review_modify .my_review_m_tit {
+        text-align: center;
+        margin-top: 27px;
+    }
+    .my_review_modify .my_review_m_tit > div {}
+    .my_review_modify .my_review_m_tit > div > input {
+        width: 423px;
+        height: 57px;
+        font-size: 23px;
+        text-align: center;
+        border: none;
+        border-radius: 4px;
+    }
+    .my_review_modify .my_review_m_rating {
+        margin-left: 205px;
+        margin-top: 32px;
+        width: 386px;
+        height: 168px;
+        text-align: center;
+        background-color: white;
+        border-radius: 18px;
+    }
+    .my_review_modify .my_review_m_rating .reating_q {
+        margin-bottom: 12px;
+        padding-top: 21px;
+    }
+    .my_review_modify .my_review_m_rating .reating_q > span {
+        font-size: 25px;
+        color: #5e5e5eb0;
+    }
+    .my_review_m_rating .star-ratings {
+        display: inline-block;
+        direction: rtl;
+        border: none;
+    }
+    .my_review_m_rating .star-ratings input[type=radio] {
+        display: none;
+    }
+    .my_review_m_rating .star-ratings input[type=radio]:checked ~ label {
+        text-shadow: 0 0 0 gold;
+    }
+    .my_review_m_rating .star-ratings label {
+        font-size: 42px;
+        color: transparent;
+        text-shadow: 0 0 0 #f0f0f0;
+    }
+    .my_review_m_rating .star-ratings label:hover {
+        text-shadow: 0 0 0 gold;
+    }
+    .my_review_m_rating .star-ratings label:hover ~ label {
+        text-shadow: 0 0 0 gold;
+    }
+
+    .my_review_modify .my_review_m_textbox {
+        margin-left: 149px;
+        margin-top: 40px;
+        width: 518px;
+        height: 261px;
+        background-color: white;
+        border-radius: 18px;
+    }
+    .my_review_modify .my_review_m_text {
+        height: 100%;
+        border-radius: 18px;
+    }
+    .my_review_modify .my_review_m_text > textarea {
+        width: 100%;
+        height: 100%;
+        border: none;
+        resize: none;
+        border-radius: 18px;
+        padding: 21px 15px;
+        font-size: 15px;
+    }
+
+    .blank30{
+        height: 30px;
+    }
+    .my_review_m_complete{
+        float: right;
+    }
+    .my_review_m_complete #btn_modify {
+        margin: 11px 0;
+        margin-right: 11px;
+        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+        background-color: #f9f9f9;
+        border-radius: 6px;
+        border: 1px solid #dcdcdc;
+        cursor: pointer;
+        color: #666666;
+        font-size: 16px;
+        padding: 10px 23px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+    }
+    .my_review_m_complete #btn_modify:hover {
+        background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+        background-color:#f6f6f6;
+    }
+
+    .my_review_m_cancel{
+        margin: 13px 0;
+        margin-right: 18px;
+        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+        background-color: #f9f9f9;
+        border-radius: 6px;
+        border: 1px solid #dcdcdc;
+        cursor: pointer;
+        color: #666666;
+        font-size: 15px;
+        padding: 10px 23px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #ffffff;
+        float: right;
+    }
+    .my_review_m_cancel:hover{
+        background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+        background-color:#f6f6f6;
+    }
+
+    .my_review_m_cancel > a {
+        font-size: 15px;
+        color: #666666;
+    }
+
+
+    /** dropzone **/
+    #fileDropzone{
+        width: 721px;
+        min-height: 95px;
+        background-color: white;
+        border-radius: 21px;
+        padding: 4px 0;
+        margin-top: 35px;
+        text-align: center;
+        margin-left: 43px;
+        font-size: 24px;
+        border: none;
+    }
+    #fileDropzone > div > button {
+        font-size: 20px;
+        border: none;
+        background-color: white;
+        height: 73px;
+        padding-bottom: 9px;
+        font-weight: 300;
+        width: 693px;
+        color: #797979;
+    }
+    #fileDropzone .dz-progress{
+        background-color: #ff000000;
+    }
+    #fileDropzone .dz-image {
+        border-radius: 0%;
+        width: 90px;
+        height: 90px;
+    }
+    #fileDropzone .dz-details {
+        padding: 0 0;
+    }
