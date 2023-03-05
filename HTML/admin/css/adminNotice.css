@@ -195,7 +195,7 @@ main .main_content > .main_cotent_inner {
 }
 main .main_content .main_content_div {
     justify-content: space-evenly;
-    border: 1px solid blue;
+    border: 1px solid transparent;
     display: flex;
     flex-wrap: wrap;
 }
@@ -592,7 +592,7 @@ main .col_register1 {
     margin-bottom: 25px;
     box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
     transition: all 0.25s ease-in-out;
-    border: 1px solid red;
+    border: 1px solid transparent;
 }
 main .col_register1:hover {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
@@ -613,6 +613,7 @@ main .col_register1 .stayName span {
     font-size: 17px;
     font-weight: 500;
     color: #3d3d3d;
+    margin-left: 4px;
 } 
 main .col_register1 .stayName .stayName_right {
     box-shadow: inset 0px 1px 0px 0px #ffffff;

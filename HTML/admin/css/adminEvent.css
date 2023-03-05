@@ -195,7 +195,7 @@ main .main_content > .main_cotent_inner {
 }
 main .main_content .main_content_div {
     justify-content: space-evenly;
-    border: 1px solid blue;
+    border: 1px solid transparent;
     display: flex;
     flex-wrap: wrap;
 }
@@ -818,6 +818,8 @@ main .col_register1 .stayThumb {
     margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    margin: auto 0;
 }
 main .col_register1 .stayThumb > .st_inner {
     flex: 0 0 auto;
@@ -1926,12 +1928,12 @@ footer > .footer_inner .footer_copyright p {
     border: 2px dashed #e3e3e3;
     display: table-cell;
 }
-#fileDropzone > div > button {
+#fileDropzone .dz-message {
     font-size: 20px;
     border: none;
     background-color: white;
-    height: 73px;
-    padding-bottom: 9px;
+    text-align: center;
+    margin: 2em 0;
     font-weight: 300;
     width: 693px;
     color: #797979;

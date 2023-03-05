@@ -195,7 +195,7 @@ main .main_content > .main_cotent_inner {
 }
 main .main_content .main_content_div {
     justify-content: space-evenly;
-    border: 1px solid blue;
+    border: 1px solid transparent;
     display: flex;
     flex-wrap: wrap;
 }

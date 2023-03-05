@@ -37,6 +37,7 @@
                     focus: true, 
                     lang : 'ko-KR',
                     spellCheck: false,
+                    disableDragAndDrop: true,
                     toolbar: [
                         // [groupName, [list of button]]
                         ['style', ['bold', 'italic', 'underline', 'clear']],
@@ -210,7 +211,7 @@
                                                 <td>이벤트 이미지</td>
                                                 <td>
                                                     <div class="stayThumb">
-                                                        <div class="dropzone" id="fileDropzone">
+                                                        <div class="dropzone2" id="fileDropzone">
                                                             <div>
                                                                 <button class="dz-default dz-message" type="button">
                                                                     사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
@@ -229,7 +230,7 @@
                                             </tr>
                                         </table>
                                     </div>
-                                    <div class="btnAdminProd">
+                                    <div class="btnAdminProd" id="btnUpload">
                                         <a href="#">
                                             이벤트등록
                                         </a>
