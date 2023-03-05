@@ -1,7 +1,7 @@
 <!--
-    날짜 : 2023/03/03
+    날짜 : 2023/03/05
     이름 : 이해빈
-    내용 : 관리자 고객센터 - 공지사항 수정 HTML 
+    내용 : 관리자 고객센터 - 이벤트 수정 HTML 
 -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -14,7 +14,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
         <!-- 스타일 css 적용 -->
-        <link rel="stylesheet" href="../../css/adminNotice.css">
+        <link rel="stylesheet" href="../../css/adminEvent.css">
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -160,39 +160,82 @@
                             <div class="main_content_div">
                                 <div class="col_nav">
                                     <span>고객센터 ></span>
-                                    <span>공지사항 수정</span>
+                                    <span>이벤트 수정</span>
                                 </div>
 
-                                <!-- 공지 보기 폼 -->
-                                <form class="col_register_form">
-                                    <!-- 공지제목 등록 -->
+                                <!-- 이벤트 수정 폼 -->
+                                <form class="col_register_form" action="#">
+                                    
+                                    <!-- 이벤트 정보 -->
                                     <div class="col_register1">
                                         <div class="stayName">
                                             <div>
-                                                <span>제목</span>
+                                                <span>이벤트 정보</span>
                                             </div>
                                         </div>
-                                        <input class="input_stayName" type="text" placeholder="공지사항의 제목을 입력하세요.">
-                                        <span class="result_stayName">
-                                            💡 [안내], [발표] 등 말머리를 붙여주세요.
-                                        </span>
-                                    </div>
-                                    <!-- 공지내용 등록 -->
-                                    <div class="col_register1">
-                                        <div class="stayName">
-                                            <div>
-                                                <span>내용</span>
-                                            </div>
-                                        </div>
-                                        <textarea class="notice_text" id="summernote">
+                                        <table class="input_stayRoomInfo">
+                                            <tr>
+                                                <td>이벤트 이름</td>
+                                                <td><input type="text"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>기간</td>
+                                                <td>
+                                                    <input class="input_130" type="date">
+                                                    &nbsp;~&nbsp;
+                                                    <input class="input_130" type="date">
+                                                </td>
+                                            </tr>
 
-                                        </textarea>
+                                            <tr>
+                                                <td>배너 이미지</td>
+                                                <td>
+                                                    <div class="stayThumb">
+                                                        <div>
+                                                            <div class="input_wrap2">
+                                                                <a href="javascript:" onclick="fileUploadAction2();" class="btnFileupload">파일 업로드</a>
+                                                                <input type="file" id="input_imgs2" multiple accept="png,jpg">
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div class="imgs_wrap2">
+                                                                <img id="img" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>이벤트 이미지</td>
+                                                <td>
+                                                    <div class="stayThumb">
+                                                        <div>
+                                                            <div class="input_wrap2">
+                                                                <a href="javascript:" onclick="fileUploadAction2();" class="btnFileupload">파일 업로드</a>
+                                                                <input type="file" id="input_imgs2" multiple accept="png,jpg">
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div class="imgs_wrap2">
+                                                                <img id="img" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>이벤트 내용</td>
+                                                <td>
+                                                    <div id="summernote"></div>
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
-
-                                    <!-- 버튼 -->
                                     <div class="btnAdminProd">
                                         <a href="#">
-                                            수정완료
+                                            이벤트수정
                                         </a>
                                     </div>
                                 </form>
