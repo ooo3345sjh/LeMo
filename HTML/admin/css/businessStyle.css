@@ -178,7 +178,7 @@ main .main_content > .main_cotent_inner {
 }
 main .main_content .main_content_div {
     justify-content: space-evenly;
-    border: 1px solid blue;
+    border: 1px solid transparent;
     display: flex;
     flex-wrap: wrap;
 }
@@ -277,7 +277,7 @@ main .donutchart {
 
 
 main .main_content .main_content_div2 {
-    border: 1px solid blue;
+    border: 1px solid transparent;
     display: flex;
     flex-wrap: wrap;
     position: relative;
@@ -304,7 +304,7 @@ main .main_content .col2 {
     background: #fff;
     border: 1px solid rgba(26, 54, 126, 0.125);
     border-radius: 0.25rem;
-    border: 1px solid red;
+    border: 1px solid #ececec;
 }
 main .main_content .col2 .noticeList {
     border-top: 1px solid #bbb;
