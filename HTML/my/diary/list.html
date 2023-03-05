@@ -67,7 +67,7 @@
             /* 여행일기 목록 */
         .my_diary_list {
             float: left;
-            width: 906px; 
+            width: 610px; 
             height: auto;
 
         }
@@ -95,10 +95,12 @@
         .diary_map > button > input{}
 
         #my_diary_listMap{
-            width: 1000px; 
-            height: 300px; 
-            border: 1px solid black;
-
+            float: left;
+            width: 280px;
+            height: 700px;
+            margin-top: 99px;
+            box-shadow: 0 10px 10px 0 rgb(0 0 0 / 15%);
+            border-radius: 20px;
         }
 
         .my_diary_list ul li .img_slider {
@@ -251,7 +253,43 @@
         .slick-dots li button:before {color: #e9e9e9 !important;}
         .slick-dots li.slick-active button:before {color: #ffffff !important;}
 
+        #my_diary_listMap > p {
+            position: absolute;
+            width: 250px; height: 50px;
+            top: 10px;
+            left: 20px;
+            z-index: 99;
+        }
 
+        #my_diary_listMap > p > button {
+            margin-left: 5px;
+            width: 110px; height: 27px;
+            font-weight: 400;
+            border-radius: 10px;
+            border: 1px solid #252525;
+            background-color: white;
+        }
+
+        #my_diary_listMap > p > button:hover{
+            background-color: #dbcbcb;
+        }
+
+        #my_diary_listMap .foldMap{
+            position: absolute;
+            display: none;
+            margin-left: 5px;
+            width: 50px; height: 27px;
+            top: 10px; right: 20px;
+            font-weight: 400;
+            border-radius: 10px;
+            border: 1px solid #252525;
+            background-color: white;
+            z-index: 100;
+        }
+
+        #my_diary_listMap .foldMap:hover {
+            background-color: #dbcbcb;
+        }
 
         
 
@@ -294,6 +332,30 @@
 
         </style>
         <script>
+            function mapPosition(lat, lng){
+                $('.my_diary_list').css({'width' : '200px'});
+                $('#my_diary_listMap').css({ 'width' : '600px' });
+                $('#my_diary_listMap').css({ 'margin-left' : '100px' });
+                $('.foldMap').css({ 'display' : 'block' });
+
+                var bounds = new kakao.maps.LatLngBounds();
+                bounds.extend(new kakao.maps.LatLng(lat, lng));
+                map.setBounds(bounds);
+
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: new kakao.maps.LatLng(lat, lng)
+                });   
+            }
+
+            function foldMap(){
+                $('.my_diary_list').css({'width' : '610px'});
+                $('#my_diary_listMap').css({ 'width' : '280px' });
+                $('#my_diary_listMap').css({ 'margin-left' : '0' });
+                $('.foldMap').css({ 'display' : 'none' });
+                $('.foldMap').css({ 'cursor' : 'pointer' });
+            }
+
             $(function(){
     
                 /** 카카오맵 - 스크롤 따라 이동 */
@@ -367,17 +429,7 @@
                 $('.heart').click(function(){
                     $(this).toggleClass('on');
                 });
-    
 
-                /* 지도 펼치기*/
-                $('#btn_map').click(function(){
-                    if($('#my_diary_listMap').css("display") == "none"){
-                        $("#my_diary_listMap").show();
-                        // 여기에 밑에 스크립트 부분 추가
-                    }else if($('#my_diary_listMap').css("dispaly") != "none"){
-                        $('#my_diary_listMap').hide();
-                    }
-                });
             });
         </script>
     </head>
@@ -470,19 +522,12 @@
                                 나의 여행일기
                             </span>
                         </div>
-                        <div class="diary_map">
-                            <button type="button" id="btn_map">
-                                <input type="image" src="/my/img/marker2_40px.png">
-                            </button>
-                        </div>
-                        <div class="my_diary_list">
-                            <div id="my_diary_listMap">
-                            </div>                            
+                        <div class="my_diary_list">                       
                             <div class="list-area">
                                 <ul>
                                     <li>
                                         <button class="heart"><img src="/img/diaryImg/heart.png"></button>
-                                        <button class="marker"><img src="/img/diaryImg/marker2.png" alt="일정마크표시"></button>
+                                        <button class="marker" onclick="mapPosition(37.796266735401, 127.52549068738)"><img src="/img/diaryImg/marker2.png" alt="일정마크표시"></button>
                                         <!-- 사진 슬라이드 -->
                                         <div class="img_slider">
                                             <div><a href="#"><img src="/img/diaryImg/sample7.jpg"></a></div>
@@ -504,7 +549,7 @@
                                     </li>
                                     <li>
                                         <button class="heart"><img src="/img/diaryImg/heart.png"></button>
-                                        <button class="marker"><img src="/img/diaryImg/marker2.png" alt="일정마크표시"></button>
+                                        <button class="marker" onclick="mapPosition()"><img src="/img/diaryImg/marker2.png" alt="일정마크표시"></button>
                                         <!-- 사진 슬라이드 -->
                                         <div class="img_slider">
                                             <div><a href="#"><img src="/img/diaryImg/sample5.jpg"></a></div>
@@ -703,14 +748,13 @@
                                 </ul>
                             </div>
                         </div>
-
-                        <!-- 지도 
                         <div id="my_diary_listMap">
                             <p>
                                 <button onclick="setZoomable(false)">지도 확대/축소 끄기</button>
                                 <button onclick="setZoomable(true)">지도 확대/축소 켜기</button>
                             </p>
-                        </div>-->
+                            <button type="button" class="foldMap" onclick="foldMap()">접기</button>
+                        </div>
                         <script>
                             
                             /** 카카오 맵 */
@@ -727,25 +771,6 @@
                                 // 마우스 휠로 지도 확대,축소 가능여부를 설정합니다
                                 map.setZoomable(zoomable);    
                             } 
-
-                            $(function(){
-                                $('.marker').click(function(){
-                                    var container = document.getElementById('my_diary_listMap'),
-                                        options = {
-                                            center: new kakao.maps.LatLng(33.450701, 126.570667),
-                                            level: 3
-                                        };
-                                    var map = new kakao.maps.Map(container, options);
-
-                                    container.style.width = '800px';
-                                    container.style.height = '600px';
-
-                                    map.relayout();
-                                });
-                            });
-                            
-
-
                         </script>
                         
                     </div>  

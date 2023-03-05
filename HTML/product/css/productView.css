@@ -157,6 +157,7 @@ header > .header_inner .header_searchBar .btnSearch {
 
 /** View 상단 이미지 & info */
 #topContent {
+    position: relative;
     width: 1000px;
     margin: 20px auto 0 auto;
     overflow: hidden;
@@ -332,6 +333,135 @@ header > .header_inner .header_searchBar .btnSearch {
     font-size: 16px;
     line-height: 26px;
     color: rgba(0,0,0,0.56);
+}
+
+/** 쿠폰 */
+.product_coupon {
+    display: block;
+    width: 460px;
+    position: absolute;
+    bottom: 10px;
+    margin-top: 25px;
+    padding: 26px 24px;
+    background: rgb(210 80 80);
+    cursor: pointer;
+}
+
+.product_coupon > p {
+    text-align: center;
+    font-size: 15px;
+    color: white;
+}
+
+/** 객실 이용안내 팝업 */
+
+.popup { }
+
+#popup_coupon {
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+#popup_coupon > div {
+    overflow: hidden;
+    position: fixed;
+    top: 50%;
+    right: auto;
+    bottom: auto;
+    left: 46%;
+    width: 600px;
+    height: 500px;
+    margin: -250px 0 0 -200px;
+    border-radius: 4px;
+    background: #fff;
+    z-index: 999;
+}
+
+#popup_coupon.on { display: block; }
+
+#popup_coupon > div > .fix_title {
+    display: block !important;
+    position: relative;
+    height: 64px;
+    padding-left: 32px;
+    background: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    font-size: 18px;
+    line-height: 64px;
+    font-weight: bold;
+    text-align: left;
+}
+
+#popup_coupon > div > .fix_title > button {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: url(../img/close.png) 50% 50% no-repeat;
+    background-size: 24px auto;
+    text-indent: -9999px;
+}
+
+#popup_coupon > div > .iscroll_cp {
+    overflow: auto;
+    position: absolute;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 0 0 0 0;
+    background: #fff;
+}
+
+#popup_coupon > div > .iscroll_cp::-webkit-scrollbar { width: 10px; }
+
+#popup_coupon > div > .iscroll_cp::-webkit-scrollbar-thumb { 
+    height: 30%; /* 스크롤바의 길이 */
+    background: #fcf951; /* 스크롤바의 색상 */
+    border-radius: 10px; 
+}
+
+#popup_coupon > div > .iscroll_cp::-webkit-scrollbar-track { background: rgb(245 244 183 / 51%);;  /*스크롤바 뒷 배경 색상*/ }
+
+#popup_coupon > div > .iscroll_cp section {
+    margin: 0 32px 0 32px;
+    font-size: 16px;
+    color: rgba(0,0,0,0.56);
+    text-align: left;
+}
+
+#popup_coupon > div > .iscroll_cp section strong {
+    display: block;
+    margin: 15px 0 20px 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#popup_coupon > div > .iscroll_cp .dot_coupon_txt {
+    font-size: 16px;
+    text-align: left;
+    line-height: 26px;
+    color: rgba(0,0,0,0.56);
+}
+
+#popup_coupon > div > .iscroll_cp .dot_coupon_txt > li {
+    line-height: 26px;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    padding-left: 14px;
+    background: url(//image.goodchoice.kr/images/web_v3/ico_bul_3.png) 0 2px no-repeat;
+    background-size: 12px auto;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
 }
 
 /** 탭 */
