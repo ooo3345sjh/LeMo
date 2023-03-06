@@ -408,7 +408,7 @@ main .main_content .col2 .board_list .prodBtn > span {
     text-shadow: 0px 1px 0px #ffffff;
 }
 main #width50 {
-    width: 50% !important;
+    width: 48% !important;
 }
 main #width30 {
     width: 30% !important;
@@ -1854,6 +1854,10 @@ main #chart_div {
     box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
     border-radius: 10px;
 }
+
+
+
+
 main .sales_div {
     width: 100%;
     padding: 30px 0 30px 0;

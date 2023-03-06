@@ -9,8 +9,24 @@
         <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
         <!-- 스타일 -->
-        <link rel="stylesheet" href="../css/productReservation.css">
+        <link rel="stylesheet" href="../css/product.css">
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     </head>
+    <script>
+        /** 쿠폰 팝업 해제 */
+        function popdown_coupon(){
+            $('#popup_coupon').removeClass('on');
+        }
+
+        $(function(){
+            /** 쿠폰 팝업 */
+            $('.discount_button').click(function(){
+                $('#popup_coupon').addClass('on');
+            });
+        });
+    </script>
     <body>
         <div id="wrapper">
             <header>
@@ -216,6 +232,33 @@
                     </div>
                 </div>
             </main>
+            <!-- 쿠폰 팝업 -->
+            <div id="popup_coupon" class="popup_coupon">
+                <div>
+                    <div class="fix_title">
+                        사용 가능한 쿠폰
+                        <button type="button" onclick="popdown_coupon()">닫기</button>
+                    </div>
+                    <div class="iscroll_cp" style="touch-action: none;">
+                        <div class="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
+                            <section>
+                                <strong>Lemo에서 드리는 쿠폰!</strong>
+                                <ul class="dot_coupon_txt">
+                                    <li>회원가입 10,000원 할인!</li>
+                                    <li>여름 특별 50,000 할인!</li>
+                                </ul>
+                            </section>
+                            <section>
+                                <strong>테스트 호텔에서 드리는 쿠폰!</strong>
+                                <ul class="dot_coupon_txt">
+                                    <li>여름 특별 50,000 할인</li>
+                                    <li>도보 방문시 5,000원 할인</li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- 푸터 -->
             <footer>
                 <div class="footer_inner">

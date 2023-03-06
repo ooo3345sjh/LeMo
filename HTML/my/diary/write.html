@@ -1,6 +1,6 @@
 <!--
-    날짜 : 2023/03/03
-    이름 : 황원진
+    날짜 : 2023/03/05
+    이름 : 박종협
     내용 : 여행일기 write HTML 화면구현
 -->
 <!DOCTYPE html>
@@ -8,15 +8,16 @@
     <head>
         <meta charset="UTF-8">
         <title>Travel with Lemo::diary</title>
+        <!-- googleSearchAPI -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcPQyeUiX2cJ4rCH6DU36v4D3LsfO-o4s&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC" async defer></script>
         <!-- 구글 폰트 -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
         <!-- 스타일 -->
-        <!--<link rel="stylesheet" href="/css/indexStyle.css">
-        <link rel="stylesheet" href="/css/diary.css">-->
-        <link rel="stylesheet" href="/css/my.css">
+        <link rel="stylesheet" href="/css/indexStyle.css">
+        <link rel="stylesheet" href="/css/diary.css">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
         <!-- 스크립트 모음 (Date Range Picker, slider 등) -->
         <!-- jquery -->
@@ -32,242 +33,6 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
         <!-- kakaoMap -->
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712&libraries=services"></script>
-        
-        <style>
-            /** 메인(목록, Map) */
-            .diary_write_content {
-                overflow: hidden;
-                width: 1200px;
-                margin: 0 auto;
-                position: relative;
-            }
-            .diary_write {
-                float: left;
-                width: 610px; 
-                min-height: 800px;
-                padding: 40px;
-                margin-top: 85px;
-                margin-left: 110px;
-                background-color: #F5F6FF;
-                border-radius: 20px;
-                overflow: hidden;
-                min-height: auto;
-            }
-
-            h3 {
-                font-size: 23px;
-                font-weight: 500;
-                position: absolute;
-                top: 38px;
-                left: 126px;
-            }
-
-            #write_content {
-                background-color: #ffffff;
-                width: 100%;
-                height: auto;
-                border-radius: 5px;
-                padding: 30px;
-            }
-
-            #write_content * {margin-bottom: 20px; font-size: 15px;}
-
-            #write_content #tit {
-                border: none;
-                font-size: 18px;
-            }
-
-            #daterange {
-                vertical-align: text-top;
-                border: none;
-                width: 191px;
-            }
-
-
-            #write_content > b {display: inline-block;}
-            #write_content > strong {
-                display: block;
-            }
-
-
-            #write_content li::before {
-                position: relative;
-                top: 6px;
-                display: inline-block;
-                margin-right: 10px;
-                width: 20px;
-                height: 20px;
-                content: "";
-                background-size: 20px;
-            }
-
-            #write_content li:nth-of-type(1)::before {
-                background-image: url('/img/diaryImg/calendar2.png');
-            }
-            #write_content li:nth-of-type(2)::before {
-                background-image: url('/img/diaryImg/bed1.png');
-            }
-            #write_content li:nth-of-type(3)::before {
-                background-image: url('../img/diaryImg/edit.png');
-            }
-
-            #write_content li:nth-of-type(4)::before {
-                background-image: url('../img/diaryImg/heart3.png');
-                scale: 1.2;
-            }
-            #diary_content > ul > li {
-                margin-bottom: 0px;
-            }
-
-            
-            #write_content > ul > li > span {
-                font-weight: 500;
-                font-size: 12px;
-                color: #a39797;
-            }
-
-            .write_search{
-                margin: 44px 0px 1px 42px;
-            }
-            .write_search > input {
-                width: 411px;
-                height: 57px;
-                font-size: 21px;
-                border: none;
-                text-align: center;
-            }
-            .write_search .btnWrite_search {
-                border: none;
-                margin-left: -31px;
-                padding-top: 4px;
-                background: transparent;
-            }
-
-
-            .write_place {
-            margin-top: 50px;
-            background-color: #ffffff;
-            width: 100%;
-            height: auto;
-            border-radius: 5px;
-            padding: 20px 25px 20px 15px;
-            }
-
-            .write_place:hover {
-                box-shadow: 0 14px 28px rgb(0 0 0 / 15%), 0 10px 10px rgb(0 0 0 / 15%);
-            }
-            .write_place > .spot > img {
-                vertical-align: bottom;
-                width: 36px;
-            }
-
-            .write_place > .spot > span::before {
-                position: relative;
-                bottom: -10px;
-                display: inline-block;
-                width: 37px;
-                height: 37px;
-                content: "";
-                margin-right: 10px;
-                background-size: 37px;
-                background-image: url(../img/diaryImg/marker4.png);
-                background-repeat: no-repeat;
-                background: none;
-                margin-right: 0;
-                display: inline;
-            }
-
-            .write_place > .spot > span {
-                font-size: 20px;
-                font-weight: bold;
-            }
-
-            .write_place > .arrow {
-                position: relative;
-                bottom: 18px;
-                float: right;
-                width: 15px;
-            }
-
-            .write_place > .arrow.on {
-                content: url('/img/csImg/arr_top.png');
-            }
-
-            .write_place .write_toggle {
-                margin-top: 30px;
-                width: 100%;
-                height: auto;
-                display: none;
-            }
-
-            
-            .write_toggle > .image {
-                vertical-align: center; 
-                text-align: center; 
-                margin-bottom: 50px;
-                width: 470px;
-                margin: 0 auto;    
-                margin-bottom: 20px;
-                cursor: pointer;
-            }
-
-            .write_toggle > .image .ex_file {
-                display: none;
-            }
-
-
-            .write_toggle > .image > img{
-                max-width: 100%;
-                min-height: auto;
-                object-fit: cover;
-                width: 100%;
-                height: 350px;
-                object-fit: contain;
-            }
-
-            .write_toggle > .text {
-                margin-bottom: 30px;
-            }
-            .write_place .diary_text_content {
-                font-size: 14px;
-                width: 100%;
-                border: 0px solid #ddd;
-                resize: none;
-                min-height: 150px;
-            }
-
-
-            /** 메인(Map) */
-            #listMap {
-                float: left;
-                width: 400px; height: 700px;
-                margin-top: 85px; margin-left: 30px;
-                box-shadow: 0 10px 10px 0 rgb(0 0 0 / 15%);
-                border-radius: 20px;
-            }
-
-            #listMap > p {
-                position: absolute;
-                width: 250px; height: 50px;
-                top: 10px;
-                left: 20px;
-                z-index: 99;
-            }
-
-            #listMap > p > button {
-                margin-left: 5px;
-                width: 110px; height: 27px;
-                font-weight: 400;
-                border-radius: 10px;
-                border: 0px solid #252525;
-                background-color: white;
-            }
-
-            #listMap > p > button:hover{
-                background-color: #dbcbcb;
-            }
-
-        </style>
     </head>
     <body>
         <div id="wrapper">
@@ -277,14 +42,14 @@
                     <div class="header_flex">
                         <div class="header_logo">
                             <!-- 메인으로 이동 -->
-                            <a href="#"><img src="/img/indexImg/lemo_logo.png" alt="레모 로고"></a>
+                            <a href="#"><img src="/HTML/img/indexImg/lemo_logo.png" alt="레모 로고"></a>
                             <div class="logo">LEMO</div>
                         </div>
                         <div class="header_service">
                             <a href="#">로그인</a>
                             <div class="dropdown_menu">
                                 <button id="dropdown">마이페이지
-                                    <img src="/img/indexImg/down-arrow.png">
+                                    <img src="/HTML/img/indexImg/down-arrow.png">
                                 </button>
                                 <div class="dropdown_content" id="dropdown_content" style="display: none;">
                                     <a href="#">나의 정보</a>
@@ -298,7 +63,7 @@
                             </div>
                             <div class="dropdown_menu">
                                 <button id="dropdown2">고객센터
-                                    <img src="/img/indexImg/down-arrow.png">
+                                    <img src="/HTML/img/indexImg/down-arrow.png">
                                 </button>
                                 <div class="dropdown_content" id="dropdown_content2" style="display: none;">
                                     <a href="#">공지사항</a>
@@ -314,7 +79,7 @@
                                 <div class="search">
                                     <input id="search-box" type="text" class="search-box" name="q"/>
                                     <button type="submit" class="btnSearch">
-                                        <input type="image" src="/img/indexImg/btn_search.png" id="search-submit"/>
+                                        <input type="image" src="/HTML/img/indexImg/btn_search.png" id="search-submit"/>
                                     </button>
                                 </div>
                             </form>
@@ -324,58 +89,27 @@
             </header>
             <main id="diary">
                 <div id="result">
-                    <div class="diary_write_content">
+                    <div class="content">
                         <h3>#여행일기 작성</h3>
-                        <!-- 여행일기 작성 -->
-                        <div class="diary_write">
+                        <!-- 여행일기 보기 -->
+                        <div class="view">
                             <div class="list-area">
-                                <form>
-                                    <div id="write_content">
-                                        <input type="text" placeholder="제목을 작성해주세요" id="tit">
-                                        <ul> 
-                                            <li>
-                                                <input  type="text" name="daterange" id="daterange">
-                                                <span>※여행기간을 선택해주세요</span>
-                                            </li>
-                                            <li>스카이베이호텔 경포</li>
-                                        </ul>
-                                    </div>
-                                    <div class="write_search">
-                                        <input type="text" placeholder="장소를 검색해주세요">
-                                        <button type="button" class="btnWrite_search">
-                                            <input type="image" src="/my/img/download.png">
-                                        </button>
-                                    </div>
-                                    <!-- 여행장소 -->
-                                    <div class="write_place">
-                                        <div class="spot">
-                                            <img src="../../img/diaryImg/marker4.png">
-                                            <span>지도에서 여행 장소를 클릭해주세요.</span>
-                                        </div>
-                                        <img src="/img/csImg/arr_down.png" class="arrow">
-                                        <div class="write_toggle">
-                                            <div class="image">
-                                                <input  type="file" class="ex_file" accept="image/png, image/jpeg" required>
-                                                <img class="inputImage" src="../img/hotel_main.jpg">
-                                            </div>
-                                            <textarea class="diary_text_content" placeholder="내용을 입력해주세요"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="write_place">
-                                        <div class="spot">
-                                            <img src="../../img/diaryImg/marker4.png">
-                                            <span>광안리</span>
-                                        </div>
-                                        <img src="/img/csImg/arr_down.png" class="arrow">
-                                        <div class="write_toggle">
-                                            <div class="image">
-                                                <input  type="file" class="ex_file" accept="image/png, image/jpeg" required >
-                                                <img class="inputImage" src="../img/hotel_main2.jpg">
-                                            </div>
-                                            <textarea class="diary_text_content" placeholder="내용을 입력해주세요"></textarea>
-                                        </div>
-                                    </div>
-                                </form>
+                                <div id="diary_content">
+                                    <input type="text" style="border: none; font-size:18px;" placeholder="제목을 작성해주세요">
+                                    <ul> 
+                                        <li>
+                                            <input  type="text" name="daterange" id="daterange">
+                                            <span style="font-size: 12px; color:#a39797;">※여행기간을 선택해주세요</span>
+                                        </li>
+                                        <li>스카이베이호텔 경포</li>
+                                    </ul>
+                                </div>
+                                <div class="write_search" style="margin-top: 40px; font-size: 13px; color: #342929;">
+                                    <span style="display: block; margin: 0 0 10px 5px; font-size: 13px;">보다 상세한 검색은 자동완성을 이용해주세요.</span>
+                                    <input type="text" id="searchAddr" style="width: 250px; height: 30px; font-size: 15px; border: none; padding-left: 10px; margin-right: 10px;"/>
+                                    주소 검색 후 Enter키를 눌러주세요.!
+                                    <br>
+                                </div>
                             </div>
                         </div>
                         <!-- 지도 -->
@@ -443,33 +177,128 @@
             </footer>
         </div>
         <script>
+            /** 마커 클릭 시 여행일기 작성 추가 */
+            function addDiary(place){
+                let addContent  = '<div class="place place_' + place + '">';
+                    addContent += '<div class="spot">';
+                    addContent += '<img src="/img/diaryImg/marker4.png" width="36">';
+                    addContent += '<span>'+ place +'</span>';
+                    addContent += '</div>';
+                    addContent += '<img src="/img/csImg/arr_down.png" class="arrow">';
+                    addContent += '<div class="toggle">';
+                    addContent += '<div class="image">';
+                    addContent += '<input type="file" class="ex_file" accept="image/png, image/jpeg" required style="display: none;">';
+                    addContent += '<img class="inputImage" src="/img/diaryImg/imgUpload.png">';
+                    addContent += '</div>';
+                    addContent += '<textarea class="content" placeholder="내용을 입력해주세요."></textarea>';
+                    addContent += '</div>';
+                    addContent += '</div>';
+
+                return addContent;
+            }
+
             /** 카카오 맵 */
 
-            // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+            // #1 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
             var infowindow = new kakao.maps.InfoWindow({zIndex:1});
             var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
             var options = { //지도를 생성할 때 필요한 기본 옵션
                 center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-                level: 5 //지도의 레벨(확대, 축소 정도)
+                level: 7 //지도의 레벨(확대, 축소 정도)
             };
 
             var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
 
-            // 장소 검색 객체를 생성합니다
+            // #2 지도에 표시된 마커 객체를 가지고 있을 배열입니다
+            var markers = [];
+            var searchMarkers = [];
+
+            // #3 장소 검색 객체를 생성합니다
             var ps = new kakao.maps.services.Places(); 
 
-            // 키워드로 장소를 검색합니다
-            ps.keywordSearch('이태원 맛집', placesSearchCB); 
+            // #4 키워드 검색 완료 시 호출되는 콜백함수 입니다
+            let lat;
+            let lng;
+            let autocompleteInput = document.getElementById('searchAddr');
+            let searchBtn = document.getElementById('searchBtn');
+            let option    = {fields: ["address_components", "formatted_address", "geometry", "icon", "name"]};
+            const autocomplete = new google.maps.places.Autocomplete(autocompleteInput, option);
+            autocomplete.setComponentRestrictions({country: ["kr"]});
+            
+            $(function(){
+                autocomplete.addListener('place_changed', function(){
+                    /** 재검색 시 이전 검색 마커 초기화 */
+                    for(var i=0; i<searchMarkers.length; i++){
+                        searchMarkers[i].setMap(null);
+                    }
 
-            // 키워드 검색 완료 시 호출되는 콜백함수 입니다
+                    const place = autocomplete.getPlace();
+                    
+                    if (!place.geometry || !place.geometry.location) {
+                                                                   /** #5  */
+                        ps.keywordSearch($('#searchAddr').val(), placesSearchCB); 
+                        return;
+                    }
+
+                    lat = place.geometry.location.lat();
+                    lng = place.geometry.location.lng();
+                    
+                    /** 검색 시 해당하는 좌표로 이동 */
+                    var bounds = new kakao.maps.LatLngBounds();
+                    bounds.extend(new kakao.maps.LatLng(lat, lng));
+                    map.setBounds(bounds);
+
+                    // 마커가 표시될 위치입니다 
+                    var markerPosition  = new kakao.maps.LatLng(lat, lng); 
+                    
+                    var marker = new kakao.maps.Marker({
+                        position: new kakao.maps.LatLng(lat, lng)
+                    });       
+                    marker.setMap(map);
+
+                    // 마커에 mouseover이벤트를 등록합니다
+                    kakao.maps.event.addListener(marker, 'mouseover', function() {
+                        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+                        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.name + '</div>');
+                        infowindow.open(map, marker);
+                    });
+
+                    // 마커에 mouseout이벤트를 등록합니다
+                    kakao.maps.event.addListener(marker, 'mouseout', function() {
+                        infowindow.close();
+                    });
+
+                    // 마커에 click이벤트를 등록합니다
+                    kakao.maps.event.addListener(marker, 'click', function(){
+
+                        /** 마커 이미지 변경 */
+                        var imageSrc = '/img/diaryImg/pin.png', // 마커이미지의 주소입니다    
+                        imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
+                        imageOption = {offset: new kakao.maps.Point(20, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+                        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+                        let addContent = addDiary(place.name);
+                        $('.list-area').append(addContent);
+                        markers.push(marker);
+                    });
+
+                    console.log(place);
+                    searchMarkers.push(marker);
+
+                });
+            })
+
+            // #5 키워드 검색 완료 시 호출되는 콜백함수 입니다
             function placesSearchCB (data, status, pagination) {
                 if (status === kakao.maps.services.Status.OK) {
-
+                
                     // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                     // LatLngBounds 객체에 좌표를 추가합니다
                     var bounds = new kakao.maps.LatLngBounds();
 
                     for (var i=0; i<data.length; i++) {
+                        /** #6 */
                         displayMarker(data[i]);    
                         bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
                     }       
@@ -479,23 +308,118 @@
                 } 
             }
 
-            // 지도에 마커를 표시하는 함수입니다
+            // #6 지도에 마커를 표시하는 함수입니다
             function displayMarker(place) {
                 
                 // 마커를 생성하고 지도에 표시합니다
                 var marker = new kakao.maps.Marker({
                     map: map,
-                    position: new kakao.maps.LatLng(place.y, place.x) 
+                    position: new kakao.maps.LatLng(place.y, place.x)
                 });
 
-                // 마커에 클릭이벤트를 등록합니다
-                kakao.maps.event.addListener(marker, 'click', function() {
+                searchMarkers.push(marker);
+
+                // 마커에 mouseover이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'mouseover', function() {
                     // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
                     infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
                     infowindow.open(map, marker);
                 });
+
+                // 마커에 mouseout이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'mouseout', function() {
+                    infowindow.close();
+                });
+
+                // 마커에 click이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'click', function(){
+                    let addContent = addDiary(place.place_name);
+                    $('.list-area').append(addContent);
+                    markers.push(marker);
+                });
             }
 
+            // #7 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록합니다
+            kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+                // 클릭한 위치에 마커를 표시합니다 
+                addMarker(mouseEvent.latLng);
+            });
+            
+            // #8 마커를 생성하고 지도위에 표시하는 함수입니다
+            function addMarker(position) {
+                /** 마커 이미지 변경 */
+                var imageSrc = '/img/diaryImg/pin.png', // 마커이미지의 주소입니다    
+                imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
+                imageOption = {offset: new kakao.maps.Point(20, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+
+                let place = prompt('장소를 입력하세요.');
+                if(!place){
+                    alert('장소를 입력하지 않으셨습니다.!');
+                    return false;
+                }
+                // 마커를 생성합니다
+                var marker = new kakao.maps.Marker({
+                    position: position,
+                    image: markerImage
+                });
+
+                // 마커가 지도 위에 표시되도록 설정합니다
+                marker.setMap(map);
+                
+                // 생성된 마커를 배열에 추가합니다
+                markers.push(marker);
+
+                // 마커에 mouseover 이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'mouseover', function() {
+                    // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+                    infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place + '</div>');
+                    infowindow.open(map, marker);
+                });
+
+                // 마커에 mouseout 이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'mouseout', function() {
+                    infowindow.close();
+                });
+
+                let addContent = addDiary(place);
+
+                $('.list-area').append(addContent);
+
+                // 마커에 click이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    let conf = confirm('지도에서 지우시면 작성 하시던 일기도 지워집니다. 지우시겠습니까?');
+
+                    if(conf){
+                        marker.setMap(null);
+                        infowindow.close();
+                        $('.place_'+place).remove();
+                    }
+                });
+            }
+
+            let count = 0;
+
+            // // #9 임시 마커 선택 Jquery
+            // $(document).on('click', '#listMap > div:eq(0) > div > div:eq(5) > div', function(){
+            //     // 임시 기능. marker를 생성할때 div의 특정영역에 생성되고 순차적으로 쌓임 또한 markers의 배열에 입력됨
+            //     // 따라서 생성된 div가 몇번째 요소인지 알 수 있다면
+            //     // markers 배열에 입력된 해당하는 marker의 정보를 가져 올 수 있음
+            //     count = $(this).index();
+
+            //     alert(markers[count]);
+            //     console.log(markers[count]);
+
+            //     // 마커 지우기
+            //     markers[count].setMap(null);
+
+            //     // 지움과 동시에 markers 배열에서도 빼줘야함
+            //     markers.splice(count, 1);
+            //     console.log(markers);
+            //     infowindow.close();
+            // });
 
             map.setZoomable(false);
             function setZoomable(zoomable) {
@@ -504,12 +428,10 @@
             }
         </script>
         <script>
-
             $(function(){
 
                 /** 카카오맵 - 스크롤 따라 이동 */
                 $(window).scroll(function() {
-
                     let currentPosition = parseInt($('#listMap').css('top'));
                     let mapHeight = $('#listMap').height();
                     let listHeight = $('.list-area').height();
@@ -518,7 +440,6 @@
                     let scrollTop = $(window).scrollTop();
                     let point;
                     let endPoint = listHeight - mapHeight;
-
 
                     if( scrollTop < boxOffsetTop ){
                         point = 0;
@@ -534,19 +455,26 @@
                 });
 
                 /* 글 토글 */
-                $('.write_place').click(function(e){
+                $(document).on('click', '.place', function(e){
                     e.preventDefault();
-                    $(this).find('.write_toggle').slideToggle();
-                    $(this).find('.write_toggle').prev().addClass('on');
+                    $(this).find('.toggle').slideToggle();
+
+                    let currentPosition = parseInt($('#listMap').css('top'));
+
+                    /** 토글 + 화살표 변경 */
+                    const arrow = $(this).find('.toggle').prev();
+                    if(arrow.attr('class') == 'arrow'){
+                        arrow.addClass('on');
+                    }else if(arrow.attr('class') == 'arrow on'){
+                        arrow.removeClass('on');
+                    }
                 });
 
                 /* 내용 input */
-                $('.write_place > .write_toggle > .diary_text_content').click(function(e){
+                $(document).on('click', '.place > .toggle > .content', function(e){
                     e.preventDefault();
                     e.stopPropagation();
                 });
-
-
 
                 /** 현재 날짜 구하기 */
                 let now        = new Date();
@@ -579,13 +507,12 @@
                 const fileDOM = $('.ex_file');
                 const image = $('.image');
                 
-                fileDOM.click(function(e){
+                $(document).on('click', '.ex_file', function(e){
                     e.stopPropagation();
                     
                     let inputFile = $(this).parent('.image');
                     $(this).change(function(e){
                         let preview = $('.inputImage', inputFile);
-                        console.log(preview);
                         const reader = new FileReader();
                         reader.onload = function(event){
                             preview.attr("src", event.target.result);
@@ -596,16 +523,13 @@
                 })
                 
                 /* 사진 클릭시 파일 업로드 화면 띄우기 */
-                image.click(function(e){
+                $(document).on('click', '.image', function(e){
                     e.stopPropagation();
                     $(this).find('input[type=file]').trigger("click");
                 })
-                
-                
-
-                
             });
         </script>
     </body>
 </html>
+
 

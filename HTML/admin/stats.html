@@ -143,15 +143,17 @@
                     seriesType: 'bars',             // 베이스 차트 종류
                     colors: ['#AACB73'],            // 베이스 차트 색상 
                     pointSize: 5,                   // 라인 포인트 
-                    crosshair: { trigger: 'both', color: '#FFD4D4', opacity: 0.8 }, // Display crosshairs on focus and selection.
+                    crosshair: { trigger: 'both', color: '#FFD4D4', opacity: 0.8 }, // 라인 교차점 
                     series: {1: 
                         { pointShape: 'circle', type: 'line', color: '#FFD4D4'}}    // 라인 
                 };
 
-                
-
                 var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
                 chart.draw(view, options);
+
+                $(window).resize(function(){
+                    drawVisualization();
+                });
             }
     </script>
     <script>
@@ -216,6 +218,7 @@
             var options = {
                 title: '결제현황',
                 titleTextStyle: {fontSize:18, bold: true},
+                width: '100%',
                 fontSize: 15,
                 pieHole: 0.3,
                 legend: {
@@ -227,6 +230,10 @@
 
             var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
             chart.draw(data, options);
+
+            $(window).resize(function(){
+                drawChart();
+            });
             
         }
     </script>
