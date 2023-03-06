@@ -151,9 +151,6 @@
                 var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
                 chart.draw(view, options);
 
-                $(window).resize(function(){
-                    drawVisualization();
-                });
             }
     </script>
     <script>
@@ -218,7 +215,6 @@
             var options = {
                 title: '결제현황',
                 titleTextStyle: {fontSize:18, bold: true},
-                width: '100%',
                 fontSize: 15,
                 pieHole: 0.3,
                 legend: {
@@ -230,10 +226,6 @@
 
             var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
             chart.draw(data, options);
-            // 깃 테스트 
-            $(window).resize(function(){
-                drawChart();
-            });
             
         }
     </script>
