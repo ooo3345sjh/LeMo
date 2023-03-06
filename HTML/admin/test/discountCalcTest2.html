@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+        // input1 변경 시 감지X
+        let value1, value2;
+
+        function updateValue(input1) {
+            value1 = input1.value;
+            console.log('value1: ' + value1);
+        }
+
+        function updateRate(input2) {
+            value2 = input2.value;
+            console.log('value2: ' + value2);
+
+            if (value1 && value2) {
+                const result = document.getElementById('result');
+                result.value = parseInt(value1) + parseInt(value2);
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>
+                <input type="text" id="input1" oninput="updateValue(this)">
+            </td>
+            <td>
+                <input type="text" id="input2" oninput="updateRate(this)">
+            </td>
+            <td>
+                <input type="text" id="result" readonly>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -42,28 +42,23 @@ Dropzone.autoDiscover=false;
 $(function(){
     const myDropzone = new Dropzone('div.dropzone', {
         url: "https://httpbin.org/post",
-        method: 'post', // 기본 post로 request 감. put으로도 할수있음
-        //headers: {
-            // 요청 보낼때 헤더 설정
-            //  Authorization: 'Bearer ' + token, // jwt
-        //},
+        method: 'post',
 
         init: function(){
             var submitButton = document.querySelector("#btnUpload");
-            var myDropzone = this; //closure
+            var myDropzone = this; 
 
             submitButton.addEventListener("click", function () {
         
             console.log("업로드");
             
-                // 거부된 파일이 있다면
+            // 거부된 파일이 있다면
             if (myDropzone.getRejectedFiles().length > 0) {
                 let files = myDropzone.getRejectedFiles();
                 console.log('거부된 파일이 있습니다.', files);
                 return;
             }
 
-            //tell Dropzone to process all queued files
             myDropzone.processQueue(); 
 
             });
@@ -83,30 +78,26 @@ $(function(){
         createImageThumbnails: true, //파일 업로드 썸네일 생성
     });
 
-    const myDropzone2 = new Dropzone('div.dropzone2', {
+
+    const myDropzone2 = new Dropzone('div#fileDropzone2', {
         url: "https://httpbin.org/post",
-        method: 'post', // 기본 post로 request 감. put으로도 할수있음
-        //headers: {
-            // 요청 보낼때 헤더 설정
-            //  Authorization: 'Bearer ' + token, // jwt
-        //},
+        method: 'post',
 
         init: function(){
             var submitButton = document.querySelector("#btnUpload");
-            var myDropzone2 = this; //closure
+            var myDropzone2 = this; 
 
             submitButton.addEventListener("click", function () {
         
             console.log("업로드");
             
-                // 거부된 파일이 있다면
+            // 거부된 파일이 있다면
             if (myDropzone2.getRejectedFiles().length > 0) {
                 let files = myDropzone2.getRejectedFiles();
                 console.log('거부된 파일이 있습니다.', files);
                 return;
             }
 
-            //tell Dropzone to process all queued files
             myDropzone2.processQueue(); 
 
             });
@@ -125,9 +116,6 @@ $(function(){
         acceptedFiles: '.jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF', // 이미지 파일 포맷만 허용
         createImageThumbnails: true, //파일 업로드 썸네일 생성
     });
-
-
-
 
         
 });
