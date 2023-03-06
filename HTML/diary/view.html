@@ -22,10 +22,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <script type="text/javascript" src="./js/jquery.scrollfollow.js"></script>
-        <!-- slick slider plugin-->
-        <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
     </head>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712"></script>
     <script>
@@ -58,10 +54,6 @@
                 $('#listMap').stop().animate({top: point}, 700);
             });
 
-            /* 찜하기 */
-            $('.heart').click(function(){
-                $(this).toggleClass('on');
-            });
 
             /* 글 토글 */
             $('.place').click(function(e){
