@@ -14,7 +14,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
         <!-- 스타일 -->
-        <link rel="stylesheet" href="./css/productView.css">
+        <link rel="stylesheet" href="./css/product.css">
+        <link rel="stylesheet" href="/css/common.css">
         <!-- swiperSlider -->
         <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
         <!-- bxSlider -->
@@ -32,19 +33,16 @@
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     </head>
+    <script src="/js/commonJS.js"></script>
     <script>
         /** 객실 이용 안내 팝업 */
         function popup_room_guide(room_num){
-            
-            $('.popup_room_guide'+room_num).addClass('on');
-
+            $('.popup_room_guide'+room_num).addClass('on')
         }
 
         /** 객실 이용 안내 팝업 해제 */
         function popdown_room_guide(room_num){
-            
             $('.popup_room_guide'+room_num).removeClass('on');
-
         }
 
         /** 쿠폰 팝업 해제 */
@@ -78,29 +76,6 @@
         let date      = nowYear + '-' + nowMonth + '-' + nowDate;
 
         $(function(){
-            /** Jquery UI Date Picker */
-            $('#daterange').daterangepicker({
-                "locale": {
-                    "format": "YYYY-MM-DD",
-                    "separator": " ~ ",
-                    "applyLabel": "확인",
-                    "cancelLabel": "취소",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"],
-                    "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-                    "firstDay": 1
-                },
-                "startDate": date,
-                "endDate": date,
-                "drops": "down",
-                "opens": "center"
-            }, function (start, end, label) {
-                alert(" 체크인 :  " + start.format('YYYY-MM-DD') + " 체크아웃 : " + end.format('YYYY-MM-DD'));
-            });
-
             /** swiper Slider */
             // main slider 실행
             var swiper = new Swiper(".mySwiper", {
@@ -255,7 +230,7 @@
             
         });
     </script>
-    <body>
+    <body onload="daterangepicker()">
         <div id="wrapper">
             <!-- 헤더 -->
             <header>
@@ -919,6 +894,36 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <!-- 우측 미니 사이드바 -->
+            <div class="btn_quick">
+                <ul>
+                    <li class="btn_wishlist">
+                        <a href="javascript:;">
+                            <img src="/img/indexImg/empty-heart.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <img src="/img/indexImg/naver_quick.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <img src="/img/indexImg/kakao_quick.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="scrollToTop" onclick="scrollToTop(); return false;">
+                            <img src="/img/indexImg/top_btn.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="scrollToBottom" onclick="scrollToBottom(); return false;">
+                            <img src="/img/indexImg/bottom_btn.png">
+                        </a>
+                    </li>
+                </ul>
             </div>
             <!-- 푸터 -->
             <footer>

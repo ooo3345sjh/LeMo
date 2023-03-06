@@ -25,6 +25,8 @@
         <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+        <!-- JS -->
+        <script src="./js/commonJS.js"></script>
         <script>
             $( document ).ready( function() {
                 $( '.slider' ).bxSlider( {
@@ -45,38 +47,6 @@
                         autoplaySpeed: 2000,
                     } );
                 } );
-
-                $('#dropdown').mouseover(function(){
-                    $('#dropdown_content').addClass('on');	
-                });
-                $('#dropdown_menu').mouseleave(function(){
-                    $('#dropdown_content').removeClass('on');
-                });
-
-                $('#dropdown2').mouseover(function(){
-                    $('#dropdown_content2').addClass('on');	
-                });
-                $('#dropdown_menu2').mouseleave(function(){
-                    $('#dropdown_content2').removeClass('on');
-                });
-
-                // 최상단
-                $("#scrollToTop").click(function(){
-                    $('html, body').animate({
-                        scrollTop : 0
-                    }, 400);
-                    return false;
-                });
-
-                // 최하단
-                $("#scrollToBottom").click(function(){
-                    // alert(document.body.scrollHeight);
-                    $('html, body').animate({
-                        scrollTop : 2963
-                    }, 600);
-                    return false;
-                });
-
             });
         </script>   
     </head>
@@ -708,12 +678,12 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" id="scrollToTop" onclick="return false;">
+                            <a href="#" id="scrollToTop" onclick="scrollToTop(); return false;">
                                 <img src="./img/indexImg/top_btn.png">
                             </a>
                         </li>
                         <li>
-                            <a href="#" id="scrollToBottom" onclick="return false;">
+                            <a href="#" id="scrollToBottom" onclick="scrollToBottom(); return false;">
                                 <img src="./img/indexImg/bottom_btn.png">
                             </a>
                         </li>
