@@ -376,7 +376,7 @@ header > .header_inner .header_searchBar .btnSearch {
     bottom: auto;
     left: 46%;
     width: 600px;
-    height: 500px;
+    height: 520px;
     margin: -250px 0 0 -200px;
     border-radius: 4px;
     background: #fff;
@@ -462,6 +462,11 @@ header > .header_inner .header_searchBar .btnSearch {
     background-size: 12px auto;
     font-size: 16px;
     border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.scroller {
+    text-align: center;
+    font-size: 15px;
 }
 
 /** 탭 */
@@ -1156,6 +1161,48 @@ header > .header_inner .header_searchBar .btnSearch {
     font-size: 16px;
     margin-left: 96px;
     padding: 13px 0 0 0;
+    color: rgba(0,0,0,0.56);
+}
+
+.detail_review .boss {
+    position: relative;
+    margin: 12px 0 0 94px;
+    padding: 19px 16px 15px 50px;
+    border-radius: 4px;
+    background: rgb(245,245,245);
+}
+
+.detail_review .boss .pic {
+    display: inline-block;
+    overflow: hidden;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+}
+
+.detail_review .boss .pic > img {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+}
+
+.detail_review .boss > strong {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.detail_review .boss .txt {
+    margin: 7px 0 8px 0;
+    font-size: 15px;
+    line-height: 24px;
+    color: rgba(0,0,0,0.72);
+}
+
+.detail_review .boss .date {
+    font-size: 13px;
     color: rgba(0,0,0,0.56);
 }
 
