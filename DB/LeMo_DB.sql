@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `lemo_diary_spot` (
 -- 테이블 lemo.lemo_member_businessinfo 구조 내보내기
 CREATE TABLE IF NOT EXISTS `lemo_member_businessinfo` (
   `userId_id` varchar(50) NOT NULL,
-  `bis_company` varchar(20) NOT NULL,
+  `bis_company` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `bis_ceo` varchar(20) NOT NULL,
   `bis_openDate` date NOT NULL,
   `bis_bizRegNum` char(10) NOT NULL,
@@ -285,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `lemo_member_termstype` (
   PRIMARY KEY (`termsType_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 lemo.lemo_member_termstype:~6 rows (대략적) 내보내기
+-- 테이블 데이터 lemo.lemo_member_termstype:~0 rows (대략적) 내보내기
 INSERT INTO `lemo_member_termstype` (`termsType_no`, `termsType_type_ko`, `termsType_type_en`) VALUES
 	(1, '이용약관', 'terms'),
 	(2, '만14세 이상 확인', 'over14yearsOldAgree'),
@@ -302,7 +302,7 @@ CREATE TABLE IF NOT EXISTS `lemo_member_user` (
   `user_hp` char(13) NOT NULL,
   `user_hp_certi` tinyint(1) NOT NULL,
   `user_role` varchar(20) NOT NULL,
-  `user_level` tinyint(1) NOT NULL,
+  `user_level` tinyint(1) NOT NULL DEFAULT '1',
   `user_point` int DEFAULT '0',
   `user_regip` varchar(100) DEFAULT NULL,
   `user_udate` datetime DEFAULT NULL,
