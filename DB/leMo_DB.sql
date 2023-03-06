@@ -43,9 +43,9 @@ CREATE TABLE IF NOT EXISTS ` lemo_product_accommodationtype` (
   `accType_no` int NOT NULL AUTO_INCREMENT,
   `accType_type` varchar(6) NOT NULL,
   PRIMARY KEY (`accType_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 lemo. lemo_product_accommodationtype:~4 rows (대략적) 내보내기
+-- 테이블 데이터 lemo. lemo_product_accommodationtype:~5 rows (대략적) 내보내기
 INSERT INTO ` lemo_product_accommodationtype` (`accType_no`, `accType_type`) VALUES
 	(1, '모텔'),
 	(2, '호텔'),
@@ -97,6 +97,7 @@ CREATE TABLE IF NOT EXISTS `lemo_cs` (
   `cs_eventViewImg` varchar(300) DEFAULT NULL,
   `cs_eventStart` date DEFAULT NULL,
   `cs_eventEnd` date DEFAULT NULL,
+  `cs_eventState` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`cs_no`),
   KEY `fk_lemo_cs_lemo_member_userId1_idx` (`userId_id`),
   CONSTRAINT `fk_lemo_cs_lemo_member_userId1` FOREIGN KEY (`userId_id`) REFERENCES `lemo_member_userid` (`userId_id`)
@@ -279,11 +280,19 @@ CREATE TABLE IF NOT EXISTS `lemo_member_terms` (
 -- 테이블 lemo.lemo_member_termstype 구조 내보내기
 CREATE TABLE IF NOT EXISTS `lemo_member_termstype` (
   `termsType_no` int NOT NULL AUTO_INCREMENT,
-  `termsType_type` varchar(45) NOT NULL DEFAULT '0',
+  `termsType_type_ko` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `termsType_type_en` varchar(45) NOT NULL,
   PRIMARY KEY (`termsType_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 lemo.lemo_member_termstype:~0 rows (대략적) 내보내기
+-- 테이블 데이터 lemo.lemo_member_termstype:~6 rows (대략적) 내보내기
+INSERT INTO `lemo_member_termstype` (`termsType_no`, `termsType_type_ko`, `termsType_type_en`) VALUES
+	(1, '이용약관', 'terms'),
+	(2, '만14세 이상 확인', 'over14yearsOldAgree'),
+	(3, '개인정보 수집 및 이용(필수)', 'privacyRequire'),
+	(4, '개인정보 수집 및 이용(선택)', 'privacySelect'),
+	(5, '마케팅 수신 동의(선택)', 'marketingAgree'),
+	(6, '위치정보 서비스 이용약관', 'location');
 
 -- 테이블 lemo.lemo_member_user 구조 내보내기
 CREATE TABLE IF NOT EXISTS `lemo_member_user` (
@@ -399,9 +408,9 @@ CREATE TABLE IF NOT EXISTS `lemo_product_province` (
   `province_no` int NOT NULL AUTO_INCREMENT,
   `province_name` varchar(10) NOT NULL,
   PRIMARY KEY (`province_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 lemo.lemo_product_province:~16 rows (대략적) 내보내기
+-- 테이블 데이터 lemo.lemo_product_province:~17 rows (대략적) 내보내기
 INSERT INTO `lemo_product_province` (`province_no`, `province_name`) VALUES
 	(1, '강원도'),
 	(2, '경기도'),
@@ -516,9 +525,9 @@ CREATE TABLE IF NOT EXISTS `lemo_product_servicecate` (
   `sc_no` int NOT NULL AUTO_INCREMENT,
   `sc_name` varchar(30) NOT NULL,
   PRIMARY KEY (`sc_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 lemo.lemo_product_servicecate:~21 rows (대략적) 내보내기
+-- 테이블 데이터 lemo.lemo_product_servicecate:~0 rows (대략적) 내보내기
 INSERT INTO `lemo_product_servicecate` (`sc_no`, `sc_name`) VALUES
 	(1, '피트니스'),
 	(2, '와이파이'),
