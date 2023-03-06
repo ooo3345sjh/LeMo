@@ -1827,8 +1827,9 @@ footer > .footer_inner .footer_copyright p {
 /* event view */
 
 .event_view {
+    margin: 0 auto;
     margin-top: 30px;
-    width: 70%;
+    width: 60%;
 }
 
 .event_view > span {
@@ -1911,4 +1912,29 @@ footer > .footer_inner .footer_copyright p {
 .info {
     display: none;
     font-size: 12px;
+}
+
+
+/* 약관 */
+.btnAdminProd.add {
+    float: none !important;
+}
+
+.terms_el {
+    height: 40px;   
+}
+
+.terms_el > label {
+    display: block;
+    margin: 5px;
+    font-size: 14px;
+}
+.terms_el > input {
+    height: 30px;
+    font-size: 13px;
+}
+
+
+#dialog {
+    width: 800px;
 }
