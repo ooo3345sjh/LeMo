@@ -1821,6 +1821,23 @@ footer > .footer_inner .footer_copyright p {
     font-size: 12px;
 }
 
+/* 관리자 - 고객센터 - 이벤트 목록 */
+#event_li .on{
+    background-color: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    font-size: 13px;
+    padding: 2px 8px;
+    text-decoration: none;
+    color: #fff;
+    background: #8d8d8d;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
 
 /* 관리자 - 고객센터 - 이벤트 등록 */
 
@@ -2008,4 +2025,19 @@ footer > .footer_inner .footer_copyright p {
 
 #dialog {
     width: 800px;
+}
+
+
+/* 섬머노트 스타일 */
+.note-editor ul {
+    list-style-type: disc;
+    padding-inline-start: 40px;
+}
+
+.note-editor ol {
+    list-style-type: decimal;
+    padding-inline-start: 40px;
+}
+::marker {
+    font-size: 14px;
 }

@@ -1835,3 +1835,18 @@ footer > .footer_inner .footer_copyright p {
     border: 1px solid #dfdfdf;
     border-radius: 5px;
 }
+
+
+/* 섬머노트 스타일 */
+.note-editor ul {
+    list-style-type: disc;
+    padding-inline-start: 40px;
+}
+
+.note-editor ol {
+    list-style-type: decimal;
+    padding-inline-start: 40px;
+}
+::marker {
+    font-size: 14px;
+}
