@@ -115,7 +115,8 @@
 
                 // 그래프 옵션 
                 var options = {
-                    title : '매출현황',              
+                    title : '매출현황',   
+                    width: '100%',           
                     titleTextStyle: {fontSize: 18},
                     animation:{
                         duration: 1000,
@@ -218,6 +219,7 @@
             var options = {
                 title: '결제현황',
                 titleTextStyle: {fontSize:18, bold: true},
+                width: '100%',
                 fontSize: 15,
                 pieHole: 0.3,
                 legend: {
@@ -229,6 +231,10 @@
 
             var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
             chart.draw(data, options);
+
+            $(window).resize(function(){
+                drawChart();
+            });
             
         }
     </script>
