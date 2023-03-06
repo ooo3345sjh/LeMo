@@ -51,7 +51,7 @@ input, textarea {outline: none;}
 /* 메인 죄측 사이드바 */
 main {
     min-width: 1200px;
-    border: 1px solid red;
+    border: 1px solid #fff;
 }
 main .main_inner {
     margin: 0;
@@ -64,7 +64,6 @@ main .sidebar {
     top: 0;
     z-index: 999;
     box-shadow: 0 12px 30px rgb(80 143 244 / 10%);
-    border: 1px solid blue;
     background: #fff;
     -ms-overflow-style: none;
     overflow-y: scroll;
@@ -125,9 +124,11 @@ main .sidebar > .sidebar_menu > li .sidebar_arrow {
     position: relative;
 }
 main .sidebar > .sidebar_menu > li .sidebar_arrow img {
-    width: 14px;
+    width: 24px;
     height: auto;
     vertical-align: middle;
+    margin: 5px;
+    margin-top: 7px;
 }
 main .sidebar > .sidebar_menu > li .sidebar_arrow span {
     font-size: 16px;
@@ -183,7 +184,6 @@ main .main_content::before {
     left: 270px;
 }
 main .main_content > .main_cotent_inner {
-    min-height: 68vh;
     transition: .5s;
     position: relative;
     background: #F5F6FF;
@@ -194,7 +194,7 @@ main .main_content > .main_cotent_inner {
 }
 main .main_content .main_content_div {
     justify-content: space-evenly;
-    border: 1px solid blue;
+    border: 1px solid transparent;
     display: flex;
     flex-wrap: wrap;
 }
@@ -2037,7 +2037,7 @@ footer {
 footer > .footer_inner {
     margin-left: 270px;
     padding: 0 0 0 8px;
-    border: 1px solid red;
+    border: 1px solid #FCF951;
 }
 footer > .footer_inner > .footer_menu {
     margin-top: 30px;

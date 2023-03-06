@@ -165,7 +165,7 @@ main {
 main > .main_inner {
     width: 1130px;
     margin: 0 auto;
-    border: 1px solid red;
+    border: 1px solid transparent;
 }
 
 /* 메인 우측 미니 사이드바 */
