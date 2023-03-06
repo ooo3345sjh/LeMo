@@ -1,41 +1,27 @@
 // 할인율 적용 계산
-/*
-function insertSalePercent(){
-    let OriPrice = $(this).parent().prev().children().val();
 
-    let percent = $(this).val();
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('input[type="number"]');
+
+    console.log('inputs length: ' + inputs.length);
     
-    console.log('OriPrice: '+OriPrice);
-    console.log('percent: '+percent);
+    for (let i = 0; i <inputs.length; i++) {
+        inputs[i].addEventListener('input',updateResult);
+    }
 
-    let SalePrice = OriPrice - (OriPrice * (percent/100));
-    console.log('SalePrice: '+SalePrice);
+    function updateResult() {
+        const parent = this.parentNode.parentNode; 
+        const value1 = parent.querySelector('#input1').value;
+        const value2 = parent.querySelector('#input2').value; 
+        const resultInput = parent.querySelector('#result');
 
-    $(this).parent().next().text(SalePrice);
-}
-*/
-
+        // const result = Number(value1) + Number(value2);
+        const result = Number(value1) - (Number(value1) * (Number(value2)/100));
+        resultInput.value = result;
+    }
+});
 
 /*
-$(document).ready( function() {
-    $("#insertSalePercent").change(function () { 
-        
-        
-        let OriPrice = $(this).parent().prev().children().val();
-
-        let percent = $(this).val();
-        
-        console.log('OriPrice: '+OriPrice);
-        console.log('percent: '+percent);
-
-        let SalePrice = OriPrice - (OriPrice * (percent/100));
-        console.log('SalePrice: '+SalePrice);
-
-        $(this).parent().next().text(SalePrice);
-    });
-});
-*/
-
 // 성수기 주중 
 $(document).ready(function(){
     $('#insertSalePercent').change(function(){
@@ -79,3 +65,4 @@ $(document).ready(function(){
         $('#priceResult4').text(SalePrice);
     });
 });
+*/
