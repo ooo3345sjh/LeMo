@@ -1916,7 +1916,7 @@ footer > .footer_inner .footer_copyright p {
     font-size: 12px;
 }
 
-<<<<<<< HEAD
+
 /* 드래그앤드롭 파일업로드 */
 #fileDropzone{
     width: 99%;
@@ -1952,8 +1952,41 @@ footer > .footer_inner .footer_copyright p {
     padding: 0 0;
 }
 
+#fileDropzone2{
+    width: 99%;
+    min-height: 95px;
+    background-color: white;
+    border-radius: 6px;
+    padding: 4px 0;
+    text-align: center;
+    font-size: 24px;
+    border: none;
+    border: 2px dashed #e3e3e3;
+    display: table-cell;
+}
+#fileDropzone2 .dz-message {
+    font-size: 20px;
+    border: none;
+    background-color: white;
+    text-align: center;
+    margin: 2em 0;
+    font-weight: 300;
+    width: 693px;
+    color: #797979;
+}
+#fileDropzone2 .dz-progress{
+    background-color: #ff000000;
+}
+#fileDropzone2 .dz-image {
+    border-radius: 0%;
+    width: 90px;
+    height: 90px;
+}
+#fileDropzone2 .dz-details {
+    padding: 0 0;
+}
 
-/* 약관 */
+/* 약관 */ /** git pull error */
 .btnAdminProd.add {
     float: none !important;
 }
@@ -1976,4 +2009,3 @@ footer > .footer_inner .footer_copyright p {
 #dialog {
     width: 800px;
 }
-
