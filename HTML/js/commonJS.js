@@ -5,6 +5,7 @@ let nowYear    = now.getFullYear();
 let nowMonth   = now.getMonth() + 1;
 let nowDate    = now.getDate();
 let date       = nowYear + '-' + nowMonth + '-' + nowDate;
+
 /** 스크롤 탑 */
 function scrollToTop(){
     $('html, body').animate({ scrollTop : 0 }, 400);
