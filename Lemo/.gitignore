@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+/.metadata/
+Lemo/src/main/resources/application.properties
+Lemo/log/
