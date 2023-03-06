@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS ` lemo_product_accommodationtype` (
   PRIMARY KEY (`accType_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 lemo. lemo_product_accommodationtype:~0 rows (대략적) 내보내기
+-- 테이블 데이터 lemo. lemo_product_accommodationtype:~4 rows (대략적) 내보내기
 INSERT INTO ` lemo_product_accommodationtype` (`accType_no`, `accType_type`) VALUES
 	(1, '모텔'),
 	(2, '호텔'),
@@ -92,7 +92,11 @@ CREATE TABLE IF NOT EXISTS `lemo_cs` (
   `cs_content` text NOT NULL,
   `cs_regip` varchar(100) NOT NULL,
   `cs_rdate` datetime NOT NULL,
-  `cs_reply` text,
+  `cs_reply` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `cs_eventbannerImg` varchar(300) DEFAULT NULL,
+  `cs_eventViewImg` varchar(300) DEFAULT NULL,
+  `cs_eventStart` date DEFAULT NULL,
+  `cs_eventEnd` date DEFAULT NULL,
   PRIMARY KEY (`cs_no`),
   KEY `fk_lemo_cs_lemo_member_userId1_idx` (`userId_id`),
   CONSTRAINT `fk_lemo_cs_lemo_member_userId1` FOREIGN KEY (`userId_id`) REFERENCES `lemo_member_userid` (`userId_id`)
@@ -162,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `lemo_member_businessinfo` (
   `bis_tel` char(13) NOT NULL,
   `bis_zip` char(5) NOT NULL,
   `bis_addr` varchar(255) NOT NULL,
-  `bis_addrDetail` varchar(255) NOT NULL,
+  `bis_addrDetail` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   PRIMARY KEY (`userId_id`),
   UNIQUE KEY `bis_bizRegNum_UNIQUE` (`bis_bizRegNum`),
   UNIQUE KEY `bis_tel_UNIQUE` (`bis_tel`),
@@ -261,14 +265,25 @@ CREATE TABLE IF NOT EXISTS `lemo_member_social` (
 -- 테이블 lemo.lemo_member_terms 구조 내보내기
 CREATE TABLE IF NOT EXISTS `lemo_member_terms` (
   `terms_no` int NOT NULL AUTO_INCREMENT,
-  `terms_type` text NOT NULL,
+  `termsType_no` int NOT NULL DEFAULT '0',
   `terms_title` varchar(50) NOT NULL,
   `terms_content` text NOT NULL,
   `terms_order` tinyint NOT NULL,
-  PRIMARY KEY (`terms_no`)
+  PRIMARY KEY (`terms_no`),
+  KEY `termsType_type_FK` (`termsType_no`),
+  CONSTRAINT `termsType_type_FK` FOREIGN KEY (`termsType_no`) REFERENCES `lemo_member_termstype` (`termsType_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 lemo.lemo_member_terms:~0 rows (대략적) 내보내기
+
+-- 테이블 lemo.lemo_member_termstype 구조 내보내기
+CREATE TABLE IF NOT EXISTS `lemo_member_termstype` (
+  `termsType_no` int NOT NULL AUTO_INCREMENT,
+  `termsType_type` varchar(45) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`termsType_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- 테이블 데이터 lemo.lemo_member_termstype:~0 rows (대략적) 내보내기
 
 -- 테이블 lemo.lemo_member_user 구조 내보내기
 CREATE TABLE IF NOT EXISTS `lemo_member_user` (
@@ -304,9 +319,7 @@ CREATE TABLE IF NOT EXISTS `lemo_member_userid` (
   `userId_id` varchar(50) NOT NULL,
   `userId_nick` varchar(30) NOT NULL,
   `userId_type` tinyint(1) NOT NULL,
-  `user_diaryCnt` int NOT NULL DEFAULT '0',
-  PRIMARY KEY (`userId_id`),
-  UNIQUE KEY `userId_id_UNIQUE` (`userId_nick`)
+  PRIMARY KEY (`userId_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 lemo.lemo_member_userid:~0 rows (대략적) 내보내기
@@ -321,7 +334,7 @@ CREATE TABLE IF NOT EXISTS `lemo_product_accommodation` (
   `acc_city` varchar(10) NOT NULL,
   `acc_zip` varchar(5) NOT NULL,
   `acc_addr` varchar(255) NOT NULL,
-  `acc_addrDetail` varchar(255) NOT NULL,
+  `acc_addrDetail` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `acc_longtitude` decimal(20,15) NOT NULL,
   `acc_lattitude` decimal(20,15) NOT NULL,
   `acc_xy` point NOT NULL,
@@ -388,7 +401,7 @@ CREATE TABLE IF NOT EXISTS `lemo_product_province` (
   PRIMARY KEY (`province_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 lemo.lemo_product_province:~0 rows (대략적) 내보내기
+-- 테이블 데이터 lemo.lemo_product_province:~16 rows (대략적) 내보내기
 INSERT INTO `lemo_product_province` (`province_no`, `province_name`) VALUES
 	(1, '강원도'),
 	(2, '경기도'),
@@ -405,7 +418,8 @@ INSERT INTO `lemo_product_province` (`province_no`, `province_name`) VALUES
 	(13, '전라북도'),
 	(14, '제주특별자치도'),
 	(15, '충청남도'),
-	(16, '충청북도');
+	(16, '충청북도'),
+	(17, '알수없음');
 
 -- 테이블 lemo.lemo_product_qna 구조 내보내기
 CREATE TABLE IF NOT EXISTS `lemo_product_qna` (
@@ -416,7 +430,7 @@ CREATE TABLE IF NOT EXISTS `lemo_product_qna` (
   `pQna_content` text NOT NULL,
   `pQna_regip` varchar(100) NOT NULL,
   `pQna_rdate` datetime NOT NULL,
-  `pQna_udate` datetime NOT NULL,
+  `pQna_udate` datetime DEFAULT NULL,
   `pQna_reply` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`pQna_no`),
   KEY `fk_lemo_product_qna_lemo_product_accommodation1_idx` (`acc_id`),
@@ -486,7 +500,7 @@ CREATE TABLE IF NOT EXISTS `lemo_product_room` (
   `room_maxNum` tinyint DEFAULT '1',
   `room_addPrice` int DEFAULT '0',
   `room_price` int DEFAULT '0',
-  `room_info` text NOT NULL,
+  `room_info` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `room_thumb` text NOT NULL,
   `room_checkIn` time NOT NULL,
   `room_checkOut` time NOT NULL,
@@ -504,7 +518,7 @@ CREATE TABLE IF NOT EXISTS `lemo_product_servicecate` (
   PRIMARY KEY (`sc_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 lemo.lemo_product_servicecate:~0 rows (대략적) 내보내기
+-- 테이블 데이터 lemo.lemo_product_servicecate:~21 rows (대략적) 내보내기
 INSERT INTO `lemo_product_servicecate` (`sc_no`, `sc_name`) VALUES
 	(1, '피트니스'),
 	(2, '와이파이'),
