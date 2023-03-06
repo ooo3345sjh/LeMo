@@ -411,12 +411,11 @@
         float: right;
     }
     .info_text_box > div {
-        margin: 5px 0 0 0;
+        margin: 11px 0 0 0;
     }
     .info_text_box > div > span > i {
         font-style: normal;
         font-size: 14px;
-        font-weight: 500;
     }
 
     .reserve_info .info_day {
@@ -424,7 +423,8 @@
         margin: 0 0;
     }
     .reserve_info .info_day .reserve_day {
-        font-size: 24px;
+        font-size: 16px;
+        color: #424242;
     }
     .reserve_info .info_more {
         margin: 3px 19px 0px 1px;
@@ -440,9 +440,11 @@
     }
     .reserve_info .info_num .reserve_num {
         font-size: 14px;
+        color: #757575;
     }
     .reserve_info .info_state {
-        margin: 9px 0 0 0;
+        margin: 3px 0 0 0;
+        color: #757575;
     }
     .reserve_info .info_state .reserve_state {
         font-size: 14px;
@@ -450,12 +452,16 @@
     .reserve_info .info_days {}
     .reserve_info .info_days .reserve_days{
         font-size: 14px;
+        color: #292929;
+        font-weight: 500;
     }
     .reserve_info .info_check {
-        margin: 11px 0 0 0;
+        margin: 15px 0 0 0;
     }
     .reserve_info .info_check .reserve_check{
-        font-size: 15px;
+        font-size: 18px;
+        font-weight: 500;
+        color: #3c3c3c;
     }
 
     /*여행일기작성 버튼*/
@@ -476,7 +482,7 @@
         color: #666666;
         font-size: 15px;
         text-align: center;
-        font-weight: 500;
+        font-weight: 300;
         text-decoration: none;
     }
     .reserve_info .my_review_write:hover {
@@ -500,7 +506,7 @@
         color: #666666;
         font-size: 15px;
         text-align: center;
-        font-weight: 500;
+        font-weight: 300;
         text-decoration: none;
     }
     .reserve_info .myDiary:hover {
@@ -840,7 +846,7 @@
     }
 
     .my_pick > table .pickName {
-        font-size: 24px;
+        font-size: 23px;
 
     }
     .my_pick > table .my_pick_rating{
@@ -888,6 +894,8 @@
     }
     .my_pick > table .my_pick_rating .my_pick_review_count > span {
         font-size: 19px;
+        font-weight: 300;
+        color: #757575;
     }
     .my_pick > table .my_pick_rating .my_pick_review_count > span::before {
         content: "(";
@@ -900,6 +908,8 @@
     }
     .my_pick > table .my_pick_address > span {
         font-size: 24px;
+        font-weight: 300;
+        color: #424242;
     }
 
 
