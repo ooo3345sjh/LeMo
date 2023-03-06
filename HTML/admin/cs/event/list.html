@@ -18,6 +18,32 @@
         <!-- jquery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script>
+            $(document).ready(function(){
+
+                $('.btnAct').on('click', function(){
+
+                    let status = $(this).hasClass('on');
+                    if(!status){
+                        $(this).addClass('on');
+                        $('.btnDeAct').removeClass('on');
+                    }
+                });
+
+                $('.btnDeAct').on('click', function(){
+
+                    let status = $(this).hasClass('on');
+                    if(!status){
+                        $(this).addClass('on');
+                        $('.btnAct').removeClass('on');
+                    }
+                });
+
+
+
+            });
+
+        </script>
         
     </head>
     <body>
@@ -150,11 +176,11 @@
                                                     <a href="#">23년 2월 롯데카드 즉시할인 - 신용카드</a>
                                                 </li>
                                                 <li>2023-03-01 ~ 2023-03-31</li>
-                                                <li class="prodBtn">
+                                                <li class="prodBtn" id="event_li">
                                                     <span class="btnDelete">삭제</span>
                                                     <span class="btnModify">수정</span>
                                                     <span class="btnAct">활성화</span>
-                                                    <span class="btnDeAct">비활성화</span>
+                                                    <span class="btnDeAct on">비활성화</span>
                                                 </li>
                                             </ul>
                                         </div>
