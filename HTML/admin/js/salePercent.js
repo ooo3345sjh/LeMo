@@ -14,6 +14,8 @@ function insertSalePercent(){
     $(this).parent().next().text(SalePrice);
 }
 */
+
+
 /*
 $(document).ready( function() {
     $("#insertSalePercent").change(function () { 
@@ -33,6 +35,7 @@ $(document).ready( function() {
     });
 });
 */
+
 // 성수기 주중 
 $(document).ready(function(){
     $('#insertSalePercent').change(function(){
