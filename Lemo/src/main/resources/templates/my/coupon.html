@@ -3,12 +3,13 @@
     이름 : 황원진
     내용 : 마이페이지 coupon HTML 
 -->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="{layouts/default-layout}">
+      layout:decorate="layouts/default-layout">
     <th:block layout:fragment="css-js">
-        <link rel="stylesheet" th:href="@{Lemo/css/my/my.css}">
+        <link rel="stylesheet" th:href="@{/css/my/my.css}">
     </th:block>
     <th:block layout:fragment="content">
             
