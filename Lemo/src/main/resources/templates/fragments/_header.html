@@ -6,7 +6,7 @@
             <div class="header_flex">
                 <div class="header_logo">
                     <!-- 메인으로 이동 -->
-                    <a href="#"><img src="./img/indexImg/lemo_logo.png" alt="레모 로고"></a>
+                    <a href="#"><img th:src="@{/images/index/lemo_logo.png}" alt="레모 로고"></a>
                     <div class="logo">LEMO</div>
                 </div>
                 <div class="header_service">
@@ -14,7 +14,7 @@
                     <a href="#">여행일기</a>
                     <div class="dropdown_menu" id="dropdown_menu">
                         <button id="dropdown">마이페이지
-                            <img src="./img/indexImg/down-arrow.png">
+                            <img th:src="@{/images/index/down-arrow.png}">
                         </button>
                         <div class="dropdown_content" id="dropdown_content">
                             <a href="#">나의 정보</a>
@@ -28,7 +28,7 @@
                     </div>
                     <div class="dropdown_menu" id="dropdown_menu2">
                         <button id="dropdown2">고객센터
-                            <img src="./img/indexImg/down-arrow.png">
+                            <img th:src="@{/images/index/down-arrow.png}">
                         </button>
                         <div class="dropdown_content" id="dropdown_content2">
                             <a href="#">공지사항</a>
@@ -44,7 +44,7 @@
                         <div class="search">
                             <input id="search-box" type="text" class="search-box" name="q"/>
                             <button type="submit" class="btnSearch">
-                                <input type="image" src="./img/indexImg/btn_search.png" id="search-submit"/>
+                                <input type="image" th:src="@{/images/index/btn_search.png}" id="search-submit"/>
                             </button>
                         </div>
                     </form>

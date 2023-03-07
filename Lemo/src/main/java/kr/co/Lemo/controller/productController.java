@@ -12,8 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class productController {
 
-    @GetMapping("layouts/layout")
+    @GetMapping("layouts/default-layout")
     public String test(){
-        return "layouts/layout";
+        return "layouts/default-layout";
+    }
+
+    @GetMapping("product/result")
+    public String result(){
+        return "product/result";
     }
 }
