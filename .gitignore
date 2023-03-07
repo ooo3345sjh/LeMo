@@ -34,3 +34,5 @@ out/
 /.metadata/
 Lemo/src/main/resources/application.properties
 Lemo/log/
+.DS_Store
+Lemo/.DS_Store
