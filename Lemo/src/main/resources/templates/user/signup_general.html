@@ -1,73 +1,61 @@
-<!--
-    날짜 : 2023/02/26
-    이름 : 이해빈
-    내용 : 회원 - 일반회원가입 화면설계
--->
-
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>LEMO :: 일반 회원가입</title>
-        <!-- 구글 폰트 -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
-        <!-- style css -->
-        <link rel="stylesheet" href="../css/user.css">
-    </head>
-    <body>
-        <div id="wrapper">
-            <header></header>
-            <main id="signup_gen">
-                <section>
-                    <form action="#" class="joinForm">
-                        <div class="title">
-                            <strong class="logo">
-                                <img src="../img/indexImg/lemo_logo-removebg-preview.png" alt="">
-                                <a href="#">LEMO</a>
-                            </strong>
-                        </div>
-                        <div class="common signup">
-                            <strong class="sub_title">회원가입</strong>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/user-layout">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/user/user.css}">
+</th:block>
+<th:block layout:fragment="content">
 
-                            <b>이메일 아이디</b>
-                            <div class="inp_type2 form-errors">
-                                <input type="email" name="user_email" placeholder="이메일 주소를 입력해주세요.">
-                                <label id="email_msg" class="validate_msg">이메일 주소를 올바르게 입력하세요.</label>
-                                <button type="button" class="btn_common">중복확인</button>
-                            </div>
+    <main id="signup_gen">
+        <section>
+            <form action="#" class="joinForm">
+                <div class="title">
+                    <strong class="logo">
+                        <img src="../img/indexImg/lemo_logo-removebg-preview.png" alt="">
+                        <a href="#">LEMO</a>
+                    </strong>
+                </div>
+                <div class="common signup">
+                    <strong class="sub_title">회원가입</strong>
 
-                            <b>비밀번호</b>
-                            <div class="inp_type2 form-errors">
-                                <input type="password" name="pass1" placeholder="비밀번호를 입력해주세요.">
-                                <label id="pass1_msg" class="validate_msg"></label>
-                                
-                            </div>
+                    <b>이메일 아이디</b>
+                    <div class="inp_type2 form-errors">
+                        <input type="email" name="user_email" placeholder="이메일 주소를 입력해주세요.">
+                        <label id="email_msg" class="validate_msg">이메일 주소를 올바르게 입력하세요.</label>
+                        <button type="button" class="btn_common">중복확인</button>
+                    </div>
 
-                            <b>비밀번호 확인</b>
-                            <div class="inp_type2 form-errors">
-                                <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요.">
-                                <label id="pass2_msg" class="validate_msg"></label>
-                            </div>
+                    <b>비밀번호</b>
+                    <div class="inp_type2 form-errors">
+                        <input type="password" name="pass1" placeholder="비밀번호를 입력해주세요.">
+                        <label id="pass1_msg" class="validate_msg"></label>
 
-                            <b>닉네임</b>
-                            <div class="inp_type2 form-errors">
-                                <input type="text" name="user_nick"  placeholder="닉네임을 입력해주세요.">
-                                <label id="nick_msg" class="validate_msg"></label>
-                                <button type="button" class="btn_common">중복확인</button>
-                            </div>
-                            <!-- 유효성 검사 통과 시 class에 on 추가 -->
-                            <button type="button" class="btn_link on" id="signup_btn" disabled="disabled">
-                                <span>가입하기</span>
-                            </button>
-                        </div>
+                    </div>
 
-                    </form>
-                </section>
-            </main>        
-            <footer></footer>
-        </div>  
-    </body>
+                    <b>비밀번호 확인</b>
+                    <div class="inp_type2 form-errors">
+                        <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요.">
+                        <label id="pass2_msg" class="validate_msg"></label>
+                    </div>
+
+                    <b>닉네임</b>
+                    <div class="inp_type2 form-errors">
+                        <input type="text" name="user_nick"  placeholder="닉네임을 입력해주세요.">
+                        <label id="nick_msg" class="validate_msg"></label>
+                        <button type="button" class="btn_common">중복확인</button>
+                    </div>
+                    <!-- 유효성 검사 통과 시 class에 on 추가 -->
+                    <button type="button" class="btn_link on" id="signup_btn" disabled="disabled">
+                        <span>가입하기</span>
+                    </button>
+                </div>
+
+            </form>
+        </section>
+    </main>
+
+</th:block>
+<th:block layout:fragment="script"></th:block>
 </html>
