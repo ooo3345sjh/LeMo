@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
+        <!-- 스타일 -->
+        <link rel="stylesheet" href="../css/product.css">
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    </head>
+    <script>
+        /** 쿠폰 팝업 해제 */
+        function popdown_coupon(){
+            $('#popup_coupon').removeClass('on');
+        }
+
+        $(function(){
+            /** 쿠폰 팝업 */
+            $('.discount_button').click(function(){
+                $('#popup_coupon').addClass('on');
+            });
+        });
+    </script>
+    <body>
+        <div id="wrapper">
+            <header>
+                <div class="header_inner">
+                    <div class="header_flex">
+                        <div class="header_logo">
+                            <!-- 메인으로 이동 -->
+                            <a href="#"><img src="/HTML/img/indexImg/lemo_logo.png" alt="레모 로고"></a>
+                            <div class="logo">LEMO</div>
+                        </div>
+                        <div class="header_service">
+                            <a href="#">로그인</a>
+                            <div class="dropdown_menu">
+                                <button id="dropdown">마이페이지
+                                    <img src="/HTML/img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content" style="display: none;">
+                                    <a href="#">나의 정보</a>
+                                    <a href="#">포인트</a>
+                                    <a href="#">쿠폰함</a>
+                                    <a href="#">예약내역</a>
+                                    <a href="#">위시리스트</a>
+                                    <a href="#">나의 여행일기</a>
+                                    <a href="#">나의 리뷰</a>
+                                </div>
+                            </div>
+                            <div class="dropdown_menu">
+                                <button id="dropdown2">고객센터
+                                    <img src="/HTML/img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content2" style="display: none;">
+                                    <a href="#">공지사항</a>
+                                    <a href="#">이벤트</a>
+                                    <a href="#">자주 묻는 질문</a>
+                                    <a href="#">1:1 문의</a>
+                                    <a href="#">여행일기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="header_searchBar">
+                            <form class="search-container" action="#">
+                                <div class="search">
+                                    <input id="search-box" type="text" class="search-box" name="q"/>
+                                    <button type="submit" class="btnSearch">
+                                        <input type="image" src="/HTML/img/indexImg/btn_search.png" id="search-submit"/>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main id="reserv_reserv">
+                <div id="content">
+                    <div id="reserv_info_left">
+                        <div id="reserv_chkin">
+                            <h3>예약자 정보</h3>
+                            <strong>예약자 이름</strong>
+                            <p>
+                                <input type="text" name="name" placeholder="체크인시 필요한 정보입니다.">
+                            </p>
+                            <p> 한글, 영문, 숫자만 입력 가능.</p>
+                            <div>
+                                <strong>휴대폰 번호</strong>
+                                <span>개인 정보 보호를 위해 안심번호로 숙소에 전송됩니다.</span>
+                                <div class="phone">
+                                    <input type="text" name="phone" placeholder="체크인시 필요한 정보입니다.">
+                                    <button type="button">X</button>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="visit">
+                                <strong>방문 방법</strong>
+                                <div>
+                                    <button type="button"><span>도보</span></button>
+                                    <button type="button"><span>차량</span></button>
+                                </div>
+                                <span>주차장 만차 시 주차가 어려울 수 있어요</span>
+                            </div>
+                            -->
+                        </div>
+                        <div id="price">
+                            <h3>할인 수단 선택</h3>
+                            <div class="product_amount">
+                                <strong>구매총액</strong>
+                                <b>999,999원</b>
+                            </div>
+                            <div class="discount_container">
+                                <div class="discount_header">
+                                    <button type="button" class="discount_button">사용 가능한 쿠폰 1장</button>
+                                    <span>-</span>
+                                </div>
+                                <!--
+                                <div class="discount_coupons_amount">
+                                    <span>일반쿠폰</span>
+                                    <span>-</span>
+                                </div>
+                                <div class="discount_coupons_amount">
+                                    <span>더하기쿠폰</span>
+                                    <span>-</span>
+                                </div>
+                                -->
+                            </div>
+                            <div class="discount_container">
+                                <div class="discount_header">
+                                    <button type="button" class="discount_button">포인트 사용 0P</button>
+                                    <div>
+                                        <div>
+                                            <input type="text" value="0" class="discount_input">
+                                            <span>P</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="discount_container">
+                                <div class="discount_header">
+                                    <button type="button" class="discount_button">상품권 사용</button>
+                                    <span>-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="pay_select">
+                            <h3>결제수단 선택</h3>
+                            <select id="payment_select">
+                                <option value="TOSS">토스페이</option>
+                                <option value="CARD">신용/체크카드</option>
+                                <option value="AT_QUICK">간편계좌이체</option>
+                                <option value="NAVER">네이버페이</option>
+                                <option value="PAYCO">PAYCO</option>
+                                <option value="CARD_BIZ">법인카드</option>
+                                <option value="CELLPHONE">휴대폰결제</option>
+                            </select>
+                        </div>
+                        <div id="agree">
+                            <p id="checkAll">
+                                <label>
+                                    <input type="checkbox" name="checkAll">
+                                    <span>전체 동의</span>
+                                </label>
+                            </p>
+                            <p>
+                                <input type="checkbox" name="checkOne">
+                                <span>
+                                    <i>숙소이용규칙 및 취소/환불규정 동의</i>
+                                    <b>(필수)</b>
+                                </span>
+                            </p>
+                            <p>
+                                <input type="checkbox" name="checkOne">
+                                <span>
+                                    <i>숙소이용규칙 및 취소/환불규정 동의</i>
+                                    <b>(필수)</b>
+                                </span>
+                            </p>
+                            <p>
+                                <input type="checkbox" name="checkOne">
+                                <span>
+                                    <i>숙소이용규칙 및 취소/환불규정 동의</i>
+                                    <b>(필수)</b>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div id="reserv_info_right">
+                        <div class="info">
+                            <p class="info_name">
+                                <strong>숙소이름</strong>
+                                테스트 호텔
+                            </p>
+                            <p>
+                                <strong>객실타입/기간</strong>
+                                테스트테스트테스트테스트테스트
+                            </p>
+                            <p>
+                                <strong>체크인</strong>
+                                03.03 월 14:00
+                            </p>
+                            <p>
+                                <strong>체크아웃</strong>
+                                03.06 월 14:00
+                            </p>
+                        </div>
+                        <div class="total_price">
+                            <p>
+                                <strong>
+                                    <b>총 결제 금액</b>
+                                    (VAT포함)
+                                </strong>
+                                <span class="in_price">999,999원</span>
+                            </p>
+                            <ul>
+                                <li>해당 객실가는 세금, 봉사료가 포함된 금액입니다</li>
+                                <li>
+                                    결제완료 후
+                                    <span>예약자 이름</span>
+                                    으로 바로
+                                    <span>체크인</span>
+                                    하시면 됩니다.
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn_pay">결제하기</button>
+                    </div>
+                </div>
+            </main>
+            <!-- 쿠폰 팝업 -->
+            <div id="popup_coupon" class="popup_coupon">
+                <div>
+                    <div class="fix_title">
+                        사용 가능한 쿠폰
+                        <button type="button" onclick="popdown_coupon()">닫기</button>
+                    </div>
+                    <div class="iscroll_cp" style="touch-action: none;">
+                        <div class="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
+                            <section>
+                                <strong>Lemo에서 드리는 쿠폰!</strong>
+                                <ul class="dot_coupon_txt">
+                                    <li>회원가입 10,000원 할인!</li>
+                                    <li>여름 특별 50,000 할인!</li>
+                                </ul>
+                            </section>
+                            <section>
+                                <strong>테스트 호텔에서 드리는 쿠폰!</strong>
+                                <ul class="dot_coupon_txt">
+                                    <li>여름 특별 50,000 할인</li>
+                                    <li>도보 방문시 5,000원 할인</li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 푸터 -->
+            <footer>
+                <div class="footer_inner">
+                    <div class="footer_menu">
+                        <table>
+                            <tr>
+                                <td><a href="#">ABOUT</a></td>
+                                <td><a href="#">NOTICE</a></td>
+                                <td><a href="#">CS CENTER</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer_block">
+                        <div class="footer_block_left">
+                            <div class="footer_block_row">
+                                <!-- 로고 클릭 시 메인으로 이동 -->
+                                <div class="row_col_1"><a href="#">LEMO</a></div>
+                                <div class="row_col_2">LETTUCE MEMORIES</div>
+                                <div class="row_col_3">
+                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
+                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
+                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_block_right">
+                            <div class="footer_block_row">
+                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
+                                <div class="row_col_4"><a href="#">고객센터</a></div>
+                                <div class="row_col_5">
+                                    070-2023-0223 <br>
+                                    MON - FRI AM 09:00 - PM 17:00 <br>
+                                    BREAK PM 12:00 - PM 13:00 <br>
+                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer_terms">
+                        <div class="footer_block_row2">
+                            <a href="#">이용약관</a>
+                            <span>&nbsp;|&nbsp;</span>
+                            <a href="#">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="footer_copyright">
+                        <div class="footer_block_row2">
+                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>

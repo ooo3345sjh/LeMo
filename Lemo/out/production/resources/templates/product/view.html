@@ -1,0 +1,788 @@
+<!--
+    날짜 : 2023/02/27
+    이름 : 박종협
+    내용 : 상품 View HTML 
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Travel with Lemo::product</title>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
+        <!-- 스타일 -->
+        <link rel="stylesheet" href="./css/product.css">
+        <link rel="stylesheet" href="/css/common.css">
+        <!-- swiperSlider -->
+        <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+        <!-- bxSlider -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+        <!-- 스크립트 모음 -->
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <!-- swiperSlider -->
+        <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+        <!-- bxSlider -->
+        <script src="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+        <!-- Date Range Picker -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    </head>
+    <script src="/js/commonJS.js"></script>
+    <script src="/js/product/product.js"></script>
+    <script src="/js/product/productView.js"></script>
+    <body onload="daterangepicker()">
+        <div id="wrapper">
+            <!-- 헤더 -->
+            <header>
+                <div class="header_inner">
+                    <div class="header_flex">
+                        <div class="header_logo">
+                            <!-- 메인으로 이동 -->
+                            <a href="#"><img src="../img/indexImg/lemo_logo.png" alt="레모 로고"></a>
+                            <div class="logo">LEMO</div>
+                        </div>
+                        <div class="header_service">
+                            <a href="#">로그인</a>
+                            <div class="dropdown_menu">
+                                <button id="dropdown">마이페이지
+                                    <img src="../img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content" style="display: none;">
+                                    <a href="#">나의 정보</a>
+                                    <a href="#">포인트</a>
+                                    <a href="#">쿠폰함</a>
+                                    <a href="#">예약내역</a>
+                                    <a href="#">위시리스트</a>
+                                    <a href="#">나의 여행일기</a>
+                                    <a href="#">나의 리뷰</a>
+                                </div>
+                            </div>
+                            <div class="dropdown_menu">
+                                <button id="dropdown2">고객센터
+                                    <img src="../img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content2" style="display: none;">
+                                    <a href="#">공지사항</a>
+                                    <a href="#">이벤트</a>
+                                    <a href="#">자주 묻는 질문</a>
+                                    <a href="#">1:1 문의</a>
+                                    <a href="#">여행일기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="header_searchBar">
+                            <form class="search-container" action="#">
+                                <div class="search">
+                                    <input id="search-box" type="text" class="search-box" name="q"/>
+                                    <button type="submit" class="btnSearch">
+                                        <input type="image" src="../img/indexImg/btn_search.png" id="search-submit"/>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- 메인 -->
+            <main id="productView">
+                <!-- 상단 이미지 & 상품 정보 -->
+                <div id="topContent">
+                    <div id="productImg">
+                        <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-1.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-2.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-3.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-4.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-5.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-6.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-7.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-8.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-9.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-10.jpg" /></div>
+                            </div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                        <div thumbsSlider="" class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-1.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-2.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-3.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-4.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-5.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-6.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-7.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-8.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-9.jpg" /></div>
+                                <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-10.jpg" /></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="productInfo">
+                        <!-- 상품 정보 -->
+                        <div class="info">
+                            <h3>테스트 호텔</h3>
+                            <div class="score">
+                                <span>9.0</span>
+                                베스트
+                            </div>
+                            <p class="address">테스트 테스트시 테스트 동</p>
+                        </div>
+                        <!-- 사장님 한마디 -->
+                        <div class="sellerComment">
+                            <strong>사장님 한마디</strong>
+                            <button>더보기</button>
+                            <div class="clamp">
+                                테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트
+                                <br>
+                                테스트 테스트 테스트 테스트 테스트 테스트
+                                <br>
+                                테스트 테스트 테스트 테스트 테스트 테스트
+                            </div>
+                        </div>
+                        <!-- 쿠폰 -->
+                        <div class="product_coupon">
+                            <p>
+                                적용되는 쿠폰 확인하기
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab">
+                    <!-- 객실안내/예약 -->
+                    <button id="showRoom" class="on">객실안내/예약</button>
+                    <!-- 숙소정보 -->
+                    <button id="showInfo">숙소정보</button>
+                    <!-- 리뷰 -->
+                    <button id="showReview">리뷰</button>
+                    <!-- 여행일기 -->
+                    <button id="showDiary">여행일기</button>
+                    <!-- 문의하기 -->
+                    <button id="showQna">문의하기</button>
+                </div>
+                <!-- 객실정보 -->
+                <form id="detail_room">
+                    <article>
+                        <div class="date">
+                            체크인 / 체크아웃
+                            <input type="text" name="daterange" id="daterange">
+                        </div>
+                        <div class="room">
+                            <p class="expansion_Img">
+                                <img src="./img/testImg/iss068e047345.jpg" alt="#">
+                            </p>
+                            <div class="detail_room_info">
+                                <strong>테스트 객실</strong>
+                                <div>
+                                    <span>가격</span>
+                                    <span>999,999원/1박</span>
+                                </div>
+                                <button type="button" onclick="popup_room_guide(1)">객실 이용 안내</button>
+                            </div>
+                            <button type="button">예약불가</button>
+                            <div class="expansionImg">
+                                <button type="button">닫기</button>
+                                <div class="view_slider">
+                                    <div class="slider">
+                                        <div><img src="./img/testImg/iss068e047345.jpg" alt="#3"></div>
+                                        <div><img src="./img/testImg/apollo_8_earthrise_1968_as08-14-2383.jpg" alt="#3"></div>
+                                        <div><img src="./img/testImg/iss068e036313_orig.jpg" alt="#3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <article>
+                        <div class="room">
+                            <p class="expansion_Img">
+                                <img src="./img/testImg/pia21590_orig.jpg" alt="#">
+                            </p>
+                            <div class="detail_room_info">
+                                <strong>테스트 객실</strong>
+                                <div>
+                                    <span>가격</span>
+                                    <span>999,999원/1박</span>
+                                </div>
+                                <button type="button" onclick="popup_room_guide(2)">객실 이용 안내</button>
+                            </div>
+                            <button type="button">예약불가</button>
+                            <div class="expansionImg">
+                                <button type="button">닫기</button>
+                                <div class="view_slider">
+                                    <div class="slider">
+                                        <div><img src="./img/testImg/iss068e047345.jpg" alt="#3"></div>
+                                        <div><img src="./img/testImg/apollo_8_earthrise_1968_as08-14-2383.jpg" alt="#3"></div>
+                                        <div><img src="./img/testImg/iss068e036313_orig.jpg" alt="#3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </form>
+                <!-- 숙소정보 -->
+                <article class="detail_info">
+                    <!-- 기본정보 -->
+                    <button type="button" class="detail_info_default">
+                        <span>기본 정보</span>
+                    </button>
+                    <section class="info_default">
+                        주변정보<br>
+                        강문해변 차량 2분<br>
+                        경포아쿠아리움 차량 5분<br>
+                        강릉항 차량 8분<br>
+                        기본정보<br>
+                        체크인 : 15:00 | 체크아웃 : 11:00<br>
+                        22시 이후 체크인 시 호텔 프론트 문의<br>
+                        무료 Wi-Fi<br>
+                        전 객실 금연<br>
+                        주차 가능 (무료 / 객실 당 1대)<br>
+                        [그린 캠페인] 플라스틱 없는 호텔 만들기로 기본 욕실 어메니티 3종(샴푸, 린스, 바디워시) 이외에 1회 용품은 제공하지 않습니다<br>
+                        인원 추가 정보<br>
+                        최대인원 초과불가 (영유아 인원수 포함)<br>
+                        객실 당 2인 기준으로 세팅되어 있으며, 1인 추가 시 22,000원/박당 현장 결제입니다
+                    </section>
+                    <!-- 편의시설 및 서비스 -->
+                    <button type="button" class="detail_info_service">
+                        <span>편의시설 및 서비스</span>
+                    </button>
+                    <section class="info_service">
+                        <ul class="theme_wrap">
+                            <li class="theme_1">피트니스</li>
+                            <li class="theme_2">와이파이</li>
+                            <li class="theme_3">레스토랑</li>
+                            <li class="theme_4">TV</li>
+                            <li class="theme_5">에어컨</li>
+                            <li class="theme_6">냉장고</li>
+                            <li class="theme_7">드라이기</li>
+                            <li class="theme_8">장애인편의시설</li>
+                            <li class="theme_9">주차장</li>
+                            <li class="theme_10">무료주차</li>
+                            <li class="theme_11">금연</li>
+                            <li class="theme_12">카페</li>
+                            <li class="theme_13">수영장</li>
+                            <li class="theme_14">욕조</li>
+                            <li class="theme_15">스파</li>
+                            <li class="theme_16">엘리베이터</li>
+                            <li class="theme_17">욕실용품</li>
+                            <li class="theme_18">사우나</li>
+                            <li class="theme_19">짐보관</li>
+                            <li class="theme_20">세탁기</li>
+                            <li class="theme_21">건조기</li>
+                        </ul>
+                    </section>
+                    <!-- 판매자 정보 -->
+                    <button type="button" class="detail_info_seller">
+                        <span>판매자 정보</span>
+                    </button>
+                    <section class="info_seller">
+                        상호<br>
+                        (주)빌더스개발에이엠씨<br>
+                        대표자명<br>
+                        심태형<br>
+                        주소<br>
+                        강원 강릉시 해안로 476 (강문동)<br>
+                        전화번호<br>
+                        033-923-2000<br>
+                        이메일<br>
+                        reservation@skybay.co.kr<br>
+                        사업자번호<br>
+                        604-88-00718
+                    </section>
+                </article>
+                <!-- 리뷰 -->
+                <article class="detail_review">
+                    <div class="score_top">
+                        <strong>추천해요</strong>
+                        <div class="score_wrap">
+                            <div class="score_star rating4">Designed by starline / Freepik</div>
+                            <div class="num">5</div>
+                        </div>
+                        <p>
+                            전체 리뷰
+                            <b>9999</b> 
+                            <span>|</span>
+                            제휴점 답변
+                            <b>2</b>
+                        </p>
+                    </div>
+                    <ul>
+                        <li>
+                            <div class="guest">
+                                <p class="pic"></p>
+                                <span class="best_review"></span>
+                                <strong>여기만한 곳은 어디에도 없을 거예요.</strong>
+                                <div class="score_wrap_sm">
+                                    <div class="score_star rating4"></div>
+                                    <div class="num">5</div>
+                                </div>
+                                <div class="name">
+                                    <b>테스트 객실</b>
+                                </div>
+                                <div class="txt">
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                </div>
+                                <div class="gallery_re">
+                                    <div class="gallerySlider">
+                                        <div><img src="./img/testImg/apollo_17_blue_marble_photo_dec_7_1972_as17-148-22727.jpg"></div>
+                                        <div><img src="./img/testImg/apollo_8_earthrise_1968_as08-14-2383.jpg"></div>
+                                        <div><img src="./img/testImg/iss068e036313_orig.jpg"></div>
+                                        <div><img src="./img/testImg/iss068e047345.jpg"></div>
+                                        <div><img src="./img/testImg/pia21590_orig.jpg"></div>
+                                    </div>
+                                </div>
+                                <span class="date">2023/02/28 방문</span>
+                            </div>
+                            <div class="boss">
+                                <p class="pic">
+                                    <img src="../img/indexImg/lemo_logo-removebg-preview.png" alt="lemo">
+                                </p>
+                                <strong>제휴점 답변</strong>
+                                <div class="txt">
+                                    소중한 답변 감사드립니다.소중한 답변 감사드립니다.소중한 답변 감사드립니다.소중한 답변 감사드립니다.소중한 답변 감사드립니다.소중한 답변 감사드립니다.소중한 답변 감사드립니다.
+                                </div>
+                                <span class="date">1일 전</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="guest">
+                                <p class="pic"></p>
+                                <span class="best_review"></span>
+                                <strong>여기만한 곳은 어디에도 없을 거예요.</strong>
+                                <div class="score_wrap_sm">
+                                    <div class="score_star rating4"></div>
+                                    <div class="num">5</div>
+                                </div>
+                                <div class="name">
+                                    <b>테스트 객실</b>
+                                </div>
+                                <div class="txt">
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                </div>
+                                <div class="gallery_re">
+                                    <div class="gallerySlider">
+                                        <div><img src="./img/testImg/apollo_17_blue_marble_photo_dec_7_1972_as17-148-22727.jpg"></div>
+                                        <div><img src="./img/testImg/apollo_8_earthrise_1968_as08-14-2383.jpg"></div>
+                                        <div><img src="./img/testImg/iss068e036313_orig.jpg"></div>
+                                        <div><img src="./img/testImg/iss068e047345.jpg"></div>
+                                        <div><img src="./img/testImg/pia21590_orig.jpg"></div>
+                                    </div>
+                                </div>
+                                <span class="date">2023/02/28 방문</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="guest">
+                                <p class="pic"></p>
+                                <span class="best_review"></span>
+                                <strong>여기만한 곳은 어디에도 없을 거예요.</strong>
+                                <div class="score_wrap_sm">
+                                    <div class="score_star rating4"></div>
+                                    <div class="num">5</div>
+                                </div>
+                                <div class="name">
+                                    <b>테스트 객실</b>
+                                </div>
+                                <div class="txt">
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                    테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 
+                                </div>
+                                <div class="gallery_re">
+                                    <div class="gallerySlider">
+                                        <div><img src="./img/testImg/apollo_17_blue_marble_photo_dec_7_1972_as17-148-22727.jpg"></div>
+                                        <div><img src="./img/testImg/apollo_8_earthrise_1968_as08-14-2383.jpg"></div>
+                                        <div><img src="./img/testImg/iss068e036313_orig.jpg"></div>
+                                        <div><img src="./img/testImg/iss068e047345.jpg"></div>
+                                        <div><img src="./img/testImg/pia21590_orig.jpg"></div>
+                                    </div>
+                                </div>
+                                <span class="date">2023/02/28 방문</span>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+                <!-- 여행일기 -->
+                <article class="detail_diary">
+                    <span>테스트 호텔</span>
+                    <ul class="diary_list">
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                        <li><a href="#"><img src="http://placehold.it/170x235"></li></a>
+                    </ul>
+                </article>
+                <!-- 문의하기 -->
+                <article class="detail_qna">
+                    <div class="prodQna">
+                        <ul class="co_list">
+                            <!-- co_item 반복 -->
+                            <li class="co_item"> 
+                                <div class="co_img">
+                                    <img src="../img/user_img3.jpeg" alt="">
+                                </div>
+                                <div class="area_txt">
+                                    <span>이동*</span>
+                                    <p>냉장 보관인가요? 실온 보관인가요?</p>
+                                </div>
+                                <ul class="re_item">
+                                    <li>
+                                        <div class="re_item2">
+                                            <div class="area_img">
+                                                <img src="../img/user_img2.jpeg" alt="">
+                                            </div>
+                                            <div class="area_txt_re">
+                                                <span><img src="../img/icon-seller.svg" alt="판매자">베리베리</span>
+                                                <p>햇빛이 들지 않는 실온에 보관해 주세요. 감사합니다 ^^</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="co_item"> 
+                                <div class="co_img">
+                                    <img src="../img/user_img3.jpeg" alt="">
+                                </div>
+                                <div class="area_txt">
+                                    <span>이동*</span>
+                                    <p>냉장 보관인가요? 실온 보관인가요?</p>
+                                </div>
+                                <ul class="re_item">
+                                    <li>
+                                        <div class="re_item2">
+                                            <div class="area_img">
+                                                <img src="../img/user_img2.jpeg" alt="">
+                                            </div>
+                                            <div class="area_txt_re">
+                                                <span><img src="../img/icon-seller.svg" alt="판매자">베리베리</span>
+                                                <p>햇빛이 들지 않는 실온에 보관해 주세요. 감사합니다 ^^</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="co_item"> 
+                                <div class="co_img">
+                                    <img src="../img/user_img3.jpeg" alt="">
+                                </div>
+                                <div class="area_txt">
+                                    <span>이동*</span>
+                                    <p>냉장 보관인가요? 실온 보관인가요?</p>
+                                </div>
+                                <ul class="re_item">
+                                    <li>
+                                        <div class="re_item2">
+                                            <div class="area_img">
+                                                <img src="../img/user_img2.jpeg" alt="">
+                                            </div>
+                                            <div class="area_txt_re">
+                                                <span><img src="../img/icon-seller.svg" alt="판매자">베리베리</span>
+                                                <p>햇빛이 들지 않는 실온에 보관해 주세요. 감사합니다 ^^</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="co_item"> 
+                                <div class="co_img">
+                                    <img src="../img/user_img3.jpeg" alt="">
+                                </div>
+                                <div class="area_txt">
+                                    <span>이동*</span>
+                                    <p>냉장 보관인가요? 실온 보관인가요?</p>
+                                </div>
+                                <ul class="re_item">
+                                    <li>
+                                        <div class="re_item2">
+                                            <div class="area_img">
+                                                <img src="../img/user_img2.jpeg" alt="">
+                                            </div>
+                                            <div class="area_txt_re">
+                                                <span><img src="../img/icon-seller.svg" alt="판매자">베리베리</span>
+                                                <p>햇빛이 들지 않는 실온에 보관해 주세요. 감사합니다 ^^</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="co_item"> 
+                                <div class="co_img">
+                                    <img src="../img/user_img3.jpeg" alt="">
+                                </div>
+                                <div class="area_txt">
+                                    <span>이동*</span>
+                                    <p>냉장 보관인가요? 실온 보관인가요?</p>
+                                </div>
+                                <ul class="re_item">
+                                    <li>
+                                        <div class="re_item2">
+                                            <div class="area_img">
+                                                <img src="../img/user_img2.jpeg" alt="">
+                                            </div>
+                                            <div class="area_txt_re">
+                                                <span><img src="../img/icon-seller.svg" alt="판매자">베리베리</span>
+                                                <p>햇빛이 들지 않는 실온에 보관해 주세요. 감사합니다 ^^</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="co_write" action="#">
+                            <div class="co_write_inner">
+                                <div class="co_inner_img">
+                                    <img src="../img/user_img1.jpeg" alt="">
+                                </div>
+                                <div class="co_inner_txt">
+                                    <label>
+                                        <input type="text" placeholder="문의 댓글을 남겨주세요." autocomplete="off">
+                                    </label>
+                                </div>
+                                <button type="button" class="btnComment">등록</button>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+            </main>
+            <!-- 객실 이용 안내 팝업 -->
+            <div id="popup_room_guide" data-room-guide="1" class="popup popup_room_guide1">
+                <div>
+                    <div class="fix_title">
+                        객실 이용 안내 테스트 1
+                        <button type="button" onclick="popdown_room_guide(1)">닫기</button>
+                    </div>
+                    <div class="iscroll_cp" style="touch-action: none;">
+                        <div class="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
+                            <section>
+                                <strong>기본정보</strong>
+                                <ul class="dot_txt">
+                                    <li>2인 기준 최대 2인</li>
+                                    <li>더블베드 1개</li>
+                                    <li>객실+욕실 / 7.14평</li>
+                                </ul>
+                            </section>
+                            <section>
+                                <strong>편의시설</strong>
+                                <ul class="dot_txt">
+                                    <li>침구류, TV, 에어컨, 쇼파, 테이블, 옷장, 냉장고, 헤어드라이기, 욕실용품, 샤워가운</li>
+                                </ul>
+                            </section>
+                            <section>
+                                <strong>추가 정보</strong>
+                                <ul class="dot_txt">
+                                    <li>
+                                        Room Only /  퀸베드 1개
+                                    </li>
+                                </ul>
+                            </section>
+                            <section>
+                                <strong>선택 날짜</strong>
+                                <ul class="dot_txt">
+                                    <li>03월 01일 ~ 03월 03일</li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="popup_room_guide" data-room-guide="2" class="popup popup_room_guide2">
+                <div>
+                    <div class="fix_title">
+                        객실 이용 안내 테스트 2
+                        <button type="button" onclick="popdown_room_guide(2)">닫기</button>
+                    </div>
+                    <div class="iscroll_cp" style="touch-action: none;">
+                        <div class="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
+                            <section>
+                                <strong>기본정보</strong>
+                                <ul class="dot_txt">
+                                    <li>2인 기준 최대 2인</li>
+                                    <li>더블베드 1개</li>
+                                    <li>객실+욕실 / 7.14평</li>
+                                </ul>
+                            </section>
+                            <section>
+                                <strong>편의시설</strong>
+                                <ul class="dot_txt">
+                                    <li>침구류, TV, 에어컨, 쇼파, 테이블, 옷장, 냉장고, 헤어드라이기, 욕실용품, 샤워가운</li>
+                                </ul>
+                            </section>
+                            <section>
+                                <strong>추가 정보</strong>
+                                <ul class="dot_txt">
+                                    <li>
+                                        Room Only /  퀸베드 1개
+                                    </li>
+                                </ul>
+                            </section>
+                            <section>
+                                <strong>선택 날짜</strong>
+                                <ul class="dot_txt">
+                                    <li>03월 01일 ~ 03월 03일</li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 쿠폰 팝업 -->
+            <div id="popup_coupon" class="popup_coupon">
+                <div>
+                    <div class="fix_title">
+                        사용 가능한 쿠폰
+                        <button type="button" onclick="popdown_coupon()">닫기</button>
+                    </div>
+                    <div class="iscroll_cp" style="touch-action: none;">
+                        <div class="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
+                            <section>
+                                <strong>Lemo에서 드리는 쿠폰!</strong>
+                                <ul class="dot_coupon_txt">
+                                    <li>회원가입 10,000원 할인!</li>
+                                    <li>여름 특별 50,000 할인!</li>
+                                </ul>
+                            </section>
+                            <section>
+                                <strong>테스트 호텔에서 드리는 쿠폰!</strong>
+                                <ul class="dot_coupon_txt">
+                                    <li>여름 특별 50,000 할인</li>
+                                    <li>도보 방문시 5,000원 할인</li>
+                                </ul>
+                            </section>
+                            제공되는 쿠폰은 다음과 같으며 예약 결제 페이지에서 적용가능합니다.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 우측 미니 사이드바 -->
+            <div class="btn_quick">
+                <ul>
+                    <li class="btn_wishlist">
+                        <a href="javascript:;">
+                            <img src="/img/indexImg/empty-heart.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <img src="/img/indexImg/naver_quick.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <img src="/img/indexImg/kakao_quick.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="scrollToTop" onclick="scrollToTop(); return false;">
+                            <img src="/img/indexImg/top_btn.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="scrollToBottom" onclick="scrollToBottom(); return false;">
+                            <img src="/img/indexImg/bottom_btn.png">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 푸터 -->
+            <footer>
+                <div class="footer_inner">
+                    <div class="footer_menu">
+                        <table>
+                            <tr>
+                                <td><a href="#">ABOUT</a></td>
+                                <td><a href="#">NOTICE</a></td>
+                                <td><a href="#">CS CENTER</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer_block">
+                        <div class="footer_block_left">
+                            <div class="footer_block_row">
+                                <!-- 로고 클릭 시 메인으로 이동 -->
+                                <div class="row_col_1"><a href="#">LEMO</a></div>
+                                <div class="row_col_2">LETTUCE MEMORIES</div>
+                                <div class="row_col_3">
+                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
+                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
+                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_block_right">
+                            <div class="footer_block_row">
+                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
+                                <div class="row_col_4"><a href="#">고객센터</a></div>
+                                <div class="row_col_5">
+                                    070-2023-0223 <br>
+                                    MON - FRI AM 09:00 - PM 17:00 <br>
+                                    BREAK PM 12:00 - PM 13:00 <br>
+                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer_terms">
+                        <div class="footer_block_row2">
+                            <a href="#">이용약관</a>
+                            <span>&nbsp;|&nbsp;</span>
+                            <a href="#">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="footer_copyright">
+                        <div class="footer_block_row2">
+                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
