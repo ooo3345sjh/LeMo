@@ -16,4 +16,9 @@ public class productController {
     public String test(){
         return "layouts/default-layout";
     }
+
+    @GetMapping("product/result")
+    public String result(){
+        return "product/result";
+    }
 }
