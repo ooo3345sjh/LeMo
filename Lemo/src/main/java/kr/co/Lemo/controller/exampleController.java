@@ -17,6 +17,4 @@ public class exampleController {
     public String test(String name) throws Exception{
         return "test";
     }
-
-
 }

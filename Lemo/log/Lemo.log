@@ -1,0 +1,36 @@
+2023-03-07 17:04:22.609  INFO 11972 --- [restartedMain] kr.co.Lemo.LemoApplication               : Starting LemoApplication using Java 17.0.4 on DESKTOP-QOTDKI5 with PID 11972 (C:\Users\java2\Desktop\Workspace\LeMo\Lemo\build\classes\java\main started by java2 in C:\Users\java2\Desktop\Workspace\LeMo\Lemo)
+2023-03-07 17:04:22.611  INFO 11972 --- [restartedMain] kr.co.Lemo.LemoApplication               : No active profile set, falling back to 1 default profile: "default"
+2023-03-07 17:04:22.902  INFO 11972 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-03-07 17:04:22.902  INFO 11972 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-03-07 17:04:23.602  INFO 11972 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2023-03-07 17:04:23.605  INFO 11972 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2023-03-07 17:04:23.616  INFO 11972 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 JDBC repository interfaces.
+2023-03-07 17:04:23.635  INFO 11972 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2023-03-07 17:04:23.638  INFO 11972 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-03-07 17:04:23.647  INFO 11972 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 JPA repository interfaces.
+2023-03-07 17:04:23.957  WARN 11972 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[kr.co.Lemo]' package. Please check your configuration.
+2023-03-07 17:04:24.610  INFO 11972 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-03-07 17:04:24.623  INFO 11972 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-03-07 17:04:24.624  INFO 11972 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.71]
+2023-03-07 17:04:24.723  INFO 11972 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/Lemo]   : Initializing Spring embedded WebApplicationContext
+2023-03-07 17:04:24.723  INFO 11972 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1820 ms
+2023-03-07 17:04:25.027  INFO 11972 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-03-07 17:04:25.078  INFO 11972 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-03-07 17:04:25.298  INFO 11972 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-03-07 17:04:25.430  INFO 11972 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-03-07 17:04:25.726  INFO 11972 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-03-07 17:04:25.740  INFO 11972 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+2023-03-07 17:04:26.123  INFO 11972 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-03-07 17:04:26.134  INFO 11972 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-03-07 17:04:26.225  WARN 11972 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-03-07 17:04:26.415  INFO 11972 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2023-03-07 17:04:26.982  WARN 11972 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 07884919-68e5-4d8b-80c4-7d87e57ec8a4
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2023-03-07 17:04:27.112  INFO 11972 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@57811426, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@564e03f6, org.springframework.security.web.context.SecurityContextPersistenceFilter@50bbc4ac, org.springframework.security.web.header.HeaderWriterFilter@63db1cdf, org.springframework.security.web.csrf.CsrfFilter@71e89526, org.springframework.security.web.authentication.logout.LogoutFilter@b416d81, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@3b3a69b4, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@57aaf706, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@501e7fbc, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@b914bf3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@110ccea1, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1a01a3ee, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3480e64b, org.springframework.security.web.session.SessionManagementFilter@165a2067, org.springframework.security.web.access.ExceptionTranslationFilter@328cd567, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@211619d]
+2023-03-07 17:04:27.248  INFO 11972 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-03-07 17:04:27.382  INFO 11972 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/Lemo'
+2023-03-07 17:04:27.471  INFO 11972 --- [restartedMain] kr.co.Lemo.LemoApplication               : Started LemoApplication in 5.292 seconds (JVM running for 5.845)
