@@ -6,9 +6,6 @@ import lombok.Data;
 
 @Data
 public class PageHandler {
-//    int pageSize;   // 한 페이지의 크기
-//    Integer page;       // 현재 페이지
-//    int limitStart; // 조회할 페이지 첫 행
 
     private SearchCondition sc;
     private int totalCnt;   // 총 게시물 갯수
