@@ -1,0 +1,62 @@
+<!--
+    날짜 : 2023/02/27
+    이름 : 이해빈
+    내용 : 회원 certification(휴대폰 인증) 화면설계
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>LEMO :: 휴대폰 인증</title>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
+        <!-- style css -->
+        <link rel="stylesheet" href="../css/user.css">
+    </head>
+    <body>
+        <div id="wrapper">
+            <header></header>
+            <main id="resetPW">
+                <section>
+                    <form action="#">
+                        <div class="title">
+                            <strong class="logo">
+                                <img src="../img/indexImg/lemo_logo-removebg-preview.png" alt="">
+                                <a href="#">LEMO</a>
+                            </strong>
+                        </div>
+                        <div class="common certification">
+                            <strong class="sub_title">휴대폰 인증</strong>
+                            <p>원활한 서비스 제공을 위해 본인확인을 부탁드립니다.</p>
+
+                            <section id="section1">
+                                <b>휴대폰 번호</b>
+                                <div class="inp_type2 form-errors">
+                                    <input type="email" name="user_email">
+                                    <label id="email_msg" class="validate_msg">휴대폰번호를 올바르게 입력하세요.</label>
+                                    <button type="button" class="btn_common">전송</button>
+                                </div>
+                            </section>
+
+                            <section id="section2">
+                                <b>인증번호</b>
+                                <div class="inp_type2 form-errors">
+                                    <input type="text" name="authcode">
+                                    <!-- timer 활성/비활성 display:inline-block / none -->
+                                    <span class="timer">02:43</span>
+                                    <label id="authcode_msg" class="validate_msg"></label>
+                                    <button type="button" class="btn_common">확인</button>
+                                </div>
+                            </section>
+                        </div>
+
+                    </form>
+                </section>
+            </main>        
+            <footer></footer>
+        </div>  
+    </body>
+</html>

@@ -1,0 +1,311 @@
+<!--
+    날짜 : 2023/03/04
+    이름 : 황원진
+    내용 : 마이페이지 나의 리뷰 write HTML 
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Travel with Lemo::reserveration</title>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">   
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>      
+        <!-- style css -->
+        <link rel="stylesheet" href="/css/my.css">
+        <!--dropzone-->
+        <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+        <style>
+        
+
+
+        </style>
+        <script>
+        Dropzone.autoDiscover=false;
+        $(function(){
+            const myDropzone = new Dropzone('div.dropzone', {
+                url: "https://httpbin.org/post",
+                method: 'post', // 기본 post로 request 감. put으로도 할수있음
+                //headers: {
+                    // 요청 보낼때 헤더 설정
+                  //  Authorization: 'Bearer ' + token, // jwt
+                //},
+
+                init: function(){
+                    var submitButton = document.querySelector("#btn_complete");
+                    var myDropzone = this; //closure
+
+                    submitButton.addEventListener("click", function () {
+                
+                    console.log("업로드");
+                    
+                     // 거부된 파일이 있다면
+                    if (myDropzone.getRejectedFiles().length > 0) {
+                        let files = myDropzone.getRejectedFiles();
+                        console.log('거부된 파일이 있습니다.', files);
+                        return;
+                    }
+
+                    //tell Dropzone to process all queued files
+                    myDropzone.processQueue(); 
+
+                    });
+
+                },
+                autoProcessQueue: false,    // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
+                clickable: true,            // 클릭가능여부
+                thumbnailHeight: 90,        // Upload icon size
+                thumbnailWidth: 90,         // Upload icon size
+                maxFiles: 5,                // 업로드 파일수
+                maxFilesize: 10,            // 최대업로드용량 : 10MB
+                parallelUploads: 99,        // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 컨트롤러에 넘긴다.)
+                addRemoveLinks: true,       // 삭제버튼 표시 여부
+                dictRemoveFile: '삭제',     // 삭제버튼 표시 텍스트
+                uploadMultiple: true,       // 다중업로드 기능
+                acceptedFiles: '.jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF', // 이미지 파일 포맷만 허용
+                createImageThumbnails: true, //파일 업로드 썸네일 생성
+            });
+
+            
+            // 취소버튼 확인
+            $('.my_review_cancel').click(function(){
+                confirm("작성을 취소하시겠습니까?");
+            });
+    
+
+        
+                
+            });
+        
+        </script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <header>
+                
+                <div class="header_inner">
+                    <div class="header_flex">
+                        <div class="header_logo">
+
+                            <a href="#"><img src="/img/indexImg/lemo_logo.png" alt="레모 로고"></a>
+                            <div class="logo">LEMO</div>
+                        </div>
+                        <div class="header_service">
+                            <a href="#">로그인</a>
+                            <div class="dropdown_menu">
+                                <button id="dropdown">마이페이지
+                                    <img src="/img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content" style="display: none;">
+                                    <a href="#">나의 정보</a>
+                                    <a href="#">포인트</a>
+                                    <a href="#">쿠폰함</a>
+                                    <a href="#">예약내역</a>
+                                    <a href="#">위시리스트</a>
+                                    <a href="#">나의 여행일기</a>
+                                    <a href="#">나의 리뷰</a>
+                                </div>
+                            </div>
+                            <div class="dropdown_menu">
+                                <button id="dropdown2">고객센터
+                                    <img src="/img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content2" style="display: none;">
+                                    <a href="#">공지사항</a>
+                                    <a href="#">이벤트</a>
+                                    <a href="#">자주 묻는 질문</a>
+                                    <a href="#">1:1 문의</a>
+                                    <a href="#">여행일기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="header_searchBar">
+                            <form class="search-container" action="#">
+                                <div class="search">
+                                    <input id="search-box" type="text" class="search-box" name="q"/>
+                                    <button type="submit" class="btnSearch">
+                                        <input type="image" src="/img/indexImg/btn_search.png" id="search-submit"/>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> 
+            </header>
+            
+            <main>
+                <section id="my">
+                    <nav class="category">
+                        <span>마이페이지</span>
+                        <ul>
+                            <li>
+                                <a href="#">내정보</a>
+                            </li>
+                            <li>
+                                <a href="#">포인트</a>
+                            </li>
+                            <li>
+                                <a href="#">쿠폰함</a>
+                            </li>
+                            <li>
+                                <a href="#">예약내역</a>
+                            </li>
+                            <li>
+                                <a href="#">나의 찜</a>
+                            </li>
+                            <li>
+                                <a href="#">나의 여행일기</a>
+                            </li>
+                            <li>
+                                <a href="#" class="on">나의 리뷰</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="content">
+                        <!-- 카테고리 -->
+                        <div class="tab">
+                            <span class="my_title">
+                                나의 리뷰
+                            </span>
+                        </div>
+                        <form>
+                            <div class="my_review_write">
+                                <div class="my_review_nick">레몬나르고빛갚으리오<i>&nbsp님의 리뷰</i></div>
+                                <div class="my_review_w_tit">
+                                    <div>
+                                        <input type="text" placeholder="제목을 입력해주세요" maxlength="100">
+                                    </div>
+                                </div>
+                                <div class="my_review_w_place">
+                                    <span>부산 힐튼 호텔 슈페리어 더블</span>
+                                </div>
+                                <div class="my_review_w_days">
+                                    <span>2023-02-13 ~ 2023-02-14</span>
+                                </div>
+                                <div class="my_review_w_rating">
+                                    <div class="reating_q">
+                                        <span>만족하셨나요?</span>
+                                    </div>
+                                    <!-- 임시 평점 -->
+                                    <div class="star-ratings">
+                                        <input type="radio" name="rating" value="5" id="rate1"><label for="rate1">⭐</label>
+                                        <input type="radio" name="rating" value="4" id="rate2"><label for="rate2">⭐</label>
+                                        <input type="radio" name="rating" value="3" id="rate3"><label for="rate3">⭐</label>
+                                        <input type="radio" name="rating" value="2" id="rate4"><label for="rate4">⭐</label>
+                                        <input type="radio" name="rating" value="1" id="rate5"><label for="rate5">⭐</label>
+                                    </div>
+                                </div>
+                                <div class="my_review_w_textbox">
+                                    <div class="my_review_w_text">
+                                        <textarea placeholder="내용을 입력해주세요"></textarea>
+                                    </div>
+                                </div>
+                                <div class="dropzone" id="fileDropzone">
+                                    <div>
+                                        <button class="dz-default dz-message" type="button">
+                                            사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="blank30"></div>
+                            </div>
+                            <div class="my_review_w_complete">
+                                <button type="submit" id="btn_complete">작성완료</button>
+                            </div>
+                            <div class="my_review_cancel">
+                                <a href="#">취소</a>
+                            </div>
+                        </form>
+                    </div>  
+                </section>
+                <!-- 우측 미니 사이드바 -->
+                <div class="btn_quick">
+                    <ul>
+                        <li class="btn_wishlist">
+                            <a href="javascript:;">
+                                <img src="/img/indexImg/empty-heart.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img src="/img/indexImg/naver_quick.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img src="/img/indexImg/kakao_quick.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" id="scrollToTop" onclick="return false;">
+                                <img src="/img/indexImg/top_btn.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" id="scrollToBottom" onclick="return false;">
+                                <img src="/img/indexImg/bottom_btn.png">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </main>
+            <footer>
+                <div class="footer_inner">
+                    <div class="footer_menu">
+                        <table>
+                            <tr>
+                                <td><a href="#">ABOUT</a></td>
+                                <td><a href="#">NOTICE</a></td>
+                                <td><a href="#">CS CENTER</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer_block">
+                        <div class="footer_block_left">
+                            <div class="footer_block_row">
+                                <!-- 로고 클릭 시 메인으로 이동 -->
+                                <div class="row_col_1"><a href="#">LEMO</a></div>
+                                <div class="row_col_2">LETTUCE MEMORIES</div>
+                                <div class="row_col_3">
+                                    주식회사 레모 | CEO 서박이 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
+                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
+                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_block_right">
+                            <div class="footer_block_row">
+                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
+                                <div class="row_col_4"><a href="#">고객센터</a></div>
+                                <div class="row_col_5">
+                                    070-2023-0223 <br>
+                                    MON - FRI AM 09:00 - PM 17:00 <br>
+                                    BREAK PM 12:00 - PM 13:00 <br>
+                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer_terms">
+                        <div class="footer_block_row2">
+                            <a href="#">이용약관</a>
+                            <span>&nbsp;|&nbsp;</span>
+                            <a href="#">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="footer_copyright">
+                        <div class="footer_block_row2">
+                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,402 @@
+<!--
+    날짜 : 2023/03/01
+    이름 : 이해빈
+    내용 : 여행일기 view HTML 화면구현
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Travel with Lemo::diary</title>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
+        <!-- 스타일 -->
+        <link rel="stylesheet" href="../css/indexStyle.css">
+        <link rel="stylesheet" href="../css/diary.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+        <!-- 스크립트 모음 (Date Range Picker, slider 등) -->
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="./js/jquery.scrollfollow.js"></script>
+    </head>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712"></script>
+    <script>
+
+        $(function(){
+
+            /** 카카오맵 - 스크롤 따라 이동 */
+            $(window).scroll(function() {
+
+                let currentPosition = parseInt($('#listMap').css('top'));
+                let mapHeight = $('#listMap').height();
+                let listHeight = $('.list-area').height();
+                let boxOffsetTop = $('.list-area').offset().top;
+
+                let scrollTop = $(window).scrollTop();
+                let point;
+                let endPoint = listHeight - mapHeight;
+
+
+                if( scrollTop < boxOffsetTop ){
+                    point = 0;
+                }else if( scrollTop > endPoint ) {
+                    point = endPoint-30;
+                }else {
+                    point = (scrollTop - boxOffsetTop)+100;
+                }
+
+                if(point < 0) {point = 0}
+
+                $('#listMap').stop().animate({top: point}, 700);
+            });
+
+
+            /* 글 토글 */
+            $('.place').click(function(e){
+                e.preventDefault();
+                $(this).find('.toggle').slideToggle();
+                $(this).find('.toggle').prev().toggleClass('on');
+            });
+
+            /* 답 댓글쓰기 */
+            $('.comment').click(function(e){
+                e.preventDefault();
+
+                let status = $('.write_reply.re').hasClass('show');
+                if(!status){
+                    $('.write_reply.re').addClass('show');
+                }else {
+                    $('.write_reply.re').removeClass('show');
+                }
+            });
+
+            /* 댓글 모두 보기 */
+            $('.showall').click(function(e){
+                e.preventDefault();
+
+                let status = $(this).hasClass('open');
+
+                if(status) {
+                    $(this).text('댓글 모두보기');
+                    $(this).removeClass('open');
+                    $(this).parent().parent().find('.re_reply').removeClass('open');
+                }else {
+                    $(this).text('댓글 숨기기');
+                    $(this).addClass('open');
+                    $(this).parent().parent().find('.re_reply').addClass('open'); // 답댓글 보기
+                }
+            });
+        });
+    </script>
+    <body>
+        <div id="wrapper">
+            <!-- 헤더 -->
+            <header>
+                <div class="header_inner">
+                    <div class="header_flex">
+                        <div class="header_logo">
+                            <!-- 메인으로 이동 -->
+                            <a href="#"><img src="../img/indexImg/lemo_logo.png" alt="레모 로고"></a>
+                            <div class="logo">LEMO</div>
+                        </div>
+                        <div class="header_service">
+                            <a href="#">로그인</a>
+                            <div class="dropdown_menu">
+                                <button id="dropdown">마이페이지
+                                    <img src="../img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content" style="display: none;">
+                                    <a href="#">나의 정보</a>
+                                    <a href="#">포인트</a>
+                                    <a href="#">쿠폰함</a>
+                                    <a href="#">예약내역</a>
+                                    <a href="#">위시리스트</a>
+                                    <a href="#">나의 여행일기</a>
+                                    <a href="#">나의 리뷰</a>
+                                </div>
+                            </div>
+                            <div class="dropdown_menu">
+                                <button id="dropdown2">고객센터
+                                    <img src="../img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content2" style="display: none;">
+                                    <a href="#">공지사항</a>
+                                    <a href="#">이벤트</a>
+                                    <a href="#">자주 묻는 질문</a>
+                                    <a href="#">1:1 문의</a>
+                                    <a href="#">여행일기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="header_searchBar">
+                            <form class="search-container" action="#">
+                                <div class="search">
+                                    <input id="search-box" type="text" class="search-box" name="q"/>
+                                    <button type="submit" class="btnSearch">
+                                        <input type="image" src="../img/indexImg/btn_search.png" id="search-submit"/>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main id="diary">
+                <div id="result">
+                    <div class="content">
+                        <!-- 여행일기 보기 -->
+                        <div class="view">
+                            <div class="list-area">
+
+                                <div id="diary_content">
+                                    <span>나의 첫 강원도 여행!</span>
+                                    <ul>
+                                        <li>2023-03-01 ~ 2023-03-05</li>
+                                        <li>스카이베이호텔 경포</li>
+                                        <li>홍길동&nbsp;&nbsp;2023-03-08</li>
+                                        <li>30</li>
+                                    </ul>
+                                </div>
+                                <!-- 여행장소 -->
+                                <div class="place">
+                                    <div class="spot">
+                                        <span>남이섬</span>
+                                    </div>
+                                    <img src="../img/csImg/arr_down.png" class="arrow">
+                                    <div class="toggle">
+                                        <div class="image">
+                                            <img src="../img/diaryImg/sample5.jpg">
+                                        </div>
+                                        <div class="text">너무너무 재미있었다.</div>
+                                    </div>
+                                </div>
+                                <div class="place">
+                                    <div class="spot">
+                                        <span>낙산사</span>
+                                    </div>
+                                    <img src="../img/csImg/arr_down.png" class="arrow">
+                                    <div class="toggle">
+                                        <div class="image">
+                                            <img src="../img/diaryImg/sample5.jpg">
+                                        </div>
+                                        <div class="text">너무너무 재미있었다.</div>
+                                    </div>
+                                </div>
+                                <div class="place">
+                                    <div class="spot">
+                                        <span>레고랜드</span>
+                                    </div>
+                                    <img src="../img/csImg/arr_down.png" class="arrow">
+                                    <div class="toggle">
+                                        <div class="image">
+                                            <img src="../img/diaryImg/sample5.jpg">
+                                        </div>
+                                        <div class="text">너무너무 재미있었다.</div>
+                                    </div>
+                                </div>
+                                <div class="place">
+                                    <div class="spot">
+                                        <span>하이원 스키리조트</span>
+                                    </div>
+                                    <img src="../img/csImg/arr_down.png" class="arrow">
+                                    <div class="toggle">
+                                        <div class="image">
+                                            <img src="../img/diaryImg/sample5.jpg">
+                                        </div>
+                                        <div class="text">너무너무 재미있었다.</div>
+                                    </div>
+                                </div>
+                                <!-- 여행일기 댓글 -->
+                                <div class="reply">
+                                    <div id="tit">
+                                        <span>댓글</span><b>3</b>개
+                                    </div>
+                                    <div id="rep">
+                                        <ul>
+                                            <!--본 댓글 1-->
+                                            <li>
+                                                <div class="repdiv1">
+                                                    <img src="../img/diaryImg/sample2.jpg" alt="프사">
+                                                    <div>
+                                                        <strong>당근이</strong><span>2023.03.07</span>
+                                                    </div>
+                                                </div>
+                                                <div class="repdiv2"><textarea readonly>우와 너무너무 좋아보여요ㅠㅠㅠ대박이네요 진짜로 최고에요..............어디로 가나요?ㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇ
+                                                </textarea></div>
+                                                <div class="repdiv3">
+                                                    <div>
+                                                        <a href="#" class="showall">댓글 모두보기</a>
+                                                        <a href="#" class="comment">댓글 쓰기</a>
+                                                    </div>
+                                                    <div>
+                                                        <a href="#">수정</a>
+                                                        <a href="#">삭제</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <!-- 답댓글 class='re_reply' -->
+                                            <li class="re_reply">
+                                                <div class="repdiv1">
+                                                    <img src="../img/diaryImg/sample2.jpg" alt="프사">
+                                                    <div>
+                                                        <strong>당근이</strong><span>2023.03.07</span>
+                                                    </div>
+                                                </div>
+                                                <div class="repdiv2"><textarea readonly>우와 너무너무 좋아보여요ㅠㅠㅠ대박이네요 진짜로 최고에요..............어디로 가나요?ㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇ
+                                                </textarea></div>
+                                                <div class="repdiv3">
+                                                    <div>
+                                                        <a href="#" class="showall">댓글 모두보기</a>
+                                                        <a href="#" class="comment">댓글 쓰기</a>
+                                                    </div>
+                                                    <div>
+                                                        <a href="#">수정</a>
+                                                        <a href="#">삭제</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="re_reply">
+                                                <div class="repdiv1">
+                                                    <img src="../img/diaryImg/sample2.jpg" alt="프사">
+                                                    <div>
+                                                        <strong>당근이</strong><span>2023.03.07</span>
+                                                    </div>
+                                                </div>
+                                                <div class="repdiv2"><textarea readonly>우와 너무너무 좋아보여요ㅠㅠㅠ대박이네요 진짜로 최고에요..............어디로 가나요?ㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇ
+                                                </textarea></div>
+                                                <div class="repdiv3">
+                                                    <div>
+                                                        <a href="#" class="showall">댓글 모두보기</a>
+                                                        <a href="#" class="comment">댓글 쓰기</a>
+                                                    </div>
+                                                    <div>
+                                                        <a href="#">수정</a>
+                                                        <a href="#">삭제</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="repdiv1">
+                                                    <img src="../img/diaryImg/sample4.jpg" alt="프사">
+                                                    <div>
+                                                        <strong>쭈니</strong><span>2023.03.07</span>
+                                                    </div>
+                                                </div>
+                                                <div class="repdiv2"><textarea readonly>우와 너무너무 좋아보여요ㅠㅠㅠ대박이네요 진짜로 최고에요..............어디로 가나요?ㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇ
+                                                </textarea></div>
+                                                <div class="repdiv3">
+                                                    <div>
+                                                        <a href="#" class="showall">댓글 모두보기</a>
+                                                        <a href="#" class="comment">댓글 쓰기</a>
+                                                    </div>
+                                                    <div>
+                                                        <a href="#">수정</a>
+                                                        <a href="#">삭제</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <!-- 답댓글 쓰기-->                                   
+                                            <div class="write_reply re">
+                                                <form action="#">
+                                                    <textarea></textarea>
+                                                    <button>댓글 쓰기</button>
+                                                </form>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- 댓글 쓰기 -->
+                                <div class="write_reply">
+                                    <form action="#">
+                                        <textarea></textarea>
+                                        <button>댓글 쓰기</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 지도 -->
+                        <div id="listMap">
+                            <p>
+                                <button onclick="setZoomable(false)">지도 확대/축소 끄기</button>
+                                <button onclick="setZoomable(true)">지도 확대/축소 켜기</button>
+                            </p>
+                        </div>
+                        <script>
+                            /** 카카오 맵 */
+                            var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
+                            var options = { //지도를 생성할 때 필요한 기본 옵션
+                                center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+                                level: 5 //지도의 레벨(확대, 축소 정도)
+                            };
+
+                            var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+                            map.setZoomable(false);
+                            function setZoomable(zoomable) {
+                                // 마우스 휠로 지도 확대,축소 가능여부를 설정합니다
+                                map.setZoomable(zoomable);    
+                            }
+                        </script>
+                    </div>
+                </div>
+            </main>
+            <!-- 푸터 -->
+            <footer>
+                <div class="footer_inner">
+                    <div class="footer_menu">
+                        <table>
+                            <tr>
+                                <td><a href="#">ABOUT</a></td>
+                                <td><a href="#">NOTICE</a></td>
+                                <td><a href="#">CS CENTER</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer_block">
+                        <div class="footer_block_left">
+                            <div class="footer_block_row">
+                                <!-- 로고 클릭 시 메인으로 이동 -->
+                                <div class="row_col_1"><a href="#">LEMO</a></div>
+                                <div class="row_col_2">LETTUCE MEMORIES</div>
+                                <div class="row_col_3">
+                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
+                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
+                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_block_right">
+                            <div class="footer_block_row">
+                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
+                                <div class="row_col_4"><a href="#">고객센터</a></div>
+                                <div class="row_col_5">
+                                    070-2023-0223 <br>
+                                    MON - FRI AM 09:00 - PM 17:00 <br>
+                                    BREAK PM 12:00 - PM 13:00 <br>
+                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer_terms">
+                        <div class="footer_block_row2">
+                            <a href="#">이용약관</a>
+                            <span>&nbsp;|&nbsp;</span>
+                            <a href="#">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="footer_copyright">
+                        <div class="footer_block_row2">
+                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
+
+

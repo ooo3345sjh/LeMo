@@ -1,0 +1,535 @@
+<!--
+    날짜 : 2023/03/05
+    이름 : 박종협
+    내용 : 여행일기 write HTML 화면구현
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Travel with Lemo::diary</title>
+        <!-- googleSearchAPI -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcPQyeUiX2cJ4rCH6DU36v4D3LsfO-o4s&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC" async defer></script>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
+        <!-- 스타일 -->
+        <link rel="stylesheet" href="/css/indexStyle.css">
+        <link rel="stylesheet" href="/css/diary.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+        <!-- 스크립트 모음 (Date Range Picker, slider 등) -->
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <!-- slick slider plugin-->
+        <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+        <!-- Date Range Picker -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <!-- kakaoMap -->
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712&libraries=services"></script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <!-- 헤더 -->
+            <header>
+                <div class="header_inner">
+                    <div class="header_flex">
+                        <div class="header_logo">
+                            <!-- 메인으로 이동 -->
+                            <a href="#"><img src="/HTML/img/indexImg/lemo_logo.png" alt="레모 로고"></a>
+                            <div class="logo">LEMO</div>
+                        </div>
+                        <div class="header_service">
+                            <a href="#">로그인</a>
+                            <div class="dropdown_menu">
+                                <button id="dropdown">마이페이지
+                                    <img src="/HTML/img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content" style="display: none;">
+                                    <a href="#">나의 정보</a>
+                                    <a href="#">포인트</a>
+                                    <a href="#">쿠폰함</a>
+                                    <a href="#">예약내역</a>
+                                    <a href="#">위시리스트</a>
+                                    <a href="#">나의 여행일기</a>
+                                    <a href="#">나의 리뷰</a>
+                                </div>
+                            </div>
+                            <div class="dropdown_menu">
+                                <button id="dropdown2">고객센터
+                                    <img src="/HTML/img/indexImg/down-arrow.png">
+                                </button>
+                                <div class="dropdown_content" id="dropdown_content2" style="display: none;">
+                                    <a href="#">공지사항</a>
+                                    <a href="#">이벤트</a>
+                                    <a href="#">자주 묻는 질문</a>
+                                    <a href="#">1:1 문의</a>
+                                    <a href="#">여행일기</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="header_searchBar">
+                            <form class="search-container" action="#">
+                                <div class="search">
+                                    <input id="search-box" type="text" class="search-box" name="q"/>
+                                    <button type="submit" class="btnSearch">
+                                        <input type="image" src="/HTML/img/indexImg/btn_search.png" id="search-submit"/>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main id="diary">
+                <div id="result">
+                    <div class="content">
+                        <h3>#여행일기 작성</h3>
+                        <!-- 여행일기 보기 -->
+                        <div class="view">
+                            <div class="list-area">
+                                <div id="diary_content">
+                                    <input type="text" style="border: none; font-size:18px;" placeholder="제목을 작성해주세요">
+                                    <ul> 
+                                        <li>
+                                            <input  type="text" name="daterange" id="daterange">
+                                            <span style="font-size: 12px; color:#a39797;">※여행기간을 선택해주세요</span>
+                                        </li>
+                                        <li>스카이베이호텔 경포</li>
+                                    </ul>
+                                </div>
+                                <div class="write_search" style="margin-top: 40px; font-size: 13px; color: #342929;">
+                                    <span style="display: block; margin: 0 0 10px 5px; font-size: 13px;">보다 상세한 검색은 자동완성을 이용해주세요.</span>
+                                    <input type="text" id="searchAddr" style="width: 250px; height: 30px; font-size: 15px; border: none; padding-left: 10px; margin-right: 10px;"/>
+                                    주소 검색 후 Enter키를 눌러주세요.!
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 지도 -->
+                        <div id="listMap">
+                            <p>
+                                <button onclick="setZoomable(false)">지도 확대/축소 끄기</button>
+                                <button onclick="setZoomable(true)">지도 확대/축소 켜기</button>
+                            </p>
+                        </div>
+                        
+                    </div>
+                </div>
+            </main>
+            <!-- 푸터 -->
+            <footer>
+                <div class="footer_inner">
+                    <div class="footer_menu">
+                        <table>
+                            <tr>
+                                <td><a href="#">ABOUT</a></td>
+                                <td><a href="#">NOTICE</a></td>
+                                <td><a href="#">CS CENTER</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer_block">
+                        <div class="footer_block_left">
+                            <div class="footer_block_row">
+                                <!-- 로고 클릭 시 메인으로 이동 -->
+                                <div class="row_col_1"><a href="#">LEMO</a></div>
+                                <div class="row_col_2">LETTUCE MEMORIES</div>
+                                <div class="row_col_3">
+                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
+                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
+                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_block_right">
+                            <div class="footer_block_row">
+                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
+                                <div class="row_col_4"><a href="#">고객센터</a></div>
+                                <div class="row_col_5">
+                                    070-2023-0223 <br>
+                                    MON - FRI AM 09:00 - PM 17:00 <br>
+                                    BREAK PM 12:00 - PM 13:00 <br>
+                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer_terms">
+                        <div class="footer_block_row2">
+                            <a href="#">이용약관</a>
+                            <span>&nbsp;|&nbsp;</span>
+                            <a href="#">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="footer_copyright">
+                        <div class="footer_block_row2">
+                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <script>
+            /** 마커 클릭 시 여행일기 작성 추가 */
+            function addDiary(place){
+                let addContent  = '<div class="place place_' + place + '">';
+                    addContent += '<div class="spot">';
+                    addContent += '<img src="/img/diaryImg/marker4.png" width="36">';
+                    addContent += '<span>'+ place +'</span>';
+                    addContent += '</div>';
+                    addContent += '<img src="/img/csImg/arr_down.png" class="arrow">';
+                    addContent += '<div class="toggle">';
+                    addContent += '<div class="image">';
+                    addContent += '<input type="file" class="ex_file" accept="image/png, image/jpeg" required style="display: none;">';
+                    addContent += '<img class="inputImage" src="/img/diaryImg/imgUpload.png">';
+                    addContent += '</div>';
+                    addContent += '<textarea class="content" placeholder="내용을 입력해주세요."></textarea>';
+                    addContent += '</div>';
+                    addContent += '</div>';
+
+                return addContent;
+            }
+
+            /** 카카오 맵 */
+
+            // #1 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+            var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+            var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
+            var options = { //지도를 생성할 때 필요한 기본 옵션
+                center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+                level: 7 //지도의 레벨(확대, 축소 정도)
+            };
+
+            var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+
+            // #2 지도에 표시된 마커 객체를 가지고 있을 배열입니다
+            var markers = [];
+            var searchMarkers = [];
+
+            // #3 장소 검색 객체를 생성합니다
+            var ps = new kakao.maps.services.Places(); 
+
+            // #4 키워드 검색 완료 시 호출되는 콜백함수 입니다
+            let lat;
+            let lng;
+            let autocompleteInput = document.getElementById('searchAddr');
+            let searchBtn = document.getElementById('searchBtn');
+            let option    = {fields: ["address_components", "formatted_address", "geometry", "icon", "name"]};
+            const autocomplete = new google.maps.places.Autocomplete(autocompleteInput, option);
+            autocomplete.setComponentRestrictions({country: ["kr"]});
+            
+            $(function(){
+                autocomplete.addListener('place_changed', function(){
+                    /** 재검색 시 이전 검색 마커 초기화 */
+                    for(var i=0; i<searchMarkers.length; i++){
+                        searchMarkers[i].setMap(null);
+                    }
+
+                    const place = autocomplete.getPlace();
+                    
+                    if (!place.geometry || !place.geometry.location) {
+                                                                   /** #5  */
+                        ps.keywordSearch($('#searchAddr').val(), placesSearchCB); 
+                        return;
+                    }
+
+                    lat = place.geometry.location.lat();
+                    lng = place.geometry.location.lng();
+                    
+                    /** 검색 시 해당하는 좌표로 이동 */
+                    var bounds = new kakao.maps.LatLngBounds();
+                    bounds.extend(new kakao.maps.LatLng(lat, lng));
+                    map.setBounds(bounds);
+
+                    // 마커가 표시될 위치입니다 
+                    var markerPosition  = new kakao.maps.LatLng(lat, lng); 
+                    
+                    var marker = new kakao.maps.Marker({
+                        position: new kakao.maps.LatLng(lat, lng)
+                    });       
+                    marker.setMap(map);
+
+                    // 마커에 mouseover이벤트를 등록합니다
+                    kakao.maps.event.addListener(marker, 'mouseover', function() {
+                        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+                        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.name + '</div>');
+                        infowindow.open(map, marker);
+                    });
+
+                    // 마커에 mouseout이벤트를 등록합니다
+                    kakao.maps.event.addListener(marker, 'mouseout', function() {
+                        infowindow.close();
+                    });
+
+                    // 마커에 click이벤트를 등록합니다
+                    kakao.maps.event.addListener(marker, 'click', function(){
+
+                        /** 마커 이미지 변경 */
+                        var imageSrc = '/img/diaryImg/pin.png', // 마커이미지의 주소입니다    
+                        imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
+                        imageOption = {offset: new kakao.maps.Point(20, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+                        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+                        let addContent = addDiary(place.name);
+                        $('.list-area').append(addContent);
+                        markers.push(marker);
+                    });
+
+                    console.log(place);
+                    searchMarkers.push(marker);
+
+                });
+            })
+
+            // #5 키워드 검색 완료 시 호출되는 콜백함수 입니다
+            function placesSearchCB (data, status, pagination) {
+                if (status === kakao.maps.services.Status.OK) {
+                
+                    // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+                    // LatLngBounds 객체에 좌표를 추가합니다
+                    var bounds = new kakao.maps.LatLngBounds();
+
+                    for (var i=0; i<data.length; i++) {
+                        /** #6 */
+                        displayMarker(data[i]);    
+                        bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+                    }       
+
+                    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+                    map.setBounds(bounds);
+                } 
+            }
+
+            // #6 지도에 마커를 표시하는 함수입니다
+            function displayMarker(place) {
+                
+                // 마커를 생성하고 지도에 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: new kakao.maps.LatLng(place.y, place.x)
+                });
+
+                searchMarkers.push(marker);
+
+                // 마커에 mouseover이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'mouseover', function() {
+                    // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+                    infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+                    infowindow.open(map, marker);
+                });
+
+                // 마커에 mouseout이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'mouseout', function() {
+                    infowindow.close();
+                });
+
+                // 마커에 click이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'click', function(){
+                    let addContent = addDiary(place.place_name);
+                    $('.list-area').append(addContent);
+                    markers.push(marker);
+                });
+            }
+
+            // #7 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록합니다
+            kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+                // 클릭한 위치에 마커를 표시합니다 
+                addMarker(mouseEvent.latLng);
+            });
+            
+            // #8 마커를 생성하고 지도위에 표시하는 함수입니다
+            function addMarker(position) {
+                /** 마커 이미지 변경 */
+                var imageSrc = '/img/diaryImg/pin.png', // 마커이미지의 주소입니다    
+                imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
+                imageOption = {offset: new kakao.maps.Point(20, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+
+                let place = prompt('장소를 입력하세요.');
+                if(!place){
+                    alert('장소를 입력하지 않으셨습니다.!');
+                    return false;
+                }
+                // 마커를 생성합니다
+                var marker = new kakao.maps.Marker({
+                    position: position,
+                    image: markerImage
+                });
+
+                // 마커가 지도 위에 표시되도록 설정합니다
+                marker.setMap(map);
+                
+                // 생성된 마커를 배열에 추가합니다
+                markers.push(marker);
+
+                // 마커에 mouseover 이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'mouseover', function() {
+                    // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+                    infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place + '</div>');
+                    infowindow.open(map, marker);
+                });
+
+                // 마커에 mouseout 이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'mouseout', function() {
+                    infowindow.close();
+                });
+
+                let addContent = addDiary(place);
+
+                $('.list-area').append(addContent);
+
+                // 마커에 click이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    let conf = confirm('지도에서 지우시면 작성 하시던 일기도 지워집니다. 지우시겠습니까?');
+
+                    if(conf){
+                        marker.setMap(null);
+                        infowindow.close();
+                        $('.place_'+place).remove();
+                    }
+                });
+            }
+
+            let count = 0;
+
+            // // #9 임시 마커 선택 Jquery
+            // $(document).on('click', '#listMap > div:eq(0) > div > div:eq(5) > div', function(){
+            //     // 임시 기능. marker를 생성할때 div의 특정영역에 생성되고 순차적으로 쌓임 또한 markers의 배열에 입력됨
+            //     // 따라서 생성된 div가 몇번째 요소인지 알 수 있다면
+            //     // markers 배열에 입력된 해당하는 marker의 정보를 가져 올 수 있음
+            //     count = $(this).index();
+
+            //     alert(markers[count]);
+            //     console.log(markers[count]);
+
+            //     // 마커 지우기
+            //     markers[count].setMap(null);
+
+            //     // 지움과 동시에 markers 배열에서도 빼줘야함
+            //     markers.splice(count, 1);
+            //     console.log(markers);
+            //     infowindow.close();
+            // });
+
+            map.setZoomable(false);
+            function setZoomable(zoomable) {
+                // 마우스 휠로 지도 확대,축소 가능여부를 설정합니다
+                map.setZoomable(zoomable);    
+            }
+        </script>
+        <script>
+            $(function(){
+
+                /** 카카오맵 - 스크롤 따라 이동 */
+                $(window).scroll(function() {
+                    let currentPosition = parseInt($('#listMap').css('top'));
+                    let mapHeight = $('#listMap').height();
+                    let listHeight = $('.list-area').height();
+                    let boxOffsetTop = $('.list-area').offset().top;
+
+                    let scrollTop = $(window).scrollTop();
+                    let point;
+                    let endPoint = listHeight - mapHeight;
+
+                    if( scrollTop < boxOffsetTop ){
+                        point = 0;
+                    }else if( scrollTop > endPoint ) {
+                        point = endPoint+45;
+                    }else {
+                        point = (scrollTop - boxOffsetTop)+100;
+                    }
+
+                    if(point < 0) {point = 0}
+
+                    $('#listMap').stop().animate({top: point}, 700);
+                });
+
+                /* 글 토글 */
+                $(document).on('click', '.place', function(e){
+                    e.preventDefault();
+                    $(this).find('.toggle').slideToggle();
+
+                    let currentPosition = parseInt($('#listMap').css('top'));
+
+                    /** 토글 + 화살표 변경 */
+                    const arrow = $(this).find('.toggle').prev();
+                    if(arrow.attr('class') == 'arrow'){
+                        arrow.addClass('on');
+                    }else if(arrow.attr('class') == 'arrow on'){
+                        arrow.removeClass('on');
+                    }
+                });
+
+                /* 내용 input */
+                $(document).on('click', '.place > .toggle > .content', function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+
+                /** 현재 날짜 구하기 */
+                let now        = new Date();
+                let nowYear    = now.getFullYear();
+                let nowMonth   = now.getMonth() + 1;
+                let nowDate    = now.getDate();
+                let date      = nowYear + '-' + nowMonth + '-' + nowDate;
+
+                /** Jquery UI Date Picker */
+                $('#daterange').daterangepicker({
+                    "locale": {
+                        "format": "YYYY-MM-DD",
+                        "separator": " ~ ",
+                        "applyLabel": "확인",
+                        "cancelLabel": "취소",
+                        "fromLabel": "From",
+                        "toLabel": "To",
+                        "customRangeLabel": "Custom",
+                        "weekLabel": "W",
+                        "daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"],
+                        "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+                        "firstDay": 1
+                    },
+                    "drops": "down",
+                    "opens": "center"
+                }, function (start, end, label) {});
+
+
+                /** 이미지 미리보기 **/
+                const fileDOM = $('.ex_file');
+                const image = $('.image');
+                
+                $(document).on('click', '.ex_file', function(e){
+                    e.stopPropagation();
+                    
+                    let inputFile = $(this).parent('.image');
+                    $(this).change(function(e){
+                        let preview = $('.inputImage', inputFile);
+                        const reader = new FileReader();
+                        reader.onload = function(event){
+                            preview.attr("src", event.target.result);
+                        };
+                        reader.readAsDataURL(e.target.files[0]);
+    
+                    });
+                })
+                
+                /* 사진 클릭시 파일 업로드 화면 띄우기 */
+                $(document).on('click', '.image', function(e){
+                    e.stopPropagation();
+                    $(this).find('input[type=file]').trigger("click");
+                })
+            });
+        </script>
+    </body>
+</html>
+
+
