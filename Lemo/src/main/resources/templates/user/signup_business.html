@@ -1,114 +1,100 @@
-<!--
-    날짜 : 2023/02/26
-    이름 : 이해빈
-    내용 : 회원 - 비즈니스회원가입 화면설계
--->
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>LEMO :: 비즈니스 회원가입</title>
-        <!-- 구글 폰트 -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
-        <!-- style css -->
-        <link rel="stylesheet" href="../css/user.css">
-        <!-- 다음 우편번호 api-->
-        <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-        <script src="./js/zipcode.js"></script>
-    </head>
-    <body>
-        <div id="wrapper">
-            <header></header>
-            <main id="signup_bis">
-                <section>
-                    <form action="#" class="joinForm">
-                        <div class="title">
-                            <strong class="logo">
-                                <img src="../img/indexImg/lemo_logo-removebg-preview.png" alt="">
-                                <a href="#">LEMO</a>
-                            </strong>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/user-layout">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/user/user.css}">
+</th:block>
+<th:block layout:fragment="content">
+
+    <main id="signup_bis">
+        <section>
+            <form action="#" class="joinForm">
+                <div class="title">
+                    <strong class="logo">
+                        <img src="../img/indexImg/lemo_logo-removebg-preview.png" alt="">
+                        <a href="#">LEMO</a>
+                    </strong>
+                </div>
+                <div class="common signup">
+                    <strong class="sub_title">회원가입</strong>
+
+                    <b>회사 이메일(아이디)</b>
+                    <div class="inp_type2 form-errors">
+                        <input type="email" name="bis_email"  placeholder="회사 이메일 주소를 입력해주세요.">
+                        <label id="email_msg" class="validate_msg">이메일 주소를 올바르게 입력하세요.</label>
+                        <button type="button" class="btn_common">중복확인</button>
+                    </div>
+
+                    <b>비밀번호</b>
+                    <div class="inp_type2 form-errors">
+                        <input type="password" name="pass1" placeholder="비밀번호를 입력해주세요.">
+                        <label id="pass1_msg" class="validate_msg"></label>
+
+                    </div>
+
+                    <b>비밀번호 확인</b>
+                    <div class="inp_type2 form-errors">
+                        <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요.">
+                        <label id="pass2_msg" class="validate_msg"></label>
+                    </div>
+
+                    <b>회사명</b>
+                    <div class="inp_type2 form-errors">
+                        <input type="text" name="bis_name" placeholder="회사명을 입력해주세요.">
+                        <label id="bis_name_msg" class="validate_msg"></label>
+                    </div>
+
+                    <b>개업일자</b>
+                    <div class="inp_type2 form-errors">
+                        <!-- 날짜 선택시 class on -->
+                        <input type="date" name="bis_openDate" class="off" id="bis_openDate" placeholder="개업일자를 입력해주세요.">
+                        <label id="bis_openDate_msg" class="validate_msg"></label>
+                    </div>
+
+                    <b>사업자 등록번호</b>
+                    <div class="inp_type2 form-errors">
+                        <input type="text" name="bis_bizRegNum" id="bis_bizRegNum" placeholder="사업자등록번호를 입력해주세요.">
+                        <label id="bis_bizRegNum_msg" class="validate_msg"></label>
+                        <button type="button" class="btn_common">인증확인</button>
+                    </div>
+
+                    <b>대표자 이름</b>
+                    <div class="inp_type2 form-errors">
+                        <input type="text" name="bis_ceo" placeholder="대표자 이름을 입력해주세요.">
+                        <label id="bis_ceo_msg" class="validate_msg"></label>
+                    </div>
+
+                    <b>회사 전화번호</b>
+                    <div class="inp_type2 form-errors">
+                        <input type="text" name="bis_tel" placeholder="회사 전화번호를 입력해주세요.">
+                        <label id="bis_tel_msg" class="validate_msg"></label>
+                    </div>
+                    <b>주소</b>
+                    <div id="div_addr">
+                        <div class="inp_type2 form-errors">
+                            <input type="text" name="bis_zip" id="zip" placeholder="우편번호" readonly>
+                            <button type="button" class="btn_common" onclick="zipcode()">주소찾기</button>
                         </div>
-                        <div class="common signup">
-                            <strong class="sub_title">회원가입</strong>
-
-                            <b>회사 이메일(아이디)</b>
-                            <div class="inp_type2 form-errors">
-                                <input type="email" name="bis_email"  placeholder="회사 이메일 주소를 입력해주세요.">
-                                <label id="email_msg" class="validate_msg">이메일 주소를 올바르게 입력하세요.</label>
-                                <button type="button" class="btn_common">중복확인</button>
-                            </div>
-
-                            <b>비밀번호</b>
-                            <div class="inp_type2 form-errors">
-                                <input type="password" name="pass1" placeholder="비밀번호를 입력해주세요.">
-                                <label id="pass1_msg" class="validate_msg"></label>
-                                
-                            </div>
-
-                            <b>비밀번호 확인</b>
-                            <div class="inp_type2 form-errors">
-                                <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요.">
-                                <label id="pass2_msg" class="validate_msg"></label>
-                            </div>
-
-                            <b>회사명</b>
-                            <div class="inp_type2 form-errors">
-                                <input type="text" name="bis_name" placeholder="회사명을 입력해주세요.">
-                                <label id="bis_name_msg" class="validate_msg"></label>
-                            </div>
-
-                            <b>개업일자</b>
-                            <div class="inp_type2 form-errors">
-                                <!-- 날짜 선택시 class on -->
-                                <input type="date" name="bis_openDate" class="off" id="bis_openDate" placeholder="개업일자를 입력해주세요.">
-                                <label id="bis_openDate_msg" class="validate_msg"></label>
-                            </div>
-
-                            <b>사업자 등록번호</b>
-                            <div class="inp_type2 form-errors">
-                                <input type="text" name="bis_bizRegNum" id="bis_bizRegNum" placeholder="사업자등록번호를 입력해주세요.">
-                                <label id="bis_bizRegNum_msg" class="validate_msg"></label>
-                                <button type="button" class="btn_common">인증확인</button>
-                            </div>
-
-                            <b>대표자 이름</b>
-                            <div class="inp_type2 form-errors">
-                                <input type="text" name="bis_ceo" placeholder="대표자 이름을 입력해주세요.">
-                                <label id="bis_ceo_msg" class="validate_msg"></label>
-                            </div>
-
-                            <b>회사 전화번호</b>
-                            <div class="inp_type2 form-errors">
-                                <input type="text" name="bis_tel" placeholder="회사 전화번호를 입력해주세요.">
-                                <label id="bis_tel_msg" class="validate_msg"></label>
-                            </div>
-                            <b>주소</b>
-                            <div id="div_addr">
-                                <div class="inp_type2 form-errors">
-                                    <input type="text" name="bis_zip" id="zip" placeholder="우편번호" readonly>
-                                    <button type="button" class="btn_common" onclick="zipcode()">주소찾기</button>
-                                </div>
-                                <div class="inp_type2 form-errors">
-                                    <input type="text" name="bis_addr1" id="addr1" placeholder="기본주소 입력" readonly>
-                                </div>
-                                <div class="inp_type2 form-errors">
-                                    <input type="text" name="bis_addr2" id="addr2" placeholder="상세주소 입력">
-                                </div>
-                            </div>
-
-                            <!-- 유효성 검사 통과 시 class에 on 추가 -->
-                            <button type="button" class="btn_link on" id="signup_btn" disabled="disabled">
-                                <span>가입하기</span>
-                            </button>
+                        <div class="inp_type2 form-errors">
+                            <input type="text" name="bis_addr1" id="addr1" placeholder="기본주소 입력" readonly>
                         </div>
+                        <div class="inp_type2 form-errors">
+                            <input type="text" name="bis_addr2" id="addr2" placeholder="상세주소 입력">
+                        </div>
+                    </div>
 
-                    </form>
-                </section>
-            </main>        
-            <footer></footer>
-        </div>  
-    </body>
+                    <!-- 유효성 검사 통과 시 class에 on 추가 -->
+                    <button type="button" class="btn_link on" id="signup_btn" disabled="disabled">
+                        <span>가입하기</span>
+                    </button>
+                </div>
+
+            </form>
+        </section>
+    </main>
+
+</th:block>
+<th:block layout:fragment="script"></th:block>
 </html>
