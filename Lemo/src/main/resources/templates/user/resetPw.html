@@ -13,7 +13,7 @@
             <form action="#">
                 <div class="title">
                     <strong class="logo">
-                        <img src="../img/indexImg/lemo_logo-removebg-preview.png" alt="">
+                        <img th:src="@{/images/index/lemo_logo-removebg-preview.png}" alt="">
                         <a href="#">LEMO</a>
                     </strong>
                 </div>
@@ -53,7 +53,6 @@
                             <label id="pass2_msg" class="validate_msg"></label>
                         </div>
                     </section>
-
 
                     <!-- 유효성 검사 통과 시 class에 on 추가 -->
                     <button type="button" class="btn_link on" id="signup_btn" disabled="disabled">

@@ -1,305 +1,154 @@
-<!--
-    날짜 : 2023/02/27
-    이름 : 이해빈
-    내용 : 고객센터 자주묻는 질문
--->
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>LEMO :: 고객센터 자주묻는 질문</title>
-        <!-- 구글 폰트 -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
-        <!-- 스타일 css 적용 -->
-        <link rel="stylesheet" href="../css/indexStyle.css">
-        <link rel="stylesheet" href="../css/cs.css">
-        <!-- jquery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <script>
-            $( document ).ready( function() {
-                $('#dropdown').click(function(){
-                    let content = document.getElementById("dropdown_content");
-                    if(content.style.display=='none'){ 	
-                        content.style.display = 'block'; 	
-                    }else{ 		
-                        content.style.display = 'none'; 	
-                    } 
-                });
-
-                $('#dropdown2').click(function(){
-                    let content = document.getElementById("dropdown_content2");
-                    if(content.style.display=='none'){ 	
-                        content.style.display = 'block'; 	
-                    }else{ 		
-                        content.style.display = 'none'; 	
-                    } 
-                });
-                
-                /* 글 보기 */
-                $('.show_list > li').click(function(e){
-                    e.preventDefault();
-                    $(this).find('.toggle').slideToggle();
-                    $(this).find('.list_n').toggleClass('open');
-                });
-            } );
-        </script>   
-    </head>
-    <body>
-        <div id="wrapper">
-            <!-- 헤더 -->
-            <header>
-                <div class="header_inner">
-                    <div class="header_flex">
-                        <div class="header_logo">
-                            <!-- 메인으로 이동 -->
-                            <a href="#"><img src="../img/indexImg/lemo_logo.png" alt="레모 로고"></a>
-                            <div class="logo">LEMO</div>
-                        </div>
-                        <div class="header_service">
-                            <a href="#">로그인</a>
-                            <div class="dropdown_menu">
-                                <button id="dropdown">마이페이지
-                                    <img src="../img/indexImg/down-arrow.png">
-                                </button>
-                                <div class="dropdown_content" id="dropdown_content" style="display: none;">
-                                    <a href="#">나의 정보</a>
-                                    <a href="#">포인트</a>
-                                    <a href="#">쿠폰함</a>
-                                    <a href="#">예약내역</a>
-                                    <a href="#">위시리스트</a>
-                                    <a href="#">나의 여행일기</a>
-                                    <a href="#">나의 리뷰</a>
-                                </div>
-                            </div>
-                            <div class="dropdown_menu">
-                                <button id="dropdown2">고객센터
-                                    <img src="../img/indexImg/down-arrow.png">
-                                </button>
-                                <div class="dropdown_content" id="dropdown_content2" style="display: none;">
-                                    <a href="#">공지사항</a>
-                                    <a href="#">이벤트</a>
-                                    <a href="#">자주 묻는 질문</a>
-                                    <a href="#">1:1 문의</a>
-                                    <a href="#">여행일기</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="header_searchBar">
-                            <form class="search-container" action="#">
-                                <div class="search">
-                                    <input id="search-box" type="text" class="search-box" name="q"/>
-                                    <button type="submit" class="btnSearch">
-                                        <input type="image" src="../img/indexImg/btn_search.png" id="search-submit"/>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/default-layout">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/cs/cs.css}">
+</th:block>
+<th:block layout:fragment="content">
+    <!-- 메인 -->
+    <main>
+        <section id="cs">
+            <!-- nav-->
+            <th:block th:replace="fragments/_nav::navFragment"></th:block>
+            <!-- 본문 -->
+            <div class="content">
+                <!-- 카테고리 -->
+                <div class="tab">
+                    <span class="faq_title">
+                        자주묻는 질문
+                    </span>
                 </div>
-            </header>
-
-            <!-- 메인 -->
-            <main>
-                <section id="cs">
-                    <!-- nav-->
-                    <nav class="category">
-                        <span>고객센터</span>
-                        <ul>
-                            <li><a href="#">공지사항</a></li>
-                            <li><a href="#">이벤트</a></li>
-                            <li><a href="#" class="on">자주묻는질문</a></li>
-                            <li><a href="#">1:1 문의</a></li>
-                            <li><a href="#">약관 및 정책</a></li>
-                        </ul>
-                    </nav>
-                    <!-- 본문 -->
-                    <div class="content">
-                        <!-- 카테고리 -->
-                        <div class="tab">
-                            <span class="faq_title">
-                                자주묻는 질문
-                            </span>
-                        </div>
-                        <!-- 자주묻는 질문 카테고리 -->
-                        <div class="sub_cate">
-                            <li><a href="#">이벤트</a></li>
-                            <li><a href="#">예약/결제</a></li>
-                            <li><a href="#">취소/환불</a></li>
-                            <li><a href="#">혜택받기</a></li>
-                            <li><a href="#" class="on">이용문의</a></li>
-                            <li><a href="#">회원정보</a></li>
-                            <li><a href="#">리뷰</a></li>
-                            <li><a href="#">환불신청</a></li>
-                            <li><a href="#">쿠폰/포인트</a></li>
-                        </div>
-                        <!-- 자주묻는 질문 목록 -->
-                        <div class="tab_each" id="faq_list">
-                            <ul id="faqs" class="show_list open_list">
-                                <li>
-                                    <a href="#" id="faq_tab" class="list_n">
-                                        <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
-                                    </a>
-                                    <div class="toggle">
-                                        일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br> 
-                                        LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" id="faq_tab" class="list_n">
-                                        <p>[이용문의] 숙소 정보를 공유하는 기능이 있나요?</p>
-                                    </a>
-                                    <div class="toggle">
-                                        LEMO를 통해 국내 숙소/모바일티켓 상관없이 실 결제금액 3만원 이상 5번을 예약하면 자동 등업되어 엘리트가 됩니다.<br>
-                                        나의 적립 상태는 앱 하단 내정보 > 엘리트 메뉴에서 확인해 주세요!<br>
-                                        공간대여/실시간 렌터카 상품은 엘리트 적립에서 제외되니 참고바랍니다.
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" id="faq_tab" class="list_n">
-                                        <p>[이용문의] 어떻게하면 엘리트가 될 수 있나요?</p>
-                                    </a>
-                                    <div class="toggle">
-                                        LEMO를 통해 국내 숙소/모바일티켓 상관없이 실 결제금액 3만원 이상 5번을 예약하면 자동 등업되어 엘리트가 됩니다.<br>
-                                        나의 적립 상태는 앱 하단 내정보 > 엘리트 메뉴에서 확인해 주세요!<br>
-                                        공간대여/실시간 렌터카 상품은 엘리트 적립에서 제외되니 참고바랍니다.
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" id="faq_tab" class="list_n">
-                                        <p>[회원정보] 소셜회원 로그인 해제는 어떻게 하나요?</p>
-                                    </a>
-                                    <div class="toggle">
-                                        일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br> 
-                                        LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" id="faq_tab" class="list_n">
-                                        <p>[이용문의] 숙소 정보를 공유하는 기능이 있나요?</p>
-                                    </a>
-                                    <div class="toggle">
-                                        일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br> 
-                                        LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" id="faq_tab" class="list_n">
-                                        <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
-                                    </a>
-                                    <div class="toggle">
-                                        일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br> 
-                                        LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" id="faq_tab" class="list_n">
-                                        <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
-                                    </a>
-                                    <div class="toggle">
-                                        일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br> 
-                                        LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" id="faq_tab" class="list_n">
-                                        <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
-                                    </a>
-                                    <div class="toggle">
-                                        일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br> 
-                                        LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" id="faq_tab" class="list_n">
-                                        <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
-                                    </a>
-                                    <div class="toggle">
-                                        일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br> 
-                                        LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" id="faq_tab" class="list_n">
-                                        <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
-                                    </a>
-                                    <div class="toggle">
-                                        일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br> 
-                                        LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- 페이징 -->
-                        <div class="paging">
-                            <span class="prev"><a href="#"></a></span>
-                            <span class="on"><a href="#">1</a></span>
-                            <span><a href="#">2</a></span>
-                            <span><a href="#">3</a></span>
-                            <span><a href="#">4</a></span>
-                            <span><a href="#">5</a></span>
-                            <span class="next"><a href="#"></a></span>
-                        </div>
-
-                    </div>
-                </section>
-            </main>
-
-            <!-- 푸터 -->
-            <footer>
-                <div class="footer_inner">
-                    <div class="footer_menu">
-                        <table>
-                            <tr>
-                                <td><a href="#">ABOUT</a></td>
-                                <td><a href="#">NOTICE</a></td>
-                                <td><a href="#">CS CENTER</a></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="footer_block">
-                        <div class="footer_block_left">
-                            <div class="footer_block_row">
-                                <!-- 로고 클릭 시 메인으로 이동 -->
-                                <div class="row_col_1"><a href="#">LEMO</a></div>
-                                <div class="row_col_2">LETTUCE MEMORIES</div>
-                                <div class="row_col_3">
-                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
-                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
-                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
-                                </div>
-                            </div>
-                        </div>
-                        <div class="footer_block_right">
-                            <div class="footer_block_row">
-                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
-                                <div class="row_col_4"><a href="#">고객센터</a></div>
-                                <div class="row_col_5">
-                                    070-2023-0223 <br>
-                                    MON - FRI AM 09:00 - PM 17:00 <br>
-                                    BREAK PM 12:00 - PM 13:00 <br>
-                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="footer_terms">
-                        <div class="footer_block_row2">
-                            <a href="#">이용약관</a>
-                            <span>&nbsp;|&nbsp;</span>
-                            <a href="#">개인정보처리방침</a>
-                        </div>
-                    </div>
-                    <div class="footer_copyright">
-                        <div class="footer_block_row2">
-                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
-                        </div>
-                    </div>
+                <!-- 자주묻는 질문 카테고리 -->
+                <div class="sub_cate">
+                    <li><a href="#">이벤트</a></li>
+                    <li><a href="#">예약/결제</a></li>
+                    <li><a href="#">취소/환불</a></li>
+                    <li><a href="#">혜택받기</a></li>
+                    <li><a href="#" class="on">이용문의</a></li>
+                    <li><a href="#">회원정보</a></li>
+                    <li><a href="#">리뷰</a></li>
+                    <li><a href="#">환불신청</a></li>
+                    <li><a href="#">쿠폰/포인트</a></li>
                 </div>
-            </footer>
-        </div>
-    </body>
+                <!-- 자주묻는 질문 목록 -->
+                <div class="tab_each" id="faq_list">
+                    <ul id="faqs" class="show_list open_list">
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
+                            </a>
+                            <div class="toggle">
+                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
+                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[이용문의] 숙소 정보를 공유하는 기능이 있나요?</p>
+                            </a>
+                            <div class="toggle">
+                                LEMO를 통해 국내 숙소/모바일티켓 상관없이 실 결제금액 3만원 이상 5번을 예약하면 자동 등업되어 엘리트가 됩니다.<br>
+                                나의 적립 상태는 앱 하단 내정보 > 엘리트 메뉴에서 확인해 주세요!<br>
+                                공간대여/실시간 렌터카 상품은 엘리트 적립에서 제외되니 참고바랍니다.
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[이용문의] 어떻게하면 엘리트가 될 수 있나요?</p>
+                            </a>
+                            <div class="toggle">
+                                LEMO를 통해 국내 숙소/모바일티켓 상관없이 실 결제금액 3만원 이상 5번을 예약하면 자동 등업되어 엘리트가 됩니다.<br>
+                                나의 적립 상태는 앱 하단 내정보 > 엘리트 메뉴에서 확인해 주세요!<br>
+                                공간대여/실시간 렌터카 상품은 엘리트 적립에서 제외되니 참고바랍니다.
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[회원정보] 소셜회원 로그인 해제는 어떻게 하나요?</p>
+                            </a>
+                            <div class="toggle">
+                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
+                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[이용문의] 숙소 정보를 공유하는 기능이 있나요?</p>
+                            </a>
+                            <div class="toggle">
+                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
+                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
+                            </a>
+                            <div class="toggle">
+                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
+                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
+                            </a>
+                            <div class="toggle">
+                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
+                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
+                            </a>
+                            <div class="toggle">
+                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
+                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
+                            </a>
+                            <div class="toggle">
+                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
+                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
+                            </a>
+                            <div class="toggle">
+                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
+                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 페이징 -->
+                <div class="paging">
+                    <span class="prev"><a href="#"></a></span>
+                    <span class="on"><a href="#">1</a></span>
+                    <span><a href="#">2</a></span>
+                    <span><a href="#">3</a></span>
+                    <span><a href="#">4</a></span>
+                    <span><a href="#">5</a></span>
+                    <span class="next"><a href="#"></a></span>
+                </div>
+
+            </div>
+        </section>
+    </main>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/cs/toggle.js}"></script>
+</th:block>
 </html>
+
+
+

@@ -171,7 +171,7 @@ h3 {
     background: none;
 }
 .list .heart img {
-    content:url('../img/diaryImg/heart.png');
+    content:url('../../images/diary/heart.png');
     position: relative; 
     top: 3px;
     left: 229px;
@@ -179,7 +179,7 @@ h3 {
 }
 
 .list .heart.on img {
-    content: url('../img/diaryImg/heart2.png');
+    content: url('../../images/diary/heart2.png');
 }
 
 .list > .list-area > ul > li:hover { 
@@ -236,7 +236,7 @@ h3 {
 
 .list .diary_content * {font-size: 16px;}
 
-.list .diary_content #nick {
+.list .diary_content .nick {
     color: #fff;
     margin-bottom: 10px;
 }
@@ -389,17 +389,17 @@ button {cursor: pointer;}
     background-size: 20px;
 }
 #diary_content li:nth-of-type(1)::before {
-    background-image: url('../img/diaryImg/calendar2.png');
+    background-image: url('../../images/diary/calendar2.png');
 }
 #diary_content li:nth-of-type(2)::before {
-    background-image: url('../img/diaryImg/bed1.png');
+    background-image: url('../../images/diary/bed1.png');
 }
 #diary_content li:nth-of-type(3)::before {
-    background-image: url('../img/diaryImg/edit.png');
+    background-image: url('../../images/diary/edit.png');
 }
 
 #diary_content li:nth-of-type(4)::before {
-    background-image: url('../img/diaryImg/heart3.png');
+    background-image: url('../../images/diary/heart3.png');
     scale: 1.2;
 }
 
@@ -426,7 +426,7 @@ button {cursor: pointer;}
     content: "";
     margin-right: 10px;
     background-size: 37px;
-    background-image: url(../img/diaryImg/marker4.png);
+    background-image: url(../../images/diary/marker4.png);
     background-repeat: no-repeat;
 } */
 
@@ -452,7 +452,7 @@ button {cursor: pointer;}
 }
 
 .place > .arrow.on {
-    content: url('../img/csImg/arr_top.png');
+    content: url('../../images/cs/arr_top.png');
 }
 
 .place .toggle {

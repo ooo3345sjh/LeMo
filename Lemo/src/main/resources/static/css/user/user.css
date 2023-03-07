@@ -236,7 +236,7 @@ section  div > input {
     left: 15px;
     width: 18px;
     height: 14px;
-    background: url('Lemo/images/user/ico_inp_mail.png') 0 0 no-repeat;
+    background: url('../../images/user/ico_inp_mail.png') 0 0 no-repeat;
     background-size: 18px auto;
 }
 
@@ -245,7 +245,7 @@ section  div > input {
     left: 16px;
     width: 18px;
     height: 15px;
-    background: url('Lemo/images/user/ico_inp_pw.png') 50% 0 no-repeat;
+    background: url('../../images/user/ico_inp_pw.png') 50% 0 no-repeat;
     background-size: 14px auto;
 
 }
@@ -276,7 +276,7 @@ section  div > input {
     left: 15px;
     width: 18px;
     height: 14px;
-    background: url('Lemo/images/user/ico_inp_mail.png') 0 -28px no-repeat;
+    background: url('../../images/user/ico_inp_mail.png') 0 -28px no-repeat;
     background-size: 18px auto;
 }
 
@@ -284,7 +284,7 @@ section  div > input {
 .ico_pw.inp_error::after {
     width: 18px;
     height: 15px;
-    background: url('../user/img/ico_inp_pw.png') 50% -30px no-repeat;
+    background: url('../../images/user/ico_inp_pw.png') 50% -30px no-repeat;
     background-size: 14px auto;
 }
 
@@ -503,14 +503,14 @@ section  div > input {
     width: 24px;
     height: 24px;
     border: none;
-    background: url('../img/userImg/ico_chk.png') 0 0 no-repeat;
+    background: url('../../images/user/ico_chk.png') 0 0 no-repeat;
     background-size: 24px auto;
     cursor: pointer;
     appearance: none;
 }
 
 .terms_agree .chk:checked {
-    background: url('../img/userImg/ico_chk.png')  0 -24px no-repeat;
+    background: url('../../images/user/ico_chk.png')  0 -24px no-repeat;
     background-size: 24px auto;
     
 }
