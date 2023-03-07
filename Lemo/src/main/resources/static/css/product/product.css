@@ -1168,7 +1168,7 @@
     margin: 34px;
     width: 35px; height: 35px;
     font-size: 0;
-    background-image: url(../img/search.png);
+    background-image: url(/Lemo/images/product/search.png);
     background-size: cover;
     background-color: rgba(0, 0, 0, 0);
     border: 0;
@@ -1185,7 +1185,7 @@
     float: left;
     width: 45px; height: 45px;
     margin-left: 10px;
-    background-image: url(../img/list.png);
+    background-image: url(/Lemo/images/product/list.png);
     background-size: cover;
 }
 
