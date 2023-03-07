@@ -21,80 +21,7 @@
         <link rel="stylesheet" href="../css/my.css">
         <style>
             
-            .on-off-toggle {
-            width: 56px;
-            height: 24px;
-            position: relative;
-            float: right;
-            margin-right: 36px;
-            }
-
-            .on-off-toggle__slider {
-            width: 56px;
-            height: 24px;
-            display: block;
-            border-radius: 34px;
-            background-color: #d8d8d8;
-            transition: background-color 0.4s;
-            }
-
-            .on-off-toggle__slider:before {
-                content: '';
-                display: block;
-                background-color: #fff;
-                box-shadow: 0 0 0 1px #949494;
-                bottom: 3px;
-                height: 18px;
-                left: 3px;
-                position: absolute;
-                transition: .4s;
-                width: 18px;
-                z-index: 5;
-                border-radius: 100%;
-            }
-            
-            .on-off-toggle__slider:after {
-                display: block;
-                line-height: 24px;
-                text-transform: uppercase;
-                font-size: 12px;
-                font-weight: bold;
-                content: 'off';
-                color: #484848;
-                padding-left: 26px;
-                transition: all 0.4s;
-            }
-            
         
-
-            .on-off-toggle__input {
-            /*
-                This way of hiding the default input is better 
-                for accessibility than using display: none;
-            */
-            position: absolute;
-            opacity: 0;
-            }
-
-            .on-off-toggle__input:checked + 
-            .on-off-toggle__slider {
-            background-color: #bbd444;
-            }
-            .on-off-toggle__input:checked + 
-            .on-off-toggle__slider:before {
-                transform: translateX(32px);
-            }
-            .on-off-toggle__input:checked + 
-            .on-off-toggle__slider:after {
-                content: 'on';
-                color: #FFFFFF;
-                padding-left: 8px;
-            }
-            
-
-            .my_marketing{
-                font-size: 14px;
-            }
 
             
             
@@ -244,6 +171,36 @@
                         </div>
                     </div>  
                 </section>
+                <!-- 우측 미니 사이드바 -->
+                <div class="btn_quick">
+                    <ul>
+                        <li class="btn_wishlist">
+                            <a href="javascript:;">
+                                <img src="/img/indexImg/empty-heart.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img src="/img/indexImg/naver_quick.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img src="/img/indexImg/kakao_quick.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" id="scrollToTop" onclick="return false;">
+                                <img src="/img/indexImg/top_btn.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" id="scrollToBottom" onclick="return false;">
+                                <img src="/img/indexImg/bottom_btn.png">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </main>
             <footer>
                 <div class="footer_inner">
