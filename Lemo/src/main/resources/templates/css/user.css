@@ -1,0 +1,719 @@
+/* 회원 공통 */
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Red Hat Display', 'Noto Sans KR', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    box-sizing: border-box;
+}
+
+ul, ol {list-style: none;}
+
+a {
+    text-decoration: none;
+    color: #111;
+}
+
+input, textarea {outline:  none;}
+
+#wrapper {width: 100%;}
+main {width: 1200px; margin: auto;}
+
+label {cursor: pointer;}
+
+
+main > section {
+    width: 336px;
+    margin: 100px auto 0 auto;
+}
+
+/* 로고 공통 스타일 */
+main > section .title {
+    display: block !important;
+    margin-bottom: 25px;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 300;
+    width: 100%;
+    height: 44px;
+    background: #fff;
+    font-size: 18px;
+    line-height: 44px;
+    text-align: center;
+}
+
+section .title > .logo {
+    display: inline-block;
+    width: auto;
+    height: 44px;
+    background-size: 112px 23px;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 44px;
+}
+
+section .title > .logo > img{
+    position: relative;
+    bottom: 13px;
+    margin-right: 5px;
+    display: inline-block;
+    float: left;
+    height: 60px;
+}
+
+section .title > .logo > a {
+    font-size: 36px;
+    font-weight: 800;
+    color: #bbd444;
+}
+
+/* 약관동의, 회원가입 최종 제출 버튼 공통  */
+.btn_link {
+    height: 56px;
+    line-height: 56px;
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    border-radius: 6px;
+    color: #dad5d5;
+    text-align: center;
+    border: none;
+    
+}
+
+.btn_link > span {
+    font-size: 16px;
+}
+
+.btn_link.on{
+    background: linear-gradient(to right, rgba(255,0,85,1) 1%,rgba(230,34,67,1) 100%);
+    color: #fff;
+}
+
+.btn_link > span {font-size: 16px; line-height: 56px;}
+
+
+
+/* 로그인(login) */
+
+/* 연동 로그인 버튼 */
+.btn_start {
+    height: 56px;
+    font-size: 16px;
+    line-height: 56px;
+    display: block;
+    position: relative;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    text-align: center;
+    width: 100%;
+    border: none;
+}
+
+.btn_start > span >{}
+
+.btn_start > span > i {
+    font-size: 16px;
+    font-style: initial;
+}
+
+.btn_kakao {
+    background: rgb(252,229,30);
+    color: rgb(59,29,20);
+}
+
+.btn_naver {
+    background: #03C75A;
+    color: #fff;
+}
+/*
+.btn_google {
+    background: #e04a32;
+    color: #fff;
+}
+*/
+
+.btn_google {
+    box-shadow: 0px 8px 3px -8px #d3d3d3;
+    background: #ffffff;
+    color: #6c6868;
+    border: 1px solid #dcdcdc;
+}
+
+.btn_google > span > i {font-family: 'Roboto';}
+
+.btn_start > span > img {margin-right: 10px; width: 20px; position: relative; top: 3px;}
+.btn_start > span > img {}
+.btn_kakao > span > img {}
+.btn_naver > span > img {}
+
+
+button {
+    padding: 0;
+    cursor: pointer;
+}
+
+.or {
+    position: relative;
+    height: 56px;
+    margin-bottom: 8px;
+}
+
+.or::after {
+    content:'';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: rgba(0,0,0,0.08);
+}
+
+.or span {
+    width: 60px;
+    height: 56px;
+    margin: 0 0 0 -25px;
+    font-size: 16px;
+    line-height: 56px;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 10;
+    color: rgba(0,0,0,0.38);
+    text-align: center;
+    background: #fff;
+
+}
+
+section  div > input {
+    position: relative;
+    top: 11px;
+    width: 100%;
+    height: 24px;
+    font-size: 18px;
+    padding: 0;
+    border: none;
+    vertical-align: top;
+}
+
+.inp_type1 {
+    height: 48px;
+    padding: 0 16px 0 46px;
+    position: relative;
+    margin-bottom: 8px;
+    border: 1px solid rgba(0,0,0,0.26);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+.inp_type1 input::placeholder {font-weight: 300; color:#c2c2c2;}
+
+.inp_type1 input {
+    position: relative;
+    top: 11px;
+    width: 100%;
+    height: 24px;
+    font-size: 17px;   
+    font-weight: 500;
+    color: #111;
+}
+
+/* 이메일, 비밀번호 input 아이콘 */
+.inp_type1::after {
+    display: inline-block;
+    content: '';
+    position: absolute;
+}
+
+.ico_email::after{
+    top: 16px;
+    left: 15px;
+    width: 18px;
+    height: 14px;
+    background: url('../img/userImg/ico_inp_mail.png') 0 0 no-repeat;
+    background-size: 18px auto;
+}
+
+.ico_pw::after {
+    top: 15px;
+    left: 16px;
+    width: 18px;
+    height: 15px;
+    background: url('../img/userImg/ico_inp_pw.png') 50% 0 no-repeat;
+    background-size: 14px auto;
+
+}
+
+
+/* 유효성 검사에 어긋날때 .error -> display:block 으로 변경 */
+.inp_error {
+    margin-bottom: 37px;
+    border: 1px solid rgb(230,28,81) !important;;
+}
+
+.error {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    top: 44px;
+    left: 0;
+    font-size: 13px;
+    line-height: 1;
+    color: rgb(230,28,81) !important;
+    top: 54px;
+    left: 0;
+    font-size: 15px;
+}
+
+.ico_email.inp_error::after {
+    top: 15px;
+    left: 15px;
+    width: 18px;
+    height: 14px;
+    background: url('../user/img/ico_inp_mail.png') 0 -28px no-repeat;
+    background-size: 18px auto;
+}
+
+
+.ico_pw.inp_error::after {
+    width: 18px;
+    height: 15px;
+    background: url('../user/img/ico_inp_pw.png') 50% -30px no-repeat;
+    background-size: 14px auto;
+}
+
+
+/* 최종 로그인 버튼 */
+.login {
+    height: 56px;
+    font-size: 16px;
+    line-height: 56px;
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    border-radius: 6px;
+    color: #fff;
+    text-align: center;
+    border: none;
+    background: linear-gradient(to right, rgba(255,0,85,1) 1%,rgba(230,34,67,1) 100%);
+    /*background: linear-gradient(to right,#bbd444 1%,#00bbfe 100%);*/
+}
+
+.login > span {
+    position: relative;
+    font-size: 16px;
+    line-height: 56px;
+}
+
+/* 비밀번호 재설정, 회원가입 */
+
+.link_half {
+    overflow: hidden;
+    position: relative;
+    height: 56px;
+    margin-top: 9px;
+}
+
+.link_half > div {
+    display: inline-block;
+    float: left;
+    width: 50%;
+    height: 40px;
+    text-align: center;
+}
+
+.link_half span {
+    height: 56px;
+    font-size: 16px;
+    line-height: 56px;
+}
+
+.link_half::after {
+    display: inline-block;
+    content: '';
+    position: absolute;
+    top: 21px;
+    left: 50%;
+    width: 1px;
+    height: 16px;
+    background: rgba(0,0,0,0.08);
+}
+
+
+/* 회원가입 구분(join) */
+
+/* 안내 문구 */
+.join {margin-top: 250px;}
+
+.join > p {
+    text-align: center;
+    font-size: 30px;
+}
+
+.join > p > strong {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+/* 가입구분 */
+.join > .type {
+    width: 900px;
+    margin: 0 auto;
+    margin-top: 100px;
+    text-align: center;
+}
+
+.join > .type > div {
+    width: 420px;
+    height: 180px;
+    border: 1px solid #d5d5d5;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.join > .type > div > div:first-child {
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    background-color: #FCF951;
+}
+
+.join .type .txt {  
+    position: relative;
+    padding-left: 50px;
+}
+
+.join .type .txt > span {
+    display: block;
+    font-size: 15px;
+    text-align: left;
+}
+
+.join > .type > .general {float: left;}
+.join > .type > .business {float: right;}
+
+.join .type .txt > .txt1 {font-size: 18px; padding-top: 40px;}
+.join .type .txt > .txt2 {font-size: 12px; color: gray;}
+
+
+/* 회원가입 버튼 */
+.join .type .txt .register {
+    float: right;
+    position: relative;
+    bottom: 40px;
+    right: 40px;
+
+
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+	background-color:#ededed;
+	border-radius:3px;
+	border:1px solid #dcdcdc;
+	cursor:pointer;
+	color:#777777;
+	font-size:13px;
+	font-weight:bold;
+	padding:8px 13px;
+	text-decoration:none;
+}
+
+.join .type .txt .register:hover {
+    background: linear-gradient(to bottom, #fcf951 5%, rgb(252 229 30) 100%);
+    background-color: #fcf951;
+    color: #7f4141;
+}
+
+.join .type .txt .register:active {
+	position:relative;
+    bottom:39px;
+}
+
+        
+/* 약관(terms) */
+#terms {}
+#terms > section {
+    width: 336px;
+    margin: 100px auto 0 auto;
+}
+
+#terms .title {
+    display: block !important;
+    margin-bottom: 16px;
+    width: 100%;
+    height: 44px;
+    background: #fff;
+    line-height: 44px;
+    text-align: center;
+}
+
+#terms .title > strong {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#terms .terms_agree {
+    margin-top: 20px;
+}
+
+.terms_agree > p {
+    font-size: 15px;
+    line-height: 26px;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.terms_agree p > label {
+    display: inline-block;
+    position: relative;
+}
+
+.terms_agree p > a { 
+    font-size: 15px;
+    line-height: 26px;
+    display: inline-block;
+    text-decoration: underline;
+    color: rgba(0,0,0,0.87);
+}
+
+.terms_agree p > span {
+    font-size: 15px;
+    line-height: 26px;
+    display: inline-block;
+    color: rgb(242,17,76);
+
+}
+
+.terms_agree input {
+    margin: 0 10px 0 0;
+    vertical-align: top;
+}
+
+.terms_agree > .all_check label {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.terms_agree .chk {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: url('../img/userImg/ico_chk.png') 0 0 no-repeat;
+    background-size: 24px auto;
+    cursor: pointer;
+    appearance: none;
+}
+
+.terms_agree .chk:checked {
+    background: url('../img/userImg/ico_chk.png')  0 -24px no-repeat;
+    background-size: 24px auto;
+    
+}
+
+
+
+
+/* 일반회원가입(signup_general) */
+
+/* 회원가입 공통 - .common부분은 비밀번호 재설정 페이지까지 공통됨 */
+main > section .common > .sub_title {
+    display: block;
+    margin: 30px 0 10px 0;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.common b {
+    display: block;
+    margin-bottom: 9px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(0,0,0,0.56);
+}
+
+.common div {
+    margin-bottom: 38px;
+}
+
+.inp_type2 {
+    padding: 0 10px;
+}
+
+.inp_type2 {
+    position: relative;
+    height: 48px;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.inp_type2 input::placeholder {font-weight: 300; color:#c2c2c2;}
+.inp_type2 input {
+    font-weight: 500;
+    color: #111;
+}
+
+.btn_common {
+    position: absolute;
+    top: 0;
+    right: -100px;
+    width: 93px;
+    height: 48px;
+    border-radius: 6px;
+    background: #ebebeb;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    color: rgba(0,0,0,0.56);
+}
+
+.btn_common:hover {
+    background: #FCF951;
+}
+
+.validate_msg {
+    margin-top: 20px;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 28px;
+    color: red;
+} 
+
+#signup .btn_link {
+    height: 56px;
+    line-height: 56px;
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    border-radius: 6px;
+    line-height: 56px;
+    text-align: center;
+    border: none;
+    font-weight: 400;
+}
+
+/* 인증번호 timer */
+.inp_type2 .timer {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    height: 48px;
+    line-height: 48px;
+    font-size: 16px;
+    color: #ff0055;
+}
+
+/* 위치를 중앙으로 정렬
+#signup > section {
+    width: 435px;
+}
+
+main > section .signup > .sub_title {
+    display: block;
+    margin: 30px 0 10px 0;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.signup {
+    position: relative;
+    
+}
+
+.signup b {
+    display: block;
+    margin-bottom: 9px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(0,0,0,0.56);
+}
+
+.signup div {
+    margin-bottom: 38px;
+}
+
+.inp_type2 {
+    padding: 0 10px;
+    width: 336px;
+}
+
+.inp_type2 {
+    position: relative;
+    height: 48px;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.btn_common {
+    position: absolute;
+    top: 0;
+    width: 93px;
+    height: 48px;
+    border-radius: 6px;
+    background: #ebebeb;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    color: rgba(0,0,0,0.56);
+}
+
+.validate_msg {
+    margin-top: 20px;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 28px;
+    color: red;
+} 
+*/
+
+
+/* 사업자회원가입(signup_business) */
+
+.inp_type2 #bis_openDate {
+    font-weight: 300; color:#c2c2c2;
+}
+
+.inp_type2 #bis_openDate.on{
+    font-weight: 500;
+    color: #111;
+}
+
+#div_addr div{
+    margin-bottom: 4px;
+}
+
+/* 비밀번호 재설정(restPw) */
+.resetPw > p {
+    font-size: 15px;
+    color: #a8a8a8;
+    margin-bottom: 25px;
+}
+
+#section1 {display: block;}
+#section2 {display: block;}
+
+
+/* 휴대폰 인증 */
+.certification .inp_type2 {
+    width: 238px;
+}
+
+.certification > p {
+    font-size: 15px;
+    color: #a8a8a8;
+    margin-bottom: 25px;
+}
+
+/* 닉네임 중복확인 */
+.checknick .inp_type2 {
+    width: 238px;
+}

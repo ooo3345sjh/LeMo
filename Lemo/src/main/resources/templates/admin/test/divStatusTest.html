@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>div Status</title>
+    <style>
+        /* ver1 */
+        .status {
+            text-align: left;
+            margin-top: 13px;
+        }
+        .status > .status-percent {
+            font-size: 16px;
+            color: red;
+            font-weight: 700;
+        }
+        .status > .status-percent::after {
+            content: "%";
+        }
+        .status-percentBar {
+            width: 100%;
+            height: 4px;
+            margin: 5px 0 0;
+            overflow: hidden;
+            background: #e9ecef;
+            position: relative;
+        }
+        .status-percentBar::after {
+            content: "";
+            width: 85%;
+            display: block;
+            height: 100%;
+            background: rgb(255, 87, 87);
+        }
+        
+        /* ver2 */
+        .status2 {
+            text-align: left;
+            margin-top: 13px;
+        }
+        .progress-bar {
+            height: 0.3rem;
+            display: flex;
+            overflow: hidden;
+            font-size: .75rem;
+            background-color: #e9ecef;
+            border-radius: 0.25rem;
+        }
+        .progress-stat {
+            width: 85%;
+            border-top-right-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
+            background: rgb(255, 87, 87);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            transition: width .6s ease;
+        }
+
+        /* ver3 */
+        #progress1 {
+            text-align: left;
+            width: 100%;
+            margin-top: 13px;
+            appearance: none;
+        }
+        #progress1::-webkit-progress-bar {
+            width: 100%;
+            height: 4px;
+            margin: 5px 0 0;
+            overflow: hidden;
+            background: #e9ecef;
+            animation: progressbar 2s ease-out;
+        }
+        #progress1::-webkit-progress-value {
+            border-radius:10px;
+            background: #1D976C;
+            background: -webkit-linear-gradient(to right, #93F9B9, #1D976C);
+            background: linear-gradient(to right, #93F9B9, #1D976C);
+        }
+        #progress1::-moz-progress-bar {
+            background-color: #eee;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- ver1 -->
+    <div class="status">
+        <span class="status-percent">85</span>
+    </div>
+    <div class="status-percentBar"></div>
+
+    <!-- ver2 -->
+    <div class="status2">
+        <div class="progress-bar">
+            <div class="progress-stat"></div>
+        </div>
+    </div>
+
+    <!-- ver3 -->
+    <progress id="progress1" value="85" min="0" max="100"></progress>
+    
+</body>
+</html>
