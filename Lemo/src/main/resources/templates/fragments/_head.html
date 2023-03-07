@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="headFragment">
+    <head>
+        <meta charset="UTF-8">
+        <!--/*
+        <meta th:name="_csrf" th:content="${_csrf.token}"/>
+        <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+        */-->
+        <th:block>
+            <title>Lemo::타이틀</title>
+        </th:block>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
+        <!-- 스타일 css 적용 -->
+        <link rel="stylesheet" href="./css/indexStyle.css">
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <!-- bxslider plugin -->
+        <script src="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+        <!-- slick slider plugin-->
+        <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+        <!-- JS -->
+        <script src="./js/commonJS.js"></script>
+        <script>
+            $( document ).ready( function() {
+                $( '.slider' ).bxSlider( {
+                    auto: true,         // 자동 실행 여부
+                    pause: 4000,        // 멈춤 속도 
+                    minSlides: 1,       // 최소 노출 개수
+                    maxSlides: 5,       // 최대 노출 개수
+                    slideWidth: 1100,   // 슬라이드 너비
+                    pager: false,       // 현재 위치 페이징 표시 여부 설정
+                    controls: false     // 이전 다음 버튼 노출 여부
+                } );
+
+                $( document ).ready( function() {
+                    $( '.main_top_table' ).slick( {
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        autoplay: true,
+                        autoplaySpeed: 2000,
+                    } );
+                } );
+            });
+        </script>   
+    </head>
+</th:block>
+</html>
