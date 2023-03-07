@@ -5,19 +5,80 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ac2c2e3-f708-4631-8a55-15d20ed63e8e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../HTML/admin/test/discountCalcTest.html" beforeDir="false" afterPath="$PROJECT_DIR$/../HTML/admin/test/discountCalcTest.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HTML/my/reserveration.html" beforeDir="false" afterPath="$PROJECT_DIR$/../HTML/my/reserveration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../HTML/product/MapAPITest.html" beforeDir="false" afterPath="$PROJECT_DIR$/../HTML/product/MapAPITest.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments/_head_admin.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/layouts/admin-layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HTML/admin/stats.html" beforeDir="false" afterPath="$PROJECT_DIR$/../HTML/admin/stats.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Lemo.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/co/Lemo/dao/exampledao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/co/Lemo/dao/exampleDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/co/Lemo/domain/examplevo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/admin/test.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/cs/js/summernote-ko-KR.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/admin/summernote-ko-KR.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/css/adminEvent.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/admin/adminEvent.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/css/adminFaq.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/admin/adminFaq.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/css/adminNotice.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/admin/adminNotice.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/css/adminQna.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/admin/adminQna.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/css/adminStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/admin/adminStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/css/adminSubStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/admin/adminSubStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/css/adminUser.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/admin/adminUser.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/css/businessStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/admin/businessStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/btn_search.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/btn_search.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/cake.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/cake.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/calendar.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/calendar.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/customer.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/customer.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/dashboard.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/dashboard.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/default_select_arrow.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/default_select_arrow.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/happy.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/happy.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/home.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/home.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/ico_arr.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/ico_arr.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/ico_sprites.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/ico_sprites.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/lemo_logo-removebg-preview.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/lemo_logo-removebg-preview.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/line-chart.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/line-chart.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/manage.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/manage.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/mouse.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/mouse.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/profile.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/profile.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/rating_star.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/rating_star.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/shopping-cart.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/shopping-cart.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/view1.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/view1.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/view2.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/view2.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/view3.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/view3.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/view4.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/view4.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/view5.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/view5.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/img/wink.gif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/images/admin/wink.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/index_admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/index_admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/js/dragNdrop.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/admin/dragNdrop.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/js/fileUpload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/admin/fileUpload.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/js/salePercent.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/admin/salePercent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/js/summernote-ko-KR.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/js/zipcode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/admin/zipcode.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -32,11 +93,25 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/java2/Desktop/Workspace/LeMo/Lemo"
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "/Users/iilhwan/Desktop/Workspace/LeMo/Lemo/src/main/resources/templates/js/admin",
+    "settings.editor.selected.configurable": "File.Encoding"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/templates/js/admin" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/static/images/admin" />
+      <recent name="$PROJECT_DIR$/src/main/resources/static/css/admin" />
+      <recent name="$PROJECT_DIR$/src/main/resources/static/js/admin" />
+      <recent name="$PROJECT_DIR$/src/main/resources/templates/js/admin" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
