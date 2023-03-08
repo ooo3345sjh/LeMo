@@ -5,7 +5,6 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminStyle.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
-
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -151,16 +150,13 @@
             // 오늘 날짜
             let today = new Date();
             // 오늘 날짜 (월)
-            let nowMonth = today.getMonth() + 1;
-
-            console.log(nowMonth);
-
+            let newMonth = today.getMonth() + 1;
             // 오늘 날짜 (일)
-            let nowDate = today.getDate();
+            let newDate = today.getDate();
             // 출력 날짜 형태 지정
-            let date = nowMonth + '/' + nowDate;
+            let date2 = newMonth + '/' + newDate;
 
-            console.log(date);
+            console.log(date2);
 
             // 이전 날짜
             // before[1] = 1일전 , before[2] = 2일전
@@ -182,7 +178,7 @@
                     [before[3],  239, 1255],
                     [before[2],  60, 1315],
                     [before[1],  380, 1695],
-                    [date,  80, 1775]
+                    [date2,  80, 1775]
                 ]);
 
                 // 그래프 주석 표기

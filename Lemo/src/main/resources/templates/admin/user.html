@@ -71,9 +71,9 @@
                                         <li>가입일</li>
                                         <li>비고</li>
                                     </ul>
-                                    <ul>
+                                    <ul th:each="user:${users}">
                                         <li>1</li>
-                                        <li>circle@naver.com</li>
+                                        <li>[[${userId_id}]]</li>
                                         <li>강아지에게쫓기는지니요정</li>
                                         <li>정상</li>
                                         <li>일반</li>
