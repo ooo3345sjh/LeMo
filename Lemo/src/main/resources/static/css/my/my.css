@@ -1845,7 +1845,7 @@
     .my_review_m_complete{
         float: right;
     }
-    .my_review_m_complete #btn_modify {
+    .my_review_m_complete #btn_dropzone {
         margin: 11px 0;
         margin-right: 11px;
         box-shadow: inset 0px 1px 0px 0px #ffffff;
@@ -1860,7 +1860,7 @@
         text-decoration: none;
         text-shadow: 0px 1px 0px #ffffff;
     }
-    .my_review_m_complete #btn_modify:hover {
+    .my_review_m_complete #btn_dropzone:hover {
         background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
         background-color:#f6f6f6;
     }
