@@ -11,7 +11,7 @@
     <main>
         <section id="cs">
             <!-- nav-->
-            <th:block th:replace="fragments/_nav::navFragment"></th:block>
+            <th:block th:replace="fragments/_aside::csAside"></th:block>
             <!-- 본문 -->
             <div class="content">
                 <!-- 카테고리 -->
@@ -22,15 +22,15 @@
                 </div>
                 <!-- 자주묻는 질문 카테고리 -->
                 <div class="sub_cate">
-                    <li><a href="#">이벤트</a></li>
-                    <li><a href="#">예약/결제</a></li>
-                    <li><a href="#">취소/환불</a></li>
-                    <li><a href="#">혜택받기</a></li>
-                    <li><a href="#" class="on">이용문의</a></li>
-                    <li><a href="#">회원정보</a></li>
-                    <li><a href="#">리뷰</a></li>
-                    <li><a href="#">환불신청</a></li>
-                    <li><a href="#">쿠폰/포인트</a></li>
+                    <li><a th:href="@{#}">이벤트</a></li>
+                    <li><a th:href="@{#}">예약/결제</a></li>
+                    <li><a th:href="@{#}">취소/환불</a></li>
+                    <li><a th:href="@{#}">혜택받기</a></li>
+                    <li><a th:href="@{#}" class="on">이용문의</a></li>
+                    <li><a th:href="@{#}">회원정보</a></li>
+                    <li><a th:href="@{#}">리뷰</a></li>
+                    <li><a th:href="@{#}">환불신청</a></li>
+                    <li><a th:href="@{#}">쿠폰/포인트</a></li>
                 </div>
                 <!-- 자주묻는 질문 목록 -->
                 <div class="tab_each" id="faq_list">
@@ -131,13 +131,13 @@
                 </div>
                 <!-- 페이징 -->
                 <div class="paging">
-                    <span class="prev"><a href="#"></a></span>
+                    <span class="prev"><a th:href="@{#}"></a></span>
                     <span class="on"><a href="#">1</a></span>
                     <span><a href="#">2</a></span>
                     <span><a href="#">3</a></span>
                     <span><a href="#">4</a></span>
                     <span><a href="#">5</a></span>
-                    <span class="next"><a href="#"></a></span>
+                    <span class="next"><a th:href="@{#}"></a></span>
                 </div>
 
             </div>

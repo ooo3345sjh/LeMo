@@ -1,12 +1,23 @@
 package kr.co.Lemo.controller;
 
+import kr.co.Lemo.service.csService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * @since 2023/03/07
+ * @author 이해빈
+ * @apiNote csController
+ */
+
 @Controller
 @RequestMapping("cs/")
 public class csController {
+
+    @Autowired
+    private csService service;
 
     @GetMapping("notice")
     public String notice(){

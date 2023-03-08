@@ -45,14 +45,14 @@
                                 <table class="input_stayRoomInfo">
                                     <tr>
                                         <td>이벤트 이름</td>
-                                        <td><input type="text"></td>
+                                        <td><input type="text" name="cs_title"></td>
                                     </tr>
                                     <tr>
                                         <td>기간</td>
                                         <td>
-                                            <input class="input_130" type="date" id="currentDate" value="" onchange="CharacterData(event)">
+                                            <input class="input_130" type="date" name="cs_eventStart" id="currentDate" value="" onchange="CharacterData(event)">
                                             &nbsp;~&nbsp;
-                                            <input class="input_130" type="date" id="endDate">
+                                            <input class="input_130" type="date" name="cs_eventEnd" id="endDate">
                                         </td>
                                     </tr>
 
@@ -60,7 +60,7 @@
                                         <td>배너 이미지</td>
                                         <td>
                                             <div class="stayThumb">
-                                                <div class="dropzone" id="fileDropzone">
+                                                <div class="dropzone" name="cs_eventbannerImg" id="fileDropzone">
                                                     <div>
                                                         <button class="dz-default dz-message" type="button">
                                                             사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
@@ -74,7 +74,7 @@
                                         <td>이벤트 이미지</td>
                                         <td>
                                             <div class="stayThumb">
-                                                <div class="dropzone" id="fileDropzone2">
+                                                <div class="dropzone" name="cs_eventViewImg" id="fileDropzone2">
                                                     <div>
                                                         <button class="dz-default dz-message" type="button">
                                                             사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
@@ -87,7 +87,7 @@
                                     <tr>
                                         <td>이벤트 내용</td>
                                         <td>
-                                            <div id="summernote"></div>
+                                            <div id="summernote" name="cs_content"></div>
                                         </td>
                                     </tr>
 
