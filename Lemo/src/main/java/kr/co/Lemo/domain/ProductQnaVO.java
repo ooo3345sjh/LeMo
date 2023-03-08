@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class productQnaVO {
+public class ProductQnaVO {
 
     private int pQna_no;
     private int acc_id;

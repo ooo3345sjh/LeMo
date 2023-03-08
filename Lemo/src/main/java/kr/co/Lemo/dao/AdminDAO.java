@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 @Mapper
-public interface adminDAO {
+public interface AdminDAO {
     public List<UserVO> selectUser();
 }

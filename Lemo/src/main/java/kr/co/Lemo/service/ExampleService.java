@@ -6,7 +6,7 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional(rollbackOn = Exception.class)
-public class exampleService {
+public class ExampleService {
 
 
 }

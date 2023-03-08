@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class diarySpotVO {
+public class DiarySpotVO {
     private int spot_no;
     private int arti_no;
     private String spot_longtitude;

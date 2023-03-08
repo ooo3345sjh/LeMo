@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("product/")
-public class productController {
+public class ProductController {
 
     @GetMapping("list")
     public String list() throws Exception{

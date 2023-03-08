@@ -1,4 +1,4 @@
 package kr.co.Lemo.service;
 
-public class myService {
+public class MyService {
 }

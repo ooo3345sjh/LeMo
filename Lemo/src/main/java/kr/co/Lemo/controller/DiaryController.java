@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("diary/")
-public class diaryController {
+public class DiaryController {
 
     @GetMapping("list")
     public String list(){

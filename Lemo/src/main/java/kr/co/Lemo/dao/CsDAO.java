@@ -1,9 +1,7 @@
 package kr.co.Lemo.dao;
 
-import kr.co.Lemo.domain.CsVO;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * @since 2023/03/08
@@ -11,8 +9,9 @@ import java.util.List;
  * @apiNote csDAO
  */
 
+@Mapper
 @Repository
-public interface csDAO {
+public interface CsDAO {
     /** select **/
     public void selectEventArticles();
     public void selectFaqArticles();

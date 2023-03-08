@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("my/")
-public class myController {
+public class MyController {
 
     @GetMapping("coupon")
     public String coupon(){
