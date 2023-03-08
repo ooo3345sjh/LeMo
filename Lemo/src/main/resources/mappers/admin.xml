@@ -7,7 +7,7 @@
     이름 : 이원정
     내용 : 관리자 mapper
  -->
-<mapper namespace="kr.co.Lemo.dao.adminDAO">
+<mapper namespace="kr.co.Lemo.dao.AdminDAO">
 
 <!-- select -->
 <select id="selectUser" resultType="kr.co.Lemo.domain.UserVO">

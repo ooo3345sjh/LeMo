@@ -1,7 +1,7 @@
 package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.UserVO;
-import kr.co.Lemo.service.adminService;
+import kr.co.Lemo.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,10 +20,10 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequestMapping("admin/")
-public class adminController {
+public class AdminController {
 
     @Autowired
-    private adminService service;
+    private AdminService service;
 
     @GetMapping("index_admin")
     public String index_admin() {

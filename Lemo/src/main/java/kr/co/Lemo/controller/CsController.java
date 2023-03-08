@@ -1,6 +1,6 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.service.csService;
+import kr.co.Lemo.service.CsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("cs/")
-public class csController {
+public class CsController {
 
     @Autowired
-    private csService service;
+    private CsService service;
 
     @GetMapping("notice")
     public String notice(){

@@ -1,6 +1,6 @@
 package kr.co.Lemo.service;
 
-import kr.co.Lemo.dao.csDAO;
+import kr.co.Lemo.dao.CsDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class csService {
+public class CsService {
 
     @Autowired
-    private csDAO dao;
+    private CsDAO dao;
 
 }
