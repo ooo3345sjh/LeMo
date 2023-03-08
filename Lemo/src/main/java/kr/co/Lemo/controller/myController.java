@@ -66,4 +66,14 @@ public class myController {
     @GetMapping("diary/list")
     public String diary_list() {return "my/diary/list";}
 
+    /**
+     * @since 2023/03/08
+     * @author 박종협
+     */
+    @GetMapping("diary/write")
+    public String diary_write() {return "my/diary/write";}
+
+    @GetMapping("diary/modify")
+    public String diary_modify() {return "my/diary/modify";}
+
 }
