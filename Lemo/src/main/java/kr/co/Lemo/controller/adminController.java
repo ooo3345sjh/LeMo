@@ -1,8 +1,15 @@
 package kr.co.Lemo.controller;
 
+import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.service.adminService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 /**
  * @since 2023/03/07
@@ -10,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @apiNote 관리자 controller
  */
 
+@Slf4j
 @Controller
 @RequestMapping("admin/")
 public class adminController {
+
+    @Autowired
+    private adminService service;
 
     @GetMapping("index_admin")
     public String index_admin() {
@@ -30,7 +41,12 @@ public class adminController {
     }
 
     @GetMapping("user")
-    public String user() {
+    public String user(Model model) {
+        List<UserVO> users = service.selectUser();
+        model.addAttribute("users", users);
+
+        log.warn("users: "+users.size());
+
         return "admin/user";
     }
 
@@ -186,6 +202,8 @@ public class adminController {
     public String roomInfo_write(){
         return "admin/roomInfo/write";
     }
+
+
 
 
 }

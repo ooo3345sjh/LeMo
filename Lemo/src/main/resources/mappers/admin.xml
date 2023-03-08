@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    날짜 : 2023/03/08
+    이름 : 이원정
+    내용 : 관리자 mapper
+ -->
+<mapper namespace="kr.co.Lemo.dao.adminDAO">
+
+<!-- select -->
+<select id="selectUser" resultType="kr.co.Lemo.domain.UserVO">
+    SELECT * FROM `lemo_member_user`;
+</select>
+
+    <!-- insert -->
+
+    <!-- update -->
+
+    <!-- delete -->
+
+    <!-- 공통 키 -->
+</mapper>
