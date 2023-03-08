@@ -1,0 +1,232 @@
+<!--
+    날짜 : 2023/02/27
+    이름 : 황원진
+    내용 : 마이페이지 pick HTML 
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/default-layout">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/my/my.css}">
+</th:block>
+<th:block layout:fragment="content">
+            <main>
+                <section id="my">
+                    <nav class="category">
+                        <span>마이페이지</span>
+                        <ul>
+                            <li>
+                                <a th:href="@{#}">내정보</a>
+                            </li>
+                            <li>
+                                <a th:href="@{#}">포인트</a>
+                            </li>
+                            <li>
+                                <a th:href="@{#}">쿠폰함</a>
+                            </li>
+                            <li>
+                                <a th:href="@{#}">예약내역</a>
+                            </li>
+                            <li>
+                                <a th:href="@{#}" class="on">나의 찜</a>
+                            </li>
+                            <li>
+                                <a th:href="@{#}">나의 여행일기</a>
+                            </li>
+                            <li>
+                                <a th:href="@{#}">나의 리뷰</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="content">
+                        <!-- 카테고리 -->
+                        <div class="tab">
+                            <span class="my_title">
+                                나의 찜
+                            </span>
+                        </div>
+                        <div class="my_pick">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <a th:href="@{#}" class="my_pick_img">
+                                                <img th:src="@{/images/my/hotel_main.jpg}" alt="장소 이미지">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="my_pick_Name">
+                                                <span class="pickName">제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="my_pick_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <div class="my_pick_review_count">
+                                                    <span>1,000</span>
+                                                </div>
+                                            </div>
+                                            <div class="blank30"></div>
+                                            <div class="my_pick_address">
+                                                <span>
+                                                제주도 서귀포 표선면
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a th:href="@{#}" class="my_pick_img">
+                                                <img th:src="@{/images/my/hotel_main.jpg}" alt="장소 이미지">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="my_pick_Name">
+                                                <span class="pickName">제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="my_pick_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <div class="my_pick_review_count">
+                                                    <span>1,000</span>
+                                                </div>
+                                            </div>
+                                            <div class="blank30"></div>
+                                            <div class="my_pick_address">
+                                                <span>
+                                                제주도 서귀포 표선면
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a th:href="@{#}" class="my_pick_img">
+                                                <img th:src="@{/images/my/hotel_main.jpg}" alt="장소 이미지">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="my_pick_Name">
+                                                <span class="pickName">제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="my_pick_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <div class="my_pick_review_count">
+                                                    <span>1,000</span>
+                                                </div>
+                                            </div>
+                                            <div class="blank30"></div>
+                                            <div class="my_pick_address">
+                                                <span>
+                                                제주도 서귀포 표선면
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a th:href="@{#}" class="my_pick_img">
+                                                <img th:src="@{/images/my/hotel_main.jpg}" alt="장소 이미지">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="my_pick_Name">
+                                                <span class="pickName">제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                            </div>
+                                            <div class="my_pick_rating">
+                                                <!-- 임시 평점 -->
+                                                <div class="star-ratings">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                </div>
+                                                <div class="my_pick_review_count">
+                                                    <span>1,000</span>
+                                                </div>
+                                            </div>
+                                            <div class="blank30"></div>
+                                            <div class="my_pick_address">
+                                                <span>
+                                                제주도 서귀포 표선면
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 페이징 -->
+                        <div class="paging">
+                            <span class="prev"><a href="#"></a></span>
+                            <span class="on"><a href="#">1</a></span>
+                            <span><a href="#">2</a></span>
+                            <span><a href="#">3</a></span>
+                            <span><a href="#">4</a></span>
+                            <span><a href="#">5</a></span>
+                            <span class="next"><a href="#"></a></span>
+                        </div>
+                    </div>  
+                </section>
+                <!-- 우측 미니 사이드바 -->
+                <div class="btn_quick">
+                    <ul>
+                        <li class="btn_wishlist">
+                            <a href="javascript:;">
+                                <img th:src="@{/img/indexImg/empty-heart.png}">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img th:src="@{/img/indexImg/naver_quick.png}">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img th:src="@{/img/indexImg/kakao_quick.png}">
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{#}" id="scrollToTop" onclick="return false;">
+                                <img th:src="@{/img/indexImg/top_btn.png}">
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{#}" id="scrollToBottom" onclick="return false;">
+                                <img th:src="@{/img/indexImg/bottom_btn.png}">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </main>
+    </th:block>
+    <th:block layout:fragment="script">
+        <script>
+
+            </script>
+    </th:block>
+</html>

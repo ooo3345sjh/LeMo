@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/default-layout">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/cs/cs.css}">
+</th:block>
+<th:block layout:fragment="content">
+    <!-- 메인 -->
+    <main>
+        <section id="cs">
+            <!-- nav-->
+            <th:block th:replace="fragments/_nav::navFragment"></th:block>
+            <!-- 본문 -->
+            <div class="content">
+                <!-- 카테고리 -->
+                <div class="tab">
+                    <span class="event_title">
+                        이벤트 <span class="new">NEW</span>
+                    </span>
+                </div>
+                <!-- view 내용 -->
+                <div class="event_view">
+                    <span>23년 2월 롯데카드 즉시할인 - 신용카드</span>
+                    <div class="event_content">
+                        <p>
+                            <img th:src="@{/images/cs/event_view_sample.png}">
+                        </p>
+                        <!-- 이벤트 링크
+                        <div class="evt-link">
+                            <img src="../../img/csImg/event_link.png" alt="">
+                            <a href="#"></a>
+                        </div>-->
+                    </div>
+                    <div class="precautions">
+                        <div class="handle">
+                            <div>
+                                <img th:src="@{/images/cs/info_blit.png}">
+                                <span>꼭 확인하세요.</span>
+                                <img th:src="@{/images/cs/arrow_top.png}">
+                            </div>
+                        </div>
+                        <div class="info">
+                            · 본 이벤트는 LEMO에서 숙소 예약 시, 선착순 결제한 고객을 대상으로 진행됩니다.<br>
+                            · 일별 선착순 인원 종료 시점까지 할인 가능 합니다.<br>
+                            · 선착순 쿠폰은 기간 내, 매일 오전 0시에 시작 됩니다.<br>
+                            · 선착 순 종료 시, 최종 결제금액 동일합니다. 종료된 프로모션은 최종 결제 금액으로 프로모션 대상 여부를 확인해 주세요.<br>
+                            · 선착순 쿠폰 잔여여부는, 혜택 박스로 확인 가능 합니다.<br>
+                            · 타 간편 결제 수단에 등록된 카드는 할인이 적용되지 않습니다. (페이나우/네이버페이/카카오페이/페이코/삼성,LG페이 적용불가)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 페이징 -->
+                <div class="page">
+                    <p>
+                        <a href="#">
+                            <span class="ico_arr_up">이전글</span>
+                            <b>23년 2월 하나카드 즉시할인 - 신용카드</b>
+                            <em>기간 : 2023.02.01 ~ 2023.02.28</em>
+                        </a>
+                    </p>
+                    <p>
+                        <a href="#">
+                            <span class="ico_arr_down">다음글</span>
+                            <b>23년 2월 우리카드 즉시할인 - 신용카드</b>
+                            <em>기간 : 2023.02.01 ~ 2023.02.28</em>
+                        </a>
+                    </p>
+                </div>
+                <div class="aligncenter">
+                    <button onclick="window.location.href='#'" class="btn">목록보기</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+            $(document).ready(function() {
+                $('.handle').click(function(){
+                    $('.info').slideToggle();
+                    $(this).find('img:last-of-type').toggleClass('on');
+                });
+            });
+        </script>
+</th:block>
+</html>

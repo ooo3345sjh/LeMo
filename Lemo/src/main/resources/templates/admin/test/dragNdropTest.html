@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>드래그앤드롭 이미지 파일 업로드2 - dropzone js 사용</title>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>      
+    <!-- 클라이언트 소스 로드 -->
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>    
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+    <script>        
+        //fileDropzone dropzone 설정할 태그의 id로 지정
+        Dropzone.options.fileDropzone = {
+            url: 'Fileupload', //업로드할 url (ex)컨트롤러)
+
+             // 최초 dropzone 설정 시 init을 통해 호출
+            init: function () {
+                var submitButton = document.querySelector("#btn-upload-file");
+                var myDropzone = this; 
+                submitButton.addEventListener("click", function () {
+                    console.log("업로드"); 
+                    // 만약 거부 파일이 있다면
+                    if (myDropzone.getRejectedFiles().length > 0) {
+                            let files = myDropzone.getRejectedFiles();
+                            console.log('거부된 파일이 있습니다.', files);
+                            return;
+                        }
+                     //  autoProcessQueue: false -> 메소드 api로 파일 서버 제출 
+                    myDropzone.processQueue();
+                });
+            },
+            autoProcessQueue: false,        // 파일 업로드하자마자 서버로 요청 -> false (따로 this.processQueue() 호출시 전송)
+            clickable: true,                // 클릭 가능 여부
+            autoQueue: false,               //  드래그 드랍 후 바로 서버로 전송
+            createImageThumbnails: true,    //파일 업로드 썸네일 생성
+            thumbnailHeight: 120,           // 썸네일 이미지 크기 
+            thumbnailWidth: 120,            // 썸네일 이미지 크기 
+            maxFiles: 5,                    // 업로드 파일 수
+            maxFilesize: 10,                // 최대 업로드 용량 (10MB)
+            paramName: 'file',              // 서버에서 사용할 formdata 이름 설정 (defualt: file)
+            parallelUploads: 5,             // 동시파일업로드 수 (지정 수만큼 여러 파일을 한 번에 넘김)
+            addRemoveLinks: true,           // 삭제버튼 표시 여부
+            dictRemoveFile: '삭제',          // 삭제버튼 표시 텍스트
+            uploadMultiple: true,           // 다중업로드 기능
+            acceptedFiles: '.jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF', // 업로드 허용 파일 확장자 (이미지 파일 포맷만 허용)
+        };
+    </script>
+    <style>
+        #fileDropzone {
+            border: 2px dashed #92AAB0;
+            width: 650px;
+            height: 200px;
+            color: #92AAB0;
+            text-align: center;
+            vertical-align: middle;
+            padding: 10px 0px 10px 10px;
+            font-size: 200%;
+            display: table-cell;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <form name="fname">
+        <div class="dropzone" id="fileDropzone"></div> 
+        <button id="btn-upload-file">서버전송</button>
+    </form>
+</body>
+</html>

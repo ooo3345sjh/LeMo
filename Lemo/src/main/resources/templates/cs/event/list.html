@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/default-layout">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/cs/cs.css}">
+</th:block>
+<th:block layout:fragment="content">
+    <!-- 메인 -->
+    <main>
+        <section id="cs">
+            <!-- nav-->
+            <th:block th:replace="fragments/_nav::navFragment"></th:block>
+            <!-- 본문 -->
+            <div class="content">
+                <!-- 카테고리 -->
+                <div class="tab">
+                            <span class="event_title">
+                                이벤트 <span class="new">NEW</span>
+                            </span>
+                </div>
+                <div class="event">
+                    <ul id="events" class="event_list">
+                        <li>
+                            <b>23년 2월 하나카드 즉시할인 - 신용카드</b>
+                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
+                            <a href="#"><img th:src="@{/images/cs/event1.jpg}"></a>
+                        </li>
+                        <li>
+                            <b>23년 2월 롯데카드 즉시할인 - 신용카드</b>
+                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
+                            <a href="#"><img th:src="@{/images/cs/event2.jpg}"></a>
+                        </li>
+                        <li>
+                            <b>23년 2월 우리카드 즉시할인 - 신용카드</b>
+                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
+                            <a href="#"><img th:src="@{/images/cs/event3.jpg}"></a>
+                        </li>
+                        <li>
+                            <b>23년 2월 카카오 즉시할인 - 간편결제</b>
+                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
+                            <a href="#"><img th:src="@{/images/cs/event4.jpg}"></a>
+                        </li>
+                        <li>
+                            <b>23년 2월 토스 즉시할인 - 간편결제</b>
+                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
+                            <a href="#"><img th:src="@{/images/cs/event5.jpg}"></a>
+                        </li>
+                        <li>
+                            <b>23년 1월 결제 프로모션 모음</b>
+                            <span>기간: 2023.01.01 ~ 2023.02.28</span>
+                            <a href="#"><img th:src="@{/images/cs/event6.jpg}"></a>
+                        </li>
+                        <li class="end">
+                            <b>23년 1월 하나카드 즉시할인 - 신용카드</b>
+                            <span>기간: 2023.01.01 ~ 2023.01.31</span>
+                            <a href="#"><img th:src="@{/images/cs/event1.jpg}"></a>
+                        </li>
+                        <li class="end">
+                            <b>23년 1월 롯데카드 즉시할인 - 신용카드</b>
+                            <span>기간: 2023.01.01 ~ 2023.01.31</span>
+                            <a href="#"><img th:src="@{/images/cs/event2.jpg}"></a>
+                        </li>
+                        <li class="end">
+                            <b>23년 1월 우리카드 즉시할인 - 신용카드</b>
+                            <span>기간: 2023.01.01 ~ 2023.01.31</span>
+                            <a href="#"><img th:src="@{/images/cs/event3.jpg}"></a>
+                        </li>
+                        <li class="end">
+                            <b>23년 1월 카카오 즉시할인 - 간편결제</b>
+                            <span>기간: 2023.01.01 ~ 2023.01.31</span>
+                            <a href="#"><img th:src="@{/images/cs/event4.jpg}"></a>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- 페이징 -->
+                <div class="paging">
+                    <span class="prev"><a href="#"></a></span>
+                    <span class="on"><a href="#">1</a></span>
+                    <span><a href="#">2</a></span>
+                    <span><a href="#">3</a></span>
+                    <span><a href="#">4</a></span>
+                    <span><a href="#">5</a></span>
+                    <span class="next"><a href="#"></a></span>
+                </div>
+            </div>
+        </section>
+    </main>
+</th:block>
+<th:block layout:fragment="script"></th:block>
+</html>
+
+
+
+
+

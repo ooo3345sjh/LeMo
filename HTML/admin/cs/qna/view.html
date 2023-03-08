@@ -1,0 +1,233 @@
+<!--
+    날짜 : 2023/03/04
+    이름 : 이원정
+    내용 : 관리자 고객센터 문의사항 보기 및 답변 작성 HTML 
+-->
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>Travel with Lemo::admin-index</title>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
+        <!-- 스타일 css 적용 -->
+        <link rel="stylesheet" href="../../css/adminQna.css">
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        
+    </head>
+    <body>
+        <div id="wrapper">
+            <!-- 헤더 -->
+            <header></header>
+            <!-- 메인 -->
+            <main>
+                <div class="main_inner">
+                    <!-- 죄측 사이드바 -->
+                    <nav class="sidebar">
+                        <div class="sidebar_logo">
+                            <a href="#">
+                                <img src="../../img/lemo_logo-removebg-preview.png" alt="logo">
+                                <div class="logo">LEMO</div>
+                            </a>
+                        </div>
+                        <ul class="sidebar_menu">
+                            <!-- 사이드 메뉴 item1 -->
+                            <li>
+                                <a class="sidebar_arrow" href="#">
+                                    <div class="icon_menu">
+                                        <img src="../../img/dashboard.svg">
+                                    </div>
+                                    <span>HOME</span>
+                                </a>
+                                <ul class="sidebar_collapse_menu">
+                                    <li>
+                                        <a href="#">로그아웃</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- 사이드 메뉴 item2 -->
+                            <li>
+                                <a class="sidebar_arrow" href="#">
+                                    <div class="icon_menu">
+                                        <img src="../../img/manage.svg">
+                                    </div>
+                                    <span>상품관리</span>
+                                </a>
+                                <ul class="sidebar_collapse_menu">
+                                    <li>
+                                        <a href="#">숙박관리</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">객실관리</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">쿠폰등록</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">등록리뷰</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- 사이드 메뉴 item3 -->
+                            <li>
+                                <a class="sidebar_arrow" href="#">
+                                    <div class="icon_menu">
+                                        <img src="../../img/manage.svg">
+                                    </div>
+                                    <span>예약관리</span>
+                                </a>
+                                <ul class="sidebar_collapse_menu">
+                                    <li>
+                                        <a href="#">예약정보</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">타임라인</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- 사이드 메뉴 item4 -->
+                            <li>
+                                <a class="sidebar_arrow" href="#">
+                                    <div class="icon_menu">
+                                        <img src="../../img/dashboard.svg">
+                                    </div>
+                                    <span>통계관리</span>
+                                </a>
+                            </li>
+                            <!-- 사이드 메뉴 item5 -->
+                            <li>
+                                <a class="sidebar_arrow" href="#">
+                                    <div class="icon_menu">
+                                        <img src="../../img/dashboard.svg">
+                                    </div>
+                                    <span>회원관리</span>
+                                </a>
+                            </li>
+                            <!-- 사이드 메뉴 item6 -->
+                            <li>
+                                <a class="sidebar_arrow" href="#">
+                                    <div class="icon_menu">
+                                        <img src="../../img/manage.svg">
+                                    </div>
+                                    <span>고객센터</span>
+                                </a>
+                                <ul class="sidebar_collapse_menu">
+                                    <li>
+                                        <a href="#">공지사항</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"  class="on">문의사항</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- 우측 메인 컨테이너 -->
+                    <section class="main_content">
+                        <div class="main_cotent_inner">
+                            <div class="main_content_div">
+                                <div class="col_nav">
+                                    <span>고객센터 ></span>
+                                    <span>문의사항</span>
+                                </div>
+                                <div class="col2">
+                                    <form action="#">
+                                        <div class="board_view">
+                                            <div class="view_box">
+                                                <div class="view_head">
+                                                    <div class="title">
+                                                        <p>[예약/결제] 예약을 어떻게 취소하나요?</p>
+                                                    </div>
+                                                    <div class="info">
+                                                        <div class="view_date">2023-03-04</div>
+                                                        <div class="view_user">이동*</div>
+                                                    </div>
+                                                </div>
+                                                <div class="view_content">
+                                                    <textarea readonly>예약을 어떻게 취소하나요?</textarea>
+                                                </div>
+                                                <div class="view_recomment">
+                                                    <div class="write_recomment">
+                                                        <div class="inner_txt">
+                                                            <textarea placeholder="문의 답변을 작성해 주세요 (댓글 형식으로 답변 작성 + 작성 후 수정 삭제 버튼 나오게)"></textarea>
+                                                        </div>
+                                                        <div class="btnSubmit">
+                                                            <button class="btnAdminProd" type="button">등록</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- <div class="btnAdminProd4">
+                                            <a href="#">
+                                                선택삭제
+                                            </a>
+                                        </div> -->
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="blank30"></div>
+                        </div>
+                    <!-- -->
+                </div>
+            </main>
+            <footer class="main_footer">
+                <div class="footer_inner">
+                    <div class="footer_menu">
+                        <table>
+                            <tr>
+                                <td><a href="#">ABOUT</a></td>
+                                <td><a href="#">NOTICE</a></td>
+                                <td><a href="#">CS CENTER</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer_block">
+                        <div class="footer_block_left">
+                            <div class="footer_block_row">
+                                <!-- 로고 클릭 시 메인으로 이동 -->
+                                <div class="row_col_1"><a href="#">LEMO</a></div>
+                                <div class="row_col_2">LETTUCE MEMORIES</div>
+                                <div class="row_col_3">
+                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
+                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
+                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_block_right">
+                            <div class="footer_block_row">
+                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
+                                <div class="row_col_4"><a href="#">고객센터</a></div>
+                                <div class="row_col_5">
+                                    070-2023-0223 <br>
+                                    MON - FRI AM 09:00 - PM 17:00 <br>
+                                    BREAK PM 12:00 - PM 13:00 <br>
+                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer_terms">
+                        <div class="footer_block_row2">
+                            <a href="#">이용약관</a>
+                            <span>&nbsp;|&nbsp;</span>
+                            <a href="#">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="footer_copyright">
+                        <div class="footer_block_row2">
+                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>

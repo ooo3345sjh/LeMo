@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/default-layout">
+        <th:block layout:fragment="css-js">
+            <link rel="stylesheet" th:href="@{/css/product/product.css}">
+        </th:block>
+        <th:block layout:fragment="content">
+            <main id="reserv_reserv">
+                <div id="content">
+                    <div id="reserv_info_left">
+                        <div id="reserv_chkin">
+                            <h3>예약자 정보</h3>
+                            <strong>예약자 이름</strong>
+                            <p>
+                                <input type="text" name="name" placeholder="체크인시 필요한 정보입니다.">
+                            </p>
+                            <p> 한글, 영문, 숫자만 입력 가능.</p>
+                            <div>
+                                <strong>휴대폰 번호</strong>
+                                <span>개인 정보 보호를 위해 안심번호로 숙소에 전송됩니다.</span>
+                                <div class="phone">
+                                    <input type="text" name="phone" placeholder="체크인시 필요한 정보입니다.">
+                                    <button type="button">X</button>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="visit">
+                                <strong>방문 방법</strong>
+                                <div>
+                                    <button type="button"><span>도보</span></button>
+                                    <button type="button"><span>차량</span></button>
+                                </div>
+                                <span>주차장 만차 시 주차가 어려울 수 있어요</span>
+                            </div>
+                            -->
+                        </div>
+                        <div id="price">
+                            <h3>할인 수단 선택</h3>
+                            <div class="product_amount">
+                                <strong>구매총액</strong>
+                                <b>999,999원</b>
+                            </div>
+                            <div class="discount_container">
+                                <div class="discount_header">
+                                    <button type="button" class="discount_button">사용 가능한 쿠폰 1장</button>
+                                    <span>-</span>
+                                </div>
+                                <!--
+                                <div class="discount_coupons_amount">
+                                    <span>일반쿠폰</span>
+                                    <span>-</span>
+                                </div>
+                                <div class="discount_coupons_amount">
+                                    <span>더하기쿠폰</span>
+                                    <span>-</span>
+                                </div>
+                                -->
+                            </div>
+                            <div class="discount_container">
+                                <div class="discount_header">
+                                    <button type="button" class="discount_button">포인트 사용 0P</button>
+                                    <div>
+                                        <div>
+                                            <input type="text" value="0" class="discount_input">
+                                            <span>P</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="discount_container">
+                                <div class="discount_header">
+                                    <button type="button" class="discount_button">상품권 사용</button>
+                                    <span>-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="pay_select">
+                            <h3>결제수단 선택</h3>
+                            <select id="payment_select">
+                                <option value="TOSS">토스페이</option>
+                                <option value="CARD">신용/체크카드</option>
+                                <option value="AT_QUICK">간편계좌이체</option>
+                                <option value="NAVER">네이버페이</option>
+                                <option value="PAYCO">PAYCO</option>
+                                <option value="CARD_BIZ">법인카드</option>
+                                <option value="CELLPHONE">휴대폰결제</option>
+                            </select>
+                        </div>
+                        <div id="agree">
+                            <p id="checkAll">
+                                <label>
+                                    <input type="checkbox" name="checkAll">
+                                    <span>전체 동의</span>
+                                </label>
+                            </p>
+                            <p>
+                                <input type="checkbox" name="checkOne">
+                                <span>
+                                    <i>숙소이용규칙 및 취소/환불규정 동의</i>
+                                    <b>(필수)</b>
+                                </span>
+                            </p>
+                            <p>
+                                <input type="checkbox" name="checkOne">
+                                <span>
+                                    <i>숙소이용규칙 및 취소/환불규정 동의</i>
+                                    <b>(필수)</b>
+                                </span>
+                            </p>
+                            <p>
+                                <input type="checkbox" name="checkOne">
+                                <span>
+                                    <i>숙소이용규칙 및 취소/환불규정 동의</i>
+                                    <b>(필수)</b>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div id="reserv_info_right">
+                        <div class="info">
+                            <p class="info_name">
+                                <strong>숙소이름</strong>
+                                테스트 호텔
+                            </p>
+                            <p>
+                                <strong>객실타입/기간</strong>
+                                테스트테스트테스트테스트테스트
+                            </p>
+                            <p>
+                                <strong>체크인</strong>
+                                03.03 월 14:00
+                            </p>
+                            <p>
+                                <strong>체크아웃</strong>
+                                03.06 월 14:00
+                            </p>
+                        </div>
+                        <div class="total_price">
+                            <p>
+                                <strong>
+                                    <b>총 결제 금액</b>
+                                    (VAT포함)
+                                </strong>
+                                <span class="in_price">999,999원</span>
+                            </p>
+                            <ul>
+                                <li>해당 객실가는 세금, 봉사료가 포함된 금액입니다</li>
+                                <li>
+                                    결제완료 후
+                                    <span>예약자 이름</span>
+                                    으로 바로
+                                    <span>체크인</span>
+                                    하시면 됩니다.
+                                </li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn_pay">결제하기</button>
+                    </div>
+                </div>
+            </main>
+            <!-- 쿠폰 팝업 -->
+            <div id="popup_coupon" class="popup_coupon">
+                <div>
+                    <div class="fix_title">
+                        사용 가능한 쿠폰
+                        <button type="button" onclick="popdown_coupon()">닫기</button>
+                    </div>
+                    <div class="iscroll_cp" style="touch-action: none;">
+                        <div class="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
+                            <section>
+                                <strong>Lemo에서 드리는 쿠폰!</strong>
+                                <ul class="dot_coupon_txt">
+                                    <li>회원가입 10,000원 할인!</li>
+                                    <li>여름 특별 50,000 할인!</li>
+                                </ul>
+                            </section>
+                            <section>
+                                <strong>테스트 호텔에서 드리는 쿠폰!</strong>
+                                <ul class="dot_coupon_txt">
+                                    <li>여름 특별 50,000 할인</li>
+                                    <li>도보 방문시 5,000원 할인</li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+        <th:block layout:fragment="script">
+            <script>
+                /** 쿠폰 팝업 해제 */
+                function popdown_coupon(){
+                    $('#popup_coupon').removeClass('on');
+                }
+
+                $(function(){
+                    /** 쿠폰 팝업 */
+                    $('.discount_button').click(function(){
+                        $('#popup_coupon').addClass('on');
+                    });
+                });
+            </script>
+        </th:block>
+</html>

@@ -1,0 +1,147 @@
+<!--
+    날짜 : 2023/02/28
+    이름 : 황원진
+    내용 : 마이페이지 info HTML 
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/default-layout">
+    <th:block layout:fragment="css-js">
+        <link rel="stylesheet" th:href="@{/css/my/my.css}">
+    </th:block>
+    <th:block layout:fragment="content">
+            
+            <main>
+                <section id="my">
+                    <nav class="category">
+                        <span>마이페이지</span>
+                        <ul>
+                            <li>
+                                <a href="#" class="on">내정보</a>
+                            </li>
+                            <li>
+                                <a href="#">포인트</a>
+                            </li>
+                            <li>
+                                <a href="#">쿠폰함</a>
+                            </li>
+                            <li>
+                                <a href="#">예약내역</a>
+                            </li>
+                            <li>
+                                <a href="#">나의 찜</a>
+                            </li>
+                            <li>
+                                <a href="#">나의 여행일기</a>
+                            </li>
+                            <li>
+                                <a href="#">나의 리뷰</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="content">
+                        <!-- 카테고리 -->
+                        <div class="tab">
+                            <span class="my_title">
+                                내정보
+                            </span>
+                        </div>
+                        <div class="my_info">
+                            <div class="my_page">
+                                <div class="top_area">
+                                    <div class="login_info">
+                                        <form>
+                                            <div class="my_profile_box">
+                                                <img id="my_profile" th:src="@{/images/my/profile.png}" alt>
+                                            </div>
+                                            <label for="profile_file">+</label>
+                                            <input type="file" id="profile_file" accept="image/png, image/jpeg">
+                                        </form>
+                                        <div class="social_login">
+                                            <p>Naver 회원으로 로그인</p>
+                                        </div>
+                                    </div>
+                                    <ul class="my_data">
+                                        <li>
+                                            <div class="info_nick">
+                                                <div>
+                                                    <span class="nick_text">제주살이</span>
+                                                    <button type="button" class="btn_edit">
+                                                        <span class="text">수정</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="info_phone">
+                                                <div>
+                                                    <span id="phoneNum" class="phone_text">010-****-2541</span>
+                                                    <button type="button" class="btn_edit">
+                                                        <span class="text">수정</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <div class="on-off-toggle">
+                                            <input class="on-off-toggle__input" type="checkbox" id="bopis" />
+                                            <label for="bopis" class="on-off-toggle__slider"></label>
+                                        </div>
+                                        <div class="my_marketing">마켓팅 수신 동의</div>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="bot_btn">
+                                <p>LEMO를 이용하고 싶지 않으신가요?</p>
+                                <button type="button">
+                                    <a class="withdraw" th:href="@{#}">회원탈퇴</a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>  
+                </section>
+                <!-- 우측 미니 사이드바 -->
+                <div class="btn_quick">
+                    <ul>
+                        <li class="btn_wishlist">
+                            <a href="javascript:;">
+                                <img th:src="@{/images/indexImg/empty-heart.png}">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img th:src="@{/images/indexImg/naver_quick.png}">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img th:src="@{/images/indexImg/kakao_quick.png}">
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{#}" id="scrollToTop" onclick="return false;">
+                                <img th:src="@{/images/indexImg/top_btn.png}">
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{#}" id="scrollToBottom" onclick="return false;">
+                                <img th:src="@{/images/indexImg/bottom_btn.png}">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </main>
+    </th:block>
+    <th:block layout:fragment="script">
+        <script>
+                //회원탈퇴
+                    $(function(){
+                        $('.withdraw').click(function(){
+                        console.log("1");
+                        confirm('LEMO를 탈퇴하시겠습니까?');
+                        });
+                    });
+        </script>
+    </th:block>
+</html>
+

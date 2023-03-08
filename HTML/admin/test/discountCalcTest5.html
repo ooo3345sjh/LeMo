@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+        // 드디어 됨!
+        // document.addEventListener('DOMContentLoaded', function() {
+        window.onload = function() {
+            const inputs = document.querySelectorAll('input[type="number"]');
+
+            console.log('inputs length: ' + inputs.length);
+            
+            for (let i = 0; i <inputs.length; i++) {
+                inputs[i].addEventListener('input',updateResult);
+            }
+
+            function updateResult() {
+                const parent = this.parentNode.parentNode; 
+                const value1 = parent.querySelector('#input1').value;
+                const value2 = parent.querySelector('#input2').value; 
+                const resultInput = parent.querySelector('#result');
+
+                const result = Number(value1) + Number(value2);
+                resultInput.value = result;
+            }
+        // });
+        }
+    </script>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>
+                <input type="number" id="input1">
+            </td>
+            <td>
+                <input type="number" id="input2">
+            </td>
+            <td>
+                <input type="number" id="result" readonly>
+            </td>
+            </tr>
+            <tr>
+            <td>
+                <input type="number" id="input1">
+            </td>
+            <td>
+                <input type="number" id="input2">
+            </td>
+            <td>
+                <input type="number" id="result" readonly>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

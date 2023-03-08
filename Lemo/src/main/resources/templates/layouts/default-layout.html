@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="~{fragments/_head::headFragment}"></th:block>
+<th:block layout:fragment="css-js"></th:block>
+<body>
+    <div id="wrapper">
+        <th:block th:replace="~{fragments/_header::headerFragment}"></th:block>
+        <th:block layout:fragment="content"></th:block>
+        <th:block th:replace="~{fragments/_quick::quickFragment}"></th:block>
+        <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
+    </div>
+    <th:block layout:fragment="script"></th:block>
+</body>

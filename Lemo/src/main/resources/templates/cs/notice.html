@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/default-layout">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/cs/cs.css}">
+</th:block>
+<th:block layout:fragment="content">
+    <!-- 메인 -->
+    <main>
+        <section id="cs">
+            <!-- nav-->
+            <th:block th:replace="fragments/_nav::navFragment"></th:block>
+            <!-- 본문 -->
+            <div class="content">
+                <!-- 카테고리 -->
+                <div class="tab">
+                    <span class="notice_title">
+                        서비스 공지사항<span class="new">NEW</span>
+                    </span>
+                </div>
+                <!-- 공지사항 목록 -->
+                <div class="tab_each">
+                    <ul id="notices" class="show_list open_list">
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[발표] 2월 더블텐데이 2배 페이백 이벤트</p>
+                                <span>2023.02.26</span>
+                            </a>
+                            <div class="toggle">
+                                안녕하세요 대한민국 1등 종합숙박앱 LEMO 입니다.<br>
+                                [ 더블텐데이 2배 페이백 ] 이벤트 당첨자를 발표합니다.<br><br>
+
+                                당첨을 축하드리며 앞으로도 많은 이용 부탁드리겠습니다.<br>
+                                감사합니다. <br>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[발표] 2월 더블텐데이 2배 페이백 이벤트</p>
+                                <span>2023.02.26</span>
+                            </a>
+                            <div class="toggle">
+                                안녕하세요 대한민국 1등 종합숙박앱 LEMO 입니다.<br>
+                                [ 더블텐데이 2배 페이백 ] 이벤트 당첨자를 발표합니다.<br><br>
+
+                                당첨을 축하드리며 앞으로도 많은 이용 부탁드리겠습니다.<br>
+                                감사합니다. <br>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[발표] 2월 더블텐데이 2배 페이백 이벤트</p>
+                                <span>2023.02.26</span>
+                            </a>
+                            <div class="toggle">
+                                안녕하세요 대한민국 1등 종합숙박앱 LEMO 입니다.<br>
+                                [ 더블텐데이 2배 페이백 ] 이벤트 당첨자를 발표합니다.<br><br>
+
+                                당첨을 축하드리며 앞으로도 많은 이용 부탁드리겠습니다.<br>
+                                감사합니다. <br>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[발표] 2월 더블텐데이 2배 페이백 이벤트</p>
+                                <span>2023.02.26</span>
+                            </a>
+                            <div class="toggle">
+                                안녕하세요 대한민국 1등 종합숙박앱 LEMO 입니다.<br>
+                                [ 더블텐데이 2배 페이백 ] 이벤트 당첨자를 발표합니다.<br><br>
+
+                                당첨을 축하드리며 앞으로도 많은 이용 부탁드리겠습니다.<br>
+                                감사합니다. <br>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[발표] 2월 더블텐데이 2배 페이백 이벤트</p>
+                                <span>2023.02.26</span>
+                            </a>
+                            <div class="toggle">
+                                안녕하세요 대한민국 1등 종합숙박앱 LEMO 입니다.<br>
+                                [ 더블텐데이 2배 페이백 ] 이벤트 당첨자를 발표합니다.<br><br>
+
+                                당첨을 축하드리며 앞으로도 많은 이용 부탁드리겠습니다.<br>
+                                감사합니다. <br>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[발표] 2월 더블텐데이 2배 페이백 이벤트</p>
+                                <span>2023.02.26</span>
+                            </a>
+                            <div class="toggle">
+                                안녕하세요 대한민국 1등 종합숙박앱 LEMO 입니다.<br>
+                                [ 더블텐데이 2배 페이백 ] 이벤트 당첨자를 발표합니다.<br><br>
+
+                                당첨을 축하드리며 앞으로도 많은 이용 부탁드리겠습니다.<br>
+                                감사합니다. <br>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[발표] 2월 더블텐데이 2배 페이백 이벤트</p>
+                                <span>2023.02.26</span>
+                            </a>
+                            <div class="toggle">
+                                안녕하세요 대한민국 1등 종합숙박앱 LEMO 입니다.<br>
+                                [ 더블텐데이 2배 페이백 ] 이벤트 당첨자를 발표합니다.<br><br>
+
+                                당첨을 축하드리며 앞으로도 많은 이용 부탁드리겠습니다.<br>
+                                감사합니다. <br>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[발표] 2월 더블텐데이 2배 페이백 이벤트</p>
+                                <span>2023.02.26</span>
+                            </a>
+                            <div class="toggle">
+                                안녕하세요 대한민국 1등 종합숙박앱 LEMO 입니다.<br>
+                                [ 더블텐데이 2배 페이백 ] 이벤트 당첨자를 발표합니다.<br><br>
+
+                                당첨을 축하드리며 앞으로도 많은 이용 부탁드리겠습니다.<br>
+                                감사합니다. <br>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[발표] 2월 더블텐데이 2배 페이백 이벤트</p>
+                                <span>2023.02.26</span>
+                            </a>
+                            <div class="toggle">
+                                안녕하세요 대한민국 1등 종합숙박앱 LEMO 입니다.<br>
+                                [ 더블텐데이 2배 페이백 ] 이벤트 당첨자를 발표합니다.<br><br>
+
+                                당첨을 축하드리며 앞으로도 많은 이용 부탁드리겠습니다.<br>
+                                감사합니다. <br>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" class="list_n">
+                                <p>[발표] 2월 더블텐데이 2배 페이백 이벤트</p>
+                                <span>2023.02.26</span>
+                            </a>
+                            <div class="toggle">
+                                안녕하세요 대한민국 1등 종합숙박앱 LEMO 입니다.<br>
+                                [ 더블텐데이 2배 페이백 ] 이벤트 당첨자를 발표합니다.<br><br>
+
+                                당첨을 축하드리며 앞으로도 많은 이용 부탁드리겠습니다.<br>
+                                감사합니다. <br>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 페이징 -->
+                <div class="paging">
+                    <span class="prev"><a href="#"></a></span>
+                    <span class="on"><a href="#">1</a></span>
+                    <span><a href="#">2</a></span>
+                    <span><a href="#">3</a></span>
+                    <span><a href="#">4</a></span>
+                    <span><a href="#">5</a></span>
+                    <span class="next"><a href="#"></a></span>
+                </div>
+
+            </div>
+        </section>
+    </main>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/cs/toggle.js}"></script>
+</th:block>
+</html>
