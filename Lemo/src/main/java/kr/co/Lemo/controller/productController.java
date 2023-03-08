@@ -26,11 +26,11 @@ public class productController {
 
     @GetMapping("reservation")
     public String reservation() throws Exception{
-        return "product/reservation/reservation";
+        return "product/reservation";
     }
 
     @GetMapping("result")
     public String result() throws Exception{
-        return "product/reservation/result";
+        return "product/result";
     }
 }
