@@ -1,24 +1,20 @@
-<!--
-    날짜 : 2023/02/25
-    이름 : 이원정
-    내용 : 메인 HTML
--->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default-layout}">
 <th:block layout:fragment="css-js">
-    <!-- 스타일 css 적용 -->
-    <link rel="stylesheet" th:href="@{/css/index/indexStyle.css}">
     <!-- bxslider plugin -->
     <script src="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
-    <!-- slick slider plugin-->
+    <!-- slick slider plugin -->
     <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <!-- JS -->
-    <script th:src="@{/js/commonJS.js}"></script>
+    <script th:src="@{/js/common/commonJS.js}"></script>
+    <!-- 스타일 css 적용 -->
+    <link rel="stylesheet" th:href="@{/css/index/indexStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
 </th:block>
 <th:block layout:fragment="content">
     <!-- 메인 -->
@@ -622,7 +618,6 @@
         </div>
     </main>
 </th:block>
-
 <th:block layout:fragment="script">
     <script>
         $( document ).ready( function() {

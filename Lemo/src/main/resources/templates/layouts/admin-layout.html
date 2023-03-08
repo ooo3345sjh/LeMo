@@ -6,9 +6,7 @@
 <th:block layout:fragment="css-js"></th:block>
 <body>
     <div id="wrapper">
-        <th:block th:replace="~{fragments/_header::headerFragment}"></th:block>
         <th:block layout:fragment="content"></th:block>
-        <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
     </div>
     <th:block layout:fragment="script"></th:block>
 </body>

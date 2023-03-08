@@ -1,521 +1,347 @@
-<!--
-    날짜 : 2023/02/26
-    이름 : 이원정
-    내용 : 관리자 숙소정보(info) 보기 HTML 
--->
 <!DOCTYPE html>
-<html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <title>Travel with Lemo::admin-index</title>
-        <!-- 구글 폰트 -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"> 
-        <!-- 스타일 css 적용 -->
-        <link rel="stylesheet" href="../css/adminSubStyle.css">
-        <!-- jquery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <!-- chart.js -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <!-- 다음 주소 API -->
-        <script src="../js/zipcode.js"></script>
-        <!-- smart editor -->
-        <script type="text/javascript" src="../smartEditor/js/HuskyEZCreator.js" charset="utf-8"></script>
-        <script src="../js/smartEditor.js"></script>
-        <script src="../js/fileUpload.js"></script>
-        <script type="text/javascript">
-            $(function () {
-                smarteditor();
-            });
-        </script>
-    </head>
-    <body>
-        <div id="wrapper">
-            <!-- 헤더 -->
-            <header></header>
-            <!-- 메인 -->
-            <main>
-                <div class="main_inner">
-                    <!-- 죄측 사이드바 -->
-                    <nav class="sidebar">
-                        <div class="sidebar_logo">
-                            <a href="#">
-                                <img src="../img/lemo_logo-removebg-preview.png" alt="logo">
-                                <div class="logo">LEMO</div>
-                            </a>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin-layout}">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/admin/adminSubStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <!-- 다음 주소 API -->
+    <script th:src="@{/js/common/zipCode.js}"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</th:block>
+<th:block layout:fragment="content">
+    <main>
+        <div class="main_inner">
+            <!-- 죄측 사이드바 -->
+            <th:block th:replace="~{fragments/_aside::adminFragment}"></th:block>
+            <!-- 우측 메인 컨테이너 -->
+            <section class="main_content">
+                <div class="main_cotent_inner">
+                    <div class="main_content_div">
+                        <div class="col_nav">
+                            <span>상품관리 ></span>
+                            <span>숙소보기</span>
                         </div>
-                        <ul class="sidebar_menu">
-                            <!-- 사이드 메뉴 item1 -->
-                            <li>
-                                <a class="sidebar_arrow" href="#">
-                                    <div class="icon_menu">
-                                        <img src="../img/dashboard.svg">
+
+                        <!-- 숙소 보기 폼 -->
+                        <div class="col_register_form">
+                            <!-- 숙소명 등록 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>숙소명</span>
                                     </div>
-                                    <span>HOME</span>
-                                </a>
-                                <ul class="sidebar_collapse_menu">
-                                    <li>
-                                        <a href="#">로그아웃</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!-- 사이드 메뉴 item2 -->
-                            <li>
-                                <a class="sidebar_arrow" href="#">
-                                    <div class="icon_menu">
-                                        <img src="../img/manage.svg">
-                                    </div>
-                                    <span>상품관리</span>
-                                </a>
-                                <ul class="sidebar_collapse_menu">
-                                    <li>
-                                        <a href="#" class="on">숙박관리</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">객실관리</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">쿠폰등록</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">등록리뷰</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!-- 사이드 메뉴 item3 -->
-                            <li>
-                                <a class="sidebar_arrow" href="#">
-                                    <div class="icon_menu">
-                                        <img src="../img/manage.svg">
-                                    </div>
-                                    <span>예약관리</span>
-                                </a>
-                                <ul class="sidebar_collapse_menu">
-                                    <li>
-                                        <a href="#">예약정보</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">타임라인</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!-- 사이드 메뉴 item4 -->
-                            <li>
-                                <a class="sidebar_arrow" href="#">
-                                    <div class="icon_menu">
-                                        <img src="../img/dashboard.svg">
-                                    </div>
-                                    <span>통계관리</span>
-                                </a>
-                            </li>
-                            <!-- 사이드 메뉴 item5 -->
-                            <li>
-                                <a class="sidebar_arrow" href="#">
-                                    <div class="icon_menu">
-                                        <img src="../img/dashboard.svg">
-                                    </div>
-                                    <span>회원관리</span>
-                                </a>
-                            </li>
-                            <!-- 사이드 메뉴 item6 -->
-                            <li>
-                                <a class="sidebar_arrow" href="#">
-                                    <div class="icon_menu">
-                                        <img src="../img/manage.svg">
-                                    </div>
-                                    <span>고객센터</span>
-                                </a>
-                                <ul class="sidebar_collapse_menu">
-                                    <li>
-                                        <a href="#">공지사항</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">문의사항</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </nav>
-                    <!-- 우측 메인 컨테이너 -->
-                    <section class="main_content">
-                        <div class="main_cotent_inner">
-                            <div class="main_content_div">
-                                <div class="col_nav">
-                                    <span>상품관리 ></span>
-                                    <span>숙소보기</span>
                                 </div>
+                                <input class="input_stayName" type="text" value="제주 늘보의 오후" readonly>
+                                <span class="result_stayName">
+                                    💡 숙소명은 추후 수정가능합니다
+                                </span>
+                            </div>
+                            <!-- 주소 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>주소</span>
+                                    </div>
+                                </div>
+                                <div class="stayZip">
+                                    <!-- <button type="button">주소찾기</button> -->
+                                    <input type="text" id="zip" value="63009">
+                                </div>
+                                <div class="stayAddr1">
+                                    <input type="text" id="addr" value="제주시 한경면 한경해안로 176" readonly>
+                                </div>
+                                <div class="stayAddr2">
+                                    <input type="text" id="addrDetail" value="제주늘보의오후">
+                                </div>
+                            </div>
+                            <!-- 편의시설 및 서비스 체크박스 등록 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>편의시설 및 서비스</span>
+                                    </div>
+                                </div>
+                                <div class="cs_checkbox">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td>
+                                                <label class="c_container">피트니스
+                                                    <input type="checkbox" checked="checked">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">와이파이
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">레스토랑
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">TV
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">에어컨
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">냉장고
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
 
-                                <!-- 숙소 보기 폼 -->
-                                <div class="col_register_form">
-                                    <!-- 숙소명 등록 -->
-                                    <div class="col_register1">
-                                        <div class="stayName">
-                                            <div>
-                                                <span>숙소명</span>
-                                            </div>
-                                        </div>
-                                        <input class="input_stayName" type="text" value="제주 늘보의 오후" readonly>
-                                        <span class="result_stayName">
-                                            💡 숙소명은 추후 수정가능합니다
-                                        </span>
-                                    </div>
-                                    <!-- 주소 -->
-                                    <div class="col_register1">
-                                        <div class="stayName">
-                                            <div>
-                                                <span>주소</span>
-                                            </div>
-                                        </div>
-                                        <div class="stayZip">
-                                            <!-- <button type="button">주소찾기</button> -->
-                                            <input type="text" id="zip" value="63009">
-                                        </div>
-                                        <div class="stayAddr1">
-                                            <input type="text" id="addr1" value="제주시 한경면 한경해안로 176" readonly>
-                                        </div>
-                                        <div class="stayAddr2">
-                                            <input type="text" id="addr2" value="제주늘보의오후">
-                                        </div>
-                                    </div>
-                                    <!-- 편의시설 및 서비스 체크박스 등록 -->
-                                    <div class="col_register1">
-                                        <div class="stayName">
-                                            <div>
-                                                <span>편의시설 및 서비스</span>
-                                            </div>
-                                        </div>
-                                        <div class="cs_checkbox">
-                                            <table style="width: 100%;">
-                                                <tr>
-                                                    <td>
-                                                        <label class="c_container">피트니스
-                                                            <input type="checkbox" checked="checked">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">와이파이
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">레스토랑
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">TV
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">에어컨
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">냉장고
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    
-                                                </tr>
+                                        </tr>
 
-                                                <tr>
-                                                    <td>
-                                                        <label class="c_container">드라이기
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">장애인편의시설
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">주차장
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">무료주차
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">금연
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">카페
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    
-                                                </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="c_container">드라이기
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">장애인편의시설
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">주차장
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">무료주차
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">금연
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">카페
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
 
-                                                <tr>
-                                                    <td>
-                                                        <label class="c_container">수영장
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">욕조
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">스파
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">엘리베이터
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">욕실용품
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">사우나
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label class="c_container">짐보관
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">세탁기
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <label class="c_container">건조기
-                                                            <input type="checkbox">
-                                                            <span class="checkmark"></span>
-                                                        </label>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- 숙소 썸네일 이미지 -->
-                                    <div class="col_register1">
-                                        <div class="stayName">
-                                            <div>
-                                                <span>숙소 이미지</span>
-                                            </div>
-                                        </div>
-                                        <div class="stayThumb">
-                                            <div class="st_inner">
-                                                <div class="st_content">
-                                                    <div class="st_img">
-                                                        <img src="../img/view1.jpeg">
-                                                    </div>
-                                                    <div class="st_img">
-                                                        <img src="../img/view2.jpeg">
-                                                    </div>
-                                                    <div class="st_img">
-                                                        <img src="../img/view3.jpeg">
-                                                    </div>
-                                                    <div class="st_img">
-                                                        <img src="../img/view4.jpeg">
-                                                    </div>
-                                                    <div class="st_img">
-                                                        <img src="../img/view5.jpeg">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        </tr>
 
-                                    <!-- 숙서 정보 입력 -->
-                                    <div class="col_register1">
-                                        <div class="stayName">
-                                            <div>
-                                                <span>숙소 정보</span>
-                                            </div>
-                                        </div>
-                                        <div class="stayInfoContent">
-                                            <textarea>하늘, 바다, 그리고 섬. 하늘보다 더 파란 바다와 작은 섬들이 보이는 아름다운 풍경에서의 한때의 한가로운 휴식</textarea>
-                                        </div>
-                                    </div>
+                                        <tr>
+                                            <td>
+                                                <label class="c_container">수영장
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">욕조
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">스파
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">엘리베이터
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">욕실용품
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">사우나
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
 
-                                    <!-- 사장님 한마디 -->
-                                    <div class="col_register1">
-                                        <div class="stayName">
-                                            <div>
-                                                <span>사장님 한마디</span>
-                                            </div>
-                                        </div>
-                                        <input class="input_stayMention" type="text" value="정원에 예쁜 캠핑장을! 10월중 오픈예정">
-                                    </div>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label class="c_container">짐보관
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">세탁기
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label class="c_container">건조기
+                                                    <input type="checkbox">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
 
-                                    <!-- 할인율 전체 적용 -->
-                                    <div class="col_register1">
-                                        <div class="stayName">
-                                            <div>
-                                                <span>전체 할인율 적용</span>
+                            <!-- 숙소 썸네일 이미지 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>숙소 이미지</span>
+                                    </div>
+                                </div>
+                                <div class="stayThumb">
+                                    <div class="st_inner">
+                                        <div class="st_content">
+                                            <div class="st_img">
+                                                <img th:src="@{/images/admin/view1.jpeg}">
+                                            </div>
+                                            <div class="st_img">
+                                                <img th:src="@{/images/admin/view2.jpeg}">
+                                            </div>
+                                            <div class="st_img">
+                                                <img th:src="@{/images/admin/view3.jpeg}">
+                                            </div>
+                                            <div class="st_img">
+                                                <img th:src="@{/images/admin/view4.jpeg}">
+                                            </div>
+                                            <div class="st_img">
+                                                <img th:src="@{/images/admin/view5.jpeg}">
                                             </div>
                                         </div>
-                                        <div class="checkContainer">
-                                            <label class="c_container" style="padding-right: 4px;">
-                                                <input type="checkbox">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                            <input class="input_salePercent" type="text" value="0">
-                                            <p>%</p>
-                                        </div>
-                                        <span class="result_stayName">
-                                            💡 체크 시 전체 상품에 할인율이 적용됩니다 (개별 할인은 객실 관리에서 적용할 수 있습니다)
-                                        </span>
-                                    </div>
-
-                                    <!-- 할인율 적용 -->
-                                    <div class="col_register1">
-                                        <div class="stayName">
-                                            <div>
-                                                <span>할인율 적용</span>
-                                            </div>
-                                        </div>
-                                        <div class="salePercent_container">
-                                            <table>
-                                                <tr class="sp_tr1">
-                                                    <th>분류</th>
-                                                    <th>할인율 (%)</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>성수기 주중</td> 
-                                                    <td>
-                                                        <input type="number" id="insertSalePercent" value="5">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>성수기 주말</td> 
-                                                    <td>
-                                                        <input type="number" id="insertSalePercent" value="1">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>비성수기 주중</td> 
-                                                    <td>
-                                                        <input type="number" id="insertSalePercent" value="15">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>비성수기 주말</td> 
-                                                    <td>
-                                                        <input type="number" id="insertSalePercent" value="10">
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            
-                                        </div>
-                                        <span class="result_stayName">
-                                            💡 실제 적용되는 할인율입니다
-                                        </span>
-                                    </div>
-                                    <div class="btnAdminProd">
-                                        <a href="#">
-                                            숙소목록
-                                        </a>
-                                    </div>
-                                    <div class="btnAdminProd">
-                                        <a href="#">
-                                            숙소수정
-                                        </a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="blank30"></div>
+
+                            <!-- 숙서 정보 입력 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>숙소 정보</span>
+                                    </div>
+                                </div>
+                                <div class="stayInfoContent">
+                                    <textarea>하늘, 바다, 그리고 섬. 하늘보다 더 파란 바다와 작은 섬들이 보이는 아름다운 풍경에서의 한때의 한가로운 휴식</textarea>
+                                </div>
+                            </div>
+
+                            <!-- 사장님 한마디 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>사장님 한마디</span>
+                                    </div>
+                                </div>
+                                <input class="input_stayMention" type="text" value="정원에 예쁜 캠핑장을! 10월중 오픈예정">
+                            </div>
+
+                            <!-- 할인율 전체 적용 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>전체 할인율 적용</span>
+                                    </div>
+                                </div>
+                                <div class="checkContainer">
+                                    <label class="c_container" style="padding-right: 4px;">
+                                        <input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <input class="input_salePercent" type="text" value="0">
+                                    <p>%</p>
+                                </div>
+                                <span class="result_stayName">
+                                    💡 체크 시 전체 상품에 할인율이 적용됩니다 (개별 할인은 객실 관리에서 적용할 수 있습니다)
+                                </span>
+                            </div>
+
+                            <!-- 할인율 적용 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>할인율 적용</span>
+                                    </div>
+                                </div>
+                                <div class="salePercent_container">
+                                    <table>
+                                        <tr class="sp_tr1">
+                                            <th>분류</th>
+                                            <th>할인율 (%)</th>
+                                        </tr>
+                                        <tr>
+                                            <td>성수기 주중</td>
+                                            <td>
+                                                <input type="number" id="insertSalePercent" value="5">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>성수기 주말</td>
+                                            <td>
+                                                <input type="number" id="insertSalePercent" value="1">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>비성수기 주중</td>
+                                            <td>
+                                                <input type="number" id="insertSalePercent" value="15">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>비성수기 주말</td>
+                                            <td>
+                                                <input type="number" id="insertSalePercent" value="10">
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                                <span class="result_stayName">
+                                    💡 실제 적용되는 할인율입니다
+                                </span>
+                            </div>
+                            <div class="btnAdminProd">
+                                <a href="#">
+                                    숙소목록
+                                </a>
+                            </div>
+                            <div class="btnAdminProd">
+                                <a href="#">
+                                    숙소수정
+                                </a>
+                            </div>
                         </div>
-                    <!-- -->
+                    </div>
+                    <div class="blank30"></div>
                 </div>
-            </main>
-            <footer class="main_footer">
-                <div class="footer_inner">
-                    <div class="footer_menu">
-                        <table>
-                            <tr>
-                                <td><a href="#">ABOUT</a></td>
-                                <td><a href="#">NOTICE</a></td>
-                                <td><a href="#">CS CENTER</a></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="footer_block">
-                        <div class="footer_block_left">
-                            <div class="footer_block_row">
-                                <!-- 로고 클릭 시 메인으로 이동 -->
-                                <div class="row_col_1"><a href="#">LEMO</a></div>
-                                <div class="row_col_2">LETTUCE MEMORIES</div>
-                                <div class="row_col_3">
-                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
-                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
-                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
-                                </div>
-                            </div>
-                        </div>
-                        <div class="footer_block_right">
-                            <div class="footer_block_row">
-                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
-                                <div class="row_col_4"><a href="#">고객센터</a></div>
-                                <div class="row_col_5">
-                                    070-2023-0223 <br>
-                                    MON - FRI AM 09:00 - PM 17:00 <br>
-                                    BREAK PM 12:00 - PM 13:00 <br>
-                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="footer_terms">
-                        <div class="footer_block_row2">
-                            <a href="#">이용약관</a>
-                            <span>&nbsp;|&nbsp;</span>
-                            <a href="#">개인정보처리방침</a>
-                        </div>
-                    </div>
-                    <div class="footer_copyright">
-                        <div class="footer_block_row2">
-                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            </section>
         </div>
-    </body>
+    </main>
+    <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
+</th:block>
+<th:block layout:fragment="script">
+</th:block>
 </html>

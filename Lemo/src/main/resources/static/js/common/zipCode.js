@@ -41,7 +41,7 @@ function postcode() {
             document.getElementById('zip').value = data.zonecode;
             document.getElementById("addr").value = addr + extraAddr;
             // 커서를 상세주소 필드로 이동한다.
-            document.getElementById("addrDetail").focus();
+            document.getElementById("").focus();
         }
     }).open();
 }

@@ -34,3 +34,4 @@ out/
 /.metadata/
 Lemo/src/main/resources/application.properties
 Lemo/log/
+Lemo/src/main/resources/static/img/prodImg/
