@@ -267,7 +267,7 @@
     width: 44px;
     height: 44px;
     border: none;
-    background: url(../img/close.png) 50% 50% no-repeat;
+    background: url(/Lemo/images/product/close.png) 50% 50% no-repeat;
     background-size: 24px auto;
     text-indent: -9999px;
 }
@@ -319,7 +319,7 @@
     padding-bottom: 20px;
     margin-bottom: 25px;
     padding-left: 14px;
-    background: url(//image.goodchoice.kr/images/web_v3/ico_bul_3.png) 0 2px no-repeat;
+    background: url(/Lemo/images/product/full-stop.png) 0 2px no-repeat;
     background-size: 12px auto;
     font-size: 16px;
     border-bottom: 1px solid rgba(0,0,0,0.08);
@@ -464,7 +464,7 @@
     font-size: 16px;
     line-height: 48px;
     padding: 0;
-    background: #fff url(../img/right-arrow.png) 100% 50% no-repeat;
+    background: #fff url(/Lemo/images/product/right-arrow.png) 100% 50% no-repeat;
     background-size: 12px auto;
     font-size: 16px;
     color: rgba(0,0,0,0.87);
@@ -495,7 +495,7 @@
     right: 15px;
     width: 45px;
     height: 45px;
-    background: url(../img/close.png) 50% 50% no-repeat;
+    background: url(/Lemo/images/product/close.png) 50% 50% no-repeat;
     border: none;
     background-size: 20px auto;
     text-indent: -9999px;
@@ -566,7 +566,7 @@
     width: 44px;
     height: 44px;
     border: none;
-    background: url(../img/close.png) 50% 50% no-repeat;
+    background: url(/Lemo/images/product/close.png) 50% 50% no-repeat;
     background-size: 24px auto;
     text-indent: -9999px;
 }
@@ -619,7 +619,7 @@
     line-height: 26px;
     margin-bottom: 7px;
     padding-left: 14px;
-    background: url(//image.goodchoice.kr/images/web_v3/ico_bul_3.png) 0 2px no-repeat;
+    background: url(/Lemo/images/product/full-stop.png) 0 2px no-repeat;
     background-size: 12px auto;
     font-size: 16px;
 }
@@ -663,7 +663,7 @@
     width: 12px;
     height: 15px;
     margin-top: -4px;
-    background: #fff url(../img/free-icon-up-down-7263381.png) 0 0 no-repeat;
+    background: #fff url(/Lemo/images/product/free-icon-up-down-7263381.png) 0 0 no-repeat;
     background-size: 12px auto;
 }
 
@@ -696,27 +696,27 @@
 
 .detail_info > .info_seller.on { display: block; }
 
-.theme_1 { background: url(../img/serviceCate/fitness.png) 0 0 no-repeat; }
-.theme_2 { background: url(../img/serviceCate/wifi.png) 0 0 no-repeat; }
-.theme_3 { background: url(../img/serviceCate/restaurant.png) 0 0 no-repeat; }
-.theme_4 { background: url(../img/serviceCate/tv.png) 0 0 no-repeat; }
-.theme_5 { background: url(../img/serviceCate/air-conditioner.png) 0 0 no-repeat; }
-.theme_6 { background: url(../img/serviceCate/refrigerator.png) 0 0 no-repeat; }
-.theme_7 { background: url(../img/serviceCate/hairdryer.png) 0 0 no-repeat; }
-.theme_8 { background: url(../img/serviceCate/handi.png) 0 0 no-repeat; }
-.theme_9 { background: url(../img/serviceCate/parked-car.png) 0 0 no-repeat; }
-.theme_10 { background: url(../img/serviceCate/free-parking.png) 0 0 no-repeat; }
-.theme_11 { background: url(../img/serviceCate/no-smoking.png) 0 0 no-repeat; }
-.theme_12 { background: url(../img/serviceCate/cafe.png) 0 0 no-repeat; }
-.theme_13 { background: url(../img/serviceCate/swimming-pool.png) 0 0 no-repeat; }
-.theme_14 { background: url(../img/serviceCate/tub.png) 0 0 no-repeat; }
-.theme_15 { background: url(../img/serviceCate/spa.png) 0 0 no-repeat; }
-.theme_16 { background: url(../img/serviceCate/elevator.png) 0 0 no-repeat; }
-.theme_17 { background: url(../img/serviceCate/bathroom.png) 0 0 no-repeat; }
-.theme_18 { background: url(../img/serviceCate/sauna.png) 0 0 no-repeat; }
-.theme_19 { background: url(../img/serviceCate/baggage.png) 0 0 no-repeat; }
-.theme_20 { background: url(../img/serviceCate/washing-machine.png) 0 0 no-repeat; }
-.theme_21 { background: url(../img/serviceCate/dryer.png) 0 0 no-repeat; }
+.theme_1 { background: url(/Lemo/images/product/serviceCate/fitness.png) 0 0 no-repeat; }
+.theme_2 { background: url(/Lemo/images/product/serviceCate/wifi.png) 0 0 no-repeat; }
+.theme_3 { background: url(/Lemo/images/product/serviceCate/restaurant.png) 0 0 no-repeat; }
+.theme_4 { background: url(/Lemo/images/product/serviceCate/tv.png) 0 0 no-repeat; }
+.theme_5 { background: url(/Lemo/images/product/serviceCate/air-conditioner.png) 0 0 no-repeat; }
+.theme_6 { background: url(/Lemo/images/product/serviceCate/refrigerator.png) 0 0 no-repeat; }
+.theme_7 { background: url(/Lemo/images/product/serviceCate/hairdryer.png) 0 0 no-repeat; }
+.theme_8 { background: url(/Lemo/images/product/serviceCate/handi.png) 0 0 no-repeat; }
+.theme_9 { background: url(/Lemo/images/product/serviceCate/parked-car.png) 0 0 no-repeat; }
+.theme_10 { background: url(/Lemo/images/product/serviceCate/free-parking.png) 0 0 no-repeat; }
+.theme_11 { background: url(/Lemo/images/product/serviceCate/no-smoking.png) 0 0 no-repeat; }
+.theme_12 { background: url(/Lemo/images/product/serviceCate/cafe.png) 0 0 no-repeat; }
+.theme_13 { background: url(/Lemo/images/product/serviceCate/swimming-pool.png) 0 0 no-repeat; }
+.theme_14 { background: url(/Lemo/images/product/serviceCate/tub.png) 0 0 no-repeat; }
+.theme_15 { background: url(/Lemo/images/product/serviceCate/spa.png) 0 0 no-repeat; }
+.theme_16 { background: url(/Lemo/images/product/serviceCate/elevator.png) 0 0 no-repeat; }
+.theme_17 { background: url(/Lemo/images/product/serviceCate/bathroom.png) 0 0 no-repeat; }
+.theme_18 { background: url(/Lemo/images/product/serviceCate/sauna.png) 0 0 no-repeat; }
+.theme_19 { background: url(/Lemo/images/product/serviceCate/baggage.png) 0 0 no-repeat; }
+.theme_20 { background: url(/Lemo/images/product/serviceCate/washing-machine.png) 0 0 no-repeat; }
+.theme_21 { background: url(/Lemo/images/product/serviceCate/dryer.png) 0 0 no-repeat; }
 
 /** 문의하기 */
 .info_service .theme_wrap { 
@@ -908,7 +908,7 @@
 .detail_review .score_star {
     display: inline-block;
     width: 180px; height: 36px;
-    background: url(../img/ico_rating_star.png) 0 0 no-repeat;
+    background: url(/Lemo/images/product/ico_rating_star.png) 0 0 no-repeat;
     background-size: 555px auto;
     font-size: 0;
 }
@@ -951,7 +951,7 @@
     width: 56px;
     height: 56px;
     border-radius: 100%;
-    background: url(/HTML/img/indexImg/lemo_logo-removebg-preview.png) 0 0 no-repeat;
+    background: url(/Lemo/images/index/lemo_logo-removebg-preview.png) 0 0 no-repeat;
     background-size: 45px auto;
 }
 
@@ -963,12 +963,12 @@
 .detail_review .best_review {
     display: block;
     width: 67px;
-    height: 16px;
+    height: 21px;
     margin: 0 0 6px 96px;
     font-size: 0px;
     text-indent: -999px;
-    background: url(//static.goodchoice.kr/images/web_v3/img_bestreview_badge.svg) 0 0 no-repeat;
-    background-size: 100%;
+    background: url(/Lemo/images/product/guarantee.png) 0 0 no-repeat;
+    background-size: 60%;
 }
 
 .detail_review .guest > strong {
@@ -987,9 +987,19 @@
     display: inline-block;
     width: 100px;
     height: 20px;
-    background: url(//image.goodchoice.kr/images/web_v3/bg_score.png) 0 0 no-repeat;
-    background-size: 100px auto;
+    background: url(/Lemo/images/product/ico_rating_star.png) 0 0 no-repeat;
+    background-size: 310px auto;
 }
+
+.detail_review .guest .score_wrap_sm .score_star.rating1 { background-position: 0 -46px; }
+
+.detail_review .guest .score_wrap_sm .score_star.rating2 { background-position: 0 -93px; }
+
+.detail_review .guest .score_wrap_sm .score_star.rating3 { background-position: 0 -141px; }
+
+.detail_review .guest .score_wrap_sm .score_star.rating4 { background-position: 0 -187px; }
+
+.detail_review .guest .score_wrap_sm .score_star.rating5 { background-position: 0 -235px; }
 
 .detail_review .guest .score_wrap_sm > .num {
     display: inline-block;
@@ -1716,7 +1726,7 @@
     width: 44px;
     height: 44px;
     border: none;
-    background: url(../img/close.png) 50% 50% no-repeat;
+    background: url(/Lemo/images/product/close.png) 50% 50% no-repeat;
     background-size: 24px auto;
     text-indent: -9999px;
 }

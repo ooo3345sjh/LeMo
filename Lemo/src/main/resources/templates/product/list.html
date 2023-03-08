@@ -10,10 +10,10 @@
             <!-- Date Range Picker -->
             <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
             <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-            <script th:src="@{/js/common/commonJS.js}"></script>
             <script th:src="@{/js/product/productList.js}"></script>
+            <script th:src="@{/js/common/daterangepicker.js}"></script>
+            <script th:src="@{/js/common/kakaomap-scroll.js}"></script>
             <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-            <link rel="stylesheet" th:href="@{/css/common.css}">
             <link rel="stylesheet" th:href="@{/css/product/product.css}">
         </th:block>
         <th:block layout:fragment="content">
@@ -74,8 +74,8 @@
                                     <article>
                                         <input type="submit" name="search" value="적용" onclick="return false">
                                     </article>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                         <form>
                             <table>
