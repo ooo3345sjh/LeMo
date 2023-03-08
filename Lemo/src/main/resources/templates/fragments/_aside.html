@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <!-- admin aside menu fragment -->
 <aside th:fragment="adminFragment">
     <nav class="sidebar">
@@ -103,5 +102,44 @@
         </ul>
     </nav>
 </aside>
-
+<th:block th:fragment="csAside">
+    <nav class="category">
+        <span>고객센터</span>
+        <ul>
+            <li><a href="#">공지사항</a></li>
+            <li><a href="#">이벤트</a></li>
+            <li><a href="#">자주묻는질문</a></li>
+            <li><a href="#" class="on">1:1 문의</a></li>
+            <li><a href="#">약관 및 정책</a></li>
+        </ul>
+    </nav>
+</th:block>
+<th:block th:fragment="myAside">
+<nav class="my_diary_category">
+    <span>마이페이지</span>
+    <ul>
+        <li>
+            <a th:href="@{#}">내정보</a>
+        </li>
+        <li>
+            <a th:href="@{#}">포인트</a>
+        </li>
+        <li>
+            <a th:href="@{#}">쿠폰함</a>
+        </li>
+        <li>
+            <a th:href="@{#}">예약내역</a>
+        </li>
+        <li>
+            <a th:href="@{#}">나의 찜</a>
+        </li>
+        <li>
+            <a th:href="@{#}" class="on">나의 여행일기</a>
+        </li>
+        <li>
+            <a th:href="@{#}">나의 리뷰</a>
+        </li>
+    </ul>
+</nav>
+</th:block>
 </html>
