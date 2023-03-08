@@ -35,3 +35,4 @@ out/
 Lemo/src/main/resources/application.properties
 Lemo/log/
 Lemo/img/
+.DS_Store
