@@ -4,79 +4,14 @@
     내용 : 마이페이지 reserveration HTML 
 -->
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Travel with Lemo::reserveration</title>
-        <!-- 구글 폰트 -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">   
-        
-        <!-- style css -->
-        <link rel="stylesheet" href="../css/my.css">
-        <link rel="stylesheet" href="/css/indexStyle.css">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/default-layout">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/my/my.css}">
 
-        <style>
-        
-        
-
-        </style>
-    </head>
-    <body>
-        <div id="wrapper">
-            <header>
-                <div class="header_inner">
-                    <div class="header_flex">
-                        <div class="header_logo">
-                            <!-- 메인으로 이동 -->
-                            <a href="#"><img src="/img/indexImg/lemo_logo.png" alt="레모 로고"></a>
-                            <div class="logo">LEMO</div>
-                        </div>
-                        <div class="header_service">
-                            <a href="#">로그인</a>
-                            <a href="#">여행일기</a>
-                            <div class="dropdown_menu" id="dropdown_menu">
-                                <button id="dropdown">마이페이지
-                                    <img src="/img/indexImg/down-arrow.png">
-                                </button>
-                                <div class="dropdown_content" id="dropdown_content">
-                                    <a href="#">나의 정보</a>
-                                    <a href="#">포인트</a>
-                                    <a href="#">쿠폰함</a>
-                                    <a href="#">예약내역</a>
-                                    <a href="#">위시리스트</a>
-                                    <a href="#">나의 여행일기</a>
-                                    <a href="#">나의 리뷰</a>
-                                </div>
-                            </div>
-                            <div class="dropdown_menu" id="dropdown_menu2">
-                                <button id="dropdown2">고객센터
-                                    <img src="/img/indexImg/down-arrow.png">
-                                </button>
-                                <div class="dropdown_content" id="dropdown_content2">
-                                    <a href="#">공지사항</a>
-                                    <a href="#">이벤트</a>
-                                    <a href="#">자주 묻는 질문</a>
-                                    <a href="#">1:1 문의</a>
-                                    <a href="#">여행일기</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="header_searchBar">
-                            <form class="search-container" action="#">
-                                <div class="search">
-                                    <input id="search-box" type="text" class="search-box" name="q"/>
-                                    <button type="submit" class="btnSearch">
-                                        <input type="image" src="/img/indexImg/btn_search.png" id="search-submit"/>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </header>
+</th:block>
+<th:block layout:fragment="content">
             
             <main>
             <section id="my">
@@ -84,25 +19,25 @@
                     <span>마이페이지</span>
                     <ul>
                         <li>
-                            <a href="#">내정보</a>
+                            <a th:href="@{#}">내정보</a>
                         </li>
                         <li>
-                            <a href="#">포인트</a>
+                            <a th:href="@{#}">포인트</a>
                         </li>
                         <li>
-                            <a href="#">쿠폰함</a>
+                            <a th:href="@{#}">쿠폰함</a>
                         </li>
                         <li>
-                            <a href="#" class="on">예약내역</a>
+                            <a th:href="@{#}" class="on">예약내역</a>
                         </li>
                         <li>
-                            <a href="#">나의 찜</a>
+                            <a th:href="@{#}">나의 찜</a>
                         </li>
                         <li>
-                            <a href="#">나의 여행일기</a>
+                            <a th:href="@{#}">나의 여행일기</a>
                         </li>
                         <li>
-                            <a href="#">나의 리뷰</a>
+                            <a th:href="@{#}">나의 리뷰</a>
                         </li>
                     </ul>
                 </nav>
@@ -116,8 +51,8 @@
                     <div class="reserve_history">
                         <div class="reserve_info">
                             <div class="reserve_img">
-                                <a href="#" class="thumb">
-                                    <img src="../img/indexImg/main_item1.jpg" alt="장소 이미지">
+                                <a th:href="@{#}" class="thumb">
+                                    <img th:src="@{/images/index/main_item1.jpg}" alt="장소 이미지">
                                 </a>
                             </div>
                             <div class="info_text_box">
@@ -125,7 +60,7 @@
                                     <span class="reserve_day">2022.06.29(수)</span>
                                 </div>
                                 <div class="info_more">
-                                    <a href="#" class="reserve_more"> 상세보기 ></a>
+                                    <a th:href="@{#}" class="reserve_more"> 상세보기 ></a>
                                 </div>
                                 <div class="info_num">
                                     <span class="reserve_num">
@@ -145,14 +80,14 @@
                                 <div class="info_check">
                                     <span class="reserve_check">체크인 15:00 | 체크아웃 12:00</span>
                                 </div>
-                                <a href="#" class="myDiary">여행일기작성</a>
-                                <a href="#" class="my_review_write">리뷰작성</a>
+                                <a th:href="@{#}" class="myDiary">여행일기작성</a>
+                                <a th:href="@{#}" class="my_review_write">리뷰작성</a>
                             </div>
                         </div>
                         <div class="reserve_info">
                             <div class="reserve_img">
-                                <a href="#" class="thumb">
-                                    <img src="../img/indexImg/main_item1.jpg" alt="장소 이미지">
+                                <a th:href="@{#}" class="thumb">
+                                    <img th:src="@{/images/index/main_item1.jpg}" alt="장소 이미지">
                                 </a>
                             </div>
                             <div class="info_text_box">
@@ -160,7 +95,7 @@
                                     <span class="reserve_day">2022.06.29(수)</span>
                                 </div>
                                 <div class="info_more">
-                                    <a href="#" class="reserve_more"> 상세보기 ></a>
+                                    <a th:href="@{#}" class="reserve_more"> 상세보기 ></a>
                                 </div>
                                 <div class="info_num">
                                     <span class="reserve_num">
@@ -180,14 +115,14 @@
                                 <div class="info_check">
                                     <span class="reserve_check">체크인 15:00 | 체크아웃 12:00</span>
                                 </div>
-                                <a href="#" class="myDiary">여행일기작성</a>
-                                <a href="#" class="my_review_write">리뷰작성</a>
+                                <a th:href="@{#}" class="myDiary">여행일기작성</a>
+                                <a th:href="@{#}" class="my_review_write">리뷰작성</a>
                             </div>
                         </div>
                         <div class="reserve_info">
                             <div class="reserve_img">
-                                <a href="#" class="thumb">
-                                    <img src="../img/indexImg/main_item1.jpg" alt="장소 이미지">
+                                <a th:href="@{#}" class="thumb">
+                                    <img th:src="@{/images/index/main_item1.jpg}" alt="장소 이미지">
                                 </a>
                             </div>
                             <div class="info_text_box">
@@ -195,7 +130,7 @@
                                     <span class="reserve_day">2022.06.29(수)</span>
                                 </div>
                                 <div class="info_more">
-                                    <a href="#" class="reserve_more"> 상세보기 ></a>
+                                    <a th:href="@{#}" class="reserve_more"> 상세보기 ></a>
                                 </div>
                                 <div class="info_num">
                                     <span class="reserve_num">
@@ -215,14 +150,14 @@
                                 <div class="info_check">
                                     <span class="reserve_check">체크인 15:00 | 체크아웃 12:00</span>
                                 </div>
-                                <a href="#" class="myDiary">여행일기작성</a>
-                                <a href="#" class="my_review_write">리뷰작성</a>
+                                <a th:href="@{#}" class="myDiary">여행일기작성</a>
+                                <a th:href="@{#}" class="my_review_write">리뷰작성</a>
                             </div>
                         </div>
                         <div class="reserve_info">
                             <div class="reserve_img">
-                                <a href="#" class="thumb">
-                                    <img src="../img/indexImg/main_item1.jpg" alt="장소 이미지">
+                                <a th:href="@{#}" class="thumb">
+                                    <img th:src="@{/images/index/main_item1.jpg}" alt="장소 이미지">
                                 </a>
                             </div>
                             <div class="info_text_box">
@@ -230,7 +165,7 @@
                                     <span class="reserve_day">2022.06.29(수)</span>
                                 </div>
                                 <div class="info_more">
-                                    <a href="#" class="reserve_more"> 상세보기 ></a>
+                                    <a th:href="@{#}" class="reserve_more"> 상세보기 ></a>
                                 </div>
                                 <div class="info_num">
                                     <span class="reserve_num">
@@ -250,14 +185,14 @@
                                 <div class="info_check">
                                     <span class="reserve_check">체크인 15:00 | 체크아웃 12:00</span>
                                 </div>
-                                <a href="#" class="myDiary">여행일기작성</a>
-                                <a href="#" class="my_review_write">리뷰작성</a>
+                                <a th:href="@{#}" class="myDiary">여행일기작성</a>
+                                <a th:href="@{#}" class="my_review_write">리뷰작성</a>
                             </div>
                         </div>
                         <div class="reserve_info">
                             <div class="reserve_img">
-                                <a href="#" class="thumb">
-                                    <img src="../img/indexImg/main_item1.jpg" alt="장소 이미지">
+                                <a th:href="@{#}" class="thumb">
+                                    <img th:src="@{/images/index/main_item1.jpg}" alt="장소 이미지">
                                 </a>
                             </div>
                             <div class="info_text_box">
@@ -265,7 +200,7 @@
                                     <span class="reserve_day">2022.06.29(수)</span>
                                 </div>
                                 <div class="info_more">
-                                    <a href="#" class="reserve_more"> 상세보기 ></a>
+                                    <a th:href="@{#}" class="reserve_more"> 상세보기 ></a>
                                 </div>
                                 <div class="info_num">
                                     <span class="reserve_num">
@@ -285,8 +220,8 @@
                                 <div class="info_check">
                                     <span class="reserve_check">체크인 15:00 | 체크아웃 12:00</span>
                                 </div>
-                                <a href="#" class="myDiary">여행일기작성</a>
-                                <a href="#" class="my_review_write">리뷰작성</a>
+                                <a th:href="@{#}" class="myDiary">여행일기작성</a>
+                                <a th:href="@{#}" class="my_review_write">리뷰작성</a>
                             </div>
                         </div>
                     </div>
@@ -307,83 +242,36 @@
                 <ul>
                     <li class="btn_wishlist">
                         <a href="javascript:;">
-                            <img src="/img/indexImg/empty-heart.png">
+                            <img th:src="@{/images/index/empty-heart.png}">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:;">
-                            <img src="/img/indexImg/naver_quick.png">
+                            <img th:src="@{/images/index/naver_quick.png}">
                         </a>
                     </li>
                     <li>
                         <a href="javascript:;">
-                            <img src="/img/indexImg/kakao_quick.png">
+                            <img th:src="@{/images/index/kakao_quick.png}">
                         </a>
                     </li>
                     <li>
-                        <a href="#" id="scrollToTop" onclick="return false;">
-                            <img src="/img/indexImg/top_btn.png">
+                        <a th:href="@{#}" id="scrollToTop" onclick="return false;">
+                            <img th:src="@{/images/index/top_btn.png}">
                         </a>
                     </li>
                     <li>
-                        <a href="#" id="scrollToBottom" onclick="return false;">
-                            <img src="/img/indexImg/bottom_btn.png">
+                        <a th:href="@{#}" id="scrollToBottom" onclick="return false;">
+                            <img th:src="@{/images/index/bottom_btn.png}">
                         </a>
                     </li>
                 </ul>
             </div>
         </main>
-            <footer>
-                <div class="footer_inner">
-                    <div class="footer_menu">
-                        <table>
-                            <tr>
-                                <td><a href="#">ABOUT</a></td>
-                                <td><a href="#">NOTICE</a></td>
-                                <td><a href="#">CS CENTER</a></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="footer_block">
-                        <div class="footer_block_left">
-                            <div class="footer_block_row">
-                                <!-- 로고 클릭 시 메인으로 이동 -->
-                                <div class="row_col_1"><a href="#">LEMO</a></div>
-                                <div class="row_col_2">LETTUCE MEMORIES</div>
-                                <div class="row_col_3">
-                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
-                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
-                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
-                                </div>
-                            </div>
-                        </div>
-                        <div class="footer_block_right">
-                            <div class="footer_block_row">
-                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
-                                <div class="row_col_4"><a href="#">고객센터</a></div>
-                                <div class="row_col_5">
-                                    070-2023-0223 <br>
-                                    MON - FRI AM 09:00 - PM 17:00 <br>
-                                    BREAK PM 12:00 - PM 13:00 <br>
-                                    SAT, SUN, HOLIDAY <span>DAY OFF</span> 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="footer_terms">
-                        <div class="footer_block_row2">
-                            <a href="#">이용약관</a>
-                            <span>&nbsp;|&nbsp;</span>
-                            <a href="#">개인정보처리방침</a>
-                        </div>
-                    </div>
-                    <div class="footer_copyright">
-                        <div class="footer_block_row2">
-                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-        </div>
-    </body>
+    </th:block>
+    <th:block layout:fragment="script">
+        <script>
+
+        </script>
+    </th:block>
 </html>
