@@ -2024,7 +2024,7 @@
         background: none;
     }
     .my_diary_list .heart img {
-        content:url('/img/diaryImg/heart.png');
+        content:url('/Lemo/images/diary/heart.png');
         position: relative; 
         top: 3px;
         left: 229px;
@@ -2032,7 +2032,7 @@
     }
 
     .my_diary_list .heart.on img {
-        content: url('/img/diaryImg/heart2.png');
+        content: url('/Lemo/images/diary/heart2.png');
     }
 
     .my_diary_list > .list-area > ul > li:hover { 
