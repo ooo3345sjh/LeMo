@@ -29,12 +29,12 @@ public class csController {
     }
 
     @GetMapping("event/list")
-    public String list(){
+    public String event_list(){
         return "cs/event/list";
     }
 
     @GetMapping("event/view")
-    public String view(){
+    public String event_view(){
         return "cs/event/view";
     }
 
