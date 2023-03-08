@@ -17,6 +17,9 @@
     <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <!-- googleSearchAPI -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBntl8pNwtscVPGQraeyZVdAJ9AaH9bWBw&libraries=places&solution_channel=GMP_QB_addressselection_v1_cABC" async defer></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <!-- JS -->
     <script th:src="@{/js/commonJS.js}"></script>
 </th:block>
@@ -624,27 +627,5 @@
 </th:block>
 
 <th:block layout:fragment="script">
-    <script>
-        $( document ).ready( function() {
-            $( '.slider' ).bxSlider( {
-                auto: true,         // 자동 실행 여부
-                pause: 4000,        // 멈춤 속도
-                minSlides: 1,       // 최소 노출 개수
-                maxSlides: 5,       // 최대 노출 개수
-                slideWidth: 1100,   // 슬라이드 너비
-                pager: false,       // 현재 위치 페이징 표시 여부 설정
-                controls: false     // 이전 다음 버튼 노출 여부
-            } );
-
-            $( document ).ready( function() {
-                $( '.main_top_table' ).slick( {
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                    autoplay: true,
-                    autoplaySpeed: 2000,
-                } );
-            } );
-        });
-
-    </script>
+    <script th:src="@{/js/index.js}"></script>
 </th:block>

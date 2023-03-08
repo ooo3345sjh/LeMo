@@ -40,9 +40,9 @@
                     </div>
                 </div>
                 <div class="header_searchBar">
-                    <form class="search-container" action="#">
+                    <form class="search-container" th:action="@{/product/list}">
                         <div class="search">
-                            <input id="search-box" type="text" class="search-box" name="q"/>
+                            <input id="search-box" type="text" class="search-box" name="keyword"/>
                             <button type="submit" class="btnSearch">
                                 <input type="image" th:src="@{/images/index/btn_search.png}" id="search-submit"/>
                             </button>
