@@ -128,8 +128,6 @@
 
                     const place = autocomplete.getPlace();
 
-                    console.log(place.formatted_address);
-
                     // 구글 자동완성 검색 결과가 없을 시, 카카오 검색 시도
                     if (!place.geometry || !place.geometry.location) {
                                                                    /** #5  */
@@ -245,7 +243,8 @@
             }
 
             // #7 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록합니다
-            kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+            kakao.maps.event.addListener(map, 'dblclick', function(mouseEvent) {
+
                 // 클릭한 위치에 마커를 표시합니다 
                 addMarker(mouseEvent.latLng);
             });
