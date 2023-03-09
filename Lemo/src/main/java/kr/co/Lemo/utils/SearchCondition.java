@@ -11,18 +11,17 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class SearchCondition {
     private Integer page = 1;
     private Integer pageSize = 10;
-    private String group;
-    private String cate;
     private Integer no = 0;
     private String searchField;
     private String searchWord;
-//    private int offset;
-
+    
+    // 황원진
+    private String cs_cate;
+    
+    // 이원정
     private Integer searchIsEnabled;
     private Integer searchLevel;
     private Integer searchType;
-
-
 
     public String getQueryString(Integer page){
         // ?page=1&pageSize=10&option="T"&keyword="title"
@@ -38,11 +37,12 @@ public class SearchCondition {
         if (no != null && no != 0)
             builder.queryParam("no", no);
 
+        getCsParam(builder);
+
         if(searchField != null && !searchWord.isBlank()){
             builder.queryParam("searchField", searchField)
                     .queryParam("searchWord", searchWord);
         }
-
 
         getAdminParam(builder);
 
@@ -62,6 +62,11 @@ public class SearchCondition {
         this.page = page == 0 ? 1:page;
     }
 
+    // 황원진
+    public void getCsParam(UriComponentsBuilder builder){
+        builder.queryParam("cs_cate", cs_cate);
+    
+    // 이원정
     public void getAdminParam(UriComponentsBuilder builder){
 
         if(searchIsEnabled != null || searchLevel != null || searchType != null){
@@ -69,6 +74,7 @@ public class SearchCondition {
                     .queryParam("searchLevel", searchLevel)
                     .queryParam("searchType", searchType);
         }
+
 
     }
 }

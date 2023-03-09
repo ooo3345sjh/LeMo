@@ -2,8 +2,12 @@ package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.CsVO;
 import kr.co.Lemo.service.CsService;
+import kr.co.Lemo.utils.SearchCondition;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +23,13 @@ import java.util.List;
 
 @Slf4j
 @Controller
+@PropertySource(value = "classpath:title.properties", encoding = "UTF-8")
+@RequiredArgsConstructor
 @RequestMapping("cs/")
 public class CsController {
+
+    private final Environment environment;
+    private String group = "cs";
 
     @Autowired
     private CsService service;
@@ -53,17 +62,9 @@ public class CsController {
      */
 
     @GetMapping("event/list")
-    public String event_list(String cs_cate, Model model){
+    public String event_list(Model model, SearchCondition sc){
 
-        log.info("cate : " +cs_cate);
-
-        List<CsVO> eventLists = service.selectEventArticles(cs_cate);
-
-
-        log.info("event : " +eventLists);
-
-        model.addAttribute("articles", eventLists);
-        model.addAttribute("cs_cate", cs_cate);
+        service.selectEventArticles(sc, model);
 
         return "cs/event/list";
     }
@@ -74,6 +75,7 @@ public class CsController {
 
         CsVO eventView = service.selectEventArticle(cs_no);
 
+        model.addAttribute("title", environment.getProperty(group));
         model.addAttribute("cs_no", cs_no);
         model.addAttribute("eventArticle", eventView);
 

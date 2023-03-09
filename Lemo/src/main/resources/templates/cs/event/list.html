@@ -22,7 +22,7 @@
                 </div>
                 <div class="event">
                     <ul id="events" class="event_list">
-                        <th:block th:each="article, i:${articles}">
+                        <th:block th:each="article:${eventArticles}">
                             <li>
                                 <b>[[${article.cs_title}]]</b>
                                 <span>기간: [[${article.cs_eventStart}]] ~ [[${article.cs_eventEnd}]]</span>
@@ -33,14 +33,20 @@
 
                 </div>
                 <!-- 페이징 -->
-                <div class="paging">
-                    <span class="prev"><a href="#"></a></span>
-                    <span class="on"><a href="#">1</a></span>
-                    <span><a href="#">2</a></span>
-                    <span><a href="#">3</a></span>
-                    <span><a href="#">4</a></span>
-                    <span><a href="#">5</a></span>
-                    <span class="next"><a href="#"></a></span>
+                <div class="paging" th:object="${ph}">
+                    <th:block th:if="*{showPrev}">
+                        <span class="prev">
+                            <a th:href="@{/cs/event/list} + ${ph.sc.getQueryString(ph.beginPage-1)}"><<</a>
+                        </span>
+                    </th:block>
+
+                    <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                        <span class="on"><a th:href="@{/cs/event/list} + ${ph.sc.getQueryString(num)}">[[${num}]]</a></span>
+                    </th:block>
+
+                    <th:block th:if="*{showNext}">
+                        <span class="next"><a th:href="@{/cs/event/list} + ${ph.sc.getQueryString(ph.endPage+1}"> >> </a></span>
+                    </th:block>
                 </div>
             </div>
         </section>
