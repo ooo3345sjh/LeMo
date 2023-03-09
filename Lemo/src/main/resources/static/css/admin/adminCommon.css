@@ -21,6 +21,13 @@
       margin: 0 auto;
   }
 
+  /* 하이라이터 */
+  .highlight {
+       color: #3FC1C9;
+       background: #F1F7B5;
+       font-size: 16px;
+  }
+
   /* 여백 */
   .blank30 {
       height: 30px;

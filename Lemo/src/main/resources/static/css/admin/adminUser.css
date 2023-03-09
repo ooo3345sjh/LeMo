@@ -195,6 +195,67 @@ main .main_content .col2 {
     text-align: center;
 }
 main .select_user_type {}
+main .select_user_type > table {
+    width: 100%;
+    padding: 10px 0px;
+    margin-bottom: 22px;
+    border-collapse: collapse;
+    border: 1px solid #d9d9d9;
+}
+main .select_user_type > table tr {
+    text-align: left;
+    border-bottom: 1px solid #f5f5f5;
+}
+main .select_user_type > table tr:nth-of-type(1) {
+    border-bottom: 1px solid #f5f5f5;
+}
+main .select_user_type > table tr:nth-of-type(2) {
+    border-bottom: 1px solid #f5f5f5;
+}
+main .select_user_type > table tr:last-child {
+    border-bottom: 1px solid #d9d9d9;
+}
+main .select_user_type > table th {
+    padding: 10px 0 10px 13px;
+    width: 10%;
+    color: #999;
+    font-size: 12px;
+}
+main .select_user_type > table td {
+    text-align: left;
+    color: #333;
+    font-size: 12px;
+}
+main .select_user_type > table td > input {
+    margin-right: 6px;
+    vertical-align: middle;
+
+}
+main .btnSelectUser {
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+    background-color: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    font-size: 13px;
+    padding: 2px 8px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+main .select_user_type > table tr > td:nth-of-type(1) {
+    padding: 10px 0 10px 13px;
+    width: 10%;
+}
+main .select_user_type > table tr > td:nth-of-type(2) {}
+
+
+
+
+
+
 main .select_user_type ul {
     margin: 0 0 20px 0;
     border-bottom: 1px solid #dfdfdf;
@@ -214,6 +275,11 @@ main .select_user_type a {
 main .select_user_type .on {
     font-weight: 600;
 }
+
+
+
+
+
 
 main .main_content .col2 .board_list {
     border-top: 1px solid #bbb;
