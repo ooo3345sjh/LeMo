@@ -14,10 +14,10 @@ public class SearchCondition {
     private Integer no = 0;
     private String searchField;
     private String searchWord;
-    
+
     // 황원진
     private String cs_cate;
-    
+
     // 이원정
     private Integer searchIsEnabled;
     private Integer searchLevel;
@@ -31,7 +31,8 @@ public class SearchCondition {
     public String getQueryString(Integer page, Integer no){
         // ?page=1&pageSize=10&option="T"&page=10
         UriComponentsBuilder builder = UriComponentsBuilder.newInstance()
-                .queryParam("page", page);
+                .queryParam("page", page)
+                .queryParam("group", group);
 
 
         if (no != null && no != 0)
@@ -88,6 +89,7 @@ public class SearchCondition {
     public void getCsParam(UriComponentsBuilder builder) {
         builder.queryParam("cs_cate", cs_cate);
     }
+
     // 이원정
     public void getAdminParam(UriComponentsBuilder builder){
 
@@ -97,6 +99,14 @@ public class SearchCondition {
                     .queryParam("searchType", searchType);
         }
 
+
+    }
+
+    public void getProductParam(UriComponentsBuilder builder){
+
+    }
+
+    public void getDiaryParam(UriComponentsBuilder builder){
 
     }
 }

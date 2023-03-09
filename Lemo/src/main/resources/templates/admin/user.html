@@ -5,6 +5,7 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminUser.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <script th:src="@{/js/common/jquery.highlight-5.js}"></script>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -42,7 +43,7 @@
                             <form th:action="@{/admin/user}">
                                 <!-- 선택 -->
                                 <div class="select_user_type">
-                                    <table border="1">
+                                    <table>
                                         <tr>
                                             <th>상태</th>
                                             <td>
@@ -69,7 +70,7 @@
                                             <td><input type="radio" name="searchType" value="2"><span>SNS회원</span></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="3"><input type="submit" value="검색"></td>
+                                            <td colspan="3"><input type="submit" value="검색" class="btnSelectUser"></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -85,11 +86,11 @@
                                         <li>가입일</li>
                                         <li>비고</li>
                                     </ul>
-                                    <ul  th:each="user:${users}">
+                                    <ul th:each="user:${users}">
                                         <li>1</li>
-                                        <li th:text="${user.user_id}">mango@gmail.com</li>
-                                        <li th:text="${user.nick}">고민중인흰둥이</li>
-                                        <li th:text="${user.isEnabled == 1} ? '정상':'탈퇴'">상태</li>
+                                        <li class="user_id" th:text="${user.user_id}">mango@gmail.com</li>
+                                        <li class="user_nick" th:text="${user.nick}">고민중인흰둥이</li>
+                                        <li th:text="${user.isEnabled == 1} ? '정상':'탈퇴'" th:class="${user.isEnabled == 1} ? '' : 'drop'">상태</li>
                                         <li th:text="${user.level == 1}? '일반':'엘리트'">등급</li>
                                         <li th:text="${user.type == 1}? '홈회원':'sns회원'">회원 구분</li>
                                         <li th:text="${user.rdate}">가입일</li>
@@ -164,6 +165,20 @@
                 event.preventDefault();
             };
         });
+
+        // 검색어 하이라이트
+        const searchField = document.querySelector('select[name=searchField]'); // 검색 필드
+        const searchWord = document.querySelector('input[name=searchWord]');   // 검색 단어
+
+        // 검색어 하이라이트 이벤트
+        $(function (){
+            if(searchField.options[searchField.selectedIndex].value === "userId"){
+                $('.user_id').highlight(searchWord.value);
+            }
+            else if(searchField.options[searchField.selectedIndex].value === "userNick"){
+                $('.user_nick').highlight(searchWord.value);
+            }
+        })
 
     });
 </script>
