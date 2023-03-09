@@ -217,7 +217,7 @@
                     function addDiary(place){
                         let addContent  = '<div class="place place_' + place + '">';
                             addContent += '<div class="spot">';
-                            addContent += '<img src="/Lemo/images/diary/flag.png" width="30px" height="40px">';
+                            addContent += '<img src="/Lemo/images/index/lemo_logo-removebg-preview.png" width="30px" height="40px">';
                             addContent += '<span>'+ place +'</span>';
                             addContent += '</div>';
                             addContent += '<img src="/Lemo/images/cs/arr_down.png" class="arrow">';
@@ -235,9 +235,9 @@
 
                     // #F6 : 마커 이미지 변경
                     function setMarkerImg() {
-                        var imageSrc = '/Lemo/images/diary/pin.png', // 마커이미지의 주소입니다
-                        imageSize = new kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
-                        imageOption = {offset: new kakao.maps.Point(20, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+                        var imageSrc = '/Lemo/images/index/lemo_logo-removebg-preview.png', // 마커이미지의 주소입니다
+                        imageSize = new kakao.maps.Size(40, 60), // 마커이미지의 크기입니다
+                        imageOption = {offset: new kakao.maps.Point(15, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
                         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
@@ -280,7 +280,7 @@
                     let searchBtn = document.getElementById('searchBtn');
                     let option    = {fields: ["address_components", "formatted_address", "geometry", "icon", "name"]};
 
-                    function initMap(){
+                    function initKaKaoMap(){
                         const autocomplete = new google.maps.places.Autocomplete(autocompleteInput, option);
                         autocomplete.setComponentRestrictions({country: ["kr"]});
 
@@ -369,7 +369,7 @@
                     // });
                 </script>
                 <!-- googleSearchAPI -->
-                <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBntl8pNwtscVPGQraeyZVdAJ9AaH9bWBw&libraries=places&callback=initMap"></script>
+                <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBntl8pNwtscVPGQraeyZVdAJ9AaH9bWBw&libraries=places&callback=initKaKaoMap"></script>
         </th:block>
 </html>
 
