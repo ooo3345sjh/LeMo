@@ -37,17 +37,39 @@ public class SearchCondition {
         if (no != null && no != 0)
             builder.queryParam("no", no);
 
-        getCsParam(builder);
+//        getCsParam(builder);
 
         if(searchField != null && !searchWord.isBlank()){
             builder.queryParam("searchField", searchField)
                     .queryParam("searchWord", searchWord);
         }
 
+//        sortGroup(group, builder);
+
         getAdminParam(builder);
 
         return builder.toUriString();
     }
+
+    /*
+    private void sortGroup(String group, UriComponentsBuilder builder) {
+        switch (group){
+            case "admin":
+                getAdminParam(builder);
+                break;
+            case "product":
+                getAdminParam(builder);
+                break;
+            case "cs":
+                getAdminParam(builder);
+                break;
+            case "diary":
+                getAdminParam(builder);
+                break;
+        }
+    }
+
+     */
 
     public String getQueryString(){
         // ?page=1&pageSize=10&option="T"&keyword="title"
@@ -63,9 +85,9 @@ public class SearchCondition {
     }
 
     // 황원진
-    public void getCsParam(UriComponentsBuilder builder){
+    public void getCsParam(UriComponentsBuilder builder) {
         builder.queryParam("cs_cate", cs_cate);
-    
+    }
     // 이원정
     public void getAdminParam(UriComponentsBuilder builder){
 
