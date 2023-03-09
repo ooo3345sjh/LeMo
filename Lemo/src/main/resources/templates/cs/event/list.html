@@ -22,56 +22,13 @@
                 </div>
                 <div class="event">
                     <ul id="events" class="event_list">
-                        <li th:each="article, i:${articles}">
-                            <b>[[${article.cs_title}]]</b>
-                            <span>기간: [[${article.cs_eventStart}]] ~ [[${article.cs_eventEnd}]]</span>
-                            <a th:href="@{/cs/event/view (cs_no=${article.cs_no})}"><img th:src="@{/images/cs/event1.jpg}"></a>
-                        </li>
-                        <li>
-                            <b>23년 2월 롯데카드 즉시할인 - 신용카드</b>
-                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
-                            <a href="#"><img th:src="@{/images/cs/event2.jpg}"></a>
-                        </li>
-                        <li>
-                            <b>23년 2월 우리카드 즉시할인 - 신용카드</b>
-                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
-                            <a href="#"><img th:src="@{/images/cs/event3.jpg}"></a>
-                        </li>
-                        <li>
-                            <b>23년 2월 카카오 즉시할인 - 간편결제</b>
-                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
-                            <a href="#"><img th:src="@{/images/cs/event4.jpg}"></a>
-                        </li>
-                        <li>
-                            <b>23년 2월 토스 즉시할인 - 간편결제</b>
-                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
-                            <a href="#"><img th:src="@{/images/cs/event5.jpg}"></a>
-                        </li>
-                        <li>
-                            <b>23년 1월 결제 프로모션 모음</b>
-                            <span>기간: 2023.01.01 ~ 2023.02.28</span>
-                            <a href="#"><img th:src="@{/images/cs/event6.jpg}"></a>
-                        </li>
-                        <li class="end">
-                            <b>23년 1월 하나카드 즉시할인 - 신용카드</b>
-                            <span>기간: 2023.01.01 ~ 2023.01.31</span>
-                            <a href="#"><img th:src="@{/images/cs/event1.jpg}"></a>
-                        </li>
-                        <li class="end">
-                            <b>23년 1월 롯데카드 즉시할인 - 신용카드</b>
-                            <span>기간: 2023.01.01 ~ 2023.01.31</span>
-                            <a href="#"><img th:src="@{/images/cs/event2.jpg}"></a>
-                        </li>
-                        <li class="end">
-                            <b>23년 1월 우리카드 즉시할인 - 신용카드</b>
-                            <span>기간: 2023.01.01 ~ 2023.01.31</span>
-                            <a href="#"><img th:src="@{/images/cs/event3.jpg}"></a>
-                        </li>
-                        <li class="end">
-                            <b>23년 1월 카카오 즉시할인 - 간편결제</b>
-                            <span>기간: 2023.01.01 ~ 2023.01.31</span>
-                            <a href="#"><img th:src="@{/images/cs/event4.jpg}"></a>
-                        </li>
+                        <th:block th:each="article, i:${articles}">
+                            <li>
+                                <b>[[${article.cs_title}]]</b>
+                                <span>기간: [[${article.cs_eventStart}]] ~ [[${article.cs_eventEnd}]]</span>
+                                <a th:href="@{/cs/event/view (cs_no=${article.cs_no})}"><img th:src="@{/images/cs/event1.jpg}"></a>
+                            </li>
+                        </th:block>
                     </ul>
 
                 </div>
