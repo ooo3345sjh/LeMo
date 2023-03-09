@@ -11,12 +11,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class SearchCondition {
     private Integer page = 1;
     private Integer pageSize = 10;
-    private String group;
-    private String cate;
+    private String cs_cate;
     private Integer no = 0;
     private String searchField;
     private String searchWord;
-
+    private int offset;
 
     public String getQueryString(Integer page){
         // ?page=1&pageSize=10&option="T"&keyword="title"
@@ -26,18 +25,20 @@ public class SearchCondition {
     public String getQueryString(Integer page, Integer no){
         // ?page=1&pageSize=10&option="T"&page=10
         UriComponentsBuilder builder = UriComponentsBuilder.newInstance()
-                .queryParam("group", group)
-                .queryParam("cate", cate)
                 .queryParam("page", page);
 
 
         if (no != null && no != 0)
             builder.queryParam("no", no);
 
+        getCsParam(builder);
+
         if(searchField != null && !searchWord.isBlank()){
             builder.queryParam("searchField", searchField)
                     .queryParam("searchWord", searchWord);
         }
+
+
 
         return builder.toUriString();
     }
@@ -53,5 +54,9 @@ public class SearchCondition {
 
     public void setPage(Integer page) {
         this.page = page == 0 ? 1:page;
+    }
+
+    public void getCsParam(UriComponentsBuilder builder){
+        builder.queryParam("cs_cate", cs_cate);
     }
 }
