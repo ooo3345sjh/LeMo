@@ -1,12 +1,21 @@
 package kr.co.Lemo.controller;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@PropertySource(value = "classpath:title.properties", encoding = "UTF-8")
+@RequiredArgsConstructor
 @RequestMapping("user/")
 public class UserController {
+
+    private final Environment environment;
+    private String group = "user";
 
     @GetMapping("login")
     public String login() {
@@ -18,8 +27,8 @@ public class UserController {
         return "user/join";
     }
     @GetMapping("terms")
-    public String terms() {
-
+    public String terms(Model m) {
+        m.addAttribute("title", environment.getProperty(group));
         return "user/terms";
     }
 
