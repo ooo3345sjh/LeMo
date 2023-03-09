@@ -22,10 +22,10 @@
                 </div>
                 <div class="event">
                     <ul id="events" class="event_list">
-                        <li>
-                            <b>23년 2월 하나카드 즉시할인 - 신용카드</b>
-                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
-                            <a href="#"><img th:src="@{/images/cs/event1.jpg}"></a>
+                        <li th:each="article, i:${articles}">
+                            <b>[[${article.cs_title}]]</b>
+                            <span>기간: [[${article.cs_eventStart}]] ~ [[${article.cs_eventEnd}]]</span>
+                            <a th:href="@{/cs/event/view (cs_no=${article.cs_no})}"><img th:src="@{/images/cs/event1.jpg}"></a>
                         </li>
                         <li>
                             <b>23년 2월 롯데카드 즉시할인 - 신용카드</b>

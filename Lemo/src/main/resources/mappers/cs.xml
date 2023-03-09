@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    날짜 : 2023/03/08
+    이름 : 황원진
+    내용 : 고객센터 mapper
+ -->
+<mapper namespace="kr.co.Lemo.dao.CsDAO">
+
+    <!-- select -->
+    <select id="selectEventArticles" resultType="kr.co.Lemo.domain.CsVO">
+        SELECT * FROM `lemo_cs` WHERE `cs_cate` =#{cs_cate};
+    </select>
+
+    <select id="selectEventArticle" resultType="kr.co.Lemo.domain.CsVO">
+        select * from `lemo_cs` where `cs_no`=#{cs_no};
+    </select>
+
+    <!-- insert -->
+        <insert id="insertEvent" useGeneratedKeys="true" keyProperty="cs_no">
+            insert into `lemo_cs` set
+            `userId_id`=#{userId_id},
+            `cs_cate`=#{cs_cate},
+            `cs_type`=#{cs_type},
+            `cs_title`=#{cs_title},
+            `cs_content`=#{cs_content},
+            `cs_regip`=#{cs_regip},
+            `cs_rdate`=NOW(),
+            `cs_eventbannerImg`=#{cs_eventbannerImg},
+            `cs_eventViewImg`=#{cs_eventViewImg},
+            `cs_eventStart`=#{cs_eventStart},
+            `cs_eventEnd`=#{cs_eventEnd};
+        </insert>
+    <!-- update -->
+
+    <!-- delete -->
+
+    <!-- 공통 키 -->
+</mapper>
