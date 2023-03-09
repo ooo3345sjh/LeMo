@@ -10,7 +10,6 @@
             <!-- Date Range Picker -->
             <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
             <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-            <script th:src="@{/js/product/productList.js}"></script>
             <script th:src="@{/js/common/daterangepicker.js}"></script>
             <script th:src="@{/js/common/kakaomap-scroll.js}"></script>
             <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -37,31 +36,37 @@
                                         <strong>편의 시설</strong>
                                         <table>
                                             <tr>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">수영장</label></td>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">주차장</label></td>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">금연</label></td>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">VOD</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="1">피트니스</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="2">와이파이</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="3">레스토랑</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="4">TV</label></td>
                                             </tr>
                                             <tr>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">사우나</label></td>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">패밀리</label></td>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">와이파이</label></td>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">노래방</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="5">에어컨</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="6">냉장고</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="7">드라이기</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="8">장애인편의시설</label></td>
                                             </tr>
                                             <tr>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">바다전망</label></td>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">해수욕장인근</label></td>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">바비큐</label></td>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">스파/월풀/욕조</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="9">주차장</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="10">무료주차</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="11">금연</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="12">카페</label></td>
                                             </tr>
                                             <tr>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">애견동반</label></td>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">조식</label></td>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">픽업가능</label></td>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">무료세탁</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="13">수영장</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="14">욕조</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="15">스파</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="16">엘리베이터</label></td>
                                             </tr>
                                             <tr>
-                                                <td><label><input type="checkbox" name="chk" value="swimmingPool">여성전용</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="17">욕실용품</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="18">사우나</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="19">짐보관</label></td>
+                                                <td><label><input type="checkbox" name="chk" value="20">세탁기</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><label><input type="checkbox" name="chk" value="21">건조기</label></td>
                                             </tr>
                                         </table>
                                     </article>
@@ -423,20 +428,39 @@
         </th:block>
         <th:block layout:fragment="script">
             <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712"></script>
+            <script th:src="@{/js/product/productList.js}"></script>
             <script>
                 /** 카카오 맵 */
                 var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
                 var options = { //지도를 생성할 때 필요한 기본 옵션
                     center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-                    level: 12 //지도의 레벨(확대, 축소 정도)
+                    level: 7 //지도의 레벨(확대, 축소 정도)
                 };
 
                 var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
                 map.setZoomable(false);
+
                 function setZoomable(zoomable) {
                     // 마우스 휠로 지도 확대,축소 가능여부를 설정합니다
                     map.setZoomable(zoomable);
                 }
+
+                // 지도의 현재 영역을 얻어옵니다
+                var bounds = map.getBounds();
+
+                // 영역의 남서쪽 좌표를 얻어옵니다
+                var swLatLng = bounds.getSouthWest();
+
+                // 영역의 북동쪽 좌표를 얻어옵니다
+                var neLatLng = bounds.getNorthEast();
+
+                // 영역정보를 문자열로 얻어옵니다. ((남,서), (북,동)) 형식입니다
+                var boundsStr = bounds.toString();
+
+                console.log('남서쪽 ' + swLatLng.getLat());
+                console.log('남서쪽 ' + swLatLng.getLng());
+                console.log('북동쪽 ' + neLatLng.getLat());
+                console.log('북동쪽 ' + neLatLng.getLng());
             </script>
         </th:block>
 </html>
