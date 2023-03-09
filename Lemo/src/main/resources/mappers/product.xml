@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    날짜 : 2023/03/09
+    이름 : 이해빈
+    내용 : 상품 mapper
+ -->
+<mapper namespace="kr.co.Lemo.dao.ProductDAO">
+
+    <!-- insert -->
+
+    <!-- select -->
+    <select id="selectAccommodations" parameterType="kr.co.Lemo.domain.ProductSearchVO" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+        <![CDATA[
+        SELECT * FROM `lemo_product_accommodation`
+        WHERE ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 50000;
+        ]]>
+    </select>
+
+
+    <!-- update -->
+
+    <!-- delete -->
+
+    <!-- 공통 키 -->
+
+</mapper>
