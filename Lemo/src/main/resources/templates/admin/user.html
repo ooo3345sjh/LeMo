@@ -16,14 +16,11 @@
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
                         <div class="col0">
-                            <form action="@{/admin/user}">
+                            <form th:action="@{/admin/user}">
                                 <div class="selectProd">
                                     <select name="searchField">
                                         <option value="userId" th:selected="${ph.sc.searchField == 'userId'}">회원 아이디</option>
                                         <option value="userNick" th:selected="${ph.sc.searchField == 'userNick'}">회원 닉네임</option>
-                                        <option value="userType" th:selected="${ph.sc.searchField == 'userType'}">회원 구분</option>
-                                        <option value="userLevel" th:selected="${ph.sc.searchField == 'userLevel'}">회원 등급</option>
-                                        <option value="userIsEnabled" th:selected="${ph.sc.searchField == 'userIsEnabled'}">회원 상</option>
                                     </select>
                                 </div>
                                 <div class="searchProd">
@@ -42,23 +39,39 @@
                             <span>회원목록</span>
                         </div>
                         <div class="col2">
-                            <form action="#">
+                            <form th:action="@{/admin/user}">
                                 <!-- 선택 -->
                                 <div class="select_user_type">
-                                    <ul>
-                                        <li>
-                                            <a th:href="@{#}" class="on">차단회원</a>
-                                        </li>
-                                        <li>
-                                            <a th:href="@{#}">탈퇴회원</a>
-                                        </li>
-                                        <li>
-                                            <a th:href="@{#}">일반회원</a>
-                                        </li>
-                                        <li>
-                                            <a th:href="@{#}">엘리트회원</a>
-                                        </li>
-                                    </ul>
+                                    <table border="1">
+                                        <tr>
+                                            <th>상태</th>
+                                            <td>
+                                                <input type="radio" name="searchIsEnabled" value="1"><span>정상</span>
+                                            </td>
+                                            <td>
+                                                <input type="radio" name="searchIsEnabled" value="0"><span>탈퇴</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>등급</th>
+                                            <td>
+                                                <input type="radio" name="searchLevel" value="1"><span>일반</span>
+                                            </td>
+                                            <td>
+                                                <input type="radio" name="searchLevel" value="2"><span>엘리트</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>구분</th>
+                                            <td>
+                                                <input type="radio" name="searchType" value="1"><span>홈회원</span>
+                                            </td>
+                                            <td><input type="radio" name="searchType" value="2"><span>SNS회원</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3"><input type="submit" value="검색"></td>
+                                        </tr>
+                                    </table>
                                 </div>
                                 <!-- 목록 -->
                                 <div class="board_list">
@@ -104,7 +117,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="pagination" th:object="${ph}">
+                                <div class="pagination" th:object="${ph}" th:style="${#lists.size(users) == 0 ? 'visibility:hidden;':''}">
 
                                     <th:block th:if="*{showPrev}">
                                         <a th:href="@{/admin/user} + ${ph.sc.getQueryString(ph.beginPage-1)}" cl벼ass="prev">< </a>
