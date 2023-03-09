@@ -16,6 +16,12 @@ public class SearchCondition {
     private Integer no = 0;
     private String searchField;
     private String searchWord;
+//    private int offset;
+
+    private Integer searchIsEnabled;
+    private Integer searchLevel;
+    private Integer searchType;
+
 
 
     public String getQueryString(Integer page){
@@ -26,8 +32,6 @@ public class SearchCondition {
     public String getQueryString(Integer page, Integer no){
         // ?page=1&pageSize=10&option="T"&page=10
         UriComponentsBuilder builder = UriComponentsBuilder.newInstance()
-                .queryParam("group", group)
-                .queryParam("cate", cate)
                 .queryParam("page", page);
 
 
@@ -38,6 +42,9 @@ public class SearchCondition {
             builder.queryParam("searchField", searchField)
                     .queryParam("searchWord", searchWord);
         }
+
+
+        getAdminParam(builder);
 
         return builder.toUriString();
     }
@@ -53,5 +60,15 @@ public class SearchCondition {
 
     public void setPage(Integer page) {
         this.page = page == 0 ? 1:page;
+    }
+
+    public void getAdminParam(UriComponentsBuilder builder){
+
+        if(searchIsEnabled != null || searchLevel != null || searchType != null){
+            builder.queryParam("searchIsEnabled", searchIsEnabled)
+                    .queryParam("searchLevel", searchLevel)
+                    .queryParam("searchType", searchType);
+        }
+
     }
 }

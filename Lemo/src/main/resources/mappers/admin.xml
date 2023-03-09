@@ -14,11 +14,21 @@
     <!-- admin - user - list (user+business+admin) -->
     <select id="selectUser" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.UserVO">
         select * from `lemo_member_userinfo`
+        where 1=1
         <include refid="searchCondition"/>
+        <include refid="searchIsEnabled"/>
+        <include refid="searchLevel"/>
+        <include refid="searchType"/>
         order by `rdate` desc limit #{offset}, 10;
     </select>
+
     <select id="countUser" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
-        select count(*) from `lemo_member_userinfo`;
+        select count(*) from `lemo_member_userinfo`
+        where 1=1
+        <include refid="searchCondition"/>
+        <include refid="searchIsEnabled"/>
+        <include refid="searchLevel"/>
+        <include refid="searchType"/>
     </select>
 
     <!-- insert -->
@@ -35,19 +45,49 @@
         <if test="searchField != null">
             <choose>
                 <when test='searchField == "userId"'>
-                    where `user_id` like `%` + `#{searchWord}` + `%`
+                   and `user_id` like CONCAT('%', #{searchWord}, '%')
                 </when>
                 <when test='searchField == "userNick"'>
-                    where `nick` like `%` + `#{searchWord}` + `%`
+                   and `nick` like CONCAT('%', #{searchWord}, '%')
                 </when>
-                <when test='searchField == "userType"'>
-                    where `type` like `%` + `#{searchWord}` + `%`
+            </choose>
+        </if>
+    </sql>
+
+    <sql id="searchIsEnabled">
+        <if test="searchIsEnabled != null">
+            <choose>
+                <when test="searchIsEnabled == 1">
+                    and `isEnabled`=1
                 </when>
-                <when test='searchField == "userLevel"'>
-                    where `level` like `%` + `#{searchWord}` + `%`
+                <when test="searchIsEnabled == 0">
+                    and `isEnabled`=0
                 </when>
-                <when test='searchField == "userIsEnabled"'>
-                    where `isEnabled` like `%` + `#{searchWord}` + `%`
+            </choose>
+        </if>
+    </sql>
+
+    <sql id="searchLevel">
+        <if test="searchLevel != null">
+            <choose>
+                <when test="searchLevel == 1">
+                    and `level`=1
+                </when>
+                <when test="searchLevel == 2">
+                    and `level`=2
+                </when>
+            </choose>
+        </if>
+    </sql>
+
+    <sql id="searchType">
+        <if test="searchType != null">
+            <choose>
+                <when test="searchType == 1">
+                    and `type`=1
+                </when>
+                <when test="searchType == 2">
+                    and `type`=2
                 </when>
             </choose>
         </if>

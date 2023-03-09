@@ -1,6 +1,8 @@
 package kr.co.Lemo.controller;
 
+import kr.co.Lemo.repository.AdminRepo;
 import kr.co.Lemo.domain.CsVO;
+
 import kr.co.Lemo.service.AdminService;
 import kr.co.Lemo.service.CsService;
 import kr.co.Lemo.utils.SearchCondition;
@@ -26,6 +28,9 @@ public class AdminController {
     private AdminService service;
 
     @Autowired
+    private AdminRepo repo;
+    
+    @Autowired
     private CsService csService;
 
     @GetMapping("index_admin")
@@ -50,6 +55,7 @@ public class AdminController {
 
         return "admin/user";
     }
+
 
     @GetMapping("coupon/insertCoupon")
     public String insertCoupon() {
