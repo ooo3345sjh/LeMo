@@ -9,10 +9,17 @@
  -->
 <mapper namespace="kr.co.Lemo.dao.AdminDAO">
 
-<!-- select -->
-<select id="selectUser" resultType="kr.co.Lemo.domain.UserVO">
-    SELECT * FROM `lemo_member_user`;
-</select>
+    <!-- select -->
+
+    <!-- admin - user - list (user+business+admin) -->
+    <select id="selectUser" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.UserVO">
+        select * from `lemo_member_userinfo`
+        <include refid="searchCondition"/>
+        order by `rdate` desc limit #{offset}, 10;
+    </select>
+    <select id="countUser" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
+        select count(*) from `lemo_member_userinfo`;
+    </select>
 
     <!-- insert -->
 
@@ -21,4 +28,29 @@
     <!-- delete -->
 
     <!-- 공통 키 -->
+
+    <!-- include :: sql 구문 재사용 -->
+    <!-- admin - user - search condition::list -->
+    <sql id="searchCondition">
+        <if test="searchField != null">
+            <choose>
+                <when test='searchField == "userId"'>
+                    where `user_id` like `%` + `#{searchWord}` + `%`
+                </when>
+                <when test='searchField == "userNick"'>
+                    where `nick` like `%` + `#{searchWord}` + `%`
+                </when>
+                <when test='searchField == "userType"'>
+                    where `type` like `%` + `#{searchWord}` + `%`
+                </when>
+                <when test='searchField == "userLevel"'>
+                    where `level` like `%` + `#{searchWord}` + `%`
+                </when>
+                <when test='searchField == "userIsEnabled"'>
+                    where `isEnabled` like `%` + `#{searchWord}` + `%`
+                </when>
+            </choose>
+        </if>
+    </sql>
+
 </mapper>

@@ -173,6 +173,27 @@ main .main_content > .main_cotent_inner {
     padding: 40px 30px;
 }
 
+/* 페이징 */
+main .pagination {
+    margin: 15px 0;
+    display: inline-block;
+}
+main .pagination > a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+main .pagination > a.current {
+    background-color: #bbd444;
+    color: white;
+    border-radius: 5px;
+}
+main .pagination a:hover:not(.current) {
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
 
 /* 푸터 */
 footer {

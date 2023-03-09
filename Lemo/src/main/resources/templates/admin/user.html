@@ -16,17 +16,18 @@
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
                         <div class="col0">
-                            <form action="#">
+                            <form action="@{/admin/user}">
                                 <div class="selectProd">
-                                    <select>
-                                        <option value="1">이메일아이디</option>
-                                        <option value="1">회원명</option>
-                                        <option value="1">닉네임</option>
+                                    <select name="searchField">
+                                        <option value="userId" th:selected="${ph.sc.searchField == 'userId'}">회원 아이디</option>
+                                        <option value="userNick" th:selected="${ph.sc.searchField == 'userNick'}">회원 닉네임</option>
+                                        <option value="userType" th:selected="${ph.sc.searchField == 'userType'}">회원 구분</option>
+                                        <option value="userLevel" th:selected="${ph.sc.searchField == 'userLevel'}">회원 등급</option>
+                                        <option value="userIsEnabled" th:selected="${ph.sc.searchField == 'userIsEnabled'}">회원 상</option>
                                     </select>
                                 </div>
                                 <div class="searchProd">
-
-                                    <input type="text" class="search_box" placeholder="회원 검색">
+                                    <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}"/>
                                     <button type="submit" class="btnSearch">
                                         <input type="image" th:src="@{/images/admin/btn_search.png}">
                                     </button>
@@ -46,16 +47,16 @@
                                 <div class="select_user_type">
                                     <ul>
                                         <li>
-                                            <a href="#" class="on">차단회원</a>
+                                            <a th:href="@{#}" class="on">차단회원</a>
                                         </li>
                                         <li>
-                                            <a href="#">탈퇴회원</a>
+                                            <a th:href="@{#}">탈퇴회원</a>
                                         </li>
                                         <li>
-                                            <a href="#">일반회원</a>
+                                            <a th:href="@{#}">일반회원</a>
                                         </li>
                                         <li>
-                                            <a href="#">엘리트회원</a>
+                                            <a th:href="@{#}">엘리트회원</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -63,22 +64,22 @@
                                 <div class="board_list">
                                     <ul>
                                         <li>번호</li>
-                                        <li>이메일아이디</li>
+                                        <li>회원 아이디</li>
                                         <li>닉네임</li>
                                         <li>상태</li>
                                         <li>등급</li>
-                                        <li>소셜</li>
+                                        <li>구분</li>
                                         <li>가입일</li>
                                         <li>비고</li>
                                     </ul>
-                                    <ul th:each="user:${users}">
+                                    <ul  th:each="user:${users}">
                                         <li>1</li>
-                                        <li>[[${userId_id}]]</li>
-                                        <li>강아지에게쫓기는지니요정</li>
-                                        <li>정상</li>
-                                        <li>일반</li>
-                                        <li>일반</li>
-                                        <li>2023/03/04 20:50:12</li>
+                                        <li th:text="${user.user_id}">mango@gmail.com</li>
+                                        <li th:text="${user.nick}">고민중인흰둥이</li>
+                                        <li th:text="${user.isEnabled == 1} ? '정상':'탈퇴'">상태</li>
+                                        <li th:text="${user.level == 1}? '일반':'엘리트'">등급</li>
+                                        <li th:text="${user.type == 1}? '홈회원':'sns회원'">회원 구분</li>
+                                        <li th:text="${user.rdate}">가입일</li>
                                         <li>
                                             <button class="btnNote">메모</button>
                                             <!-- 메모 팝업 -->
@@ -102,78 +103,23 @@
                                             <button class="btnNote2" type="button">삭제</button>
                                         </li>
                                     </ul>
-                                    <ul>
-                                        <li>2</li>
-                                        <li>mango@gmail.com</li>
-                                        <li>고민중인흰둥이</li>
-                                        <li class="drop">탈퇴</li>
-                                        <li>엘리트</li>
-                                        <li>카카오</li>
-                                        <li>2023/03/04 20:50:12</li>
-                                        <li>
-                                            <button class="btnNote">메모</button>
-                                            <!-- 메모 팝업 -->
-                                            <section id="d_Memo" style="display: none;">
-                                                <form method="dialog">
-                                                    <section>
-                                                        <nav class="d_tit">
-                                                            <h1 class="d_tit2">메모</h1>
-                                                        </nav>
-                                                        <div class="d_box">
-                                                            <textarea placeholder="메모 내용을 작성하세요"></textarea>
-                                                        </div>
-                                                        <div class="rr_btn">
-                                                            <button class="btnRclose" id="btnCloseModal2" value="close" type="reset">닫기</button>
-                                                            <button class="btnRsubmit" id="btnCloseModal3">작성</button>
-                                                        </div>
-                                                    </section>
-                                                </form>
-                                            </section>
-                                            <button class="btnNote2" type="button">차단</button>
-                                            <button class="btnNote2" type="button">삭제</button>
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li>3</li>
-                                        <li>qwerty@gmail.com</li>
-                                        <li>읽씹하는얼죽아</li>
-                                        <li class="block">차단</li>
-                                        <li>일반</li>
-                                        <li>네이버</li>
-                                        <li>2023/03/04 20:50:12</li>
-                                        <li>
-                                            <button class="btnNote">메모</button>
-                                            <!-- 메모 팝업 -->
-                                            <section id="d_Memo" style="display: none;">
-                                                <form method="dialog">
-                                                    <section>
-                                                        <nav class="d_tit">
-                                                            <h1 class="d_tit2">메모</h1>
-                                                        </nav>
-                                                        <div class="d_box">
-                                                            <textarea placeholder="메모 내용을 작성하세요"></textarea>
-                                                        </div>
-                                                        <div class="rr_btn">
-                                                            <button class="btnRclose" id="btnCloseModal2" value="close" type="reset">닫기</button>
-                                                            <button class="btnRsubmit" id="btnCloseModal3">작성</button>
-                                                        </div>
-                                                    </section>
-                                                </form>
-                                            </section>
-                                            <button class="btnNote2" type="button">차단</button>
-                                            <button class="btnNote2" type="button">삭제</button>
-                                        </li>
-                                    </ul>
                                 </div>
-                                <div class="pagination">
-                                    <a href="#">&laquo;</a>
-                                    <a href="#">1</a>
-                                    <a href="#" class="active">2</a>
-                                    <a href="#">3</a>
-                                    <a href="#">4</a>
-                                    <a href="#">5</a>
-                                    <a href="#">6</a>
-                                    <a href="#">&raquo;</a>
+                                <div class="pagination" th:object="${ph}">
+
+                                    <th:block th:if="*{showPrev}">
+                                        <a th:href="@{/admin/user} + ${ph.sc.getQueryString(ph.beginPage-1)}" cl벼ass="prev">< </a>
+                                    </th:block>
+
+                                    <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                                        <a th:href="@{/admin/user} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                            [[${num}]]
+                                        </a>
+                                    </th:block>
+
+                                    <th:block th:if="*{showNext}">
+                                        <a th:href="@{/admin/user} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                    </th:block>
+
                                 </div>
                             </form>
                         </div>

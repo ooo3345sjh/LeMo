@@ -1,22 +1,25 @@
-package kr.co.Lemo.domain;
+package kr.co.Lemo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @since 2023/03/08
- * @author 이원정
- * @apiNote lemo_member_user (회원) VO
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Builder
-public class UserVO {
-    // lemo_member_userinfo
+@Table(name="lemo_member_userinfo")
+public class UserEntity {
+
+    @Id
+    @Column(name="user_id", insertable = false, updatable = false)
     private String user_id;
     private String hp;
     private String nick;
@@ -36,20 +39,5 @@ public class UserVO {
     private String udate;
     private String rdate;
     private String wdate;
-
-    // lemo_member_user
-    private String pass;
-
-    // lemo_member_social
-    private String id;
-    private String soci_type;
-    private String soci_token;
-    private String email;
-
-
-
-
-
-
 
 }
