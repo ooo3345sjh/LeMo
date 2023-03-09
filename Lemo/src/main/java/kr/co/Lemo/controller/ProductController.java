@@ -45,7 +45,7 @@ public class ProductController {
         //String resultType = "json";
 
         // 키워드 검색일 경우
-        if(keyword != "" && keyword != null) {
+        if(keyword != "" || keyword != null) {
             try {
                 keyword = URLEncoder.encode(keyword, "UTF-8");
             }catch(UnsupportedEncodingException e){
@@ -84,6 +84,7 @@ public class ProductController {
 
             lng = Double.parseDouble(firstDocument.get("x").asText());
             lat = Double.parseDouble(firstDocument.get("y").asText());
+
 
             log.info("lng : " + lng);
             log.info("lat : " + lat);
