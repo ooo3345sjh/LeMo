@@ -38,6 +38,7 @@ $(document).ready(function(){
 
             // 구글 자동완성 검색 결과가 없을 시 return
             if (!place.geometry || !place.geometry.location) {
+
                 return;
             }
 

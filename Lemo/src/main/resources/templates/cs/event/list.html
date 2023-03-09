@@ -22,68 +22,31 @@
                 </div>
                 <div class="event">
                     <ul id="events" class="event_list">
-                        <li>
-                            <b>23년 2월 하나카드 즉시할인 - 신용카드</b>
-                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
-                            <a href="#"><img th:src="@{/images/cs/event1.jpg}"></a>
-                        </li>
-                        <li>
-                            <b>23년 2월 롯데카드 즉시할인 - 신용카드</b>
-                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
-                            <a href="#"><img th:src="@{/images/cs/event2.jpg}"></a>
-                        </li>
-                        <li>
-                            <b>23년 2월 우리카드 즉시할인 - 신용카드</b>
-                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
-                            <a href="#"><img th:src="@{/images/cs/event3.jpg}"></a>
-                        </li>
-                        <li>
-                            <b>23년 2월 카카오 즉시할인 - 간편결제</b>
-                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
-                            <a href="#"><img th:src="@{/images/cs/event4.jpg}"></a>
-                        </li>
-                        <li>
-                            <b>23년 2월 토스 즉시할인 - 간편결제</b>
-                            <span>기간: 2023.02.01 ~ 2023.02.28</span>
-                            <a href="#"><img th:src="@{/images/cs/event5.jpg}"></a>
-                        </li>
-                        <li>
-                            <b>23년 1월 결제 프로모션 모음</b>
-                            <span>기간: 2023.01.01 ~ 2023.02.28</span>
-                            <a href="#"><img th:src="@{/images/cs/event6.jpg}"></a>
-                        </li>
-                        <li class="end">
-                            <b>23년 1월 하나카드 즉시할인 - 신용카드</b>
-                            <span>기간: 2023.01.01 ~ 2023.01.31</span>
-                            <a href="#"><img th:src="@{/images/cs/event1.jpg}"></a>
-                        </li>
-                        <li class="end">
-                            <b>23년 1월 롯데카드 즉시할인 - 신용카드</b>
-                            <span>기간: 2023.01.01 ~ 2023.01.31</span>
-                            <a href="#"><img th:src="@{/images/cs/event2.jpg}"></a>
-                        </li>
-                        <li class="end">
-                            <b>23년 1월 우리카드 즉시할인 - 신용카드</b>
-                            <span>기간: 2023.01.01 ~ 2023.01.31</span>
-                            <a href="#"><img th:src="@{/images/cs/event3.jpg}"></a>
-                        </li>
-                        <li class="end">
-                            <b>23년 1월 카카오 즉시할인 - 간편결제</b>
-                            <span>기간: 2023.01.01 ~ 2023.01.31</span>
-                            <a href="#"><img th:src="@{/images/cs/event4.jpg}"></a>
-                        </li>
+                        <th:block th:each="article:${eventArticles}">
+                            <li>
+                                <b>[[${article.cs_title}]]</b>
+                                <span>기1간: [[${article.cs_eventStart}]] ~ [[${article.cs_eventEnd}]]</span>
+                                <a th:href="@{/cs/event/view (cs_no=${article.cs_no})}"><img th:src="@{/images/cs/event1.jpg}"></a>
+                            </li>
+                        </th:block>
                     </ul>
 
                 </div>
                 <!-- 페이징 -->
-                <div class="paging">
-                    <span class="prev"><a href="#"></a></span>
-                    <span class="on"><a href="#">1</a></span>
-                    <span><a href="#">2</a></span>
-                    <span><a href="#">3</a></span>
-                    <span><a href="#">4</a></span>
-                    <span><a href="#">5</a></span>
-                    <span class="next"><a href="#"></a></span>
+                <div class="paging" th:object="${ph}">
+                    <th:block th:if="*{showPrev}">
+                        <span class="prev">
+                            <a th:href="@{/cs/event/list} + ${ph.sc.getQueryString(ph.beginPage-1)}"><<</a>
+                        </span>
+                    </th:block>
+
+                    <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                        <span class="on"><a th:href="@{/cs/event/list} + ${ph.sc.getQueryString(num)}">[[${num}]]</a></span>
+                    </th:block>
+
+                    <th:block th:if="*{showNext}">
+                        <span class="next"><a th:href="@{/cs/event/list} + ${ph.sc.getQueryString(ph.endPage+1}"> >> </a></span>
+                    </th:block>
                 </div>
             </div>
         </section>

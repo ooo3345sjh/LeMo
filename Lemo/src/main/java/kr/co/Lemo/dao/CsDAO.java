@@ -1,7 +1,12 @@
 package kr.co.Lemo.dao;
 
+import kr.co.Lemo.domain.CsVO;
+import kr.co.Lemo.utils.SearchCondition;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @since 2023/03/08
@@ -13,7 +18,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CsDAO {
     /** select **/
-    public void selectEventArticles();
+    public List<CsVO> selectEventArticles(SearchCondition sc);
+    public int countEventArticles(@Param("cs_cate") String cs_cate);
+    public CsVO selectEventArticle(@Param("cs_no") int cs_no);
     public void selectFaqArticles();
     public void selectNoticeArticles();
     public void selectQnaArticles();
@@ -21,7 +28,7 @@ public interface CsDAO {
 
 
     /** insert **/
-
+    public int insertEvent(CsVO vo);
 
 
     /** updare **/

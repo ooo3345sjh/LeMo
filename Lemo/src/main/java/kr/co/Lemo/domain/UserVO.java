@@ -16,25 +16,37 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserVO {
-    private String userId_id;
-    private String user_pass;
-    private String user_photo;
-    private String user_hp;
-    private int user_hp_certi;
-    private String user_role;
-    private int user_level;
-    private int user_point;
-    private String user_regip;
-    private String user_udate;
-    private String user_rdate;
-    private String user_wdate;
-    private int user_isEnabled;
-    private int user_isLocked;
-    private int user_isPassNonExpired;
-    private int user_isNoticeEnabled;
-    private int user_isLocationEnabled;
-    private int user_isPrivacySelected;
-    private String user_memo;
+    // lemo_member_userinfo
+    private String user_id;
+    private String hp;
+    private String nick;
+    private String photo;
+    private int type;
+    private String role;
+    private int level;
+    private int point;
+    private String regip;
+    private int isEnabled;
+    private int isLocked;
+    private int isPassNonExpired;
+    private int isNoticeEnabled;
+    private int isLocationEnabled;
+    private int isPrivacySelected;
+    private String memo;
+    private String udate;
+    private String rdate;
+    private String wdate;
+
+    // lemo_member_user
+    private String pass;
+
+    // lemo_member_social
+    private String id;
+    private String soci_type;
+    private String soci_token;
+    private String email;
+
+
 
 
 

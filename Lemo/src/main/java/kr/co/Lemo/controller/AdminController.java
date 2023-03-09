@@ -1,15 +1,17 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.repository.AdminRepo;
+import kr.co.Lemo.domain.CsVO;
+
 import kr.co.Lemo.service.AdminService;
+import kr.co.Lemo.service.CsService;
+import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 /**
  * @since 2023/03/07
@@ -24,6 +26,12 @@ public class AdminController {
 
     @Autowired
     private AdminService service;
+
+    @Autowired
+    private AdminRepo repo;
+    
+    @Autowired
+    private CsService csService;
 
     @GetMapping("index_admin")
     public String index_admin() {
@@ -41,11 +49,9 @@ public class AdminController {
     }
 
     @GetMapping("user")
-    public String user(Model model) {
-        List<UserVO> users = service.selectUser();
-        model.addAttribute("users", users);
+    public String user(Model model, SearchCondition sc) {
 
-        log.warn("users: "+users.size());
+        service.selectUser(model, sc);
 
         return "admin/user";
     }
@@ -78,7 +84,8 @@ public class AdminController {
     }
 
     @GetMapping("cs/event/write")
-    public String event_write(){
+    public String event_write(CsVO vo){
+
         return "admin/cs/event/write";
     }
 

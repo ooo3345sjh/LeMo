@@ -435,8 +435,8 @@ button {cursor: pointer;}
     left: -15px;
     bottom: -5px;
     display: inline-block;
-    width: 37px;
-    height: 37px;
+    width: 35px;
+    height: 45px;
 }
 
 .place > .spot > span {
