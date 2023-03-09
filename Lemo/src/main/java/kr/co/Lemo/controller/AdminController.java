@@ -1,7 +1,10 @@
 package kr.co.Lemo.controller;
 
 import kr.co.Lemo.repository.AdminRepo;
+import kr.co.Lemo.domain.CsVO;
+
 import kr.co.Lemo.service.AdminService;
+import kr.co.Lemo.service.CsService;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ public class AdminController {
 
     @Autowired
     private AdminRepo repo;
+    
+    @Autowired
+    private CsService csService;
 
     @GetMapping("index_admin")
     public String index_admin() {
@@ -78,7 +84,8 @@ public class AdminController {
     }
 
     @GetMapping("cs/event/write")
-    public String event_write(){
+    public String event_write(CsVO vo){
+
         return "admin/cs/event/write";
     }
 
