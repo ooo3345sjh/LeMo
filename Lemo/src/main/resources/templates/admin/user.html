@@ -121,7 +121,7 @@
                                 <div class="pagination" th:object="${ph}" th:style="${#lists.size(users) == 0 ? 'visibility:hidden;':''}">
 
                                     <th:block th:if="*{showPrev}">
-                                        <a th:href="@{/admin/user} + ${ph.sc.getQueryString(ph.beginPage-1)}" cl벼ass="prev">< </a>
+                                        <a th:href="@{/admin/user} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
                                     </th:block>
 
                                     <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">

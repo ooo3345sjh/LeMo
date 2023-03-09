@@ -11,8 +11,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class SearchCondition {
     private Integer page = 1;
     private Integer pageSize = 10;
-    private String group;
-    private String cate;
     private Integer no = 0;
     private String searchField;
     private String searchWord;
@@ -24,8 +22,6 @@ public class SearchCondition {
     private Integer searchIsEnabled;
     private Integer searchLevel;
     private Integer searchType;
-
-
 
     public String getQueryString(Integer page){
         // ?page=1&pageSize=10&option="T"&keyword="title"
@@ -42,30 +38,39 @@ public class SearchCondition {
         if (no != null && no != 0)
             builder.queryParam("no", no);
 
+//        getCsParam(builder);
+
         if(searchField != null && !searchWord.isBlank()){
             builder.queryParam("searchField", searchField)
                     .queryParam("searchWord", searchWord);
         }
 
+//        sortGroup(group, builder);
+
+        getAdminParam(builder);
+
         return builder.toUriString();
     }
 
+    /*
     private void sortGroup(String group, UriComponentsBuilder builder) {
         switch (group){
             case "admin":
                 getAdminParam(builder);
                 break;
             case "product":
-                getProductParam(builder);
+                getAdminParam(builder);
                 break;
             case "cs":
-                getCsParam(builder);
+                getAdminParam(builder);
                 break;
             case "diary":
-                getDiaryParam(builder);
+                getAdminParam(builder);
                 break;
         }
     }
+
+     */
 
     public String getQueryString(){
         // ?page=1&pageSize=10&option="T"&keyword="title"
@@ -93,6 +98,7 @@ public class SearchCondition {
                     .queryParam("searchLevel", searchLevel)
                     .queryParam("searchType", searchType);
         }
+
 
     }
 

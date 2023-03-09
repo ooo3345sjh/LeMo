@@ -2,7 +2,13 @@ package kr.co.Lemo.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.co.Lemo.domain.ProductAccommodationVO;
+import kr.co.Lemo.domain.ProductSearchVO;
+import kr.co.Lemo.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -11,30 +17,44 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.util.List;
 
 /**
- * @since 2023/03/07
- * @author 박종협
+ * @since 2023/03/08
+ * @author 이해빈
  * @apiNote 상품 controller
  */
 
 @Slf4j
 @Controller
+@PropertySource(value = "classpath:title.properties", encoding = "UTF-8")
 @RequestMapping("product/")
 public class ProductController {
 
-    // 2023/03/08
+    @Autowired
+    private Environment environment;
+    private String group = "product";
+
+    @Autowired
+    private ProductService service;
+
+    /**
+     * @since 2023/03/08
+     * @param vo (상품 검색 조건 vo)
+     */
     @GetMapping("list")
-    public String list(Model model, @RequestParam(value="keyword", required = false) String keyword,
-                                    @RequestParam(value="lat", required = false, defaultValue = "0") double lat,
-                                    @RequestParam(value="lng", required = false, defaultValue = "0") double lng) throws Exception {
+    public String list(Model model, ProductSearchVO vo) throws Exception {
+
+        String keyword = vo.getKeyword();
+        BigDecimal lng = vo.getLng();
+        BigDecimal lat = vo.getLat();
 
         log.info("keyword : " + keyword );
         log.info("lat : " + lat );
@@ -45,10 +65,11 @@ public class ProductController {
         //String resultType = "json";
 
         // 키워드 검색일 경우
-        if(keyword != "" || keyword != null) {
+        if(keyword != null) {
+
             try {
                 keyword = URLEncoder.encode(keyword, "UTF-8");
-            }catch(UnsupportedEncodingException e){
+            } catch (UnsupportedEncodingException e) {
                 // 예외처리
             }
 
@@ -80,22 +101,43 @@ public class ProductController {
 
             // 파싱한 데이터에서 필요한 정보 추출
             JsonNode documents = node.get("documents");
-            JsonNode firstDocument = documents.get(0);
 
-            lng = Double.parseDouble(firstDocument.get("x").asText());
-            lat = Double.parseDouble(firstDocument.get("y").asText());
+            // 검색 결과가 있는 경우
+            if (documents.size() > 0) {
+                JsonNode firstDocument = documents.get(0);
 
+                lng = BigDecimal.valueOf(Double.parseDouble(firstDocument.get("x").asText()));
+                lat = BigDecimal.valueOf(Double.parseDouble(firstDocument.get("y").asText()));
+            }
 
             log.info("lng : " + lng);
             log.info("lat : " + lat);
-
-
-        }else { // 특정 장소로 검색했을 경우 (구글)
-            apiURL = "http://dapi.kakao.com/v2/local/search/keyword.json";
-            serviceKey = "AIzaSyBntl8pNwtscVPGQraeyZVdAJ9AaH9bWBw";
-
         }
-        
+
+        // 장소 결과가 없는 경우 위도 경도 서울을 기준으로 세팅
+        if(lat == new BigDecimal(0.0) & lng == new BigDecimal(0.0)){
+            lat = new BigDecimal(33.450701);
+            lng = new BigDecimal(126.570667);
+        }
+
+        log.info("최종 경도 : " + lng);
+        log.info("최종 위도 : " + lat);
+
+        vo.setLat(lat);
+        vo.setLng(lng);
+
+        List<ProductAccommodationVO> accs = service.selectAccommodations(vo);
+
+        log.info("숙소 리스트 :" + accs);
+
+//        }else { // 특정 장소로 검색했을 경우 (구글)
+//            apiURL = "http://dapi.kakao.com/v2/local/search/keyword.json";
+//            serviceKey = "AIzaSyBntl8pNwtscVPGQraeyZVdAJ9AaH9bWBw";
+//        }
+
+
+        model.addAttribute("title", environment.getProperty(group));
+
         return "product/list";
     }
 
