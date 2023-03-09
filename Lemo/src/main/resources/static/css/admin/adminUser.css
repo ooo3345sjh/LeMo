@@ -457,25 +457,6 @@ main .main_content .col2 .board_list2 li:nth-of-type(3) {
 main .main_content .col2 .board_list2 li:nth-of-type(4) {
     width: 10%;
 }
-main .pagination {
-    margin: 15px 0;
-    display: inline-block;
-}
-main .pagination > a {
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-}
-main .pagination > a.active {
-    background-color: #bbd444;
-    color: white;
-    border-radius: 5px;
-}
-main .pagination a:hover:not(.active) {
-    background-color: #ddd;
-    border-radius: 5px;
-}
 
 
 main .footer_inner > .footer_menu {

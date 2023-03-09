@@ -1,15 +1,13 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.service.AdminService;
+import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 /**
  * @since 2023/03/07
@@ -41,15 +39,12 @@ public class AdminController {
     }
 
     @GetMapping("user")
-    public String user(Model model) {
-        List<UserVO> users = service.selectUser();
-        model.addAttribute("users", users);
+    public String user(Model model, SearchCondition sc) {
 
-        log.warn("users: "+users.size());
+        service.selectUser(model, sc);
 
         return "admin/user";
     }
-
 
     @GetMapping("coupon/insertCoupon")
     public String insertCoupon() {
