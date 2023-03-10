@@ -14,6 +14,7 @@ public class SearchCondition {
     private Integer no = 0;
     private String searchField;
     private String searchWord;
+    private String group;
 
     // 황원진
     private String cs_cate;
@@ -25,10 +26,10 @@ public class SearchCondition {
 
     public String getQueryString(Integer page){
         // ?page=1&pageSize=10&option="T"&keyword="title"
-        return getQueryString(page, no);
+        return getQueryString(page, no, group);
     }
 
-    public String getQueryString(Integer page, Integer no){
+    public String getQueryString(Integer page, Integer no, String group){
         // ?page=1&pageSize=10&option="T"&page=10
         UriComponentsBuilder builder = UriComponentsBuilder.newInstance()
                 .queryParam("page", page);
@@ -44,32 +45,33 @@ public class SearchCondition {
                     .queryParam("searchWord", searchWord);
         }
 
-//        sortGroup(group, builder);
+
+       sortGroup(group, builder);
 
 //        getAdminParam(builder);
 
         return builder.toUriString();
     }
 
-    /*
-    private void sortGroup(String group, UriComponentsBuilder builder) {
+
+   private void sortGroup(String group, UriComponentsBuilder builder) {
         switch (group){
             case "admin":
                 getAdminParam(builder);
                 break;
             case "product":
-                getAdminParam(builder);
+                getProductParam(builder);
                 break;
             case "cs":
-                getAdminParam(builder);
+                getCsParam(builder);
                 break;
             case "diary":
-                getAdminParam(builder);
+                getDiaryParam(builder);
                 break;
         }
     }
 
-     */
+
 
     public String getQueryString(){
         // ?page=1&pageSize=10&option="T"&keyword="title"

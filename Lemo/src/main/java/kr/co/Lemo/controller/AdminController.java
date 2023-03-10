@@ -1,8 +1,7 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.repository.AdminRepo;
 import kr.co.Lemo.domain.CsVO;
-
+import kr.co.Lemo.repository.AdminRepo;
 import kr.co.Lemo.service.AdminService;
 import kr.co.Lemo.service.CsService;
 import kr.co.Lemo.utils.SearchCondition;
@@ -10,9 +9,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * @since 2023/03/07
@@ -55,6 +60,46 @@ public class AdminController {
         service.selectUser(model, sc);
 
         return "admin/user";
+    }
+
+    @ResponseBody
+    @PostMapping("updateMemo")
+    public Map<String, Integer> updateMemo(String memo, String user_id) throws Exception {
+
+        log.warn("here2");
+
+        int result = service.updateMemo(memo, user_id);
+
+        log.warn("here3: "+result);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        log.warn("here4");
+
+        return resultMap;
+    }
+
+    @ResponseBody
+    @PostMapping("updateIsLocked")
+    public Map<String, Integer> updateIsLocked(String user_id) throws Exception {
+        int result = service.updateIsLocked(user_id);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
+    @ResponseBody
+    @PostMapping("updateIsEnabled")
+    public Map<String, Integer> updateIsEnabled(String user_id) throws Exception {
+        int result = service.updateIsEnabled(user_id);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
     }
 
 

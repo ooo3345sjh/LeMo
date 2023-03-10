@@ -14,9 +14,7 @@ import java.util.List;
 public interface AdminDAO {
     public List<UserVO> selectUser(SearchCondition sc);
     public int countUser(SearchCondition sc);
-
-
-
-
-
+    public int updateMemo(@Param("memo") String memo, @Param("user_id") String user_id);
+    public int updateIsLocked(@Param("user_id") String user_id);
+    public int updateIsEnabled(@Param("user_id") String user_id);
 }
