@@ -1332,7 +1332,8 @@
 .list > .list-area > ul > li { 
     overflow: hidden;
     padding: 15px;
-    border-bottom: 1px solid #e6e31f;
+    /**border-bottom: 1px solid #e6e31f;**/
+    border-bottom : 1px solid #e7e7e7;
     border-radius: 15px;
     margin-bottom: 10px;
 }
