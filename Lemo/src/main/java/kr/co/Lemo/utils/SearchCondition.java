@@ -38,7 +38,7 @@ public class SearchCondition {
         if (no != null && no != 0)
             builder.queryParam("no", no);
 
-//        getCsParam(builder);
+        getCsParam(builder);
 
         if(searchField != null && !searchWord.isBlank()){
             builder.queryParam("searchField", searchField)
@@ -47,7 +47,7 @@ public class SearchCondition {
 
 //        sortGroup(group, builder);
 
-        getAdminParam(builder);
+//        getAdminParam(builder);
 
         return builder.toUriString();
     }

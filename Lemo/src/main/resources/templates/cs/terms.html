@@ -22,11 +22,11 @@
                 </div>
                 <!-- 약관 및 정책 카테고리 -->
                 <div class="sub_cate">
-                    <li><a href="#" class="on">이용약관</a></li>
-                    <li><a href="#">위치기반 서비스 이용약관</a></li>
-                    <li><a href="#">개인정보 수집 및 이용</a></li>
-                    <li><a href="#">만 14세 이상 확인</a></li>
-                    <li><a href="#">마케팅 알림 수신동의</a></li>
+                    <li><a href="#" class="scroll1">이용약관</a></li>
+                    <li><a href="#" class="scroll2">위치기반 서비스 이용약관</a></li>
+                    <li><a href="#" class="scroll3">개인정보 수집 및 이용</a></li>
+                    <li><a href="#" class="scroll4">만 14세 이상 확인</a></li>
+                    <li><a href="#" class="scroll5">마케팅 알림 수신동의</a></li>
                 </div>
 
                 <!-- 이용약관 -->
@@ -234,7 +234,7 @@
                 </div>
 
                 <!-- 개인정보 처리방침 -->
-                <div class="privacy table_common">
+                <div class="privacy table_common" id="privacy">
                     <h2>개인정보 수집 및 이용</h2>
                     <table>
                         <tr>
@@ -278,7 +278,7 @@
                 </div>
 
                 <!-- 마케팅 알림 수신 동의 -->
-                <div class="marketing table_common">
+                <div class="marketing table_common" id="marketing">
                     <h2>마케팅 알림 수신 동의</h2>
                     <table>
                         <tr>
@@ -303,6 +303,34 @@
 
 <th:block layout:fragment="script">
     <script th:src="@{/js/cs/toggle.js}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.scroll1').click(function(){
+                const offset = $(".terms").offset();
+                $('html, body').animate({scrollTop: offset.top}, 500);
+             });
+
+             $('.scroll2').click(function(){
+                const offset = $(".location").offset();
+                $('html, body').animate({scrollTop: offset.top}, 500);
+             });
+
+             $('.scroll3').click(function(){
+                const offset = $("#privacy").offset();
+                $('html, body').animate({scrollTop: offset.top}, 500);
+             });
+
+             $('.scroll4').click(function(){
+                const offset = $(".fourteen").offset();
+                $('html, body').animate({scrollTop: offset.top}, 500);
+             });
+
+             $('.scroll5').click(function(){
+                const offset = $("#marketing").offset();
+                $('html, body').animate({scrollTop: offset.top}, 500);
+             });
+        });
+    </script>
 </th:block>
 </html>
 
