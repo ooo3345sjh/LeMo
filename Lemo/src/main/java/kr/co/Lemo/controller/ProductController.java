@@ -2,6 +2,7 @@ package kr.co.Lemo.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import kr.co.Lemo.domain.ProductAccommodationVO;
 import kr.co.Lemo.domain.ProductSearchVO;
 import kr.co.Lemo.service.ProductService;
@@ -21,7 +22,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.util.List;
@@ -40,7 +40,7 @@ public class ProductController {
 
     @Autowired
     private Environment environment;
-    private String group = "product";
+    private String group = "title.product";
 
     @Autowired
     private ProductService service;
@@ -53,19 +53,20 @@ public class ProductController {
     public String list(Model model, ProductSearchVO vo) throws Exception {
 
         String keyword = vo.getKeyword();
-        BigDecimal lng = vo.getLng();
-        BigDecimal lat = vo.getLat();
+        double lng = vo.getLng();
+        double lat = vo.getLat();
 
-        log.info("keyword : " + keyword );
-        log.info("lat : " + lat );
-        log.info("lng : " + lng );
+        log.info("keyword : " + keyword);
+        log.info("lat : " + lat);
+        log.info("lng : " + lng);
 
         String apiURL = "";
         String serviceKey = "";
         //String resultType = "json";
 
         // 키워드 검색일 경우
-        if(keyword != null) {
+        String jsonData = null;
+        if (keyword != null) {
 
             try {
                 keyword = URLEncoder.encode(keyword, "UTF-8");
@@ -94,7 +95,7 @@ public class ProductController {
             log.info("result : " + result);
 
             // JSON 파싱
-            String jsonData = result.getBody();
+            jsonData = result.getBody();
 
             ObjectMapper mapper = new ObjectMapper();
             JsonNode node = mapper.readTree(jsonData);
@@ -106,8 +107,8 @@ public class ProductController {
             if (documents.size() > 0) {
                 JsonNode firstDocument = documents.get(0);
 
-                lng = BigDecimal.valueOf(Double.parseDouble(firstDocument.get("x").asText()));
-                lat = BigDecimal.valueOf(Double.parseDouble(firstDocument.get("y").asText()));
+                lng = Double.parseDouble(firstDocument.get("x").asText());
+                lat = Double.parseDouble(firstDocument.get("y").asText());
             }
 
             log.info("lng : " + lng);
@@ -115,9 +116,9 @@ public class ProductController {
         }
 
         // 장소 결과가 없는 경우 위도 경도 서울을 기준으로 세팅
-        if(lat == new BigDecimal(0.0) & lng == new BigDecimal(0.0)){
-            lat = new BigDecimal(33.450701);
-            lng = new BigDecimal(126.570667);
+        if (lat == 0.0 & lng == 0.0) {
+            lat = 33.450701;
+            lng = 126.570667;
         }
 
         log.info("최종 경도 : " + lng);
@@ -135,6 +136,17 @@ public class ProductController {
 //            serviceKey = "AIzaSyBntl8pNwtscVPGQraeyZVdAJ9AaH9bWBw";
 //        }
 
+        log.info(String.valueOf(accs.size()));
+
+        String json = new Gson().toJson(accs);
+
+        log.info(json);
+
+
+        model.addAttribute("lng", lng);
+        model.addAttribute("lat", lat);
+        model.addAttribute("accs", accs);
+        model.addAttribute("json", json);
 
         model.addAttribute("title", environment.getProperty(group));
 

@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 /**
  * @since 2023/03/09
  * @author 이해빈
@@ -20,8 +18,8 @@ import java.math.BigDecimal;
 public class ProductSearchVO {
 
     private String keyword;
-    private BigDecimal lat;
-    private BigDecimal lng;
+    private double lat;
+    private double lng;
 
 
 }

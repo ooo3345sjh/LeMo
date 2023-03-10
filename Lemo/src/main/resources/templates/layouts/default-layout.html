@@ -12,4 +12,7 @@
         <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
     </div>
     <th:block layout:fragment="script"></th:block>
+    <script th:src="@{/js/common/googlemap.js}"></script>
+    <!-- googleSearchAPI -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBntl8pNwtscVPGQraeyZVdAJ9AaH9bWBw&libraries=places&callback=initMap"></script>
 </body>
