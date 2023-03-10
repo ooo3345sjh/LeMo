@@ -1,7 +1,7 @@
 $(function(){
     /* 글 토글 */
-    $(document).on('click', '.place', function(e){
-        e.preventDefault();
+    $(document).on('click', '.place', function(){
+
         $(this).find('.toggle').slideToggle();
 
         let currentPosition = parseInt($('#listMap').css('top'));

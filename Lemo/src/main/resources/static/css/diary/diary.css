@@ -58,9 +58,13 @@ h3 {
 .place {padding: 20px 25px 20px 15px;}
 
 /** 메인(목록, Map) */
-.content {
+#diary {
     overflow: hidden;
+}
+
+.content {
     width: 1200px;
+    min-height: 1000px;
     margin: 0 auto;
 }
 
@@ -350,6 +354,7 @@ button {cursor: pointer;}
     padding: 40px;
     margin-top: 85px;
     margin-left: 110px;
+    margin-bottom: 100px;
     background-color: #F5F6FF;
     border-radius: 20px;
     overflow: hidden;
@@ -435,7 +440,7 @@ button {cursor: pointer;}
     left: -15px;
     bottom: -5px;
     display: inline-block;
-    width: 35px;
+    width: 40px;
     height: 45px;
 }
 
