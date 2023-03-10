@@ -345,10 +345,16 @@ h3 {
 /* 버튼공통 */
 button {cursor: pointer;}
 
+#btnDiarySubmit {
+    width: 100px;
+    height: 30px;
+    margin-bottom: 15px;
+}
 
 /* 여행일기 보기 */
 
 .view {
+    position: relative;
     float: left;
     width: 610px; 
     padding: 40px;

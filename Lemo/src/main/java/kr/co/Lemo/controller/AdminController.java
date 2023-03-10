@@ -9,14 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -35,9 +32,10 @@ public class AdminController {
 
     @Autowired
     private AdminRepo repo;
-    
+
     @Autowired
     private CsService csService;
+
 
     @GetMapping("index_admin")
     public String index_admin() {
@@ -54,25 +52,30 @@ public class AdminController {
         return "admin/stats";
     }
 
+    // @since 2023/03/09
     @GetMapping("user")
     public String user(Model model, SearchCondition sc) {
-
+        log.warn("GET user start...");
+        sc.setGroup("admin");
         service.selectUser(model, sc);
 
         return "admin/user";
     }
 
+    // @since 2023/03/09
     @ResponseBody
     @PostMapping("updateMemo")
-    public Map<String, Integer> updateMemo(String memo, String user_id) throws Exception {
+    public Map<String, Integer> updateMemo(@RequestBody Map map) throws Exception {
 
-        log.warn("here2");
+        log.debug("POST updateMemo");
+
+        String user_id = (String) map.get("user_id");
+        String memo = (String) map.get("memo");
 
         int result = service.updateMemo(memo, user_id);
 
-        log.warn("here3: "+result);
 
-        Map<String, Integer> resultMap = new HashMap<>();
+        Map resultMap = new HashMap<>();
         resultMap.put("result", result);
 
         log.warn("here4");
@@ -80,6 +83,7 @@ public class AdminController {
         return resultMap;
     }
 
+    // @since 2023/03/10
     @ResponseBody
     @PostMapping("updateIsLocked")
     public Map<String, Integer> updateIsLocked(String user_id) throws Exception {
@@ -93,6 +97,7 @@ public class AdminController {
 
     }
 
+    // @since 2023/03/10
     @ResponseBody
     @PostMapping("updateIsEnabled")
     public Map<String, Integer> updateIsEnabled(String user_id) throws Exception {
