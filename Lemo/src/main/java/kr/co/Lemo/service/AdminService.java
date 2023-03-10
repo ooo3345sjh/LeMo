@@ -24,35 +24,52 @@ public class AdminService {
     @Autowired
     private AdminRepo repo;
 
+    /**
+     * 관리자 회원 - 회원 목록
+     * @param model
+     * @param sc
+     */
     public List<UserVO> selectUser(Model model, SearchCondition sc){
-        log.info("here1");
         int totalCnt = dao.countUser(sc); // 전체 게시물 개수
-        log.info("here2");
         int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());  // 전체 페이지의 수
-
-        log.info("here3");
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
 
-        log.info("here4");
         PageHandler pageHandler = new PageHandler(totalCnt, sc); // 페이징 처리
 
         log.info("here: "+sc.toString());
 
-        log.info("here5");
         List<UserVO> users = dao.selectUser(sc);
 
-        log.info("here: "+sc.toString());
-
-        log.info("here6");
         model.addAttribute("users", users);
         model.addAttribute("ph", pageHandler);
 
-        log.info("here7");
         return users;
     }
 
+    /**
+     * 관리자 회원 - 메모 입력
+     * @param memo
+     * @param user_id
+     */
+    public int updateMemo(String memo, String user_id) {
+        return  dao.updateMemo(memo, user_id);
+    }
 
+    /**
+     * 관리자 회원 - 회원 차단
+     * @param user_id
+     */
+    public int updateIsLocked(String user_id) {
+        return  dao.updateIsLocked(user_id);
+    }
 
+    /**
+     * 관리자 회원 - 회원 삭제
+     * @param user_id
+     */
+    public int updateIsEnabled(String user_id){
+        return dao.updateIsEnabled(user_id);
+    }
 
 
 

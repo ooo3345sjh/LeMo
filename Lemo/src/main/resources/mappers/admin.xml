@@ -48,6 +48,17 @@
     <!-- insert -->
 
     <!-- update -->
+    <update id="updateMemo">
+        update `lemo_member_userinfo` set `memo`=#{memo} where `user_id`=#{user_id};
+    </update>
+
+    <update id="updateIsLocked">
+        update `lemo_member_userinfo` set `isLocked`=0 where `user_id`=#{user_id};
+    </update>
+
+    <update id="updateIsEnabled">
+        update `lemo_member_userinfo` set `isEnabled`=0, `wdate`=NOW() where `user_id`=#{user_id};
+    </update>
 
     <!-- delete -->
 

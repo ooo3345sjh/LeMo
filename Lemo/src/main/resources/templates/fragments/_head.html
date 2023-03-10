@@ -3,10 +3,8 @@
 <th:block th:fragment="headFragment">
     <head>
         <meta charset="UTF-8">
-        <!--/*
         <meta th:name="_csrf" th:content="${_csrf.token}"/>
         <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
-        */-->
         <th:block>
             <title>Lemo::[[${title}]]</title>
         </th:block>
@@ -22,6 +20,11 @@
         <link rel="stylesheet" th:href="@{/css/common.css}">
         <script th:src="@{/js/common/commonJS.js}"></script>
         <script th:src="@{/js/common/ajaxAPI.js}"></script>
+        <script>
+            const contextPath = "[[@{/}]]";
+            const token = document.head.querySelector("meta[name='_csrf']").content;
+            const header = document.head.querySelector("meta[name='_csrf_header']").content;
+        </script>
     </head>
 </th:block>
 </html>
