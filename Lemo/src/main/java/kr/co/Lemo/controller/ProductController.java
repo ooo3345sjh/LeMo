@@ -2,7 +2,6 @@ package kr.co.Lemo.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import kr.co.Lemo.domain.ProductAccommodationVO;
 import kr.co.Lemo.domain.ProductSearchVO;
 import kr.co.Lemo.service.ProductService;

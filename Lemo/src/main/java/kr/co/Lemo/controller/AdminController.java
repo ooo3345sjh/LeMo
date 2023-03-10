@@ -83,12 +83,14 @@ public class AdminController {
     @ResponseBody
     @PostMapping("updateIsLocked")
     public Map<String, Integer> updateIsLocked(String user_id) throws Exception {
+
         int result = service.updateIsLocked(user_id);
 
         Map<String, Integer> resultMap = new HashMap<>();
         resultMap.put("result", result);
 
         return resultMap;
+
     }
 
     @ResponseBody

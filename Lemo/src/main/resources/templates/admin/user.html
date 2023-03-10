@@ -246,6 +246,19 @@
                         }
                     }
                 });
+                /*
+                ajaxAPI("admin/updateIsLocked", jsonData, "POST").then((response) => {
+
+                    if(response.result > 0){
+                        alert('해당 회원이 차단되었습니다.');
+                        $(this).closest('li').find('#d_Memo').hide();
+                    }else {
+                        alert('Error');
+                    }
+
+                }).catch((errorMsg) => {
+                    console.log(errorMsg)
+                }); */
             }
         });
 
