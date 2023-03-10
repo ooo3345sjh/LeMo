@@ -90,7 +90,7 @@
                                         <li>1</li>
                                         <li class="user_id" th:text="${user.user_id}">mango@gmail.com</li>
                                         <li class="user_nick" th:text="${user.nick}">고민중인흰둥이</li>
-                                        <li th:text="${user.isEnabled == 1} ? '정상':'탈퇴'" th:class="${user.isEnabled == 1} ? '' : 'drop'">상태</li>
+                                        <li th:text="${user.isEnabled == 0 ? '탈퇴' : (user.isLocked == 0 ? '차단' : '정상')}" th:class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}"></li>
                                         <li th:text="${user.level == 1}? '일반':'엘리트'">등급</li>
                                         <li th:text="${user.type == 1}? '홈회원':'sns회원'">회원 구분</li>
                                         <li th:text="${user.rdate}">가입일</li>
@@ -193,8 +193,8 @@
 
             let user_id = $(this).parent().prev().prev().find('.d_id').val();
             let memo = $(this).parent().prev().children().val();
-            console.log(user_id);
-            console.log(memo);
+            console.log('user_id: '+user_id);
+            console.log('memo: '+memo);
 
             const jsonData = {
                 "user_id" : user_id,
@@ -203,20 +203,17 @@
 
             console.log('here1');
 
-            $.ajax({
-                url: "/Lemo/admin/updateMemo",
-                type: "POST",
-                data: jsonData,
-                dataType: "json",
-                success: (data)=>{
-                    if(data.result > 0){
-                        alert('메모 작성이 완료되었습니다.');
-                        $(this).closest('li').find('#d_Memo').hide();
-                    }else {
-                        alert('Error');
-                    }
+            ajaxAPI("admin/updateMemo", jsonData, "POST").then((response)=> {
+                if(response.result > 0){
+                     alert('메모 작성이 완료되었습니다.');
+                    $(this).closest('li').find('#d_Memo').hide();
                 }
+            }).catch((errorMsg)=>{
+                console.log(errorMsg);
             });
+
+
+
         });
 
         // 회원 차단
@@ -246,19 +243,7 @@
                         }
                     }
                 });
-                /*
-                ajaxAPI("admin/updateIsLocked", jsonData, "POST").then((response) => {
 
-                    if(response.result > 0){
-                        alert('해당 회원이 차단되었습니다.');
-                        $(this).closest('li').find('#d_Memo').hide();
-                    }else {
-                        alert('Error');
-                    }
-
-                }).catch((errorMsg) => {
-                    console.log(errorMsg)
-                }); */
             }
         });
 
