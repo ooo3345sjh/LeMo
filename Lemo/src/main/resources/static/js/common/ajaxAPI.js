@@ -3,7 +3,7 @@
  */
 
 // AJAX API
-function ajaxAPI(url, jsonData, method) {
+function ajaxAPI(url, jsonData, post) {
 	return new Promise(function(resolve, reject) {
 		const xhr = new XMLHttpRequest();
 

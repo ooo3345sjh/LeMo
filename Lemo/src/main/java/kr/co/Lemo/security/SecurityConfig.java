@@ -27,7 +27,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 
         http
             // 사이트 위변조 요청 방지
-			.csrf().disable()
+//			.csrf().disable()
 
                 // 인가(접근권한) 설정
                 .authorizeHttpRequests(req ->
@@ -81,8 +81,9 @@ public class SecurityConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/file/**")
-                .addResourceLocations(resourceLoader.getResource("file:file/"));
+        registry.addResourceHandler("/img/**")
+                .addResourceLocations(resourceLoader.getResource("file:img/"));
     }
+
 
 }

@@ -111,8 +111,6 @@ public class UserController {
         return termsType_no;
     }
 
-
-
     // @since 2023/03/08
     @GetMapping("checknick")
     public String checknick() {
