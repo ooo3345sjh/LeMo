@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class CsVO {
 
     private int cs_no;
-    private String userld_id;
+    private String user_id;
     private String cs_hp;
     private String cs_email;
     private String cs_cate;

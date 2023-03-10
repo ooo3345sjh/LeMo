@@ -28,12 +28,13 @@
                                                 <li>기간</li>
                                                 <li>비고</li>
                                             </ul>
+                                            <th:block th:each="article:${eventArticles}">
                                             <ul>
-                                                <li>1</li>
+                                                <li>[[${article.cs_no}]]</li>
                                                 <li class="title">
-                                                    <a href="#">23년 2월 롯데카드 즉시할인 - 신용카드</a>
+                                                    <a href="#">[[${article.cs_title}]]</a>
                                                 </li>
-                                                <li>2023-03-01 ~ 2023-03-31</li>
+                                                <li>[[${article.cs_eventStart}]] ~ [[${article.cs_eventEnd}]]</li>
                                                 <li class="prodBtn" id="event_li">
                                                     <span class="btnDelete">삭제</span>
                                                     <span class="btnModify">수정</span>
@@ -41,16 +42,24 @@
                                                     <span class="btnDeAct on">비활성화</span>
                                                 </li>
                                             </ul>
+                                            </th:block>
                                         </div>
-                                        <div class="pagination">
-                                            <a href="#">&laquo;</a>
-                                            <a href="#">1</a>
-                                            <a href="#" class="active">2</a>
-                                            <a href="#">3</a>
-                                            <a href="#">4</a>
-                                            <a href="#">5</a>
-                                            <a href="#">6</a>
-                                            <a href="#">&raquo;</a>
+                                        <div class="pagination" th:object="${ph}">
+
+                                            <th:block th:if="*{showPrev}">
+                                                <a th:href="@{/admin/cs/event/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
+                                            </th:block>
+
+                                            <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                                                <a th:href="@{/admin/cs/event/list} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                                    [[${num}]]
+                                                </a>
+                                            </th:block>
+
+                                            <th:block th:if="*{showNext}">
+                                                <a th:href="@{/admin/cs/event/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                            </th:block>
+
                                         </div>
                                         <div class="btnAdminProd">
                                             <a href="#">

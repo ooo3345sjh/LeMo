@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -34,8 +35,12 @@ public class CsController {
     @Autowired
     private CsService service;
 
-    @GetMapping("notice")
-    public String notice(){
+    @GetMapping("{cs_cate}")
+    public String notice(@PathVariable("cs_cate") String cs_cate, Model model, SearchCondition sc){
+
+        model.addAttribute("title", environment.getProperty(group));
+        service.selectNoticeArticles(sc, model);
+
         return "cs/notice";
     }
 
@@ -61,9 +66,10 @@ public class CsController {
      *
      */
 
-    @GetMapping("event/list")
-    public String event_list(Model model, SearchCondition sc){
+    @GetMapping("{cs_cate}/list")
+    public String event_list(@PathVariable("cs_cate") String cs_cate, Model model, SearchCondition sc){
 
+        model.addAttribute("title", environment.getProperty(group));
         service.selectEventArticles(sc, model);
 
         return "cs/event/list";

@@ -21,15 +21,15 @@ public interface CsDAO {
     public List<CsVO> selectEventArticles(SearchCondition sc);
     public int countEventArticles(@Param("cs_cate") String cs_cate);
     public CsVO selectEventArticle(@Param("cs_no") int cs_no);
+    public List<CsVO> selectNoticeArticles(SearchCondition sc);
     public void selectFaqArticles();
-    public void selectNoticeArticles();
     public void selectQnaArticles();
     public void selectTermsArticles();
 
 
     /** insert **/
     public int insertEvent(CsVO vo);
-
+    public int insertArticleNotice(CsVO vo);
 
     /** updare **/
 
