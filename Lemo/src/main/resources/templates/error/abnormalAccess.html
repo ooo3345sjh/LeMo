@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>비정상적인 접근</title>
+    <script>
+        alert("비정상적인 접근입니다.")
+
+        const errorType = "[[${error}]]";
+        console.log(errorType);
+
+        switch(errorType){
+            case "R":
+                location.href = "[[@{/}]]user/terms";
+                break;
+            default:
+                location.href = "[[@{/}]]";
+                break;
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>
