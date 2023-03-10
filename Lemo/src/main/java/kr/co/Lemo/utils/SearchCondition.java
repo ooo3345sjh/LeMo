@@ -32,21 +32,22 @@ public class SearchCondition {
     public String getQueryString(Integer page, Integer no, String group){
         // ?page=1&pageSize=10&option="T"&page=10
         UriComponentsBuilder builder = UriComponentsBuilder.newInstance()
-                .queryParam("page", page)
-                .queryParam("group", group);
+                .queryParam("page", page);
 
 
         if (no != null && no != 0)
             builder.queryParam("no", no);
 
-//        getCsParam(builder);
+        getCsParam(builder);
 
         if(searchField != null && !searchWord.isBlank()){
             builder.queryParam("searchField", searchField)
                     .queryParam("searchWord", searchWord);
         }
 
+
        sortGroup(group, builder);
+
 //        getAdminParam(builder);
 
         return builder.toUriString();

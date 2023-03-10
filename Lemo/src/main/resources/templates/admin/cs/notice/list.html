@@ -28,41 +28,39 @@
                                         <li>작성일</li>
                                         <li>비고</li>
                                     </ul>
-                                    <ul>
-                                        <li>1</li>
-                                        <li class="title">
-                                            <a href="#">페이백 이벤트 당첨자 발표 안내입니다.</a>
-                                        </li>
-                                        <li>2023-03-01</li>
-                                        <li class="prodBtn">
-                                            <span class="btnDelete">삭제</span>
-                                            <span class="btnModify">수정</span>
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li>2</li>
-                                        <li class="title">
-                                            <a href="#">페이백 이벤트 당첨자 발표 안내입니다.</a>
-                                        </li>
-                                        <li>2023-03-01</li>
-                                        <li class="prodBtn">
-                                            <span class="btnDelete">삭제</span>
-                                            <span class="btnModify">수정</span>
-                                        </li>
-                                    </ul>
+                                    <th:block th:each="notice:${noticeArticles}">
+                                        <ul>
+                                            <li>[[${notice.cs_no}]]</li>
+                                            <li class="title">
+                                                <a th:href="@{/admin/cs/notice/view (cs_no=${notice.cs_no})}">[[${notice.cs_title}]]</a>
+                                            </li>
+                                            <li>[[${notice.cs_rdate.substring(2, 10)}]]</li>
+                                            <li class="prodBtn">
+                                                <span class="btnDelete">삭제</span>
+                                                <span class="btnModify">수정</span>
+                                            </li>
+                                        </ul>
+                                    </th:block>
                                 </div>
-                                <div class="pagination">
-                                    <a href="#">&laquo;</a>
-                                    <a href="#">1</a>
-                                    <a href="#" class="active">2</a>
-                                    <a href="#">3</a>
-                                    <a href="#">4</a>
-                                    <a href="#">5</a>
-                                    <a href="#">6</a>
-                                    <a href="#">&raquo;</a>
+                                <div class="pagination" th:object="${ph}">
+
+                                    <th:block th:if="*{showPrev}">
+                                        <a th:href="@{/admin/cs/event/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
+                                    </th:block>
+
+                                    <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                                        <a th:href="@{/admin/cs/event/list} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                            [[${num}]]
+                                        </a>
+                                    </th:block>
+
+                                    <th:block th:if="*{showNext}">
+                                        <a th:href="@{/admin/cs/event/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                    </th:block>
+
                                 </div>
                                 <div class="btnAdminProd">
-                                    <a href="#">
+                                    <a th:href="@{/admin/cs/notice/write}">
                                         공지등록
                                     </a>
                                 </div>

@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * @since 2023/03/07
@@ -112,9 +114,18 @@ public class AdminController {
     }
 
 
-    @GetMapping("cs/event/list")
-    public String event_list(){
-        return "admin/cs/event/list";
+    @GetMapping("cs/{cs_cate}/list")
+    public String event_list(@PathVariable("cs_cate") String cs_cate, Model model, SearchCondition sc){
+
+        if("event".equals(cs_cate)){
+            csService.selectEventArticles(sc, model);
+
+            return "admin/cs/event/list";
+        }else if("notice".equals(cs_cate)) {
+
+            csService.selectNoticeArticles(sc, model);
+        }
+        return "admin/cs/notice/list";
     }
 
     @GetMapping("cs/event/modify")
@@ -150,10 +161,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("cs/notice/list")
-    public String notice_list(){
-        return "admin/cs/notice/list";
-    }
+
 
     @GetMapping("cs/notice/modify")
     public String notice_modify(){
@@ -168,6 +176,16 @@ public class AdminController {
     @GetMapping("cs/notice/write")
     public String notice_write(){
         return "admin/cs/notice/write";
+    }
+
+    @PostMapping("cs/{cs_cate}/write")
+    public String insertArticleNotice(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
+
+        vo.setUser_id("1002rsvn@plusn.co.kr");
+        vo.setCs_regip(req.getRemoteAddr());
+
+        csService.insertArticleNotice(vo);
+        return "redirect:/admin/cs/notice/list";
     }
 
 

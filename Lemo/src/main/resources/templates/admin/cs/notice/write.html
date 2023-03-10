@@ -17,24 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script th:src="@{/js/admin/summernote-ko-KR.js}"></script>
     <script>
-    $(document).ready(function() {
-        $('#summernote').summernote({
-            height: 450,
-            focus: true,
-            lang : 'ko-KR',
-            spellCheck: false,
-            toolbar: [
-                // [groupName, [list of button]]
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough']],
-                ['fontsize', ['fontsize']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['insert', ['table','hr']]
-            ]
-        });
-        $('#summernote').summernote('fontSize', 14);
-    });
+
 </script>
 </th:block>
 <th:block layout:fragment="content">
@@ -52,7 +35,7 @@
                         </div>
 
                         <!-- 공지 보기 폼 -->
-                        <form class="col_register_form">
+                        <form class="col_register_form" id="registerNotice" th:action="@{/admin/cs/notice/write}" method="post">
                             <!-- 공지제목 등록 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -60,7 +43,7 @@
                                         <span>제목</span>
                                     </div>
                                 </div>
-                                <input class="input_stayName" type="text" placeholder="공지사항의 제목을 입력하세요.">
+                                <input class="input_stayName" name="cs_title" type="text" placeholder="공지사항의 제목을 입력하세요.">
                                 <span class="result_stayName">
                                     💡 [안내], [발표] 등 말머리를 붙여주세요.
                                 </span>
@@ -72,14 +55,14 @@
                                         <span>내용</span>
                                     </div>
                                 </div>
-                                <textarea class="notice_text" id="summernote">
+                                <textarea class="notice_text" id="summernote" name="cs_content">
 
                                 </textarea>
                             </div>
 
                             <!-- 버튼 -->
                             <div class="btnAdminProd">
-                                <a href="#">
+                                <a type="submit" onclick="document.getElementById('registerNotice').submit();">
                                     공지등록
                                 </a>
                             </div>
@@ -90,58 +73,33 @@
             </section>
         </div>
     </main>
-    <footer class="main_footer">
-        <div class="footer_inner">
-            <div class="footer_menu">
-                <table>
-                    <tr>
-                        <td><a href="#">ABOUT</a></td>
-                        <td><a href="#">NOTICE</a></td>
-                        <td><a href="#">CS CENTER</a></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="footer_block">
-                <div class="footer_block_left">
-                    <div class="footer_block_row">
-                        <!-- 로고 클릭 시 메인으로 이동 -->
-                        <div class="row_col_1"><a href="#">LEMO</a></div>
-                        <div class="row_col_2">LETTUCE MEMORIES</div>
-                        <div class="row_col_3">
-                            주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
-                            통신판매업신고: 제 2023-레모구-0223호 사업자등록번호: 123012012345[사업자정보확인] <br>
-                            E-mail: lemo@gmail.com 국민은행 123-123456-12345 (주)주식회사 레모
-                        </div>
-                    </div>
-                </div>
-                <div class="footer_block_right">
-                    <div class="footer_block_row">
-                        <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
-                        <div class="row_col_4"><a href="#">고객센터</a></div>
-                        <div class="row_col_5">
-                            070-2023-0223 <br>
-                            MON - FRI AM 09:00 - PM 17:00 <br>
-                            BREAK PM 12:00 - PM 13:00 <br>
-                            SAT, SUN, HOLIDAY <span>DAY OFF</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer_terms">
-                <div class="footer_block_row2">
-                    <a href="#">이용약관</a>
-                    <span>&nbsp;|&nbsp;</span>
-                    <a href="#">개인정보처리방침</a>
-                </div>
-            </div>
-            <div class="footer_copyright">
-                <div class="footer_block_row2">
-                    <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-</th:block>
-<th:block layout:fragment="script">
-</th:block>
+    <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
+    </th:block>
+    <th:block layout:fragment="script">
+        <script>
+             $(document).ready(function() {
+                $('#summernote').summernote({
+                    height: 450,
+                    focus: true,
+                    lang : 'ko-KR',
+                    spellCheck: false,
+                    toolbar: [
+                        // [groupName, [list of button]]
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough']],
+                        ['fontsize', ['fontsize']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['insert', ['table','hr']]
+                    ]
+                });
+                $('#summernote').summernote('fontSize', 14);
+
+
+
+
+
+            });
+        </script>
+    </th:block>
 </html>

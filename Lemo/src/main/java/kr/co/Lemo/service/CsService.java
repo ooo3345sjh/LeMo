@@ -29,7 +29,7 @@ public class CsService {
     /** select **/
     public List<CsVO> selectEventArticles(SearchCondition sc, Model model){
 
-        log.info("here1");
+        log.info("cs_cate : " + sc.getCs_cate());
         int totalCnt = dao.countEventArticles(sc.getCs_cate());
         log.info("here2");
         log.info("total : " + totalCnt);
@@ -57,6 +57,30 @@ public class CsService {
         return dao.selectEventArticle(cs_no);
     }
 
+    public List<CsVO> selectNoticeArticles(SearchCondition sc, Model model) {
+        log.info("cs_cate : " + sc.getCs_cate());
+        int totalCnt = dao.countEventArticles(sc.getCs_cate());
+        log.info("here2");
+        log.info("total : " + totalCnt);
+        int totalPage = (int) Math.ceil(totalCnt / (double)sc.getPageSize());
+
+        log.info("here3");
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        log.info("here4");
+
+        List<CsVO> noticeArticles = dao.selectNoticeArticles(sc);
+
+        log.info("here5");
+
+        model.addAttribute("noticeArticles", noticeArticles);
+        model.addAttribute("ph", pageHandler);
+
+        log.info("here6");
+
+        return noticeArticles;
+    }
 
 
     /** insert **/
@@ -64,7 +88,9 @@ public class CsService {
         return dao.insertEvent(vo);
     }
 
-
+    public int insertArticleNotice(CsVO vo) {
+        return dao.insertArticleNotice(vo);
+    }
 
 
     /** update **/

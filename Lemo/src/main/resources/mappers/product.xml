@@ -15,7 +15,7 @@
     <select id="selectAccommodations" parameterType="kr.co.Lemo.domain.ProductSearchVO" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
         <![CDATA[
         SELECT * FROM `lemo_product_accommodation`
-        WHERE ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 50000;
+        WHERE ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000;
         ]]>
     </select>
 
