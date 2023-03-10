@@ -10,11 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @since 2023/03/08
@@ -31,50 +26,100 @@ public class UserController {
     private final Environment environment;
     private String group = "title.user";
 
+    // @since 2023/03/08
     @GetMapping("login")
-    public String login() {
+    public String login(Model m) {
+        log.debug("GET login start...");
+        m.addAttribute("title", environment.getProperty(group));
         return "user/login";
     }
 
+    // @since 2023/03/08
     @GetMapping("terms")
     public String terms(Model m) {
+        log.debug("GET terms start...");
         m.addAttribute("title", environment.getProperty(group));
 
         return "user/terms";
     }
+
+    // @since 2023/03/08
     @PostMapping("terms")
     public String terms(String termsType_no, HttpServletRequest req){
-        log.info(termsType_no);
+        log.debug("POST terms start...");
+
         HttpSession session = req.getSession();
-        session.setMaxInactiveInterval(60*10); // 세션 만료시간 10분 설정
-        session.setAttribute("termsType_no", termsType_no);
+        session.setMaxInactiveInterval(60*30); // 세션 만료시간 30분 설정
+        session.setAttribute("termsAuth", termsType_no);
         return "redirect:/user/join";
     }
 
+    // @since 2023/03/08
     @GetMapping("join")
-    public String join() {
+    public String join(Model m, HttpServletRequest req) {
+        log.debug("GET join start...");
+
+        m.addAttribute("title", environment.getProperty(group));
+        String termsType_no = getTermsAuth(req);
+
+        if(termsType_no == null){
+            return "redirect:/user/terms";
+        }
+
         return "user/join";
     }
 
-    @GetMapping("certification")
-    public String certification() {
-        return "user/certification";
+    // @since 2023/03/10
+    @GetMapping("hp/auth")
+    public String hpAuth() {
+        return "user/hpAuth";
     }
 
+    // @since 2023/03/10
+    @GetMapping("{type}/signup")
+    public String signup(
+            @PathVariable String type,
+            Model m,
+            HttpServletRequest req
+    ) {
+        log.debug("GET signup start...");
+
+        m.addAttribute("error", "R");
+        m.addAttribute("title", environment.getProperty(group));
+        String termsType_no = getTermsAuth(req);
+
+        if(termsType_no == null)
+            return "error/abnormalAccess";
+
+        if("general".equals(type))
+            return "user/signup_general";
+
+        else if("business".equals(type))
+            return "user/signup_business";
+
+        return "error/abnormalAccess";
+    }
+
+    /**
+     * @since 2023/03/10
+     * @param req
+     * @return 세션에 저장된 약관동의에서 체킹한 정보들을 리턴
+     */
+    private static String getTermsAuth(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        String termsType_no = (String)session.getAttribute("termsAuth");
+        return termsType_no;
+    }
+
+
+
+    // @since 2023/03/08
     @GetMapping("checknick")
     public String checknick() {
         return "user/checknick";
     }
 
-    @GetMapping("signup_business")
-    public String signup_business() {
-        return "user/signup_business";
-    }
-    @GetMapping("signup_general")
-    public String signup_general() {
-        return "user/signup_general";
-    }
-
+    // @since 2023/03/08
     @GetMapping("resetPw")
     public String resetPw() {
         return "user/resetPw";

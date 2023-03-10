@@ -43,7 +43,7 @@
                     (선택)
                 </p>
                 <!-- 필수 동의 약관 전부 선택시 class에 on 추가 -->
-                <button type="submit" class="btn_link on" id="terms_agree_btn" >
+                <button type="submit" class="btn_link" id="terms_agree_btn" disabled>
                     <span>다음</span>
                 </button>
             </form>
@@ -54,38 +54,39 @@
 <th:block layout:fragment="script">
     <script>
         $(function(){
-            let form = $("form");
+            let isChecked = [false, false, false];
 
-            $('#checkAll').click(function(){
+            // 필수 약관동의 체크 확인 함수
+            const reqChk = function (){
+                $('.required').each(function(i){
+                    isChecked[i] = $(this).is(':checked');
+                });
+
+                if(!isChecked.includes(false)){
+                    $("#terms_agree_btn").attr("disabled", false);
+                    $("#terms_agree_btn").addClass("on")
+                } else {
+                    $("#terms_agree_btn").attr("disabled", true);
+                    $("#terms_agree_btn").removeClass("on")
+                }
+            }
+
+            $('#checkAll').change(function(){
                  if($(this).is(":checked"))
-                    $("input[name='termsType_no']").attr("checked", true);
+                    $("input[name='termsType_no']").prop("checked", true);
 
                  else
-                    $("input[name='termsType_no']").attr("checked", false);
+                    $("input[name='termsType_no']").prop("checked", false);
+                 $('required').trigger('change');
+                reqChk();
+            });
+
+            $('.required').change(function (){
+                reqChk();
             });
 
             $('#terms_agree_btn').click(function(){
                  $(".required").attr('required', true);
-
-            /*
-                let isChecked = [false, false, false];
-
-                $(".required").each(function(i,e){
-                   isChecked[i] = $(this).is(':checked');
-                });
-
-                if(!isChecked.includes(false)){
-                    e.preventDefault();
-                    let arrayParam = [];
-
-                    $("input:checkbox[name='termsType_no[]']:checked").each(function(){
-                        arrayParam.push($(this).val());
-                    });
-
-                    let action = form.attr("action") + "?termsType_no=" + arrayParam.join(',');
-
-                    location.href = action;
-                }*/
             });
 
         })
