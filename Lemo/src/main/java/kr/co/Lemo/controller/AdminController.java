@@ -125,12 +125,12 @@ public class AdminController {
     public String event_list(@PathVariable("cs_cate") String cs_cate, Model model, SearchCondition sc){
 
         if("event".equals(cs_cate)){
-            csService.selectEventArticles(sc, model);
+            csService.findAllCsArticles(sc, model);
 
             return "admin/cs/event/list";
         }else if("notice".equals(cs_cate)) {
 
-            csService.selectNoticeArticles(sc, model);
+            csService.findAllCsArticles(sc, model);
         }
         return "admin/cs/notice/list";
     }

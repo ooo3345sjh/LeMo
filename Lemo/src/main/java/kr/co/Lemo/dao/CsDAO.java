@@ -18,10 +18,9 @@ import java.util.List;
 @Repository
 public interface CsDAO {
     /** select **/
-    public List<CsVO> selectEventArticles(SearchCondition sc);
+    public List<CsVO> selectCsArticles(SearchCondition sc);
     public int countEventArticles(@Param("cs_cate") String cs_cate);
     public CsVO selectEventArticle(@Param("cs_no") int cs_no);
-    public List<CsVO> selectNoticeArticles(SearchCondition sc);
     public void selectFaqArticles();
     public void selectQnaArticles();
     public void selectTermsArticles();
@@ -30,7 +29,7 @@ public interface CsDAO {
     /** insert **/
     public int insertEvent(CsVO vo);
     public int insertArticleNotice(CsVO vo);
-
+    public int insertArticleQna(CsVO vo);
     /** updare **/
 
 

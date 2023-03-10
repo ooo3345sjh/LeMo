@@ -27,7 +27,7 @@ public class CsService {
 
 
     /** select **/
-    public List<CsVO> selectEventArticles(SearchCondition sc, Model model){
+    public List<CsVO> findAllCsArticles(SearchCondition sc, Model model){
 
         log.info("cs_cate : " + sc.getCs_cate());
         int totalCnt = dao.countEventArticles(sc.getCs_cate());
@@ -41,7 +41,7 @@ public class CsService {
 
         log.info("here4");
 
-        List<CsVO> eventArticles = dao.selectEventArticles(sc);
+        List<CsVO> eventArticles = dao.selectCsArticles(sc);
 
         log.info("here5");
 
@@ -57,31 +57,6 @@ public class CsService {
         return dao.selectEventArticle(cs_no);
     }
 
-    public List<CsVO> selectNoticeArticles(SearchCondition sc, Model model) {
-        log.info("cs_cate : " + sc.getCs_cate());
-        int totalCnt = dao.countEventArticles(sc.getCs_cate());
-        log.info("here2");
-        log.info("total : " + totalCnt);
-        int totalPage = (int) Math.ceil(totalCnt / (double)sc.getPageSize());
-
-        log.info("here3");
-        if(sc.getPage() > totalPage) sc.setPage(totalPage);
-        PageHandler pageHandler = new PageHandler(totalCnt, sc);
-
-        log.info("here4");
-
-        List<CsVO> noticeArticles = dao.selectNoticeArticles(sc);
-
-        log.info("here5");
-
-        model.addAttribute("noticeArticles", noticeArticles);
-        model.addAttribute("ph", pageHandler);
-
-        log.info("here6");
-
-        return noticeArticles;
-    }
-
 
     /** insert **/
     public int insertEvent(CsVO vo){
@@ -92,6 +67,9 @@ public class CsService {
         return dao.insertArticleNotice(vo);
     }
 
+    public int rsaveArticleQna(CsVO vo){
+        return dao.insertArticleQna(vo);
+    }
 
     /** update **/
 

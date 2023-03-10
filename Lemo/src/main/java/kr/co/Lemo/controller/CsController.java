@@ -12,8 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -37,13 +39,14 @@ public class CsController {
 
     @GetMapping("{cs_cate}")
     public String notice(@PathVariable("cs_cate") String cs_cate, Model model, SearchCondition sc){
+        if("notice".equals(cs_cate)) {
+            model.addAttribute("title", environment.getProperty(group));
+            service.findAllCsArticles(sc, model);
 
-        model.addAttribute("title", environment.getProperty(group));
-        service.selectNoticeArticles(sc, model);
 
+        }
         return "cs/notice";
     }
-
     @GetMapping("faq")
     public String faq(){
         return "cs/faq";
@@ -52,6 +55,17 @@ public class CsController {
     @GetMapping("qna")
     public String qna(){
         return "cs/qna";
+    }
+
+    @PostMapping("{cs_cate}")
+    public String rsaveArticleQna(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
+
+        vo.setUser_id("1002rsvn@plusn.co.kr");
+        vo.setCs_regip(req.getRemoteAddr());
+
+        service.rsaveArticleQna(vo);
+
+        return "redirect:/cs/qna";
     }
 
     @GetMapping("terms")
@@ -67,10 +81,10 @@ public class CsController {
      */
 
     @GetMapping("{cs_cate}/list")
-    public String event_list(@PathVariable("cs_cate") String cs_cate, Model model, SearchCondition sc){
+    public String findAllEvent_list(@PathVariable("cs_cate") String cs_cate, Model model, SearchCondition sc){
 
         model.addAttribute("title", environment.getProperty(group));
-        service.selectEventArticles(sc, model);
+        service.findAllCsArticles(sc, model);
 
         return "cs/event/list";
     }
