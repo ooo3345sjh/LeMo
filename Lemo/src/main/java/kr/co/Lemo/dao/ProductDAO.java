@@ -20,6 +20,8 @@ public interface ProductDAO {
     // insert
 
     // select
+
+    // @since 2022/03/09
     public List<ProductAccommodationVO> selectAccommodations(ProductSearchVO vo);
 
     // update
