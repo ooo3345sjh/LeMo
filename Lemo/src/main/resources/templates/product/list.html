@@ -109,274 +109,22 @@
 
                             <div class="list-area">
                                 <ul>
-                                    <li>
-                                        <img src="http://placehold.it/170x235" alt="상품 이미지">
+                                    <li th:each="acc : ${accs}">
+                                        <img th:src="@{/img/1/1001583/a4f13400-bbb2-11ed-9cf7-d8c0a6417c1a.jpg}" alt="상품 이미지">
                                         <article class="stage">
                                             <a href="">
                                                 <div class="stage-name">
-                                                    <strong>테스트 호텔</strong>
+                                                    <strong>[[${acc.acc_name}]]</strong>
                                                     <p>
                                                         <span>별점</span>
                                                         <em>(100)</em>
                                                     </p>
                                                     <p>
-                                                        <span>테스트시 테스트구 테스트동</span>
+                                                        <span>[[${acc.acc_addr}]]</span>
                                                     </p>
                                                 </div>
                                                 <div class="stage-descript">
-                                                    <span>테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트</span>
-                                                </div>
-                                                <div class="stage-info">
-                                                    <p>
-                                                        <span>남은 객실 : 1</span>
-                                                    </p>
-                                                    <p>
-                                                        <b>999,999원 &nbsp;/1박</b>
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </article>
-                                    </li>
-                                    <li>
-                                        <img src="http://placehold.it/170x235" alt="상품 이미지">
-                                        <article class="stage">
-                                            <a href="">
-                                                <div class="stage-name">
-                                                    <strong>테스트 호텔</strong>
-                                                    <p>
-                                                        <span>별점</span>
-                                                        <em>(100)</em>
-                                                    </p>
-                                                    <p>
-                                                        <span>테스트시 테스트구 테스트동</span>
-                                                    </p>
-                                                </div>
-                                                <div class="stage-descript">
-                                                    <span>테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트</span>
-                                                </div>
-                                                <div class="stage-info">
-                                                    <p>
-                                                        <span>남은 객실 : 1</span>
-                                                    </p>
-                                                    <p>
-                                                        <b>999,999원 &nbsp;/1박</b>
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </article>
-                                    </li>
-                                    <li>
-                                        <img src="http://placehold.it/170x235" alt="상품 이미지">
-                                        <article class="stage">
-                                            <a href="">
-                                                <div class="stage-name">
-                                                    <strong>테스트 호텔</strong>
-                                                    <p>
-                                                        <span>별점</span>
-                                                        <em>(100)</em>
-                                                    </p>
-                                                    <p>
-                                                        <span>테스트시 테스트구 테스트동</span>
-                                                    </p>
-                                                </div>
-                                                <div class="stage-descript">
-                                                    <span>테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트</span>
-                                                </div>
-                                                <div class="stage-info">
-                                                    <p>
-                                                        <span>남은 객실 : 1</span>
-                                                    </p>
-                                                    <p>
-                                                        <b>999,999원 &nbsp;/1박</b>
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </article>
-                                    </li>
-                                    <li>
-                                        <img src="http://placehold.it/170x235" alt="상품 이미지">
-                                        <article class="stage">
-                                            <a href="">
-                                                <div class="stage-name">
-                                                    <strong>테스트 호텔</strong>
-                                                    <p>
-                                                        <span>별점</span>
-                                                        <em>(100)</em>
-                                                    </p>
-                                                    <p>
-                                                        <span>테스트시 테스트구 테스트동</span>
-                                                    </p>
-                                                </div>
-                                                <div class="stage-descript">
-                                                    <span>테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트</span>
-                                                </div>
-                                                <div class="stage-info">
-                                                    <p>
-                                                        <span>남은 객실 : 1</span>
-                                                    </p>
-                                                    <p>
-                                                        <b>999,999원 &nbsp;/1박</b>
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </article>
-                                    </li>
-                                    <li>
-                                        <img src="http://placehold.it/170x235" alt="상품 이미지">
-                                        <article class="stage">
-                                            <a href="">
-                                                <div class="stage-name">
-                                                    <strong>테스트 호텔</strong>
-                                                    <p>
-                                                        <span>별점</span>
-                                                        <em>(100)</em>
-                                                    </p>
-                                                    <p>
-                                                        <span>테스트시 테스트구 테스트동</span>
-                                                    </p>
-                                                </div>
-                                                <div class="stage-descript">
-                                                    <span>테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트</span>
-                                                </div>
-                                                <div class="stage-info">
-                                                    <p>
-                                                        <span>남은 객실 : 1</span>
-                                                    </p>
-                                                    <p>
-                                                        <b>999,999원 &nbsp;/1박</b>
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </article>
-                                    </li>
-                                    <li>
-                                        <img src="http://placehold.it/170x235" alt="상품 이미지">
-                                        <article class="stage">
-                                            <a href="">
-                                                <div class="stage-name">
-                                                    <strong>테스트 호텔</strong>
-                                                    <p>
-                                                        <span>별점</span>
-                                                        <em>(100)</em>
-                                                    </p>
-                                                    <p>
-                                                        <span>테스트시 테스트구 테스트동</span>
-                                                    </p>
-                                                </div>
-                                                <div class="stage-descript">
-                                                    <span>테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트</span>
-                                                </div>
-                                                <div class="stage-info">
-                                                    <p>
-                                                        <span>남은 객실 : 1</span>
-                                                    </p>
-                                                    <p>
-                                                        <b>999,999원 &nbsp;/1박</b>
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </article>
-                                    </li>
-                                    <li>
-                                        <img src="http://placehold.it/170x235" alt="상품 이미지">
-                                        <article class="stage">
-                                            <a href="">
-                                                <div class="stage-name">
-                                                    <strong>테스트 호텔</strong>
-                                                    <p>
-                                                        <span>별점</span>
-                                                        <em>(100)</em>
-                                                    </p>
-                                                    <p>
-                                                        <span>테스트시 테스트구 테스트동</span>
-                                                    </p>
-                                                </div>
-                                                <div class="stage-descript">
-                                                    <span>테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트</span>
-                                                </div>
-                                                <div class="stage-info">
-                                                    <p>
-                                                        <span>남은 객실 : 1</span>
-                                                    </p>
-                                                    <p>
-                                                        <b>999,999원 &nbsp;/1박</b>
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </article>
-                                    </li>
-                                    <li>
-                                        <img src="http://placehold.it/170x235" alt="상품 이미지">
-                                        <article class="stage">
-                                            <a href="">
-                                                <div class="stage-name">
-                                                    <strong>테스트 호텔</strong>
-                                                    <p>
-                                                        <span>별점</span>
-                                                        <em>(100)</em>
-                                                    </p>
-                                                    <p>
-                                                        <span>테스트시 테스트구 테스트동</span>
-                                                    </p>
-                                                </div>
-                                                <div class="stage-descript">
-                                                    <span>테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트</span>
-                                                </div>
-                                                <div class="stage-info">
-                                                    <p>
-                                                        <span>남은 객실 : 1</span>
-                                                    </p>
-                                                    <p>
-                                                        <b>999,999원 &nbsp;/1박</b>
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </article>
-                                    </li>
-                                    <li>
-                                        <img src="http://placehold.it/170x235" alt="상품 이미지">
-                                        <article class="stage">
-                                            <a href="">
-                                                <div class="stage-name">
-                                                    <strong>테스트 호텔</strong>
-                                                    <p>
-                                                        <span>별점</span>
-                                                        <em>(100)</em>
-                                                    </p>
-                                                    <p>
-                                                        <span>테스트시 테스트구 테스트동</span>
-                                                    </p>
-                                                </div>
-                                                <div class="stage-descript">
-                                                    <span>테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트</span>
-                                                </div>
-                                                <div class="stage-info">
-                                                    <p>
-                                                        <span>남은 객실 : 1</span>
-                                                    </p>
-                                                    <p>
-                                                        <b>999,999원 &nbsp;/1박</b>
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </article>
-                                    </li>
-                                    <li>
-                                        <img src="http://placehold.it/170x235" alt="상품 이미지">
-                                        <article class="stage">
-                                            <a href="">
-                                                <div class="stage-name">
-                                                    <strong>테스트 호텔</strong>
-                                                    <p>
-                                                        <span>별점</span>
-                                                        <em>(100)</em>
-                                                    </p>
-                                                    <p>
-                                                        <span>테스트시 테스트구 테스트동</span>
-                                                    </p>
-                                                </div>
-                                                <div class="stage-descript">
-                                                    <span>테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트테스트 테스트 테스트 테스트</span>
+                                                    <span>[[${acc.acc_info}]]</span>
                                                 </div>
                                                 <div class="stage-info">
                                                     <p>
@@ -428,39 +176,14 @@
         </th:block>
         <th:block layout:fragment="script">
             <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712"></script>
-            <script th:src="@{/js/product/productList.js}"></script>
-            <script>
-                /** 카카오 맵 */
-                var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
-                var options = { //지도를 생성할 때 필요한 기본 옵션
-                    center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-                    level: 7 //지도의 레벨(확대, 축소 정도)
-                };
+            <script th:inline="javascript">
+                let clat = [[${lat}]];
+                let clng = [[${lng}]];
 
-                var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-                map.setZoomable(false);
+                let accs = [[${accs}]];
+                console.log(accs);
 
-                function setZoomable(zoomable) {
-                    // 마우스 휠로 지도 확대,축소 가능여부를 설정합니다
-                    map.setZoomable(zoomable);
-                }
-
-                // 지도의 현재 영역을 얻어옵니다
-                var bounds = map.getBounds();
-
-                // 영역의 남서쪽 좌표를 얻어옵니다
-                var swLatLng = bounds.getSouthWest();
-
-                // 영역의 북동쪽 좌표를 얻어옵니다
-                var neLatLng = bounds.getNorthEast();
-
-                // 영역정보를 문자열로 얻어옵니다. ((남,서), (북,동)) 형식입니다
-                var boundsStr = bounds.toString();
-
-                console.log('남서쪽 ' + swLatLng.getLat());
-                console.log('남서쪽 ' + swLatLng.getLng());
-                console.log('북동쪽 ' + neLatLng.getLat());
-                console.log('북동쪽 ' + neLatLng.getLng());
             </script>
+            <script th:src="@{/js/product/productList.js}"></script>
         </th:block>
 </html>
