@@ -43,30 +43,31 @@ public class SearchCondition {
                     .queryParam("searchWord", searchWord);
         }
 
-//        sortGroup(group, builder);
+        sortGroup(group, builder);
 
-        getAdminParam(builder);
+        //getAdminParam(builder);
 
         return builder.toUriString();
     }
 
 
-//   private void sortGroup(String group, UriComponentsBuilder builder) {
-//        switch (group){
-//            case "admin":
-//                getAdminParam(builder);
-//                break;
-//            case "product":
-//                getProductParam(builder);
-//                break;
-//            case "cs":
-//                getCsParam(builder);
-//                break;
-//            case "diary":
-//                getDiaryParam(builder);
-//                break;
-//        }
-//    }
+
+   private void sortGroup(String group, UriComponentsBuilder builder) {
+        switch (group){
+            case "admin":
+                getAdminParam(builder);
+                break;
+            case "product":
+                getProductParam(builder);
+                break;
+            case "cs":
+                getCsParam(builder);
+                break;
+            case "diary":
+                getDiaryParam(builder);
+                break;
+        }
+    }
 
 
 
