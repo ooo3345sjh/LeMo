@@ -110,7 +110,7 @@
                             <div class="list-area">
                                 <ul>
                                     <li th:each="acc : ${accs}">
-                                        <img th:src="@{/img/product/1/1001583/a988deea-bbb2-11ed-9ec9-d8c0a6417c1a.jpg}" alt="상품 이미지">
+                                        <img th:src="|@{/}img/product/${acc.province_no}/${acc.acc_id}/${#strings.substringBefore(acc.acc_thumbs, '/')}|" alt="상품 이미지">
                                         <article class="stage">
                                             <a href="">
                                                 <div class="stage-name">
@@ -179,10 +179,7 @@
             <script th:inline="javascript">
                 let clat = [[${lat}]];
                 let clng = [[${lng}]];
-
                 let accs = [[${accs}]];
-                console.log(accs);
-
             </script>
             <script th:src="@{/js/product/productList.js}"></script>
         </th:block>

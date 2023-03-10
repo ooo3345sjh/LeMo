@@ -34,13 +34,14 @@
                         <h3>#여행일기 작성</h3>
                         <!-- 여행일기 보기 -->
                         <div class="view">
-                            <form>
+                            <form th:action="@{/my/diary/rsave}" method="post" enctype="multipart/form-data">
+                                <input type="submit" id="btnDiarySubmit" name="submit" value="작성완료">
                                 <div class="list-area">
                                     <div id="diary_content">
-                                        <input type="text" style="border: none; font-size:18px;" placeholder="제목을 작성해주세요">
+                                        <input type="text" style="border: none; font-size:18px;" name="arti_title" placeholder="제목을 작성해주세요">
                                         <ul>
                                             <li>
-                                                <input  type="text" name="daterange" id="daterange">
+                                                <input type="text" name="arti_start" id="daterange">
                                                 <span style="font-size: 12px; color:#a39797;">※여행기간을 선택해주세요</span>
                                             </li>
                                             <li>스카이베이호텔 경포</li>
@@ -120,14 +121,16 @@
 
                         // 마커에 click이벤트를 등록합니다
                         kakao.maps.event.addListener(marker, 'click', function(){
-                            /** #F3 */
-                            addMarker(marker, place.y, place.x);
+                            if(markers.length >= 10){ Swal.fire( '더 이상 등록하실 수 없습니다.' )
+                            }else {
+                                /** #F3 */
+                                addMarker(marker, place.y, place.x);
+                            }
                         });
                     }
 
                     // #F3 : 마커를 생성하고 지도위에 표시하는 함수
-                    function addMarker(marker, lat, lng) {
-                        let place;
+                    function addMarker(marker, commonLat, commonLng) {
                         (async () => {
                             const { value: getName } = await Swal.fire({
                                 title: '여행지를 입력해주세요!',
@@ -144,7 +147,7 @@
 
                                 // 마커를 생성합니다
                                 var marker = new kakao.maps.Marker({
-                                    position: new kakao.maps.LatLng(lat, lng),
+                                    position: new kakao.maps.LatLng(commonLat, commonLng),
                                     image: markerImage
                                 });
 
@@ -169,7 +172,7 @@
                                 });
 
                                                  // #F4
-                                let addContent = addDiary(place);
+                                let addContent = addDiary(place, commonLat, commonLng);
 
                                 $('.list-area').append(addContent);
 
@@ -187,8 +190,11 @@
                     }
 
                     // #F4 : 마커 클릭시 여행일기 작성란이 추가되는 공통 함수
-                    function addDiary(place){
-                        let addContent  = '<div class="place place_' + place + '">';
+                    function addDiary(place, Lat, Lng){
+                        let withoutSpace = place.replace(/\s/g, "");
+                        let addContent  = '<div class="place place_D' + withoutSpace + '">';
+                            addContent += '<input type="hidden" name="spot_lattitude" value="'+Lat+'">'
+                            addContent += '<input type="hidden" name="spot_longtitude" value="'+Lng+'">'
                             addContent += '<div class="spot">';
                             addContent += '<img src="/Lemo/images/diary/marker7.png" width="30px" height="40px">';
                             addContent += '<span>'+ place +'</span>';
@@ -196,10 +202,10 @@
                             addContent += '<img src="/Lemo/images/cs/arr_down.png" class="arrow">';
                             addContent += '<div class="toggle">';
                             addContent += '<div class="image">';
-                            addContent += '<input type="file" class="ex_file" accept="image/png, image/jpeg" required style="display: none;">';
+                            addContent += '<input type="file" class="ex_file" name="thumb" accept="image/png, image/jpeg" required style="display: none;">';
                             addContent += '<img class="inputImage" src="/Lemo/images/diary/imgUpload.png">';
                             addContent += '</div>';
-                            addContent += '<textarea class="content" placeholder="내용을 입력해주세요."></textarea>';
+                            addContent += '<textarea class="content" name="spot_content" placeholder="내용을 입력해주세요."></textarea>';
                             addContent += '</div>';
                             addContent += '</div>';
 
@@ -225,7 +231,7 @@
                     // #F7 : 마커를 지울때 발생하는 경고 함수
                     function removeAlert(marker, place) {
                         Swal.fire({
-                          title: '지도에서 지우시면 작성 하시던 일기도 지워집니다. 지우시겠습니까?',
+                          title: '지도에서 지우시면 작성 하시던 일기도 지워집니다.<br> 지우시겠습니까?',
                           icon: 'warning',
                           showCancelButton: true,
                           confirmButtonColor: '#3085d6',
@@ -236,22 +242,19 @@
 
                         }).then((result) => {
                           if (result.isConfirmed) {
-                            Swal.fire(
-                              '삭제되었습니다',
-                            )
+                            Swal.fire( '삭제되었습니다', )
 
                             let count = markers.indexOf(marker);
 
                             // 마커 제거 이후 마커배열에서도 제거
                             markers.splice(count, 1);
 
-<!--                            for(var i=0; i<markers.length; i++){-->
-<!--                                console.log('#' + i + ' : ' + markers[i].getPosition());-->
-<!--                            }-->
-
                             marker.setMap(null);
                             infowindow.close();
-                            $('.place_'+place).remove();
+
+                            place = place.replace(/\s/g, "");
+
+                            $('.place_D'+place).remove();
                           }
                         })
                     }
@@ -280,8 +283,8 @@
                     var ps = new kakao.maps.services.Places();
 
                     // #4 키워드 검색 완료 시 호출되는 콜백함수
-                    let lat;
-                    let lng;
+                    let diaryLat;
+                    let diaryLng;
                     let autocompleteInput = document.getElementById('searchAddr');
                     let searchBtn = document.getElementById('searchBtn');
                     let option    = {fields: ["address_components", "formatted_address", "geometry", "icon", "name"]};
@@ -308,18 +311,18 @@
                             }
 
                             // 구글 자동완성 검색 결과가 있을 때 밑으로 실행
-                            lat = place.geometry.location.lat();
-                            lng = place.geometry.location.lng();
+                            diaryLat = place.geometry.location.lat();
+                            diaryLng = place.geometry.location.lng();
 
                             /** 검색 시 해당하는 좌표로 이동 */
                             var bounds = new kakao.maps.LatLngBounds();
-                            bounds.extend(new kakao.maps.LatLng(lat, lng));
+                            bounds.extend(new kakao.maps.LatLng(diaryLat, diaryLng));
                             map.setBounds(bounds);
                             map.setLevel(7); // 지도의 확대 레벨
 
                             // 마커가 표시될 위치
                             var marker = new kakao.maps.Marker({
-                                position: new kakao.maps.LatLng(lat, lng)
+                                position: new kakao.maps.LatLng(diaryLat, diaryLng)
                             });
                             marker.setMap(map);
                             searchMarkers.push(marker);
@@ -337,16 +340,18 @@
 
                             // 마커에 click이벤트를 등록합니다
                             kakao.maps.event.addListener(marker, 'click', function(){
-                                /** #F3 */
-                                addMarker(marker, lat, lng);
+                                if(markers.length >= 10){ Swal.fire( '더 이상 등록하실 수 없습니다.' )
+                                }else {
+                                    /** #F3 */
+                                    addMarker(marker, diaryLat, diaryLng);
+                                }
                             });
                         });
                     }
 
                     // #5 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록합니다
                     kakao.maps.event.addListener(map, 'dblclick', function(mouseEvent) {
-                        if(markers.length >= 5){
-                            alert('더 이상 등록하실 수 없습니다.');
+                        if(markers.length >= 10){ Swal.fire( '더 이상 등록하실 수 없습니다.' )
                         }else {
                             /** #F3 */
                             addMarker(null, mouseEvent.latLng.Ma, mouseEvent.latLng.La);

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * @since 2023/03/08
@@ -71,8 +72,9 @@ public class UserController {
 
     // @since 2023/03/10
     @GetMapping("hp/auth")
-    public String hpAuth() {
-
+    public String hpAuthentication(Model m) {
+        log.debug("GET hpAuthentication start...");
+        m.addAttribute("title", environment.getProperty(group));
 
 
         return "user/hpAuth";
@@ -102,7 +104,6 @@ public class UserController {
 
         return "error/abnormalAccess";
     }
-
 
     // @since 2023/03/08
     @GetMapping("checknick")
