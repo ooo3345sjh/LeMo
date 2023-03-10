@@ -138,15 +138,10 @@ public class ProductController {
 
         log.info(String.valueOf(accs.size()));
 
-        String json = new Gson().toJson(accs);
-
-        log.info(json);
-
 
         model.addAttribute("lng", lng);
         model.addAttribute("lat", lat);
         model.addAttribute("accs", accs);
-        model.addAttribute("json", json);
 
         model.addAttribute("title", environment.getProperty(group));
 

@@ -176,10 +176,12 @@
         </th:block>
         <th:block layout:fragment="script">
             <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712"></script>
-            <script>
+            <script th:inline="javascript">
                 let clat = [[${lat}]];
                 let clng = [[${lng}]];
 
+                let accs = [[${accs}]];
+                console.log(accs);
 
             </script>
             <script th:src="@{/js/product/productList.js}"></script>
