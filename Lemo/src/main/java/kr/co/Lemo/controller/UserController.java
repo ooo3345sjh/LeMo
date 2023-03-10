@@ -72,6 +72,9 @@ public class UserController {
     // @since 2023/03/10
     @GetMapping("hp/auth")
     public String hpAuth() {
+
+
+
         return "user/hpAuth";
     }
 
@@ -100,19 +103,6 @@ public class UserController {
         return "error/abnormalAccess";
     }
 
-    /**
-     * @since 2023/03/10
-     * @param req
-     * @return 세션에 저장된 약관동의에서 체킹한 정보들을 리턴
-     */
-    private static String getTermsAuth(HttpServletRequest req) {
-        HttpSession session = req.getSession();
-        String termsType_no = (String)session.getAttribute("termsAuth");
-        return termsType_no;
-    }
-
-
-
     // @since 2023/03/08
     @GetMapping("checknick")
     public String checknick() {
@@ -125,4 +115,14 @@ public class UserController {
         return "user/resetPw";
     }
 
+    /**
+     * @since 2023/03/10
+     * @param req
+     * @return 세션에 저장된 약관동의에서 체킹한 정보들을 리턴
+     */
+    private static String getTermsAuth(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        String termsType_no = (String)session.getAttribute("termsAuth");
+        return termsType_no;
+    }
 }
