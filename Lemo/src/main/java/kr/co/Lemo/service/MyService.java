@@ -70,10 +70,15 @@ public class MyService {
             log.debug(lng[i]);
             log.debug(images[i]);
             DiarySpotVO spotVO = DiarySpotVO.builder()
-                                .spot_content(content[i])
-                                .spot_lattitude(lat[i])
+                                .arti_no(arti_no)
                                 .spot_longtitude(lng[i])
-                                .spot_thumb(images[i]).build();
+                                .spot_lattitude(lat[i])
+                                .spot_content(content[i])
+                                .spot_thumb(images[i])
+                                .province_name("test")
+                                .spot_addr("test").build();
+
+            dao.insertDiarySpot(spotVO);
         }
     }
 

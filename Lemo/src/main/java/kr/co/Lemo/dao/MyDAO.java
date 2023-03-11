@@ -1,6 +1,7 @@
 package kr.co.Lemo.dao;
 
 import kr.co.Lemo.domain.ArticleDiaryVO;
+import kr.co.Lemo.domain.DiarySpotVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +18,5 @@ public interface MyDAO {
     public int insertDiaryArticle(ArticleDiaryVO diaryVO);
 
     // @since 2023/03/11
-    public void insertDiarySpot();
+    public int insertDiarySpot(DiarySpotVO spotVO);
 }

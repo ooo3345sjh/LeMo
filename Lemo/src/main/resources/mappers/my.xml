@@ -26,7 +26,7 @@
             `arti_no` = #{arti_no},
             `spot_longtitude` = #{spot_longtitude},
             `spot_lattitude` = #{spot_lattitude},
-            `spot_xy` = (ST_GeomFromText('POINT(#{spot_longtitude}, #{spot_lattitude})')),
+            `spot_xy` = ST_GeomFromText(CONCAT('POINT(', #{spot_longtitude}, ' ', #{spot_lattitude}, ')')),
             `spot_content` = #{spot_content},
             `spot_thumb` = #{spot_thumb},
             `province_name` = #{province_name},

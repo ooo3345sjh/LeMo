@@ -121,7 +121,10 @@ public class MyController {
         return "my/diary/write";
     }
 
-    // @since 2023/03/10 @apiNote @RequestPart는 multipart/form-data에 특화된 어노테이션
+    /**
+     * @since 2023/03/10
+     * @apiNote @RequestPart는 multipart/form-data에 특화된 어노테이션
+     */
     @ResponseBody
     @PostMapping("diary/rsave")
     public String diary_rsave(
