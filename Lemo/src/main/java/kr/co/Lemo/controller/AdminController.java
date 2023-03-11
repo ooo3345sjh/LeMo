@@ -119,16 +119,19 @@ public class AdminController {
         String user_id = "0hotelthem1@gmail.com";
 
         log.warn("쿠폰명 :" + vo.getCp_subject());
-        log.warn("쿠폰그룹 :" + vo.getCp_group());
+        log.warn("쿠폰적용그룹 :" + vo.getCp_group());
         log.warn("쿠폰타입 :" + vo.getCp_type());
         log.warn("할인율 :" + vo.getCp_rate());
         log.warn("할인타입 :" + vo.getCp_disType());
-        log.warn("발급수 :" + vo.getCp_limitedIssuance());
-        log.warn("min: "+ vo.getCp_minimum());
-        log.warn("max: "+ vo.getCp_maximum());
+        log.warn("발급수량 :" + vo.getCp_limitedIssuance());
+        log.warn("최소주문금액: "+ vo.getCp_minimum());
+        log.warn("최대주문금액: "+ vo.getCp_maximum());
+        log.warn("배포시작일: "+vo.getCp_start());
+        log.warn("배포시작일: "+vo.getCp_end());
+        log.warn("이용가능일수:" + vo.getCp_daysAvailable());
 
         //service.rsaveCupon(vo);
-        return "redirect:/admin/insertCoupon";
+        return "redirect:/admin/coupon/insertCoupon";
     }
 
     @GetMapping("coupon/manageCoupon")

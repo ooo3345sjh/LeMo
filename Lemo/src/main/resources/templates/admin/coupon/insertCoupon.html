@@ -13,7 +13,7 @@
         const saleOptionInput = $('.insertSaleOption');
 
         saleOptionInput.on('input', function() {
-            if (discountRadio.is(':checked') && (isNaN(saleOptionInput.val()) || saleOptionInput.val() < 0 || saleOptionInput.val() > 100)) {
+            if (discountRadio.is(':checked') && (isNaN(saleOptionInput.val()) || saleOptionInput.val() < 0 || saleOptionInput.val() > 101)) {
                 alert('0과 100사이의 할인율을 입력하십시오.');
                 saleOptionInput.val(0);
             } else if (discountPriceRadio.is(':checked') && (isNaN(saleOptionInput.val()) || saleOptionInput.val() < 0)) {
@@ -23,7 +23,7 @@
         });
 
         discountRadio.on('change', function() {
-            if (discountRadio.is(':checked') && (saleOptionInput.val() < 0 || saleOptionInput.val() > 100 || isNaN(saleOptionInput.val()))) {
+            if (discountRadio.is(':checked') && (saleOptionInput.val() < 0 || saleOptionInput.val() > 101 || isNaN(saleOptionInput.val()))) {
                 alert('0과 100사이의 할인율을 입력하십시오.');
                 saleOptionInput.val(0);
             }
@@ -35,6 +35,15 @@
                 saleOptionInput.val(0);
             }
         });
+
+        $('.discount, .discountPrice').on('change', function() {
+            if ($('.discount').is(':checked')) {
+                $('.insertSaleOption').attr('name', 'cp_rate');
+            } else if ($('.discountPrice').is(':checked')) {
+                $('.insertSaleOption').attr('name', 'cp_price');
+            }
+        });
+
 
     });
 
@@ -73,35 +82,38 @@
                                         <td>쿠폰적용그룹</td>
                                         <td>
                                             <select name="cp_group" class="category1" onchange="optionChange();" required>
-                                                <option value="0">전체적용</option>
-                                                <option value="1">숙소 유형</option>
-                                                <option value="2">지역</option>
+                                                <option value="" disabled selected>적용그룹선택</option>
+                                                <option value="ALL">전체적용</option>
+                                                <option value="acc_type">숙소 유형</option>
+                                                <option value="acc_province">지역</option>
                                             </select>
                                             <select name="cp_type" class="category2" required>
-                                                <option value="D">-</option>
-                                                <option value="E">모텔</option>
-                                                <option value="F">호텔·리조트</option>
-                                                <option value="G">펜션</option>
-                                                <option value="H">게스트하우스</option>
-                                                <option value="I">캠핑·글램핑</option>
-                                                <option value="J">해외여행</option>
+                                                <option value="" disabled selected>적용항목선택</option>
                                             </select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>할인율/할인가</td>
                                         <td>
+                                            <!--
                                             <input class="insertSaleOption" type="number" placeholder="할인율 또는 할인가 택1 작성">
+                                            <input class="insertSaleOption" type="number" placeholder="할인율 또는 할인가 택1 작성" name="${cp_disType == 1} ? 'cp_rate' : 'cp_price'" />
                                             <div class="selectSaleOption">
-                                                <input type="radio" name="sale_option" value="cp_rate" class="discount">퍼센트(%)
-                                                <input type="radio" name="sale_option" value="cp_price" class="discountPrice">원(₩)
+                                                <input type="radio" name="cp_disType" value="1" class="discount">퍼센트(%)
+                                                <input type="radio" name="cp_disType" value="2" class="discountPrice">원(₩)
+                                            </div>
+                                            -->
+                                            <input class="insertSaleOption" type="number" placeholder="할인율 또는 할인가 택1 작성"/>
+                                            <div class="selectSaleOption">
+                                                <input type="radio" name="cp_disType" value="1" class="discount">퍼센트(%)
+                                                <input type="radio" name="cp_disType" value="2" class="discountPrice">원(₩)
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>발급 수량</td>
                                         <td>
-                                            <input name="cp_limitedIssuance" class="insertSaleCount" type="number" placeholder="쿠폰 발급 수량 작성">
+                                            <input name="cp_limitedIssuance" class="insertSaleCount" type="number" placeholder="쿠폰 발급 수량 작성" value="cp_limitedIssuance">
                                             <div class="selectSaleLimit">
                                                 <input type="radio" name="sales_option" value="">수량제한없음
                                             </div>
@@ -110,21 +122,21 @@
                                     <tr>
                                         <td>금액 조건</td>
                                         <td>
-                                            <input nane="cp_minimum" class="input_100" type="number" placeholder="최소주문금액">/
-                                            <input name="cp_maximum" class="input_100" type="number" placeholder="최대주문금액">
+                                            <input name="cp_minimum" class="input_100" type="number" value="cp_minimum" placeholder="최소주문금액">/
+                                            <input name="cp_maximum" class="input_100" type="number" value="cp_maximum" placeholder="최대주문금액">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>배포일</td>
                                         <td>
-                                            <input name="cp_start" class="input_130" type="date">
+                                            <input name="cp_start" class="input_130" type="date" value="cp_start">
                                             &nbsp;~&nbsp;
-                                            <input name="cp_start" class="input_130" type="date">
+                                            <input name="cp_end" class="input_130" type="date" value="cp_end">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>이용가능일수</td>
-                                        <td><input name="cp_daysAvailable" class="input_100" type="number" placeholder=""></td>
+                                        <td><input name="cp_daysAvailable" class="input_100" type="number" placeholder="일 단위 입력" value="cp_daysAvailable"></td>
                                     </tr>
                                 </table>
                             </div>
