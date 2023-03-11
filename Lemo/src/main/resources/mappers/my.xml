@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    날짜 : 2023/03/09
+    이름 : 이해빈
+    내용 : 상품 mapper
+ -->
+<mapper namespace="kr.co.Lemo.dao.MyDAO">
+
+    <!-- insert -->
+    <insert id="insertDiaryArticle" parameterType="kr.co.Lemo.domain.ArticleDiaryVO" useGeneratedKeys="true" keyProperty="arti_no">
+        INSERT INTO `lemo_diary_article` SET
+            `res_no` = #{res_no},
+            `arti_title` = #{arti_title},
+            `arti_thumb` = #{arti_thumb},
+            `arti_rdate` = NOW(),
+            `arti_regip` = #{arti_regip},
+            `arti_start` = #{arti_start},
+            `arti_end`   = #{arti_end}
+    </insert>
+
+    <insert id="insertDiarySpot" parameterType="kr.co.Lemo.domain.DiarySpotVO">
+        INSERT INTO `lemo_diary_spot` SET
+            `arti_no` = #{arti_no},
+            `spot_longtitude` = #{spot_longtitude},
+            `spot_lattitude` = #{spot_lattitude},
+            `spot_xy` = ST_GeomFromText(CONCAT('POINT(', #{spot_longtitude}, ' ', #{spot_lattitude}, ')')),
+            `spot_content` = #{spot_content},
+            `spot_thumb` = #{spot_thumb},
+            `province_name` = #{province_name},
+            `spot_addr` = #{spot_addr}
+    </insert>
+    <!-- select -->
+
+
+    <!-- update -->
+
+    <!-- delete -->
+
+    <!-- 공통 키 -->
+
+</mapper>

@@ -34,7 +34,9 @@
                         <h3>#여행일기 작성</h3>
                         <!-- 여행일기 보기 -->
                         <div class="view">
-                            <form th:action="@{/my/diary/rsave}" method="post" enctype="multipart/form-data">
+                            <form th:action="@{/my/diary/rsave}" id="diaryForm" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="spot_lattitude">
+                                <input type="hidden" name="spot_longtitude">
                                 <input type="submit" id="btnDiarySubmit" name="submit" value="작성완료">
                                 <div class="list-area">
                                     <div id="diary_content">
@@ -193,8 +195,6 @@
                     function addDiary(place, Lat, Lng){
                         let withoutSpace = place.replace(/\s/g, "");
                         let addContent  = '<div class="place place_D' + withoutSpace + '">';
-                            addContent += '<input type="hidden" name="spot_lattitude" value="'+Lat+'">'
-                            addContent += '<input type="hidden" name="spot_longtitude" value="'+Lng+'">'
                             addContent += '<div class="spot">';
                             addContent += '<img src="/Lemo/images/diary/marker7.png" width="30px" height="40px">';
                             addContent += '<span>'+ place +'</span>';
@@ -202,7 +202,7 @@
                             addContent += '<img src="/Lemo/images/cs/arr_down.png" class="arrow">';
                             addContent += '<div class="toggle">';
                             addContent += '<div class="image">';
-                            addContent += '<input type="file" class="ex_file" name="thumb" accept="image/png, image/jpeg" required style="display: none;">';
+                            addContent += '<input type="file" class="ex_file" name="thumb" accept="image/png, image/jpeg" style="display: none;">';
                             addContent += '<img class="inputImage" src="/Lemo/images/diary/imgUpload.png">';
                             addContent += '</div>';
                             addContent += '<textarea class="content" name="spot_content" placeholder="내용을 입력해주세요."></textarea>';
@@ -285,13 +285,12 @@
                     // #4 키워드 검색 완료 시 호출되는 콜백함수
                     let diaryLat;
                     let diaryLng;
-                    let autocompleteInput = document.getElementById('searchAddr');
-                    let searchBtn = document.getElementById('searchBtn');
-                    let option    = {fields: ["address_components", "formatted_address", "geometry", "icon", "name"]};
+                    let autocompleteDiaryInput = document.getElementById('searchAddr');
+                    let diaryOption    = {fields: ["address_components", "formatted_address", "geometry", "icon", "name"]};
 
                     // #5 화면이 완전히 로드 된 후 호출되는 함수
-                    function initKaKaoMap(){
-                        const autocomplete = new google.maps.places.Autocomplete(autocompleteInput, option);
+                    $(function(){
+                        autocomplete = new google.maps.places.Autocomplete(autocompleteDiaryInput, diaryOption);
                         autocomplete.setComponentRestrictions({country: ["kr"]});
 
                         /** place_changed는 autocomplete 자체 속성인듯 */
@@ -347,7 +346,7 @@
                                 }
                             });
                         });
-                    }
+                    });
 
                     // #5 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록합니다
                     kakao.maps.event.addListener(map, 'dblclick', function(mouseEvent) {
@@ -357,6 +356,78 @@
                             addMarker(null, mouseEvent.latLng.Ma, mouseEvent.latLng.La);
                         }
                     });
+
+                    $('#diaryForm').submit(function(e){
+                        e.preventDefault();
+
+                        //FormData 새로운 객체 생성
+                        var formData = new FormData();
+
+                        let provinceName;
+
+                        let submitContent = [];
+                        $('textarea[name=spot_content]').each(function(){
+                            submitContent.push($(this).val());
+                        });
+
+                        // input class 값
+                        var fileInput = $('.ex_file');
+                        // fileInput 개수를 구한다.
+                        for (var i = 0; i < fileInput.length; i++) {
+                            if (fileInput[i].files.length > 0) {
+                                for (var j = 0; j < fileInput[i].files.length; j++) {
+                                    console.log(" fileInput[i].files[j] :::"+ fileInput[i].files[j]);
+
+                                    // formData에 'file'이라는 키값으로 fileInput 값을 append 시킨다.
+                                    formData.append('file', fileInput[i].files[j]);
+                                }
+                            }
+                        }
+
+                        let submitLat = [];
+                        let submitLng = [];
+                        // Lat, Lng 값 가져오기
+                        for(var i=0; i<markers.length; i++){
+                            submitLat.push(markers[i].getPosition().getLat());
+                            submitLng.push(markers[i].getPosition().getLng());
+                        }
+
+                        let formContent = submitContent.join('/');
+                        let formLat = submitLat.join('/');
+                        let formLng =  submitLng.join('/');
+                        console.log(formContent);
+                        console.log(formLat);
+                        console.log(formLng);
+
+                        let jsonData = {
+                            diaryTitle   : $('input[name=arti_title]').val(),
+                            diaryStart   : diary_start,
+                            diaryEnd     : diary_end,
+                            diaryContent : formContent,
+                            diaryLat     : formLat,
+                            diaryLng     : formLng
+                        }
+
+                        formData.append('key', new Blob([ JSON.stringify(jsonData) ], {type : "application/json"}));
+
+                        // ajax 처리 부분 *
+                        $.ajax({
+                            url: '/Lemo/my/diary/rsave',
+                            method: 'POST',
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader(header, token);
+                            },
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            enctype : 'multipart/form-data',
+                            success: function(data) {
+
+                            }
+                        });
+                    });
+
+                    // submit시 lat, lng 가져오기
 
                     let count = 0;
 
@@ -379,8 +450,6 @@
                     //     infowindow.close();
                     // });
                 </script>
-                <!-- googleSearchAPI -->
-                <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBntl8pNwtscVPGQraeyZVdAJ9AaH9bWBw&libraries=places&callback=initKaKaoMap"></script>
         </th:block>
 </html>
 

@@ -1,3 +1,5 @@
+let diary_start = date;
+let diary_end = date;
 $(function(){
     /** Jquery UI Date Picker */
     $('#daterange').daterangepicker({
@@ -19,6 +21,7 @@ $(function(){
         "drops": "down",
         "opens": "center"
     }, function (start, end, label) {
-        alert(" 체크인 :  " + start.format('YYYY-MM-DD') + " 체크아웃 : " + end.format('YYYY-MM-DD'));
+        diary_start = start.format('YYYY-MM-DD');
+        diary_end   = end.format('YYYY-MM-DD');
     });
 });
