@@ -91,14 +91,11 @@ public class SearchCondition {
 
     // 이원정
     public void getAdminParam(UriComponentsBuilder builder){
-
         if(searchIsEnabled != null || searchLevel != null || searchType != null){
             builder.queryParam("searchIsEnabled", searchIsEnabled)
                     .queryParam("searchLevel", searchLevel)
                     .queryParam("searchType", searchType);
         }
-
-
     }
 
     public void getProductParam(UriComponentsBuilder builder){

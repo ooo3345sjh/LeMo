@@ -1,27 +1,24 @@
 package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.AdminDAO;
-import kr.co.Lemo.domain.CsVO;
+import kr.co.Lemo.domain.CouponVO;
 import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.repository.AdminRepo;
 import kr.co.Lemo.utils.PageHandler;
 import kr.co.Lemo.utils.SearchCondition;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class AdminService {
 
-    @Autowired
     private AdminDAO dao;
-
-    @Autowired
     private AdminRepo repo;
 
     /**
@@ -47,29 +44,33 @@ public class AdminService {
     }
 
     /**
-     * 관리자 회원 - 메모 입력
-     * @param memo
-     * @param user_id
-     */
-    public int updateMemo(String memo, String user_id) {
-        return  dao.updateMemo(memo, user_id);
+     * 관리자 쿠폰 - 쿠폰 등록
+     * @since 23/03/11
+     * @param vo
+    * */
+    public void rsaveCupon(CouponVO vo) throws Exception {
+        dao.insertCupon(vo);
     }
+
+
+    /**
+     * 관리자 회원 - 메모 입력
+     *  @param memo
+     *  @param user_id
+     */
+    public int updateMemo(String memo, String user_id) { return dao.updateMemo(memo, user_id); }
 
     /**
      * 관리자 회원 - 회원 차단
      * @param user_id
      */
-    public int updateIsLocked(String user_id) {
-        return  dao.updateIsLocked(user_id);
-    }
+    public int updateIsLocked(String user_id) { return dao.updateIsLocked(user_id); }
 
     /**
      * 관리자 회원 - 회원 삭제
      * @param user_id
      */
-    public int updateIsEnabled(String user_id){
-        return dao.updateIsEnabled(user_id);
-    }
+    public int updateIsEnabled(String user_id){ return dao.updateIsEnabled(user_id); }
 
 
 
