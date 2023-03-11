@@ -9,13 +9,14 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @since 2023/03/07
@@ -120,30 +121,16 @@ public class MyController {
         return "my/diary/write";
     }
 
-    // @since 2023/03/10
+    // @since 2023/03/10 @apiNote @RequestPart는 multipart/form-data에 특화된 어노테이션
+    @ResponseBody
     @PostMapping("diary/rsave")
-    public String diary_rsave(ArticleDiaryVO adVO, DiarySpotVO dsVO, HttpServletRequest req) {
-        adVO.setArti_regip(req.getRemoteAddr());
+    public String diary_rsave(
+            @RequestPart(value = "key") Map<String, Object> param,
+            @RequestPart(value = "file", required = false) List<MultipartFile> fileList,
+            HttpServletRequest req
+    ) throws Exception {
+        service.diary_rsave(param, fileList, req);
 
-        service.diary_rsave(adVO, dsVO);
-
-        log.debug(dsVO.getSpot_content().replace(",","/"));
-        String[] content = dsVO.getSpot_content().split(",");
-        for(int i = 0; i < content.length; i++){
-            log.debug("content " + content[i]);
-        }
-        log.debug(""+dsVO.getSpot_lattitude().replace(",","/"));
-
-        String[] lat = dsVO.getSpot_lattitude().split(",");
-        for(int i = 0; i < lat.length; i++){
-            log.debug("lat " + lat[i]);
-        }
-        log.debug(""+dsVO.getSpot_longtitude().replace(",","/"));
-
-        String[] lng = dsVO.getSpot_lattitude().split(",");
-        for(int i = 0; i < lng.length; i++){
-            log.debug("lng " + lng[i]);
-        }
 
         return "redirect:/my/diary/write";
     }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.Id;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ArticleDiaryVO {
+
     private int arti_no;
     private int res_no;
     private String arti_title;
