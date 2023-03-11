@@ -70,8 +70,22 @@ main .sidebar > .sidebar_logo {
     margin: 20px;
     padding-bottom: 20px;
     padding-left: 20px;
-
     display: flex;
+}
+main .welcome {
+    margin: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    display: flex;
+    font-size: 14px;
+    font-weight: 500;
+    color: #252525;
+}
+main .welcome > i {
+    font-size: 14px;
+    font-weight: 300;
+    color: #565963;
+    font-style: normal;
 }
 main .sidebar > .sidebar_logo img {
     height: 60px;

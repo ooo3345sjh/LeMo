@@ -1604,6 +1604,7 @@ main .d_box > textarea {
     margin-bottom: 10px;
     font-size: 15px;
     border: none;
+    resize: none;
 }
 
 /* 타임라인 */

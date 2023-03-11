@@ -9,6 +9,10 @@
                 <div class="logo">LEMO</div>
             </a>
         </div>
+        <div class="welcome">홍길동 <i>님, 반갑습니다.</i></div>
+        <th:block sec:authorize="isAuthenticated()">
+            <!--<div class="welcome">[[${#authentication.principal.user.uid}]]</div>-->
+        </th:block>
         <ul class="sidebar_menu">
             <!-- 사이드 메뉴 item1 -->
             <li>
@@ -40,7 +44,7 @@
                         <a href="#">객실관리</a>
                     </li>
                     <li>
-                        <a href="#">쿠폰등록</a>
+                        <a th:href="@{/admin/coupon/manageCoupon}">쿠폰관리</a>
                     </li>
                     <li>
                         <a href="#">등록리뷰</a>
@@ -75,7 +79,7 @@
             </li>
             <!-- 사이드 메뉴 item5 -->
             <li>
-                <a class="sidebar_arrow" href="#">
+                <a class="sidebar_arrow" th:href="@{/admin/user}">
                     <div class="icon_menu">
                         <img th:src="@{/images/admin/profile.gif}">
                     </div>

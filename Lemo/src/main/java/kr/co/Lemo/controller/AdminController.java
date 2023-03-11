@@ -1,5 +1,6 @@
 package kr.co.Lemo.controller;
 
+import kr.co.Lemo.domain.CouponVO;
 import kr.co.Lemo.domain.CsVO;
 import kr.co.Lemo.repository.AdminRepo;
 import kr.co.Lemo.service.AdminService;
@@ -62,45 +63,41 @@ public class AdminController {
         return "admin/user";
     }
 
-    // @since 2023/03/09
+    // @since 2023/03/09 관리자 회원 메모 작성
     @ResponseBody
     @PostMapping("updateMemo")
     public Map<String, Integer> updateMemo(@RequestBody Map map) throws Exception {
-
-        log.debug("POST updateMemo");
+        log.warn(map.toString());
 
         String user_id = (String) map.get("user_id");
         String memo = (String) map.get("memo");
 
         int result = service.updateMemo(memo, user_id);
 
-
         Map resultMap = new HashMap<>();
         resultMap.put("result", result);
-
-        log.warn("here4");
 
         return resultMap;
     }
 
-    // @since 2023/03/10
+    // @since 2023/03/10 관리자 회원 차단
     @ResponseBody
     @PostMapping("updateIsLocked")
-    public Map<String, Integer> updateIsLocked(String user_id) throws Exception {
-
+    public Map<String, Integer> updateIsLocked(@RequestBody Map map) throws Exception {
+        String user_id = (String) map.get("user_id");
         int result = service.updateIsLocked(user_id);
 
         Map<String, Integer> resultMap = new HashMap<>();
         resultMap.put("result", result);
 
         return resultMap;
-
     }
 
     // @since 2023/03/10
     @ResponseBody
     @PostMapping("updateIsEnabled")
-    public Map<String, Integer> updateIsEnabled(String user_id) throws Exception {
+    public Map<String, Integer> updateIsEnabled(@RequestBody Map map) throws Exception {
+        String user_id = (String) map.get("user_id");
         int result = service.updateIsEnabled(user_id);
 
         Map<String, Integer> resultMap = new HashMap<>();
@@ -110,9 +107,28 @@ public class AdminController {
     }
 
 
+
     @GetMapping("coupon/insertCoupon")
     public String insertCoupon() {
         return "admin/coupon/insertCoupon";
+    }
+
+    @PostMapping("coupon/insertCoupon")
+    public String rsaveCupon(CouponVO vo) throws Exception {
+
+        String user_id = "0hotelthem1@gmail.com";
+
+        log.warn("쿠폰명 :" + vo.getCp_subject());
+        log.warn("쿠폰그룹 :" + vo.getCp_group());
+        log.warn("쿠폰타입 :" + vo.getCp_type());
+        log.warn("할인율 :" + vo.getCp_rate());
+        log.warn("할인타입 :" + vo.getCp_disType());
+        log.warn("발급수 :" + vo.getCp_limitedIssuance());
+        log.warn("min: "+ vo.getCp_minimum());
+        log.warn("max: "+ vo.getCp_maximum());
+
+        //service.rsaveCupon(vo);
+        return "redirect:/admin/insertCoupon";
     }
 
     @GetMapping("coupon/manageCoupon")
