@@ -32,8 +32,10 @@ public class ArticleDiaryVO {
     private String arti_regip;
     private String arti_start;
     private String arti_end;
+    private String user_id;
 
     // 추가
-    // @since 2023/03/10
-    private List<MultipartFile> thumb;
+
+    // @since 2023/03/12
+    private List<DiarySpotVO> spotVO;
 }
