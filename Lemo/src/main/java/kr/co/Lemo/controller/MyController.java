@@ -36,51 +36,54 @@ public class MyController {
     private String diaryGroup = "title.diary";
     private final MyService service;
 
-    // @since 2023/03/07
-    @GetMapping("coupon")
-    public String coupon(Model m){
+    // @since 2023/03/12
+    @GetMapping("{myCate}")
+    public String myCate(
+            @PathVariable String myCate,
+            Model m
+    ) {
+        log.debug("GET " + myCate + " start");
         m.addAttribute("title", environment.getProperty(myGroup));
-        return "my/coupon";
-    }
 
-    // @since 2023/03/07
-    @GetMapping("info")
-    public String info(Model m){
-        m.addAttribute("title", environment.getProperty(myGroup));
+
+        String uid = "test";
+
+        switch (myCate) {
+            case "coupon" :
+                m.addAttribute("cate", "coupon");
+
+                return "my/coupon";
+            case "info" :
+                m.addAttribute("cate", "info");
+
+                return "my/info";
+            case "pick" :
+                m.addAttribute("cate", "pick");
+
+                return "my/pick";
+            case "point" :
+                m.addAttribute("cate", "point");
+
+                return "my/point";
+            case "reservation" :
+                m.addAttribute("cate", "reservation");
+
+                return "my/reservation";
+            case "view" :
+                m.addAttribute("cate", "view");
+
+                return "my/view";
+        }
+
         return "my/info";
-    }
-    // @since 2023/03/07
-    @GetMapping("pick")
-    public String pick(Model m){
-        m.addAttribute("title", environment.getProperty(myGroup));
-        return "my/pick";
-    }
-
-    // @since 2023/03/07
-    @GetMapping("point")
-    public String point(Model m) {
-        m.addAttribute("title", environment.getProperty(myGroup));
-        return "my/point";
-    }
-
-    // @since 2023/03/08
-    @GetMapping("reservation")
-    public String reservation(Model m) {
-        m.addAttribute("title", environment.getProperty(myGroup));
-        return "my/reservation";
-    }
-
-    // @since 2023/03/08
-    @GetMapping("view")
-    public String view(Model m) {
-        m.addAttribute("title", environment.getProperty(myGroup));
-        return "my/view";
     }
 
     // @since 2023/03/08
     @GetMapping("review/list")
     public  String reviewList(Model m) {
         m.addAttribute("title", environment.getProperty(myGroup));
+        m.addAttribute("cate", "review");
+
         return "my/review/list";
     }
 
@@ -88,6 +91,8 @@ public class MyController {
     @GetMapping("review/modify")
     public String reviewModify(Model m) {
         m.addAttribute("title", environment.getProperty(myGroup));
+        m.addAttribute("cate", "review");
+
         return "my/review/modify";
     }
 
@@ -95,6 +100,8 @@ public class MyController {
     @GetMapping("review/view")
     public String reviewView(Model m) {
         m.addAttribute("title", environment.getProperty(myGroup));
+        m.addAttribute("cate", "review");
+
         return "my/review/view";
     }
 
@@ -102,13 +109,18 @@ public class MyController {
     @GetMapping("review/write")
     public String reviewWrite(Model m) {
         m.addAttribute("title", environment.getProperty(myGroup));
+        m.addAttribute("cate", "review");
+
         return  "my/review/write";
     }
 
     // @since 2023/03/08
     @GetMapping("diary/list")
     public String diary_list(Model m) {
+        log.debug("GET diary/list start");
         m.addAttribute("title", environment.getProperty(diaryGroup));
+        m.addAttribute("cate", "diary");
+
         return "my/diary/list";
     }
 
@@ -116,6 +128,7 @@ public class MyController {
     @GetMapping("diary/write")
     public String diary_write(Model m) {
         log.debug("GET diary/write start");
+        m.addAttribute("cate", "diary");
 
         m.addAttribute("title", environment.getProperty(diaryGroup));
         return "my/diary/write";
@@ -132,10 +145,12 @@ public class MyController {
             @RequestPart(value = "file", required = false) List<MultipartFile> fileList,
             HttpServletRequest req
     ) throws Exception {
+        log.debug("POST diary/rsave start");
+
         service.diary_rsave(param, fileList, req);
 
 
-        return "redirect:/my/diary/write";
+        return "redirect:/my/diary/list";
     }
 
     // @since 2023/03/09

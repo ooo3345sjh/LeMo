@@ -17,32 +17,7 @@
     <th:block layout:fragment="content">
             <main>
                 <section id="my">
-                    <nav class="category">
-                        <span>마이페이지</span>
-                        <ul>
-                            <li>
-                                <a th:href="@{#}">내정보</a>
-                            </li>
-                            <li>
-                                <a th:href="@{#}">포인트</a>
-                            </li>
-                            <li>
-                                <a th:href="@{#}">쿠폰함</a>
-                            </li>
-                            <li>
-                                <a th:href="@{#}">예약내역</a>
-                            </li>
-                            <li>
-                                <a th:href="@{#}">나의 찜</a>
-                            </li>
-                            <li>
-                                <a th:href="@{#}">나의 여행일기</a>
-                            </li>
-                            <li>
-                                <a th:href="@{#}" class="on">나의 리뷰</a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <th:block th:replace="~{fragments/_aside::myAside}"></th:block>
                     <div class="content">
                         <!-- 카테고리 -->
                         <div class="tab">

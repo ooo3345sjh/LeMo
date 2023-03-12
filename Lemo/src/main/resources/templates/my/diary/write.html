@@ -231,7 +231,7 @@
                     // #F7 : 마커를 지울때 발생하는 경고 함수
                     function removeAlert(marker, place) {
                         Swal.fire({
-                          title: '지도에서 지우시면 작성 하시던 일기도 지워집니다.<br> 지우시겠습니까?',
+                          html: '<p style="font-size:20px; font-weight:bold;">지도에서 지우시면 <br>작성 하시던 일기도 지워집니다. <br>지우시겠습니까?</p>',
                           icon: 'warning',
                           showCancelButton: true,
                           confirmButtonColor: '#3085d6',
@@ -256,6 +256,16 @@
 
                             $('.place_D'+place).remove();
                           }
+                        })
+                    }
+
+                    // #F8 : 경고창
+                    function sweetAlert(title, content) {
+                        Swal.fire({
+                            title : title,
+                            html : '<p style="font-size:20px; font-weight:bold;">'+ content +'</p>',
+                            icon : 'info',
+                            confirmButtonText : '확인'
                         })
                     }
 
@@ -361,31 +371,31 @@
                         e.preventDefault();
 
                         //FormData 새로운 객체 생성
-                        var formData = new FormData();
+                        let formData = new FormData();
 
-                        let provinceName;
-
-                        let submitContent = [];
-                        $('textarea[name=spot_content]').each(function(){
-                            submitContent.push($(this).val());
-                        });
-
-                        // input class 값
-                        var fileInput = $('.ex_file');
+                        // file 가져오기
+                        let fileInput = $('.ex_file');
+                        let fileCount = 0;
                         // fileInput 개수를 구한다.
                         for (var i = 0; i < fileInput.length; i++) {
                             if (fileInput[i].files.length > 0) {
                                 for (var j = 0; j < fileInput[i].files.length; j++) {
-                                    console.log(" fileInput[i].files[j] :::"+ fileInput[i].files[j]);
-
                                     // formData에 'file'이라는 키값으로 fileInput 값을 append 시킨다.
                                     formData.append('file', fileInput[i].files[j]);
+                                    fileCount += 1;
                                 }
                             }
                         }
 
+                        let submitContent = [];
                         let submitLat = [];
                         let submitLng = [];
+
+                        // content 가져오기
+                        $('textarea[name=spot_content]').each(function(){
+                            if($(this).val()){ submitContent.push($(this).val()); }
+                        });
+
                         // Lat, Lng 값 가져오기
                         for(var i=0; i<markers.length; i++){
                             submitLat.push(markers[i].getPosition().getLat());
@@ -395,9 +405,6 @@
                         let formContent = submitContent.join('/');
                         let formLat = submitLat.join('/');
                         let formLng =  submitLng.join('/');
-                        console.log(formContent);
-                        console.log(formLat);
-                        console.log(formLng);
 
                         let jsonData = {
                             diaryTitle   : $('input[name=arti_title]').val(),
@@ -410,7 +417,21 @@
 
                         formData.append('key', new Blob([ JSON.stringify(jsonData) ], {type : "application/json"}));
 
-                        // ajax 처리 부분 *
+                        if(!$('input[name=arti_title]').val()) {
+                            sweetAlert('안내', '제목을 작성해주세요.!');
+                            return;
+                        }else if(markers.length == 0) {
+                            sweetAlert('안내', '일기를 작성해주세요.!');
+                            return;
+                        }else if(markers.length != submitContent.length) {
+                            sweetAlert('안내', '내용을 입력하지 않으신 <br>여행일기가 있습니다.!');
+                            return;
+                        }else if(markers.length != fileCount) {
+                            sweetAlert('안내', '사진을 입력하지 않으신 <br>여행일기가 있습니다.!');
+                            return;
+                        }
+
+                        // ajax 처리 부분
                         $.ajax({
                             url: '/Lemo/my/diary/rsave',
                             method: 'POST',

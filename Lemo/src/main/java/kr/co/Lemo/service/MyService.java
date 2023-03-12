@@ -5,13 +5,19 @@ import kr.co.Lemo.domain.ArticleDiaryVO;
 import kr.co.Lemo.domain.DiarySpotVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @since 2023/03/10
@@ -33,42 +39,46 @@ public class MyService {
             List<MultipartFile> fileList,
             HttpServletRequest req
     ) {
-        log.info(""+param.get("diaryContent"));
-        log.info(""+param.get("diaryLat"));
-        log.info(""+param.get("diaryLng"));
+        // 파일 이름 수정 -> 이걸 먼저하는 이유는
+        // 파일 업로드 시 경로는 img/diary/arti_no/파일 이름 이고
+        // arti_no를 얻기 위해선 먼저 diary_article에 데이터를 입력해줘야됨
+        // 따라서 먼저 이름을 수정함
+        // 만약 파일 경로를 arti_no로 안한다면 fileUpload 함수에 포함시켜 한번에 처리할 수 있음
+        List<String> fileRenames = new ArrayList<>();
 
-        String oriName = fileList.get(0).getOriginalFilename();
-        if(fileList.size() > 1) {
-            for (int i = 1; i<fileList.size(); i++) {
-                oriName += "/" + fileList.get(i).getOriginalFilename();
-            }
+        for(MultipartFile mf : fileList){
+            String oriName = mf.getOriginalFilename();
+            String ext = oriName.substring(oriName.indexOf("."));
+            String newName = UUID.randomUUID().toString() + ext;
+            fileRenames.add(newName);
         }
 
+        String newName = String.join("/", fileRenames);
+
+        // diary_article 입력 데이터 분류
         ArticleDiaryVO diaryVO = ArticleDiaryVO.builder()
                                 .res_no(123123)
                                 .arti_title((String) param.get("diaryTitle"))
-                                .arti_thumb(oriName)
+                                .arti_thumb(newName)
                                 .arti_regip(req.getRemoteAddr())
                                 .arti_start((String) param.get("diaryStart"))
                                 .arti_end((String) param.get("diaryEnd"))
                                 .build();
-
-        log.info("" + diaryVO);
-
+        
+        // diary_article 테이블 입력
         dao.insertDiaryArticle(diaryVO);
-        int arti_no = diaryVO.getArti_no();
-        log.info("" + arti_no);
 
+        int arti_no = diaryVO.getArti_no();
+        
+        // 파일 업로드
+        fileUpload(fileList, fileRenames, arti_no);
+
+        // diary_spot 입력 데이터 분류
         String[] content = ((String) param.get("diaryContent")).split("/");
         String[] lat     = ((String) param.get("diaryLat")).split("/");
         String[] lng     = ((String) param.get("diaryLng")).split("/");
-        String[] images  = oriName.split("/");
+        String[] images  = newName.split("/");
         for(int i = 0; i<images.length; i++){
-            log.debug("#"+i);
-            log.debug(content[i]);
-            log.debug(lat[i]);
-            log.debug(lng[i]);
-            log.debug(images[i]);
             DiarySpotVO spotVO = DiarySpotVO.builder()
                                 .arti_no(arti_no)
                                 .spot_longtitude(lng[i])
@@ -78,12 +88,47 @@ public class MyService {
                                 .province_name("test")
                                 .spot_addr("test").build();
 
+            // diary_spot 테이블 입력
             dao.insertDiarySpot(spotVO);
         }
     }
 
-    public void fileUpload() {
 
+
+
+
+
+
+    // 기능
+
+    // @since 2023/03/12
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadPath;
+
+    // @since 2023/03/12
+    public void fileUpload(List<MultipartFile> fileList, List<String> fileRenames, int arti_no) {
+
+        String path = new File(uploadPath+"diary/"+arti_no).getAbsolutePath();
+
+        // 저장 폴더가 없다면 생성
+        File checkFolder = new File(path);
+        if(!checkFolder.exists()){
+            try {
+                Files.createDirectories(checkFolder.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int count = 0;
+        for(MultipartFile mf : fileList) {
+            try {
+                mf.transferTo(new File(path, fileRenames.get(count)));
+                count++;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
 }

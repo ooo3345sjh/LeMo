@@ -9,6 +9,25 @@
  -->
 <mapper namespace="kr.co.Lemo.dao.MyDAO">
 
+    <!-- select -->
+    <select id="selectPoint" resultType="kr.co.Lemo.domain.PointVO">
+        SELECT * FROM `lemo_member_point_log` WHERE `uid`= #{uid};
+    </select>
+
+    <select id="selectReservation" resultType="kr.co.Lemo.domain.ReservationVO">
+        SELECT * FROM `lemo_product_reservation` WHERE `uid`= #{uid};
+    </select>
+
+    <select id="selectCoupon" resultType="kr.co.Lemo.domain.ReservationVO">
+        SELECT * FROM `lemo_member_coupon` AS a JOIN
+        `lemo_member_coupon_log` AS b on a.`mcp_id` = b.`mcp_id` WHERE `uid`=#{uid};
+    </select>
+
+    <select id="selectPick" resultType="kr.co.Lemo.domain.ReservationVO">
+        SELECT * FROM `lemo_product_pick` AS a JOIN
+        `lemo_product_accommodation` AS b on a.`acc_id` = b.`acc_id` WHERE `uid`=#{uid};
+    </select>
+
     <!-- insert -->
     <insert id="insertDiaryArticle" parameterType="kr.co.Lemo.domain.ArticleDiaryVO" useGeneratedKeys="true" keyProperty="arti_no">
         INSERT INTO `lemo_diary_article` SET
@@ -32,8 +51,6 @@
             `province_name` = #{province_name},
             `spot_addr` = #{spot_addr}
     </insert>
-    <!-- select -->
-
 
     <!-- update -->
 
