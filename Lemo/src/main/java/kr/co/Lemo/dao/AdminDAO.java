@@ -16,17 +16,34 @@ import java.util.List;
 @Repository
 @Mapper
 public interface AdminDAO {
-    // select
+    // @since 2023/03/09
     public List<UserVO> selectUser(SearchCondition sc);
+
+    // @since 2023/03/09
     public int countUser(SearchCondition sc);
 
-    // insert
+    // @since 2023/03/12
+    public List<CouponVO> selectCoupon(SearchCondition sc);
+
+    // @since 2023/03/12
+    public int countCoupon(SearchCondition sc);
+
+    // @since 2023/03/12
+    public List<CouponVO> selectAccOwned(String user_id);
+
+    // @since 2023/03/11
     public void insertCupon(CouponVO vo);
 
-    // update
+    // @since 2023/03/10
     public int updateMemo(@Param("memo") String memo, @Param("user_id") String user_id);
+
+    // @since 2023/03/10
     public int updateIsLocked(@Param("user_id") String user_id);
+
+    // @since 2023/03/10
     public int updateIsEnabled(@Param("user_id") String user_id);
 
-    // delete
+    // @since 2023/03/12
+    public int deleteCoupon(@Param("cp_id") String cp_id);
+
 }

@@ -23,6 +23,8 @@ public class SearchCondition {
     private Integer searchIsEnabled;
     private Integer searchLevel;
     private Integer searchType;
+    private String searchCouponRole;
+
 
     public String getQueryString(Integer page){
         // ?page=1&pageSize=10&option="T"&keyword="title"
@@ -45,8 +47,6 @@ public class SearchCondition {
 
         sortGroup(group, builder);
 
-        //getAdminParam(builder);
-
         return builder.toUriString();
     }
 
@@ -65,6 +65,9 @@ public class SearchCondition {
                 break;
             case "diary":
                 getDiaryParam(builder);
+                break;
+            case "adminCoupon":
+                getAdminCouponParam(builder);
                 break;
         }
     }
@@ -91,10 +94,20 @@ public class SearchCondition {
 
     // 이원정
     public void getAdminParam(UriComponentsBuilder builder){
-        if(searchIsEnabled != null || searchLevel != null || searchType != null){
-            builder.queryParam("searchIsEnabled", searchIsEnabled)
-                    .queryParam("searchLevel", searchLevel)
-                    .queryParam("searchType", searchType);
+        if(searchIsEnabled != null){
+            builder.queryParam("searchIsEnabled", searchIsEnabled);
+        }else if(searchLevel != null){
+            builder.queryParam("searchLevel", searchLevel);
+        }else if(searchType != null){
+            builder.queryParam("searchType", searchType);
+        }else if(searchCouponRole != null){
+            builder.queryParam("searchCouponRole", searchCouponRole);
+        }
+    }
+
+    public void getAdminCouponParam(UriComponentsBuilder builder){
+        if(searchCouponRole != null){
+            builder.queryParam("searchCouponRole", searchCouponRole);
         }
     }
 

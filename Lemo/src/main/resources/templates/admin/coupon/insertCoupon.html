@@ -8,6 +8,8 @@
     <script th:src="@{/js/admin/selectOption.js}"></script>
     <script>
     $(document).ready(function() {
+
+        // 할인율(0~100), 할인금액(0~) 범위 제한
         const discountRadio = $('.discount');
         const discountPriceRadio = $('.discountPrice');
         const saleOptionInput = $('.insertSaleOption');
@@ -36,6 +38,7 @@
             }
         });
 
+        // 할인율/할인가 체크에 따라 input name 변경
         $('.discount, .discountPrice').on('change', function() {
             if ($('.discount').is(':checked')) {
                 $('.insertSaleOption').attr('name', 'cp_rate');
@@ -44,8 +47,63 @@
             }
         });
 
+        // 배포일 날짜 제한 (오늘 기준 이전 날짜 선택 불가)
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("cp_start").setAttribute('min', today);
+        document.getElementById("cp_end").setAttribute('min', today);
+
+        $('#cp_start').on('change', function() {
+            var selectedDate = new Date($(this).val());
+            var minDate = new Date($(this).attr('min'));
+
+            if (selectedDate < minDate) {
+                $(this).val($(this).attr('min'));
+            }
+        });
+
+        $('#cp_end').on('change', function() {
+            var selectedDate = new Date($(this).val());
+            var minDate = new Date($(this).attr('min'));
+
+            if (selectedDate < minDate) {
+                $(this).val($(this).attr('min'));
+            }
+        });
+
+        // 발급 수량 제한
+        var input = document.getElementsByClassName("insertSaleCount")[0];
+        input.addEventListener("keydown", function(event) {
+            if (event.key === '-' || event.key === '+') {
+                event.preventDefault();
+            }
+        });
+        input.addEventListener("input", function(event) {
+            if (input.value < 0) {
+                input.value = 0;
+            }
+        });
+
+        // 이용가능 일수 제한 + 금액 조건 제한 (최소, 최대 주문 금액)
+        var inputs = document.querySelectorAll(".input_100");
+        inputs.forEach(function(input) {
+            input.addEventListener("keydown", function(event) {
+                if (event.key === '-' || event.key === '+') {
+                    event.preventDefault();
+                }
+            });
+            input.addEventListener("input", function(event) {
+                if (input.value < 0) {
+                    input.value = 0;
+                }
+            });
+            input.setAttribute("min", 0);
+        });
+
+
 
     });
+
+
 
 
     </script>
@@ -71,6 +129,9 @@
                                 <div class="stayName">
                                     <div>
                                         <span>쿠폰등록</span>
+                                        <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                                            <p th:text="${successMessage}"></p>
+                                        </div>
                                     </div>
                                 </div>
                                 <table class="input_stayRoomInfo">
@@ -113,7 +174,7 @@
                                     <tr>
                                         <td>발급 수량</td>
                                         <td>
-                                            <input name="cp_limitedIssuance" class="insertSaleCount" type="number" placeholder="쿠폰 발급 수량 작성" value="cp_limitedIssuance">
+                                            <input name="cp_limitedIssuance" class="insertSaleCount" type="number" min="0" value="cp_limitedIssuance" placeholder="쿠폰 발급 수량 작성">
                                             <div class="selectSaleLimit">
                                                 <input type="radio" name="sales_option" value="">수량제한없음
                                             </div>
@@ -129,9 +190,9 @@
                                     <tr>
                                         <td>배포일</td>
                                         <td>
-                                            <input name="cp_start" class="input_130" type="date" value="cp_start">
+                                            <input name="cp_start" id="cp_start" class="input_130" type="date" value="cp_start" min="">
                                             &nbsp;~&nbsp;
-                                            <input name="cp_end" class="input_130" type="date" value="cp_end">
+                                            <input name="cp_end" id="cp_end" class="input_130" type="date" value="cp_end" min="">
                                         </td>
                                     </tr>
                                     <tr>
@@ -151,6 +212,8 @@
                 </div>
             </section>
         </div>
+
+
     </main>
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
