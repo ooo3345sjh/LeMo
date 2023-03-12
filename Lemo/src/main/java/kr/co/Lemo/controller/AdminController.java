@@ -8,13 +8,17 @@ import kr.co.Lemo.service.CsService;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -107,16 +111,15 @@ public class AdminController {
     }
 
 
-
+    // @since 2023/03/11
     @GetMapping("coupon/insertCoupon")
     public String insertCoupon() {
         return "admin/coupon/insertCoupon";
     }
 
+    // @since 2023/03/12
     @PostMapping("coupon/insertCoupon")
-    public String rsaveCupon(CouponVO vo) throws Exception {
-
-        String user_id = "0hotelthem1@gmail.com";
+    public String rsaveCupon(CouponVO vo, RedirectAttributes redirectAttributes) throws Exception {
 
         log.warn("쿠폰명 :" + vo.getCp_subject());
         log.warn("쿠폰적용그룹 :" + vo.getCp_group());
@@ -130,13 +133,59 @@ public class AdminController {
         log.warn("배포시작일: "+vo.getCp_end());
         log.warn("이용가능일수:" + vo.getCp_daysAvailable());
 
-        //service.rsaveCupon(vo);
+        service.rsaveCupon(vo);
+        redirectAttributes.addFlashAttribute("successMessage", "쿠폰이 등록되었습니다.");
         return "redirect:/admin/coupon/insertCoupon";
     }
 
     @GetMapping("coupon/manageCoupon")
-    public String manageCoupon() {
+    public String manageCoupon(Model model, SearchCondition sc) {
+        log.warn("GET manage Coupon...");
+        sc.setGroup("adminCoupon");
+
+        service.selectCoupon(model, sc);
+
         return "admin/coupon/manageCoupon";
+    }
+
+    /*
+    @GetMapping("coupon/findAccOwned")
+    public String findAccOwned(String user_id, Model model){
+        List<CouponVO> accs = service.findAccOwned(user_id);
+        model.addAttribute("accs", accs);
+
+        return "redirect:/admin/coupon/manageCoupon";
+    }
+     */
+
+    @GetMapping("coupon/findAccOwned")
+    public ResponseEntity<List<String>> findAccOwned(String user_id) {
+
+        log.warn("GET findAccOwned...");
+
+        // stream().map().collect(): 이름들만 모아서 새로운 String 리스트를 만들어 낸다
+        List<String> accs = service.findAccOwned(user_id).stream().map(CouponVO::getAcc_name).collect(Collectors.toList());
+        return ResponseEntity.ok(accs);
+    }
+
+
+
+    @ResponseBody
+    @PostMapping("coupon/removeCoupon")
+    public Map<String, Integer> removeCoupon(@RequestBody Map map) throws Exception {
+
+        String cp_id = (String) map.get("cp_id");
+
+        log.warn("GET remove Coupon");
+
+        int result = service.removeCoupon(cp_id);
+
+        log.warn("after service : " + result);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
     }
 
 
@@ -165,10 +214,7 @@ public class AdminController {
     }
 
     @GetMapping("cs/event/write")
-    public String event_write(CsVO vo){
-
-        return "admin/cs/event/write";
-    }
+    public String event_write(CsVO vo){ return "admin/cs/event/write"; }
 
 
     @GetMapping("cs/faq/list")

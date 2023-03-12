@@ -46,4 +46,7 @@ public class CouponVO {
     private int res_no;
     private int dis_price;
     private String cl_datetime;
+
+    // add
+    private String acc_name;
 }

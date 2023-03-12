@@ -43,8 +43,6 @@ function optionChange(){
         }
     }
 
-
-
 }
 
 

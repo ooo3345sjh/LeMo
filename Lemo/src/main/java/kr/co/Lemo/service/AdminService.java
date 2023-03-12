@@ -23,6 +23,7 @@ public class AdminService {
 
     /**
      * 관리자 회원 - 회원 목록
+     * @since 2023/03/09
      * @param model
      * @param sc
      */
@@ -33,7 +34,7 @@ public class AdminService {
 
         PageHandler pageHandler = new PageHandler(totalCnt, sc); // 페이징 처리
 
-        log.info("here: "+sc.toString());
+        log.info("select User Service: "+sc.toString());
 
         List<UserVO> users = dao.selectUser(sc);
 
@@ -44,8 +45,46 @@ public class AdminService {
     }
 
     /**
+     * 관리자 쿠폰 - 쿠폰 목록
+     * @since 2023/03/12
+     * @param model
+     * @param sc
+     */
+    public List<CouponVO> selectCoupon(Model model, SearchCondition sc){
+        int totalCnt = dao.countCoupon(sc);
+        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        //log.info("select Coupon Service: " + sc.toString());
+
+        List<CouponVO> coupons = dao.selectCoupon(sc);
+
+        //log.info("Selected coupons: " + coupons.toString());
+
+        model.addAttribute("coupons", coupons);
+        model.addAttribute("ph", pageHandler);
+
+        return coupons;
+    }
+
+    /**
+     * 관리자 쿠폰 - 쿠폰 목록 소유 숙소 선택
+     * @since 2023/03/12
+     * @param user_id
+     */
+    public List<CouponVO> findAccOwned(String user_id){
+
+        log.warn("service findAccOwned");
+
+        return dao.selectAccOwned(user_id);
+    }
+
+
+    /**
      * 관리자 쿠폰 - 쿠폰 등록
-     * @since 23/03/11
+     * @since 2023/03/11
      * @param vo
     * */
     public void rsaveCupon(CouponVO vo) throws Exception {
@@ -55,24 +94,36 @@ public class AdminService {
 
     /**
      * 관리자 회원 - 메모 입력
-     *  @param memo
-     *  @param user_id
+     * @since 2023/03/10
+     * @param memo
+     * @param user_id
      */
     public int updateMemo(String memo, String user_id) { return dao.updateMemo(memo, user_id); }
 
     /**
      * 관리자 회원 - 회원 차단
+     * @since 2023/03/10
      * @param user_id
      */
     public int updateIsLocked(String user_id) { return dao.updateIsLocked(user_id); }
 
     /**
      * 관리자 회원 - 회원 삭제
+     * @since 2023/03/10
      * @param user_id
      */
     public int updateIsEnabled(String user_id){ return dao.updateIsEnabled(user_id); }
 
+    /**
+     * 관리자 쿠폰 - 쿠폰 삭제
+     * @param cp_id
+     */
+    public int removeCoupon(String cp_id){
 
+        log.warn("here4 service");
+
+        return dao.deleteCoupon(cp_id);
+    }
 
 
 
