@@ -86,8 +86,8 @@
                                         <li>가입일</li>
                                         <li>비고</li>
                                     </ul>
-                                    <ul th:each="user:${users}">
-                                        <li>1</li>
+                                    <ul th:each="user,i:${users}">
+                                        <li>[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
                                         <li class="user_id" th:text="${user.user_id}">mango@gmail.com</li>
                                         <li class="user_nick" th:text="${user.nick}">고민중인흰둥이</li>
                                         <li th:text="${user.isEnabled == 0 ? '탈퇴' : (user.isLocked == 0 ? '차단' : '정상')}" th:class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}"></li>
@@ -105,7 +105,7 @@
                                                             <input type="text" class="d_id">
                                                         </nav>
                                                         <div class="d_box">
-                                                            <textarea class="d_content" placeholder="메모 내용을 작성하세요"></textarea>
+                                                            <textarea class="d_content" placeholder="메모 내용을 작성하세요" th:text="${user.memo}"></textarea>
                                                         </div>
                                                         <div class="rr_btn">
                                                             <button class="btnRclose" id="btnCloseModal2" value="close" type="reset">닫기</button>
@@ -152,12 +152,10 @@
         // 메모 팝업
         $(document).on('click', '.btnNote', function(e){
             e.preventDefault();
-            alert('here');
             $(this).next().show();
 
             let d_id = $(this).parent().closest('ul').find('.user_id').text();
             console.log('d_id: '+ d_id );
-
             $(this).next().find('.d_id').attr('value', d_id);
 
         });
@@ -199,18 +197,20 @@
             const jsonData = {
                 "user_id" : user_id,
                 "memo" : memo
-                }
+            };
 
-            console.log('here1');
+            console.log('here1 in html');
 
-            ajaxAPI("admin/updateMemo", jsonData, "POST").then((response)=> {
-                if(response.result > 0){
-                     alert('메모 작성이 완료되었습니다.');
-                    $(this).closest('li').find('#d_Memo').hide();
-                }
-            }).catch((errorMsg)=>{
+             ajaxAPI("admin/updateMemo", jsonData, "POST").then((response) => {
+                    if(response.result > 0) {
+                        alert('메모 작성이 완료되었습니다.');
+                        $(this).closest('li').find('#d_Memo').hide();
+                    } else {
+                        alert('error');
+                    }
+             }).catch((errorMsg) => {
                 console.log(errorMsg);
-            });
+             });
 
 
 
@@ -227,23 +227,43 @@
             if(!confirm("해당 회원을 차단하겠습니까?")){
                 alert('차단이 취소되었습니다.');
             }else{
-                const jsonData = {"user_id": user_id}
+                const jsonData = {"user_id": user_id};
 
-                $.ajax({
-                    url: "/Lemo/admin/updateIsLocked",
-                    type: "POST",
-                    data: jsonData,
-                    dataType: "json",
-                    success: (data)=>{
-                        if(data.result > 0){
+                ajaxAPI("admin/updateIsLocked", jsonData, "POST").then((response) => {
+                        if(response.result > 0) {
                             alert('해당 회원이 차단되었습니다.');
-                            $(this).closest('li').find('#d_Memo').hide();
-                        }else {
-                            alert('Error');
+                        } else {
+                            alert('error');
                         }
-                    }
+                }).catch((errorMsg) => {
+                    console.log(errorMsg);
                 });
+            }
+        });
 
+
+        // 회원 삭제
+        $('.btnDeleteUser').click(function(e){
+            e.preventDefault();
+            alert('click the delete button');
+
+            let user_id = $(this).parent().parent().find('.user_id').text();
+            console.log('user_id:' + user_id);
+
+            if(!confirm("해당 회원을 삭제하겠습니까?")){
+                alert('삭제가 취소되었습니다.');
+            }else{
+                const jsonData = {"user_id": user_id};
+
+                ajaxAPI("admin/updateIsEnabled", jsonData, "POST").then((response) => {
+                        if(response.result > 0) {
+                            alert('해당 회원이 삭제되었습니다.');
+                        } else {
+                            alert('error');
+                        }
+                }).catch((errorMsg) => {
+                    console.log(errorMsg);
+                });
             }
         });
 

@@ -9,13 +9,14 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @since 2023/03/07
@@ -35,51 +36,54 @@ public class MyController {
     private String diaryGroup = "title.diary";
     private final MyService service;
 
-    // @since 2023/03/07
-    @GetMapping("coupon")
-    public String coupon(Model m){
+    // @since 2023/03/12
+    @GetMapping("{myCate}")
+    public String myCate(
+            @PathVariable String myCate,
+            Model m
+    ) {
+        log.debug("GET " + myCate + " start");
         m.addAttribute("title", environment.getProperty(myGroup));
-        return "my/coupon";
-    }
 
-    // @since 2023/03/07
-    @GetMapping("info")
-    public String info(Model m){
-        m.addAttribute("title", environment.getProperty(myGroup));
+
+        String uid = "test";
+
+        switch (myCate) {
+            case "coupon" :
+                m.addAttribute("cate", "coupon");
+
+                return "my/coupon";
+            case "info" :
+                m.addAttribute("cate", "info");
+
+                return "my/info";
+            case "pick" :
+                m.addAttribute("cate", "pick");
+
+                return "my/pick";
+            case "point" :
+                m.addAttribute("cate", "point");
+
+                return "my/point";
+            case "reservation" :
+                m.addAttribute("cate", "reservation");
+
+                return "my/reservation";
+            case "view" :
+                m.addAttribute("cate", "view");
+
+                return "my/view";
+        }
+
         return "my/info";
-    }
-    // @since 2023/03/07
-    @GetMapping("pick")
-    public String pick(Model m){
-        m.addAttribute("title", environment.getProperty(myGroup));
-        return "my/pick";
-    }
-
-    // @since 2023/03/07
-    @GetMapping("point")
-    public String point(Model m) {
-        m.addAttribute("title", environment.getProperty(myGroup));
-        return "my/point";
-    }
-
-    // @since 2023/03/08
-    @GetMapping("reservation")
-    public String reservation(Model m) {
-        m.addAttribute("title", environment.getProperty(myGroup));
-        return "my/reservation";
-    }
-
-    // @since 2023/03/08
-    @GetMapping("view")
-    public String view(Model m) {
-        m.addAttribute("title", environment.getProperty(myGroup));
-        return "my/view";
     }
 
     // @since 2023/03/08
     @GetMapping("review/list")
     public  String reviewList(Model m) {
         m.addAttribute("title", environment.getProperty(myGroup));
+        m.addAttribute("cate", "review");
+
         return "my/review/list";
     }
 
@@ -87,6 +91,8 @@ public class MyController {
     @GetMapping("review/modify")
     public String reviewModify(Model m) {
         m.addAttribute("title", environment.getProperty(myGroup));
+        m.addAttribute("cate", "review");
+
         return "my/review/modify";
     }
 
@@ -94,6 +100,8 @@ public class MyController {
     @GetMapping("review/view")
     public String reviewView(Model m) {
         m.addAttribute("title", environment.getProperty(myGroup));
+        m.addAttribute("cate", "review");
+
         return "my/review/view";
     }
 
@@ -101,13 +109,18 @@ public class MyController {
     @GetMapping("review/write")
     public String reviewWrite(Model m) {
         m.addAttribute("title", environment.getProperty(myGroup));
+        m.addAttribute("cate", "review");
+
         return  "my/review/write";
     }
 
     // @since 2023/03/08
     @GetMapping("diary/list")
     public String diary_list(Model m) {
+        log.debug("GET diary/list start");
         m.addAttribute("title", environment.getProperty(diaryGroup));
+        m.addAttribute("cate", "diary");
+
         return "my/diary/list";
     }
 
@@ -115,37 +128,29 @@ public class MyController {
     @GetMapping("diary/write")
     public String diary_write(Model m) {
         log.debug("GET diary/write start");
+        m.addAttribute("cate", "diary");
 
         m.addAttribute("title", environment.getProperty(diaryGroup));
         return "my/diary/write";
     }
 
-    // @since 2023/03/10
+    /**
+     * @since 2023/03/10
+     * @apiNote @RequestPart는 multipart/form-data에 특화된 어노테이션
+     */
+    @ResponseBody
     @PostMapping("diary/rsave")
-    public String diary_rsave(ArticleDiaryVO adVO, DiarySpotVO dsVO, HttpServletRequest req) {
-        adVO.setArti_regip(req.getRemoteAddr());
+    public String diary_rsave(
+            @RequestPart(value = "key") Map<String, Object> param,
+            @RequestPart(value = "file", required = false) List<MultipartFile> fileList,
+            HttpServletRequest req
+    ) throws Exception {
+        log.debug("POST diary/rsave start");
 
-        service.diary_rsave(adVO, dsVO);
+        service.diary_rsave(param, fileList, req);
 
-        log.debug(dsVO.getSpot_content().replace(",","/"));
-        String[] content = dsVO.getSpot_content().split(",");
-        for(int i = 0; i < content.length; i++){
-            log.debug("content " + content[i]);
-        }
-        log.debug(""+dsVO.getSpot_lattitude().replace(",","/"));
 
-        String[] lat = dsVO.getSpot_lattitude().split(",");
-        for(int i = 0; i < lat.length; i++){
-            log.debug("lat " + lat[i]);
-        }
-        log.debug(""+dsVO.getSpot_longtitude().replace(",","/"));
-
-        String[] lng = dsVO.getSpot_lattitude().split(",");
-        for(int i = 0; i < lng.length; i++){
-            log.debug("lng " + lng[i]);
-        }
-
-        return "redirect:/my/diary/write";
+        return "redirect:/my/diary/list";
     }
 
     // @since 2023/03/09

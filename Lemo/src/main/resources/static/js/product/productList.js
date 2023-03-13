@@ -8,12 +8,12 @@ $(function(){
             type: "double",
             min: 0,
             max: 1000000,
-            from: 300000,
+            from: 0,
             to: 600000,
             postfix : '원',
             onFinish : function(data){
-                console.log(data.from);
-                console.log(data.to);
+                minPrice = data.from;
+                maxPrice = data.to;
             }
         });
     });
@@ -22,6 +22,12 @@ $(function(){
         $(this).removeClass('on');
     });
 
+
+    // 상품 페이지 내의 검색창 자동완성 호출
+    const autocomplete = new google.maps.places.Autocomplete(autocompleteProdInput, prodOption);
+    autocomplete.setComponentRestrictions({country: ["kr"]});
+
+
     // 검색 키워드를 지도 중심으로 설정
     setCenter(clat, clng);
 
@@ -29,7 +35,147 @@ $(function(){
     accs.forEach(function(acc, i){
         displayMarker(map, accs[i].acc_lattitude, accs[i].acc_longtitude);
     });
+
+
+    // 검색
+
+    // 편의시설 선택 갯수 제한
+    let maxcount = 5;
+
+    // 체크박스를 클릭할 때마다 실행될 함수
+    $('input[name="chk"]').on('click', function() {
+      // 현재 체크된 체크박스의 개수
+      let count = $('input[name="chk"]:checked').length;
+
+      // 체크된 체크박스의 개수가 제한 개수를 초과하면
+      if (count > maxcount) {
+        // 체크를 해제하고 이전 상태로 되돌림
+        $(this).prop('checked', false);
+        alert("편의시설은 최대 " + maxcount + "개까지 선택할 수 있습니다.");
+      }
+    });
+
+    // 검색 필터
+    $('input[name=search]').on('click', function(){
+
+        // 편의 시설
+        let services = [];
+        $('input[name=chk]:checked').each(function(){
+            services.push($(this).val());
+        });
+
+        // 숙소 유형
+        let accTypes = [];
+        $('input[name=chkAccType]:checked').each(function(){
+            accTypes.push($(this).val());
+        });
+
+
+        // 가격 조건
+//        urlParams.set('minPrice', minPrice);
+//        urlParams.set('maxPrice', maxPrice);
+//
+//        urlParams.set('accTypes', accTypes.join(','));
+//        urlParams.set('services', services.join(','));
+
+        setUrlParams('minPrice', minPrice);
+        setUrlParams('maxPrice', maxPrice);
+        setUrlParams('accTypes', accTypes.join(','));
+        setUrlParams('services', services.join(','));
+
+        goSearch();
+
+    });
+
+    // 정렬 선택
+    $('select[name=sort]').on('change', function(){
+        let sort = $(this).val();
+
+        // url 파라미터 설정 후 페이지 이동
+        setUrlParams('sort', sort);
+        goSearch();
+    });
+
+
+    // 검색 조건
+    $('.result').on('click', function(e){
+
+        e.preventDefault();
+
+
+
+
+        let headcount = $('input[name=numPeople]').val();
+        if(headcount > 0 ){setUrlParams('headcount', headcount)};
+
+        setUrlParams('checkIn', checkIn);
+        setUrlParams('checkOut', checkOut);
+        goSearch();
+
+    });
+
 });
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // 주소 파라미터값을 재설정
+    function setUrlParams(param, paramValue){
+
+        // 파라미터에 값이 없으면 파라미터 url에서 삭제
+        if(paramValue =="") {
+            urlParams.delete(param);
+            return false;
+        }
+
+        // url 파라미터를 설정
+        urlParams.set(param, paramValue);
+    }
+
+    // 새 url주소로 이동
+    function goSearch(){
+        const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+        window.location.replace(decodeURIComponent(newUrl));
+    }
+
+
+//        // AJAX API사용 예시
+//        ajaxAPI(newUrl, null, "get").then((response) => {
+//            // 전송 성공시 코드 작성
+//
+//            let responseText = xhr.responseText; // 서버에서 응답 데이터를 불러움
+//            let parser = new DOMParser();
+//            let newDoc = parser.parseFromString(responseText, 'text/html'); // HTML 파싱
+//            let newPaging = newDoc.querySelector('.content'); // 새로운 페이징 영역 추출
+//            let oldPaging = document.querySelector('.content'); // 현재 페이징 영역 추출
+//            oldPaging.innerHTML = newPaging.innerHTML;
+//            console.log(newPaging);
+//
+//        }).catch((errorMsg) => {
+//            // 전송 실패시 코드 작성
+//            alert('실패!');
+//        });
+
+//        $('.content').load(newUrl + ' .content', function() {
+//          console.log('load complete!');
+//
+//        });
+//
+
+
+    // 가격 조건
+    let minPrice = 0;
+    let maxPrice = 600000;
+
+    // 체크인/체크아웃
+    let checkIn = '';
+    let checkOut = '';
+
+    // 구글 자동완성 관련 변수
+    let prodLat;
+    let prodLng;
+    let autocompleteProdInput = document.querySelector('input[name=searchPlace]');
+    let prodOption = {fields: ["address_components", "formatted_address", "geometry", "icon", "name"]};
+
 
     /** 카카오 맵 */
     var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
@@ -85,3 +231,5 @@ $(function(){
 //    console.log('남서쪽 ' + swLatLng.getLng());
 //    console.log('북동쪽 ' + neLatLng.getLat());
 //    console.log('북동쪽 ' + neLatLng.getLng());
+
+

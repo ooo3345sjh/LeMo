@@ -5,6 +5,7 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminSubStyle.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <script th:src="@{/js/admin/selectOption.js}"></script>
 </th:block>
 <th:block layout:fragment="content">
     <!-- 메인 -->
@@ -21,7 +22,7 @@
                             <span>쿠폰목록</span>
                         </div>
 
-                        <form class="col_register_form" action="#">
+                        <form class="col_register_form" th:action="@{/admin/coupon/manageCoupon}">
                             <!-- 쿠폰 관리 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -41,26 +42,26 @@
                                         </colgroup>
                                         <tr>
                                             <th>
-                                                <select class="search_option">
-                                                    <option value="A">숙소아이디</option>
-                                                    <option value="A">쿠폰명</option>
-                                                    <option value="A">판매자</option>
+                                                <select class="search_option" name="searchField">
+                                                    <option value="acc_id" th:selected="${ph.sc.searchField == 'acc_id'}">숙소아이디</option>
+                                                    <option value="cp_subject" th:selected="${ph.sc.searchField == 'cp_subject'}">쿠폰명</option>
+                                                    <option value="user_id" th:selected="${ph.sc.searchField == 'user_id'}">판매자</option>
                                                 </select>
                                             </th>
                                             <td>
-                                                <input type="text">
+                                                <input type="text" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}"/>
                                             </td>
                                             <th>발급구분</th>
                                             <td>
-                                                <select name="c_role_type" id="c_role_type">
-                                                    <option value="A">관리자 발급</option>
-                                                    <option value="A">판매자 발급</option>
+                                                <select id="c_role_type" name="searchCouponRole">
+                                                    <option value="ADMIN" th:selected="${ph.sc.searchCouponRole == 'ADMIN'}">관리자 발급</option>
+                                                    <option value="BUSINESS" th:selected="${ph.sc.searchCouponRole == 'BUSINESS'}">판매자 발급</option>
                                                 </select>
                                             </td>
                                         </tr>
                                     </table>
                                     <div class="search_btn">
-                                        <button type="button" class="btnAdminProd3">검색</button>
+                                        <button type="submit" class="btnAdminProd3">검색</button>
                                     </div>
                                 </div>
                                 <!-- 쿠폰 검색 (판매자)-->
@@ -75,82 +76,72 @@
                                         </colgroup>
                                         <tr>
                                             <th>
-                                                <select class="search_option">
-                                                    <option value="A">쿠폰명</option>
-                                                    <option value="A">숙소아이디</option>
+                                                <select class="search_option" >
+                                                    <option value="acc_id" >숙소아이디</option>
+                                                    <option value="cp_subject" >쿠폰명</option>
                                                 </select>
                                             </th>
                                             <td>
-                                                <input type="text">
+                                                <input type="text" placeholder="검색어를 입력하세요">
                                             </td>
                                             <th>발급구분</th>
                                             <td>
-                                                <select name="c_role_type" id="c_role_type">
+                                                <select id="c_role_type" class="selectAccOwned" onchange="cp_change();">
                                                     <option value="A">A호텔</option>
-                                                    <option value="A">B펜션</option>
-                                                    <option value="A">C펜션</option>
-                                                    <option value="A">D펜션</option>
                                                 </select>
                                             </td>
                                         </tr>
                                     </table>
                                     <div class="search_btn">
-                                        <button type="button" class="btnAdminProd3">검색</button>
+                                        <button type="submit" class="btnAdminProd3">검색</button>
                                     </div>
                                 </div>
                                 <!-- 쿠폰 목록 -->
                                 <div class="coupon_list">
                                     <div class="c_list_top">
                                         <div class="c_w70">
-                                            <a href="#" class="btn_remove">삭제</a>
+                                            <!--<a href="#" class="btn_remove">삭제</a>-->
                                         </div>
                                         <div class="c_w30">
-                                            <a href="#" class="btn_insert">쿠폰등록</a>
+                                            <a th:href="@{/admin/coupon/insertCoupon}" class="btn_insert">쿠폰등록</a>
                                         </div>
                                     </div>
                                     <table class="c_list">
                                         <tr>
-                                            <th><input type="checkbox"></th>
                                             <th>쿠폰아이디</th>
                                             <th>쿠폰명</th>
-                                            <th>할인율</th>
-                                            <th>할인가</th>
+                                            <th>할인율(%)</th>
+                                            <th>할인가(원)</th>
                                             <th>배포시작일</th>
                                             <th>배포종료일</th>
                                             <th>발급수</th>
+                                            <th>관리</th>
                                         </tr>
-                                        <tr>
-                                            <td><input type="checkbox"></td>
-                                            <td>1</td>
-                                            <td><a class="c_name" href="#">10만원이상 구매시 1만원 할인</a></td>
-                                            <td>0</td>
-                                            <td>10,000</td>
-                                            <td>23.02.27</td>
-                                            <td>23.03.27</td>
-                                            <td>80</td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox"></td>
-                                            <td>2</td>
-                                            <td><a class="c_name" href="#">10만원이상 구매시 1만원 할인</a></td>
-                                            <td>0</td>
-                                            <td>10,000</td>
-                                            <td>23.02.27</td>
-                                            <td>23.03.27</td>
-                                            <td>80</td>
+                                        <tr th:each="coupon:${coupons}">
+                                            <td th:text="${coupon.cp_id}">1</td>
+                                            <td th:text="${coupon.cp_subject}"><a class="c_name" href="#">10만원이상 구매시 1만원 할인</a></td>
+                                            <td th:text="${coupon.cp_rate}">0</td>
+                                            <td th:text="${coupon.cp_price}">10,000</td>
+                                            <td th:text="${coupon.cp_start}">23.02.27</td>
+                                            <td th:text="${coupon.cp_end}">23.03.27</td>
+                                            <td th:text="${coupon.cp_IssuedCnt}">80</td>
+                                            <td><button type="button" name="check" class="removeCoupon" th:data-no="${coupon.cp_id}">삭제</button></td>
                                         </tr>
                                     </table>
                                 </div>
                                 <div class="pagination_center">
-                                    <div class="pagination">
-                                        <a href="#">&laquo;</a>
-                                        <a href="#">1</a>
-                                        <a href="#" class="active">2</a>
-                                        <a href="#">3</a>
-                                        <a href="#">4</a>
-                                        <a href="#">5</a>
-                                        <a href="#">6</a>
-                                        <a href="#">&raquo;</a>
+                                    <div class="pagination" th:object="${ph}" th:style="${#lists.size(coupons) == 0 ? 'visibility:hidden;':''}">
+                                        <th:block th:if="*{showPrev}">
+                                            <a th:href="@{/admin/coupon/manageCoupon} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
+                                        </th:block>
+                                        <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                                            <a th:href="@{/admin/coupon/manageCoupon} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                                [[${num}]]
+                                            </a>
+                                        </th:block>
+                                        <th:block th:if="*{showNext}">
+                                            <a th:href="@{/admin/coupon/manageCoupon} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                        </th:block>
                                     </div>
                                 </div>
 
@@ -166,5 +157,70 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+    <script>
+    $(document).ready(function() {
+        // 쿠폰 삭제
+        $('.removeCoupon').click(function(e){
+            e.preventDefault();
+
+            let isDeleteOK = confirm('정말 삭제하시겠습니까?');
+
+            if(isDeleteOK){
+                let cp_id = $(this).attr('data-no');
+
+                console.log('cp_id ajax: ' + cp_id);
+
+                const jsonData = {"cp_id": cp_id};
+
+                ajaxAPI("admin/coupon/removeCoupon", jsonData, "POST").then((response) => {
+                    if(response.result > 0) {
+                        alert("쿠폰이 삭제되었습니다.");
+                        location.replace("/Lemo/admin/coupon/manageCoupon");
+                    } else {
+                        alert('error');
+                    }
+                }).catch((errorMsg) => {
+                console.log(errorMsg);
+                });
+            }
+        });
+    });
+
+    // 쿠폰 목록 (판매자) 소유 숙소 셀렉트 옵션 추가
+    window.onload = function() {
+        let select = document.getElementsByClassName("selectAccOwned")[0];
+
+        let jsonData = {"user_id": "3min-ik@hanmail.net"};
+
+        console.log(jsonData);
+
+        ajaxAPI("admin/coupon/findAccOwned", jsonData, "GET").then((response)=>{
+            console.log('response:' + response);
+            select.innerHTML = "";
+            for (let i = 0; i < response.length; i++) {
+                let option = document.createElement("option");
+                option.value = response[i];
+                option.text = response[i];
+                select.add(option);
+            }
+        }).catch((errorMsg)=>{
+            console.log(errorMsg);
+        });
+    };
+
+    // 판매자 검색 시, 발급 구분 판매자 고정
+    const searchOption = document.querySelector('select[name="searchField"]');
+    const searchCouponRole = document.querySelector('select[name="searchCouponRole"]');
+
+    searchOption.addEventListener('change', (event) => {
+        const selectedValue = event.target.value;
+
+        if (selectedValue === "user_id") {
+            searchCouponRole.value = "BUSINESS";
+        }
+    });
+
+
+    </script>
 </th:block>
 </html>

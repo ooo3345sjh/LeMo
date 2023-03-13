@@ -1,31 +1,29 @@
 package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.AdminDAO;
-import kr.co.Lemo.domain.CsVO;
+import kr.co.Lemo.domain.CouponVO;
 import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.repository.AdminRepo;
 import kr.co.Lemo.utils.PageHandler;
 import kr.co.Lemo.utils.SearchCondition;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class AdminService {
 
-    @Autowired
     private AdminDAO dao;
-
-    @Autowired
     private AdminRepo repo;
 
     /**
      * 관리자 회원 - 회원 목록
+     * @since 2023/03/09
      * @param model
      * @param sc
      */
@@ -36,7 +34,7 @@ public class AdminService {
 
         PageHandler pageHandler = new PageHandler(totalCnt, sc); // 페이징 처리
 
-        log.info("here: "+sc.toString());
+        log.info("select User Service: "+sc.toString());
 
         List<UserVO> users = dao.selectUser(sc);
 
@@ -47,31 +45,85 @@ public class AdminService {
     }
 
     /**
+     * 관리자 쿠폰 - 쿠폰 목록
+     * @since 2023/03/12
+     * @param model
+     * @param sc
+     */
+    public List<CouponVO> selectCoupon(Model model, SearchCondition sc){
+        int totalCnt = dao.countCoupon(sc);
+        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        //log.info("select Coupon Service: " + sc.toString());
+
+        List<CouponVO> coupons = dao.selectCoupon(sc);
+
+        //log.info("Selected coupons: " + coupons.toString());
+
+        model.addAttribute("coupons", coupons);
+        model.addAttribute("ph", pageHandler);
+
+        return coupons;
+    }
+
+    /**
+     * 관리자 쿠폰 - 쿠폰 목록 소유 숙소 선택
+     * @since 2023/03/12
+     * @param user_id
+     */
+    public List<CouponVO> findAccOwned(String user_id){
+
+        log.warn("service findAccOwned");
+
+        return dao.selectAccOwned(user_id);
+    }
+
+
+    /**
+     * 관리자 쿠폰 - 쿠폰 등록
+     * @since 2023/03/11
+     * @param vo
+    * */
+    public void rsaveCupon(CouponVO vo) throws Exception {
+        dao.insertCupon(vo);
+    }
+
+
+    /**
      * 관리자 회원 - 메모 입력
+     * @since 2023/03/10
      * @param memo
      * @param user_id
      */
-    public int updateMemo(String memo, String user_id) {
-        return  dao.updateMemo(memo, user_id);
-    }
+    public int updateMemo(String memo, String user_id) { return dao.updateMemo(memo, user_id); }
 
     /**
      * 관리자 회원 - 회원 차단
+     * @since 2023/03/10
      * @param user_id
      */
-    public int updateIsLocked(String user_id) {
-        return  dao.updateIsLocked(user_id);
-    }
+    public int updateIsLocked(String user_id) { return dao.updateIsLocked(user_id); }
 
     /**
      * 관리자 회원 - 회원 삭제
+     * @since 2023/03/10
      * @param user_id
      */
-    public int updateIsEnabled(String user_id){
-        return dao.updateIsEnabled(user_id);
+    public int updateIsEnabled(String user_id){ return dao.updateIsEnabled(user_id); }
+
+    /**
+     * 관리자 쿠폰 - 쿠폰 삭제
+     * @param cp_id
+     */
+    public int removeCoupon(String cp_id){
+
+        log.warn("here4 service");
+
+        return dao.deleteCoupon(cp_id);
     }
-
-
 
 
 

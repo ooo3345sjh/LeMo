@@ -11,4 +11,13 @@ $(document).ready(function() {
     });
 
 
+    function getA(id) {
+
+        $('#id').click(function() {
+            $.getJSON('url?pid=' + id, function(data) {
+                $('output').each(function(index, dom) { $(dom).text(data.pid); })
+            }
+        })
+    }
+
 });

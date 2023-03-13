@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.Lemo.dao.ProductDAO;
 import kr.co.Lemo.domain.ProductAccommodationVO;
-import kr.co.Lemo.domain.ProductSearchVO;
+import kr.co.Lemo.utils.PageHandler;
+import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -37,11 +38,11 @@ public class ProductService {
     // select
 
     // @since 2022/03/09
-    public void findAllAccommodations(Model model, ProductSearchVO vo) throws Exception {
+    public void findAllAccommodations(Model model, SearchCondition sc) throws Exception {
 
-        String keyword = vo.getKeyword();
-        double lng = vo.getLng();
-        double lat = vo.getLat();
+        String keyword = sc.getKeyword();
+        double lng = sc.getLng();
+        double lat = sc.getLat();
 
         log.info("keyword : " + keyword);
         log.info("lat : " + lat);
@@ -65,23 +66,36 @@ public class ProductService {
         log.info("최종 경도 : " + lng);
         log.info("최종 위도 : " + lat);
 
-        vo.setLat(lat);
-        vo.setLng(lng);
+//        vo.setLat(lat);
+//        vo.setLng(lng);
 
+        // SearchCondition
+
+        if(sc.getSort() == null){
+            sc.setSort("review");
+        }
+
+        sc.setGroup("product");
+        sc.setLat(lat);
+        sc.setLng(lng);
 
         // 페이징
+        int totalCnt = dao.countTotal(sc); // 전체 게시물 개수
+        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());  // 전체 페이지의 수
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        log.info("total : " + totalCnt);
 
         // 숙박 업소 가져오기
-        List<ProductAccommodationVO> accs = dao.selectAccommodations(vo);
+        List<ProductAccommodationVO> accs = dao.selectAccommodations(sc);
 
-        log.info("숙소 리스트 :" + accs);
-
-        log.info(String.valueOf(accs.size()));
+        //log.info("숙소 리스트 :" + accs);
 
 
-        model.addAttribute("lng", lng);
-        model.addAttribute("lat", lat);
         model.addAttribute("accs", accs);
+        model.addAttribute("ph", pageHandler);
 
     };
 

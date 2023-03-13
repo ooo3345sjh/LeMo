@@ -10,7 +10,7 @@
             <!-- Date Range Picker -->
             <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
             <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-            <script th:src="@{/js/common/daterangepicker.js}"></script>
+            <script th:src="@{/js/product/daterangepicker.js}"></script>
             <script th:src="@{/js/common/kakaomap-scroll.js}"></script>
             <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
             <link rel="stylesheet" th:href="@{/css/product/product.css}">
@@ -21,10 +21,10 @@
                     <div class="listSearch">
                         <div id="filter">
                             <a href="#" onclick="return false"></a>
-                            <select>
+                            <select name="sort">
                                 <option value="review">후기 많은 순</option>
                                 <option value="score">평점 높은 순</option>
-                                <option value="revisit">재방문율 높은 순</option>
+                                <!--<option value="revisit">재방문율 높은 순</option>-->
                                 <option value="rowPrice">낮은 가격 순</option>
                                 <option value="distance">거리 순</option>
                             </select>
@@ -32,6 +32,16 @@
                             <div id="popupFilter" class="popup">
                                 <form id="popupForm" onsubmit="clearForm(); return false;">
                                     <h3>필터를 골라주세요</h3>
+                                    <article>
+                                        <strong>숙소 유형</strong>
+                                        <ul>
+                                            <li><label><input type="checkbox" name="chkAccType" value="1">모텔</label></li>
+                                            <li><label><input type="checkbox" name="chkAccType" value="2">호텔</label></li>
+                                            <li><label><input type="checkbox" name="chkAccType" value="3">펜션</label></li>
+                                            <li><label><input type="checkbox" name="chkAccType" value="4">게스트하우스</label></li>
+                                            <li><label><input type="checkbox" name="chkAccType" value="5">캠핑·글램핑</label></li>
+                                        </ul>
+                                    </article>
                                     <article>
                                         <strong>편의 시설</strong>
                                         <table>
@@ -94,10 +104,10 @@
                                         <input type="text" name="searchPlace" placeholder="장소를 입력해주세요.">
                                     </td>
                                     <td>
-                                        <input type="text" name="daterange" id="daterange">
+                                        <input type="text" name="daterange" id="daterange" th:attr="data-status=0">
                                     </td>
                                     <td>
-                                        <input type="number" name="numPeople" value="0">
+                                        <input type="number" min="0" name="numPeople" value="0">
                                     </td>
                                 </tr>
                             </table>
@@ -116,8 +126,9 @@
                                                 <div class="stage-name">
                                                     <strong>[[${acc.acc_name}]]</strong>
                                                     <p>
-                                                        <span>별점</span>
-                                                        <em>(100)</em>
+                                                        <span>[[${#numbers.formatDecimal(acc.acc_rate,1,1)}]]</span>
+                                                        <b>최고에요</b>
+                                                        <em>([[${acc.acc_review}]])</em>
                                                     </p>
                                                     <p>
                                                         <span>[[${acc.acc_addr}]]</span>
@@ -131,33 +142,24 @@
                                                         <span>남은 객실 : 1</span>
                                                     </p>
                                                     <p>
-                                                        <b>999,999원 &nbsp;/1박</b>
+                                                        <b>[[${#numbers.formatInteger(acc.price,1,'COMMA')}]]</b>원 /1박
                                                     </p>
                                                 </div>
                                             </a>
                                         </article>
                                     </li>
                                 </ul>
-                                <div class="paging">
-                                    <span>
-                                        <a href="#" onclick="return false">
+                                <div class="paging" th:object="${ph}">
+                                    <span th:if="*{showPrev}">
+                                        <a th:href="@{/product/list} + ${ph.sc.getQueryString(ph.beginPage-1)}">
                                             <img th:src="@{/images/product/left.png}" alt="previous">
                                         </a>
                                     </span>
-                                    <span>
-                                        <a href="#" onclick="return false"> 1 </a>
-                                        <a href="#" onclick="return false"> 2 </a>
-                                        <a href="#" onclick="return false"> 3 </a>
-                                        <a href="#" onclick="return false"> 4 </a>
-                                        <a href="#" onclick="return false"> 5 </a>
-                                        <a href="#" onclick="return false"> 6 </a>
-                                        <a href="#" onclick="return false"> 7 </a>
-                                        <a href="#" onclick="return false"> 8 </a>
-                                        <a href="#" onclick="return false"> 9 </a>
-                                        <a href="#" onclick="return false"> 10 </a>
+                                    <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                                        <a th:href="@{/product/list} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
                                     </span>
-                                    <span>
-                                        <a href="#" onclick="return false">
+                                    <span th:if="*{showNext}">
+                                        <a th:href="@{/product/list} + ${ph.sc.getQueryString(ph.endPage+1)}">
                                             <img th:src="@{/images/product/right.png}" alt="next">
                                         </a>
                                     </span>
@@ -177,8 +179,8 @@
         <th:block layout:fragment="script">
             <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712"></script>
             <script th:inline="javascript">
-                let clat = [[${lat}]];
-                let clng = [[${lng}]];
+                let clat = [[${ph.sc.lat}]];
+                let clng = [[${ph.sc.lng}]];
                 let accs = [[${accs}]];
             </script>
             <script th:src="@{/js/product/productList.js}"></script>

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.Id;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ArticleDiaryVO {
+
     private int arti_no;
     private int res_no;
     private String arti_title;
@@ -30,8 +32,10 @@ public class ArticleDiaryVO {
     private String arti_regip;
     private String arti_start;
     private String arti_end;
+    private String user_id;
 
     // 추가
-    // @since 2023/03/10
-    private List<MultipartFile> thumb;
+
+    // @since 2023/03/12
+    private List<DiarySpotVO> spotVO;
 }

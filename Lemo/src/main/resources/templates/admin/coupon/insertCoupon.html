@@ -5,6 +5,108 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminSubStyle.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <script th:src="@{/js/admin/selectOption.js}"></script>
+    <script>
+    $(document).ready(function() {
+
+        // 할인율(0~100), 할인금액(0~) 범위 제한
+        const discountRadio = $('.discount');
+        const discountPriceRadio = $('.discountPrice');
+        const saleOptionInput = $('.insertSaleOption');
+
+        saleOptionInput.on('input', function() {
+            if (discountRadio.is(':checked') && (isNaN(saleOptionInput.val()) || saleOptionInput.val() < 0 || saleOptionInput.val() > 101)) {
+                alert('0과 100사이의 할인율을 입력하십시오.');
+                saleOptionInput.val(0);
+            } else if (discountPriceRadio.is(':checked') && (isNaN(saleOptionInput.val()) || saleOptionInput.val() < 0)) {
+                alert('0보다 큰 할인금액을 입력하십시오.');
+                saleOptionInput.val(0);
+            }
+        });
+
+        discountRadio.on('change', function() {
+            if (discountRadio.is(':checked') && (saleOptionInput.val() < 0 || saleOptionInput.val() > 101 || isNaN(saleOptionInput.val()))) {
+                alert('0과 100사이의 할인율을 입력하십시오.');
+                saleOptionInput.val(0);
+            }
+        });
+
+        discountPriceRadio.on('change', function() {
+            if (discountPriceRadio.is(':checked') && (saleOptionInput.val() < 0 || isNaN(saleOptionInput.val()))) {
+                alert('0보다 큰 할인금액을 입력하십시오.');
+                saleOptionInput.val(0);
+            }
+        });
+
+        // 할인율/할인가 체크에 따라 input name 변경
+        $('.discount, .discountPrice').on('change', function() {
+            if ($('.discount').is(':checked')) {
+                $('.insertSaleOption').attr('name', 'cp_rate');
+            } else if ($('.discountPrice').is(':checked')) {
+                $('.insertSaleOption').attr('name', 'cp_price');
+            }
+        });
+
+        // 배포일 날짜 제한 (오늘 기준 이전 날짜 선택 불가)
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("cp_start").setAttribute('min', today);
+        document.getElementById("cp_end").setAttribute('min', today);
+
+        $('#cp_start').on('change', function() {
+            var selectedDate = new Date($(this).val());
+            var minDate = new Date($(this).attr('min'));
+
+            if (selectedDate < minDate) {
+                $(this).val($(this).attr('min'));
+            }
+        });
+
+        $('#cp_end').on('change', function() {
+            var selectedDate = new Date($(this).val());
+            var minDate = new Date($(this).attr('min'));
+
+            if (selectedDate < minDate) {
+                $(this).val($(this).attr('min'));
+            }
+        });
+
+        // 발급 수량 제한
+        var input = document.getElementsByClassName("insertSaleCount")[0];
+        input.addEventListener("keydown", function(event) {
+            if (event.key === '-' || event.key === '+') {
+                event.preventDefault();
+            }
+        });
+        input.addEventListener("input", function(event) {
+            if (input.value < 0) {
+                input.value = 0;
+            }
+        });
+
+        // 이용가능 일수 제한 + 금액 조건 제한 (최소, 최대 주문 금액)
+        var inputs = document.querySelectorAll(".input_100");
+        inputs.forEach(function(input) {
+            input.addEventListener("keydown", function(event) {
+                if (event.key === '-' || event.key === '+') {
+                    event.preventDefault();
+                }
+            });
+            input.addEventListener("input", function(event) {
+                if (input.value < 0) {
+                    input.value = 0;
+                }
+            });
+            input.setAttribute("min", 0);
+        });
+
+
+
+    });
+
+
+
+
+    </script>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -16,57 +118,63 @@
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
                         <div class="col_nav">
-                            <span>테스트 ></span>
+                            <span>쿠폰관리 ></span>
                             <span>쿠폰등록</span>
                         </div>
 
                         <!-- 등록 폼 -->
-                        <form class="col_register_form" action="#">
-
+                        <form class="col_register_form" th:action="@{/admin/coupon/insertCoupon}" method="post">
+                            <!-- <input type="hidden" name="userId_id" th:value="${#authentication.principal.user.uid}">-->
                             <div class="col_register1">
                                 <div class="stayName">
                                     <div>
                                         <span>쿠폰등록</span>
+                                        <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                                            <p th:text="${successMessage}"></p>
+                                        </div>
                                     </div>
                                 </div>
                                 <table class="input_stayRoomInfo">
                                     <tr>
                                         <td>쿠폰명</td>
-                                        <td><input type="text"></td>
+                                        <td><input type="text" name="cp_subject"></td>
                                     </tr>
                                     <tr>
                                         <td>쿠폰적용그룹</td>
                                         <td>
-                                            <select>
-                                                <option value="A">전체적용</option>
-                                                <option value="B">숙소</option>
-                                                <option value="C">지역</option>
+                                            <select name="cp_group" class="category1" onchange="optionChange();" required>
+                                                <option value="" disabled selected>적용그룹선택</option>
+                                                <option value="ALL">전체적용</option>
+                                                <option value="acc_type">숙소 유형</option>
+                                                <option value="acc_province">지역</option>
                                             </select>
-                                            <select>
-                                                <option value="D">-</option>
-                                                <option value="E">모텔</option>
-                                                <option value="F">호텔·리조트</option>
-                                                <option value="G">펜션</option>
-                                                <option value="H">게스트하우스</option>
-                                                <option value="I">캠핑·글램핑</option>
-                                                <option value="J">해외여행</option>
+                                            <select name="cp_type" class="category2" required>
+                                                <option value="" disabled selected>적용항목선택</option>
                                             </select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>할인율/할인가</td>
                                         <td>
+                                            <!--
                                             <input class="insertSaleOption" type="number" placeholder="할인율 또는 할인가 택1 작성">
+                                            <input class="insertSaleOption" type="number" placeholder="할인율 또는 할인가 택1 작성" name="${cp_disType == 1} ? 'cp_rate' : 'cp_price'" />
                                             <div class="selectSaleOption">
-                                                <input type="radio" name="sale_option" value="">퍼센트(%)
-                                                <input type="radio" name="sale_option" value="">원(₩)
+                                                <input type="radio" name="cp_disType" value="1" class="discount">퍼센트(%)
+                                                <input type="radio" name="cp_disType" value="2" class="discountPrice">원(₩)
+                                            </div>
+                                            -->
+                                            <input class="insertSaleOption" type="number" placeholder="할인율 또는 할인가 택1 작성"/>
+                                            <div class="selectSaleOption">
+                                                <input type="radio" name="cp_disType" value="1" class="discount">퍼센트(%)
+                                                <input type="radio" name="cp_disType" value="2" class="discountPrice">원(₩)
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>발급 수량</td>
                                         <td>
-                                            <input class="insertSaleCount" type="number" placeholder="쿠폰 발급 수량 작성">
+                                            <input name="cp_limitedIssuance" class="insertSaleCount" type="number" min="0" value="cp_limitedIssuance" placeholder="쿠폰 발급 수량 작성">
                                             <div class="selectSaleLimit">
                                                 <input type="radio" name="sales_option" value="">수량제한없음
                                             </div>
@@ -75,28 +183,28 @@
                                     <tr>
                                         <td>금액 조건</td>
                                         <td>
-                                            <input class="input_100" type="number" placeholder="최소주문금액">/
-                                            <input class="input_100" type="number" placeholder="최대주문금액">
+                                            <input name="cp_minimum" class="input_100" type="number" value="cp_minimum" placeholder="최소주문금액">/
+                                            <input name="cp_maximum" class="input_100" type="number" value="cp_maximum" placeholder="최대주문금액">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>배포일</td>
                                         <td>
-                                            <input class="input_130" type="date">
+                                            <input name="cp_start" id="cp_start" class="input_130" type="date" value="cp_start" min="">
                                             &nbsp;~&nbsp;
-                                            <input class="input_130" type="date">
+                                            <input name="cp_end" id="cp_end" class="input_130" type="date" value="cp_end" min="">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>이용가능일수</td>
-                                        <td><input class="input_100" type="number" placeholder=""></td>
+                                        <td><input name="cp_daysAvailable" class="input_100" type="number" placeholder="일 단위 입력" value="cp_daysAvailable"></td>
                                     </tr>
                                 </table>
                             </div>
                             <div class="btnAdminProd">
-                                <a href="#">
+                                <button type="submit">
                                     쿠폰등록
-                                </a>
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -104,9 +212,14 @@
                 </div>
             </section>
         </div>
+
+
     </main>
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+
+
+
 </th:block>
 </html>
