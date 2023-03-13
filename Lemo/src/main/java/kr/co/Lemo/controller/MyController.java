@@ -125,6 +125,9 @@ public class MyController {
         List<ArticleDiaryVO> diaryVO = service.findDiaryArticle(uid);
         m.addAttribute("article", diaryVO);
 
+        List<DiarySpotVO> spotVO = service.findDiarySpotPosition(uid);
+        m.addAttribute("spotPosition", spotVO);
+
         return "my/diary/list";
     }
 
