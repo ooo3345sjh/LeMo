@@ -1,7 +1,7 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.domain.ProductSearchVO;
 import kr.co.Lemo.service.ProductService;
+import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -35,10 +35,10 @@ public class ProductController {
      * @param vo (상품 검색 조건 vo)
      */
     @GetMapping("list")
-    public String list(Model model, ProductSearchVO vo) throws Exception {
+    public String list(Model model, SearchCondition sc) throws Exception {
 
         // 숙박업소 리스트 가져오기
-        service.findAllAccommodations(model, vo);
+        service.findAllAccommodations(model, sc);
 
         model.addAttribute("title", environment.getProperty(group));
 

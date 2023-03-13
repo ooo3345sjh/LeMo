@@ -14,10 +14,41 @@
     <!-- select -->
     <select id="selectAccommodations" parameterType="kr.co.Lemo.domain.ProductSearchVO" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
         <![CDATA[
-        SELECT * FROM `lemo_product_accommodation`
-        WHERE ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000;
+            SELECT a.*, SUM(b.room_stock) AS 'sum', MIN(b.room_price) AS 'price'   FROM `lemo_product_accommodation` AS a
+            JOIN `lemo_product_room` AS b
+            ON a.`acc_id` = b.`acc_id` AND ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000
+            GROUP BY a.`acc_id`
+        ]]>
+
+            <if test="sort == 'review'">
+                ORDER BY a.`acc_review` DESC
+            </if>
+
+            <if test="sort == 'score'">
+                ORDER BY a.`acc_rate` DESC
+            </if>
+
+            <if test="sort == 'rowPrice'">
+                ORDER BY `price` ASC
+            </if>
+
+            <if test="sort == 'distance'">
+                ORDER BY ST_Distance_Sphere(a.`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) asc
+            </if>
+
+            LIMIT #{offset}, 10;
+
+
+    </select>
+
+    <select id="countTotal" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="int">
+        <![CDATA[
+            SELECT COUNT(DISTINCT a.acc_id) FROM `lemo_product_accommodation` AS a
+            JOIN `lemo_product_room` AS b
+            ON a.acc_id = b.acc_id AND ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000;
         ]]>
     </select>
+
 
 
     <!-- update -->

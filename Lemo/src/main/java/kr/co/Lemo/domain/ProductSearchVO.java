@@ -20,6 +20,12 @@ public class ProductSearchVO {
     private String keyword;
     private double lat;
     private double lng;
+    private int headcount; // 인원수
+    private int maxPrice; // 최대가격
+    private int minPrice; // 최소가격
+    private String checkIn; // 체크인날짜
+    private String checkOut; // 체크아웃날짜
+
 
 
 }

@@ -32,8 +32,13 @@ public class ProductAccommodationVO {
     private String acc_comment;
     private String acc_thumbs;
     private int acc_rate;
+    private int acc_review;
     private int acc_discount;
     private String acc_checkIn;
     private String acc_checkOut;
+
+
+    /* 추가 필드 room 정보 */
+    private int price;
 
 }
