@@ -176,9 +176,10 @@ public class UserController {
     public String test2(@ModelAttribute SearchCondition_v2 sc, @RequestParam Map map) {
         log.debug("GET test2 start...");
 
-        log.info(map.toString());
+        log.info("map : " + map.toString());
+        log.info("sc : " + sc.toString());
         sc.setMap(map);
-        log.info(sc.getQueryString());
+        log.info("query : " + sc.getQueryString());
 
         return "user/test";
     }
