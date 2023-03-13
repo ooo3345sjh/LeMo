@@ -14,7 +14,6 @@ public class SearchCondition_v2 {
     private Integer page = 1;
     private Integer pageSize = 10;
     private Integer no = 0;
-    private Map<String, String> map;
 
 
 
@@ -28,19 +27,8 @@ public class SearchCondition_v2 {
         UriComponentsBuilder builder = UriComponentsBuilder.newInstance()
                 .queryParam("page", page);
 
-
         if (no != null && no != 0)
             builder.queryParam("no", no);
-
-        for(String key : map.keySet()){
-            String value = map.get(key);
-
-            if(!"page".equals(key) && !"no".equals(key)){
-
-                if(value != null && !value.isBlank())
-                    builder.queryParam(key, value);
-            }
-        }
 
         return builder.toUriString();
     }

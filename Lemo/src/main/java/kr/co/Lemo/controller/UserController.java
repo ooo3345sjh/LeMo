@@ -178,7 +178,6 @@ public class UserController {
 
         log.info("map : " + map.toString());
         log.info("sc : " + sc.toString());
-        sc.setMap(map);
         log.info("query : " + sc.getQueryString());
 
         return "user/test";
