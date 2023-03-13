@@ -42,15 +42,12 @@ public class AdminController {
     private CsService csService;
 
 
-    @GetMapping("index_admin")
+    @GetMapping("index")
     public String index_admin() {
-        return "admin/index_admin";
+        return "admin/index";
     }
 
-    @GetMapping("index_business")
-    public String index_business() {
-        return "admin/index_business";
-    }
+
 
     @GetMapping("stats")
     public String stats() {

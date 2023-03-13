@@ -58,14 +58,14 @@
     </select>
 
     <!-- admin - user - insert coupon -->
-    <insert id="insertCupon">
+    <insert id="insertCoupon">
         INSERT INTO `lemo_product_coupon` (
             `user_id`, `user_role`, `cp_subject`, `cp_group`, `cp_type`,
             `cp_rate`, `cp_disType`, `cp_price`, `cp_minimum`, `cp_maximum`,
             `cp_start`, `cp_end`, `cp_daysAvailable`, `cp_limitedIssuance`
         )
         VALUES (
-            'naver_test', 'BUSINESS', #{cp_subject}, #{cp_group}, #{cp_type}, #{cp_rate},
+            'google_test', 'ADMIN', #{cp_subject}, #{cp_group}, #{cp_type}, #{cp_rate},
             CASE
                 WHEN #{cp_rate} IS NOT NULL THEN '1'
                 WHEN #{cp_price} IS NOT NULL THEN '2'

@@ -32,7 +32,7 @@ public interface AdminDAO {
     public List<CouponVO> selectAccOwned(String user_id);
 
     // @since 2023/03/11
-    public void insertCupon(CouponVO vo);
+    public void insertCoupon(CouponVO vo);
 
     // @since 2023/03/10
     public int updateMemo(@Param("memo") String memo, @Param("user_id") String user_id);
