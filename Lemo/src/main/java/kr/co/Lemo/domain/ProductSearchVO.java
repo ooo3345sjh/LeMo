@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ProductSearchVO {
-
     private String keyword;
     private double lat;
     private double lng;
@@ -25,7 +24,4 @@ public class ProductSearchVO {
     private int minPrice; // 최소가격
     private String checkIn; // 체크인날짜
     private String checkOut; // 체크아웃날짜
-
-
-
 }

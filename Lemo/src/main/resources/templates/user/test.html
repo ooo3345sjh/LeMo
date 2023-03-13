@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/user-layout">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/user/user.css}">
+</th:block>
+<th:block layout:fragment="content">
+
+    <main id="terms">
+        <section>
+            <div class="title">
+                <strong>TEST</strong>
+            </div>
+            <a th:href="@{/user/test2(isEnabled=1, level=2, type=2, page=2, no=1)}">클릭</a>
+        </section>
+    </main>
+
+</th:block>
+</html>
