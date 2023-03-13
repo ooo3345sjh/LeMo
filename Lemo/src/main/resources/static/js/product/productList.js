@@ -27,7 +27,20 @@ $(function(){
     autocomplete = new google.maps.places.Autocomplete(autocompleteProdInput, prodOption);
     autocomplete.setComponentRestrictions({country: ["kr"]});
     autocomplete.addListener('place_changed', function(){
-        alert('test');
+        const place = autocomplete.getPlace();
+
+        // 구글 자동완성 검색 결과가 없을 시 return
+        if (!place.geometry || !place.geometry.location) {
+
+            return;
+        }
+
+        // 구글 자동완성 검색 결과가 있을 때 밑으로 실행
+        lat = place.geometry.location.lat();
+        lng = place.geometry.location.lng();
+
+        // product list로 이동
+        location.href = '/Lemo/product/list?lat=' + lat + '&lng='+ lng;
     });
 
     // 검색 키워드를 지도 중심으로 설정
@@ -60,29 +73,29 @@ $(function(){
     $('input[name=search]').on('click', function(){
 
         // 편의 시설
-        let services = [];
-        $('input[name=chk]:checked').each(function(){
-            services.push($(this).val());
-        });
+//        let services = [];
+//        $('input[name=chk]:checked').each(function(){
+//            services.push($(this).val());
+//        });
+        //setUrlParams('services', services.join(','));
 
         // 숙소 유형
         let accTypes = [];
         $('input[name=chkAccType]:checked').each(function(){
             accTypes.push($(this).val());
         });
+        setUrlParams('accTypes', accTypes.join(','));
 
 
-        // 가격 조건
 //        urlParams.set('minPrice', minPrice);
 //        urlParams.set('maxPrice', maxPrice);
 //
 //        urlParams.set('accTypes', accTypes.join(','));
 //        urlParams.set('services', services.join(','));
 
+        // 가격 조건
         setUrlParams('minPrice', minPrice);
         setUrlParams('maxPrice', maxPrice);
-        setUrlParams('accTypes', accTypes.join(','));
-        setUrlParams('services', services.join(','));
 
         goSearch();
 

@@ -22,11 +22,11 @@
                         <div id="filter">
                             <a href="#" onclick="return false"></a>
                             <select name="sort">
-                                <option value="review">후기 많은 순</option>
-                                <option value="score">평점 높은 순</option>
+                                <option value="review" th:selected="${ph.sc.sort == 'review'}">후기 많은 순</option>
+                                <option value="score" th:selected="${ph.sc.sort == 'score'}">평점 높은 순</option>
+                                <option value="rowPrice" th:selected="${ph.sc.sort == 'rowPrice'}">낮은 가격 순</option>
+                                <option value="distance" th:selected="${ph.sc.sort == 'distance'}">거리 순</option>
                                 <!--<option value="revisit">재방문율 높은 순</option>-->
-                                <option value="rowPrice">낮은 가격 순</option>
-                                <option value="distance">거리 순</option>
                             </select>
                             <!-- 팝업 메뉴 -->
                             <div id="popupFilter" class="popup">
@@ -124,7 +124,7 @@
                                         <article class="stage">
                                             <a href="">
                                                 <div class="stage-name">
-                                                    <strong>[[${acc.acc_name}]]</strong>
+                                                    <strong>[[${acc.acc_name}]]    [[${acc.accType_no}]]</strong>
                                                     <p>
                                                         <span>[[${#numbers.formatDecimal(acc.acc_rate,1,1)}]]</span>
                                                         <b>최고에요</b>
@@ -155,7 +155,7 @@
                                             <img th:src="@{/images/product/left.png}" alt="previous">
                                         </a>
                                     </span>
-                                    <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                                    <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
                                         <a th:href="@{/product/list} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
                                     </span>
                                     <span th:if="*{showNext}">

@@ -16,39 +16,68 @@
         <![CDATA[
             SELECT a.*, SUM(b.room_stock) AS 'sum', MIN(b.room_price) AS 'price'   FROM `lemo_product_accommodation` AS a
             JOIN `lemo_product_room` AS b
-            ON a.`acc_id` = b.`acc_id` AND ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000
-            GROUP BY a.`acc_id`
+            ON a.`acc_id` = b.`acc_id`
+            WHERE ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000
         ]]>
 
-            <if test="sort == 'review'">
-                ORDER BY a.`acc_review` DESC
-            </if>
+        <if test="accTypes != null and accTypes.length > 0">
+            AND (
+            <foreach collection="accTypes" item="accType" separator="OR">
+                `accType_no` = #{accType}
+            </foreach>
+            )
+        </if>
 
-            <if test="sort == 'score'">
-                ORDER BY a.`acc_rate` DESC
-            </if>
+        GROUP BY a.`acc_id`
+        <if test="maxPrice > 0">
+            HAVING (`price` BETWEEN #{minPrice} AND #{maxPrice})
+        </if>
 
-            <if test="sort == 'rowPrice'">
-                ORDER BY `price` ASC
-            </if>
 
-            <if test="sort == 'distance'">
-                ORDER BY ST_Distance_Sphere(a.`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) asc
-            </if>
+        <if test="sort == 'review'">
+            ORDER BY a.`acc_review` DESC
+        </if>
 
-            LIMIT #{offset}, 10;
+        <if test="sort == 'score'">
+            ORDER BY a.`acc_rate` DESC
+        </if>
+
+        <if test="sort == 'rowPrice'">
+            ORDER BY `price` ASC
+        </if>
+
+        <if test="sort == 'distance'">
+            ORDER BY ST_Distance_Sphere(a.`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) asc
+        </if>
+
+        LIMIT #{offset}, 10;
 
 
     </select>
 
     <select id="countTotal" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="int">
-        <![CDATA[
-            SELECT COUNT(DISTINCT a.acc_id) FROM `lemo_product_accommodation` AS a
-            JOIN `lemo_product_room` AS b
-            ON a.acc_id = b.acc_id AND ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000;
-        ]]>
-    </select>
 
+            SELECT COUNT(DISTINCT a.acc_id) FROM `lemo_product_accommodation` AS a
+            <if test="maxPrice == 0">
+                JOIN `lemo_product_room` AS b
+            </if>
+            <if test="maxPrice > 0">
+                JOIN (SELECT * FROM `lemo_product_room` WHERE room_price BETWEEN #{minPrice} AND #{maxPrice}) AS b
+            </if>
+
+            ON a.acc_id = b.acc_id
+        <![CDATA[
+            WHERE ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000
+        ]]>
+
+        <if test="accTypes != null and accTypes.length > 0">
+            AND
+            <foreach collection="accTypes" item="accType" separator="OR">
+                `accType_no` = #{accType}
+            </foreach>
+        </if>
+
+    </select>
 
 
     <!-- update -->

@@ -55,12 +55,14 @@ public class ProductService {
             lat = LatLng[0];
             lng = LatLng[1];
 
-            // 장소 결과가 없는 경우 위도 경도 서울을 기준으로 세팅
-            if (lat == 0.0 & lng == 0.0) {
-                lat = 37.566824194479864;
-                lng = 126.9786069825986;
-            }
         }
+
+        // 장소 결과가 없는 경우 위도 경도 서울을 기준으로 세팅
+        if (lat == 0.0 & lng == 0.0 & keyword == null) {
+            lat = 37.566824194479864;
+            lng = 126.9786069825986;
+        }
+
 
 
         log.info("최종 경도 : " + lng);
