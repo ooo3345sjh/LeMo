@@ -102,13 +102,15 @@ public class MyService {
     // 기능
 
     // @since 2023/03/12
-    @Value("${spring.servlet.multipart.location}")
-    private String uploadPath;
+    //@Value("${spring.servlet.multipart.location}")
+    // private String uploadPath;
 
     // @since 2023/03/12
     public void fileUpload(List<MultipartFile> fileList, List<String> fileRenames, int arti_no) {
 
-        String path = new File(uploadPath+"diary/"+arti_no).getAbsolutePath();
+        //String path = new File(uploadPath+"diary/"+arti_no).getAbsolutePath();
+
+        String path = new File("/Lemo/img/diary/" + arti_no).getAbsolutePath();
 
         // 저장 폴더가 없다면 생성
         File checkFolder = new File(path);
