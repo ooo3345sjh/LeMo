@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import kr.co.Lemo.domain.MessageVO;
 import kr.co.Lemo.domain.SmsResponseVO;
 import kr.co.Lemo.service.SmsService;
+import kr.co.Lemo.utils.SearchCondition;
+import kr.co.Lemo.utils.SearchCondition_v2;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -149,6 +151,7 @@ public class UserController {
 
         return map;
     }
+
     /**
      * @since 2023/03/10
      * @param req
@@ -158,5 +161,25 @@ public class UserController {
         HttpSession session = req.getSession();
         String termsType_no = (String)session.getAttribute("termsAuth");
         return termsType_no;
+    }
+
+    // @since 2023/03/13
+    @GetMapping("test")
+    public String test(SearchCondition_v2 sc) {
+        log.debug("GET test start...");
+
+        log.info(sc.toString());
+
+        return "user/test";
+    }
+    @GetMapping("test2")
+    public String test2(@ModelAttribute SearchCondition_v2 sc, @RequestParam Map map) {
+        log.debug("GET test2 start...");
+
+        log.info(map.toString());
+        sc.setMap(map);
+        log.info(sc.getQueryString());
+
+        return "user/test";
     }
 }
