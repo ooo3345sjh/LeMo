@@ -63,8 +63,6 @@ public class ProductService {
             lng = 126.9786069825986;
         }
 
-
-
         log.info("최종 경도 : " + lng);
         log.info("최종 위도 : " + lat);
 
@@ -95,16 +93,15 @@ public class ProductService {
 
         //log.info("숙소 리스트 :" + accs);
 
-
         model.addAttribute("accs", accs);
         model.addAttribute("ph", pageHandler);
 
     };
 
+
     // update
 
     // delete
-
 
 
     /* 키워드의 위도 경도 값 반환 */
@@ -156,5 +153,4 @@ public class ProductService {
 
         return LatLng;
     }
-
 }
