@@ -261,9 +261,9 @@ public class AdminController {
 
     // @since 2023/03/12
     @GetMapping("cs/{cs_cate}/view")
-    public String qna_view(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
+    public String findAdminCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
         log.debug("qna_view Start");
-        CsVO qnaArticle = csService.findAdminQnaArticle(cs_cate, cs_no);
+        CsVO qnaArticle = csService.findAdminCsArticle(cs_cate, cs_no);
 
        model.addAttribute("qnaArticle", qnaArticle);
 

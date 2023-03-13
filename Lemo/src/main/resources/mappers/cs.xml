@@ -68,7 +68,7 @@
         LIMIT #{offset}, 10;
     </select>
 
-    <select id="selectAdminQnaArticle" resultType="kr.co.Lemo.domain.CsVO">
+    <select id="selectAdminCsArticle" resultType="kr.co.Lemo.domain.CsVO">
         SELECT a.*, b.`nick` FROM `lemo_cs` AS a
         JOIN `lemo_member_userinfo` AS b
         ON a.user_id = b.user_id

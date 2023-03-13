@@ -22,11 +22,11 @@
                 </div>
                 <!-- 약관 및 정책 카테고리 -->
                 <div class="sub_cate">
-                    <li><a href="#" class="scroll1">이용약관</a></li>
-                    <li><a href="#" class="scroll2">위치기반 서비스 이용약관</a></li>
-                    <li><a href="#" class="scroll3">개인정보 수집 및 이용</a></li>
-                    <li><a href="#" class="scroll4">만 14세 이상 확인</a></li>
-                    <li><a href="#" class="scroll5">마케팅 알림 수신동의</a></li>
+                    <li><a href="#" class="on" id="cTerms" onclick="onTerms();">이용약관</a></li>
+                    <li><a href="#" class="off1" id="cLocation" onclick="onLocation();">위치기반 서비스 이용약관</a></li>
+                    <li><a href="#" class="off2" id="cPrivacy" onclick="onPrivacy();">개인정보 수집 및 이용</a></li>
+                    <li><a href="#" class="off3" id="cFourteen" onclick="onFourteen();">만 14세 이상 확인</a></li>
+                    <li><a href="#" class="off4" id="cMarketing" onclick="onMarketing();">마케팅 알림 수신동의</a></li>
                 </div>
 
                 <!-- 이용약관 -->
@@ -132,7 +132,7 @@
                 </div>
 
                 <!-- 위치기반 서비스 이용약관 -->
-                <div class="location">
+                <div class="location" style="display:none;">
                     <h2>위치기반 서비스 이용약관</h2>
                     <ul class="show_list open_list">
                         <li>
@@ -234,7 +234,7 @@
                 </div>
 
                 <!-- 개인정보 처리방침 -->
-                <div class="privacy table_common" id="privacy">
+                <div class="privacy table_common" id="privacy" style="display:none;">
                     <h2>개인정보 수집 및 이용</h2>
                     <table>
                         <tr>
@@ -270,7 +270,7 @@
                 </div>
 
                 <!-- 만 14세 이상 확인 -->
-                <div class="fourteen">
+                <div class="fourteen" style="display: none;">
                     <h2>만 14세 이상 확인</h2>
                     <p class="font_red">LEMO는 <b>만 14세 미만 아동</b>의 <b>서비스 이용을 제한</b>하고 있습니다.</p>
                     정보통신망 이용촉진 및 정보보호 등에 관한법률에는 만 14세미만 아동의 개인정보 수집 시  법정대리인 동의를 받도록 규정하고 있으며,
@@ -278,7 +278,7 @@
                 </div>
 
                 <!-- 마케팅 알림 수신 동의 -->
-                <div class="marketing table_common" id="marketing">
+                <div class="marketing table_common" id="marketing" style="display: none;">
                     <h2>마케팅 알림 수신 동의</h2>
                     <table>
                         <tr>
@@ -303,33 +303,10 @@
 
 <th:block layout:fragment="script">
     <script th:src="@{/js/cs/toggle.js}"></script>
+    <script th:src="@{/js/cs/terms.js}"></script>
     <script>
-        $(document).ready(function(){
-            $('.scroll1').click(function(){
-                const offset = $(".terms").offset();
-                $('html, body').animate({scrollTop: offset.top}, 500);
-             });
 
-             $('.scroll2').click(function(){
-                const offset = $(".location").offset();
-                $('html, body').animate({scrollTop: offset.top}, 500);
-             });
 
-             $('.scroll3').click(function(){
-                const offset = $("#privacy").offset();
-                $('html, body').animate({scrollTop: offset.top}, 500);
-             });
-
-             $('.scroll4').click(function(){
-                const offset = $(".fourteen").offset();
-                $('html, body').animate({scrollTop: offset.top}, 500);
-             });
-
-             $('.scroll5').click(function(){
-                const offset = $("#marketing").offset();
-                $('html, body').animate({scrollTop: offset.top}, 500);
-             });
-        });
     </script>
 </th:block>
 </html>
