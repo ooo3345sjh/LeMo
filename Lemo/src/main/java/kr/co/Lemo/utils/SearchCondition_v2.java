@@ -1,12 +1,10 @@
 package kr.co.Lemo.utils;
 
-import kr.co.Lemo.domain.TestVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 @Data
@@ -17,6 +15,8 @@ public class SearchCondition_v2 {
     private Integer pageSize = 10;
     private Integer no = 0;
     private Map<String, String> map;
+
+
 
     public String getQueryString(Integer page){
         // ?page=1&pageSize=10&option="T"&keyword="title"
