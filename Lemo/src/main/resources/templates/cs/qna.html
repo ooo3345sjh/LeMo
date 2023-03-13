@@ -28,31 +28,33 @@
                 <!-- 1:1 문의 목록 -->
                 <div class="tab_each" id="qna_list" style="display: block;">
                     <ul id="qnas" class="show_list open_list">
-                        <li>
-                            <!-- 제목 길이를 substring으로 자르기 -->
-                            <a href="#" id="qna_tab" class="list_n">
-                                <p>
-                                    <span>이용문의</span>
-                                    숙소 정보를 공유하는 기능이 있나요?<b class="reply_chk">답변완료</b>
-                                    <span><b>작성일</b>2023.02.26</span>
-                                </p>
-                            </a>
-                            <div class="toggle">
-                                <div class="qna">
-                                    <span>문의</span>
-                                    <div>
-                                        숙소 정보를 공유하고 싶은데 어떻게 해야 하나요?<br>
-                                    </div>
+                        <th:block th:each="qna:${qnaArticles}">
+                            <li>
+                                <!-- 제목 길이를 substring으로 자르기 -->
+                                <a href="#" id="qna_tab" class="list_n">
+                                    <p>
+                                        <span>[[${qna.cs_type}]]</span>
+                                        [[${qna.cs_title}]]<b class="reply_chk" th:style="${qna.cs_reply == null ? 'display:none' : ''}">답변완료</b>
+                                        <span><b>작성일</b>[[${qna.cs_rdate.substring(2, 10)}]]</span>
                                     </p>
-                                    <div class="reply">
-                                        <span>답변</span><b>작성일 2023.02.27 17:44:19</b>
+                                </a>
+                                <div class="toggle">
+                                    <div class="qna">
+                                        <span>문의</span>
                                         <div>
-                                            아직 등록된 답변이 없습니다.
+                                            [[${qna.cs_content}]]<br>
+                                        </div>
+                                        </p>
+                                        <div class="reply" th:style="${qna.cs_reply == null ? 'display:none' : ''}">
+                                            <span>답변</span><b>작성일 2023.02.27 17:44:19</b>
+                                            <div>
+                                                아직 등록된 답변이 없습니다.
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        </th:block>
                     </ul>
                 </div>
 
@@ -81,7 +83,7 @@
 
                             <div class="phone-block">
                                 <b>제목</b>
-                                <p class="qna_wrap"><input type="tel" maxlength="13" name="cs_title" placeholder="제목을 입력해주세요" required></p>
+                                <p class="qna_wrap"><input type="text" name="cs_title" placeholder="제목을 입력해주세요" required></p>
                             </div>
 
                             <div class="phone-block">
@@ -151,6 +153,7 @@
             function onColorWrite() {
                 document.getElementById('newInquiry').className = 'on';
             }
+
 
 
     </script>

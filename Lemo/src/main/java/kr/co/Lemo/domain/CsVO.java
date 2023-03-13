@@ -33,4 +33,6 @@ public class CsVO {
     private String cs_eventEnd;
     private int cs_eventState;
 
+    /** 추가 **/
+    private String nick;
 }

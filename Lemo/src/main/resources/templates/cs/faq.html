@@ -22,122 +22,46 @@
                 </div>
                 <!-- 자주묻는 질문 카테고리 -->
                 <div class="sub_cate">
-                    <li><a th:href="@{#}">이벤트</a></li>
-                    <li><a th:href="@{#}">예약/결제</a></li>
-                    <li><a th:href="@{#}">취소/환불</a></li>
-                    <li><a th:href="@{#}">혜택받기</a></li>
-                    <li><a th:href="@{#}" class="on">이용문의</a></li>
-                    <li><a th:href="@{#}">회원정보</a></li>
-                    <li><a th:href="@{#}">리뷰</a></li>
-                    <li><a th:href="@{#}">환불신청</a></li>
-                    <li><a th:href="@{#}">쿠폰/포인트</a></li>
+                    <li><a th:href="@{/cs/faq/event}" th:class="${cs_type == 'event'} ? 'on' : ''">이벤트</a></li>
+                    <li><a th:href="@{/cs/faq/payment}" th:class="${cs_type == 'payment'} ? 'on' : ''">예약/결제</a></li>
+                    <li><a th:href="@{/cs/faq/cancel}" th:class="${cs_type == 'cancel'} ? 'on' : ''">취소/환불</a></li>
+                    <li><a th:href="@{/cs/faq/benefit}" th:class="${cs_type == 'benefit'} ? 'on' : ''">혜택받기</a></li>
+                    <li><a th:href="@{/cs/faq/use}" th:class="${cs_type == 'use'} ? 'on' : ''">이용문의</a></li>
+                    <li><a th:href="@{/cs/faq/info}" th:class="${cs_type == 'info'} ? 'on' : ''">회원정보</a></li>
+                    <li><a th:href="@{/cs/faq/review}" th:class="${cs_type == 'review'} ? 'on' : ''">리뷰</a></li>
+                    <li><a th:href="@{/cs/faq/refund}" th:class="${cs_type == 'refund'} ? 'on' : ''">환불신청</a></li>
+                    <li><a th:href="@{/cs/faq/point}" th:class="${cs_type == 'point'} ? 'on' : ''">쿠폰/포인트</a></li>
                 </div>
                 <!-- 자주묻는 질문 목록 -->
                 <div class="tab_each" id="faq_list">
                     <ul id="faqs" class="show_list open_list">
-                        <li>
-                            <a href="#" class="list_n">
-                                <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
-                            </a>
-                            <div class="toggle">
-                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
-                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#" class="list_n">
-                                <p>[이용문의] 숙소 정보를 공유하는 기능이 있나요?</p>
-                            </a>
-                            <div class="toggle">
-                                LEMO를 통해 국내 숙소/모바일티켓 상관없이 실 결제금액 3만원 이상 5번을 예약하면 자동 등업되어 엘리트가 됩니다.<br>
-                                나의 적립 상태는 앱 하단 내정보 > 엘리트 메뉴에서 확인해 주세요!<br>
-                                공간대여/실시간 렌터카 상품은 엘리트 적립에서 제외되니 참고바랍니다.
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#" class="list_n">
-                                <p>[이용문의] 어떻게하면 엘리트가 될 수 있나요?</p>
-                            </a>
-                            <div class="toggle">
-                                LEMO를 통해 국내 숙소/모바일티켓 상관없이 실 결제금액 3만원 이상 5번을 예약하면 자동 등업되어 엘리트가 됩니다.<br>
-                                나의 적립 상태는 앱 하단 내정보 > 엘리트 메뉴에서 확인해 주세요!<br>
-                                공간대여/실시간 렌터카 상품은 엘리트 적립에서 제외되니 참고바랍니다.
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#" class="list_n">
-                                <p>[회원정보] 소셜회원 로그인 해제는 어떻게 하나요?</p>
-                            </a>
-                            <div class="toggle">
-                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
-                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#" class="list_n">
-                                <p>[이용문의] 숙소 정보를 공유하는 기능이 있나요?</p>
-                            </a>
-                            <div class="toggle">
-                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
-                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#" class="list_n">
-                                <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
-                            </a>
-                            <div class="toggle">
-                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
-                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#" class="list_n">
-                                <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
-                            </a>
-                            <div class="toggle">
-                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
-                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#" class="list_n">
-                                <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
-                            </a>
-                            <div class="toggle">
-                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
-                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#" class="list_n">
-                                <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
-                            </a>
-                            <div class="toggle">
-                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
-                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#" class="list_n">
-                                <p>[이용문의] 고객센터 연결 지연 시 어떻게 하나요?</p>
-                            </a>
-                            <div class="toggle">
-                                일부 시간대에는 통화량이 많아 상담사 연결이 지연될 수 있습니다.<br>
-                                LEMO에서는 전화 상담 외에도 다양한 방식으로 상담이 가능하오니 연결 지연 시 1:1문의, 카카오톡을 통해 상담을 부탁드립니다.
-                            </div>
-                        </li>
+                        <th:block th:each="faq:${faqArticles}">
+                            <li>
+                                <a href="#" class="list_n">
+                                    <p class="${faq.cs_type}">[[${faq.cs_type}]]</p> <p>[[${faq.cs_title}]]</p>
+                                </a>
+                                <div class="toggle">
+                                    [[${faq.cs_content}]]
+                                </div>
+                            </li>
+                        </th:block>
                     </ul>
                 </div>
                 <!-- 페이징 -->
-                <div class="paging">
-                    <span class="prev"><a th:href="@{#}"></a></span>
-                    <span class="on"><a href="#">1</a></span>
-                    <span><a href="#">2</a></span>
-                    <span><a href="#">3</a></span>
-                    <span><a href="#">4</a></span>
-                    <span><a href="#">5</a></span>
-                    <span class="next"><a th:href="@{#}"></a></span>
+                <div class="paging" th:object="${ph}">
+                    <th:block th:if="*{showPrev}">
+                        <span class="prev">
+                            <a th:href="@{/cs/faq/type} + ${ph.sc.getQueryString(ph.beginPage-1)}"><<</a>
+                        </span>
+                    </th:block>
+
+                    <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                        <span th:class="${num == ph.sc.page ? 'on':'num'}"><a th:href="@{/cs/faq/type} + ${ph.sc.getQueryString(num)}" >[[${num}]]</a></span>
+                    </th:block>
+
+                    <th:block th:if="*{showNext}">
+                        <span class="next"><a th:href="@{/cs/faq/type} + ${ph.sc.getQueryString(ph.endPage+1}"> >> </a></span>
+                    </th:block>
                 </div>
 
             </div>
@@ -147,6 +71,21 @@
 
 <th:block layout:fragment="script">
     <script th:src="@{/js/cs/toggle.js}"></script>
+    <script>
+        $(document).on('load', function(){
+            var faqType = document.getElementsByClassName('faqType').innerHTML;
+
+            console.log("faqType");
+
+            switch(faqType){
+                case 'payment' :
+                    $('.faqType').text('예약/결제');
+                    break;
+                default :
+                    $('.faqType').text('이벤트');
+            }
+        });
+    </script>
 </th:block>
 </html>
 

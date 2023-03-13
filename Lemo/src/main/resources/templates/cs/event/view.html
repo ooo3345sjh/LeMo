@@ -54,20 +54,20 @@
 
                 <!-- 페이징 -->
                 <div class="page">
-                    <p>
+                    <p th:style="${eventPrev.cs_cate == null} ? 'display:none' : ''" th:styleappend="${eventPrev.cs_cate == 'event'} ? 'display:block' : 'display:none'">
                         <a href="#">
                             <span class="ico_arr_up">이전글</span>
-                            <b>23년 2월 하나카드 즉시할인 - 신용카드</b>
-                            <em>기간 : 2023.02.01 ~ 2023.02.28</em>
+                            <b>[[${eventPrev.cs_title}]]</b>
+                            <em>기간 : [[${eventPrev.cs_eventStart}]] ~ [[${eventPrev.cs_eventEnd}]]</em>
                         </a>
                     </p>
-                    <p>
-                        <a href="#">
-                            <span class="ico_arr_down">다음글</span>
-                            <b>23년 2월 우리카드 즉시할인 - 신용카드</b>
-                            <em>기간 : 2023.02.01 ~ 2023.02.28</em>
-                        </a>
-                    </p>
+                        <p th:style="${eventNext.cs_cate == 'event'} ? 'display:block' : 'display:none'">
+                            <a href="#">
+                                <span class="ico_arr_down">다음글</span>
+                                <b>[[${eventNext.cs_title}]]</b>
+                                <em>기간 : [[${eventNext.cs_eventStart}]] ~ [[${eventPrev.cs_eventEnd}]]</em>
+                            </a>
+                        </p>
                 </div>
                 <div class="aligncenter">
                     <button onclick="window.location.href='#'" class="btn">목록보기</button>

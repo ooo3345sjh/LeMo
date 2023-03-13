@@ -32,40 +32,37 @@
                                         <li>작성일</li>
                                         <li>상태</li>
                                     </ul>
-                                    <ul>
-                                        <li>
-                                            <input type="checkbox" name="문의번호">
-                                        </li>
-                                        <li>1</li>
-                                        <li class="title">
-                                            <a href="#">예약을 어떻게 취소하나요?</a>
-                                        </li>
-                                        <li>이동*</li>
-                                        <li>2023-03-04</li>
-                                        <li class="re_off">검토중</li>
-                                    </ul>
-                                    <ul>
-                                        <li>
-                                            <input type="checkbox" name="문의번호">
-                                        </li>
-                                        <li>2</li>
-                                        <li class="title">
-                                            <a href="#">신종 코로나바이러스 감염증(코로나19)으로 인한 예약변경이 가능한가요?</a>
-                                        </li>
-                                        <li>이동*</li>
-                                        <li>2023-03-04</li>
-                                        <li class="re_on">답변완료</li>
-                                    </ul>
+                                    <th:block th:each="qna,i:${AdminQnaArticles}">
+                                        <ul>
+                                            <li>
+                                                <input type="checkbox" name="문의번호">
+                                            </li>
+                                            <li>[[*{totalCnt-sc.offset} - ${i.index}]]</li>
+                                            <li class="title">
+                                                <a th:href="@{/admin/cs/qna/view (cs_no=${qna.cs_no})}">[[${qna.cs_title}]]</a>
+                                            </li>
+                                            <li>[[${qna.nick}]]</li>
+                                            <li>[[${qna.cs_rdate.substring(2, 10)}]]</li>
+                                            <li class="re_off">검토중</li>
+                                        </ul>
+                                    </th:block>
                                 </div>
-                                <div class="pagination">
-                                    <a href="#">&laquo;</a>
-                                    <a href="#">1</a>
-                                    <a href="#" class="active">2</a>
-                                    <a href="#">3</a>
-                                    <a href="#">4</a>
-                                    <a href="#">5</a>
-                                    <a href="#">6</a>
-                                    <a href="#">&raquo;</a>
+                                <div class="pagination" th:object="${ph}">
+
+                                    <th:block th:if="*{showPrev}">
+                                        <a th:href="@{/admin/cs/qna/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
+                                    </th:block>
+
+                                    <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                                        <a th:href="@{/admin/cs/qna/list} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                            [[${num}]]
+                                        </a>
+                                    </th:block>
+
+                                    <th:block th:if="*{showNext}">
+                                        <a th:href="@{/admin/cs/qna/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                    </th:block>
+
                                 </div>
                                 <div class="btnAdminProd4">
                                     <a href="#">
@@ -83,5 +80,8 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+    <script>
+
+    </script>
 </th:block>
 </html>

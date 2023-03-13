@@ -19,16 +19,17 @@
                             <div class="col0" style="margin-bottom: 20px;">
                                 <form action="#">
                                     <div class="selectProdForAdmin">
-                                        <select>
+                                        <select name="cs_type">
                                             <option value="0">유형선택</option>
-                                            <option value="1">이벤트</option>
-                                            <option value="2">예약/결제</option>
-                                            <option value="3">취소/환불</option>
-                                            <option value="4">이용문의</option>
-                                            <option value="5">회원정보</option>
-                                            <option value="6">리뷰</option>
-                                            <option value="7">환불신청</option>
-                                            <option value="8">쿠폰/포인트</option>
+                                            <option value="event">이벤트</option>
+                                            <option value="payment">예약/결제</option>
+                                            <option value="cancel">취소/환불</option>
+                                            <option value="benefit">혜택받기</option>
+                                            <option value="use">이용문의</option>
+                                            <option value="info">회원정보</option>
+                                            <option value="review">리뷰</option>
+                                            <option value="refund">환불신청</option>
+                                            <option value="point">쿠폰/포인트</option>
                                         </select>
                                     </div>
                                 </form>
@@ -95,7 +96,7 @@
                                         <a href="#">&raquo;</a>
                                     </div>
                                     <div class="btnAdminProd4">
-                                        <a href="#">
+                                        <a th:href="@{/admin/cs/faq/write}">
                                             작성
                                         </a>
                                     </div>

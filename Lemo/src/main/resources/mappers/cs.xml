@@ -10,6 +10,7 @@
 <mapper namespace="kr.co.Lemo.dao.CsDAO">
 
     <!-- select -->
+    <!-- cs 목록 공통 -->
     <select id="selectCsArticles" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.CsVO">
         SELECT * FROM `lemo_cs` WHERE `cs_cate` =#{cs_cate}
         order by `cs_no` DESC
@@ -20,16 +21,58 @@
         select count(*) from `lemo_cs` where `cs_cate` =#{cs_cate};
     </select>
 
-    <select id="selectEventArticle" resultType="kr.co.Lemo.domain.CsVO">
+    <!-- 게시글 상세보기 -->
+    <select id="selectCsArticle" resultType="kr.co.Lemo.domain.CsVO">
         select * from `lemo_cs` where `cs_no`=#{cs_no};
     </select>
 
+    <!-- 이벤트 이전글 다음글 -->
+    <select id="selectEventPrev" resultType="kr.co.Lemo.domain.CsVO">
+        <![CDATA[ SELECT * FROM `lemo_cs` WHERE `cs_no`<#{cs_no} order BY `cs_no` DESC LIMIT 1;]]>
+    </select>
+    <select id="selectEventNext" resultType="kr.co.Lemo.domain.CsVO">
+        <![CDATA[ SELECT * FROM `lemo_cs` WHERE `cs_no`>#{cs_no} order BY `cs_no` asc LIMIT 1;]]>
+    </select>
 
-    <select id="selectFaqArticles">
+    <select id="selectFaqArticles" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.CsVO">
         select * from `lemo_cs` where `cs_cate` =#{cs_cate}
         <choose>
-            <when test=""></when>
+            <when test="cs_type == 'event'">AND `cs_type` = 'event' ORDER BY `cs_no` DESC LIMIT #{offset}, 10;</when>
+            <when test="cs_type == 'payment'">AND `cs_type` = 'payment' ORDER BY `cs_no` DESC LIMIT #{offset}, 10;</when>
+            <when test="cs_type == 'cancel'">AND `cs_type` = 'cancel' ORDER BY `cs_no` DESC LIMIT #{offset}, 10;</when>
+            <when test="cs_type == 'benefit'">AND `cs_type` = 'benefit' ORDER BY `cs_no` DESC LIMIT #{offset}, 10;</when>
+            <when test="cs_type == 'use'">AND `cs_type` = 'use' ORDER BY `cs_no` DESC LIMIT #{offset}, 10;</when>
+            <when test="cs_type == 'info'">AND `cs_type` = 'info' ORDER BY `cs_no` DESC LIMIT #{offset}, 10;</when>
+            <when test="cs_type == 'review'">AND `cs_type` = 'review' ORDER BY `cs_no` DESC LIMIT #{offset}, 10;</when>
+            <when test="cs_type == 'refund'">AND `cs_type` = 'refund' ORDER BY `cs_no` DESC LIMIT #{offset}, 10;</when>
+            <when test="cs_type == 'point'">AND `cs_type` = 'point' ORDER BY `cs_no` DESC LIMIT #{offset}, 10;</when>
         </choose>
+    </select>
+
+    <select id="countFaqArticles" resultType="java.lang.Integer">
+        select count(*) from `lemo_cs` where `cs_cate` =#{cs_cate} and `cs_type` =#{cs_type};
+    </select>
+
+    <select id="selectQnaArticles" resultType="kr.co.Lemo.domain.CsVO">
+        select * from `lemo_cs` where `cs_cate` =#{cs_cate} and `user_id`='1002rsvn@plusn.co.kr';
+    </select>
+
+    <!-- 관리자 cs -->
+
+    <select id="selectAdminQnaArticles" resultType="kr.co.Lemo.domain.CsVO">
+        SELECT a.*, b.`nick` FROM `lemo_cs` AS a
+        JOIN `lemo_member_userinfo` AS b
+        ON a.user_id = b.user_id
+        WHERE a.`cs_cate` =#{cs_cate}
+        order by `cs_no` DESC
+        LIMIT #{offset}, 10;
+    </select>
+
+    <select id="selectAdminQnaArticle" resultType="kr.co.Lemo.domain.CsVO">
+        SELECT a.*, b.`nick` FROM `lemo_cs` AS a
+        JOIN `lemo_member_userinfo` AS b
+        ON a.user_id = b.user_id
+        WHERE a.`cs_cate` =#{cs_cate} and a.`cs_no` =#{cs_no};
     </select>
 
     <!-- insert -->
@@ -49,7 +92,7 @@
         </insert>
 
 
-        <insert id="insertArticleNotice">
+        <insert id="insertNoticeArticle">
             insert into `lemo_cs` set
             `user_id`=#{user_id},
             `cs_cate`=#{cs_cate},
@@ -63,6 +106,8 @@
         <insert id="insertArticleQna">
             insert into `lemo_cs` set
             `user_id` =#{user_id},
+            `cs_hp` =#{cs_hp},
+            `cs_email` =#{cs_email},
             `cs_cate` =#{cs_cate},
             `cs_type`=#{cs_type},
             `cs_title`=#{cs_title},
@@ -72,7 +117,9 @@
         </insert>
 
     <!-- update -->
-
+    <update id="updateQnaArticle">
+        update `lemo_cs` set `cs_reply`=#{cs_reply} where `cs_no` =#{cs_no};
+    </update>
     <!-- delete -->
 
     <!-- 공통 키 -->

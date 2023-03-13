@@ -31,40 +31,92 @@ public class CsService {
 
         log.info("cs_cate : " + sc.getCs_cate());
         int totalCnt = dao.countEventArticles(sc.getCs_cate());
-        log.info("here2");
         log.info("total : " + totalCnt);
         int totalPage = (int) Math.ceil(totalCnt / (double)sc.getPageSize());
 
-        log.info("here3");
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
 
-        log.info("here4");
-
         List<CsVO> eventArticles = dao.selectCsArticles(sc);
-
-        log.info("here5");
 
         model.addAttribute("eventArticles", eventArticles);
         model.addAttribute("ph", pageHandler);
-
-        log.info("here6");
+        model.addAttribute("totalCnt", totalCnt);
+        model.addAttribute("sc", sc);
 
         return eventArticles;
     }
 
-    public CsVO selectEventArticle(@RequestParam("cs_no") int cs_no) {
-        return dao.selectEventArticle(cs_no);
+    public CsVO findCsArticle(@RequestParam("cs_no") int cs_no) {
+        return dao.selectCsArticle(cs_no);
     }
 
+    /**
+     * 이벤트 상세보기 이전글, 다음글
+     *  @since 2023/03/12
+     */
+    public CsVO findEventPrev(@RequestParam("cs_no") int cs_no) {return dao.selectEventPrev(cs_no);}
+    public CsVO findEventNext(@RequestParam("cs_no") int cs_no) {return  dao.selectEventNext(cs_no);}
+
+    public List<CsVO> findAllQnaArticles(SearchCondition sc, Model model) {
+       List<CsVO> qnaArticles = dao.selectQnaArticles(sc);
+
+       model.addAttribute("qnaArticles", qnaArticles);
+
+       return qnaArticles;
+    }
+
+    // @since 23/03/11
+    public List<CsVO> findAllFaqArticles(SearchCondition sc, Model model){
+
+        log.info("cs_faq : " + sc.getCs_cate());
+        log.info("cs_type : " + sc.getCs_type());
+        int totalCnt = dao.countFaqArticles(sc.getCs_cate(), sc.getCs_type());
+        log.info("total : " + totalCnt);
+        int totalPage = (int) Math.ceil(totalCnt / (double)sc.getPageSize());
+
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<CsVO> faqArticles = dao.selectFaqArticles(sc);
+
+        model.addAttribute("faqArticles", faqArticles);
+        model.addAttribute("ph", pageHandler);
+
+        return faqArticles;
+    }
+
+    // @since 2023/03/12
+    public List<CsVO> findAllAdminQnaArticles(SearchCondition sc, Model model) {
+        log.info("cs_cate : " + sc.getCs_cate());
+        int totalCnt = dao.countEventArticles(sc.getCs_cate());
+        log.info("total : " + totalCnt);
+        int totalPage = (int) Math.ceil(totalCnt / (double)sc.getPageSize());
+
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<CsVO> AdminQnaArticles = dao.selectAdminQnaArticles(sc);
+
+        model.addAttribute("AdminQnaArticles", AdminQnaArticles);
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalCnt", totalCnt);
+        model.addAttribute("sc", sc);
+
+        return AdminQnaArticles;
+    }
+
+    public CsVO findAdminQnaArticle(@RequestParam("cs_cate") String cs_cate, @RequestParam("cs_no") int cs_no) {
+        return dao.selectAdminQnaArticle(cs_cate, cs_no);
+    }
 
     /** insert **/
     public int insertEvent(CsVO vo){
         return dao.insertEvent(vo);
     }
 
-    public int insertArticleNotice(CsVO vo) {
-        return dao.insertArticleNotice(vo);
+    public int rsaveNoticeArticle(CsVO vo) {
+        return dao.insertNoticeArticle(vo);
     }
 
     public int rsaveArticleQna(CsVO vo){

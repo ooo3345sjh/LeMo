@@ -349,7 +349,7 @@ main > #cs {
 
 .page p b {
     display: inline-block;
-    width: 370px;
+    width: 350px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -401,6 +401,7 @@ main > #cs {
     display: inline-block;
     list-style: none;
     margin-right: 20px;
+    cursor: pointer;
 }
 
 .sub_cate li a {

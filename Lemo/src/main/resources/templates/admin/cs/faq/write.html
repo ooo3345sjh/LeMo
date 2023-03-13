@@ -26,27 +26,28 @@
                                         <div class="view_head">
                                             <div class="title">
                                                 <p>
-                                                    <select class="select_faq_cate">
+                                                    <select class="select_faq_cate" name="cs_type">
                                                         <option value="0">유형선택</option>
-                                                        <option value="1">이벤트</option>
-                                                        <option value="2">예약/결제</option>
-                                                        <option value="3">취소/환불</option>
-                                                        <option value="4">이용문의</option>
-                                                        <option value="5">회원정보</option>
-                                                        <option value="6">리뷰</option>
-                                                        <option value="7">환불신청</option>
-                                                        <option value="8">쿠폰/포인트</option>
+                                                        <option value="event">이벤트</option>
+                                                        <option value="payment">예약/결제</option>
+                                                        <option value="cancel">취소/환불</option>
+                                                        <option value="benefit">혜택받기</option>
+                                                        <option value="use">이용문의</option>
+                                                        <option value="info">회원정보</option>
+                                                        <option value="review">리뷰</option>
+                                                        <option value="refund">환불신청</option>
+                                                        <option value="point">쿠폰/포인트</option>
                                                     </select>
                                                 </p>
                                             </div>
                                         </div>
                                         <div class="view_content">
-                                            <textarea placeholder="자주 묻는 질문의 질문 내용을 작성해 주세요"></textarea>
+                                            <textarea placeholder="자주 묻는 질문의 질문 내용을 작성해 주세요" name="cs_title"></textarea>
                                         </div>
                                         <div class="view_recomment">
                                             <div class="write_recomment">
                                                 <div class="inner_txt">
-                                                    <textarea placeholder="자주 묻는 질문의 답변 내용을 작성해 주세요"></textarea>
+                                                    <textarea placeholder="자주 묻는 질문의 답변 내용을 작성해 주세요" name="cs_content"></textarea>
                                                 </div>
                                                 <div class="btnSubmit">
                                                     <button class="btnAdminProd" type="button">등록</button>

@@ -25,15 +25,15 @@
                                     <div class="view_box">
                                         <div class="view_head">
                                             <div class="title">
-                                                <p>[예약/결제] 예약을 어떻게 취소하나요?</p>
+                                                <p>[[${qnaArticle.cs_type}]]  [[${qnaArticle.cs_title}]]</p>
                                             </div>
                                             <div class="info">
-                                                <div class="view_date">2023-03-04</div>
-                                                <div class="view_user">이동*</div>
+                                                <div class="view_date">[[${qnaArticle.cs_rdate.substring(2,10)}]]</div>
+                                                <div class="view_user">[[${qnaArticle.nick}]]</div>
                                             </div>
                                         </div>
                                         <div class="view_content">
-                                            <textarea readonly>예약을 어떻게 취소하나요?</textarea>
+                                            <textarea readonly>[[${qnaArticle.cs_content}]]</textarea>
                                         </div>
                                         <div class="view_recomment">
                                             <div class="write_recomment">
