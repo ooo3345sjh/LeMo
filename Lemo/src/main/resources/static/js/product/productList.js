@@ -24,9 +24,11 @@ $(function(){
 
 
     // 상품 페이지 내의 검색창 자동완성 호출
-    const autocomplete = new google.maps.places.Autocomplete(autocompleteProdInput, prodOption);
+    autocomplete = new google.maps.places.Autocomplete(autocompleteProdInput, prodOption);
     autocomplete.setComponentRestrictions({country: ["kr"]});
-
+    autocomplete.addListener('place_changed', function(){
+        alert('test');
+    });
 
     // 검색 키워드를 지도 중심으로 설정
     setCenter(clat, clng);
@@ -35,7 +37,6 @@ $(function(){
     accs.forEach(function(acc, i){
         displayMarker(map, accs[i].acc_lattitude, accs[i].acc_longtitude);
     });
-
 
     // 검색
 
