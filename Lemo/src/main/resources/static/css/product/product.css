@@ -1190,10 +1190,13 @@
     margin-top: 46px;
 }
 
-.listSearch > #filter > a { 
+.listSearch > #filter > a {
+    position: relative;
+    top: 6px;
+    left: 23px;
     display: block;
     float: left;
-    width: 45px; height: 45px;
+    width: 33px; height: 33px;
     margin-left: 10px;
     background-image: url(/Lemo/images/product/list.png);
     background-size: cover;
@@ -1249,30 +1252,56 @@
     text-align: center;
 }
 
+/** 목록 - 필터 - 팝업창 - 숙소 유형 */
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) {
+    width: 95%;
+    margin: 10px auto;
+    box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
+    border-radius: 10px;
+}
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) > strong { font-size: 18px; padding-left: 10px; }
+
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) > ul {
+    width: 100%;
+    margin-top: 5px;
+    padding: 10px;
+}
+
+
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) li {
+    margin-left: 10px;
+    display: inline-block;
+}
+
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) > ul label { font-size: 15px; }
+
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) > ul label > input { margin-right: 5px; }
+
+
 /** 목록 - 필터 - 팝업창 - 편의 시설 */
-.listSearch > #filter > #popupFilter > form > article:nth-child(2) { 
+.listSearch > #filter > #popupFilter > form > article:nth-child(3) {
     width: 95%;
     margin: 10px auto; 
     box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
     border-radius: 10px;
 }
 
-.listSearch > #filter > #popupFilter > form > article:nth-child(2) > strong { font-size: 18px; padding-left: 10px; }
+.listSearch > #filter > #popupFilter > form > article:nth-child(3) > strong { font-size: 18px; padding-left: 10px; }
 
-.listSearch > #filter > #popupFilter > form > article:nth-child(2) > table {
+.listSearch > #filter > #popupFilter > form > article:nth-child(3) > table {
     width: 100%;
     margin-top: 5px;
     padding: 10px;
 }
 
-.listSearch > #filter > #popupFilter > form > article:nth-child(2) > table tr { height: 30px; }
+.listSearch > #filter > #popupFilter > form > article:nth-child(3) > table tr { height: 30px; }
 
-.listSearch > #filter > #popupFilter > form > article:nth-child(2) > table label { font-size: 15px; }
+.listSearch > #filter > #popupFilter > form > article:nth-child(3) > table label { font-size: 15px; }
 
-.listSearch > #filter > #popupFilter > form > article:nth-child(2) > table label > input { margin-right: 5px; }
+.listSearch > #filter > #popupFilter > form > article:nth-child(3) > table label > input { margin-right: 5px; }
 
 /** 목록 - 필터 - 팝업창 - 가격 */
-.listSearch > #filter > #popupFilter > form > article:nth-child(3) {
+.listSearch > #filter > #popupFilter > form > article:nth-child(4) {
     width: 95%;
     margin: 10px auto; 
     box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
@@ -1280,16 +1309,16 @@
     margin-top: 20px;
 }
 
-.listSearch > #filter > #popupFilter > form > article:nth-child(3) > strong { font-size: 18px; padding-left: 10px; }
+.listSearch > #filter > #popupFilter > form > article:nth-child(4) > strong { font-size: 18px; padding-left: 10px; }
 
-.listSearch > #filter > #popupFilter > form > article:nth-child(3) > .priceSlide {
+.listSearch > #filter > #popupFilter > form > article:nth-child(4) > .priceSlide {
     width: 95%;
     margin: 15px 10px 15px 10px;
     padding-bottom: 10px;
 }
 
 /** 목록 - 필터 - 팝업창 - 적용 버튼 */
-.listSearch > #filter > #popupFilter > form > article:nth-child(4) {
+.listSearch > #filter > #popupFilter > form > article:nth-child(5) {
     width: 95%;
     margin: 10px auto 20px auto;
     border-radius: 10px;
@@ -1297,7 +1326,7 @@
 }
 
 
-.listSearch > #filter > #popupFilter > form > article:nth-child(4) > input {
+.listSearch > #filter > #popupFilter > form > article:nth-child(5) > input {
     width: 85px; height: 35px;
     margin-top: 10px;
     border-radius: 8px;
@@ -1362,11 +1391,24 @@
 .list > .list-area .stage-name > strong { font-size: 18px; font-weight: bold; }
 
 /** 목록 - 상품 목록 - 상품 - 상품 별점 */
-.list > .list-area .stage-name > p:nth-child(2) > span { font-size: 12px; }
-.list > .list-area .stage-name > p:nth-child(2) > em { font-size: 12px; }
+.list > .list-area .stage-name > p:nth-child(2) > span {
+    display: inline-block;
+    padding: 0 3px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 17px;
+    color: #fff;
+    background: rgb(255,167,38);
+}
+.list > .list-area .stage-name > p:nth-child(2) > b { font-size: 14px; color: rgb(255,167,38);}
+.list > .list-area .stage-name > p:nth-child(2) > em {
+    font-size: 12px;
+    color: rgb(255,167,38);
+    font-style: normal;
+    }
 
 /** 목록 - 상품 목록 - 상품 - 상품 주소 */
-.list > .list-area .stage-name > p:nth-child(3) > span { font-size: 15px; }
+.list > .list-area .stage-name > p:nth-child(3) > span { font-size: 15px; color: rgba(0,0,0,0.56);}
 
 .list > .list-area .stage-descript { margin-top: 10px; }
 
@@ -1389,7 +1431,8 @@
 
 .list > .list-area .stage-info > p:nth-child(1) > span { font-size: 15px; }
 
-.list > .list-area .stage-info > p:nth-child(2) > b { font-size: 20px; }
+.list > .list-area .stage-info > p:nth-child(2) {font-size: 20px;}
+.list > .list-area .stage-info > p:nth-child(2) > b { font-size: 20px; color: rgba(255,92,92,1); font-weight: 800;}
 
 .list > .list-area .paging { margin-top: 10px; text-align: center; }
 
