@@ -221,27 +221,30 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
-    // 쿠폰 목록 (판매자) 소유 숙소 셀렉트 옵션 추가
-    window.onload = function() {
-        let select = document.getElementsByClassName("selectAccOwned")[0];
+    <script>
+        // 쿠폰 목록 (판매자) 소유 숙소 셀렉트 옵션 추가
+        window.onload = function() {
+            let select = document.getElementsByClassName("selectAccOwned")[0];
 
-        let jsonData = {"user_id": "3min-ik@hanmail.net"};
+            let jsonData = {"user_id": "3min-ik@hanmail.net"};
 
-        console.log(jsonData);
+            console.log(jsonData);
 
-        ajaxAPI("business/coupon/findAccOwned", jsonData, "GET").then((response)=>{
-            console.log('response:' + response);
-            select.innerHTML = "";
-            for (let i = 0; i < response.length; i++) {
-            let option = document.createElement("option");
-            option.value = response[i];
-            option.text = response[i];
-            select.add(option);
-            }
-        }).catch((errorMsg)=>{
-            console.log(errorMsg);
-        });
-    };
+            ajaxAPI("business/coupon/findAccOwned", jsonData, "GET").then((response)=>{
+                console.log('response:' + response);
+                select.innerHTML = "";
+                for (let i = 0; i < response.length; i++) {
+                let option = document.createElement("option");
+                option.value = response[i];
+                option.text = response[i];
+                select.add(option);
+                }
+            }).catch((errorMsg)=>{
+                console.log(errorMsg);
+            });
+        };
+    </script>
+
 
 
 </th:block>
