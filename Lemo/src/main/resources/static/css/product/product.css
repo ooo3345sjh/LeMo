@@ -1280,6 +1280,7 @@
 
 /** 목록 - 필터 - 팝업창 - 편의 시설 */
 .listSearch > #filter > #popupFilter > form > article:nth-child(3) {
+    display : none;
     width: 95%;
     margin: 10px auto; 
     box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
@@ -1434,14 +1435,20 @@
 .list > .list-area .stage-info > p:nth-child(2) {font-size: 20px;}
 .list > .list-area .stage-info > p:nth-child(2) > b { font-size: 20px; color: rgba(255,92,92,1); font-weight: 800;}
 
-.list > .list-area .paging { margin-top: 10px; text-align: center; }
+.list > .list-area .paging { margin-top: 30px; text-align: center; }
 
-.list > .list-area .paging > span > a { padding-left: 5px; font-size: 20px; }
+.list > .list-area .paging > span > a { padding-left: 10px; font-size: 20px; }
 
 .list > .list-area .paging > span > a > img {
     width: 20px; height: 20px;
     vertical-align: -3px;
 }
+
+.list > .list-area .paging > span.on > a {
+    color : #bbd444;
+    font-weight: bold;
+}
+
 
 /** 메인(Map) */
 #listMap {
