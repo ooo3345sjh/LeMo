@@ -31,16 +31,13 @@ $(function(){
 
         // 구글 자동완성 검색 결과가 없을 시 return
         if (!place.geometry || !place.geometry.location) {
-
             return;
         }
 
         // 구글 자동완성 검색 결과가 있을 때 밑으로 실행
-        lat = place.geometry.location.lat();
-        lng = place.geometry.location.lng();
+        Searchlat = place.geometry.location.lat();
+        Searchlng = place.geometry.location.lng();
 
-        // product list로 이동
-        location.href = '/Lemo/product/list?lat=' + lat + '&lng='+ lng;
     });
 
     // 검색 키워드를 지도 중심으로 설정
@@ -111,17 +108,38 @@ $(function(){
     });
 
 
+    // 검색조건 초기화
+    $('input[name=searchPlace]').on('keydown', function(){
+        Searchlat ='';
+        Searchlng ='';
+    });
+
     // 검색 조건
     $('.result').on('click', function(e){
 
         e.preventDefault();
 
+        Searchkeyword = $('input[name=searchPlace]').val();
 
+        // 자동 완성결과가 있을 경우 keyword url 파라미터 삭제후, lat, lng 파람 추가
+        if(Searchlat != '' && Searchlng !='') {
+            urlParams.delete('keyword');
+            setUrlParams('lat', Searchlat);
+            setUrlParams('lng', Searchlng);
+        }else { // 자동 완성이 아닐 경우 lat, lng 파라미터 삭제후, keyword 파람 생성
+            urlParams.delete('lat');
+            urlParams.delete('lng');
+            setUrlParams('keyword', Searchkeyword);
+        }
 
+//        console.log(Searchlat);
+//        console.log(Searchlng);
+//        console.log(Searchkeyword);
 
         let headcount = $('input[name=numPeople]').val();
         if(headcount > 0 ){setUrlParams('headcount', headcount)};
 
+        //return ;
         setUrlParams('checkIn', checkIn);
         setUrlParams('checkOut', checkOut);
         goSearch();
@@ -189,6 +207,11 @@ $(function(){
     let prodLng;
     let autocompleteProdInput = document.querySelector('input[name=searchPlace]');
     let prodOption = {fields: ["address_components", "formatted_address", "geometry", "icon", "name"]};
+
+    // 검색키워드 관련 변수
+    let Searchkeyword;
+    let Searchlat;
+    let Searchlng;
 
 
     /** 카카오 맵 */
