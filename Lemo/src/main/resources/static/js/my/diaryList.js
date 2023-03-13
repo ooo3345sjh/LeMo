@@ -1,4 +1,12 @@
+function resizeMap() {
+    var mapContainer = document.getElementById('map');
+    mapContainer.style.width = '600px';
+}
+
 function mapPosition(lat, lng){
+    var mapContainer = document.getElementById('map');
+    mapContainer.style.width = '600px';
+
     $('.my_diary_list').css({'width' : '200px'});
     $('#my_diary_listMap').css({ 'width' : '600px' });
     $('#my_diary_listMap').css({ 'margin-left' : '100px' });

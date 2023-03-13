@@ -18,8 +18,8 @@ import org.springframework.data.geo.Point;
 public class DiarySpotVO {
     private int spot_no;
     private int arti_no;
-    private String spot_longtitude;
-    private String spot_lattitude;
+    private double spot_longtitude;
+    private double spot_lattitude;
     private Point spot_xy;
     private String spot_title;
     private String spot_content;

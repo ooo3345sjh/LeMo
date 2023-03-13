@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @since 2023/03/10
@@ -33,17 +34,27 @@ public class MyService {
     @Autowired
     private MyDAO dao;
 
-    // @since 2023/03/13;
+    // @since 2023/03/13
     public List<ArticleDiaryVO> findDiaryArticle(String uid) {
         List<ArticleDiaryVO> diaryVO = dao.selectDiaryArticle(uid);
 
-        for(ArticleDiaryVO dVO : diaryVO){
-            List<DiarySpotVO> spotVO = dao.selectDiarySpot(dVO.getArti_no());
-            dVO.setSpotVO(spotVO);
+        List<DiarySpotVO> spotVO = dao.selectDiary(uid);
+        Map<Integer, List<DiarySpotVO>> map = spotVO.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
+
+        for(ArticleDiaryVO vo : diaryVO) {
+            vo.setSpotVO(map.get(vo.getArti_no()));
         }
 
         return diaryVO;
     }
+
+    public List<DiarySpotVO> findDiarySpotPosition(String uid) {
+        List<DiarySpotVO> spotVO = dao.selectDiary(uid);
+
+        return spotVO;
+    }
+
+    // @since 2023/03/13
 
     // @since 2023/03/10
     public void diary_rsave(
@@ -96,8 +107,8 @@ public class MyService {
         for(int i = 0; i<images.length; i++){
             DiarySpotVO spotVO = DiarySpotVO.builder()
                                 .arti_no(arti_no)
-                                .spot_longtitude(lng[i])
-                                .spot_lattitude(lat[i])
+                                .spot_longtitude(Double.parseDouble(lng[i]))
+                                .spot_lattitude(Double.parseDouble(lat[i]))
                                 .spot_title(title[i])
                                 .spot_content(content[i])
                                 .spot_thumb(images[i])

@@ -27,4 +27,7 @@ public interface MyDAO {
 
     // @since 2023/03/13
     public List<DiarySpotVO> selectDiarySpot(int arti_no);
+
+    // @since 2023/03/13
+    public List<DiarySpotVO> selectDiary(String uid);
 }
