@@ -25,6 +25,7 @@ public class SearchCondition {
     private Integer searchLevel;
     private Integer searchType;
     private String searchCouponRole;
+    private String searchAccName;
 
 
     // 이해빈
@@ -88,6 +89,8 @@ public class SearchCondition {
             case "adminCoupon":
                 getAdminCouponParam(builder);
                 break;
+            case "businessCoupon":
+                getBusinessCouponParam(builder);
         }
     }
 
@@ -126,6 +129,12 @@ public class SearchCondition {
     }
 
     public void getAdminCouponParam(UriComponentsBuilder builder){
+        if(searchCouponRole != null){
+            builder.queryParam("searchCouponRole", searchCouponRole);
+        }
+    }
+
+    public void getBusinessCouponParam(UriComponentsBuilder builder){
         if(searchCouponRole != null){
             builder.queryParam("searchCouponRole", searchCouponRole);
         }

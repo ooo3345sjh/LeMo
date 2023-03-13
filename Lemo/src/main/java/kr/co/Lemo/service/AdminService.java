@@ -88,7 +88,7 @@ public class AdminService {
      * @param vo
     * */
     public void rsaveCupon(CouponVO vo) throws Exception {
-        dao.insertCupon(vo);
+        dao.insertCoupon(vo);
     }
 
 
