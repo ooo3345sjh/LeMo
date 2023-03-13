@@ -33,11 +33,24 @@ public class MyService {
     @Autowired
     private MyDAO dao;
 
+    // @since 2023/03/13;
+    public List<ArticleDiaryVO> findDiaryArticle(String uid) {
+        List<ArticleDiaryVO> diaryVO = dao.selectDiaryArticle(uid);
+
+        for(ArticleDiaryVO dVO : diaryVO){
+            List<DiarySpotVO> spotVO = dao.selectDiarySpot(dVO.getArti_no());
+            dVO.setSpotVO(spotVO);
+        }
+
+        return diaryVO;
+    }
+
     // @since 2023/03/10
     public void diary_rsave(
             Map<String, Object> param,
             List<MultipartFile> fileList,
-            HttpServletRequest req
+            HttpServletRequest req,
+            String uid
     ) {
         // 파일 이름 수정 -> 이걸 먼저하는 이유는
         // 파일 업로드 시 경로는 img/diary/arti_no/파일 이름 이고
@@ -58,6 +71,7 @@ public class MyService {
         // diary_article 입력 데이터 분류
         ArticleDiaryVO diaryVO = ArticleDiaryVO.builder()
                                 .res_no(123123)
+                                .user_id(uid)
                                 .arti_title((String) param.get("diaryTitle"))
                                 .arti_thumb(newName)
                                 .arti_regip(req.getRemoteAddr())
@@ -74,7 +88,8 @@ public class MyService {
         fileUpload(fileList, fileRenames, arti_no);
 
         // diary_spot 입력 데이터 분류
-        String[] content = ((String) param.get("diaryContent")).split("/");
+        String[] title   = ((String) param.get("diarySpotTitle")).split("/");
+        String[] content = ((String) param.get("diarySpotContent")).split("/");
         String[] lat     = ((String) param.get("diaryLat")).split("/");
         String[] lng     = ((String) param.get("diaryLng")).split("/");
         String[] images  = newName.split("/");
@@ -83,6 +98,7 @@ public class MyService {
                                 .arti_no(arti_no)
                                 .spot_longtitude(lng[i])
                                 .spot_lattitude(lat[i])
+                                .spot_title(title[i])
                                 .spot_content(content[i])
                                 .spot_thumb(images[i])
                                 .province_name("test")

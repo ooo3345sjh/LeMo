@@ -2108,9 +2108,8 @@
         border-radius: 5px;
         width: 140px;
         height: 30px;
-        position: relative;
-        top: 77px;
-        left: 51px;
+        margin-top: 10px;
+        margin-left: 50px;
     }
 
     .my_diary_list .diary_content button a {color: #515050;}

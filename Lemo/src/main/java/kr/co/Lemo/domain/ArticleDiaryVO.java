@@ -22,6 +22,7 @@ public class ArticleDiaryVO {
 
     private int arti_no;
     private int res_no;
+    private String user_id;
     private String arti_title;
     private String arti_thumb;
     private int arti_comment;
@@ -32,10 +33,12 @@ public class ArticleDiaryVO {
     private String arti_regip;
     private String arti_start;
     private String arti_end;
-    private String user_id;
 
     // 추가
 
     // @since 2023/03/12
     private List<DiarySpotVO> spotVO;
+
+    // @since 2023/03/13
+    private List<String> spot_thumb;
 }
