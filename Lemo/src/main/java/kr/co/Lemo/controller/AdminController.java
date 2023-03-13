@@ -120,10 +120,11 @@ public class AdminController {
         return "admin/coupon/manageCoupon";
     }
 
-
+    // @since 2023/03/11
     @GetMapping("cs/{cs_cate}/list")
-    public String event_list(@PathVariable("cs_cate") String cs_cate, Model model, SearchCondition sc){
+    public String findAllCs_list(@PathVariable("cs_cate") String cs_cate, Model model, SearchCondition sc){
 
+        sc.setGroup("cs");
         if("event".equals(cs_cate)){
             csService.findAllCsArticles(sc, model);
 
@@ -131,8 +132,11 @@ public class AdminController {
         }else if("notice".equals(cs_cate)) {
 
             csService.findAllCsArticles(sc, model);
+            return "admin/cs/notice/list";
+        }else if("qna".equals(cs_cate)){
+            csService.findAllAdminQnaArticles(sc, model);
         }
-        return "admin/cs/notice/list";
+        return "admin/cs/qna/list";
     }
 
     @GetMapping("cs/event/modify")
@@ -185,24 +189,26 @@ public class AdminController {
         return "admin/cs/notice/write";
     }
 
+    // @since 2023/03/10
     @PostMapping("cs/{cs_cate}/write")
-    public String insertArticleNotice(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
+    public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
 
         vo.setUser_id("1002rsvn@plusn.co.kr");
         vo.setCs_regip(req.getRemoteAddr());
 
-        csService.insertArticleNotice(vo);
+        csService.rsaveNoticeArticle(vo);
         return "redirect:/admin/cs/notice/list";
     }
 
 
-    @GetMapping("cs/qna/list")
-    public String qna_list(){
-        return "admin/cs/qna/list";
-    }
+    // @since 2023/03/12
+    @GetMapping("cs/{cs_cate}/view")
+    public String qna_view(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
+        log.debug("qna_view Start");
+        CsVO qnaArticle = csService.findAdminQnaArticle(cs_cate, cs_no);
 
-    @GetMapping("cs/qna/view")
-    public String qna_view(){
+       model.addAttribute("qnaArticle", qnaArticle);
+
         return "admin/cs/qna/view";
     }
 

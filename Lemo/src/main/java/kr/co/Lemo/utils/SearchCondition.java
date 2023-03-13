@@ -18,6 +18,7 @@ public class SearchCondition {
 
     // 황원진
     private String cs_cate;
+    private String cs_type;
 
     // 이원정
     private Integer searchIsEnabled;
@@ -86,7 +87,8 @@ public class SearchCondition {
 
     // 황원진
     public void getCsParam(UriComponentsBuilder builder) {
-        builder.queryParam("cs_cate", cs_cate);
+        builder.queryParam("cs_cate", cs_cate)
+                .queryParam("cs_type", cs_type);
     }
 
     // 이원정

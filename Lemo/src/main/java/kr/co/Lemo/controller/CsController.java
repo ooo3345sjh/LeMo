@@ -19,9 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * @since 2023/03/07
- * @author 이해빈
- * @apiNote csController
+ *  @since 2023/03/09
+ *  @author 황원진
+ *  @apiNote cs total
+ *
  */
 
 @Slf4j
@@ -37,31 +38,46 @@ public class CsController {
     @Autowired
     private CsService service;
 
+    // @since 2023/03/09
     @GetMapping("{cs_cate}")
-    public String notice(@PathVariable("cs_cate") String cs_cate, Model model, SearchCondition sc){
+    public String findAllCsArticles(@PathVariable("cs_cate") String cs_cate, Model model, SearchCondition sc){
+        sc.setGroup("cs");
         if("notice".equals(cs_cate)) {
             model.addAttribute("title", environment.getProperty(group));
             service.findAllCsArticles(sc, model);
 
-
+            return "cs/notice";
+        }else if("qna".equals(cs_cate)) {
+            model.addAttribute("title", environment.getProperty(group));
+            service.findAllQnaArticles(sc, model);
         }
-        return "cs/notice";
-    }
-    @GetMapping("faq")
-    public String faq(){
-        return "cs/faq";
-    }
-
-    @GetMapping("qna")
-    public String qna(){
         return "cs/qna";
     }
 
+    // @since 2023/03/11
+    @GetMapping("{cs_cate}/{cs_type}")
+    public String findAllFaqArticles(
+            @PathVariable("cs_cate") String cs_cate,
+            @PathVariable("cs_type") String cs_type,
+            Model model,
+            SearchCondition sc
+    ){
+
+        sc.setGroup("cs");
+        model.addAttribute("title", environment.getProperty(group));
+        service.findAllFaqArticles(sc, model);
+        model.addAttribute("type", cs_type);
+        return "cs/faq";
+    }
+
+
+    // @since 2023/03/10
     @PostMapping("{cs_cate}")
     public String rsaveArticleQna(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
 
         vo.setUser_id("1002rsvn@plusn.co.kr");
         vo.setCs_regip(req.getRemoteAddr());
+
 
         service.rsaveArticleQna(vo);
 
@@ -73,31 +89,36 @@ public class CsController {
         return "cs/terms";
     }
 
-    /**
-     *  @since 2023/03/09
-     *  @author 황원진
-     *  @apiNote cs/event
-     *
-     */
-
+    // @since 2023/03/08
     @GetMapping("{cs_cate}/list")
     public String findAllEvent_list(@PathVariable("cs_cate") String cs_cate, Model model, SearchCondition sc){
 
         model.addAttribute("title", environment.getProperty(group));
+        sc.setGroup("cs");;
         service.findAllCsArticles(sc, model);
 
         return "cs/event/list";
     }
 
+    // @since 2023/03/08
     @GetMapping("event/view")
     public String event_view(int cs_no, Model model){
         log.info("no : " + cs_no);
 
-        CsVO eventView = service.selectEventArticle(cs_no);
+        CsVO eventView = service.findCsArticle(cs_no);
+        CsVO eventPrev = service.findEventPrev(cs_no);
+        CsVO eventNext = service.findEventNext(cs_no);
+
+        //log.info("prevCs_cate : " + eventPrev.getCs_cate());
+        log.info("nextCs_cate : " + eventNext.getCs_cate());
+
 
         model.addAttribute("title", environment.getProperty(group));
         model.addAttribute("cs_no", cs_no);
         model.addAttribute("eventArticle", eventView);
+        model.addAttribute("eventPrev", eventPrev);
+        model.addAttribute("eventNext", eventNext);
+
 
         return "cs/event/view";
     }

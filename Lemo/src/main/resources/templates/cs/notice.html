@@ -29,8 +29,8 @@
                                     <p>[[${notice.cs_title}]]</p>
                                     <span>[[${notice.cs_rdate.substring(2, 10)}]]</span>
                                 </a>
-                                <div class="toggle">
-                                    [[${notice.cs_content}]]
+                                <div class="toggle" th:utext="${notice.cs_content}">
+
                                 </div>
                             </li>
                         </th:block>

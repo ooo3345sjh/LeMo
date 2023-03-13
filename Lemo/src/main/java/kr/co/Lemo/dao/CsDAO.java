@@ -20,18 +20,33 @@ public interface CsDAO {
     /** select **/
     public List<CsVO> selectCsArticles(SearchCondition sc);
     public int countEventArticles(@Param("cs_cate") String cs_cate);
-    public CsVO selectEventArticle(@Param("cs_no") int cs_no);
+    public CsVO selectCsArticle(@Param("cs_no") int cs_no);
+    public List<CsVO> selectQnaArticles(SearchCondition sc);
+    // @since 2023/03/11
+    public List<CsVO> selectFaqArticles(SearchCondition sc);
+    public int countFaqArticles(@Param("cs_cate") String cs_cate, @Param("cs_type") String cs_type);
+    // @since 2023/03/12
+    public CsVO selectEventPrev(@Param("cs_no") int cs_no);
+    public CsVO selectEventNext(@Param("cs_no") int cs_no);
+
+    /**
+     * @since 2023/03/12
+     * @apiNote Admin/cs
+     * */
+    public List<CsVO> selectAdminQnaArticles(SearchCondition sc);
+    public CsVO selectAdminQnaArticle(@Param("cs_cate") String cs_cate, @Param("cs_no") int cs_no);
     public void selectFaqArticles();
-    public void selectQnaArticles();
     public void selectTermsArticles();
 
 
     /** insert **/
+    // @since 2023/03/09
     public int insertEvent(CsVO vo);
-    public int insertArticleNotice(CsVO vo);
+    public int insertNoticeArticle(CsVO vo);
+    //@since 2023/03/10
     public int insertArticleQna(CsVO vo);
-    /** updare **/
-
+    /** update **/
+    public int updateQnaArticle(@Param("cs_reply") String cs_reply, @Param("cs_no") int cs_no);
 
     /** delete **/
 }
