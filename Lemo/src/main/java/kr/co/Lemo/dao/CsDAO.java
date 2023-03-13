@@ -34,7 +34,7 @@ public interface CsDAO {
      * @apiNote Admin/cs
      * */
     public List<CsVO> selectAdminQnaArticles(SearchCondition sc);
-    public CsVO selectAdminQnaArticle(@Param("cs_cate") String cs_cate, @Param("cs_no") int cs_no);
+    public CsVO selectAdminCsArticle(@Param("cs_cate") String cs_cate, @Param("cs_no") int cs_no);
     public void selectFaqArticles();
     public void selectTermsArticles();
 

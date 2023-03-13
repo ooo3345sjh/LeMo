@@ -106,8 +106,8 @@ public class CsService {
         return AdminQnaArticles;
     }
 
-    public CsVO findAdminQnaArticle(@RequestParam("cs_cate") String cs_cate, @RequestParam("cs_no") int cs_no) {
-        return dao.selectAdminQnaArticle(cs_cate, cs_no);
+    public CsVO findAdminCsArticle(@RequestParam("cs_cate") String cs_cate, @RequestParam("cs_no") int cs_no) {
+        return dao.selectAdminCsArticle(cs_cate, cs_no);
     }
 
     /** insert **/

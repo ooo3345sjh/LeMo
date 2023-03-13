@@ -22,8 +22,8 @@
                 </div>
                 <!-- 1:1문의 카테고리 -->
                 <div class="sub_cate">
-                    <li><a class="on" id="inquiry" onclick="onList(); offWrite(); onColorList(); offColorWrite();">나의 문의 내역</a></li>
-                    <li><a class="off" id="newInquiry" onclick="offList(); onWrite(); offColorList(); onColorWrite();">새 문의 작성</a></li>
+                    <li><a class="on" id="inquiry" onclick="onList();">나의 문의 내역</a></li>
+                    <li><a class="off" id="newInquiry" onclick="onWrite();">새 문의 작성</a></li>
                 </div>
                 <!-- 1:1 문의 목록 -->
                 <div class="tab_each" id="qna_list" style="display: block;">
@@ -33,8 +33,8 @@
                                 <!-- 제목 길이를 substring으로 자르기 -->
                                 <a href="#" id="qna_tab" class="list_n">
                                     <p>
-                                        <span>[[${qna.cs_type}]]</span>
-                                        [[${qna.cs_title}]]<b class="reply_chk" th:style="${qna.cs_reply == null ? 'display:none' : ''}">답변완료</b>
+                                        <span>[[${qna.cs_type_ko}]]</span>
+                                        [[${qna.cs_title}]]<b class="reply_chk" th:style="${qna.cs_reply == null ? 'display:none' : ''}">답변완료</b><b class="reply_chk" th:style="${qna.cs_reply != null} ? 'display: none' : ''">검토중</b>
                                         <span><b>작성일</b>[[${qna.cs_rdate.substring(2, 10)}]]</span>
                                     </p>
                                 </a>
@@ -124,34 +124,16 @@
 
             function onList(){
                  $('#qna_write').hide();
-               }
-
-            function offWrite(){
                  $('#qna_list').show();
-               }
-
-           function offList(){
-                 $('#qna_write').show();
+                 document.getElementById('inquiry').className = 'on';
+                 document.getElementById('newInquiry').className = 'off';
                }
 
             function onWrite(){
-                 $('#qna_list').hide();
-               }
-
-            function onColorList() {
-                document.getElementById('inquiry').className = 'on';
-            }
-
-            function offColorWrite() {
-                document.getElementById('newInquiry').className = 'off';
-            }
-
-             function offColorList() {
-                document.getElementById('inquiry').className = 'off';
-            }
-
-            function onColorWrite() {
+                $('#qna_list').hide();
+                $('#qna_write').show();
                 document.getElementById('newInquiry').className = 'on';
+                document.getElementById('inquiry').className = 'off';
             }
 
 
