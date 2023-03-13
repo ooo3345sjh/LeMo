@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.geo.Point;
 
 /**
  * @since 2023/03/08
@@ -19,7 +20,8 @@ public class DiarySpotVO {
     private int arti_no;
     private String spot_longtitude;
     private String spot_lattitude;
-    private int spot_xy;
+    private Point spot_xy;
+    private String spot_title;
     private String spot_content;
     private String spot_thumb;
     private String province_name;

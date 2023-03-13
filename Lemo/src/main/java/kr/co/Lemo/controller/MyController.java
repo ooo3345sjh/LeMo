@@ -45,8 +45,7 @@ public class MyController {
         log.debug("GET " + myCate + " start");
         m.addAttribute("title", environment.getProperty(myGroup));
 
-
-        String uid = "test";
+        String uid = "test@test.com";
 
         switch (myCate) {
             case "coupon" :
@@ -121,6 +120,11 @@ public class MyController {
         m.addAttribute("title", environment.getProperty(diaryGroup));
         m.addAttribute("cate", "diary");
 
+        String uid = "test@test.com";
+
+        List<ArticleDiaryVO> diaryVO = service.findDiaryArticle(uid);
+        m.addAttribute("article", diaryVO);
+
         return "my/diary/list";
     }
 
@@ -146,8 +150,11 @@ public class MyController {
             HttpServletRequest req
     ) throws Exception {
         log.debug("POST diary/rsave start");
+        
+        // 이후에 principal로 대체
+        String uid = "test@test.com";
 
-        service.diary_rsave(param, fileList, req);
+        service.diary_rsave(param, fileList, req, uid);
 
 
         return "redirect:/my/diary/list";

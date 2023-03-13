@@ -387,32 +387,41 @@
                             }
                         }
 
-                        let submitContent = [];
+                        let submitSpotTitle = [];
+                        let submitSpotContent = [];
                         let submitLat = [];
                         let submitLng = [];
 
-                        // content 가져오기
-                        $('textarea[name=spot_content]').each(function(){
-                            if($(this).val()){ submitContent.push($(this).val()); }
+                        // submitTitle 가져오기
+                        $('.spot > span').each(function(){
+                            submitSpotTitle.push($(this).text());
                         });
 
-                        // Lat, Lng 값 가져오기
+                        // submitContent 가져오기
+                        $('textarea[name=spot_content]').each(function(){
+                            if($(this).val()){ submitSpotContent.push($(this).val()); }
+                        });
+
+                        // Lat, Lng 가져오기
                         for(var i=0; i<markers.length; i++){
                             submitLat.push(markers[i].getPosition().getLat());
                             submitLng.push(markers[i].getPosition().getLng());
                         }
 
-                        let formContent = submitContent.join('/');
-                        let formLat = submitLat.join('/');
-                        let formLng =  submitLng.join('/');
+                        let formTitle       = $('input[name=arti_title]').val();
+                        let formSpotTitle   = submitSpotTitle.join('/');
+                        let formSpotContent = submitSpotContent.join('/');
+                        let formLat         = submitLat.join('/');
+                        let formLng         = submitLng.join('/');
 
                         let jsonData = {
-                            diaryTitle   : $('input[name=arti_title]').val(),
-                            diaryStart   : diary_start,
-                            diaryEnd     : diary_end,
-                            diaryContent : formContent,
-                            diaryLat     : formLat,
-                            diaryLng     : formLng
+                            diaryTitle       : formTitle,
+                            diaryStart       : diary_start,
+                            diaryEnd         : diary_end,
+                            diarySpotTitle   : formSpotTitle,
+                            diarySpotContent : formSpotContent,
+                            diaryLat         : formLat,
+                            diaryLng         : formLng
                         }
 
                         formData.append('key', new Blob([ JSON.stringify(jsonData) ], {type : "application/json"}));
@@ -423,7 +432,7 @@
                         }else if(markers.length == 0) {
                             sweetAlert('안내', '일기를 작성해주세요.!');
                             return;
-                        }else if(markers.length != submitContent.length) {
+                        }else if(markers.length != submitSpotContent.length) {
                             sweetAlert('안내', '내용을 입력하지 않으신 <br>여행일기가 있습니다.!');
                             return;
                         }else if(markers.length != fileCount) {
@@ -446,6 +455,7 @@
 
                             }
                         });
+
                     });
 
                     // submit시 lat, lng 가져오기

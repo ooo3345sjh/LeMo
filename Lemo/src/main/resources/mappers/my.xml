@@ -28,10 +28,19 @@
         `lemo_product_accommodation` AS b on a.`acc_id` = b.`acc_id` WHERE `uid`=#{uid};
     </select>
 
+    <select id="selectDiaryArticle" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
+        SELECT * FROM `lemo_diary_article` WHERE `user_id`=#{uid};
+    </select>
+
+    <select id="selectDiarySpot" resultType="kr.co.Lemo.domain.DiarySpotVO">
+        SELECT * FROM `lemo_diary_spot` WHERE `arti_no`=#{arti_no};
+    </select>
+
     <!-- insert -->
     <insert id="insertDiaryArticle" parameterType="kr.co.Lemo.domain.ArticleDiaryVO" useGeneratedKeys="true" keyProperty="arti_no">
         INSERT INTO `lemo_diary_article` SET
-            `res_no` = #{res_no},
+            `res_no`     = #{res_no},
+            `user_id`    = #{user_id},
             `arti_title` = #{arti_title},
             `arti_thumb` = #{arti_thumb},
             `arti_rdate` = NOW(),
@@ -42,14 +51,15 @@
 
     <insert id="insertDiarySpot" parameterType="kr.co.Lemo.domain.DiarySpotVO">
         INSERT INTO `lemo_diary_spot` SET
-            `arti_no` = #{arti_no},
+            `arti_no`         = #{arti_no},
             `spot_longtitude` = #{spot_longtitude},
-            `spot_lattitude` = #{spot_lattitude},
-            `spot_xy` = ST_GeomFromText(CONCAT('POINT(', #{spot_longtitude}, ' ', #{spot_lattitude}, ')')),
-            `spot_content` = #{spot_content},
-            `spot_thumb` = #{spot_thumb},
-            `province_name` = #{province_name},
-            `spot_addr` = #{spot_addr}
+            `spot_lattitude`  = #{spot_lattitude},
+            `spot_xy`         = ST_GeomFromText(CONCAT('POINT(', #{spot_longtitude}, ' ', #{spot_lattitude}, ')')),
+            `spot_title`      = #{spot_title},
+            `spot_content`    = #{spot_content},
+            `spot_thumb`      = #{spot_thumb},
+            `province_name`   = #{province_name},
+            `spot_addr`       = #{spot_addr}
     </insert>
 
     <!-- update -->
