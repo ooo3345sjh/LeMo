@@ -573,7 +573,7 @@ main > section .common > .sub_title {
     color: rgba(0,0,0,0.56);
 }
 
-.btn_common:hover {
+.btn_common.active {
     background: #FCF951;
 }
 
