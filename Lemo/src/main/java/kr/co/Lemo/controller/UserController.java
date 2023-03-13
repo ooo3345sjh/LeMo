@@ -1,5 +1,10 @@
 package kr.co.Lemo.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import kr.co.Lemo.domain.MessageVO;
+import kr.co.Lemo.domain.SmsResponseVO;
+import kr.co.Lemo.service.SmsService;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
@@ -7,9 +12,14 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,6 +35,7 @@ import java.util.Map;
 public class UserController {
 
     private final Environment environment;
+    private final SmsService smsService;
     private String group = "title.user";
 
     // @since 2023/03/08
@@ -117,6 +128,27 @@ public class UserController {
         return "user/resetPw";
     }
 
+    // @since 2023/03/12
+    @PostMapping("sms/send")
+    @ResponseBody
+    public Map sendSms(@RequestBody MessageVO messageVO) throws Exception {
+        log.debug("POST sendSms start...");
+        log.debug(messageVO.toString());
+        Map map = new HashMap();
+        try {
+//            SmsResponseVO response = smsService.sendSms(messageVO);
+            SmsResponseVO response = SmsResponseVO.builder()
+                                                .code(123123)
+                                                .build();
+            log.debug(response.toString());
+            map.put("result", response);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            map.put("result", "error");
+        }
+
+        return map;
+    }
     /**
      * @since 2023/03/10
      * @param req
