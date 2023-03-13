@@ -53,7 +53,6 @@ public class SearchCondition {
         UriComponentsBuilder builder = UriComponentsBuilder.newInstance()
                 .queryParam("page", page);
 
-
         if (no != null && no != 0)
             builder.queryParam("no", no);
 

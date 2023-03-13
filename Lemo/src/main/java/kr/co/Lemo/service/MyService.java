@@ -110,8 +110,9 @@ public class MyService {
 
         //String path = new File(uploadPath+"diary/"+arti_no).getAbsolutePath();
 
-        String path = new File("/Lemo/img/diary/" + arti_no).getAbsolutePath();
+        String path = new File("C:/Users/java2/Desktop/Workspace/LeMo/Lemo/img/diary/" + arti_no).getAbsolutePath();
 
+        log.info(path);
         // 저장 폴더가 없다면 생성
         File checkFolder = new File(path);
         if(!checkFolder.exists()){
