@@ -18,7 +18,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Builder
 public class SearchconditionTestVO_sjh extends SearchCondition_v2 {
-    private String[] termsType_no;
+    private String termsType_no;  // in(#[termsType_no]) -> in(1,2,3,4)
     private String termsType_type_ko;
     private String termsType_type_en;
     private Map<String, String> map;
