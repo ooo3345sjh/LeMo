@@ -237,9 +237,20 @@ public class AdminController {
     }
 
 
-    @GetMapping("cs/notice/modify")
-    public String notice_modify(){
+    @GetMapping("cs/{cs_cate}/modify")
+    public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model Model){
+
+        CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+        Model.addAttribute("mNotice", noticeArticle);
+        Model.addAttribute("cs_no", cs_no);
+
         return "admin/cs/notice/modify";
+    }
+
+    @PostMapping("cs/{cs_cate}/modify")
+    public String usaveAdminNotice(CsVO vo){
+        csService.usaveAdminNotice(vo);
+        return "redirect:/admin/cs/notice/l";
     }
 
     @GetMapping("cs/notice/write")
@@ -279,6 +290,7 @@ public class AdminController {
             log.info("noticeArticle" + noticeArticle.getCs_content());
 
             model.addAttribute("notice", noticeArticle);
+            model.addAttribute("cs_no", cs_no);
         }
         return "admin/cs/notice/view";
     }

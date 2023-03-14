@@ -129,7 +129,10 @@ public class CsService {
         return dao.updateQnaArticle(cs_reply, cs_no);
     }
 
-
+    //@since 2023/03/14
+    public int usaveAdminNotice(CsVO vo){
+        return dao.updateAdminNotice(vo);
+    }
 
 
     /** delete **/
