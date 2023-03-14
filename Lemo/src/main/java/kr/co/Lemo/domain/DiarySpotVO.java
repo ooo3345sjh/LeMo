@@ -26,4 +26,9 @@ public class DiarySpotVO {
     private String spot_thumb;
     private String province_name;
     private String spot_addr;
+
+    // 추가
+    // @since 2023/03/04
+    private String arti_title;
+
 }

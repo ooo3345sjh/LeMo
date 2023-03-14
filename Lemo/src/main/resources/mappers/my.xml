@@ -37,7 +37,7 @@
     </select>
 
     <select id="selectDiary" resultType="kr.co.Lemo.domain.DiarySpotVO">
-        SELECT b.* FROM `lemo_diary_article` AS a JOIN
+        SELECT a.`arti_title`, b.* FROM `lemo_diary_article` AS a JOIN
         `lemo_diary_spot` AS b ON a.`arti_no` = b.`arti_no`
         WHERE `user_id`=#{uid};
     </select>
