@@ -1145,7 +1145,20 @@
     border-radius: 20px;
 }
 
-.listSearch > form { overflow: hidden; float: left; margin-left: 25px; }
+/*
+.listSearch > form {
+overflow: hidden;
+float: left;
+margin-left: 25px;
+}*/
+
+.listSearch > form {
+    position: relative;
+        left: 151px;
+        overflow: hidden;
+        float: left;
+        margin-left: 25px;
+}
 
 /** 검색 - 테이블 */
 .listSearch > form >  table { float: left; }
@@ -1166,11 +1179,12 @@
     border-radius: 8px;
 }
 
-.listSearch > form > table tr > td:nth-child(1) > input { width: 150px; height: 35px; }
+/*
+.listSearch > form > table tr > td:nth-child(1) > input { width: 150px; height: 35px; }*/
 
-.listSearch > form > table tr > td:nth-child(2) > input { width: 180px; height: 35px; }
+.listSearch > form > table tr > td:nth-child(1) > input { width: 180px; height: 35px; }
 
-.listSearch > form > table tr > td:nth-child(3) > input { width: 68px; height: 35px; }
+.listSearch > form > table tr > td:nth-child(2) > input { width: 68px; height: 35px; }
 
 /** 검색 - 검색버튼 */
 .listSearch > form > .result {
@@ -1211,6 +1225,10 @@
     text-align: center;
     border-radius: 10px;
     border: none;
+}
+
+.listSearch > #filter > select:focus {
+    outline : none;
 }
 
 .listSearch > #filter > select > option { font-size: 15px; }
