@@ -45,7 +45,7 @@ public class BusinessController {
     @GetMapping("coupon/manageCoupon")
     public String manageCoupon(Model model, SearchCondition sc) {
         log.warn("GET manage Coupon in business");
-        sc.setGroup("businessCoupon");
+        sc.setGroup("businessAccName");
 
         service.selectCoupon(model, sc);
 

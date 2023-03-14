@@ -75,6 +75,9 @@
         );
     </insert>
 
+    <!-- admin - review -->
+
+
     <update id="updateMemo">
         update `lemo_member_userinfo` set `memo`=#{memo} where `user_id`=#{user_id};
     </update>

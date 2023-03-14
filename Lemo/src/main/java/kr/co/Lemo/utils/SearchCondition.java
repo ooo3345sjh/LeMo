@@ -27,7 +27,6 @@ public class SearchCondition {
     private String searchCouponRole;
     private String searchAccName;
 
-
     // 이해빈
     private String keyword;
     private double lat; //위도
@@ -91,6 +90,8 @@ public class SearchCondition {
                 break;
             case "businessCoupon":
                 getBusinessCouponParam(builder);
+            case "businessAccName":
+                getBusinessAccNameParam(builder);
         }
     }
 
@@ -139,6 +140,13 @@ public class SearchCondition {
             builder.queryParam("searchCouponRole", searchCouponRole);
         }
     }
+
+    public void getBusinessAccNameParam(UriComponentsBuilder builder){
+        if(searchAccName != null){
+            builder.queryParam("searchAccName", searchAccName);
+        }
+    }
+
     
     // 이해빈
     public void getProductParam(UriComponentsBuilder builder){

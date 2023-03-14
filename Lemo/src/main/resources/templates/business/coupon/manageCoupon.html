@@ -12,7 +12,7 @@
     <main>
         <div class="main_inner">
             <!-- 죄측 사이드바 -->
-            <th:block th:replace="~{fragments/_aside::adminFragment}"></th:block>
+            <th:block th:replace="~{fragments/_aside::businessFragment}"></th:block>
             <!-- 우측 메인 컨테이너 -->
             <section class="main_content">
                 <div class="main_cotent_inner">
@@ -52,7 +52,7 @@
                                             </td>
                                             <th>숙소구분</th>
                                             <td>
-                                                <select id="c_role_type" class="selectAccOwned" name="searchAccName" onchange="cp_change();">
+                                                <select id="c_role_type" class="selectAccOwned" name="searchAccName">
                                                     <option value="A">A호텔</option>
                                                 </select>
                                             </td>
