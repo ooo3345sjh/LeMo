@@ -13,7 +13,15 @@
             <div class="title">
                 <strong>TEST</strong>
             </div>
-            <a th:href="@{/user/test2(isEnabled=1, level=2, type=2, page=2, no=1, acc=1, acc=2, acc=3)}">클릭</a>
+            <form th:action="@{/user/test2}">
+                <input type="text" name="termsType_no" value="1"/>
+                <input type="text" name="termsType_no" value="2"/>
+                <input type="text" name="termsType_no" value="3"/>
+                <input type="text" name="termsType_type_ko" value="안녕"/>
+                <input type="text" name="termsType_type_en" value="hello"/>
+                <input type="submit" value="click"/>
+            </form>
+<!--            <a th:href="@{/user/test2(termsType_no=10, termsType_type_ko='안녕', termsType_type_en='hello')}">클릭</a>-->
         </section>
     </main>
 

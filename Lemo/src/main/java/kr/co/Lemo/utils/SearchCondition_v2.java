@@ -14,6 +14,8 @@ public class SearchCondition_v2 {
     private Integer page = 1;
     private Integer pageSize = 10;
     private Integer no = 0;
+    private String searchField;
+    private String searchWord;
 
 
 
@@ -23,6 +25,17 @@ public class SearchCondition_v2 {
     }
 
     public String getQueryString(Integer page, Integer no){
+        UriComponentsBuilder builder = getDefaultBuilder(page, no);
+        return builder.toUriString();
+    }
+
+    public String getQueryString(){
+        // ?page=1&pageSize=10&option="T"&keyword="title"
+        return getQueryString(page);
+    }
+
+    public UriComponentsBuilder getDefaultBuilder(Integer page, Integer no){
+
         // ?page=1&pageSize=10&option="T"&page=10
         UriComponentsBuilder builder = UriComponentsBuilder.newInstance()
                 .queryParam("page", page);
@@ -30,12 +43,12 @@ public class SearchCondition_v2 {
         if (no != null && no != 0)
             builder.queryParam("no", no);
 
-        return builder.toUriString();
-    }
+        if(getSearchField() != null && !getSearchWord().isBlank()){
+            builder.queryParam("searchField", getSearchField())
+                    .queryParam("searchWord", getSearchWord());
+        }
 
-    public String getQueryString(){
-        // ?page=1&pageSize=10&option="T"&keyword="title"
-        return getQueryString(page);
+        return builder;
     }
 
     public Integer getOffset() {
@@ -45,5 +58,7 @@ public class SearchCondition_v2 {
     public void setPage(Integer page) {
         this.page = page == 0 ? 1:page;
     }
+
+
 
 }

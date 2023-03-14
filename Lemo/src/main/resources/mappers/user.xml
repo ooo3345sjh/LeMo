@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    날짜 : 2023/03/14
+    이름 : 서정현
+    내용 : 회원 mapper
+ -->
+<mapper namespace="kr.co.Lemo.dao.UserDAO">
+
+    <!-- insert -->
+    <insert id="insert" parameterType="kr.co.Lemo.domain.SearchconditionTestVO_sjh">
+        INSERT INTO `lemo_member_termstype` VALUES(#{termsType_no}, #{termsType_type_ko}, #{termsType_type_en});
+    </insert>
+
+    <!-- select -->
+
+    <!-- update -->
+
+    <!-- delete -->
+
+    <!-- 공통 키 -->
+
+</mapper>
