@@ -20,13 +20,10 @@
             WHERE ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000
         ]]>
 
-        <if test="accTypes != null and accTypes.length > 0">
-            AND (
-            <foreach collection="accTypes" item="accType" separator="OR">
-                `accType_no` = #{accType}
-            </foreach>
-            )
+        <if test="accTypes != null">
+            AND `accType_no` In(${accTypes})
         </if>
+
 
         GROUP BY a.`acc_id`
         <if test="maxPrice > 0">
@@ -57,24 +54,22 @@
 
     <select id="countTotal" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="int">
 
-            SELECT COUNT(DISTINCT a.acc_id) FROM `lemo_product_accommodation` AS a
-            <if test="maxPrice == 0">
-                JOIN `lemo_product_room` AS b
-            </if>
-            <if test="maxPrice > 0">
-                JOIN (SELECT * FROM `lemo_product_room` WHERE room_price BETWEEN #{minPrice} AND #{maxPrice}) AS b
-            </if>
+        SELECT COUNT(DISTINCT a.acc_id) FROM `lemo_product_accommodation` AS a
+        <if test="maxPrice == 0">
+            JOIN `lemo_product_room` AS b
+        </if>
+        <if test="maxPrice > 0">
+            JOIN (SELECT * FROM `lemo_product_room` WHERE room_price BETWEEN #{minPrice} AND #{maxPrice}) AS b
+        </if>
 
-            ON a.acc_id = b.acc_id
+        ON a.acc_id = b.acc_id
+
         <![CDATA[
             WHERE ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000
         ]]>
 
-        <if test="accTypes != null and accTypes.length > 0">
-            AND
-            <foreach collection="accTypes" item="accType" separator="OR">
-                `accType_no` = #{accType}
-            </foreach>
+        <if test="accTypes != null">
+            AND `accType_no` In(${accTypes})
         </if>
 
     </select>

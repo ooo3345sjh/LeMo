@@ -11,8 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Arrays;
-
 /**
  * @since 2023/03/08
  * @author 이해빈
@@ -39,7 +37,8 @@ public class ProductController {
     @GetMapping("list")
     public String list(Model model, SearchCondition sc) throws Exception {
 
-        log.info("accTypes : " + Arrays.toString(sc.getAccTypes()));
+        //log.info("accTypes : " + Arrays.toString(sc.getAccTypes()));
+        log.info("accTypes : " + sc.getAccTypes());
 
         // 숙박업소 리스트 가져오기
         service.findAllAccommodations(model, sc);

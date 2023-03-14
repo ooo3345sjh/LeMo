@@ -32,7 +32,7 @@ public class SearchCondition {
     private double lat; //위도
     private double lng; //경도
 
-    private String[] accTypes;
+    private String accTypes;
 
     private String sort; // 정렬기준
     private int headcount; // 인원수
@@ -164,12 +164,7 @@ public class SearchCondition {
         if(minPrice > 0) {builder.queryParam("minPrice", minPrice);}
         if(checkIn != null) {builder.queryParam("checkIn", checkIn);}
         if(checkOut != null) {builder.queryParam("checkOut", checkOut);}
-        if(accTypes != null) {
-
-            String accTypesStr = String.join(",", accTypes);
-            builder.queryParam("accTypes", accTypesStr);
-
-        }
+        if(accTypes != null) {builder.queryParam("accTypes", accTypes);}
 
     }
 
