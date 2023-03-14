@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @since 2023/03/07
@@ -122,14 +123,9 @@ public class MyController {
 
         String uid = "test@test.com";
 
-        Map<Integer, List<DiarySpotVO>> map = service.findDiaryArticle(uid);
+        List<DiarySpotVO> spotVO = service.findDiaryArticle(uid);
+        Map<Integer, List<DiarySpotVO>> map = spotVO.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
         m.addAttribute("map", map);
-
-        log.info("map : " + map);
-        log.info("map : " + map.get(1).getClass().getName());
-        log.info("map : " + map.get(1).get(0));
-
-        List<DiarySpotVO> spotVO = service.findDiarySpotPosition(uid);
         m.addAttribute("spotPosition", spotVO);
 
         return "my/diary/list";

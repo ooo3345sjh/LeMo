@@ -34,17 +34,11 @@ public class MyService {
     private MyDAO dao;
 
     // @since 2023/03/13
-    public Map<Integer, List<DiarySpotVO>> findDiaryArticle(String uid) {
-        //List<ArticleDiaryVO> diaryVO = dao.selectDiaryArticle(uid);
+    public List<DiarySpotVO> findDiaryArticle(String uid) {
 
         List<DiarySpotVO> spotVO = dao.selectDiary(uid);
-        Map<Integer, List<DiarySpotVO>> map = spotVO.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
 
-//        for(ArticleDiaryVO vo : diaryVO) {
-//            vo.setSpotVO(map.get(vo.getArti_no()));
-//        }
-
-        return map;
+        return spotVO;
     }
 
     public List<DiarySpotVO> findDiarySpotPosition(String uid) {

@@ -2007,6 +2007,42 @@
         border-radius: 20px;
     }
 
+    .spot_wrap {
+        position: absolute;
+        left: 0; bottom: 0;
+        width: 288px; height: 132px;
+        margin-left: -144px;
+        text-align: left;
+        overflow: hidden;
+        font-size: 12px;
+    }
+
+    .spot_title {
+        padding: 5px 0 0 10px;
+        height: 30px;
+        background: #eee;
+        border-bottom: 1px solid #ddd;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .spot_content {
+        padding: 5px 0 0 10px;
+        height: 30px;
+        background: #fff;
+        border-bottom: 1px solid #ddd;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .spot_close {
+        position: absolute;
+        top: 10px; right: 10px;
+        color: #888;
+        width: 17px; height: 17px;
+        background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');
+    }
+
     .my_diary_list ul li .img_slider {
         overflow: hidden;
     }

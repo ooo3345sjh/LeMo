@@ -92,27 +92,42 @@
                         map.setZoomable(zoomable);
                     }
 
-                    function displayMarker(map, lat, lng){
-                        // 마커가 표시될 위치입니다
-                        var markerPosition  = new kakao.maps.LatLng(lat, lng);
-
-                        // 마커를 생성합니다
-                        var marker = new kakao.maps.Marker({
-                            position: markerPosition
-                        });
-                        // 마커가 지도 위에 표시되도록 설정합니다
-                        marker.setMap(map);
-
-                        return marker;
+                    function closeOverlay() {
+                        overlay.setMap(null);
                     }
 
                     let spotPosition = [[${spotPosition}]];
 
                     $(function(){
-                        var markers = spotPosition.map(function(position, i) {
-                            return new kakao.maps.Marker({
+
+                        var markers = [];
+
+                        spotPosition.map(function(position, i) {
+
+                            var marker = new kakao.maps.Marker({
                                 position : new kakao.maps.LatLng(position.spot_lattitude, position.spot_longtitude)
                             });
+
+                            let test = '<div class="spot_wrap">';
+                               test += '<div class="spot_title">';
+                               test += position.spot_title
+                               test += '<div class="spot_close" onclick="closeOverlay()" title="닫기"></div>'
+                               test += '</div>';
+                               test += '<div class="spot_content">';
+                               test += position.arti_title
+                               test += '</div>';
+                               test += '</div>';
+
+                            var overlay = new kakao.maps.CustomOverlay({
+                                content: test,
+                                position: marker.getPosition()
+                            });
+
+                            kakao.maps.event.addListener(marker, 'mouseover', function() {
+                                overlay.setMap(map);
+                            });
+
+                            markers.push(marker);
                         });
 
                         clusterer.addMarkers(markers);
