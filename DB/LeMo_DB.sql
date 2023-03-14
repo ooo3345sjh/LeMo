@@ -2,7 +2,7 @@
 -- 호스트:                          127.0.0.1
 -- 서버 버전:                        8.0.30 - MySQL Community Server - GPL
 -- 서버 OS:                        Win64
--- HeidiSQL 버전:                  12.1.0.6537
+-- HeidiSQL 버전:                  12.4.0.6659
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -43,9 +43,9 @@ CREATE TABLE IF NOT EXISTS ` lemo_product_accommodationtype` (
   `accType_no` int NOT NULL AUTO_INCREMENT,
   `accType_type` varchar(6) NOT NULL,
   PRIMARY KEY (`accType_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 lemo. lemo_product_accommodationtype:~5 rows (대략적) 내보내기
+-- 테이블 데이터 lemo. lemo_product_accommodationtype:~0 rows (대략적) 내보내기
 INSERT INTO ` lemo_product_accommodationtype` (`accType_no`, `accType_type`) VALUES
 	(1, '모텔'),
 	(2, '호텔'),
@@ -270,9 +270,9 @@ CREATE TABLE IF NOT EXISTS `lemo_member_termstype` (
   `termsType_type_ko` varchar(45) NOT NULL,
   `termsType_type_en` varchar(45) NOT NULL,
   PRIMARY KEY (`termsType_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 lemo.lemo_member_termstype:~6 rows (대략적) 내보내기
+-- 테이블 데이터 lemo.lemo_member_termstype:~0 rows (대략적) 내보내기
 INSERT INTO `lemo_member_termstype` (`termsType_no`, `termsType_type_ko`, `termsType_type_en`) VALUES
 	(1, '이용약관', 'terms'),
 	(2, '만14세 이상 확인', 'over14yearsOldAgree'),
@@ -357,6 +357,7 @@ CREATE TABLE IF NOT EXISTS `lemo_product_accommodation` (
 CREATE TABLE IF NOT EXISTS `lemo_product_coupon` (
   `cp_id` int NOT NULL AUTO_INCREMENT,
   `user_id` varchar(50) NOT NULL,
+  `acc_id` int NOT NULL,
   `user_role` varchar(20) NOT NULL,
   `cp_subject` varchar(225) NOT NULL,
   `cp_group` varchar(10) NOT NULL,
@@ -373,7 +374,9 @@ CREATE TABLE IF NOT EXISTS `lemo_product_coupon` (
   `cp_IssuedCnt` tinyint DEFAULT NULL,
   PRIMARY KEY (`cp_id`),
   KEY `fk_lemo__product_coupon_lemo_member_userId1_idx` (`user_id`),
-  CONSTRAINT `fk_lemo__product_coupon_lemo_member_userId1` FOREIGN KEY (`user_id`) REFERENCES `lemo_member_userinfo` (`user_id`)
+  KEY `fk_lemo_product_coupon_lemo_product_accommodation1_idx` (`acc_id`),
+  CONSTRAINT `fk_lemo__product_coupon_lemo_member_userId1` FOREIGN KEY (`user_id`) REFERENCES `lemo_member_userinfo` (`user_id`),
+  CONSTRAINT `fk_lemo_product_coupon_lemo_product_accommodation1` FOREIGN KEY (`acc_id`) REFERENCES `lemo_product_accommodation` (`acc_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 lemo.lemo_product_coupon:~0 rows (대략적) 내보내기
@@ -395,7 +398,7 @@ CREATE TABLE IF NOT EXISTS `lemo_product_province` (
   `province_no` int NOT NULL AUTO_INCREMENT,
   `province_name` varchar(10) NOT NULL,
   PRIMARY KEY (`province_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 lemo.lemo_product_province:~17 rows (대략적) 내보내기
 INSERT INTO `lemo_product_province` (`province_no`, `province_name`) VALUES
@@ -461,6 +464,8 @@ CREATE TABLE IF NOT EXISTS `lemo_product_reserved_room` (
   `rero_checkIn_time` time NOT NULL,
   `rero_checkOut_time` time NOT NULL,
   `rero_state` tinyint(1) DEFAULT '0',
+  `rero_checkIn_date` date NOT NULL,
+  `rero_checkOut_date` date NOT NULL,
   PRIMARY KEY (`rero_id`),
   KEY `fk_lemo_product_reserved_room_ lemo_product_reservation1_idx` (`res_no`),
   CONSTRAINT `fk_lemo_product_reserved_room_ lemo_product_reservation1` FOREIGN KEY (`res_no`) REFERENCES ` lemo_product_reservation` (`res_no`)
@@ -472,6 +477,7 @@ CREATE TABLE IF NOT EXISTS `lemo_product_reserved_room` (
 CREATE TABLE IF NOT EXISTS `lemo_product_review` (
   `revi_id` int NOT NULL AUTO_INCREMENT,
   `res_no` bigint NOT NULL,
+  `user_id` varchar(50) NOT NULL,
   `revi_rate` tinyint NOT NULL DEFAULT '1',
   `revi_title` varchar(255) NOT NULL,
   `revi_content` text NOT NULL,
@@ -481,7 +487,9 @@ CREATE TABLE IF NOT EXISTS `lemo_product_review` (
   `revi_thumb` text,
   PRIMARY KEY (`revi_id`,`res_no`),
   KEY `fk_lemo_product_review_ lemo_product_reservation1_idx` (`res_no`),
-  CONSTRAINT `fk_lemo_product_review_ lemo_product_reservation1` FOREIGN KEY (`res_no`) REFERENCES ` lemo_product_reservation` (`res_no`)
+  KEY `fk_lemo_product_review_lemo_member_userInfo1_idx` (`user_id`),
+  CONSTRAINT `fk_lemo_product_review_ lemo_product_reservation1` FOREIGN KEY (`res_no`) REFERENCES ` lemo_product_reservation` (`res_no`),
+  CONSTRAINT `fk_lemo_product_review_lemo_member_userInfo1` FOREIGN KEY (`user_id`) REFERENCES `lemo_member_userinfo` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 lemo.lemo_product_review:~0 rows (대략적) 내보내기
