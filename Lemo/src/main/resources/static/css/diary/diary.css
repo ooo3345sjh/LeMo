@@ -238,19 +238,28 @@ h3 {
     padding: 40px;
 }
 
-.list .diary_content * {font-size: 16px;}
+.list .diary_content {font-size: 16px;}
 
-.list .diary_content .nick {
+.list .diary_content #nick {
     color: #fff;
     margin-bottom: 10px;
+    font-size: 16px
 }
 
 .list .diary_content p {
     color:#e9e9e9;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.list .diary_content p:nth-of-type(2) {
+    height: 95px;
 }
 
 .list .diary_content b {
     color:#00bbfe;
+    font-size: 16px
 }
 
 .list .diary_content button {
@@ -259,15 +268,51 @@ h3 {
     border-radius: 5px;
     width: 140px;
     height: 30px;
-    position: relative;
-    top: 77px;
-    left: 51px;
+    margin-top: 10px;
+    margin-left: 50px;
 }
 
 .list .diary_content button a {color: #515050;}
 
 .diary_content.on {
     z-index: 10;
+}
+
+.spot_wrap {
+    position: absolute;
+    left: 0;
+    bottom: -25px;
+    width: 196px; height: 130px;
+    margin-left: -102px;
+    text-align: left;
+    overflow: hidden;
+    font-size: 10px;
+}
+
+.spot_title {
+    padding: 5px 0 0 10px;
+    height: 30px;
+    background: #bbd444;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.spot_content {
+    padding: 5px 0 0 10px;
+    height: 30px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    font-size: 13px;
+}
+
+.spot_close {
+    position: absolute;
+    top: 9px; right: 7px;
+    color: #888;
+    width: 12px; height: 12px;
+    background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png);
+    background-size: 12px;
 }
 
 
