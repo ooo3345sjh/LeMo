@@ -1,13 +1,10 @@
 package kr.co.Lemo.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import kr.co.Lemo.domain.MessageVO;
-import kr.co.Lemo.domain.SearchconditionTestVO_sjh;
+import kr.co.Lemo.domain.search.SearchconditionTestVO_sjh;
 import kr.co.Lemo.domain.SmsResponseVO;
 import kr.co.Lemo.service.SmsService;
-import kr.co.Lemo.utils.SearchCondition;
 import kr.co.Lemo.utils.SearchCondition_v2;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
@@ -15,18 +12,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestClientException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @since 2023/03/08

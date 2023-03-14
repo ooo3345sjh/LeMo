@@ -10,7 +10,7 @@
 <mapper namespace="kr.co.Lemo.dao.UserDAO">
 
     <!-- insert -->
-    <insert id="insert" parameterType="kr.co.Lemo.domain.SearchconditionTestVO_sjh">
+    <insert id="insert" parameterType="kr.co.Lemo.domain.search.SearchconditionTestVO_sjh">
         INSERT INTO `lemo_member_termstype` VALUES(#{termsType_no}, #{termsType_type_ko}, #{termsType_type_en});
     </insert>
 
