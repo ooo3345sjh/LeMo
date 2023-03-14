@@ -31,7 +31,7 @@ public class SearchCondition {
             for(String key : map.keySet()){
                 String value = map.get(key);
 
-                if(!"page".equals(key) || !"no".equals(key)){
+                if(!"page".equals(key) && !"no".equals(key)){
                     if(value != null && !value.isBlank())
                         builder.queryParam(key, value);
                 }
