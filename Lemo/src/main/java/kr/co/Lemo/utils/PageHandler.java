@@ -1,6 +1,5 @@
 package kr.co.Lemo.utils;
 
-import org.springframework.context.annotation.Configuration;
 
 import lombok.Data;
 
