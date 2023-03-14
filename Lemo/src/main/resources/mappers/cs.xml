@@ -120,6 +120,14 @@
     <update id="updateQnaArticle">
         update `lemo_cs` set `cs_reply`=#{cs_reply} where `cs_no` =#{cs_no};
     </update>
+
+    <update id="updateAdminNotice">
+        update `lemo_cs` set
+            `cs_title` =#{cs_title},
+            `cs_content` =#{cs_content},
+            `cs_rdate`=NOW()
+            where `cs_no`=#{cs_no};
+    </update>
     <!-- delete -->
 
     <!-- 공통 키 -->

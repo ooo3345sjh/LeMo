@@ -49,5 +49,8 @@ public interface CsDAO {
     //@since 2023/03/14
     public int updateQnaArticle(@Param("cs_reply") String cs_reply, @Param("cs_no") int cs_no);
 
+    //@since 2023/03/14
+    public int updateAdminNotice(CsVO vo);
+
     /** delete **/
 }
