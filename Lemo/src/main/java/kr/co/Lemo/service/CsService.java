@@ -124,7 +124,10 @@ public class CsService {
     }
 
     /** update **/
-
+    //@since 2023/03/14
+    public int usaveQnaArticle(@RequestParam("cs_reply") String cs_reply, @RequestParam("cs_no") int cs_no){
+        return dao.updateQnaArticle(cs_reply, cs_no);
+    }
 
 
 

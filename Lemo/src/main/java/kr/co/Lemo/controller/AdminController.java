@@ -216,11 +216,6 @@ public class AdminController {
     public String event_write(CsVO vo){ return "admin/cs/event/write"; }
 
 
-    @GetMapping("cs/faq/list")
-    public String faq_list(){
-        return "admin/cs/faq/list";
-    }
-
     @GetMapping("cs/faq/modify")
     public String faq_modify(){
         return "admin/cs/faq/modify";
@@ -237,18 +232,13 @@ public class AdminController {
         return "admin/cs/notice/modify";
     }
 
-    @GetMapping("cs/notice/view")
-    public String notice_view(){
-        return "admin/cs/notice/view";
-    }
-
     @GetMapping("cs/notice/write")
     public String notice_write(){
         return "admin/cs/notice/write";
     }
 
     // @since 2023/03/10
-    @PostMapping("cs/{cs_cate}/write")
+    @PatchMapping("cs/{cs_cate}/write")
     public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
 
         vo.setUser_id("1002rsvn@plusn.co.kr");
@@ -262,12 +252,38 @@ public class AdminController {
     // @since 2023/03/12
     @GetMapping("cs/{cs_cate}/view")
     public String findAdminCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
-        log.debug("qna_view Start");
-        CsVO qnaArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+        log.info("cs_view Start");
+        log.info("cs_cate : " +cs_cate);
+        log.info("cs_no : " +cs_no);
 
-       model.addAttribute("qnaArticle", qnaArticle);
+        if("qna".equals(cs_cate)){
+            CsVO qnaArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+            model.addAttribute("qnaArticle", qnaArticle);
 
-        return "admin/cs/qna/view";
+            return "admin/cs/qna/view";
+
+        }else if("notice".equals(cs_cate)) {
+
+            CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+            log.info("noticeArticle" + noticeArticle.getCs_title());
+            log.info("noticeArticle" + noticeArticle.getCs_content());
+
+            model.addAttribute("notice", noticeArticle);
+        }
+        return "admin/cs/notice/view";
+    }
+
+    // @since 2023/03/14
+    @PostMapping("cs/{cs_cate}/view")
+    public String usaveUpdateQnaArticle(@PathVariable("cs_cate") String cs_cate, @RequestParam("cs_reply") String cs_reply, @RequestParam("cs_no") int cs_no){
+
+
+        log.info("cs_reply : " + cs_reply);
+        log.info("cs_reply : " + cs_no);
+
+        csService.usaveQnaArticle(cs_reply, cs_no);
+
+        return "redirect:/admin/cs/qna/list";
     }
 
     @GetMapping("cs/terms/test")
