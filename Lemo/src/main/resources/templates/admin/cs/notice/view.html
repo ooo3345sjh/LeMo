@@ -27,24 +27,12 @@
                             <div class="col_register1">
                                 <div class="stayName">
                                     <div>
-                                        <span>[발표] LEMO 응원하기 이벤트 당첨자 발표입니다.</span>
+                                        <span>[[${notice.cs_title}]]</span>
                                     </div>
                                 </div>
                                 <div class="noticeContent">
-                                    <div>
-                                        안녕하세요. 취향대로 머물다 LEMO입니다.<br>
-                                        2월 4차 'LEMO 응원하기' 이벤트 당첨자를 발표합니다. <br><br>
+                                    <div th:utext="${notice.cs_content}">
 
-                                        ■ 응원하기 이벤트 당첨자<br>
-                                        당첨자<br>
-                                        · 아**곱살홈피<br>
-                                        · g**dsun09<br><br>
-
-
-                                        ※ 참고하세요 <br>
-                                        - 포인트는 당첨 발표일에 당첨자 회원 계정으로 지급됩니다.<br>
-                                        - 지급된 포인트는 지급일로부터 30일 이내 사용 가능합니다.<br>
-                                        - 본 이벤트는 당사의 사정에 의해 변경/중지될 수 있습니다.<br>
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +44,7 @@
                                 </a>
                             </div>
                             <div class="btnAdminProd">
-                                <a href="#">
+                                <a th:href="@{/admin/cs/notice/modify (cs_no=${notice.cs_no})}">
                                     공지수정
                                 </a>
                             </div>

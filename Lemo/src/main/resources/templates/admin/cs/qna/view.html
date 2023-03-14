@@ -20,12 +20,13 @@
                             <span>문의사항</span>
                         </div>
                         <div class="col2">
-                            <form action="#">
+                            <form id="qna_update" th:action="@{/admin/cs/qna/view}" method="post">
+                                <input type="hidden" name="cs_no" value="${qnaArticle.cs_no}">
                                 <div class="board_view">
                                     <div class="view_box">
                                         <div class="view_head">
                                             <div class="title">
-                                                <p>[[${qnaArticle.cs_type}]]  [[${qnaArticle.cs_title}]]</p>
+                                                <p>[[${qnaArticle.cs_type_ko}]]  [[${qnaArticle.cs_title}]]</p>
                                             </div>
                                             <div class="info">
                                                 <div class="view_date">[[${qnaArticle.cs_rdate.substring(2,10)}]]</div>
@@ -37,11 +38,14 @@
                                         </div>
                                         <div class="view_recomment">
                                             <div class="write_recomment">
-                                                <div class="inner_txt">
-                                                    <textarea placeholder="문의 답변을 작성해 주세요 (댓글 형식으로 답변 작성 + 작성 후 수정 삭제 버튼 나오게)"></textarea>
+                                                <div class="inner_txt" th:style="${qnaArticle.cs_reply != null ? 'display:none' : ''}">
+                                                    <textarea placeholder="문의 답변을 작성해 주세요 (댓글 형식으로 답변 작성 + 작성 후 수정 삭제 버튼 나오게)" name="cs_reply"></textarea>
+                                                </div>
+                                                <div class="inner_txt" th:style="${qnaArticle.cs_reply == null ? 'display:none' : ''}">
+                                                    <textarea th:text="${qnaArticle.cs_reply}"></textarea>
                                                 </div>
                                                 <div class="btnSubmit">
-                                                    <button class="btnAdminProd" type="button">등록</button>
+                                                    <button class="btnAdminProd" type="submit" onclick="document.getElementById('qna_update').submit();">등록</button>
                                                 </div>
                                             </div>
                                         </div>
