@@ -1,10 +1,10 @@
 package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.MessageVO;
-import kr.co.Lemo.domain.search.SearchconditionTestVO_sjh;
 import kr.co.Lemo.domain.SmsResponseVO;
+import kr.co.Lemo.domain.search.SearchconditionTestVO_sjh;
 import kr.co.Lemo.service.SmsService;
-import kr.co.Lemo.utils.SearchCondition_v2;
+import kr.co.Lemo.utils.SearchCondition;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
@@ -159,7 +159,7 @@ public class UserController {
 
     // @since 2023/03/13
     @GetMapping("test")
-    public String test(SearchCondition_v2 sc) {
+    public String test(SearchCondition sc) {
         log.debug("GET test start...");
 
         log.info(sc.toString());
