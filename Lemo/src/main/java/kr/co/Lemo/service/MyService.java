@@ -34,11 +34,12 @@ public class MyService {
     private MyDAO dao;
 
     // @since 2023/03/13
-    public List<DiarySpotVO> findDiaryArticle(String uid) {
+    public Map<Integer, List<DiarySpotVO>> findDiaryArticle(String uid) {
 
         List<DiarySpotVO> spotVO = dao.selectDiary(uid);
+        Map<Integer, List<DiarySpotVO>> map = spotVO.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
 
-        return spotVO;
+        return map;
     }
 
     public List<DiarySpotVO> findDiarySpotPosition(String uid) {

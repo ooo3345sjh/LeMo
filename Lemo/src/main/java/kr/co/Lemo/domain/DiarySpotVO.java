@@ -30,5 +30,9 @@ public class DiarySpotVO {
     // 추가
     // @since 2023/03/04
     private String arti_title;
+    // @since 2023/03/14
+    private String arti_start;
+    // @since 2023/03/14
+    private String arti_end;
 
 }

@@ -1,42 +1,16 @@
-function mapPosition(lat, lng){
-    resizeMap();
-
-    $('.my_diary_list').css({'width' : '200px'});
-    $('.foldMap').css({ 'display' : 'block' });
-
-    var bounds = new kakao.maps.LatLngBounds();
-    bounds.extend(new kakao.maps.LatLng(lat, lng));
-    map.setBounds(bounds);
-    map.setLevel(13);
-
-    var marker = new kakao.maps.Marker({
-        map: map,
-        position: new kakao.maps.LatLng(lat, lng)
-    });
-
-    map.relayout();
-}
-
-function foldMap(){
-    $('.my_diary_list').css({'width' : '610px'});
-    $('#my_diary_listMap').css({ 'width' : '280px' });
-    $('#my_diary_listMap').css({ 'margin-left' : '0' });
-    $('.foldMap').css({ 'display' : 'none' });
-    $('.foldMap').css({ 'cursor' : 'pointer' });
-}
-
 $(function(){
-    /** 카카오맵 - 스크롤 따라 이동 */
-    $(window).scroll(function() {
-        let currentPosition = parseInt($('#my_diary_listMap').css('top'));
-        let mapHeight = $('#my_diary_listMap').height();
-        let listHeight = $('.list-area').height();
-        let boxOffsetTop = $('.list-area').offset().top;
 
+    /** 카카오맵 - 스크롤 따라 이동 */
+    let currentPosition = parseInt($('#listMap').css('top'));
+    let mapHeight = $('#listMap').height();
+    let listHeight = $('.list-area').height();
+    let boxOffsetTop = $('.list-area').offset().top;
+
+    $(window).scroll(function() {
         let scrollTop = $(window).scrollTop();
         let point;
         let endPoint = listHeight - mapHeight;
-        //console.log(position + currentPosition);
+
 
         if( scrollTop < boxOffsetTop ){
             point = 0;
@@ -45,8 +19,12 @@ $(function(){
         }else {
             point = (scrollTop - boxOffsetTop)+100;
         }
-        $('#my_diary_listMap').stop().animate({top: point}, 700);
+
+        if(point < 0) {point = 0}
+
+        $('#listMap').stop().animate({top: point}, 700);
     });
+
 
     /* 이미지 슬라이드 */
     $('.img_slider').slick({
@@ -92,5 +70,4 @@ $(function(){
     $('.heart').click(function(){
         $(this).toggleClass('on');
     });
-
 });

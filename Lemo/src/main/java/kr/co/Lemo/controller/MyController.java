@@ -123,10 +123,8 @@ public class MyController {
 
         String uid = "test@test.com";
 
-        List<DiarySpotVO> spotVO = service.findDiaryArticle(uid);
-        Map<Integer, List<DiarySpotVO>> map = spotVO.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
+        Map<Integer, List<DiarySpotVO>> map = service.findDiaryArticle(uid);
         m.addAttribute("map", map);
-        m.addAttribute("spotPosition", spotVO);
 
         return "my/diary/list";
     }
