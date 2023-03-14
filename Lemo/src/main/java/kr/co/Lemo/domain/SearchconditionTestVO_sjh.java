@@ -18,29 +18,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Builder
 public class SearchconditionTestVO_sjh extends SearchCondition_v2 {
-    private String[] termsType_no;
+    private String termsType_no;
     private String termsType_type_ko;
     private String termsType_type_en;
-    private Map<String, String> map;
-
-    @Override
-    public String getQueryString(Integer page, Integer no) {
-
-        UriComponentsBuilder builder = getDefaultBuilder(page, no);
-
-        for(String key : map.keySet()){
-            String value = map.get(key);
-
-            if(!"page".equals(key) || !"no".equals(key)){
-                if(value != null && !value.isBlank())
-                    builder.queryParam(key, value);
-            }
-        }
-
-        return builder.toUriString();
-    }
-
-    public String getTermsType_no() {
-        return String.join(",", termsType_no);
-    }
 }

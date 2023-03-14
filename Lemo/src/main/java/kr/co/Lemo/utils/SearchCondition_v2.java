@@ -16,7 +16,7 @@ public class SearchCondition_v2 {
     private Integer no = 0;
     private String searchField;
     private String searchWord;
-
+    private Map<String, String> map;
 
 
     public String getQueryString(Integer page){
@@ -26,6 +26,18 @@ public class SearchCondition_v2 {
 
     public String getQueryString(Integer page, Integer no){
         UriComponentsBuilder builder = getDefaultBuilder(page, no);
+
+        if(map != null){
+            for(String key : map.keySet()){
+                String value = map.get(key);
+
+                if(!"page".equals(key) || !"no".equals(key)){
+                    if(value != null && !value.isBlank())
+                        builder.queryParam(key, value);
+                }
+            }
+        }
+
         return builder.toUriString();
     }
 
