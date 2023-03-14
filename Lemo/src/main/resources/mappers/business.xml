@@ -42,7 +42,7 @@
         `cp_start`, `cp_end`, `cp_daysAvailable`, `cp_limitedIssuance`
         )
         VALUES (
-        'naver_test', 'BUSINESS', #{cp_subject}, #{cp_group}, #{cp_type}, #{cp_rate},
+        '3min-ik@hanmail.net', 'BUSINESS', #{cp_subject}, 'NULL', 'NULL', #{cp_rate},
         CASE
         WHEN #{cp_rate} IS NOT NULL THEN '1'
         WHEN #{cp_price} IS NOT NULL THEN '2'

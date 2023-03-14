@@ -112,7 +112,7 @@
     <main>
         <div class="main_inner">
             <!-- 죄측 사이드바 -->
-            <th:block th:replace="~{fragments/_aside::adminFragment}"></th:block>
+            <th:block th:replace="~{fragments/_aside::businessFragment}"></th:block>
             <!-- 우측 메인 컨테이너 -->
             <section class="main_content">
                 <div class="main_cotent_inner">
@@ -142,17 +142,8 @@
                                     <tr>
                                         <td>쿠폰적용그룹</td>
                                         <td>
-                                            <select name="cp_group" class="category1" onchange="optionChange();" required>
-                                                <option value="" disabled selected>적용그룹선택</option>
-                                                <option value="ALL">전체적용</option>
-                                                <option value="acc_type">숙소 유형</option>
-                                                <option value="acc_province">지역</option>
-                                            </select>
-                                            <select name="cp_type" class="category2" required>
-                                                <option value="" disabled selected>적용항목선택</option>
-                                            </select>
-                                            <select id="c_role_type" class="selectAccOwned" name="searchAccName">
-                                                <option value="A">A호텔</option>
+                                            <select id="c_role_type" class="selectAccOwned">
+                                                <option value="">숙소선택</option>
                                             </select>
                                         </td>
                                     </tr>

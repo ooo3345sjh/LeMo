@@ -182,6 +182,16 @@ public class AdminController {
 
         return resultMap;
     }
+
+    @GetMapping("review/list")
+    public String review_list(){
+        return "admin/review/list";
+    }
+
+    @GetMapping("review/view")
+    public String review_view(){
+        return "admin/review/view";
+    }
     
     // 황원진
     @GetMapping("cs/{cs_cate}/list")
@@ -313,15 +323,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("review/list")
-    public String review_list(){
-        return "admin/review/list";
-    }
 
-    @GetMapping("review/view")
-    public String review_view(){
-        return "admin/review/view";
-    }
 
     @GetMapping("roomInfo/list")
     public String roomInfo_list(){

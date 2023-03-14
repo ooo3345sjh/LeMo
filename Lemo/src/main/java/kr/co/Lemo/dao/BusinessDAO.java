@@ -26,12 +26,14 @@ public interface BusinessDAO {
     public int countCoupon(SearchCondition sc);
 
     // @since 2023/03/13
+    public List<CouponVO> selectAccOwned(String user_id);
+
+    // @since 2023/03/13
     public void insertCoupon(CouponVO vo);
 
     // @since 2023/03/13
     public int deleteCoupon(@Param("cp_id") String cp_id);
 
-    // @since 2023/03/13
-    public List<CouponVO> selectAccOwned(String user_id);
+
 
 }
