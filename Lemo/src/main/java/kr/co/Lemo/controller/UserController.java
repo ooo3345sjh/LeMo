@@ -2,6 +2,7 @@ package kr.co.Lemo.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import kr.co.Lemo.domain.MessageVO;
+import kr.co.Lemo.domain.SearchconditionTestVO_sjh;
 import kr.co.Lemo.domain.SmsResponseVO;
 import kr.co.Lemo.service.SmsService;
 import kr.co.Lemo.utils.SearchCondition;
@@ -21,8 +22,11 @@ import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @since 2023/03/08
@@ -173,13 +177,15 @@ public class UserController {
         return "user/test";
     }
     @GetMapping("test2")
-    public String test2(@ModelAttribute SearchCondition_v2 sc, @RequestParam Map map) {
+    public String test2(@ModelAttribute SearchconditionTestVO_sjh sc, @RequestParam Map map, HttpServletRequest req) {
         log.debug("GET test2 start...");
-
         log.info("map : " + map.toString());
+        sc.setMap(map);
         log.info("sc : " + sc.toString());
         log.info("query : " + sc.getQueryString());
 
+//        List termsType_no_lists = Arrays.stream(req.getParameterValues("termsType_no")).collect(Collectors.toList());
+//        log.info(termsType_no_lists.toString());
         return "user/test";
     }
 }
