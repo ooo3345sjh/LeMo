@@ -5,7 +5,6 @@ import kr.co.Lemo.domain.ArticleDiaryVO;
 import kr.co.Lemo.domain.DiarySpotVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,17 +34,17 @@ public class MyService {
     private MyDAO dao;
 
     // @since 2023/03/13
-    public List<ArticleDiaryVO> findDiaryArticle(String uid) {
-        List<ArticleDiaryVO> diaryVO = dao.selectDiaryArticle(uid);
+    public Map<Integer, List<DiarySpotVO>> findDiaryArticle(String uid) {
+        //List<ArticleDiaryVO> diaryVO = dao.selectDiaryArticle(uid);
 
         List<DiarySpotVO> spotVO = dao.selectDiary(uid);
         Map<Integer, List<DiarySpotVO>> map = spotVO.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
 
-        for(ArticleDiaryVO vo : diaryVO) {
-            vo.setSpotVO(map.get(vo.getArti_no()));
-        }
+//        for(ArticleDiaryVO vo : diaryVO) {
+//            vo.setSpotVO(map.get(vo.getArti_no()));
+//        }
 
-        return diaryVO;
+        return map;
     }
 
     public List<DiarySpotVO> findDiarySpotPosition(String uid) {
@@ -137,7 +136,7 @@ public class MyService {
 
         //String path = new File(uploadPath+"diary/"+arti_no).getAbsolutePath();
 
-        String path = new File("C:/Users/java2/Desktop/Workspace/LeMo/Lemo/img/diary/" + arti_no).getAbsolutePath();
+        String path = new File("C:/Users/PJH/Desktop/Workspace/LeMo/Lemo/img/diary/" + arti_no).getAbsolutePath();
 
         log.info(path);
         // 저장 폴더가 없다면 생성

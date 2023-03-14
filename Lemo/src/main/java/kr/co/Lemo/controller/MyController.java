@@ -122,8 +122,12 @@ public class MyController {
 
         String uid = "test@test.com";
 
-        List<ArticleDiaryVO> diaryVO = service.findDiaryArticle(uid);
-        m.addAttribute("article", diaryVO);
+        Map<Integer, List<DiarySpotVO>> map = service.findDiaryArticle(uid);
+        m.addAttribute("map", map);
+
+        log.info("map : " + map);
+        log.info("map : " + map.get(1).getClass().getName());
+        log.info("map : " + map.get(1).get(0));
 
         List<DiarySpotVO> spotVO = service.findDiarySpotPosition(uid);
         m.addAttribute("spotPosition", spotVO);

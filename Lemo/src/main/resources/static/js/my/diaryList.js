@@ -7,11 +7,14 @@ function mapPosition(lat, lng){
     var bounds = new kakao.maps.LatLngBounds();
     bounds.extend(new kakao.maps.LatLng(lat, lng));
     map.setBounds(bounds);
+    map.setLevel(13);
 
     var marker = new kakao.maps.Marker({
         map: map,
         position: new kakao.maps.LatLng(lat, lng)
     });
+
+    map.relayout();
 }
 
 function foldMap(){
