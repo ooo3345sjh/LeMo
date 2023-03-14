@@ -2,10 +2,11 @@ package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.CouponVO;
 import kr.co.Lemo.domain.CsVO;
+import kr.co.Lemo.domain.search.Admin_SearchVO;
+import kr.co.Lemo.domain.search.Cs_SearchVO;
 import kr.co.Lemo.repository.AdminRepo;
 import kr.co.Lemo.service.AdminService;
 import kr.co.Lemo.service.CsService;
-import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -56,9 +57,13 @@ public class AdminController {
 
     // @since 2023/03/09
     @GetMapping("user")
-    public String user(Model model, SearchCondition sc) {
+    public String user(Model model,
+                       @RequestParam Map map,
+                       @ModelAttribute Admin_SearchVO sc) {
         log.warn("GET user start...");
-        sc.setGroup("admin");
+
+        sc.setMap(map);
+
         service.selectUser(model, sc);
 
         return "admin/user";
@@ -135,10 +140,12 @@ public class AdminController {
     }
 
     @GetMapping("coupon/manageCoupon")
-    public String manageCoupon(Model model, SearchCondition sc) {
+    public String manageCoupon(Model model,
+                               @RequestParam Map map,
+                               @ModelAttribute Admin_SearchVO sc) {
         log.warn("GET manage Coupon...");
-        sc.setGroup("adminCoupon");
 
+        sc.setMap(map);
         service.selectCoupon(model, sc);
 
         return "admin/coupon/manageCoupon";
@@ -195,9 +202,12 @@ public class AdminController {
     
     // 황원진
     @GetMapping("cs/{cs_cate}/list")
-    public String findAllCs_list(@PathVariable("cs_cate") String cs_cate, Model model, SearchCondition sc){
+    public String findAllCs_list(@PathVariable("cs_cate") String cs_cate,
+                                 Model model,
+                                 @RequestParam Map map,
+                                 @ModelAttribute Cs_SearchVO sc){
 
-        sc.setGroup("cs");
+       sc.setMap(map);
         if("event".equals(cs_cate)){
             csService.findAllCsArticles(sc, model);
 

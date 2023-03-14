@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.Lemo.dao.ProductDAO;
 import kr.co.Lemo.domain.ProductAccommodationVO;
+import kr.co.Lemo.domain.search.Product_SearchVO;
 import kr.co.Lemo.utils.PageHandler;
-import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @since 2023/03/09
@@ -38,7 +39,7 @@ public class ProductService {
     // select
 
     // @since 2022/03/09
-    public void findAllAccommodations(Model model, SearchCondition sc) throws Exception {
+    public void findAllAccommodations(Model model, Map map, Product_SearchVO sc) throws Exception {
 
         String keyword = sc.getKeyword();
         double lng = sc.getLng();
@@ -73,11 +74,15 @@ public class ProductService {
 
         if(sc.getSort() == null){
             sc.setSort("review");
+            map.put("reivew", "review");
         }
 
-        sc.setGroup("product");
         sc.setLat(lat);
         sc.setLng(lng);
+        map.put("lat", lat);
+        map.put("lng", lng);
+
+        sc.setMap(map);
 
         // 페이징
         int totalCnt = dao.countTotal(sc); // 전체 게시물 개수

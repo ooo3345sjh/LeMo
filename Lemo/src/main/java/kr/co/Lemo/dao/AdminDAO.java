@@ -2,7 +2,7 @@ package kr.co.Lemo.dao;
 
 import kr.co.Lemo.domain.CouponVO;
 import kr.co.Lemo.domain.UserVO;
-import kr.co.Lemo.utils.SearchCondition;
+import kr.co.Lemo.domain.search.Admin_SearchVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -17,16 +17,16 @@ import java.util.List;
 @Mapper
 public interface AdminDAO {
     // @since 2023/03/09
-    public List<UserVO> selectUser(SearchCondition sc);
+    public List<UserVO> selectUser(Admin_SearchVO sc);
 
     // @since 2023/03/09
-    public int countUser(SearchCondition sc);
+    public int countUser(Admin_SearchVO sc);
 
     // @since 2023/03/12
-    public List<CouponVO> selectCoupon(SearchCondition sc);
+    public List<CouponVO> selectCoupon(Admin_SearchVO sc);
 
     // @since 2023/03/12
-    public int countCoupon(SearchCondition sc);
+    public int countCoupon(Admin_SearchVO sc);
 
     // @since 2023/03/12
     public List<CouponVO> selectAccOwned(String user_id);

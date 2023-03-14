@@ -1,7 +1,7 @@
 package kr.co.Lemo.controller;
 
+import kr.co.Lemo.domain.search.Product_SearchVO;
 import kr.co.Lemo.service.ProductService;
-import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -9,7 +9,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Map;
 
 /**
  * @since 2023/03/08
@@ -35,13 +39,13 @@ public class ProductController {
      * @param sc (상품 검색 조건 )
      */
     @GetMapping("list")
-    public String list(Model model, SearchCondition sc) throws Exception {
+    public String list(Model model, @RequestParam Map map, @ModelAttribute Product_SearchVO vo) throws Exception {
 
         //log.info("accTypes : " + Arrays.toString(sc.getAccTypes()));
-        log.info("accTypes : " + sc.getAccTypes());
+        //log.info("accTypes : " + sc.getAccTypes());
 
         // 숙박업소 리스트 가져오기
-        service.findAllAccommodations(model, sc);
+        service.findAllAccommodations(model, map, vo);
 
         model.addAttribute("title", environment.getProperty(group));
 

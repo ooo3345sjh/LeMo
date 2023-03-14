@@ -2,8 +2,8 @@ package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.CsDAO;
 import kr.co.Lemo.domain.CsVO;
+import kr.co.Lemo.domain.search.Cs_SearchVO;
 import kr.co.Lemo.utils.PageHandler;
-import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class CsService {
 
 
     /** select **/
-    public List<CsVO> findAllCsArticles(SearchCondition sc, Model model){
+    public List<CsVO> findAllCsArticles(Cs_SearchVO sc, Model model){
 
         log.info("cs_cate : " + sc.getCs_cate());
         int totalCnt = dao.countEventArticles(sc.getCs_cate());
@@ -58,7 +58,7 @@ public class CsService {
     public CsVO findEventPrev(@RequestParam("cs_no") int cs_no) {return dao.selectEventPrev(cs_no);}
     public CsVO findEventNext(@RequestParam("cs_no") int cs_no) {return  dao.selectEventNext(cs_no);}
 
-    public List<CsVO> findAllQnaArticles(SearchCondition sc, Model model) {
+    public List<CsVO> findAllQnaArticles(Cs_SearchVO sc, Model model) {
        List<CsVO> qnaArticles = dao.selectQnaArticles(sc);
 
        model.addAttribute("qnaArticles", qnaArticles);
@@ -67,7 +67,7 @@ public class CsService {
     }
 
     // @since 23/03/11
-    public List<CsVO> findAllFaqArticles(SearchCondition sc, Model model){
+    public List<CsVO> findAllFaqArticles(Cs_SearchVO sc, Model model){
 
         log.info("cs_faq : " + sc.getCs_cate());
         log.info("cs_type : " + sc.getCs_type());
@@ -87,7 +87,7 @@ public class CsService {
     }
 
     // @since 2023/03/12
-    public List<CsVO> findAllAdminQnaArticles(SearchCondition sc, Model model) {
+    public List<CsVO> findAllAdminQnaArticles(Cs_SearchVO sc, Model model) {
         log.info("cs_cate : " + sc.getCs_cate());
         int totalCnt = dao.countEventArticles(sc.getCs_cate());
         log.info("total : " + totalCnt);

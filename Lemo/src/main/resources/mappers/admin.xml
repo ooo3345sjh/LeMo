@@ -10,7 +10,7 @@
 <mapper namespace="kr.co.Lemo.dao.AdminDAO">
 
     <!-- admin - user - list (user+business+admin) -->
-    <select id="selectUser" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.UserVO">
+    <select id="selectUser" parameterType="kr.co.Lemo.domain.search.Admin_SearchVO" resultType="kr.co.Lemo.domain.UserVO">
         select * from `lemo_member_userinfo`
         where 1=1
         <include refid="searchCondition"/>
@@ -21,7 +21,7 @@
     </select>
 
     <!-- admin - user - count total users for pagination -->
-    <select id="countUser" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
+    <select id="countUser" parameterType="kr.co.Lemo.domain.search.Admin_SearchVO" resultType="java.lang.Integer">
         select count(*) from `lemo_member_userinfo`
         where 1=1
         <include refid="searchCondition"/>
@@ -31,7 +31,7 @@
     </select>
 
     <!-- admin - coupon - coupon list -->
-    <select id="selectCoupon" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.CouponVO">
+    <select id="selectCoupon" parameterType="kr.co.Lemo.domain.search.Admin_SearchVO" resultType="kr.co.Lemo.domain.CouponVO">
         select * from `lemo_product_coupon` as a
         join `lemo_product_accommodation` as b on a.user_id = b.user_id
         where 1=1
@@ -41,7 +41,7 @@
     </select>
 
     <!-- admin - coupon - count total coupons for pagination -->
-    <select id="countCoupon" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
+    <select id="countCoupon" parameterType="kr.co.Lemo.domain.search.Admin_SearchVO" resultType="java.lang.Integer">
         select count(*) from `lemo_product_coupon` as a
         join `lemo_product_accommodation` as b on a.user_id = b.user_id
         where 1=1

@@ -1,8 +1,8 @@
 package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.CouponVO;
+import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.service.BusinessService;
-import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,11 +43,12 @@ public class BusinessController {
 
     // @since 2023/03/13
     @GetMapping("coupon/manageCoupon")
-    public String manageCoupon(Model model, SearchCondition sc) {
+    public String manageCoupon(Model model,
+                               @RequestParam Map map,
+                               @ModelAttribute Admin_SearchVO sc) {
         log.warn("GET manage Coupon in business");
-        sc.setGroup("businessAccName");
 
-        service.selectCoupon(model, sc);
+        service.selectCoupon(model, map, sc);
 
         return "business/coupon/manageCoupon";
     }

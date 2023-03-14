@@ -2,14 +2,15 @@ package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.BusinessDAO;
 import kr.co.Lemo.domain.CouponVO;
+import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.utils.PageHandler;
-import kr.co.Lemo.utils.SearchCondition;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -24,7 +25,7 @@ public class BusinessService {
      * @param model
      * @param sc
      */
-    public List<CouponVO> selectCoupon(Model model, SearchCondition sc){
+    public List<CouponVO> selectCoupon(Model model, Map map, Admin_SearchVO sc){
         int totalCnt = dao.countCoupon(sc);
         int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
