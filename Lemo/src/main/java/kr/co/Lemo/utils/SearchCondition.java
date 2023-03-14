@@ -31,7 +31,7 @@ public class SearchCondition {
             for(String key : map.keySet()){
                 String value = map.get(key);
 
-                if(!"page".equals(key) && !"no".equals(key)){
+                if(!"page".equals(key) && !"no".equals(key) && !"searchField".equals(key) && !"searchWord".equals(key)){
                     if(value != null && !value.isBlank())
                         builder.queryParam(key, value);
                 }
@@ -55,7 +55,7 @@ public class SearchCondition {
         if (no != null && no != 0)
             builder.queryParam("no", no);
 
-        if(getSearchField() != null && !getSearchWord().isBlank()){
+        if(searchField != null && !searchField.isBlank()){
             builder.queryParam("searchField", getSearchField())
                     .queryParam("searchWord", getSearchWord());
         }
