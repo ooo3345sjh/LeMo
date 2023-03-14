@@ -79,8 +79,8 @@ public class ProductService {
 
         sc.setLat(lat);
         sc.setLng(lng);
-        map.put("lat", lat);
-        map.put("lng", lng);
+        map.put("lat", String.valueOf(lat));
+        map.put("lng", String.valueOf(lng));
 
         sc.setMap(map);
 

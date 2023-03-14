@@ -22,24 +22,6 @@ $(function(){
         $(this).removeClass('on');
     });
 
-
-    // 상품 페이지 내의 검색창 자동완성 호출
-    autocomplete = new google.maps.places.Autocomplete(autocompleteProdInput, prodOption);
-    autocomplete.setComponentRestrictions({country: ["kr"]});
-    autocomplete.addListener('place_changed', function(){
-        const place = autocomplete.getPlace();
-
-        // 구글 자동완성 검색 결과가 없을 시 return
-        if (!place.geometry || !place.geometry.location) {
-            return;
-        }
-
-        // 구글 자동완성 검색 결과가 있을 때 밑으로 실행
-        Searchlat = place.geometry.location.lat();
-        Searchlng = place.geometry.location.lng();
-
-    });
-
     // 검색 키워드를 지도 중심으로 설정
     setCenter(clat, clng);
 
@@ -108,33 +90,10 @@ $(function(){
     });
 
 
-    // 검색조건 초기화
-    $('input[name=searchPlace]').on('keydown', function(){
-        Searchlat ='';
-        Searchlng ='';
-    });
-
     // 검색 조건
     $('.result').on('click', function(e){
 
         e.preventDefault();
-
-        Searchkeyword = $('input[name=searchPlace]').val();
-
-        // 자동 완성결과가 있을 경우 keyword url 파라미터 삭제후, lat, lng 파람 추가
-        if(Searchlat != '' && Searchlng !='') {
-            urlParams.delete('keyword');
-            setUrlParams('lat', Searchlat);
-            setUrlParams('lng', Searchlng);
-        }else { // 자동 완성이 아닐 경우 lat, lng 파라미터 삭제후, keyword 파람 생성
-            urlParams.delete('lat');
-            urlParams.delete('lng');
-            setUrlParams('keyword', Searchkeyword);
-        }
-
-//        console.log(Searchlat);
-//        console.log(Searchlng);
-//        console.log(Searchkeyword);
 
         let headcount = $('input[name=numPeople]').val();
         if(headcount > 0 ){setUrlParams('headcount', headcount)};
@@ -169,31 +128,6 @@ $(function(){
         window.location.replace(decodeURIComponent(newUrl));
     }
 
-
-//        // AJAX API사용 예시
-//        ajaxAPI(newUrl, null, "get").then((response) => {
-//            // 전송 성공시 코드 작성
-//
-//            let responseText = xhr.responseText; // 서버에서 응답 데이터를 불러움
-//            let parser = new DOMParser();
-//            let newDoc = parser.parseFromString(responseText, 'text/html'); // HTML 파싱
-//            let newPaging = newDoc.querySelector('.content'); // 새로운 페이징 영역 추출
-//            let oldPaging = document.querySelector('.content'); // 현재 페이징 영역 추출
-//            oldPaging.innerHTML = newPaging.innerHTML;
-//            console.log(newPaging);
-//
-//        }).catch((errorMsg) => {
-//            // 전송 실패시 코드 작성
-//            alert('실패!');
-//        });
-
-//        $('.content').load(newUrl + ' .content', function() {
-//          console.log('load complete!');
-//
-//        });
-//
-
-
     // 가격 조건
     let minPrice = 0;
     let maxPrice = 600000;
@@ -201,18 +135,6 @@ $(function(){
     // 체크인/체크아웃
     let checkIn = '';
     let checkOut = '';
-
-    // 구글 자동완성 관련 변수
-    let prodLat;
-    let prodLng;
-    let autocompleteProdInput = document.querySelector('input[name=searchPlace]');
-    let prodOption = {fields: ["address_components", "formatted_address", "geometry", "icon", "name"]};
-
-    // 검색키워드 관련 변수
-    let Searchkeyword;
-    let Searchlat;
-    let Searchlng;
-
 
     /** 카카오 맵 */
     var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스

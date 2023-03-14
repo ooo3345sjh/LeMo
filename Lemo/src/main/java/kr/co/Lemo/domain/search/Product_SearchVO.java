@@ -6,18 +6,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @since 2023/03/14
+ * @author 이해빈
+ * @apiNote Product_SearchVO 상품 검색 관련 vo
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Product_SearchVO extends SearchCondition {
 
-    private String keyword;
+    private String keyword; // 검색 키워드
     private double lat; //위도
     private double lng; //경도
-
-    private String accTypes;
-
+    private String accTypes; // 숙소유형
     private String sort; // 정렬기준
     private int headcount; // 인원수
     private int maxPrice; // 최대가격

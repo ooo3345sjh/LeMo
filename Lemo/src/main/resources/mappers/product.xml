@@ -12,7 +12,7 @@
     <!-- insert -->
 
     <!-- select -->
-    <select id="selectAccommodations" parameterType="kr.co.Lemo.domain.search.Product_SearchVO" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+    <select id="selectAccommodations" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
         <![CDATA[
             SELECT a.*, SUM(b.room_stock) AS 'sum', MIN(b.room_price) AS 'price'   FROM `lemo_product_accommodation` AS a
             JOIN `lemo_product_room` AS b
@@ -52,7 +52,7 @@
 
     </select>
 
-    <select id="countTotal" parameterType="kr.co.Lemo.domain.search.Product_SearchVO" resultType="int">
+    <select id="countTotal" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="int">
 
         SELECT COUNT(DISTINCT a.acc_id) FROM `lemo_product_accommodation` AS a
         <if test="maxPrice == 0">
