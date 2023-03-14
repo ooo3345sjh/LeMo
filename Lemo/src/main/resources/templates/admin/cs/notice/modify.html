@@ -49,7 +49,8 @@
                         </div>
 
                         <!-- 공지 보기 폼 -->
-                        <form class="col_register_form" id="modifyNotice" th:action="@{/admin/cs/notice/modify (csNo=${cs_no})}" method="post">
+                        <form class="col_register_form" id="modifyNotice" th:action="@{/admin/cs/notice/modify}" method="post">
+                            <input type="hidden" name="cs_no" th:value="${cs_no}">
                             <!-- 공지제목 등록 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -57,7 +58,7 @@
                                         <span>제목</span>
                                     </div>
                                 </div>
-                                <input class="input_stayName" type="text" th:text="${mNotice.cs_title}">
+                                <input class="input_stayName" type="text" name="cs_title" th:value="${mNotice.cs_title}">
                                 <span class="result_stayName">
                                     💡 [안내], [발표] 등 말머리를 붙여주세요.
                                 </span>
@@ -69,7 +70,7 @@
                                         <span>내용</span>
                                     </div>
                                 </div>
-                                <textarea class="notice_text" id="summernote" th:utext="${mNotice.cs_content}">
+                                <textarea class="notice_text" id="summernote" name="cs_content" th:utext="${mNotice.cs_content}">
 
                                 </textarea>
                             </div>
