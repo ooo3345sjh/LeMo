@@ -1,4 +1,4 @@
-package kr.co.Lemo.domain;
+package kr.co.Lemo.domain.search;
 
 
 import kr.co.Lemo.utils.SearchCondition_v2;
