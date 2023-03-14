@@ -259,8 +259,9 @@ public class AdminController {
 
     @PostMapping("cs/{cs_cate}/modify")
     public String usaveAdminNotice(CsVO vo){
+        log.info("modifyStart");
         csService.usaveAdminNotice(vo);
-        return "redirect:/admin/cs/notice/l";
+        return "redirect:/admin/cs/notice/list";
     }
 
     @GetMapping("cs/notice/write")
@@ -269,7 +270,7 @@ public class AdminController {
     }
 
     // @since 2023/03/10
-    @PatchMapping("cs/{cs_cate}/write")
+    @PostMapping("cs/{cs_cate}/write")
     public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
 
         vo.setUser_id("1002rsvn@plusn.co.kr");
@@ -288,13 +289,14 @@ public class AdminController {
         log.info("cs_no : " +cs_no);
 
         if("qna".equals(cs_cate)){
+            log.info("here1 qna");
             CsVO qnaArticle = csService.findAdminCsArticle(cs_cate, cs_no);
             model.addAttribute("qnaArticle", qnaArticle);
-
+            model.addAttribute("cs_no", cs_no);
             return "admin/cs/qna/view";
 
         }else if("notice".equals(cs_cate)) {
-
+            log.info("here2 notice");
             CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
             log.info("noticeArticle" + noticeArticle.getCs_title());
             log.info("noticeArticle" + noticeArticle.getCs_content());
@@ -307,11 +309,11 @@ public class AdminController {
 
     // @since 2023/03/14
     @PostMapping("cs/{cs_cate}/view")
-    public String usaveUpdateQnaArticle(@PathVariable("cs_cate") String cs_cate, @RequestParam("cs_reply") String cs_reply, @RequestParam("cs_no") int cs_no){
+    public String usaveUpdateQnaArticle(String cs_reply, int cs_no){
 
 
         log.info("cs_reply : " + cs_reply);
-        log.info("cs_reply : " + cs_no);
+        log.info("cs_no : " + cs_no);
 
         csService.usaveQnaArticle(cs_reply, cs_no);
 
