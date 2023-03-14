@@ -1,7 +1,7 @@
 package kr.co.Lemo.dao;
 
 import kr.co.Lemo.domain.ProductAccommodationVO;
-import kr.co.Lemo.utils.SearchCondition;
+import kr.co.Lemo.domain.search.Product_SearchVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -20,11 +20,11 @@ public interface ProductDAO {
     // insert
 
     // select
-    public int countTotal(SearchCondition sc);
+    public int countTotal(Product_SearchVO sc);
 
 
     // @since 2022/03/09
-    public List<ProductAccommodationVO> selectAccommodations(SearchCondition sc);
+    public List<ProductAccommodationVO> selectAccommodations(Product_SearchVO sc);
 
     // update
 
