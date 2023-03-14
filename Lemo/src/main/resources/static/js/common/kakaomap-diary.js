@@ -14,7 +14,7 @@ var bounds = new kakao.maps.LatLngBounds();
 var clusterer = new kakao.maps.MarkerClusterer({
     map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
     averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-    minLevel: 13 // 클러스터 할 최소 지도 레벨
+    minLevel: 11 // 클러스터 할 최소 지도 레벨
 });
 
 function setZoomable(zoomable) {
@@ -44,6 +44,8 @@ function setMarkerImg() {
 }
 
 $(function(){
+    console.log(map.getLevel());
+
     // positionMap은 (key, value) => (arti_no, 여행일기) 형식인 Object
     // 여행일기 지도찾기 버튼 클릭 시 세부여행일기들을 핵심적으로 표시하기 위함
     // onclick(arti_no)으로 arti_no에 해당하는 여행일기 세부여행일기들의 marker 배열을 가져올 수 잇음
