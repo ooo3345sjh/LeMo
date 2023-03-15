@@ -35,7 +35,7 @@
                 <!-- 자주묻는 질문 목록 -->
                 <div class="tab_each" id="faq_list">
                     <ul id="faqs" class="show_list open_list">
-                        <th:block th:each="faq:${faqArticles}">
+                        <th:block th:each="faq:${csArticles}">
                             <li>
                                 <a href="#" class="list_n">
                                     <p class="${faq.cs_type}">[[${faq.cs_type_ko}]]</p> <p>[[${faq.cs_title}]]</p>

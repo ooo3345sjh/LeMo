@@ -232,8 +232,11 @@ public class AdminController {
             return "admin/cs/notice/list";
         }else if("qna".equals(cs_cate)){
             csService.findAllAdminQnaArticles(sc, model);
+            return "admin/cs/qna/list";
+        }else if("faq".equals(cs_cate)){
+            csService.findAllCsArticles(sc, model);
         }
-        return "admin/cs/qna/list";
+        return "admin/cs/faq/list";
     }
 
     @GetMapping("cs/event/modify")
@@ -250,13 +253,16 @@ public class AdminController {
     public String event_write(CsVO vo){ return "admin/cs/event/write"; }
 
 
-    @GetMapping("cs/faq/list")
+    @GetMapping("cs/{cs_cate}/list/{cs_type}")
     public String faq_list(@PathVariable("cs_cate") String cs_cate,
                            @PathVariable("cs_type") String cs_type,
                            Model model,
                            @RequestParam Map map,
                            @ModelAttribute Cs_SearchVO sc){
-       sc.setMap(map);
+        log.info("getFaqStart");
+        log.info("Faq cs_cate : " + cs_cate);
+        log.info("Faq cs_type : " + cs_type);
+        sc.setMap(map);
        csService.findAllFaqArticles(sc, model);
 
         return "admin/cs/faq/list";
@@ -298,12 +304,21 @@ public class AdminController {
     // @since 2023/03/10
     @PostMapping("cs/{cs_cate}/write")
     public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
+        if("notice".equals(cs_cate)){
+            vo.setUser_id("1002rsvn@plusn.co.kr");
+            vo.setCs_regip(req.getRemoteAddr());
 
-        vo.setUser_id("1002rsvn@plusn.co.kr");
-        vo.setCs_regip(req.getRemoteAddr());
+            csService.rsaveNoticeArticle(vo);
+            return "redirect:/admin/cs/notice/list";
 
-        csService.rsaveNoticeArticle(vo);
-        return "redirect:/admin/cs/notice/list";
+        }else if("faq".equals(cs_cate)){
+            vo.setUser_id("1043pastel_tn@naver.com");
+            vo.setCs_regip(req.getRemoteAddr());
+
+            csService.rsaveFaqArticle(vo);
+
+        }
+        return "redirect:/admin/cs/faq/list";
     }
 
 

@@ -116,6 +116,19 @@
             `cs_rdate`=NOW();
         </insert>
 
+        <insert id="insertFaqArticle">
+            insert into `lemo_cs` set
+            `user_id` =#{user_id},
+            `cs_hp` =#{cs_hp},
+            `cs_email` =#{cs_email},
+            `cs_cate` =#{cs_cate},
+            `cs_type`=#{cs_type},
+            `cs_title`=#{cs_title},
+            `cs_content`=#{cs_content},
+            `cs_regip`=#{cs_regip},
+            `cs_rdate`=NOW();
+        </insert>
+
     <!-- update -->
     <update id="updateQnaArticle">
         update `lemo_cs` set `cs_reply`=#{cs_reply} where `cs_no` =#{cs_no};

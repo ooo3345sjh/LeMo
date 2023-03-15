@@ -22,7 +22,7 @@
                 </div>
                 <div class="event">
                     <ul id="events" class="event_list">
-                        <th:block th:each="article:${eventArticles}">
+                        <th:block th:each="article:${csArticles}">
                             <li>
                                 <b>[[${article.cs_title}]]</b>
                                 <span>기간: [[${article.cs_eventStart}]] ~ [[${article.cs_eventEnd}]]</span>

@@ -19,17 +19,17 @@
                             <div class="col0" style="margin-bottom: 20px;">
                                 <form action="#">
                                     <div class="selectProdForAdmin">
-                                        <select name="cs_type">
-                                            <option value="0">유형선택</option>
-                                            <option value="event">이벤트</option>
-                                            <option value="payment">예약/결제</option>
-                                            <option value="cancel">취소/환불</option>
-                                            <option value="benefit">혜택받기</option>
-                                            <option value="use">이용문의</option>
-                                            <option value="info">회원정보</option>
-                                            <option value="review">리뷰</option>
-                                            <option value="refund">환불신청</option>
-                                            <option value="point">쿠폰/포인트</option>
+                                        <select name="cs_type" onchange="if(this.value) location.href=(this.value);">
+                                            <option th:value="@{/admin/cs/faq/list}">유형선택</option>
+                                            <option th:value="@{/admin/cs/faq/list/event}" th:selected="${ph.sc.cs_type == 'event'}">이벤트</option>
+                                            <option th:value="@{/admin/cs/faq/list/payment}" th:selected="${ph.sc.cs_type == 'payment'}">예약/결제</option>
+                                            <option th:value="@{/admin/cs/faq/list/cancel}" th:selected="${ph.sc.cs_type == 'cancel'}">취소/환불</option>
+                                            <option th:value="@{/admin/cs/faq/list/benefit}" th:selected="${ph.sc.cs_type == 'benefit'}">혜택받기</option>
+                                            <option th:value="@{/admin/cs/faq/list/use}" th:selected="${ph.sc.cs_type == 'use'}">이용문의</option>
+                                            <option th:value="@{/admin/cs/faq/list/info}" th:selected="${ph.sc.cs_type == 'info'}">회원정보</option>
+                                            <option th:value="@{/admin/cs/faq/list/review}" th:selected="${ph.sc.cs_type == 'review'}">리뷰</option>
+                                            <option th:value="@{/admin/cs/faq/list/refund}" th:selected="${ph.sc.cs_type == 'refund'}">환불신청</option>
+                                            <option th:value="@{/admin/cs/faq/list/point}" th:selected="${ph.sc.cs_type == 'point'}">쿠폰/포인트</option>
                                         </select>
                                     </div>
                                 </form>
@@ -43,15 +43,16 @@
                                 <form action="#">
                                     <div class="faq_list">
                                         <ul>
-                                            <th:block th:each="faq:${faqArticles}">
+                                            <th:block th:each="faq:${csArticles}">
                                             <!-- li 반복 -->
                                                 <li class="faq_tit">
+                                                    <input type="hidden" name="cs_no" th:data-no="${faq.cs_no}">
                                                     <a href="#" id="faq_tab" class="faq_list_a">
-                                                        <p>[[${faq.cs_type_ko}]] [[${faq.cs_title}]]</p>
+                                                        <p>[[${faq.cs_type_ko}]]&nbsp;&nbsp; [[${faq.cs_title}]]</p>
                                                     </a>
                                                     <span>
                                                         <a class="btnFaqModify" href="#">수정</a>
-                                                        <a class="btnFaqDelete" href="#">삭제</a>
+                                                        <a class="btnFaqDelete">삭제</a>
                                                     </span>
 
                                                     <div class="faq_content">
@@ -66,15 +67,32 @@
 
 
                                     </div>
-                                    <div class="pagination">
-                                        <a href="#">&laquo;</a>
-                                        <a href="#">1</a>
-                                        <a href="#" class="active">2</a>
-                                        <a href="#">3</a>
-                                        <a href="#">4</a>
-                                        <a href="#">5</a>
-                                        <a href="#">6</a>
-                                        <a href="#">&raquo;</a>
+                                    <div class="pagination" th:object="${ph}" th:style="${#lists.size(csArticles) == 0 ? 'visibility:hidden;':''}">
+
+                                        <th:block th:if="*{showPrev}">
+                                            <a th:href="@{/admin/cs/faq/list} + ${ph.sc.cs_type + ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
+                                        </th:block>
+
+                                            <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                                                <th:block th:if="${ph.sc.cs_type == null}">
+                                                <a th:href="@{/admin/cs/faq/list} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                                    [[${num}]]
+                                                </a>
+                                            </th:block>
+                                        </th:block>
+
+                                        <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                                            <th:block th:if="${ph.sc.cs_type != null}">
+                                                <a th:href="@{/admin/cs/faq/list/} + ${ph.sc.cs_type + ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                                    [[${num}]]
+                                                </a>
+                                        </th:block>
+                                    </th:block>
+
+                                        <th:block th:if="*{showNext}">
+                                            <a th:href="@{/admin/cs/faq/list} + ${ph.sc.cs_type + ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                        </th:block>
+
                                     </div>
                                     <div class="btnAdminProd4">
                                         <a th:href="@{/admin/cs/faq/write}">
@@ -101,6 +119,36 @@
             $(this).next().next().slideToggle();
             $(this).toggleClass('open');
         });
+
+
+        // faq 삭제
+        $('.btnFaqDelete').click(function(e){
+            e.preventDefault();
+
+            let isDeleteOK = confirm('해당 글을 삭제하시겠습니까?');
+
+            if(isDeleteOK){
+                let cs_no = $(this).parent().parent().children('input').attr('data-no');
+
+                console.log('cs_no ajax : ' + cs_no);
+
+                const jsonData = {"cs_no": cs_no};
+
+                ajaxAPI("", jsonData, "post").then((response) => {
+                    if(response.result > 0) {
+                        alert("해당 글이 삭제되었습니다.");
+                        location.replace("/Lemo/admin/cs/faq/list");
+                    }else {
+                        alert('error');
+                    }
+                }).catch((errMsg) => {
+                    console.log(errorMsg);
+                });
+            }
+
+        });
+
+
     });
 </script>
 
