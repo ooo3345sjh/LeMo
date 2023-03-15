@@ -25,9 +25,14 @@ $(function(){
     // 검색 키워드를 지도 중심으로 설정
     setCenter(clat, clng);
 
+    // 지도 레벨
+    if(level > 0) {
+        setLevel(level);
+    }
+
     // 마커 표시
     accs.forEach(function(acc, i){
-        displayMarker(map, accs[i].acc_lattitude, accs[i].acc_longtitude);
+        displayMarker(map, accs[i]);
     });
 
     // 검색
@@ -51,13 +56,6 @@ $(function(){
     // 검색 필터
     $('input[name=search]').on('click', function(){
 
-        // 편의 시설
-//        let services = [];
-//        $('input[name=chk]:checked').each(function(){
-//            services.push($(this).val());
-//        });
-        //setUrlParams('services', services.join(','));
-
         // 숙소 유형
         let accTypes = [];
         $('input[name=chkAccType]:checked').each(function(){
@@ -65,12 +63,6 @@ $(function(){
         });
         setUrlParams('accTypes', accTypes.join(','));
 
-
-//        urlParams.set('minPrice', minPrice);
-//        urlParams.set('maxPrice', maxPrice);
-//
-//        urlParams.set('accTypes', accTypes.join(','));
-//        urlParams.set('services', services.join(','));
 
         // 가격 조건
         setUrlParams('minPrice', minPrice);
@@ -101,6 +93,42 @@ $(function(){
         //return ;
         setUrlParams('checkIn', checkIn);
         setUrlParams('checkOut', checkOut);
+        goSearch();
+
+    });
+
+    // 반경조건으로 재검색
+    $('button[name=research]').click(function(){
+
+        // 지도의 현재 영역을 얻어옵니다
+        var bounds = map.getBounds();
+
+        // 영역의 남서쪽 좌표를 얻어옵니다
+        var swLatLng = bounds.getSouthWest();
+
+        // 영역의 북동쪽 좌표를 얻어옵니다
+        var neLatLng = bounds.getNorthEast();
+
+        // 지도의 중심좌표
+        var center = map.getCenter();
+
+        // 지도의 레벨
+        var level = map.getLevel();
+        setUrlParams('level', level);
+
+        clat = center.getLat();
+        clng = center.getLng();
+
+        // 키워드 파라미터 삭제 후 위도 경도 재설정
+        urlParams.delete('keyword');
+        setUrlParams('lat', clat);
+        setUrlParams('lng', clng);
+
+
+        let b = swLatLng.getLng() + " " + swLatLng.getLat()
+                + ", " + neLatLng.getLng() + " " + neLatLng.getLat();
+
+        setUrlParams('b', b);
         goSearch();
 
     });
@@ -137,6 +165,8 @@ $(function(){
     let checkOut = '';
 
     /** 카카오 맵 */
+    var infowindow = new kakao.maps.InfoWindow({});
+
     var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
     var options = { //지도를 생성할 때 필요한 기본 옵션
         center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
@@ -160,19 +190,57 @@ $(function(){
         map.setCenter(moveLatLon);
     }
 
+    // 지도 레벨 설정
+    function setLevel(level){
+        map.setLevel(level);
+    }
 
     // 마커 표시하기
-    function displayMarker(map, lat, lng){
+    function displayMarker(map, acc){
         // 마커가 표시될 위치입니다
-        var markerPosition  = new kakao.maps.LatLng(lat, lng);
+        var markerPosition  = new kakao.maps.LatLng(acc.acc_lattitude, acc.acc_longtitude);
 
         // 마커를 생성합니다
         var marker = new kakao.maps.Marker({
             position: markerPosition
         });
+
         // 마커가 지도 위에 표시되도록 설정합니다
         marker.setMap(map);
+        let status = 0;
+
+        // 마커에 mouseover 이벤트를 등록합니다
+        kakao.maps.event.addListener(marker, 'click', function() {
+
+            let thumbs = acc.acc_thumbs.split("/");
+
+
+            // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+            infowindow.setContent(
+                '<div class="iw"><div><img src="/Lemo/img/product/'+acc.province_no+'/'+acc.acc_id+'/'+
+                thumbs[0]+'"></div><div><p>'+acc.acc_name+'</p><span>'+acc.acc_addr
+                +'</span><div><b>'+acc.price.toLocaleString()+'</b>원/ 1박</div></div></div>');
+
+            if(status == 0 ) {
+                infowindow.open(map, marker);
+                status = 1;
+            }else {
+                infowindow.close();
+                status = 0;
+            }
+
+        });
+
+        // 마커에 mouseout 이벤트를 등록합니다
+//        kakao.maps.event.addListener(marker, 'click', function() {
+//            infowindow.close();
+//        });
+
+        // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+        infowindow.open(map, marker);
+
     }
+
 
     // 지도의 현재 영역을 얻어옵니다
     var bounds = map.getBounds();
@@ -186,9 +254,10 @@ $(function(){
     // 영역정보를 문자열로 얻어옵니다. ((남,서), (북,동)) 형식입니다
     var boundsStr = bounds.toString();
 
-//    console.log('남서쪽 ' + swLatLng.getLat());
-//    console.log('남서쪽 ' + swLatLng.getLng());
-//    console.log('북동쪽 ' + neLatLng.getLat());
-//    console.log('북동쪽 ' + neLatLng.getLng());
+    console.log('남서쪽 ' + swLatLng.getLat());
+    console.log('남서쪽 ' + swLatLng.getLng());
+    console.log('북동쪽 ' + neLatLng.getLat());
+    console.log('북동쪽 ' + neLatLng.getLng());
+    console.log(boundsStr);
 
 

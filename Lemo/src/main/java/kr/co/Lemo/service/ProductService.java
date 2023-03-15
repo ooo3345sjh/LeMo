@@ -41,6 +41,11 @@ public class ProductService {
     // @since 2022/03/09
     public void findAllAccommodations(Model model, Map map, Product_SearchVO sc) throws Exception {
 
+        log.info("maxPrice : " + sc.getMaxPrice());
+        log.info("minPrice : " + sc.getMinPrice());
+        log.info("지도 반경 좌표: " + sc.getB());
+
+
         String keyword = sc.getKeyword();
         double lng = sc.getLng();
         double lat = sc.getLat();
@@ -74,7 +79,7 @@ public class ProductService {
 
         if(sc.getSort() == null){
             sc.setSort("review");
-            map.put("reivew", "review");
+            map.put("sort", "review");
         }
 
         sc.setLat(lat);

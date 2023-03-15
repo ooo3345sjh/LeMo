@@ -103,7 +103,7 @@
                                         <input type="text" name="daterange" id="daterange" th:attr="data-status=0">
                                     </td>
                                     <td>
-                                        <input type="number" min="0" name="numPeople" value="0">
+                                        <input type="number" min="0" name="numPeople" value="1">
                                     </td>
                                 </tr>
                             </table>
@@ -118,12 +118,15 @@
                                     <li th:each="acc : ${accs}">
                                         <img th:src="|@{/}img/product/${acc.province_no}/${acc.acc_id}/${#strings.substringBefore(acc.acc_thumbs, '/')}|" alt="상품 이미지">
                                         <article class="stage">
-                                            <a href="">
+                                            <a th:href="@{/product/view(acc_id=${acc.acc_id})}">
                                                 <div class="stage-name">
                                                     <strong>[[${acc.acc_name}]]    [[${acc.accType_no}]]</strong>
                                                     <p>
                                                         <span>[[${#numbers.formatDecimal(acc.acc_rate,1,1)}]]</span>
-                                                        <b>최고에요</b>
+                                                        <b th:if="${acc.acc_rate >= 9}">최고에요</b>
+                                                        <b th:if="${acc.acc_rate >= 8 && acc.acc_rate < 9 }">추천해요</b>
+                                                        <b th:if="${acc.acc_rate >= 7 && acc.acc_rate < 8 }">만족해요</b>
+                                                        <b th:if="${acc.acc_rate < 7 }">좋아요</b>
                                                         <em>([[${acc.acc_review}]])</em>
                                                     </p>
                                                     <p>
@@ -166,6 +169,7 @@
                             <p>
                                 <button onclick="setZoomable(false)">지도 확대/축소 끄기</button>
                                 <button onclick="setZoomable(true)">지도 확대/축소 켜기</button>
+                                <button name="research">지도 반경으로 재검색</button>
                             </p>
                         </div>
                     </div>
@@ -178,6 +182,7 @@
                 let clat = [[${ph.sc.lat}]];
                 let clng = [[${ph.sc.lng}]];
                 let accs = [[${accs}]];
+                let level = [[${ph.sc.level}]];
             </script>
             <script th:src="@{/js/product/productList.js}"></script>
         </th:block>
