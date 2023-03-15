@@ -42,14 +42,6 @@ public class MyService {
         return map;
     }
 
-    public List<DiarySpotVO> findDiarySpotPosition(String uid) {
-        List<DiarySpotVO> spotVO = dao.selectDiary(uid);
-
-        return spotVO;
-    }
-
-    // @since 2023/03/13
-
     // @since 2023/03/10
     public void diary_rsave(
             Map<String, Object> param,
@@ -120,6 +112,7 @@ public class MyService {
 
 
 
+
     // 기능
 
     // @since 2023/03/12
@@ -131,7 +124,7 @@ public class MyService {
 
         //String path = new File(uploadPath+"diary/"+arti_no).getAbsolutePath();
 
-        String path = new File("C:/Users/PJH/Desktop/Workspace/LeMo/Lemo/img/diary/" + arti_no).getAbsolutePath();
+        String path = new File("C:/Users/java2/Desktop/Workspace/LeMo/Lemo/img/diary/" + arti_no).getAbsolutePath();
 
         log.info(path);
         // 저장 폴더가 없다면 생성

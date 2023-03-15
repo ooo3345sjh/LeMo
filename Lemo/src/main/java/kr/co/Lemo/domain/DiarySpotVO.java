@@ -9,7 +9,7 @@ import org.springframework.data.geo.Point;
 /**
  * @since 2023/03/08
  * @author 박종협
- * @apiNote my/diary SpotVO
+ * @apiNote lemo_diary_spot table VO
  */
 @Data
 @AllArgsConstructor
@@ -34,5 +34,8 @@ public class DiarySpotVO {
     private String arti_start;
     // @since 2023/03/14
     private String arti_end;
+    // @since 2023/03/15
+    private String arti_rdate;
+    private int arti_like;
 
 }

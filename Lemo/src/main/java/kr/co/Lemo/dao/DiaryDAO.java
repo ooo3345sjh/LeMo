@@ -1,5 +1,6 @@
 package kr.co.Lemo.dao;
 
+import kr.co.Lemo.domain.DiaryCommentVO;
 import kr.co.Lemo.domain.DiarySpotVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,13 @@ import java.util.List;
 @Repository
 public interface DiaryDAO {
 
+    // @since 2023/03/14
     public List<DiarySpotVO> selectDiaryArticle();
+
+    // @since 2023/03/15
+    public List<DiarySpotVO> selectDiarySpot(int arti_no);
+
+    // @since 2023/03/15
+    public List<DiaryCommentVO> selectDiaryComment(int arti_no);
 
 }

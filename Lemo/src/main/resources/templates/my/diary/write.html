@@ -367,6 +367,12 @@
                         }
                     });
 
+                    $('#diaryForm').keydown(function() {
+                        if (event.keyCode === 13) {
+                            event.preventDefault();
+                        };
+                    });
+
                     $('#diaryForm').submit(function(e){
                         e.preventDefault();
 
