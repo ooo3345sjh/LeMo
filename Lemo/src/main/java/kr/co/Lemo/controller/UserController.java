@@ -59,7 +59,7 @@ public class UserController {
         HttpSession session = req.getSession();
         session.setMaxInactiveInterval(60*30); // 세션 만료시간 30분 설정
         session.setAttribute("termsAuth", termsType_no);
-        return "redirect:/user/join";
+        return "redirect:/user/hp/auth";
     }
 
     // @since 2023/03/08
@@ -79,12 +79,46 @@ public class UserController {
 
     // @since 2023/03/10
     @GetMapping("hp/auth")
-    public String hpAuthentication(Model m) {
+    public String hpAuthentication(Model m, HttpServletRequest req) {
         log.debug("GET hpAuthentication start...");
+
+        String termsType_no = getTermsAuth(req);
+
+        if(termsType_no == null){
+            return "redirect:/user/terms";
+        }
+
         m.addAttribute("title", environment.getProperty(group));
 
-
         return "user/hpAuth";
+    }
+
+    // @since 2023/03/15
+    @PostMapping("hp/auth")
+    public String hpAuthentication(
+            @RequestParam(name = "authcode") Integer code,
+            Model m,
+            HttpServletRequest req
+    ) {
+        log.debug("POST hpAuthentication start...");
+        log.debug("code : " + code.toString());
+
+        String termsType_no = getTermsAuth(req);
+        if(termsType_no == null){
+            return "redirect:/user/terms";
+        }
+
+        HttpSession session = req.getSession();
+        Integer authCode = session.getAttribute("authCode") == null? null:(Integer) session.getAttribute("authCode");
+
+        if(authCode == null || !authCode.equals(code))
+            return "redirect:/user/hp/auth?error=404";
+
+        session.setAttribute("authHp", "true");
+
+        m.addAttribute("title", environment.getProperty(group));
+
+        return "redirect:/user/join";
     }
 
     // @since 2023/03/10
@@ -101,7 +135,7 @@ public class UserController {
         String termsType_no = getTermsAuth(req);
 
         if(termsType_no == null)
-            return "error/abnormalAccess";
+            return "redirect:/user/terms";
 
         if("general".equals(type))
             return "user/signup_general";
@@ -127,7 +161,7 @@ public class UserController {
     // @since 2023/03/12
     @PostMapping("sms/send")
     @ResponseBody
-    public Map sendSms(@RequestBody MessageVO messageVO) throws Exception {
+    public Map sendSms(@RequestBody MessageVO messageVO, HttpServletRequest req) throws Exception {
         log.debug("POST sendSms start...");
         log.debug(messageVO.toString());
         Map map = new HashMap();
@@ -136,6 +170,10 @@ public class UserController {
             SmsResponseVO response = SmsResponseVO.builder()
                                                 .code(123123)
                                                 .build();
+
+            HttpSession session = req.getSession();
+            session.setAttribute("authCode", response.getCode());
+
             log.debug(response.toString());
             map.put("result", response);
         } catch (Exception e){
