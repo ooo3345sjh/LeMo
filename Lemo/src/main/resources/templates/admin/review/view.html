@@ -20,7 +20,6 @@
                             <span>등록리뷰</span>
                         </div>
                         <div class="col2" style="padding-top: 90px; padding-bottom: 76px;">
-                            <form action="#">
                                 <div class="col2_r_slider">
 
 
@@ -61,10 +60,10 @@
                                 </div>
                                 <div class="col2_r_box">
                                     <div class="r_nick">
-                                        레몬나르고빛갚으리오 <i>님의 후기</i>
+                                        [[${#strings.substringBefore(review.user_id, '@') + '**'}]] <i>님의 후기</i>
                                     </div>
                                     <div class="r_stay">
-                                        부산힐튼호텔 <i>슈페리얼 더블</i>
+                                        [[${review.acc_name}]] <i>슈페리얼 더블</i>
                                     </div>
                                     <div class="r_date">
                                         23.02.28~23.03.02
@@ -89,7 +88,6 @@
 
                                     </div>
                                 </div>
-                            </form>
                         </div>
 
                     </div>
