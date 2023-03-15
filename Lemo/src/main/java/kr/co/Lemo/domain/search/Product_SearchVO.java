@@ -28,5 +28,7 @@ public class Product_SearchVO extends SearchCondition {
     private int minPrice; // 최소가격
     private String checkIn; // 체크인날짜
     private String checkOut; // 체크아웃날짜
+    private String b; // 지도 반경 좌표
+    private int level;
 
 }

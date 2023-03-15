@@ -13,15 +13,28 @@
 
     <!-- select -->
     <select id="selectAccommodations" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
-        <![CDATA[
             SELECT a.*, SUM(b.room_stock) AS 'sum', MIN(b.room_price) AS 'price'   FROM `lemo_product_accommodation` AS a
             JOIN `lemo_product_room` AS b
             ON a.`acc_id` = b.`acc_id`
-            WHERE ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000
-        ]]>
+            WHERE
+        <if test="b == null">
+            <![CDATA[
+            ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000
+            ]]>
+        </if>
+        <if test="b != null">
+            MBRContains(
+                ST_GeomFromText(CONCAT('LineString(', #{b}, ')')),
+            `acc_xy`)
+        </if>
+
 
         <if test="accTypes != null">
             AND `accType_no` In(${accTypes})
+        </if>
+
+        <if test="headcount > 0">
+            AND b.`room_maxNum` >= #{headcount}
         </if>
 
 
@@ -64,12 +77,24 @@
 
         ON a.acc_id = b.acc_id
 
-        <![CDATA[
-            WHERE ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000
-        ]]>
+        WHERE
+        <if test="b == null">
+            <![CDATA[
+            ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000
+            ]]>
+        </if>
+        <if test="b != null">
+            MBRContains(
+            ST_GeomFromText(CONCAT('LineString(', #{b}, ')')),
+            `acc_xy`)
+        </if>
 
         <if test="accTypes != null">
             AND `accType_no` In(${accTypes})
+        </if>
+
+        <if test="headcount > 0">
+            AND b.`room_maxNum` >= #{headcount}
         </if>
 
     </select>

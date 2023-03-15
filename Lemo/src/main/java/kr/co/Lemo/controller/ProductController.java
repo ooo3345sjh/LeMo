@@ -36,13 +36,10 @@ public class ProductController {
 
     /**
      * @since 2023/03/08
-     * @param sc (상품 검색 조건 )
+     * @param vo (상품 검색 조건 )
      */
     @GetMapping("list")
     public String list(Model model, @RequestParam Map map, @ModelAttribute Product_SearchVO vo) throws Exception {
-
-        //log.info("accTypes : " + Arrays.toString(sc.getAccTypes()));
-        //log.info("accTypes : " + sc.getAccTypes());
 
         // 숙박업소 리스트 가져오기
         service.findAllAccommodations(model, map, vo);
