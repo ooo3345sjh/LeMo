@@ -53,7 +53,13 @@ public interface AdminDAO {
     // @since 2023/03/10
     public int updateIsEnabled(@Param("user_id") String user_id);
 
+    // @since 2023/03/15
+    public int updateReply(@Param("revi_reply") String revi_reply, @Param("revi_id") String revi_id);
+
     // @since 2023/03/12
     public int deleteCoupon(@Param("cp_id") String cp_id);
+
+    // @since 2023/03/15
+    public int deleteReview(@Param("revi_id") String revi_id);
 
 }

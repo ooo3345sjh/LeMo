@@ -120,10 +120,21 @@
         update `lemo_member_userinfo` set `isEnabled`=0, `wdate`=NOW() where `user_id`=#{user_id};
     </update>
 
+    <!-- admin - review - reply -->
+    <update id="updateReply">
+        update `lemo_product_review` set `revi_reply`=#{revi_reply} where `revi_id`=#{revi_id};
+    </update>
+
     <!-- admin - user - delete coupon -->
     <delete id="deleteCoupon">
         delete from `lemo_product_coupon` where `cp_id`=#{cp_id};
     </delete>
+
+    <!-- admin - review - delete review -->
+    <delete id="deleteReview">
+        delete from `lemo_product_review` where `revi_id`=#{revi_id};
+    </delete>
+
 
     <!-- 공통 키 -->
     <!-- include :: sql 구문 재사용 -->
