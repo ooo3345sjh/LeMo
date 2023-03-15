@@ -2,10 +2,12 @@ package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.AdminDAO;
 import kr.co.Lemo.domain.CouponVO;
+import kr.co.Lemo.domain.ReviewVO;
 import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.repository.AdminRepo;
 import kr.co.Lemo.utils.PageHandler;
+import kr.co.Lemo.utils.SearchCondition;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,8 +29,7 @@ public class AdminService {
      * @param model
      * @param sc
      */
-    public List<UserVO> selectUser(Model model,
-                                   Admin_SearchVO sc){
+    public List<UserVO> selectUser(Model model, Admin_SearchVO sc){
         int totalCnt = dao.countUser(sc); // 전체 게시물 개수
         int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());  // 전체 페이지의 수
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
@@ -51,8 +52,7 @@ public class AdminService {
      * @param model
      * @param sc
      */
-    public List<CouponVO> selectCoupon(Model model,
-                                       Admin_SearchVO sc){
+    public List<CouponVO> selectCoupon(Model model, Admin_SearchVO sc){
         int totalCnt = dao.countCoupon(sc);
         int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
@@ -83,6 +83,38 @@ public class AdminService {
         return dao.selectAccOwned(user_id);
     }
 
+    /**
+     * 관리자 리뷰 - 리뷰 목록
+     * @since 2023/03/14
+     * @param model
+     * @param sc
+     */
+    public List<ReviewVO> findAllReview(Model model, SearchCondition sc){
+        int totalCnt = dao.countReview(sc);
+        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<ReviewVO> reviews = dao.selectReview(sc);
+
+        log.warn("Selected reviews: " + reviews.toString());
+
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("ph", pageHandler);
+
+        return reviews;
+    }
+
+
+    /**
+     * 관리자 리뷰 - 리뷰 보기
+     * @since 2023/03/15
+     * @param revi_id
+     */
+    public ReviewVO findReview(Integer revi_id) throws Exception{
+        return dao.viewReview(revi_id);
+    }
 
     /**
      * 관리자 쿠폰 - 쿠폰 등록

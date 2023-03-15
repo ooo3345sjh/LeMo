@@ -17,14 +17,19 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ReviewVO {
 
-    private int revi_id;
-    private int res_no;
-    private int revi_rate;
-    private String revi_title;
-    private String revi_content;
-    private String revi_reply;
-    private String revi_regip;
-    private String revi_rdate;
-    private String revi_thumb;
+    private int revi_id;                // 리뷰아이디
+    private Long res_no;                // 예약번호
+    private int revi_rate;              // 리뷰점수
+    private String revi_title;          // 리뷰제목
+    private String revi_content;        // 리뷰내용
+    private String revi_reply;          // 리뷰답변
+    private String revi_regip;          // 작성 ip
+    private String revi_rdate;          // 작성일
+    private String revi_thumb;          // 객실사진
+
+    // 추가 - 리뷰
+    private String user_id;
+    private String acc_name;
+    private String room_name;
 
 }

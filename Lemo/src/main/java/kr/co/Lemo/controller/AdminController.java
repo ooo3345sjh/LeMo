@@ -2,11 +2,13 @@ package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.CouponVO;
 import kr.co.Lemo.domain.CsVO;
+import kr.co.Lemo.domain.ReviewVO;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.domain.search.Cs_SearchVO;
 import kr.co.Lemo.repository.AdminRepo;
 import kr.co.Lemo.service.AdminService;
 import kr.co.Lemo.service.CsService;
+import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -191,12 +193,24 @@ public class AdminController {
     }
 
     @GetMapping("review/list")
-    public String review_list(){
+    public String review_list(Model model,
+                              @RequestParam Map map,
+                              @ModelAttribute SearchCondition sc){
+        sc.setMap(map);
+        service.findAllReview(model, sc);
         return "admin/review/list";
     }
 
     @GetMapping("review/view")
-    public String review_view(){
+    public String review_view(Model model, @RequestParam("revi_id") Integer revi_id) throws Exception{
+
+        ReviewVO review = service.findReview(revi_id);
+
+        log.warn("selected review: " + review);
+
+        model.addAttribute("review", review);
+        model.addAttribute("revi_id", revi_id);
+
         return "admin/review/view";
     }
     

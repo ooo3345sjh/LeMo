@@ -57,6 +57,36 @@
         group by `acc_name`;
     </select>
 
+    <!-- admin - review - list -->
+    <select id="selectReview" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ReviewVO">
+        select * from `lemo_product_review` as a
+        inner join `lemo_product_reservation` as b on a.res_no=b.res_no
+        inner join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
+        where 1=1
+        <include refid="searchReview"/>
+        order by `revi_rdate` desc limit #{offset}, 10;
+    </select>
+
+    <!-- admin - review - count total reviews for pagination -->
+    <select id="countReview" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
+        select count(*) from `lemo_product_review` as a
+        inner join `lemo_product_reservation` as b on a.res_no=b.res_no
+        inner join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
+        where 1=1
+        <include refid="searchReview"/>
+    </select>
+
+    <!-- admin - review - view -->
+    <select id="viewReview" resultType="kr.co.Lemo.domain.ReviewVO">
+        select * from `lemo_product_review` as a
+        inner join `lemo_product_reservation` as b on a.res_no=b.res_no
+        inner join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
+        inner join `lemo_product_room` as d on b.room_id = d.room_id
+        where `revi_id`=#{revi_id};
+    </select>
+
+
+
     <!-- admin - user - insert coupon -->
     <insert id="insertCoupon">
         INSERT INTO `lemo_product_coupon` (
@@ -97,7 +127,7 @@
 
     <!-- 공통 키 -->
     <!-- include :: sql 구문 재사용 -->
-    <!-- admin - user - search condition::list -->
+    <!-- 회원검색  -->
     <sql id="searchCondition">
         <if test="searchField != null">
             <choose>
@@ -150,6 +180,7 @@
         </if>
     </sql>
 
+    <!-- 쿠폰 검색 -->
     <sql id="searchCouponType">
         <if test="searchField != null">
             <choose>
@@ -174,6 +205,23 @@
                 </when>
                 <when test='searchCouponRole == "BUSINESS"'>
                     and `user_role`='BUSINESS'
+                </when>
+            </choose>
+        </if>
+    </sql>
+
+    <!-- 리뷰 검색 -->
+    <sql id="searchReview">
+        <if test="searchField != null">
+            <choose>
+                <when test="searchField == 'user_id'">
+                    and c.`user_id` like CONCAT ('%', 'hotel', '%')
+                </when>
+                <when test="searchField == 'acc_name'">
+                    and `acc_name` like CONCAT ('%', '김해', '%')
+                </when>
+                <when test="searchField == 'acc_id'">
+                    and b.`acc_id` like CONCAT ('%', '001', '%')
                 </when>
             </choose>
         </if>

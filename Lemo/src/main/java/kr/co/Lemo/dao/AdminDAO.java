@@ -1,6 +1,7 @@
 package kr.co.Lemo.dao;
 
 import kr.co.Lemo.domain.CouponVO;
+import kr.co.Lemo.domain.ReviewVO;
 import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.utils.SearchCondition;
 import org.apache.ibatis.annotations.Mapper;
@@ -30,6 +31,15 @@ public interface AdminDAO {
 
     // @since 2023/03/12
     public List<CouponVO> selectAccOwned(String user_id);
+
+    // @since 2023/03/14
+    public List<ReviewVO> selectReview(SearchCondition sc);
+
+    // @since 2023/03/14
+    public int countReview(SearchCondition sc);
+
+    // @since 2023/03/15
+    public ReviewVO viewReview(Integer revi_id);
 
     // @since 2023/03/11
     public void insertCoupon(CouponVO vo);

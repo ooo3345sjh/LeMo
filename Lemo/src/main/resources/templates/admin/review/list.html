@@ -16,29 +16,18 @@
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
                         <div class="col0">
-                            <form action="#">
-                                <div class="selectProdForAdmin">
-                                    <select>
-                                        <option value="0">회사명</option>
-                                        <option value="1">푸른제주펜션</option>
-                                        <option value="2">보우힐펜션</option>
-                                        <option value="3">파라다이스호텔부산</option>
-                                        <option value="4">프리지아펜션</option>
-                                    </select>
-                                </div>
+                            <form th:action="@{/admin/review/list}">
                                 <div class="searchProd">
-                                    <input type="text" class="search_box" placeholder="검색 키워드 입력">
+                                    <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}">
                                     <button type="submit" class="btnSearch">
                                         <input type="image" th:src="@{/images/admin/btn_search.png}">
                                     </button>
                                 </div>
-                                <div class="selectProd">
+                                <div class="selectProd" name="searchField">
                                     <select>
-                                        <option value="0">회사명</option>
-                                        <option value="1">푸른제주펜션</option>
-                                        <option value="2">보우힐펜션</option>
-                                        <option value="3">파라다이스호텔부산</option>
-                                        <option value="4">프리지아펜션</option>
+                                        <option value="acc_id" th:selected="${ph.sc.searchField == 'acc_id'}">숙소명</option>
+                                        <option value="acc_name" th:selected="${ph.sc.searchField == 'acc_name'}">숙소번호</option>
+                                        <option value="user_id" th:selected="${ph.sc.searchField == 'user_id'}">판매자아이디</option>
                                     </select>
                                 </div>
                             </form>
@@ -48,7 +37,6 @@
                             <span>등록리뷰</span>
                         </div>
                         <div class="col2">
-                            <form action="#">
                                 <div class="board_list">
                                     <ul>
                                         <li>#</li>
@@ -59,29 +47,40 @@
                                         <li>답변상태</li>
                                         <li>등록일</li>
                                     </ul>
-                                    <ul>
-                                        <li>1</li>
-                                        <li>23</li>
+                                    <ul th:each="review,i:${reviews}">
+                                        <li>[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
+                                        <li th:text="${review.res_no}">23</li>
                                         <li class="prodName">
-                                            <span class="tag">PHOTO</span>
-                                            매우만족합니다
+                                            <span th:if="${review.revi_thumb != null}" class="tag">PHOTO</span>
+                                            <!--<span class="tag">PHOTO</span>-->
+                                            <!--/*<a th:href="@{/admin/review/view} + ${ph.sc.getQueryString(ph.sc.page, review.revi_id)}"
+                                               th:text="${review.revi_title}" class="reviewTitle" th:data-no="${review.revi_id}">title</a>*/-->
+                                            <a th:href="@{/admin/review/view (revi_id=${review.revi_id})}"
+                                               th:text="${review.revi_title}" class="reviewTitle" th:data-no="${review.revi_id}">title</a>
                                         </li>
-                                        <li>충치왕김건치</li>
-                                        <li><img th:src="@{/images/admin/rating_star.png}" style="width: 80px;"></li>
+                                        <li th:text="${#strings.substringBefore(review.user_id, '@') + '**'}">충치왕김건치</li>
+                                        <!--/*<li><img th:src="@{/images/admin/rating_star.png}" style="width: 80px;"></li>*/-->
+                                        <li th:text="${review.revi_rate}">1</li>
                                         <li>답변전</li>
-                                        <li>2023-02-26</li>
-
+                                        <li th:text="${review.revi_rdate}">2023-02-26</li>
                                     </ul>
                                 </div>
-                                <div class="pagination">
-                                    <a href="#">&laquo;</a>
-                                    <a href="#">1</a>
-                                    <a href="#" class="active">2</a>
-                                    <a href="#">3</a>
-                                    <a href="#">4</a>
-                                    <a href="#">5</a>
-                                    <a href="#">6</a>
-                                    <a href="#">&raquo;</a>
+                                <div class="pagination" th:object="${ph}" th:style="${#lists.size(reviews) == 0 ? 'visibility:hidden;':''}">
+
+                                    <th:block th:if="*{showPrev}">
+                                        <a th:href="@{/admin/review/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
+                                    </th:block>
+
+                                    <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                                        <a th:href="@{/admin/review/list} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                            [[${num}]]
+                                        </a>
+                                    </th:block>
+
+                                    <th:block th:if="*{showNext}">
+                                        <a th:href="@{/admin/review/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                    </th:block>
+
                                 </div>
                             </form>
                         </div>
