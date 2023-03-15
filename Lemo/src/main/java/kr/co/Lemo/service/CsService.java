@@ -78,10 +78,12 @@ public class CsService {
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
 
+
         List<CsVO> faqArticles = dao.selectFaqArticles(sc);
 
         model.addAttribute("faqArticles", faqArticles);
         model.addAttribute("ph", pageHandler);
+        model.addAttribute("type", sc.getCs_type());
 
         return faqArticles;
     }
