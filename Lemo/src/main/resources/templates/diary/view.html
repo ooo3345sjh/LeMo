@@ -7,8 +7,6 @@
     <!-- 스타일 -->
     <link rel="stylesheet" th:href="@{/css/diary/diary.css}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <!-- kakaoMap -->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712"></script>
 </th:block>
 <th:block layout:fragment="content">
     <main id="diary">
@@ -19,61 +17,25 @@
                     <div class="list-area">
 
                         <div id="diary_content">
-                            <span>나의 첫 강원도 여행!</span>
+                            <span>[[${article.get(0).getArti_title}]]</span>
                             <ul>
-                                <li>2023-03-01 ~ 2023-03-05</li>
+                                <li>[[${article.get(0).getArti_start}]] ~ [[${article.get(0).getArti_end}]]</li>
                                 <li>스카이베이호텔 경포</li>
-                                <li>홍길동&nbsp;&nbsp;2023-03-08</li>
-                                <li>30</li>
+                                <li>홍길동&nbsp;&nbsp;[[${article.get(0).getArti_rdate.substring(0,10)}]]</li>
+                                <li>[[${article.get(0).getArti_like}]]</li>
                             </ul>
                         </div>
                         <!-- 여행장소 -->
-                        <div class="place">
+                        <div class="place" th:each="spot:${article}">
                             <div class="spot">
-                                <span>남이섬</span>
+                                <span>[[${spot.spot_title}]]</span>
                             </div>
                             <img th:src="@{/images/cs/arr_down.png}" class="arrow">
                             <div class="toggle">
                                 <div class="image">
-                                    <img th:src="@{/images/diary/sample5.jpg}">
+                                    <img th:src="@{/img/diary/__${spot.arti_no}__/__${spot.spot_thumb}__}">
                                 </div>
-                                <div class="text">너무너무 재미있었다.</div>
-                            </div>
-                        </div>
-                        <div class="place">
-                            <div class="spot">
-                                <span>낙산사</span>
-                            </div>
-                            <img th:src="@{/images/cs/arr_down.png}" class="arrow">
-                            <div class="toggle">
-                                <div class="image">
-                                    <img th:src="@{/images/diary/sample5.jpg}">
-                                </div>
-                                <div class="text">너무너무 재미있었다.</div>
-                            </div>
-                        </div>
-                        <div class="place">
-                            <div class="spot">
-                                <span>레고랜드</span>
-                            </div>
-                            <img th:src="@{/images/cs/arr_down.png}" class="arrow">
-                            <div class="toggle">
-                                <div class="image">
-                                    <img th:src="@{/images/diary/sample5.jpg}">
-                                </div>
-                                <div class="text">너무너무 재미있었다.</div>
-                            </div>
-                        </div>
-                        <div class="place">
-                            <div class="spot">
-                                <span>하이원 스키리조트</span>
-                            </div>
-                            <img th:src="@{/images/cs/arr_down.png}" class="arrow">
-                            <div class="toggle">
-                                <div class="image">
-                                    <img th:src="@{/images/diary/sample5.jpg}">
-                                </div>
-                                <div class="text">너무너무 재미있었다.</div>
+                                <div class="text">[[${spot.spot_content}]]</div>
                             </div>
                         </div>
                         <!-- 여행일기 댓글 -->
@@ -88,32 +50,10 @@
                                         <div class="repdiv1">
                                             <img th:src="@{/images/diary/sample2.jpg}" alt="프사">
                                             <div>
-                                                <strong>당근이</strong><span>2023.03.07</span>
+                                                <strong>당근이</strong><span></span>
                                             </div>
                                         </div>
-                                        <div class="repdiv2"><textarea readonly>우와 너무너무 좋아보여요ㅠㅠㅠ대박이네요 진짜로 최고에요..............어디로 가나요?ㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇ
-                                                    </textarea></div>
-                                        <div class="repdiv3">
-                                            <div>
-                                                <a href="#" class="showall">댓글 모두보기</a>
-                                                <a href="#" class="comment">댓글 쓰기</a>
-                                            </div>
-                                            <div>
-                                                <a href="#">수정</a>
-                                                <a href="#">삭제</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!-- 답댓글 class='re_reply' -->
-                                    <li class="re_reply">
-                                        <div class="repdiv1">
-                                            <img th:src="@{/images/diary/sample2.jpg}" alt="프사">
-                                            <div>
-                                                <strong>당근이</strong><span>2023.03.07</span>
-                                            </div>
-                                        </div>
-                                        <div class="repdiv2"><textarea readonly>우와 너무너무 좋아보여요ㅠㅠㅠ대박이네요 진짜로 최고에요..............어디로 가나요?ㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇ
-                                                    </textarea></div>
+                                        <div class="repdiv2"><textarea readonly></textarea></div>
                                         <div class="repdiv3">
                                             <div>
                                                 <a href="#" class="showall">댓글 모두보기</a>
@@ -130,26 +70,6 @@
                                             <img th:src="@{/images/diary/sample2.jpg}" alt="프사">
                                             <div>
                                                 <strong>당근이</strong><span>2023.03.07</span>
-                                            </div>
-                                        </div>
-                                        <div class="repdiv2"><textarea readonly>우와 너무너무 좋아보여요ㅠㅠㅠ대박이네요 진짜로 최고에요..............어디로 가나요?ㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇ
-                                                    </textarea></div>
-                                        <div class="repdiv3">
-                                            <div>
-                                                <a href="#" class="showall">댓글 모두보기</a>
-                                                <a href="#" class="comment">댓글 쓰기</a>
-                                            </div>
-                                            <div>
-                                                <a href="#">수정</a>
-                                                <a href="#">삭제</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="repdiv1">
-                                            <img th:src="@{/images/diary/sample4.jpg}" alt="프사">
-                                            <div>
-                                                <strong>쭈니</strong><span>2023.03.07</span>
                                             </div>
                                         </div>
                                         <div class="repdiv2"><textarea readonly>우와 너무너무 좋아보여요ㅠㅠㅠ대박이네요 진짜로 최고에요..............어디로 가나요?ㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇ
@@ -191,21 +111,6 @@
                         <button onclick="setZoomable(true)">지도 확대/축소 켜기</button>
                     </p>
                 </div>
-                <script>
-                    /** 카카오 맵 */
-                    var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
-                    var options = { //지도를 생성할 때 필요한 기본 옵션
-                        center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-                        level: 5 //지도의 레벨(확대, 축소 정도)
-                    };
-
-                    var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-                    map.setZoomable(false);
-                    function setZoomable(zoomable) {
-                        // 마우스 휠로 지도 확대,축소 가능여부를 설정합니다
-                        map.setZoomable(zoomable);
-                    }
-                </script>
             </div>
         </div>
     </main>
@@ -213,7 +118,75 @@
 </th:block>
 
 <th:block layout:fragment="script">
-    <script>
+    <!-- kakaoMap -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712&libraries=services"></script>
+    <script th:inline="javascript">
+        let positionMap = [[${article}]];
+        let overlays = new Map();
+
+        /** 카카오 맵 */
+        var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
+        var options = { //지도를 생성할 때 필요한 기본 옵션
+            center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+            level: 5 //지도의 레벨(확대, 축소 정도)
+        };
+
+        var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+        map.setZoomable(false);
+        function setZoomable(zoomable) {
+            // 마우스 휠로 지도 확대,축소 가능여부를 설정합니다
+            map.setZoomable(zoomable);
+        }
+
+        var bounds = new kakao.maps.LatLngBounds();
+
+        function closeOverlay(spot_no) {
+            let overlay = overlays.get(spot_no);
+            overlay.setMap(null);
+        }
+
+        var imageSrc = '/Lemo/images/index/lemo_logo-removebg-preview.png', // 마커이미지의 주소입니다
+        imageSize = new kakao.maps.Size(40, 60), // 마커이미지의 크기입니다
+        imageOption = {offset: new kakao.maps.Point(21, 59)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+        positionMap.forEach(function(position, i){
+
+            var marker = new kakao.maps.Marker({
+                image : markerImage,
+                position : new kakao.maps.LatLng(position.spot_lattitude, position.spot_longtitude)
+            });
+
+            marker.setMap(map);
+
+            bounds.extend(marker.getPosition());
+
+            let content = '<div class="spot_wrap">';
+               content += '<div class="spot_title">';
+               content += position.spot_title
+               content += '<div class="spot_close" title="닫기" onclick="closeOverlay('+position.spot_no+')"></div>'
+               content += '</div>';
+               content += '<div class="spot_content">';
+               content += position.arti_title
+               content += '</div>';
+               content += '</div>';
+
+            var overlay = new kakao.maps.CustomOverlay({
+                content: content,
+                position: marker.getPosition()
+            });
+
+            overlays.set(position.spot_no, overlay);
+
+            kakao.maps.event.addListener(marker, 'click', function() {
+                overlay.setMap(map);
+            });
+
+        });
+
+        map.setBounds(bounds);
+
         $(function(){
 
             /** 카카오맵 - 스크롤 따라 이동 */
@@ -280,5 +253,6 @@
             });
         });
     </script>
+</th:block>
 </html>
 

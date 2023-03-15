@@ -165,6 +165,11 @@ public class MyController {
     @GetMapping("diary/modify")
     public String diary_modify(Model m) {
         m.addAttribute("title", environment.getProperty(diaryGroup));
+
+        String uid = "test@test.com";
+
+
+
         return "my/diary/modify";
     }
 

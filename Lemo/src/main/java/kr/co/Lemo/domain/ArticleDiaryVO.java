@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @since 2023/03/08
  * @author 박종협
- * @apiNote my/diary ArticleVO
+ * @apiNote lemo_diary_article table VO
  */
 @Data
 @AllArgsConstructor
