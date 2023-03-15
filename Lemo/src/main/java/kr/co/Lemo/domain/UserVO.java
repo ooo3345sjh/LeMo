@@ -45,11 +45,4 @@ public class UserVO {
     private String soci_type;
     private String soci_token;
     private String email;
-
-
-
-
-
-
-
 }

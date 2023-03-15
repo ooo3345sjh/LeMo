@@ -9,7 +9,7 @@
     <th:block layout:fragment="content">
         <main id="certification">
             <section>
-                <form action="#">
+                <form name="form" th:action="@{/user/hp/auth}" method="post">
                     <div class="title">
                         <strong class="logo">
                             <img th:src="@{/images/index/lemo_logo-removebg-preview.png}" alt="">
@@ -35,16 +35,24 @@
     </th:block>
     <th:block layout:fragment="script">
         <script>
+            const error = "[[${param.error}]]";
+            if(error == "404"){
+                alert("인증에 실패했습니다. 다시 시도해주세요.");
+            }
             // var regExp_ctn = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
             const regHp = /^(01[016789]{1})([0-9]{3,4})([0-9]{4})$/;
-            let isSended = false; // 인증번호 전송 유무
-            let smsAuthCode = -999999;
+            const regCode = /^[0-9]+$/;
+
+            let isSended = false;      // 인증번호 전송 유무
+            let smsAuthCode = -999999; // 인증번호
+            let smsAuthCodeCnt = 5;    // 인증번호 입력 제한 5회
+            let authTime = false;      // 인증번호 입력 유효시간
 
             function appendAuthCodeTag(){
                 let authCodeTag = "<section id='section2'>"
                                 + "    <b>인증번호</b>"
                                 + "    <div class='inp_type2 form-errors'>"
-                                + "        <input type='text' name='authcode'>"
+                                + "        <input type='text' name='authcode' maxlength='6'>"
                                 + "        <span id='timer' class='timer'>03:00</span>"
                                 + "        <label id='authcode_msg' class='validate_msg'></label>"
                                 + "        <button type='button' class='btn_common'>확인</button>"
@@ -71,6 +79,7 @@
             }
 
             // 인증코드 시간 제한
+            PlAYTIME = null;
             function TIMER(){
                 const Timer=document.getElementById('timer'); //스코어 기록창-분
                 let time= 180000;
@@ -96,8 +105,43 @@
                         sec=60;
                         Timer.textContent=String(Math.floor(min)).padStart(2, '0')+':'+'00'
                     }
+                    if(time == 120000){
+                        $('#section1 .btn_common').addClass('active');
+                        isSended = false;
+                    }
+                    if(time == 0)
+                        authTime = false;
 
                 },1000); //1초마다
+            }
+
+            // 세션 저장
+            function saveCodeAuth(){
+                const now = new Date();
+                const nowTime = now.getTime() / 1000 + 60;
+
+                sessionStorage.setItem("AuthTime", nowTime); // 저장
+            }
+
+            // 세션 값 현재 시간과 비교 후 불리언 반환
+            function getCodeAuth(){
+                const now = new Date();
+                const nowTime = now.getTime() / 1000;
+                const authTime = Number(sessionStorage.getItem("AuthTime"));
+
+                if(authTime != null){
+                    if(authTime < nowTime){
+                        sessionStorage.removeItem("AuthTime");
+                        return false;
+                    }
+                    else{
+                        return true;
+                    }
+                }
+
+                else {
+                    return false;
+                }
             }
 
             $(function(){
@@ -106,9 +150,20 @@
                 });
 
                 $('#section1 .btn_common').click(function (){
-                    if(isSended){
-                        alert('이미 전송되었습니다.');
+                    if(getCodeAuth()){
+                        $('#hp_result').text('1분 후에 다시 시도해주세요.');
                         return;
+                    }
+
+                    if(isSended){
+                        $('#hp_result').text('1분 후에 다시 시도해주세요.');
+                        return;
+                    }
+
+                    else {
+                        $('#hp_result').text('');
+                        if(PlAYTIME != null)
+                            clearInterval(PlAYTIME);
                     }
 
                     regHpConfirm();
@@ -127,23 +182,88 @@
                         "to":hp
                     }
                     ajaxAPI("user/sms/send", jsonData, "POST").then((response) => {
-                        console.log(response);
-                        console.log(response.result);
+                        //console.log(response);
+                        //console.log(response.result);
                         if(response.result == "error") {
                             alert('인증코드 전송에 실패했습니다.\n잠시 후 다시 시도해주세요.');
                             isSended = false;
                         } else {
                             isSended = true;
+                            $(this).text('재전송');
+                            $(this).removeClass('active');
+
                             smsAuthCode = response.result.code;
-                            appendAuthCodeTag();
+
+                            if(!document.getElementById("section2"))
+                                appendAuthCodeTag();
 
                             TIMER();
+                            saveCodeAuth();
+                            authTime = true;
                             setTimeout(function(){
                                 clearInterval(PlAYTIME);
-                            },180000);//3분이 되면 타이머를 삭제한다.
+                            },180000); // 3분이 되면 타이머를 삭제한다.
                         }
                     }).catch((errorMsg) => {
                         console.log(errorMsg)
+                    });
+
+                    $(document).on('keyup', '#section2 input[name="authcode"]', function(){
+                        code = $(this).val();
+                        button = $(this).parent().find('.btn_common');
+                        code = code.replace(/[^0-9]/g, "");
+                        $(this).val(code);
+
+                        if(code != null && code != '' && regCode.test(code) && code.length == 6){
+                            button.addClass('active');
+                        } else {
+                            button.removeClass('active');
+                        }
+                    });
+
+                    $(document).on('click', '#section2 .btn_common', function(){
+                        codeInput = $(this).parent().find('input[name="authcode"]');
+                        authcode_msg = $(this).parent().find('#authcode_msg');
+                        code = codeInput.val();
+
+                        if(!authTime){
+                            authcode_msg.text('인증 시간이 만료되었습니다.');
+                            return;
+                        }
+
+                        if(code == null || code == ''){
+                            authcode_msg.text('인증번호를 입력해주세요.');
+                            return;
+                        }
+
+                        if(!regCode.test(code)){
+                            authcode_msg.text('숫자만 입력해주세요.');
+                            code = code.replace(/[^0-9]/g, "");
+                            codeInput.val(code);
+                            return;
+                        }
+
+                        if(code.length != 6){
+                            authcode_msg.text('인증 번호 6자리를 입력해주세요.');
+                            return;
+                        }
+
+                        if(smsAuthCode != code){
+                            authcode_msg.text('인증 번호가 다릅니다. 재입력 해주세요.');
+                            smsAuthCodeCnt = smsAuthCodeCnt - 1;
+
+                            if(smsAuthCodeCnt <= 0){
+                                alert('인증 번호 5회 입력 실패했습니다. 재인증 해주세요.');
+                                $(this).closest('#section2').remove();
+                                authTime = false;
+                                smsAuthCodeCnt = 5;
+                            }
+
+                            return;
+                        }
+
+                        form.submit();
+
                     });
 
                 });
