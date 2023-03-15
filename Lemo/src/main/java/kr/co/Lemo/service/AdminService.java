@@ -149,6 +149,15 @@ public class AdminService {
     public int updateIsEnabled(String user_id){ return dao.updateIsEnabled(user_id); }
 
     /**
+     * 관리자 리뷰 - 리뷰 답변
+     * @since 2023/03/15
+     * @param revi_reply
+     * @param revi_id
+     */
+    public int usaveReply(String revi_reply, String revi_id){ return dao.updateReply(revi_reply, revi_id); }
+
+
+    /**
      * 관리자 쿠폰 - 쿠폰 삭제
      * @param cp_id
      */
@@ -157,6 +166,14 @@ public class AdminService {
         log.warn("here4 service");
 
         return dao.deleteCoupon(cp_id);
+    }
+
+    /**
+     * 관리자 리뷰 - 리뷰 삭제
+     * @param revi_id
+     */
+    public int removeReview(String revi_id){
+        return dao.deleteReview(revi_id);
     }
 
 

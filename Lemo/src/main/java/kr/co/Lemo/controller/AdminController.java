@@ -213,6 +213,37 @@ public class AdminController {
 
         return "admin/review/view";
     }
+
+    // @since 2023/03/15 관리자 쿠폰 답변 작성
+    @ResponseBody
+    @PostMapping("usaveReply")
+    public Map<String, Integer> usaveReply(@RequestBody Map map) throws Exception {
+        log.warn(map.toString());
+
+        String revi_id = (String)map.get("revi_id");
+        String revi_reply = (String)map.get("revi_reply");
+
+        int result = service.usaveReply(revi_reply, revi_id);
+
+        Map resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+
+    }
+
+    @ResponseBody
+    @PostMapping("removeReview")
+    public Map<String, Integer> removeReview(@RequestBody Map map) throws Exception {
+        String revi_id = (String)map.get("revi_id");
+
+        int result = service.removeReview(revi_id);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
     
     // 황원진
     @GetMapping("cs/{cs_cate}/list")

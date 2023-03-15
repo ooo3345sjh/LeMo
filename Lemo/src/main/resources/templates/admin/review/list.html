@@ -20,7 +20,7 @@
                                 <div class="searchProd">
                                     <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}">
                                     <button type="submit" class="btnSearch">
-                                        <input type="image" th:src="@{/images/admin/btn_search.png}">
+                                        <img th:src="@{/images/admin/btn_search.png}">
                                     </button>
                                 </div>
                                 <div class="selectProd" name="searchField">
@@ -61,7 +61,7 @@
                                         <li th:text="${#strings.substringBefore(review.user_id, '@') + '**'}">충치왕김건치</li>
                                         <!--/*<li><img th:src="@{/images/admin/rating_star.png}" style="width: 80px;"></li>*/-->
                                         <li th:text="${review.revi_rate}">1</li>
-                                        <li>답변전</li>
+                                        <li th:text="${review.revi_reply != null? '답변완료':'대기중'}" th:class="${review.revi_reply != null? 'completeReply':'waitReply'}"></li>
                                         <li th:text="${review.revi_rdate}">2023-02-26</li>
                                     </ul>
                                 </div>
