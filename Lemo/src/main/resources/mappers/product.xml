@@ -13,7 +13,7 @@
 
     <!-- select -->
     <select id="selectAccommodations" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
-            SELECT a.*, SUM(b.room_stock) AS 'sum', MIN(b.room_price) AS 'price'   FROM `lemo_product_accommodation` AS a
+            SELECT a.*, SUM(b.room_stock) AS 'roomstock', MIN(b.room_price) AS 'price'   FROM `lemo_product_accommodation` AS a
             JOIN `lemo_product_room` AS b
             ON a.`acc_id` = b.`acc_id`
             WHERE

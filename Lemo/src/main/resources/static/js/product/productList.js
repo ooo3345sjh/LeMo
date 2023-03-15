@@ -8,8 +8,8 @@ $(function(){
             type: "double",
             min: 0,
             max: 1000000,
-            from: 0,
-            to: 600000,
+            from: minPrice,
+            to: maxPrice,
             postfix : '원',
             onFinish : function(data){
                 minPrice = data.from;
@@ -35,23 +35,31 @@ $(function(){
         displayMarker(map, accs[i]);
     });
 
-    // 검색
+    // 숙소 유형의 파라미터 값이 존재할때 체크되도록 설정
+    let aTypesParam = urlParams.get("accTypes");
+    if(aTypesParam != null) {
+        let aTypes = aTypesParam.split(",");
 
-    // 편의시설 선택 갯수 제한
-    let maxcount = 5;
+        aTypes.forEach(function(aType){
 
-    // 체크박스를 클릭할 때마다 실행될 함수
-    $('input[name="chk"]').on('click', function() {
-      // 현재 체크된 체크박스의 개수
-      let count = $('input[name="chk"]:checked').length;
+            $('input[name=chkAccType]').each(function(){
+                if(aType == $(this).val()) {
+                    $(this).prop('checked', true);
+                }
+            });
 
-      // 체크된 체크박스의 개수가 제한 개수를 초과하면
-      if (count > maxcount) {
-        // 체크를 해제하고 이전 상태로 되돌림
-        $(this).prop('checked', false);
-        alert("편의시설은 최대 " + maxcount + "개까지 선택할 수 있습니다.");
-      }
-    });
+        });
+    }
+
+    // 인원수 설정
+    let headcountParam = urlParams.get("headcount");
+    if(headcountParam != null) {
+        $('input[name=numPeople]').val(headcountParam);
+    }else {
+        $('input[name=numPeople]').val(1);
+    }
+
+    /* 검색 */
 
     // 검색 필터
     $('input[name=search]').on('click', function(){
@@ -135,6 +143,13 @@ $(function(){
 
 });
 
+    // 체크인/체크아웃
+    let checkIn = '';
+    let checkOut = '';
+
+    /* url 관련 */
+
+    // 현재 주소의 파라미터
     const urlParams = new URLSearchParams(window.location.search);
 
     // 주소 파라미터값을 재설정
@@ -156,16 +171,10 @@ $(function(){
         window.location.replace(decodeURIComponent(newUrl));
     }
 
-    // 가격 조건
-    let minPrice = 0;
-    let maxPrice = 600000;
 
-    // 체크인/체크아웃
-    let checkIn = '';
-    let checkOut = '';
 
     /** 카카오 맵 */
-    var infowindow = new kakao.maps.InfoWindow({});
+    var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
     var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
     var options = { //지도를 생성할 때 필요한 기본 옵션
@@ -173,12 +182,12 @@ $(function(){
         level: 7 //지도의 레벨(확대, 축소 정도)
     };
 
-    var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+    //지도 생성 및 객체 리턴
+    var map = new kakao.maps.Map(container, options);
     map.setZoomable(false);
 
-
+    // 마우스 휠로 지도 확대,축소 가능여부를 설정합니다
     function setZoomable(zoomable) {
-        // 마우스 휠로 지도 확대,축소 가능여부를 설정합니다
         map.setZoomable(zoomable);
     }
 
@@ -207,40 +216,28 @@ $(function(){
 
         // 마커가 지도 위에 표시되도록 설정합니다
         marker.setMap(map);
-        let status = 0;
+        //let status = 0;
 
-        // 마커에 mouseover 이벤트를 등록합니다
+        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
         kakao.maps.event.addListener(marker, 'click', function() {
 
             let thumbs = acc.acc_thumbs.split("/");
+            let content = '<div class="iw"><div><img src="/Lemo/img/product/'+acc.province_no+'/'+acc.acc_id+'/';
+                content += thumbs[0]+'"></div><div><p><a href="/Lemo/product/view?acc_id='+acc.acc_id+'">';
+                content += acc.acc_name+'</a></p><span>'+acc.acc_addr+'</span>';
+                content += '<div><b>'+acc.price.toLocaleString()+'</b>원/ 1박</div>';
+                content += '<button onclick=closeiw()>x</button></div></div>'
 
-
-            // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-            infowindow.setContent(
-                '<div class="iw"><div><img src="/Lemo/img/product/'+acc.province_no+'/'+acc.acc_id+'/'+
-                thumbs[0]+'"></div><div><p>'+acc.acc_name+'</p><span>'+acc.acc_addr
-                +'</span><div><b>'+acc.price.toLocaleString()+'</b>원/ 1박</div></div></div>');
-
-            if(status == 0 ) {
-                infowindow.open(map, marker);
-                status = 1;
-            }else {
-                infowindow.close();
-                status = 0;
-            }
+            infowindow.setContent(content);
+            infowindow.open(map, marker);
 
         });
-
-        // 마커에 mouseout 이벤트를 등록합니다
-//        kakao.maps.event.addListener(marker, 'click', function() {
-//            infowindow.close();
-//        });
-
-        // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-        infowindow.open(map, marker);
-
     }
 
+    // 인포 윈도우 닫기
+    function closeiw(){
+        infowindow.close();
+    }
 
     // 지도의 현재 영역을 얻어옵니다
     var bounds = map.getBounds();
