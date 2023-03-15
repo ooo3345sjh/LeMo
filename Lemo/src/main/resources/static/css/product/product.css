@@ -1390,7 +1390,8 @@ margin-left: 25px;
     box-shadow: 0 14px 28px rgb(0 0 0 / 15%), 0 10px 10px rgb(0 0 0 / 15%);
 }
 
-.list > .list-area > ul > li > img { 
+.list > .list-area > ul > li > img {
+    object-fit : cover;
     float: left; 
     width: 170px; height: 235px;
     box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
@@ -1432,9 +1433,9 @@ margin-left: 25px;
 .list > .list-area .stage-descript { margin-top: 10px; }
 
 .list > .list-area .stage-descript > span { 
-    display: inline-block;
+    display: block;
     font-size: 15px;
-    height: 90px;
+    /* height: 90px; */
     text-overflow: ellipsis;
     overflow: hidden;
 }
@@ -2167,14 +2168,14 @@ margin-left: 25px;
     }
 
     .iw > div:nth-child(2) {
-        width: 66%;
+        width: 65%;
         padding: 7px;
         box-sizing: border-box;
     }
 
-    .iw > div:nth-child(2) > p:first-child {
+    .iw > div:nth-child(2) > p:first-child > a {
         margin: 0px;
-        font-size: 14px;
+        font-size: 13.5px;
         font-weight: bold;
     }
     .iw > div:nth-child(2) > span {
@@ -2184,10 +2185,23 @@ margin-left: 25px;
         color: gray;
     }
 
+    .iw > div:nth-child(2) > button {
+        width: 20px;
+        float: right;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background: none;
+        border: none;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
     .iw > div:nth-child(2) > div {
         position: absolute;
         top: 70px;
-        right : 4px;
+        right : 6px;
         margin-top: 5px;
         float: right;
     }

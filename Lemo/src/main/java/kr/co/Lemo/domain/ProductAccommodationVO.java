@@ -29,6 +29,7 @@ public class ProductAccommodationVO {
     private double acc_longtitude;
     private double acc_lattitude;
     private String acc_info;
+    private String acc_mainInfo;
     private String acc_comment;
     private String acc_thumbs;
     private int acc_rate;
@@ -40,5 +41,6 @@ public class ProductAccommodationVO {
 
     /* 추가 필드 room 정보 */
     private int price;
+    private int roomstock;
 
 }

@@ -103,7 +103,7 @@
                                         <input type="text" name="daterange" id="daterange" th:attr="data-status=0">
                                     </td>
                                     <td>
-                                        <input type="number" min="0" name="numPeople" value="1">
+                                        <input type="number" min="1" name="numPeople">
                                     </td>
                                 </tr>
                             </table>
@@ -120,13 +120,13 @@
                                         <article class="stage">
                                             <a th:href="@{/product/view(acc_id=${acc.acc_id})}">
                                                 <div class="stage-name">
-                                                    <strong>[[${acc.acc_name}]]    [[${acc.accType_no}]]</strong>
+                                                    <strong>[[${acc.acc_name}]]</strong>
                                                     <p>
                                                         <span>[[${#numbers.formatDecimal(acc.acc_rate,1,1)}]]</span>
-                                                        <b th:if="${acc.acc_rate >= 9}">최고에요</b>
-                                                        <b th:if="${acc.acc_rate >= 8 && acc.acc_rate < 9 }">추천해요</b>
-                                                        <b th:if="${acc.acc_rate >= 7 && acc.acc_rate < 8 }">만족해요</b>
-                                                        <b th:if="${acc.acc_rate < 7 }">좋아요</b>
+                                                        <b th:if="${acc.acc_rate >= 5}">최고에요</b>
+                                                        <b th:if="${acc.acc_rate >= 4 && acc.acc_rate < 5 }">추천해요</b>
+                                                        <b th:if="${acc.acc_rate >= 3 && acc.acc_rate < 4 }">좋아요</b>
+                                                        <b th:if="${acc.acc_rate < 3 }">괜찮아요</b>
                                                         <em>([[${acc.acc_review}]])</em>
                                                     </p>
                                                     <p>
@@ -134,11 +134,13 @@
                                                     </p>
                                                 </div>
                                                 <div class="stage-descript">
-                                                    <span>[[${acc.acc_info}]]</span>
+                                                    <span th:if="${acc.acc_mainInfo != 'None'}" th:each="info : ${#strings.listSplit(acc.acc_mainInfo, '/')}">
+                                                        [[${info}]]<br>
+                                                    </span>
                                                 </div>
                                                 <div class="stage-info">
                                                     <p>
-                                                        <span>남은 객실 : 1</span>
+                                                        <span>남은 객실 : [[${acc.roomstock}]]</span>
                                                     </p>
                                                     <p>
                                                         <b>[[${#numbers.formatInteger(acc.price,1,'COMMA')}]]</b>원 /1박
@@ -183,6 +185,9 @@
                 let clng = [[${ph.sc.lng}]];
                 let accs = [[${accs}]];
                 let level = [[${ph.sc.level}]];
+                let maxPrice = [[${ph.sc.maxPrice}]];
+                let minPrice = [[${ph.sc.minPrice}]];
+                if(maxPrice == 0) {maxPrice = 600000};
             </script>
             <script th:src="@{/js/product/productList.js}"></script>
         </th:block>
