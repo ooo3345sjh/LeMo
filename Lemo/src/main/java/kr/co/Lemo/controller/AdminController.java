@@ -236,6 +236,18 @@ public class AdminController {
     public String event_write(CsVO vo){ return "admin/cs/event/write"; }
 
 
+    @GetMapping("cs/faq/list")
+    public String faq_list(@PathVariable("cs_cate") String cs_cate,
+                           @PathVariable("cs_type") String cs_type,
+                           Model model,
+                           @RequestParam Map map,
+                           @ModelAttribute Cs_SearchVO sc){
+       sc.setMap(map);
+       csService.findAllFaqArticles(sc, model);
+
+        return "admin/cs/faq/list";
+    }
+
     @GetMapping("cs/faq/modify")
     public String faq_modify(){
         return "admin/cs/faq/modify";

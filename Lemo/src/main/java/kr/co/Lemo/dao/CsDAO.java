@@ -1,7 +1,6 @@
 package kr.co.Lemo.dao;
 
 import kr.co.Lemo.domain.CsVO;
-import kr.co.Lemo.domain.search.Cs_SearchVO;
 import kr.co.Lemo.utils.SearchCondition;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
