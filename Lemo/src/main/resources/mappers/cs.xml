@@ -49,7 +49,7 @@
         </choose>
     </select>
 
-    <select id="countFaqArticles" resultType="java.lang.Integer">
+    <select id="countFaqArticles"  resultType="java.lang.Integer">
         select count(*) from `lemo_cs` where `cs_cate` =#{cs_cate} and `cs_type` =#{cs_type};
     </select>
 
