@@ -20,13 +20,13 @@
                             <span>자주 묻는 질문 작성</span>
                         </div>
                         <div class="col2">
-                            <form action="#">
+                            <form th:action="@{/admin/cs/faq/write}" method="post">
                                 <div class="board_view">
                                     <div class="view_box">
                                         <div class="view_head">
                                             <div class="title">
                                                 <p>
-                                                    <select class="select_faq_cate" name="cs_type">
+                                                    <select class="select_faq_cate" name="cs_type" id="faqWrite">
                                                         <option value="0">유형선택</option>
                                                         <option value="event">이벤트</option>
                                                         <option value="payment">예약/결제</option>
@@ -50,7 +50,7 @@
                                                     <textarea placeholder="자주 묻는 질문의 답변 내용을 작성해 주세요" name="cs_content"></textarea>
                                                 </div>
                                                 <div class="btnSubmit">
-                                                    <button class="btnAdminProd" type="button">등록</button>
+                                                    <button class="btnAdminProd" type="submit" onclick="document.getElementById('faqWrite').submit();">등록</button>
                                                 </div>
                                             </div>
                                         </div>

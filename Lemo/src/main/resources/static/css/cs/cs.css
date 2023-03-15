@@ -168,6 +168,10 @@ main > #cs {
 
 }
 
+.paging span > a {
+    padding : 8px 11px;
+}
+
 .paging .prev {
     background: url('../../images/cs/ico_paging_arr1.png') 50% 50% no-repeat;
     background-size: 10px auto;

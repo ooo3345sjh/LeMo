@@ -48,7 +48,7 @@
                                         </ul>
                                     </th:block>
                                 </div>
-                                <div class="pagination" th:object="${ph}">
+                                <div class="pagination" th:object="${ph}" th:style="${#lists.size(AdminQnaArticles) == 0 ? 'visibility:hidden;':''}">
 
                                     <th:block th:if="*{showPrev}">
                                         <a th:href="@{/admin/cs/qna/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>

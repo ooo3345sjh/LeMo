@@ -39,7 +39,7 @@ public class CsService {
 
         List<CsVO> eventArticles = dao.selectCsArticles(sc);
 
-        model.addAttribute("eventArticles", eventArticles);
+        model.addAttribute("csArticles", eventArticles);
         model.addAttribute("ph", pageHandler);
         model.addAttribute("totalCnt", totalCnt);
         model.addAttribute("sc", sc);
@@ -81,7 +81,7 @@ public class CsService {
 
         List<CsVO> faqArticles = dao.selectFaqArticles(sc);
 
-        model.addAttribute("faqArticles", faqArticles);
+        model.addAttribute("csArticles", faqArticles);
         model.addAttribute("ph", pageHandler);
         model.addAttribute("type", sc.getCs_type());
 
@@ -99,6 +99,8 @@ public class CsService {
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
 
         List<CsVO> AdminQnaArticles = dao.selectAdminQnaArticles(sc);
+
+        log.info("qnasize : " + AdminQnaArticles.size());
 
         model.addAttribute("AdminQnaArticles", AdminQnaArticles);
         model.addAttribute("ph", pageHandler);
@@ -123,6 +125,11 @@ public class CsService {
 
     public int rsaveArticleQna(CsVO vo){
         return dao.insertArticleQna(vo);
+    }
+
+    //@since 2023/03/15
+    public int rsaveFaqArticle(CsVO vo) {
+        return dao.insertFaqArticle(vo);
     }
 
     /** update **/

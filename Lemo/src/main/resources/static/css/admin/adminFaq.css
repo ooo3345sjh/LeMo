@@ -352,7 +352,7 @@ main .btnAdminProd4 {
     color: #666666;
     font-size: 15px;
     font-weight: 500;
-    padding: 10px 32px;
+    padding: 10px 6px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
     float: left;
@@ -370,6 +370,7 @@ main .main_content .btnAdminProd4 > a {
     color: #666666;
     text-decoration: none;
     font-weight: 500;
+    padding: 7px 27px;
 }
 
 

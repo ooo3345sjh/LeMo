@@ -28,7 +28,7 @@
                                         <li>작성일</li>
                                         <li>비고</li>
                                     </ul>
-                                    <th:block th:each="notice:${eventArticles}">
+                                    <th:block th:each="notice:${csArticles}">
                                         <ul>
                                             <li>[[${notice.cs_no}]]</li>
                                             <li class="title">
@@ -42,7 +42,7 @@
                                         </ul>
                                     </th:block>
                                 </div>
-                                <div class="pagination" th:object="${ph}">
+                                <div class="pagination" th:object="${ph}" th:style="${#lists.size(csArticles) == 0 ? 'visibility:hidden;':''}">
 
                                     <th:block th:if="*{showPrev}">
                                         <a th:href="@{/admin/cs/notice/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
