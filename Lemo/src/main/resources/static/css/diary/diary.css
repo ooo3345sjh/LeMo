@@ -272,7 +272,10 @@ h3 {
     margin-left: 50px;
 }
 
-.list .diary_content button a {color: #515050;}
+.list .diary_content button a {
+    color: #515050;
+    padding: 9px 28px 7px 28px;
+}
 
 .diary_content.on {
     z-index: 10;
@@ -531,6 +534,12 @@ button {cursor: pointer;}
 }
 
 /* 여행일기 댓글 */
+.commentEmpty {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
 .reply {
     margin-top: 50px;
     background: #fafafa;
@@ -556,8 +565,8 @@ button {cursor: pointer;}
 
 .repdiv1 > img {
     float: left;
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     object-fit: cover;
     border-radius: 100px;
 }

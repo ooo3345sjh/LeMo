@@ -21,7 +21,12 @@
     </select>
     
     <select id="selectDiaryComment" resultType="kr.co.Lemo.domain.DiaryCommentVO">
-        SELECT * FROM `lemo_diary_comment` WHERE `arti_no`=#{arti_no};
+        SELECT
+        `com_no`, `arti_no`, a.`user_id`, IFNULL(`com_pno`,`com_no`) AS `com_pno`,
+        `com_comment`, `com_regip`, `com_rdate`, `com_udate`, b.`nick`
+        FROM `lemo_diary_comment`   AS a JOIN
+        `lemo_member_userinfo` AS b ON a.`user_id` = b.`user_id`
+        WHERE `arti_no`=#{arti_no};
     </select>
 
     <!--테스트용 사용중 아님 추후 삭제-->
