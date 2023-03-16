@@ -40,7 +40,12 @@ public class ProductAccommodationVO {
 
 
     /* 추가 필드 room 정보 */
-    private int price;
-    private int roomstock;
+    private int room_price;
+    private int room_stock;
+    private int room_id;
+    private int empty_room_stock;
+    private int sum_room_stock;
+
+
 
 }
