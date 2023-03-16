@@ -33,7 +33,7 @@
                         </div>
 
                         <!-- 이벤트 등록 폼 -->
-                        <form class="col_register_form" action="#">
+                        <form class="col_register_form" th:action="@{/admin/cs/event/write}" method="post">
 
                             <!-- 이벤트 정보 -->
                             <div class="col_register1">
@@ -87,16 +87,16 @@
                                     <tr>
                                         <td>이벤트 내용</td>
                                         <td>
-                                            <div id="summernote" name="cs_content"></div>
+                                            <textarea id="summernote" name="cs_content"></textarea>
                                         </td>
                                     </tr>
 
                                 </table>
                             </div>
                             <div class="btnAdminProd" id="btnUpload">
-                                <a href="#">
+                                <button type="submit" onclick="document.getElementById('faqWrite').submit();">
                                     이벤트등록
-                                </a>
+                                </button>
                             </div>
                         </form>
                     </div>

@@ -28,10 +28,10 @@
 
     <!-- 이벤트 이전글 다음글 -->
     <select id="selectEventPrev" resultType="kr.co.Lemo.domain.CsVO">
-        <![CDATA[ SELECT * FROM `lemo_cs` WHERE `cs_no`<#{cs_no} order BY `cs_no` DESC LIMIT 1;]]>
+        <![CDATA[ SELECT * FROM `lemo_cs` WHERE `cs_cate`={cs_cate} and `cs_no`<#{cs_no} order BY `cs_no` DESC LIMIT 1;]]>
     </select>
     <select id="selectEventNext" resultType="kr.co.Lemo.domain.CsVO">
-        <![CDATA[ SELECT * FROM `lemo_cs` WHERE `cs_no`>#{cs_no} order BY `cs_no` asc LIMIT 1;]]>
+        <![CDATA[ SELECT * FROM `lemo_cs` WHERE `cs_cate`={cs_cate} and `cs_no`>#{cs_no} order BY `cs_no` asc LIMIT 1;]]>
     </select>
 
     <select id="selectFaqArticles" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.CsVO">
@@ -54,7 +54,7 @@
     </select>
 
     <select id="selectQnaArticles" resultType="kr.co.Lemo.domain.CsVO">
-        select * from `lemo_cs` where `cs_cate` =#{cs_cate} and `user_id`='1043pastel_tn@naver.com';
+        select * from `lemo_cs` where `cs_cate` =#{cs_cate} and `user_id`='1043pastel_tn@naver.com' order by `cs_no` desc;
     </select>
 
     <!-- 관리자 cs -->
@@ -76,9 +76,9 @@
     </select>
 
     <!-- insert -->
-        <insert id="insertEvent" useGeneratedKeys="true" keyProperty="cs_no">
+        <insert id="insertEventArticle">
             insert into `lemo_cs` set
-            `user_id`=#{userId_id},
+            `user_id`=#{user_id},
             `cs_cate`=#{cs_cate},
             `cs_type`=#{cs_type},
             `cs_title`=#{cs_title},
@@ -150,6 +150,7 @@
             `cs_rdate` =NOW()
             where `cs_no`=#{cs_no};
     </update>
+
     <!-- delete -->
     <delete id="deleteFaqWrite">
         delete from `lemo_cs` where `cs_no` =#{cs_no};

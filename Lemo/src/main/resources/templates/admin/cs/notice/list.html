@@ -37,7 +37,7 @@
                                             </li>
                                             <li>[[${notice.cs_rdate.substring(2, 10)}]]</li>
                                             <li class="prodBtn">
-                                                <a class="btnDelete">삭제</a>
+                                                <a class="btnNoticeDelete" th:data-no="${notice.cs_no}">삭제</a>
                                                 <a th:href="@{/admin/cs/notice/modify (cs_no=${notice.cs_no})}" class="btnModify">수정</a>
                                             </li>
                                         </ul>
@@ -76,5 +76,38 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+    <script>
+        $(document).ready(function() {
+            // notice 삭제
+        $('.btnNoticeDelete').click(function(e){
+            e.preventDefault();
+
+            let isDeleteOK = confirm('해당 글을 삭제하시겠습니까?');
+
+            if(isDeleteOK){
+                let cs_no = $(this).attr('data-no');
+
+                console.log('cs_no ajax : ' + cs_no);
+
+                const jsonData = {"cs_no": cs_no};
+
+                ajaxAPI("admin/cs/faq/articleRemove", jsonData, "delete").then((response) => {
+                    if(response.result > 0) {
+                        alert("해당 글이 삭제되었습니다.");
+                        location.replace("/Lemo/admin/cs/notice/list");
+                    }else {
+                        alert('error');
+                    }
+                }).catch((errMsg) => {
+                    console.log(errorMsg);
+                });
+            }
+
+        });
+
+
+
+        });
+    </script>
 </th:block>
 </html>
