@@ -23,7 +23,7 @@ public class Admin_SearchVO extends SearchCondition {
     private Integer searchType;
     private String searchCouponRole;
     private String searchAccName;
-    private String searchAccForReview;
+    private Integer acc_id;
 
 
 }

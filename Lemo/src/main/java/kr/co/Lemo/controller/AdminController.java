@@ -175,7 +175,7 @@ public class AdminController {
     }
 
     @ResponseBody
-    @PostMapping("coupon/removeCoupon")
+    @DeleteMapping("coupon/removeCoupon")
     public Map<String, Integer> removeCoupon(@RequestBody Map map) throws Exception {
 
         String cp_id = (String) map.get("cp_id");

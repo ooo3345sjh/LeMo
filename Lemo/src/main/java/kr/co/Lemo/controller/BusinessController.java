@@ -109,6 +109,11 @@ public class BusinessController {
                               @ModelAttribute Admin_SearchVO sc){
         sc.setMap(map);
 
+        log.info("acc_id"+map.get("acc_id"));
+        model.addAttribute("acc_id", map.get("acc_id"));
+
+        List<ReviewVO> accs = service.findAccOwnedForReview("0hotelthem1@gmail.com");
+        model.addAttribute("selectList", accs);
         service.findAllReview(model, sc);
         return "business/review/list";
     }
