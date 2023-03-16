@@ -50,9 +50,11 @@ public interface CsDAO {
     /** update **/
     //@since 2023/03/14
     public int updateQnaArticle(@Param("cs_reply") String cs_reply, @Param("cs_no") int cs_no);
-
     //@since 2023/03/14
     public int updateAdminNotice(CsVO vo);
-
+    //@since 2023/03/16
+    public int updateFaqArticle(CsVO vo);
     /** delete **/
+    //@since 2023/03/15
+    public int deleteFaqWrite(@Param("cs_no") int cs_no);
 }

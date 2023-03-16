@@ -54,7 +54,7 @@
     </select>
 
     <select id="selectQnaArticles" resultType="kr.co.Lemo.domain.CsVO">
-        select * from `lemo_cs` where `cs_cate` =#{cs_cate} and `user_id`='1002rsvn@plusn.co.kr';
+        select * from `lemo_cs` where `cs_cate` =#{cs_cate} and `user_id`='1043pastel_tn@naver.com';
     </select>
 
     <!-- 관리자 cs -->
@@ -141,8 +141,19 @@
             `cs_rdate`=NOW()
             where `cs_no`=#{cs_no};
     </update>
-    <!-- delete -->
 
+    <update id="updateFaqArticle">
+        update `lemo_cs` set
+            `cs_type` =#{cs_type},
+            `cs_title` =#{cs_title},
+            `cs_content` =#{cs_content},
+            `cs_rdate` =NOW()
+            where `cs_no`=#{cs_no};
+    </update>
+    <!-- delete -->
+    <delete id="deleteFaqWrite">
+        delete from `lemo_cs` where `cs_no` =#{cs_no};
+    </delete>
     <!-- 공통 키 -->
 
 

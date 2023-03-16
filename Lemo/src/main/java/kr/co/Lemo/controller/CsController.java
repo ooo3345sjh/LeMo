@@ -49,6 +49,7 @@ public class CsController {
 
             return "cs/notice";
         }else if("qna".equals(cs_cate)) {
+
             model.addAttribute("title", environment.getProperty(group));
             service.findAllQnaArticles(sc, model);
         }

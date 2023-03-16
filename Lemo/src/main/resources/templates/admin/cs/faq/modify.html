@@ -20,13 +20,13 @@
                             <span>자주 묻는 질문 수정</span>
                         </div>
                         <div class="col2">
-                            <form action="#">
+                            <form th:action="@{#}" id="faqModify">
                                 <div class="board_view">
                                     <div class="view_box">
                                         <div class="view_head">
                                             <div class="title">
                                                 <p>
-                                                    <select class="select_faq_cate">
+                                                    <select class="select_faq_cate" name="cs_type">
                                                         <option value="0">유형선택</option>
                                                         <option value="event">이벤트</option>
                                                         <option value="payment">예약/결제</option>
@@ -42,15 +42,15 @@
                                             </div>
                                         </div>
                                         <div class="view_content">
-                                            <textarea>환불금은 언제 받을 수 있나요?</textarea>
+                                            <textarea th:text="${mFaq.cs_title}" name="cs_title"></textarea>
                                         </div>
                                         <div class="view_recomment">
                                             <div class="write_recomment">
                                                 <div class="inner_txt">
-                                                    <textarea>해당 환불 요청이 합당한 경우 환불은 즉시 처리됩니다. 은행에서 해당 금액을 환불하기까지 처리/환불 날짜로부터 최대 30 영업일 또는 고객님의 다음 대금 청구 주기까지 시간이 소요될 수 있습니다. 환불 금액은 고객님의 신용카드 회사에 의해 고객님의 현지 통화로 변환됨을 알려드립니다. 환불 진행 상황은 [예약 관리]에서 확인하실 수 있습니다.</textarea>
+                                                    <textarea th:text="${mFaq.cs_content}" name="cs_content"></textarea>
                                                 </div>
                                                 <div class="btnSubmit">
-                                                    <button class="btnAdminProd" type="button">등록</button>
+                                                    <button class="btnAdminProd" type="submit" onclick="document.getElementById('faqModify').submit();">수정</button>
                                                 </div>
                                             </div>
                                         </div>

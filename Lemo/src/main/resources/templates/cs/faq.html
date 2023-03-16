@@ -48,19 +48,19 @@
                     </ul>
                 </div>
                 <!-- 페이징 -->
-                <div class="paging" th:object="${ph}">
+                <div class="paging" th:object="${ph}" th:style="${#lists.size(csArticles) == 0 ? 'visibility:hidden;':''}">
                     <th:block th:if="*{showPrev}">
                         <span class="prev">
-                            <a th:href="@{/cs/faq/ph.cs.cs_type} + ${ph.sc.getQueryString(ph.beginPage-1)}"><<</a>
+                            <a th:href="@{/cs/faq/} + ${ph.sc.cs_type + ph.sc.getQueryString(ph.beginPage-1)}"><<</a>
                         </span>
                     </th:block>
 
                     <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
-                        <span th:class="${num == ph.sc.page ? 'on':'num'}"><a th:href="@{/cs/faq/ph.cs.cs_type} + ${ph.sc.getQueryString(num)}" >[[${num}]]</a></span>
+                        <span th:class="${num == ph.sc.page ? 'on':'num'}"><a th:href="@{/cs/faq/} + ${ph.sc.cs_type + ph.sc.getQueryString(num)}" >[[${num}]]</a></span>
                     </th:block>
 
                     <th:block th:if="*{showNext}">
-                        <span class="next"><a th:href="@{/cs/faq/ph.cs.cs_type} + ${ph.sc.getQueryString(ph.endPage+1}"> >> </a></span>
+                        <span class="next"><a th:href="@{/cs/faq/} + ${ph.sc.cs_type + ph.sc.getQueryString(ph.endPage+1}"> >> </a></span>
                     </th:block>
                 </div>
 

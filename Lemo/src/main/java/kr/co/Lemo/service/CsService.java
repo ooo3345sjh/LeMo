@@ -60,7 +60,7 @@ public class CsService {
 
     public List<CsVO> findAllQnaArticles(Cs_SearchVO sc, Model model) {
        List<CsVO> qnaArticles = dao.selectQnaArticles(sc);
-
+        log.info("qnaSize : " + qnaArticles.size());
        model.addAttribute("qnaArticles", qnaArticles);
 
        return qnaArticles;
@@ -70,7 +70,7 @@ public class CsService {
     public List<CsVO> findAllFaqArticles(Cs_SearchVO sc, Model model){
 
         log.info("cs_faq : " + sc.getCs_cate());
-        log.info("cs_type : " + sc.getCs_type());
+        log.info("faqCs_type : " + sc.getCs_type());
         int totalCnt = dao.countFaqArticles(sc.getCs_cate(), sc.getCs_type());
         log.info("total : " + totalCnt);
         int totalPage = (int) Math.ceil(totalCnt / (double)sc.getPageSize());
@@ -83,7 +83,7 @@ public class CsService {
 
         model.addAttribute("csArticles", faqArticles);
         model.addAttribute("ph", pageHandler);
-        model.addAttribute("type", sc.getCs_type());
+        model.addAttribute("cs_type", sc.getCs_type());
 
         return faqArticles;
     }
@@ -106,6 +106,7 @@ public class CsService {
         model.addAttribute("ph", pageHandler);
         model.addAttribute("totalCnt", totalCnt);
         model.addAttribute("sc", sc);
+        model.addAttribute("cs_type", sc.getCs_type());
 
         return AdminQnaArticles;
     }
@@ -137,15 +138,19 @@ public class CsService {
     public int usaveQnaArticle(@RequestParam("cs_reply") String cs_reply, @RequestParam("cs_no") int cs_no){
         return dao.updateQnaArticle(cs_reply, cs_no);
     }
-
     //@since 2023/03/14
     public int usaveAdminNotice(CsVO vo){
         return dao.updateAdminNotice(vo);
     }
-
+    //@since 2023/03/16
+    public int usaveFaqArticle(CsVO vo){
+        return dao.updateFaqArticle(vo);
+    }
 
     /** delete **/
-
+    public int removeFaqWrite(@RequestParam("cs_no") int cs_no){
+        return dao.deleteFaqWrite(cs_no);
+    }
 
 
 }

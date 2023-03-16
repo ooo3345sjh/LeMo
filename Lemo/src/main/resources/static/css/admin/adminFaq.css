@@ -470,7 +470,7 @@ main .faq_list .faq_list_a {
     height: auto;
     cursor: pointer;
     padding: 15px 24px 15px 0;
-    width: 82%;
+    width: 86%;
 }
 main .faq_list .faq_tit p {
     overflow: visible;
@@ -481,7 +481,7 @@ main .faq_list .faq_tit p {
     text-align: left;
     color: #424242;
     padding-bottom: 6px;
-    padding-left: 28px;
+    padding-left: 20px;
 }
 main .faq_list .faq_list_a::before {
     display: inline-block;

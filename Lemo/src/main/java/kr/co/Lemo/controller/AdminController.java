@@ -248,6 +248,7 @@ public class AdminController {
     // 황원진
     @GetMapping("cs/{cs_cate}/list")
     public String findAllCs_list(@PathVariable("cs_cate") String cs_cate,
+                                 String cs_type,
                                  Model model,
                                  @RequestParam Map map,
                                  @ModelAttribute Cs_SearchVO sc){
@@ -265,7 +266,12 @@ public class AdminController {
             csService.findAllAdminQnaArticles(sc, model);
             return "admin/cs/qna/list";
         }else if("faq".equals(cs_cate)){
-            csService.findAllCsArticles(sc, model);
+            if(cs_type != null){
+                    csService.findAllFaqArticles(sc, model);
+                    return "admin/cs/faq/list";
+            }else {
+                csService.findAllCsArticles(sc, model);
+            }
         }
         return "admin/cs/faq/list";
     }
@@ -284,25 +290,24 @@ public class AdminController {
     public String event_write(CsVO vo){ return "admin/cs/event/write"; }
 
 
-    @GetMapping("cs/{cs_cate}/list/{cs_type}")
-    public String faq_list(@PathVariable("cs_cate") String cs_cate,
-                           @PathVariable("cs_type") String cs_type,
-                           Model model,
-                           @RequestParam Map map,
-                           @ModelAttribute Cs_SearchVO sc){
-        log.info("getFaqStart");
-        log.info("Faq cs_cate : " + cs_cate);
-        log.info("Faq cs_type : " + cs_type);
-        sc.setMap(map);
-       csService.findAllFaqArticles(sc, model);
 
-        return "admin/cs/faq/list";
+
+    @ResponseBody
+    @PostMapping("cs/faq/removeFaqWrite")
+    public Map<String, Integer> removeFaqWrite(@RequestBody Map map) throws Exception {
+
+        int cs_no = Integer.parseInt(String.valueOf(map.get("cs_no")));
+
+        int result = csService.removeFaqWrite(cs_no);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
     }
 
-    @GetMapping("cs/faq/modify")
-    public String faq_modify(){
-        return "admin/cs/faq/modify";
-    }
+
+
 
     @GetMapping("cs/faq/write")
     public String faq_write(){
@@ -312,19 +317,36 @@ public class AdminController {
 
     @GetMapping("cs/{cs_cate}/modify")
     public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model Model){
+        if("notice".equals(cs_cate)){
 
-        CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
-        Model.addAttribute("mNotice", noticeArticle);
-        Model.addAttribute("cs_no", cs_no);
+            CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+            Model.addAttribute("mNotice", noticeArticle);
+            Model.addAttribute("cs_no", cs_no);
 
-        return "admin/cs/notice/modify";
+            return "admin/cs/notice/modify";
+
+        }else if("faq".equals(cs_cate)){
+            log.info("faqModify");
+           CsVO faqArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+           log.info("faqContent : " +faqArticle.getCs_content());
+           log.info("faqTitle : " +faqArticle.getCs_title());
+
+            Model.addAttribute("mFaq", faqArticle);
+            Model.addAttribute("cs_no", cs_no);
+        }
+        return "admin/cs/faq/modify";
     }
 
     @PostMapping("cs/{cs_cate}/modify")
-    public String usaveAdminNotice(CsVO vo){
-        log.info("modifyStart");
-        csService.usaveAdminNotice(vo);
-        return "redirect:/admin/cs/notice/list";
+    public String usaveAdminNotice(@PathVariable("cs_cate") String cs_cate, CsVO vo){
+        if ("notice".equals(cs_cate)) {
+            log.info("modifyStart");
+            csService.usaveAdminNotice(vo);
+            return "redirect:/admin/cs/notice/list";
+        }else if("faq".equals(cs_cate)){
+            csService.usaveFaqArticle(vo);
+        }
+        return "redirect:/admin/cs/faq/list";
     }
 
     @GetMapping("cs/notice/write")
