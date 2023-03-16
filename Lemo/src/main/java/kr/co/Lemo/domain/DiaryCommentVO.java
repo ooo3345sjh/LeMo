@@ -25,5 +25,9 @@ public class DiaryCommentVO {
     private String com_rdate;
     private String com_udate;
 
+    // 추가
+    // @since 2023/03/16
+    private String nick;
+
 
 }
