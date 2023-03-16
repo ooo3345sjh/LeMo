@@ -13,7 +13,8 @@
             <div class="title">
                 <strong>LEMO 약관 동의</strong>
             </div>
-            <form th:action="@{/user/terms}" method="post" class="terms_agree">
+            <form th:action="@{/user/terms/}" method="post" class="terms_agree">
+                <input type="hidden" name="type" th:value="${type}">
                 <p class="all_check">
                     <label><input type="checkbox" id="checkAll" class="chk chk_default">전체 동의</label>
                 </p>
