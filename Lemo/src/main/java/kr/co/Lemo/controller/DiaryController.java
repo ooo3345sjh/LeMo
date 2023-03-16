@@ -9,12 +9,13 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +56,7 @@ public class DiaryController {
                        @RequestParam(defaultValue = "0") int arti_no
     ){
         if(arti_no == 0) { return "redirect:/diary/list"; }
+        m.addAttribute("arti_no", arti_no);
 
         log.debug("GET view start");
         m.addAttribute("title", environment.getProperty(diaryGroup));
@@ -70,6 +72,20 @@ public class DiaryController {
         m.addAttribute("total", mapTotal);
 
         return "diary/view";
+    }
+
+    // @since 2023/03/16
+    @ResponseBody
+    @PostMapping("rsaveComment")
+    public ResponseEntity<Integer> rsaveComment(
+            @RequestBody DiaryCommentVO commentVO,
+            HttpServletRequest req
+    ) {
+        commentVO.setUser_id("test@test.com");
+        commentVO.setCom_regip(req.getRemoteAddr());
+        int result = service.rsaveComment(commentVO);
+
+        return ResponseEntity.ok(result);
     }
 
 }
