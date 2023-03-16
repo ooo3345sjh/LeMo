@@ -36,6 +36,7 @@
                                         <li>#</li>
                                         <li>예약번호</li>
                                         <li>제목</li>
+                                        <li>hidden</li>
                                         <li>닉네임</li>
                                         <li>평점</li>
                                         <li>답변상태</li>
@@ -49,6 +50,7 @@
                                             <a th:href="@{/admin/review/view (revi_id=${review.revi_id})}"
                                                th:text="${review.revi_title}" class="reviewTitle" th:data-no="${review.revi_id}">title</a>
                                         </li>
+                                        <li><input type="text" id="filterAcc" th:value="${review.acc_id}"></li>
                                         <li th:text="${#strings.substringBefore(review.user_id, '@') + '**'}">충치왕김건치</li>
                                         <li th:text="${review.revi_rate}">1</li>
                                         <li th:text="${review.revi_reply != null? '답변완료':'대기중'}" th:class="${review.revi_reply != null? 'completeReply':'waitReply'}"></li>
@@ -95,12 +97,17 @@ $(document).ready(function(){
 
         ajaxAPI("business/review/findAccOwnedForReview", jsonData, "GET").then((response)=>{
             console.log('response:' + response);
+
             selectAccOwned.innerHTML = "<option value=''>숙소선택</option>";
             for (let i = 0; i < response.length; i++) {
+
+                console.log( [i] + ":" + response[i].acc_id);
+                console.log( [i] + ":" + response[i].acc_name);
+
                 let option = document.createElement("option");
                 option.name = "searchAccForReview";
-                option.value = response[i];
-                option.text = response[i];
+                option.value = response[i].acc_id;
+                option.text = response[i].acc_name;
                 selectAccOwned.add(option);
             }
         }).catch((errorMsg)=>{
@@ -120,11 +127,31 @@ $(document).ready(function(){
         for(let i=0; i<option.length; i++){
             if(option[i].value === selectedAccName){
                 option[i].selected = true;
+                console.log('option[i].value: '+option[i].value);
                 break;
+
+                let user_id = "0hotelthem1@gmail.com";
+                let acc_id = option[i].value;
+
+                location.href='/Lemo/business/review/list?acc_id='+acc_id;
+
+<!--                let jsonData = {-->
+<!--                    "user_id":user_id,-->
+<!--                    "acc_id":acc_id-->
+<!--                }-->
+
+<!--                ajaxAPI("business/review/list", jsonData, "GET").then((response)=>{-->
+<!--                    console.log('response:' + response);-->
+<!--                    if(response.result > 0) {-->
+<!--                        alert('response: ' + response );-->
+<!--                    } else {-->
+<!--                        alert('error');-->
+<!--                    }-->
+<!--                }).catch((errorMsg)=>{-->
+<!--                    console.log(errorMsg);-->
+<!--                });-->
             }
         }
-
-
     });
 
 

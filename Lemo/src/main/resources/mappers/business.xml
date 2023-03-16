@@ -55,11 +55,10 @@
 
     <!-- business - review - select accommodation owned for BUSINESS search -->
     <select id="selectAccOwnedForReview" resultType="kr.co.Lemo.domain.ReviewVO">
-        select c.`acc_name` from `lemo_product_review` as a
+        select c.`acc_id`, c.`acc_name` from `lemo_product_review` as a
         inner join `lemo_product_reservation` as b on a.res_no=b.res_no
         inner join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
-        where c.`user_id`='0hotelthem1@gmail.com'
-        group by `acc_name`;
+        where c.`user_id`='0hotelthem1@gmail.com';
     </select>
 
     <!-- business - user - insert coupon -->
@@ -104,7 +103,7 @@
     <!-- 리뷰 검색 -->
     <sql id="searchAccForReview">
         <if test="searchAccForReview != null">
-            and `acc_name`=#{acc_name}
+            and `acc_id`=#{acc_id}
         </if>
     </sql>
 
