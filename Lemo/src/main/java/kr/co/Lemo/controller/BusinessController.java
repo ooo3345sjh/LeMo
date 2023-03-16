@@ -118,6 +118,19 @@ public class BusinessController {
         return "business/review/list";
     }
 
+    @GetMapping("review/view")
+    public String review_view(Model model, @RequestParam("revi_id") Integer revi_id) throws Exception{
+
+        ReviewVO review = service.findReview(revi_id);
+
+        log.warn("selected review: " + review);
+
+        model.addAttribute("review", review);
+        model.addAttribute("revi_id", revi_id);
+
+        return "business/review/view";
+    }
+
 
     @GetMapping("review/findAccOwnedForReview")
     public ResponseEntity<List<ReviewVO>> findAccOwnedForReview(String user_id) {
@@ -130,6 +143,25 @@ public class BusinessController {
 
         return ResponseEntity.ok(accs);
     }
+
+    // @since 2023/03/16 관리자 쿠폰 답변 작성
+    @ResponseBody
+    @PostMapping("usaveReply")
+    public Map<String, Integer> usaveReply(@RequestBody Map map) throws Exception {
+        log.warn(map.toString());
+
+        String revi_id = (String)map.get("revi_id");
+        String revi_reply = (String)map.get("revi_reply");
+
+        int result = service.usaveReply(revi_reply, revi_id);
+
+        Map resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+
+    }
+
 
 
 

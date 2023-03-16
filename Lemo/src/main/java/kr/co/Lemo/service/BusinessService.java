@@ -89,6 +89,14 @@ public class BusinessService {
         return dao.selectAccOwnedForReview(user_id);
     }
 
+    /**
+     * 관리자 리뷰 - 리뷰 보기
+     * @since 2023/03/16
+     * @param revi_id
+     */
+    public ReviewVO findReview(Integer revi_id) throws Exception{
+        return dao.viewReview(revi_id);
+    }
 
 
     /**
@@ -99,6 +107,15 @@ public class BusinessService {
     public void rsaveCupon(CouponVO vo) throws Exception {
         dao.insertCoupon(vo);
     }
+
+    /**
+     * 관리자 리뷰 - 리뷰 답변
+     * @since 2023/03/16
+     * @param revi_reply
+     * @param revi_id
+     */
+    public int usaveReply(String revi_reply, String revi_id){ return dao.updateReply(revi_reply, revi_id); }
+
 
     /**
      * 판매자 쿠폰 - 쿠폰 삭제
