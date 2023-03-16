@@ -101,7 +101,7 @@ public class ProductService {
         // 숙박 업소 가져오기
         List<ProductAccommodationVO> accs = dao.selectAccommodations(sc);
 
-        //log.info("숙소 리스트 :" + accs);
+        log.info("숙소 리스트 :" + accs);
 
         model.addAttribute("accs", accs);
         model.addAttribute("ph", pageHandler);

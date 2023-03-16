@@ -96,8 +96,8 @@
         SELECT * FROM (
         SELECT *, ROW_NUMBER() OVER(PARTITION BY a.acc_id ORDER BY a.room_price, IFNULL(a.empty_room_stock, a.room_stock) desc) 'order'
         FROM(
-        SELECT a.acc_id 'acc_id', a.acc_name, a.acc_addr, a.acc_addrDetail, a.acc_longtitude, a.acc_lattitude,
-        a.acc_xy, a.acc_mainInfo, a.acc_info, a.acc_comment, a.acc_thumbs, a.acc_rate, a.acc_review,
+        SELECT a.acc_id 'acc_id', a.user_id, a.acc_name, a.accType_no, a.province_no, a.acc_city, a.acc_zip ,a.acc_addr, a.acc_addrDetail,
+        a.acc_longtitude, a.acc_lattitude, a.acc_xy, a.acc_mainInfo, a.acc_info, a.acc_comment, a.acc_thumbs, a.acc_rate, a.acc_review,
         r.room_maxNum 'room_maxNum', r.room_id, r.room_price 'room_price', r.room_stock 'room_stock', IFNULL(b.empty_room_stock, r.room_stock) as 'empty_room_stock',
         ROW_NUMBER() OVER(PARTITION BY a.acc_id ORDER BY r.room_price, IFNULL(b.empty_room_stock, r.room_stock) desc) 'top',
         SUM(IFNULL(b.empty_room_stock, r.room_stock)) OVER(PARTITION BY a.acc_id) 'sum_room_stock'
