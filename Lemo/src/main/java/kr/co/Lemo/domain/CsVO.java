@@ -72,5 +72,8 @@ public class CsVO {
         return type;
     };
 
+    public void setCs_no(String cs_no){
+        this.cs_no = Integer.parseInt(cs_no);
+    }
 
 }

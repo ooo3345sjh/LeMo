@@ -199,7 +199,7 @@ main .main_content .col2 .board_list li:nth-of-type(2) {width: 60%;}
 main .main_content .col2 .board_list li:nth-of-type(3) {width: 20%;}
 main .main_content .col2 .board_list li:nth-of-type(4) {width: 14%;}
 
-main .main_content .col2 .board_list .prodBtn > span {
+main .main_content .col2 .board_list .prodBtn > a {
     box-shadow: inset 0px 1px 0px 0px #ffffff;
     background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
     background-color: #ffffff;
