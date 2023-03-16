@@ -46,45 +46,49 @@
                             <div id="rep">
                                 <ul>
                                     <!--본 댓글 1-->
-                                    <li>
-                                        <div class="repdiv1">
-                                            <img th:src="@{/images/diary/sample2.jpg}" alt="프사">
-                                            <div>
-                                                <strong>당근이</strong><span></span>
+                                    <th:block>
+                                        <li>
+                                            <div class="repdiv1">
+                                                <img th:src="@{/images/diary/sample2.jpg}" alt="프사">
+                                                <div>
+                                                    <strong>당근이</strong><span></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="repdiv2"><textarea readonly></textarea></div>
-                                        <div class="repdiv3">
-                                            <div>
-                                                <a href="#" class="showall">댓글 모두보기</a>
-                                                <a href="#" class="comment">댓글 쓰기</a>
+                                            <div class="repdiv2"><textarea readonly></textarea></div>
+                                            <div class="repdiv3">
+                                                <div>
+                                                    <a href="#" class="showall">댓글 모두보기</a>
+                                                    <a href="#" class="comment">댓글 쓰기</a>
+                                                </div>
+                                                <div>
+                                                    <a href="#">수정</a>
+                                                    <a href="#">삭제</a>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <a href="#">수정</a>
-                                                <a href="#">삭제</a>
+                                        </li>
+                                        <!--
+                                        <li class="re_reply">
+                                            <div class="repdiv1">
+                                                <img th:src="@{/images/diary/sample2.jpg}" alt="프사">
+                                                <div>
+                                                    <strong>당근이</strong><span>2023.03.07</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li class="re_reply">
-                                        <div class="repdiv1">
-                                            <img th:src="@{/images/diary/sample2.jpg}" alt="프사">
-                                            <div>
-                                                <strong>당근이</strong><span>2023.03.07</span>
+                                            <div class="repdiv2"><textarea readonly>우와 너무너무 좋아보여요ㅠㅠㅠ대박이네요 진짜로 최고에요..............어디로 가나요?ㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇ
+                                                        </textarea></div>
+                                            <div class="repdiv3">
+                                                <div>
+                                                    <a href="#" class="showall">댓글 모두보기</a>
+                                                    <a href="#" class="comment">댓글 쓰기</a>
+                                                </div>
+                                                <div>
+                                                    <a href="#">수정</a>
+                                                    <a href="#">삭제</a>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="repdiv2"><textarea readonly>우와 너무너무 좋아보여요ㅠㅠㅠ대박이네요 진짜로 최고에요..............어디로 가나요?ㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇ
-                                                    </textarea></div>
-                                        <div class="repdiv3">
-                                            <div>
-                                                <a href="#" class="showall">댓글 모두보기</a>
-                                                <a href="#" class="comment">댓글 쓰기</a>
-                                            </div>
-                                            <div>
-                                                <a href="#">수정</a>
-                                                <a href="#">삭제</a>
-                                            </div>
-                                        </div>
-                                    </li>
+                                        </li>
+                                        -->
+                                    </th:block>
                                     <!-- 답댓글 쓰기-->
                                     <div class="write_reply re">
                                         <form action="#">

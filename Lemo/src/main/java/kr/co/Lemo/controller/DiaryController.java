@@ -58,6 +58,10 @@ public class DiaryController {
 
         Map<Integer, List<DiaryCommentVO>> map = service.findDiaryComment(arti_no);
 
+        m.addAttribute("map", map);
+
+        log.info(""+map);
+
         return "diary/view";
     }
 
