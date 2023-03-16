@@ -1,6 +1,7 @@
 package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.CouponVO;
+import kr.co.Lemo.domain.ReviewVO;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.service.BusinessService;
 import lombok.extern.slf4j.Slf4j;
@@ -99,6 +100,25 @@ public class BusinessController {
 
         // stream().map().collect(): 이름들만 모아서 새로운 String 리스트를 만들어 낸다
         List<String> accs = service.findAccOwned(user_id).stream().map(CouponVO::getAcc_name).collect(Collectors.toList());
+        return ResponseEntity.ok(accs);
+    }
+
+    @GetMapping("review/list")
+    public String review_list(Model model,
+                              @RequestParam Map map,
+                              @ModelAttribute Admin_SearchVO sc){
+        sc.setMap(map);
+        service.findAllReview(model, sc);
+        return "business/review/list";
+    }
+
+    @GetMapping("review/findAccOwnedForReview")
+    public ResponseEntity<List<String>> findAccOwnedForReview(String user_id) {
+
+        log.warn("GET findAccOwned in business");
+
+        // stream().map().collect(): 이름들만 모아서 새로운 String 리스트를 만들어 낸다
+        List<String> accs = service.findAccOwnedForReview(user_id).stream().map(ReviewVO::getAcc_name).collect(Collectors.toList());
         return ResponseEntity.ok(accs);
     }
 

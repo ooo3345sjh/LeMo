@@ -33,5 +33,6 @@ public class ReviewVO {
     private String room_name;
     private String res_checkIn;
     private String res_checkOut;
+    private int acc_id;
 
 }
