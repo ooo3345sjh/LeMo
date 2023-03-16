@@ -61,6 +61,15 @@
         where c.`user_id`='0hotelthem1@gmail.com';
     </select>
 
+    <!-- business - review - view -->
+    <select id="viewReview" resultType="kr.co.Lemo.domain.ReviewVO">
+        select * from `lemo_product_review` as a
+        inner join `lemo_product_reservation` as b on a.res_no=b.res_no
+        inner join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
+        inner join `lemo_product_room` as d on b.room_id = d.room_id
+        where `revi_id`=#{revi_id};
+    </select>
+
     <!-- business - user - insert coupon -->
     <insert id="insertCoupon">
         INSERT INTO `lemo_product_coupon` (
@@ -78,6 +87,11 @@
         NULL, #{cp_minimum}, #{cp_maximum}, #{cp_start}, #{cp_end}, #{cp_daysAvailable}, #{cp_limitedIssuance}
         );
     </insert>
+
+    <!-- business - review - reply -->
+    <update id="updateReply">
+        update `lemo_product_review` set `revi_reply`=#{revi_reply} where `revi_id`=#{revi_id};
+    </update>
 
     <!-- business - user - delete coupon -->
     <delete id="deleteCoupon">

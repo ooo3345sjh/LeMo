@@ -51,7 +51,7 @@
                                         <li th:text="${review.res_no}" style="width: 10%">23</li>
                                         <li class="prodName" style="width: 34%">
                                             <span th:if="${review.revi_thumb != null}" class="tag">PHOTO</span>
-                                            <a th:href="@{/admin/review/view (revi_id=${review.revi_id})}"
+                                            <a th:href="@{/business/review/view (revi_id=${review.revi_id})}"
                                                th:text="${review.revi_title}" class="reviewTitle" th:data-no="${review.revi_id}">title</a>
                                         </li>
                                         <li style="width: 1%"><input type="hidden" id="filterAcc" th:value="${review.acc_id}"></li>

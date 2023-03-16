@@ -36,10 +36,16 @@ public interface BusinessDAO {
     public int countReview(SearchCondition sc);
 
     // @since 2023/03/16
+    public ReviewVO viewReview(Integer revi_id);
+
+    // @since 2023/03/16
     public List<ReviewVO> selectAccOwnedForReview(String user_id);
 
     // @since 2023/03/13
     public void insertCoupon(CouponVO vo);
+
+    // @since 2023/03/016
+    public int updateReply(@Param("revi_reply") String revi_reply, @Param("revi_id") String revi_id);
 
     // @since 2023/03/13
     public int deleteCoupon(@Param("cp_id") String cp_id);
