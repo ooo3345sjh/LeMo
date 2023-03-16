@@ -578,6 +578,14 @@ button {cursor: pointer;}
 
 }
 
+.reply_id {
+    width: 100%;
+    color: #00bbfe;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
 .repdiv1 div strong {
     font-weight: bold;
     font-size: 13px;
