@@ -52,9 +52,18 @@ public class UserController {
     }
 
     // @since 2023/03/08
-    @PostMapping("terms")
-    public String terms(String termsType_no, HttpServletRequest req){
+    @PostMapping("terms/{type}")
+    public String terms(
+            String termsType_no,
+            HttpServletRequest req,
+            @PathVariable String type,
+            Model m
+    ){
         log.debug("POST terms start...");
+
+        if("general".equals(type) || "business".equals(type)){
+            m.addAttribute("type", type);
+        }
 
         HttpSession session = req.getSession();
         session.setMaxInactiveInterval(60*30); // 세션 만료시간 30분 설정
@@ -64,15 +73,10 @@ public class UserController {
 
     // @since 2023/03/08
     @GetMapping("join")
-    public String join(Model m, HttpServletRequest req) {
+    public String join(Model m) {
         log.debug("GET join start...");
 
         m.addAttribute("title", environment.getProperty(group));
-        String termsType_no = getTermsAuth(req);
-
-        if(termsType_no == null){
-            return "redirect:/user/terms";
-        }
 
         return "user/join";
     }
