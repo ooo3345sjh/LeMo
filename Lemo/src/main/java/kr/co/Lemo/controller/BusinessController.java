@@ -108,17 +108,21 @@ public class BusinessController {
                               @RequestParam Map map,
                               @ModelAttribute Admin_SearchVO sc){
         sc.setMap(map);
+
         service.findAllReview(model, sc);
         return "business/review/list";
     }
 
+
     @GetMapping("review/findAccOwnedForReview")
-    public ResponseEntity<List<String>> findAccOwnedForReview(String user_id) {
+    public ResponseEntity<List<ReviewVO>> findAccOwnedForReview(String user_id) {
 
         log.warn("GET findAccOwned in business");
 
         // stream().map().collect(): 이름들만 모아서 새로운 String 리스트를 만들어 낸다
-        List<String> accs = service.findAccOwnedForReview(user_id).stream().map(ReviewVO::getAcc_name).collect(Collectors.toList());
+        //List<String> accs = service.findAccOwnedForReview(user_id).stream().map(ReviewVO::getAcc_name).collect(Collectors.toList());
+        List<ReviewVO> accs = service.findAccOwnedForReview(user_id);
+
         return ResponseEntity.ok(accs);
     }
 
