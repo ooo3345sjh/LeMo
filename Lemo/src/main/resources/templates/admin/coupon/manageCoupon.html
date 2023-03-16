@@ -141,7 +141,7 @@
 
                 const jsonData = {"cp_id": cp_id};
 
-                ajaxAPI("admin/coupon/removeCoupon", jsonData, "POST").then((response) => {
+                ajaxAPI("admin/coupon/removeCoupon", jsonData, "DELETE").then((response) => {
                     if(response.result > 0) {
                         alert("쿠폰이 삭제되었습니다.");
                         location.replace("/Lemo/admin/coupon/manageCoupon");

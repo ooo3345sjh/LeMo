@@ -100,10 +100,10 @@
         </if>
     </sql>
 
-    <!-- 리뷰 검색 -->
+    <!-- 리뷰 검색 if:test name으로 -->
     <sql id="searchAccForReview">
-        <if test="searchAccForReview != null">
-            and `acc_id`=#{acc_id}
+        <if test="acc_id != null">
+            and b.`acc_id`=#{acc_id}
         </if>
     </sql>
 
