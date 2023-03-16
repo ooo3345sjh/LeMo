@@ -30,7 +30,35 @@
     <select id="selectAccOwned" resultType="kr.co.Lemo.domain.CouponVO">
         select `acc_name` from `lemo_product_accommodation` as a
         join `lemo_product_coupon` as b on a.user_id = b.user_id
-        where a.`user_id`='3min-ik@hanmail.net'
+        where a.`user_id`='0hotelthem1@gmail.com'
+        group by `acc_name`;
+    </select>
+
+    <!-- business - review - list -->
+    <select id="selectReview" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ReviewVO">
+        select * from `lemo_product_review` as a
+        inner join `lemo_product_reservation` as b on a.res_no=b.res_no
+        inner join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
+        where c.`user_id`='0hotelthem1@gmail.com'
+        <include refid="searchAccForReview"/>
+        order by `revi_rdate` desc limit #{offset}, 10;
+    </select>
+
+    <!-- business - review - count total reviews for pagination -->
+    <select id="countReview" parameterType="kr.co.Lemo.utils.SearchCondition"  resultType="java.lang.Integer">
+        select count(*) from `lemo_product_review` as a
+        inner join `lemo_product_reservation` as b on a.res_no=b.res_no
+        inner join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
+        where c.`user_id`='0hotelthem1@gmail.com'
+        <include refid="searchAccForReview"/>
+    </select>
+
+    <!-- business - review - select accommodation owned for BUSINESS search -->
+    <select id="selectAccOwnedForReview" resultType="kr.co.Lemo.domain.ReviewVO">
+        select c.`acc_name` from `lemo_product_review` as a
+        inner join `lemo_product_reservation` as b on a.res_no=b.res_no
+        inner join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
+        where c.`user_id`='0hotelthem1@gmail.com'
         group by `acc_name`;
     </select>
 
@@ -59,7 +87,7 @@
 
     <!-- 공통 키 -->
     <!-- include :: sql 구문 재사용 -->
-    <!-- admin - user - search condition::list -->
+    <!-- 쿠폰 검색 -->
     <sql id="searchCouponType">
         <if test="searchField != null">
             <choose>
@@ -70,6 +98,13 @@
                     and `cp_subject` like CONCAT('%', #{searchWord}, '%')
                 </when>
             </choose>
+        </if>
+    </sql>
+
+    <!-- 리뷰 검색 -->
+    <sql id="searchAccForReview">
+        <if test="searchAccForReview != null">
+            and `acc_name`=#{acc_name}
         </if>
     </sql>
 

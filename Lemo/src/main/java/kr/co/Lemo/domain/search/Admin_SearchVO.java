@@ -6,6 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @since 2023/03/14
+ * @author 이원정
+ * @apiNote Admin_SearchVO 관리자 검색 관련 vo
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +23,7 @@ public class Admin_SearchVO extends SearchCondition {
     private Integer searchType;
     private String searchCouponRole;
     private String searchAccName;
+    private String searchAccForReview;
 
 
 }
