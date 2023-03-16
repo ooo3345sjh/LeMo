@@ -10,7 +10,7 @@
     <main>
         <div class="main_inner">
             <!-- 죄측 사이드바 -->
-            <<th:block th:replace="~{fragments/_aside::adminFragment}"></th:block>
+            <th:block th:replace="~{fragments/_aside::adminFragment}"></th:block>
             <!-- 우측 메인 컨테이너 -->
             <section class="main_content">
                 <div class="main_cotent_inner">
@@ -20,13 +20,14 @@
                             <span>자주 묻는 질문 수정</span>
                         </div>
                         <div class="col2">
-                            <form th:action="@{#}" id="faqModify">
+                            <form th:action="@{/admin/cs/faq/modify}" method="post" id="cs_typeForm">
+                                <input type="hidden" name="cs_no" th:value="${cs_no}">
                                 <div class="board_view">
                                     <div class="view_box">
                                         <div class="view_head">
                                             <div class="title">
                                                 <p>
-                                                    <select class="select_faq_cate" name="cs_type">
+                                                    <select class="select_faq_cate" name="cs_type" id="faqCs_type">
                                                         <option value="0">유형선택</option>
                                                         <option value="event">이벤트</option>
                                                         <option value="payment">예약/결제</option>
@@ -50,7 +51,7 @@
                                                     <textarea th:text="${mFaq.cs_content}" name="cs_content"></textarea>
                                                 </div>
                                                 <div class="btnSubmit">
-                                                    <button class="btnAdminProd" type="submit" onclick="document.getElementById('faqModify').submit();">수정</button>
+                                                    <button class="btnAdminProd" type="submit">수정</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -73,5 +74,9 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+    <script th:src="@{/js/cs/cs_type-form.js}"></script>
+    <script>
+
+    </script>
 </th:block>
 </html>

@@ -20,13 +20,13 @@
                             <span>자주 묻는 질문 작성</span>
                         </div>
                         <div class="col2">
-                            <form th:action="@{/admin/cs/faq/write}" method="post">
+                            <form th:action="@{/admin/cs/faq/write}" method="post" id="cs_typeForm">
                                 <div class="board_view">
                                     <div class="view_box">
                                         <div class="view_head">
                                             <div class="title">
                                                 <p>
-                                                    <select class="select_faq_cate" name="cs_type" id="faqWrite">
+                                                    <select class="select_faq_cate" name="cs_type" id="faqCs_type">
                                                         <option value="0">유형선택</option>
                                                         <option value="event">이벤트</option>
                                                         <option value="payment">예약/결제</option>
@@ -42,15 +42,15 @@
                                             </div>
                                         </div>
                                         <div class="view_content">
-                                            <textarea placeholder="자주 묻는 질문의 질문 내용을 작성해 주세요" name="cs_title"></textarea>
+                                            <textarea placeholder="자주 묻는 질문의 질문 내용을 작성해 주세요" name="cs_title" required></textarea>
                                         </div>
                                         <div class="view_recomment">
                                             <div class="write_recomment">
                                                 <div class="inner_txt">
-                                                    <textarea placeholder="자주 묻는 질문의 답변 내용을 작성해 주세요" name="cs_content"></textarea>
+                                                    <textarea placeholder="자주 묻는 질문의 답변 내용을 작성해 주세요" name="cs_content" required></textarea>
                                                 </div>
                                                 <div class="btnSubmit">
-                                                    <button class="btnAdminProd" type="submit" onclick="document.getElementById('faqWrite').submit();">등록</button>
+                                                    <button class="btnAdminProd" type="submit">등록</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -73,5 +73,9 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+    <script th:src="@{/js/cs/cs_type-form.js}"></script>
+    <script>
+
+    </script>
 </th:block>
 </html>

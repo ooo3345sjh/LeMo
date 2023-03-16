@@ -26,8 +26,8 @@ public interface CsDAO {
     public List<CsVO> selectFaqArticles(SearchCondition sc);
     public int countFaqArticles(@Param("cs_cate") String cs_cate, @Param("cs_type") String cs_type);
     // @since 2023/03/12
-    public CsVO selectEventPrev(@Param("cs_no") int cs_no);
-    public CsVO selectEventNext(@Param("cs_no") int cs_no);
+    public CsVO selectEventPrev(@Param("cs_cate") String cs_cate, @Param("cs_no") int cs_no);
+    public CsVO selectEventNext(@Param("cs_cate") String cs_cate, @Param("cs_no") int cs_no);
 
     /**
      * @since 2023/03/12
@@ -41,7 +41,7 @@ public interface CsDAO {
 
     /** insert **/
     // @since 2023/03/09
-    public int insertEvent(CsVO vo);
+    public int insertEventArticle(CsVO vo);
     public int insertNoticeArticle(CsVO vo);
     //@since 2023/03/10
     public int insertArticleQna(CsVO vo);

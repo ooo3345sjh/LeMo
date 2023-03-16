@@ -78,7 +78,7 @@ public class CsController {
     @PostMapping("{cs_cate}")
     public String rsaveArticleQna(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
 
-        vo.setUser_id("1002rsvn@plusn.co.kr");
+        vo.setUser_id("1043pastel_tn@naver.com");
         vo.setCs_regip(req.getRemoteAddr());
 
 
@@ -108,14 +108,14 @@ public class CsController {
 
     // @since 2023/03/08
     @GetMapping("event/view")
-    public String event_view(int cs_no, Model model){
+    public String event_view(String cs_cate, int cs_no, Model model){
         log.info("no : " + cs_no);
 
         CsVO eventView = service.findCsArticle(cs_no);
-        CsVO eventPrev = service.findEventPrev(cs_no);
-        CsVO eventNext = service.findEventNext(cs_no);
+        CsVO eventPrev = service.findEventPrev(cs_cate, cs_no);
+        CsVO eventNext = service.findEventNext(cs_cate, cs_no);
 
-        //log.info("prevCs_cate : " + eventPrev.getCs_cate());
+        log.info("prevCs_cate : " + eventPrev.getCs_cate());
         log.info("nextCs_cate : " + eventNext.getCs_cate());
 
 

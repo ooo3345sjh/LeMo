@@ -126,7 +126,7 @@
 
                 const jsonData = {"cs_no": cs_no};
 
-                ajaxAPI("admin/cs/faq/removeFaqWrite", jsonData, "post").then((response) => {
+                ajaxAPI("admin/cs/faq/articleRemove", jsonData, "delete").then((response) => {
                     if(response.result > 0) {
                         alert("해당 글이 삭제되었습니다.");
                         location.replace("/Lemo/admin/cs/faq/list");

@@ -286,19 +286,16 @@ public class AdminController {
         return "admin/cs/event/view";
     }
 
-    @GetMapping("cs/event/write")
-    public String event_write(CsVO vo){ return "admin/cs/event/write"; }
 
 
-
-
+    //@since 2023/03/16
     @ResponseBody
-    @PostMapping("cs/faq/removeFaqWrite")
-    public Map<String, Integer> removeFaqWrite(@RequestBody Map map) throws Exception {
+    @DeleteMapping("cs/{cs_cate}/articleRemove")
+    public Map<String, Integer> removeAdminArticle(@PathVariable("cs_cate") String cs_cate, @RequestBody Map map) throws Exception {
 
         int cs_no = Integer.parseInt(String.valueOf(map.get("cs_no")));
 
-        int result = csService.removeFaqWrite(cs_no);
+        int result = csService.removeAdminArticle(cs_no);
 
         Map<String, Integer> resultMap = new HashMap<>();
         resultMap.put("result", result);
@@ -306,19 +303,10 @@ public class AdminController {
         return resultMap;
     }
 
-
-
-
-    @GetMapping("cs/faq/write")
-    public String faq_write(){
-        return "admin/cs/faq/write";
-    }
-
-
     @GetMapping("cs/{cs_cate}/modify")
     public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model Model){
         if("notice".equals(cs_cate)){
-
+            log.info("noticeModify");
             CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
             Model.addAttribute("mNotice", noticeArticle);
             Model.addAttribute("cs_no", cs_no);
@@ -340,18 +328,27 @@ public class AdminController {
     @PostMapping("cs/{cs_cate}/modify")
     public String usaveAdminNotice(@PathVariable("cs_cate") String cs_cate, CsVO vo){
         if ("notice".equals(cs_cate)) {
-            log.info("modifyStart");
+            log.info("modifyNoticeStart");
             csService.usaveAdminNotice(vo);
             return "redirect:/admin/cs/notice/list";
         }else if("faq".equals(cs_cate)){
+            log.info("modifyFaqStart");
             csService.usaveFaqArticle(vo);
         }
         return "redirect:/admin/cs/faq/list";
     }
 
-    @GetMapping("cs/notice/write")
-    public String notice_write(){
-        return "admin/cs/notice/write";
+    // @since 2023/03/16
+    @GetMapping("cs/{cs_cate}/write")
+    public String notice_write(@PathVariable("cs_cate") String cs_cate){
+        if("faq".equals(cs_cate)){
+            return "admin/cs/faq/write";
+        }else if("notice".equals(cs_cate)){
+            return "admin/cs/notice/write";
+        }else if("event".equals(cs_cate)){
+
+        }
+        return "admin/cs/event/write";
     }
 
     // @since 2023/03/10
@@ -369,9 +366,14 @@ public class AdminController {
             vo.setCs_regip(req.getRemoteAddr());
 
             csService.rsaveFaqArticle(vo);
+            return "redirect:/admin/cs/faq/list";
+        }else if("event".equals(cs_cate)){
+            vo.setUser_id("1043pastel_tn@naver.com");
+            vo.setCs_regip(req.getRemoteAddr());
 
+            csService.rsaveEventArticle(vo);
         }
-        return "redirect:/admin/cs/faq/list";
+        return "redirect:/admin/cs/event/list";
     }
 
 
@@ -379,11 +381,8 @@ public class AdminController {
     @GetMapping("cs/{cs_cate}/view")
     public String findAdminCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
         log.info("cs_view Start");
-        log.info("cs_cate : " +cs_cate);
-        log.info("cs_no : " +cs_no);
 
         if("qna".equals(cs_cate)){
-            log.info("here1 qna");
             CsVO qnaArticle = csService.findAdminCsArticle(cs_cate, cs_no);
             model.addAttribute("qnaArticle", qnaArticle);
             model.addAttribute("cs_no", cs_no);
@@ -404,8 +403,6 @@ public class AdminController {
     // @since 2023/03/14
     @PostMapping("cs/{cs_cate}/view")
     public String usaveUpdateQnaArticle(String cs_reply, int cs_no){
-
-
         log.info("cs_reply : " + cs_reply);
         log.info("cs_no : " + cs_no);
 

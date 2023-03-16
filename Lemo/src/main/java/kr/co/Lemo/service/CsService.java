@@ -55,8 +55,8 @@ public class CsService {
      * 이벤트 상세보기 이전글, 다음글
      *  @since 2023/03/12
      */
-    public CsVO findEventPrev(@RequestParam("cs_no") int cs_no) {return dao.selectEventPrev(cs_no);}
-    public CsVO findEventNext(@RequestParam("cs_no") int cs_no) {return  dao.selectEventNext(cs_no);}
+    public CsVO findEventPrev(@RequestParam("cs_cate") String cs_cate, @RequestParam("cs_no") int cs_no) {return dao.selectEventPrev(cs_cate, cs_no);}
+    public CsVO findEventNext(@RequestParam("cs_cate") String cs_cate, @RequestParam("cs_no") int cs_no) {return  dao.selectEventNext(cs_cate, cs_no);}
 
     public List<CsVO> findAllQnaArticles(Cs_SearchVO sc, Model model) {
        List<CsVO> qnaArticles = dao.selectQnaArticles(sc);
@@ -116,8 +116,8 @@ public class CsService {
     }
 
     /** insert **/
-    public int insertEvent(CsVO vo){
-        return dao.insertEvent(vo);
+    public int rsaveEventArticle(CsVO vo){
+        return dao.insertEventArticle(vo);
     }
 
     public int rsaveNoticeArticle(CsVO vo) {
@@ -148,7 +148,7 @@ public class CsService {
     }
 
     /** delete **/
-    public int removeFaqWrite(@RequestParam("cs_no") int cs_no){
+    public int removeAdminArticle(@RequestParam("cs_no") int cs_no){
         return dao.deleteFaqWrite(cs_no);
     }
 

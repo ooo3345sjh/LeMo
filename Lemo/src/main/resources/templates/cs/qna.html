@@ -60,7 +60,7 @@
 
                 <!-- 문의 작성 -->
                 <div id="qna_write" style="display: none;">
-                    <form name="qna-form" method="post" th:action="@{/cs/qna}">
+                    <form name="qna-form" id="qna_form" method="post" th:action="@{/cs/qna}">
                         <div class="alert_top">
                             <p>LEMO를 이용 중 불편하신 점을 문의주시면 최대한 빠른 시일내에 답변 드리겠습니다.</p>
                         </div>
@@ -106,7 +106,7 @@
                         </section>
 
                         <section class="btn_wrap ">
-                            <button class="btn" type="submit" onclick="document.getElementById('qna-form').submit();">작성 완료</button>
+                            <button class="btn" type="submit">작성 완료</button>
                         </section>
                     </form>
                 </div>
@@ -136,7 +136,29 @@
                 document.getElementById('inquiry').className = 'off';
             }
 
+        $(document).ready(function(){
+              let cs_type = $('.info_wrap').find("select[name=cs_type]").val();
+              console.log(cs_type);
 
+              $('#qna_form').submit(function(e){
+                    if(cs_type == '0'){
+                        alert('유형을 선택해주세요');
+                        e.preventDefault();
+                        }
+                    });
+
+              $('select[name=cs_type]').change(function(){
+                    console.log("select 값 확인" +$(this).val());
+                    cs_type = $(this).val();
+                    $('#qna_form').submit(function(e){
+
+                    if( cs_type == '0'){
+                            alert('유형을 선택해주세요');
+                            e.preventDefault();
+                        }
+                    });
+              });
+        });
 
     </script>
 </th:block>

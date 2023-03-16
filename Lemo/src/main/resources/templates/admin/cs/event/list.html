@@ -32,7 +32,7 @@
                                             <ul>
                                                 <li>[[${article.cs_no}]]</li>
                                                 <li class="title">
-                                                    <a href="#">[[${article.cs_title}]]</a>
+                                                    <a th:href="@{/admin/cs/event/view (cs_no=${article.cs_no})}">[[${article.cs_title}]]</a>
                                                 </li>
                                                 <li>[[${article.cs_eventStart}]] ~ [[${article.cs_eventEnd}]]</li>
                                                 <li class="prodBtn" id="event_li">
