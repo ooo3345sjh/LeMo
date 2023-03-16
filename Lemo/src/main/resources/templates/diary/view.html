@@ -57,7 +57,7 @@
                                                 </div>
                                             </div>
                                             <div class="repdiv2">
-<!--                                                <p th:if="${comment.com_no != comment.com_pno}">[[${comment.nick}]]</p>-->
+                                                <p class="reply_id" th:if="${comment.com_no != comment.com_pno}">@[[${comment.nick}]]</p>
                                                 <textarea readonly>[[${comment.com_comment}]]</textarea>
                                             </div>
                                             <div class="repdiv3">
