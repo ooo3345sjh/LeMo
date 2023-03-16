@@ -51,4 +51,12 @@ public class DiaryService {
         return map;
     }
 
+    // @since 2023/03/16
+    public int rsaveComment(DiaryCommentVO commentVO) {
+
+        int result = dao.insertDiaryComment(commentVO);
+
+        return result;
+    }
+
 }

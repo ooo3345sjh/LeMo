@@ -616,9 +616,12 @@ button {cursor: pointer;}
 }
 
 .repdiv3 > div a:nth-child(1) {
-    margin-right: 10px;
+
 }
 
+.showall {
+    width : 80px;
+}
 
 .repdiv3 div a.all {
     font-weight: bold;
@@ -661,24 +664,24 @@ button {cursor: pointer;}
 }
 
 
-/* 답댓글 */
+/* 답댓글
 .write_reply.re {
     display: none;
-
 }
 
 .write_reply.re.show {
     display: block;
 }
+*/
 
-.write_reply.re textarea {
+.write_reply textarea {
 
 }
-.write_reply.re button {
+.write_reply button {
     left: 397px;
 }
 
-.write_reply.re {
+.write_reply {
     margin-top: 0px;
 }
 
@@ -690,7 +693,7 @@ button {cursor: pointer;}
 
 /* 답 댓글 목록 */
 .re_reply {
-    display: block;
+    display: none;
     width: 445px;
     overflow: hidden;
     padding: 0px;

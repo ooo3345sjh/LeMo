@@ -38,8 +38,8 @@
                         <!-- 여행일기 목록 -->
                         <div class="list">
                             <div class="list-area">
-                                <div class="diaryEmpty" th:if="">
-
+                                <div class="diaryEmpty" th:if="${map.size == 0}">
+                                    게시글이 없습니다.
                                 </div>
                                 <ul th:if="${map.size != 0}">
                                     <li th:each="article:${map}">
@@ -110,7 +110,7 @@
                 var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
                 var options = { //지도를 생성할 때 필요한 기본 옵션
                     center: new kakao.maps.LatLng(36.3504119, 127.3845475), //지도의 중심좌표.
-                    disableDoubleClickZoom: true,
+                    disableDoubleClick : true,
                     level: 13 //지도의 레벨(확대, 축소 정도)
                 };
 

@@ -44,7 +44,14 @@
 
 
     <!-- insert -->
-
+    <insert id="insertDiaryComment" parameterType="kr.co.Lemo.domain.DiaryCommentVO">
+        INSERT INTO `lemo_diary_comment` SET
+            `arti_no` = #{arti_no},
+            `user_id` = #{user_id},
+            `com_pno` = #{com_pno},
+            `com_comment` = #{com_comment},
+            `com_regip` = #{com_regip};
+    </insert>
     <!-- update -->
 
     <!-- delete -->
