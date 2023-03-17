@@ -30,7 +30,6 @@ public class PageHandler {
         showPrev =  beginPage != 1;
         showNext = endPage != totalPage;
 
-        if(this.totalCnt == 0){endPage = 1;}
     }
 
     public void print(){
