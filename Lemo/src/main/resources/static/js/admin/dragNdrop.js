@@ -15,7 +15,7 @@ $(function(){
         autoQueue: false,           // 드래그 드랍 후 바로 서버로 전송
         thumbnailHeight: 90,        // Upload icon size
         thumbnailWidth: 90,         // Upload icon size
-        maxFiles: 1,                // 업로드 파일수
+        maxFiles: maxFiles,                // 업로드 파일수
         maxFilesize: 10,            // 최대업로드용량 : 10MB
         parallelUploads: 1,        // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 컨트롤러에 넘긴다.)
         addRemoveLinks: true,       // 삭제버튼 표시 여부

@@ -686,13 +686,59 @@ button {cursor: pointer;}
 
 }
 .write_reply button {
-    left: 397px;
+    left: 455px;
 }
 
 .write_reply {
     margin-top: 0px;
 }
 
+.write_reReply textarea {
+
+}
+.write_reReply button {
+    left: 397px;
+}
+
+.write_reReply {
+    margin-top: 0px;
+}
+
+/* 댓글쓰기 */
+.write_reReply {
+    margin-left: 30px;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #fafafa;
+    height: 150px;
+}
+
+.write_reReply textarea {
+    position: relative;
+    top: 15px;
+    margin-left: 15px;
+    border: 1px solid #cbcbcb;
+    border-radius: 5px;
+    width: 94%;
+    height: 95px;
+    overflow: hidden;
+    resize: none;
+    padding: 15px;
+    font-size: 13px;
+}
+
+.write_reReply button {
+    position: relative;
+    top: 18px;
+    left: 370px;
+    border: none;
+    background-color: #00bbfe;
+    height: 26px;
+    width: 60px;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 12px;
+}
 
 
 .showall.open{

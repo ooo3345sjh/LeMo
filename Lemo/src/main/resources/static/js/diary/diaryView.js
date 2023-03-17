@@ -111,7 +111,7 @@ $(function(){
 
         let length = $('.re'+com_pno).length;
 
-        let content = '<div class="write_reply re'+com_pno+'">';
+        let content = '<div class="write_reReply re'+com_pno+'">';
            content += '<form action="#" class="comWrite">';
            content += '<textarea></textarea>';
            content += '<button data-no='+com_pno+'>댓글 작성</button>';
