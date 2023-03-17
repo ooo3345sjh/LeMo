@@ -118,7 +118,7 @@
                                 </div>
                                 <ul>
                                     <li th:each="acc : ${accs}">
-                                        <span class="badge">[[${accType.get(acc.accType_no)}]]</span>
+                                        <span class="badge">[[${acc.accType_type}]]</span>
                                         <img th:src="|@{/}img/product/${acc.province_no}/${acc.acc_id}/${#strings.substringBefore(acc.acc_thumbs, '/')}|" alt="상품 이미지">
                                         <article class="stage">
                                             <a th:href="@{/product/view(acc_id=${acc.acc_id})}">
@@ -149,8 +149,8 @@
                                                     <p th:if="${acc.empty_room_stock == 0}">
                                                         <b style="color:#9c9c9c; font-weight:700;">예약 마감 다른 날짜 확인</b>
                                                     </p>
-                                                    <p th:unless="${acc.empty_room_stock == 0}">
-                                                        <b>[[${#numbers.formatInteger(acc.room_price,1,'COMMA')}]]</b>원 /1박
+                                                    <p th:unless="${acc.empty_room_stock == 0}" class="price">
+                                                        <b>[[${#numbers.formatInteger(acc.avg_price,1,'COMMA')}]]</b>원 /1박
                                                     </p>
                                                 </div>
                                             </a>

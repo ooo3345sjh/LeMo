@@ -19,9 +19,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URLEncoder;
-import java.util.HashMap;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @since 2023/03/09
@@ -45,11 +48,13 @@ public class ProductService {
         String keyword = sc.getKeyword();
         double lng = sc.getLng();
         double lat = sc.getLat();
+        String checkIn = sc.getCheckIn();
+        String checkOut = sc.getCheckOut();
+
 
         // 메인 -> 키워드 검색일 경우
         if (keyword != null) {
             double LatLng[] = getLatLng(keyword);
-
             lat = LatLng[0];
             lng = LatLng[1];
 
@@ -59,12 +64,24 @@ public class ProductService {
         if (lat == 0.0 & lng == 0.0 & keyword == null) {
             lat = 37.566824194479864;
             lng = 126.9786069825986;
+
         }
 
         // SearchCondition
         if(sc.getSort() == null){
             sc.setSort("review");
             map.put("sort", "review");
+        }
+
+        // 체크인 체크아웃 날짜가 없을 경우
+        if(checkIn == null && checkOut == null) {
+            checkIn = String.valueOf(LocalDate.now());
+            checkOut = String.valueOf(LocalDate.now().plusDays(1));
+
+            sc.setCheckIn(checkIn);
+            sc.setCheckOut(checkOut);
+            map.put("checkIn", checkIn);
+            map.put("checkOut", checkOut);
         }
 
         sc.setLat(lat);
@@ -81,19 +98,12 @@ public class ProductService {
 
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
 
-
         // 숙박 업소 가져오기
         List<ProductAccommodationVO> accs = dao.selectAccommodations(sc);
+        
+        // 가격 데이터 가공
+        accs = setAvgPrice(sc, accs);
 
-        // 숙박 유형 가져오기
-        Map<Integer,String> accType = new HashMap<>();
-        accType.put(1, "모텔");
-        accType.put(2, "호텔");
-        accType.put(3, "펜션");
-        accType.put(4, "게스트하우스");
-        accType.put(5, "캠핑·글램핑");
-
-        model.addAttribute("accType", accType);
         model.addAttribute("accs", accs);
         model.addAttribute("ph", pageHandler);
 
@@ -159,4 +169,68 @@ public class ProductService {
 
         return LatLng;
     }
+
+    // @since 2023/03/17
+    public List<ProductAccommodationVO> setAvgPrice(Product_SearchVO sc, List<ProductAccommodationVO> accs) {
+
+        LocalDate CI;
+        LocalDate CO;
+
+        if(sc.getCheckIn() == null && sc.getCheckOut() == null) {
+            CI = LocalDate.now();
+            CO = LocalDate.now().plusDays(1);
+
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            CI = LocalDate.parse(sc.getCheckIn(), formatter);
+            CO = LocalDate.parse(sc.getCheckOut(), formatter);
+        }
+
+        // 몇박인지 구하기
+        long days = ChronoUnit.DAYS.between(CI, CO);
+
+        List<LocalDate> dates = CI.datesUntil(CO).collect(Collectors.toList());
+
+        for(LocalDate date: dates) {
+
+            // 요일 구하기
+            int day = date.getDayOfWeek().getValue();
+
+            for(int i = 0; i < accs.size(); i ++) {
+                int season = accs.get(i).getAcc_season(); // 성수기, 비성수기
+                int avg_price = accs.get(i).getAvg_price(); // 숙박기간의 평균 가격
+                int room_price = accs.get(i).getRoom_price();
+
+
+                if(season == 1) { // 성수기일때
+                    if(day == 5 || day ==6) { // 주말
+                        avg_price += room_price * (100 - accs.get(i).getRp_peakSeason_weekend())/100;
+                    }else { // 주중
+                        avg_price += room_price * (100 - accs.get(i).getRp_peakSeason_weekday())/100;
+                    }
+                }else if(season == 2){ // 비성수기일때
+                    if(day == 5 || day ==6) { // 주말
+                        avg_price += room_price * (100 - accs.get(i).getRp_offSeason_weekend())/100;
+                    }else { // 주중
+                        avg_price += room_price * (100 - accs.get(i).getRp_offSeason_weekday())/100;
+                    }
+                }
+
+                accs.get(i).setAvg_price(avg_price);
+
+            }
+        }
+        for(int i = 0; i < accs.size(); i ++) {
+            int avg = accs.get(i).getAvg_price() / (int)days;
+
+            avg = avg / 10 * 10;
+
+            accs.get(i).setAvg_price(avg);
+
+            log.info("최종 가격 : " + avg);
+        }
+
+        return accs;
+    }
+
 }
