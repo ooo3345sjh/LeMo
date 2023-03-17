@@ -126,6 +126,15 @@ public class BusinessService {
         return dao.deleteCoupon(cp_id);
     }
 
+    /**
+     * 판매자 리뷰 - 리뷰 삭제
+     * @since 2023/03/16
+     * @param revi_id
+     */
+    public int removeReview(String revi_id){
+        return dao.deleteReview(revi_id);
+    }
+
 
 
 

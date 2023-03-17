@@ -50,6 +50,8 @@ public interface BusinessDAO {
     // @since 2023/03/13
     public int deleteCoupon(@Param("cp_id") String cp_id);
 
+   // @since 2023/03/16
+   public int deleteReview(@Param("revi_id") String revi_id);
 
 
 }

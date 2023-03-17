@@ -325,7 +325,7 @@ main .main_content .btnAdminProd {
     color: #666666;
     font-size: 15px;
     font-weight: 500;
-    padding: 10px 32px;
+    padding: 10px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
     float: right;
@@ -346,9 +346,14 @@ main .main_content .btnAdminProd:active {
 }
 main .main_content .btnAdminProd > a {
     font-size: 13px;
-    color: #666666;
-    text-decoration: none;
+    color: #666666 !important;
+    text-decoration: none !important;
     font-weight: 500;
+    width: 100px;
+    height: 22px;
+    vertical-align: middle;
+    display: block;
+    text-align: center;
 }
 main .main_content .btnAdminProd2 {
     margin: 15px 0;

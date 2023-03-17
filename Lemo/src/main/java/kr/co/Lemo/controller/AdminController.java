@@ -232,6 +232,7 @@ public class AdminController {
 
     }
 
+    // @since 2023/03/15 관리자 리뷰 삭제
     @ResponseBody
     @PostMapping("removeReview")
     public Map<String, Integer> removeReview(@RequestBody Map map) throws Exception {
@@ -244,7 +245,13 @@ public class AdminController {
 
         return resultMap;
     }
-    
+
+
+
+
+
+
+
     // 황원진
     @GetMapping("cs/{cs_cate}/list")
     public String findAllCs_list(@PathVariable("cs_cate") String cs_cate,
