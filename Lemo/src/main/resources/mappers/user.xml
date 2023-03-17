@@ -10,11 +10,32 @@
 <mapper namespace="kr.co.Lemo.dao.UserDAO">
 
     <!-- insert -->
-    <insert id="insert" parameterType="kr.co.Lemo.domain.search.SearchconditionTestVO_sjh">
-        INSERT INTO `lemo_member_termstype` VALUES(#{termsType_no}, #{termsType_type_ko}, #{termsType_type_en});
+    <insert id="saveUserInfo" parameterType="kr.co.Lemo.domain.UserVO">
+        INSERT INTO `lemo_member_userinfo` SET
+            `user_id`=#{user_id},
+            `hp`=#{hp},
+            `nick`=#{nick},
+            `type`=#{type},
+            `role`=#{role},
+            `regip`=#{regip},
+            `isNoticeEnabled`=#{isNoticeEnabled},
+            `isLocationEnabled`=#{isLocationEnabled},
+            `isPrivacySelected`=#{isPrivacySelected},
+            `rdate`=NOW()
+    </insert>
+    <insert id="saveHomeUser">
+        INSERT INTO `lemo_member_userinfo` SET
+            `user_id`=#{user_id},
+            `pass`=#{pass}
     </insert>
 
     <!-- select -->
+    <select id="countByEmail" resultType="int">
+        SELECT COUNT(*) FROM `lemo_member_userinfo` WHERE `user_id` = #{email};
+    </select>
+    <select id="countByNick" resultType="int">
+        SELECT COUNT(*) FROM `lemo_member_userinfo` WHERE `nick` = #{nick};
+    </select>
 
     <!-- update -->
 
