@@ -71,6 +71,10 @@ $(function(){
         });
         setUrlParams('accTypes', accTypes.join(','));
 
+        if(maxPrice == 0){
+            alert('최대금액은 0원 보다 큰 금액이어야합니다.');
+            return false;
+        }
 
         // 가격 조건
         setUrlParams('minPrice', minPrice);
@@ -95,6 +99,19 @@ $(function(){
 
         e.preventDefault();
 
+        // 체크인, 체크아웃
+        if(checkIn == ''){checkIn = date};
+        if(checkOut == ''){checkOut = endDate};
+
+        let checkInDate = new Date(checkIn);
+        let today = new Date(date);
+
+        if(checkInDate < today) {
+            alert('지나간 날짜는 선택이 불가능합니다.');
+            return;
+        }
+
+        // 인원수
         let headcount = $('input[name=numPeople]').val();
         if(headcount > 0 ){setUrlParams('headcount', headcount)};
 
@@ -221,11 +238,23 @@ $(function(){
         // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
         kakao.maps.event.addListener(marker, 'click', function() {
 
+            let addrDetail = '';
+            let str = '';
+            if(acc.empty_room_stock > 0) {
+                str = '<div><b>'+acc.room_price.toLocaleString()+'</b>원/ 1박</div>';
+            }else {
+                str = '<div><b class="soldout">예약마감</b></div>';
+            }
+
+            if(acc.acc_addrDetail != 'None') {
+                addrDetail = acc.acc_addrDetail;
+            }
+
             let thumbs = acc.acc_thumbs.split("/");
             let content = '<div class="iw"><div><img src="/Lemo/img/product/'+acc.province_no+'/'+acc.acc_id+'/';
                 content += thumbs[0]+'"></div><div><p><a href="/Lemo/product/view?acc_id='+acc.acc_id+'">';
-                content += acc.acc_name+'</a></p><span>'+acc.acc_addr+'</span>';
-                content += '<div><b>'+acc.price.toLocaleString()+'</b>원/ 1박</div>';
+                content += acc.acc_name+'</a></p><span>'+acc.acc_addr+addrDetail+'</span>';
+                content += str;
                 content += '<button onclick=closeiw()>x</button></div></div>'
 
             infowindow.setContent(content);

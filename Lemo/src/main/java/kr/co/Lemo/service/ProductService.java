@@ -19,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,21 +39,12 @@ public class ProductService {
 
     // select
 
-    // @since 2022/03/09
+    // @since 2023/03/09
     public void findAllAccommodations(Model model, Map map, Product_SearchVO sc) throws Exception {
-
-        log.info("maxPrice : " + sc.getMaxPrice());
-        log.info("minPrice : " + sc.getMinPrice());
-        log.info("지도 반경 좌표: " + sc.getB());
-
 
         String keyword = sc.getKeyword();
         double lng = sc.getLng();
         double lat = sc.getLat();
-
-        log.info("keyword : " + keyword);
-        log.info("lat : " + lat);
-        log.info("lng : " + lng);
 
         // 메인 -> 키워드 검색일 경우
         if (keyword != null) {
@@ -69,14 +61,7 @@ public class ProductService {
             lng = 126.9786069825986;
         }
 
-        log.info("최종 경도 : " + lng);
-        log.info("최종 위도 : " + lat);
-
-//        vo.setLat(lat);
-//        vo.setLng(lng);
-
         // SearchCondition
-
         if(sc.getSort() == null){
             sc.setSort("review");
             map.put("sort", "review");
@@ -96,18 +81,29 @@ public class ProductService {
 
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
 
-        log.info("total : " + totalCnt);
 
         // 숙박 업소 가져오기
         List<ProductAccommodationVO> accs = dao.selectAccommodations(sc);
 
-        log.info("숙소 리스트 :" + accs);
+        // 숙박 유형 가져오기
+        Map<Integer,String> accType = new HashMap<>();
+        accType.put(1, "모텔");
+        accType.put(2, "호텔");
+        accType.put(3, "펜션");
+        accType.put(4, "게스트하우스");
+        accType.put(5, "캠핑·글램핑");
 
+        model.addAttribute("accType", accType);
         model.addAttribute("accs", accs);
         model.addAttribute("ph", pageHandler);
 
     };
 
+    // @since 2023/03/17
+    public ProductAccommodationVO findAccommodation(Model model, int acc_id) throws Exception {
+        //return dao.selectAccommodation(acc_id);
+        return null;
+    }
 
     // update
 

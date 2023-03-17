@@ -12,130 +12,22 @@
     <!-- insert -->
 
     <!-- select-->
-    <select id="selectAccommodations1" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
-            SELECT a.*, SUM(b.room_stock) AS 'roomstock', MIN(b.room_price) AS 'price'   FROM `lemo_product_accommodation` AS a
-            JOIN `lemo_product_room` AS b
-            ON a.`acc_id` = b.`acc_id`
-            WHERE
-        <include refid="latlng"/>
-
-
-        <if test="accTypes != null">
-            AND `accType_no` In(${accTypes})
-        </if>
-
-        <if test="headcount > 0">
-            AND b.`room_maxNum` >= #{headcount}
-        </if>
-
-
-        GROUP BY a.`acc_id`
-        <if test="maxPrice > 0">
-            HAVING (`price` BETWEEN #{minPrice} AND #{maxPrice})
-        </if>
-
-
-        <if test="sort == 'review'">
-            ORDER BY a.`acc_review` DESC
-        </if>
-
-        <if test="sort == 'score'">
-            ORDER BY a.`acc_rate` DESC
-        </if>
-
-        <if test="sort == 'rowPrice'">
-            ORDER BY `price` ASC
-        </if>
-
-        <if test="sort == 'distance'">
-            ORDER BY ST_Distance_Sphere(a.`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) asc
-        </if>
-
-        LIMIT #{offset}, 10;
-
-
-    </select>
-
-    <select id="countTotal" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="int">
-
-        SELECT COUNT(DISTINCT a.acc_id) FROM `lemo_product_accommodation` AS a
-        <if test="maxPrice == 0">
-            JOIN `lemo_product_room` AS b
-        </if>
-        <if test="maxPrice > 0">
-            JOIN (SELECT * FROM `lemo_product_room` WHERE room_price BETWEEN #{minPrice} AND #{maxPrice}) AS b
-        </if>
-
-        ON a.acc_id = b.acc_id
-
-        WHERE
-        <if test="b == null">
-            <![CDATA[
-            ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) <= 5000
-            ]]>
-        </if>
-        <if test="b != null">
-            MBRContains(
-            ST_GeomFromText(CONCAT('LineString(', #{b}, ')')),
-            `acc_xy`)
-        </if>
-
-        <if test="accTypes != null">
-            AND `accType_no` In(${accTypes})
-        </if>
-
-        <if test="headcount > 0">
-            AND b.`room_maxNum` >= #{headcount}
-        </if>
-
-    </select>
-
-
     <select id="selectAccommodations" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
 
-        SELECT * FROM (
-        SELECT *, ROW_NUMBER() OVER(PARTITION BY a.acc_id ORDER BY a.room_price, IFNULL(a.empty_room_stock, a.room_stock) desc) 'order'
-        FROM(
-        SELECT a.acc_id 'acc_id', a.user_id, a.acc_name, a.accType_no, a.province_no, a.acc_city, a.acc_zip ,a.acc_addr, a.acc_addrDetail,
-        a.acc_longtitude, a.acc_lattitude, a.acc_xy, a.acc_mainInfo, a.acc_info, a.acc_comment, a.acc_thumbs, a.acc_rate, a.acc_review,
-        r.room_maxNum 'room_maxNum', r.room_id, r.room_price 'room_price', r.room_stock 'room_stock', IFNULL(b.empty_room_stock, r.room_stock) as 'empty_room_stock',
-        ROW_NUMBER() OVER(PARTITION BY a.acc_id ORDER BY r.room_price, IFNULL(b.empty_room_stock, r.room_stock) desc) 'top',
-        SUM(IFNULL(b.empty_room_stock, r.room_stock)) OVER(PARTITION BY a.acc_id) 'sum_room_stock'
-        FROM `lemo_product_accommodation` a
-        JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
-        LEFT JOIN (
-        SELECT a.acc_id 'acc_id', r.room_id 'room_id', (r.room_stock - COUNT(rero.rero_id)) 'empty_room_stock' FROM `lemo_product_accommodation` a
-        JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
-        JOIN    `lemo_product_reserved_room` rero ON r.room_id = rero.room_id AND r.acc_id = rero.acc_id
-
-        WHERE <include refid="latlng"/>
-        <![CDATA[
-        AND (rero.rero_checkOut_date > '2023-03-05' AND rero.rero_checkIn_date < '2023-03-06')
-        ]]>
-
-        GROUP BY a.`acc_id`, r.room_id
-        ) b
-        ON a.acc_id = b.acc_id AND r.room_id = b.room_id
-
-        WHERE <include refid="latlng"/>
-
-        ORDER BY a.acc_id) a
-        WHERE (a.empty_room_stock != 0 OR (a.sum_room_stock = 0 AND a.top = 1)) AND a.room_maxNum > 1
-        ) a
-        WHERE a.order = 1
-
-        <if test="accTypes != null">
-            AND `accType_no` In(${accTypes})
-        </if>
-
-        <if test="maxPrice > 0">
-            AND (`room_price` BETWEEN #{minPrice} AND #{maxPrice})
-        </if>
-
+        SELECT *
+        <include refid="common"/>
         <include refid="order"/>
         LIMIT #{offset}, 10;
 
     </select>
+
+    <select id="countTotal" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="int">
+        SELECT Count(a.acc_id)
+        <include refid="common"/>
+    </select>
+
+
+
 
 
 
@@ -177,5 +69,60 @@
         </if>
     </sql>
 
+    <sql id="common">
+
+        FROM (
+        SELECT *, ROW_NUMBER() OVER(PARTITION BY a.acc_id ORDER BY a.room_price, IFNULL(a.empty_room_stock, a.room_stock) desc) 'order'
+        FROM(
+        SELECT a.acc_id 'acc_id', a.user_id, a.acc_name, a.accType_no, a.province_no, a.acc_city, a.acc_zip ,a.acc_addr, a.acc_addrDetail,
+        a.acc_longtitude, a.acc_lattitude, a.acc_xy, a.acc_mainInfo, a.acc_info, a.acc_comment, a.acc_thumbs, a.acc_rate, a.acc_review,
+        r.room_maxNum 'room_maxNum', r.room_id, r.room_price 'room_price', r.room_stock 'room_stock', IFNULL(b.empty_room_stock, r.room_stock) as 'empty_room_stock',
+        ROW_NUMBER() OVER(PARTITION BY a.acc_id ORDER BY r.room_price, IFNULL(b.empty_room_stock, r.room_stock) desc) 'top',
+        SUM(IFNULL(b.empty_room_stock, r.room_stock)) OVER(PARTITION BY a.acc_id) 'sum_room_stock'
+        FROM `lemo_product_accommodation` a
+        JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
+        LEFT JOIN (
+        SELECT a.acc_id 'acc_id', r.room_id 'room_id', (r.room_stock - COUNT(rero.rero_id)) 'empty_room_stock' FROM `lemo_product_accommodation` a
+        JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
+        JOIN    `lemo_product_reserved_room` rero ON r.room_id = rero.room_id AND r.acc_id = rero.acc_id
+
+        WHERE <include refid="latlng"/>
+
+        <if test="checkIn == null and checkOut == null">
+            <![CDATA[
+                AND (rero.rero_checkOut_date > DATE(NOW()) AND rero.rero_checkIn_date < DATE_ADD(DATE(NOW()), INTERVAL 1 DAY))
+            ]]>
+        </if>
+        <if test="checkIn != null and checkOut != null">
+            <![CDATA[
+                AND (rero.rero_checkOut_date > #{checkIn} AND rero.rero_checkIn_date < #{checkOut})
+            ]]>
+        </if>
+
+        GROUP BY a.`acc_id`, r.room_id
+        ) b
+        ON a.acc_id = b.acc_id AND r.room_id = b.room_id
+
+        WHERE <include refid="latlng"/>
+
+        ORDER BY a.acc_id) a
+        WHERE (a.empty_room_stock != 0 OR (a.sum_room_stock = 0 AND a.top = 1))
+
+        <if test="headcount > 0">
+            AND a.room_maxNum > #{headcount}
+        </if>
+
+        ) a
+        WHERE a.order = 1
+
+        <if test="accTypes != null">
+            AND `accType_no` In(${accTypes})
+        </if>
+
+        <if test="maxPrice > 0">
+            AND (`room_price` BETWEEN #{minPrice} AND #{maxPrice})
+        </if>
+
+    </sql>
 
 </mapper>

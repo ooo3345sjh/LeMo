@@ -23,8 +23,11 @@ public interface ProductDAO {
     public int countTotal(SearchCondition sc);
 
 
-    // @since 2022/03/09
+    // @since 2023/03/09
     public List<ProductAccommodationVO> selectAccommodations(SearchCondition sc);
+
+    // @since 2023/03/17
+    //public ProductAccommodationVO findAccommodation(int acc_id);
 
     // update
 
