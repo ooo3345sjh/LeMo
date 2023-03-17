@@ -194,10 +194,11 @@ public class UserController {
             HttpServletRequest req
     ) throws Exception {
         log.debug("POST signup start...");
+        log.debug(userVO.toString());
 
         if(!"general".equals(type) && !"business".equals(type))
             return "redirect:/user/join";
-        
+
         setUserRole(userVO, type);
 
         m.addAttribute("type", type);
@@ -208,15 +209,12 @@ public class UserController {
 
         setSelectedTerms(userVO, termsType_no);
         userVO.setRegip(req.getRemoteAddr());
-
         userService.saveUser(userVO);
+
 
         log.debug(termsType_no);
         return "redirect:/user/login";
     }
-
-
-
 
     // @since 2023/03/16
     @ResponseBody
@@ -353,6 +351,7 @@ public class UserController {
         else if("business".equals(type))
             userVO.setRole("BUSINESS");
     }
+
     // @since 2023/03/13
     @GetMapping("test")
     public String test(SearchCondition sc) {
