@@ -3,6 +3,7 @@ package kr.co.Lemo.service;
 import kr.co.Lemo.dao.BusinessDAO;
 import kr.co.Lemo.domain.CouponVO;
 import kr.co.Lemo.domain.ReviewVO;
+import kr.co.Lemo.domain.ServiceCateVO;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.utils.PageHandler;
 import lombok.AllArgsConstructor;
@@ -90,12 +91,20 @@ public class BusinessService {
     }
 
     /**
-     * 관리자 리뷰 - 리뷰 보기
+     * 판매자 리뷰 - 리뷰 보기
      * @since 2023/03/16
      * @param revi_id
      */
     public ReviewVO findReview(Integer revi_id) throws Exception{
         return dao.viewReview(revi_id);
+    }
+
+    /**
+    * 판매자 숙소 - 편의시설
+    * @since 2023/03/17
+    */
+    public List<ServiceCateVO> findService(){
+        return dao.selectService();
     }
 
 

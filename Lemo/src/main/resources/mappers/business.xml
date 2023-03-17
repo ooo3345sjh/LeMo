@@ -70,6 +70,12 @@
         where `revi_id`=#{revi_id};
     </select>
 
+    <!-- business - info - service -->
+    <select id="selectService" resultType="kr.co.Lemo.domain.ServiceCateVO">
+        select * from `lemo_product_servicecate`;
+    </select>
+
+
     <!-- business - user - insert coupon -->
     <insert id="insertCoupon">
         INSERT INTO `lemo_product_coupon` (
