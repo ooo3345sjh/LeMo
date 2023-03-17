@@ -52,29 +52,33 @@
 
    btnButton.addEventListener("click", function() {
      console.log(addrInput.value);
+
+       // 주소-좌표 변환 객체를 생성합니다
+       var geocoder = new kakao.maps.services.Geocoder();
+
+       // 주소로 좌표를 검색합니다
+        geocoder.addressSearch(addrInput.value, function(result, status) {
+
+            // 정상적으로 검색이 완료됐으면
+             if (status === kakao.maps.services.Status.OK) {
+
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                console.log("coords: " + coords);
+                console.log(result[0].y);   // 위도 (acc_lattitude)
+                console.log(result[0].x);   // 경도 (acc_longtitude)
+
+                var message = '위도: ' + result[0].y + '경도: ' + result[0].x;
+                var resultDiv = document.getElementById("resultDiv");
+                resultDiv.innerHTML = message;
+            }
+        });
+
+
    });
 
 
-    // 주소-좌표 변환 객체를 생성합니다
-    var geocoder = new kakao.maps.services.Geocoder();
 
-   // 주소로 좌표를 검색합니다
-    geocoder.addressSearch('부산 남구 수영로 299 (대한결핵협회 부산광역시지부)', function(result, status) {
-
-        // 정상적으로 검색이 완료됐으면
-         if (status === kakao.maps.services.Status.OK) {
-
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-            console.log("coords: " + coords);
-            console.log(result[0].y);   // 위도 (acc_lattitude)
-            console.log(result[0].x);   // 경도 (acc_longtitude)
-
-            var message = '위도: ' + result[0].y + '경도: ' + result[0].x;
-            var resultDiv = document.getElementById("resultDiv");
-            resultDiv.innerHTML = message;
-        }
-    });
 
 
 </script>
