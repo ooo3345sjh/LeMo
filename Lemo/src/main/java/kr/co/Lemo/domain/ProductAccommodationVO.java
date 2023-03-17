@@ -37,6 +37,7 @@ public class ProductAccommodationVO {
     private int acc_discount;
     private String acc_checkIn;
     private String acc_checkOut;
+    private int acc_season;
 
 
     /* 추가 필드 room 정보 */
@@ -45,6 +46,13 @@ public class ProductAccommodationVO {
     private int room_id;
     private int empty_room_stock;
     private int sum_room_stock;
+    private String accType_type;
+    private int rp_offSeason_weekday;
+    private int rp_offSeason_weekend;
+    private int rp_peakSeason_weekday;
+    private int rp_peakSeason_weekend;
+
+    private int avg_price;
 
 
 

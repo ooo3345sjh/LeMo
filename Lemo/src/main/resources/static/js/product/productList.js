@@ -100,11 +100,14 @@ $(function(){
         e.preventDefault();
 
         // 체크인, 체크아웃
-        if(checkIn == ''){checkIn = date};
+        if(checkIn == ''){checkIn = startDate};
         if(checkOut == ''){checkOut = endDate};
 
         let checkInDate = new Date(checkIn);
         let today = new Date(date);
+
+        console.log('checkIn' + checkIn);
+        console.log('checkOut' + checkOut);
 
         if(checkInDate < today) {
             alert('지나간 날짜는 선택이 불가능합니다.');
@@ -241,7 +244,7 @@ $(function(){
             let addrDetail = '';
             let str = '';
             if(acc.empty_room_stock > 0) {
-                str = '<div><b>'+acc.room_price.toLocaleString()+'</b>원/ 1박</div>';
+                str = '<div><b>'+acc.avg_price.toLocaleString()+'</b>원/ 1박</div>';
             }else {
                 str = '<div><b class="soldout">예약마감</b></div>';
             }
@@ -280,10 +283,13 @@ $(function(){
     // 영역정보를 문자열로 얻어옵니다. ((남,서), (북,동)) 형식입니다
     var boundsStr = bounds.toString();
 
+/*
+
     console.log('남서쪽 ' + swLatLng.getLat());
     console.log('남서쪽 ' + swLatLng.getLng());
     console.log('북동쪽 ' + neLatLng.getLat());
     console.log('북동쪽 ' + neLatLng.getLng());
     console.log(boundsStr);
 
+*/
 

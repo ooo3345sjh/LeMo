@@ -1,5 +1,6 @@
 /* 날짜 */
 let tommorrow = now.getDate() + 1;
+let startDate = date;
 let endDate = nowYear + '-' + nowMonth + '-' + tommorrow;
 $(function(){
 
@@ -7,7 +8,7 @@ $(function(){
     checkOutParam = urlParams.get("checkOut");
 
     if( checkInParam != null &&  checkOutParam != null) {
-        date = checkInParam;
+        startDate = checkInParam;
         endDate = checkOutParam;
     }
 
@@ -26,7 +27,7 @@ $(function(){
             "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
             "firstDay": 1,
         },
-        "startDate": date,
+        "startDate": startDate,
         "endDate": endDate,
         "drops": "down",
         "opens": "center"

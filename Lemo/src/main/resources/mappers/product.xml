@@ -14,7 +14,7 @@
     <!-- select-->
     <select id="selectAccommodations" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
 
-        SELECT *
+        SELECT  a.*, t.accType_type, c.rp_offSeason_weekday, c.rp_offSeason_weekend, c.rp_peakSeason_weekday, c.rp_peakSeason_weekend
         <include refid="common"/>
         <include refid="order"/>
         LIMIT #{offset}, 10;
@@ -75,7 +75,7 @@
         SELECT *, ROW_NUMBER() OVER(PARTITION BY a.acc_id ORDER BY a.room_price, IFNULL(a.empty_room_stock, a.room_stock) desc) 'order'
         FROM(
         SELECT a.acc_id 'acc_id', a.user_id, a.acc_name, a.accType_no, a.province_no, a.acc_city, a.acc_zip ,a.acc_addr, a.acc_addrDetail,
-        a.acc_longtitude, a.acc_lattitude, a.acc_xy, a.acc_mainInfo, a.acc_info, a.acc_comment, a.acc_thumbs, a.acc_rate, a.acc_review,
+        a.acc_longtitude, a.acc_lattitude, a.acc_xy, a.acc_mainInfo, a.acc_info, a.acc_comment, a.acc_thumbs, a.acc_rate, a.acc_review, a.acc_season,
         r.room_maxNum 'room_maxNum', r.room_id, r.room_price 'room_price', r.room_stock 'room_stock', IFNULL(b.empty_room_stock, r.room_stock) as 'empty_room_stock',
         ROW_NUMBER() OVER(PARTITION BY a.acc_id ORDER BY r.room_price, IFNULL(b.empty_room_stock, r.room_stock) desc) 'top',
         SUM(IFNULL(b.empty_room_stock, r.room_stock)) OVER(PARTITION BY a.acc_id) 'sum_room_stock'
@@ -113,14 +113,18 @@
         </if>
 
         ) a
+
+        JOIN `lemo_product_accommodationtype` t ON a.accType_no = t.accType_no
+        LEFT JOIN `lemo_product_ratepolicy` c ON a.acc_id = c.acc_id
+
         WHERE a.order = 1
 
         <if test="accTypes != null">
-            AND `accType_no` In(${accTypes})
+            AND a.`accType_no` In(${accTypes})
         </if>
 
         <if test="maxPrice > 0">
-            AND (`room_price` BETWEEN #{minPrice} AND #{maxPrice})
+            AND (a.`room_price` BETWEEN #{minPrice} AND #{maxPrice})
         </if>
 
     </sql>
