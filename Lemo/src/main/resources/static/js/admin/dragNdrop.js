@@ -15,12 +15,12 @@ $(function(){
         autoQueue: false,           // 드래그 드랍 후 바로 서버로 전송
         thumbnailHeight: 90,        // Upload icon size
         thumbnailWidth: 90,         // Upload icon size
-        maxFiles: 5,                // 업로드 파일수
+        maxFiles: 1,                // 업로드 파일수
         maxFilesize: 10,            // 최대업로드용량 : 10MB
-        parallelUploads: 99,        // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 컨트롤러에 넘긴다.)
+        parallelUploads: 1,        // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 컨트롤러에 넘긴다.)
         addRemoveLinks: true,       // 삭제버튼 표시 여부
         dictRemoveFile: '삭제',      // 삭제버튼 표시 텍스트
-        uploadMultiple: true,       // 다중업로드 기능
+        uploadMultiple: false,       // 다중업로드 기능
         paramName: 'image',           // 서버에서 사용할 formdata 이름 설정 (defualt: file)
         acceptedFiles: '.jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF', // 이미지 파일 포맷만 허용
         createImageThumbnails: true, //파일 업로드 썸네일 생성

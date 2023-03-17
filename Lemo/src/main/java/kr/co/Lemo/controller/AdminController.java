@@ -303,6 +303,7 @@ public class AdminController {
         return resultMap;
     }
 
+    // @since 2023/03/14
     @GetMapping("cs/{cs_cate}/modify")
     public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model Model){
         if("notice".equals(cs_cate)){
@@ -325,6 +326,7 @@ public class AdminController {
         return "admin/cs/faq/modify";
     }
 
+    // @since 2023/03/15
     @PostMapping("cs/{cs_cate}/modify")
     public String usaveAdminNotice(@PathVariable("cs_cate") String cs_cate, CsVO vo){
         if ("notice".equals(cs_cate)) {
@@ -355,20 +357,20 @@ public class AdminController {
     @PostMapping("cs/{cs_cate}/write")
     public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
         if("notice".equals(cs_cate)){
-            vo.setUser_id("1002rsvn@plusn.co.kr");
+            vo.setUser_id("b1848@naver.com");
             vo.setCs_regip(req.getRemoteAddr());
 
             csService.rsaveNoticeArticle(vo);
             return "redirect:/admin/cs/notice/list";
 
         }else if("faq".equals(cs_cate)){
-            vo.setUser_id("1043pastel_tn@naver.com");
+            vo.setUser_id("b1848@naver.com");
             vo.setCs_regip(req.getRemoteAddr());
 
             csService.rsaveFaqArticle(vo);
             return "redirect:/admin/cs/faq/list";
         }else if("event".equals(cs_cate)){
-            vo.setUser_id("1043pastel_tn@naver.com");
+            vo.setUser_id("b1848@naver.com");
             vo.setCs_regip(req.getRemoteAddr());
 
             csService.rsaveEventArticle(vo);
@@ -402,13 +404,44 @@ public class AdminController {
 
     // @since 2023/03/14
     @PostMapping("cs/{cs_cate}/view")
-    public String usaveUpdateQnaArticle(String cs_reply, int cs_no){
+    public String usaveQnaArticle(String cs_reply, int cs_no){
         log.info("cs_reply : " + cs_reply);
         log.info("cs_no : " + cs_no);
 
         csService.usaveQnaArticle(cs_reply, cs_no);
 
         return "redirect:/admin/cs/qna/list";
+    }
+
+
+    // @since 2023/03/17
+    @ResponseBody
+    @PostMapping("cs/event/eventOn")
+    public Map<String, Integer> usaveOnEvent(@RequestBody Map map){
+
+        int cs_no = Integer.parseInt(String.valueOf(map.get("cs_no")));
+
+        int result = csService.usaveOnEvent(cs_no);;
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
+    // @since 2023/03/17
+    @ResponseBody
+    @PostMapping("cs/event/eventEnd")
+    public Map<String, Integer> usaveEndEvent(@RequestBody Map map){
+
+        int cs_no = Integer.parseInt(String.valueOf(map.get("cs_no")));
+
+        int result = csService.usaveEndEvent(cs_no);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
     }
 
     @GetMapping("cs/terms/test")
