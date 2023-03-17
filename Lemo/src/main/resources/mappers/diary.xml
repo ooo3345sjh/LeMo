@@ -50,7 +50,7 @@
 
 
     <!-- insert -->
-    <insert id="insertDiaryComment" parameterType="kr.co.Lemo.domain.DiaryCommentVO">
+    <insert id="insertDiaryComment" parameterType="kr.co.Lemo.domain.DiaryCommentVO" useGeneratedKeys="true" keyProperty="com_no">
         INSERT INTO `lemo_diary_comment` SET
             `arti_no` = #{arti_no},
             `user_id` = #{user_id},
@@ -61,6 +61,9 @@
     <!-- update -->
 
     <!-- delete -->
+    <delete id="deleteComment">
+        DELETE FROM `lemo_diary_comment` WHERE `com_no`=#{com_no};
+    </delete>
 
     <!-- 공통 키 -->
 
