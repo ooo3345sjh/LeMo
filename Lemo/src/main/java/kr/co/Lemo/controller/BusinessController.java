@@ -2,6 +2,7 @@ package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.CouponVO;
 import kr.co.Lemo.domain.ReviewVO;
+import kr.co.Lemo.domain.ServiceCateVO;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.service.BusinessService;
 import lombok.extern.slf4j.Slf4j;
@@ -197,15 +198,20 @@ public class BusinessController {
         return "business/info/write";
     }
 
+    @GetMapping("info/findService")
+    public ResponseEntity<List<ServiceCateVO>> findService(){
+        List<ServiceCateVO> services = service.findService();
+        return ResponseEntity.ok(services);
+    }
+
     @GetMapping("MapTest")
     public String MapTest() {
-
-        // API 정보
-
-
-
-
         return "business/MapTest";
+    }
+
+    @GetMapping("summernoteTest")
+    public String summernoteTest(){
+        return "business/summernoteTest";
     }
 
 
