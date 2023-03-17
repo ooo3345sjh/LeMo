@@ -133,29 +133,45 @@ $(function(){
         let comment = $(this).children('textarea').val();
         let com_no  = $(this).children('button').attr('data-no');
 
+        let re_reply = $('.com'+com_no).length;
+
         let jsonData = { "com_pno":com_no, "com_comment":comment, "arti_no":arti_no };
 
         ajaxAPI("diary/rsaveComment", jsonData, "POST").then((response)=>{
-            if(response == 1) {
+
+            console.log(response);
+            console.log(typeof(response));
+            console.log(response["result"]);
+            console.log(response["nick"]);
+
+            if(response["result"] == '1') {
                 alert('작성 되었습니다.');
 
-                let content = '<li>';
+                let content = '<li class="re_reply com'+com_no+'" style="display:block;">';
                    content += '<div class="repdiv1">';
-                   content += '<img th:src="@{/images/admin/user_default.png}" alt="프사">';
+                   content += '<img src="/Lemo/images/admin/user_default.png" alt="프사">';
                    content += '<div>';
-                   content += '<strong>[[${comment.nick}]]</strong><span>[[${comment.com_rdate.substring(0,10)}]]</span>';
+                   content += '<strong>'+response["nick"]+'</strong><span>'+date+'</span>';
                    content += '</div>';
                    content += '</div>';
                    content += '<div class="repdiv2">';
-                   content += '<textarea readonly>[[${comment.com_comment}]]</textarea>';
+                   content += '<p class="reply_id">@'+response["com_nick"]+'</p>'
+                   content += '<textarea readonly>'+comment+'</textarea>';
                    content += '</div>';
                    content += '<div class="repdiv3">';
+                   content += '<div><a href="#" class="comment" data-no="1">댓글 쓰기</a></div>';
                    content += '<div>';
                    content += '<a href="#">수정</a>';
                    content += '<a href="#">삭제</a>';
                    content += '</div>';
                    content += '</div>';
                    content += '</li>';
+
+                if(re_reply == 0){
+                    $(this).parent().after(content);
+                }else {
+                    $('.com'+com_no+':eq('+ (re_reply - 1) +')').after(content);
+                }
 
             }
         });

@@ -29,4 +29,7 @@ public interface DiaryDAO {
     // @since 2023/03/16
     public int insertDiaryComment(DiaryCommentVO commentVO);
 
+    // @since 2023/03/17
+    public String selectCommentNick(int com_no);
+
 }
