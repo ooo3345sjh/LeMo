@@ -1,4 +1,16 @@
+/* 날짜 */
+let tommorrow = now.getDate() + 1;
+let endDate = nowYear + '-' + nowMonth + '-' + tommorrow;
 $(function(){
+
+    checkInParam = urlParams.get("checkIn");
+    checkOutParam = urlParams.get("checkOut");
+
+    if( checkInParam != null &&  checkOutParam != null) {
+        date = checkInParam;
+        endDate = checkOutParam;
+    }
+
     /** Jquery UI Date Picker */
     $('#daterange').daterangepicker({
         "locale": {
@@ -15,7 +27,7 @@ $(function(){
             "firstDay": 1,
         },
         "startDate": date,
-        "endDate": date,
+        "endDate": endDate,
         "drops": "down",
         "opens": "center"
     }, function (start, end, label) {

@@ -29,6 +29,8 @@ public class PageHandler {
         endPage = Math.min(beginPage + naviSize - 1, totalPage);
         showPrev =  beginPage != 1;
         showNext = endPage != totalPage;
+
+        if(this.totalCnt == 0){endPage = 1;}
     }
 
     public void print(){

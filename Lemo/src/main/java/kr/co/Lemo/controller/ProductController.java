@@ -37,20 +37,28 @@ public class ProductController {
     /**
      * @since 2023/03/08
      * @param vo (상품 검색 조건 )
+     * @Map map (상품 검색 조건)
      */
     @GetMapping("list")
     public String list(Model model, @RequestParam Map map, @ModelAttribute Product_SearchVO vo) throws Exception {
+        log.debug("GET list start");
 
         // 숙박업소 리스트 가져오기
         service.findAllAccommodations(model, map, vo);
-
         model.addAttribute("title", environment.getProperty(group));
 
         return "product/list";
     }
 
+    // @since 2023/03/17 상품 보기
     @GetMapping("view")
-    public String view() throws Exception{
+    public String view(Model model, int acc_id) throws Exception {
+
+        log.debug("Get view start");
+        
+        // 숙소 정보 가져오기
+        //service.findAccommodation(model,acc_id);
+
         return "product/view";
     }
 

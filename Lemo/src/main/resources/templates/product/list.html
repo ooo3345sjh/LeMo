@@ -112,10 +112,13 @@
                     </div>
                     <div class="content">
                         <div class="list">
-
                             <div class="list-area">
+                                <div th:if="${accs.size() == 0}" class="noResult">
+                                    해당하는 조건의 숙박시설이 존재하지 않습니다.<br>
+                                </div>
                                 <ul>
                                     <li th:each="acc : ${accs}">
+                                        <span class="badge">[[${accType.get(acc.accType_no)}]]</span>
                                         <img th:src="|@{/}img/product/${acc.province_no}/${acc.acc_id}/${#strings.substringBefore(acc.acc_thumbs, '/')}|" alt="상품 이미지">
                                         <article class="stage">
                                             <a th:href="@{/product/view(acc_id=${acc.acc_id})}">
@@ -131,6 +134,7 @@
                                                     </p>
                                                     <p>
                                                         <span>[[${acc.acc_addr}]]</span>
+                                                        <span th:if="${acc.acc_addrDetail} != None">[[${acc.acc_addrDetail}]]</span>
                                                     </p>
                                                 </div>
                                                 <div class="stage-descript">
@@ -140,10 +144,13 @@
                                                 </div>
                                                 <div class="stage-info">
                                                     <p>
-                                                        <span>남은 객실 : [[${acc.roomstock}]]</span>
+                                                        <span th:if="${acc.empty_room_stock == 1}">남은 객실 : [[${acc.empty_room_stock}]]</span>
                                                     </p>
-                                                    <p>
-                                                        <b>[[${#numbers.formatInteger(acc.price,1,'COMMA')}]]</b>원 /1박
+                                                    <p th:if="${acc.empty_room_stock == 0}">
+                                                        <b style="color:#9c9c9c; font-weight:700;">예약 마감 다른 날짜 확인</b>
+                                                    </p>
+                                                    <p th:unless="${acc.empty_room_stock == 0}">
+                                                        <b>[[${#numbers.formatInteger(acc.room_price,1,'COMMA')}]]</b>원 /1박
                                                     </p>
                                                 </div>
                                             </a>
