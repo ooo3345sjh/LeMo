@@ -235,10 +235,8 @@ $(function(){
 
     $(document).on('click', '.comModify', function(e){
         e.preventDefault();
-        alert('test');
 
         let textarea = $(this).parent().parent().prev().children();
         textarea.removeAttr('readonly');
-        //textarea.style.background = white;
     });
 });
