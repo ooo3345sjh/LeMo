@@ -23,27 +23,27 @@
 
                     <b>이메일 아이디</b>
                     <div class="inp_type2 form-errors">
-                        <input type="email" name="user_id" placeholder="이메일 주소를 입력해주세요.">
+                        <input type="email" name="user_id" placeholder="이메일 주소를 입력해주세요." required>
                         <label id="email_msg" class="validate_msg"></label>
                         <button type="button" class="btn_common email">중복확인</button>
                     </div>
 
                     <b>비밀번호</b>
                     <div class="inp_type2 form-errors">
-                        <input type="password" name="pass" placeholder="비밀번호를 입력해주세요.">
+                        <input type="password" name="pass" placeholder="비밀번호를 입력해주세요." required>
                         <label id="pass1_msg" class="validate_msg"></label>
 
                     </div>
 
                     <b>비밀번호 확인</b>
                     <div class="inp_type2 form-errors">
-                        <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요.">
+                        <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요." required>
                         <label id="pass2_msg" class="validate_msg"></label>
                     </div>
 
                     <b>닉네임</b>
                     <div class="inp_type2 form-errors">
-                        <input type="text" name="nick"  placeholder="닉네임을 입력해주세요." maxlength="8">
+                        <input type="text" name="nick"  placeholder="닉네임을 입력해주세요." maxlength="8" required>
                         <label id="nick_msg" class="validate_msg"></label>
                         <button type="button" class="btn_common nick">딴거할래요</button>
                     </div>
@@ -59,124 +59,24 @@
 
 </th:block>
 <th:block layout:fragment="script">
+    <script th:src="@{/js/user/register_general.js}"></script>
     <script>
-        const rePass = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
-        const reNick = /^[a-zA-Z가-힣0-9][a-zA-Zㄱ-힣0-9]*$/;
-        const reEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        $(function(){
+            $('button[type=submit]').click(function(e){
 
-        function getNick(){
-            ajaxAPI("user/nick/create", null, "GET").then((response) => {
-                if(response.nick == "error") {
-                    console.log('GET nick fail...');
-                }
-                else {
-                    $('input[name=nick]').val(response.nick);
-                }
-            }).catch((errorMsg) => {
-                console.log(errorMsg)
-            });
-        }
+            let okList = [emailOk, passOk, confirmPassOk, nickOk];
 
-        $(function (){
-            $('input[type=email]').focusout(function (){
-                const email = $(this).val();
-                if(!reEmail.test(email))
-                    $('#email_msg').text('이메일 주소를 올바르게 입력해주세요.');
-                else
-                    $('#email_msg').text('');
+            for (i of inputList){ i.focus(); }
 
-            });
+            for (i in inputList){
 
-            $('input[type=email]').keyup(function (){
-                const email = $(this).val();
-                if(!reEmail.test(email))
-                    $('.btn_common.email').removeClass("active");
-                else
-                    $('.btn_common.email').addClass("active");
-            });
-
-            $('.btn_common.email').click(function (){
-                const email = $('input[type=email]').val();
-
-                if(!reEmail.test(email)) {
-                    $('#email_msg').text('이메일 주소를 올바르게 입력해주세요.');
-                    return;
-                }
-                else {
-                    $('#email_msg').text('');
-                }
-
-                ajaxAPI("user/email/duplicate?email="+email, null, "GET").then((response) => {
-                    if(response.result == -99999) {
-                        alert('중복확인에 실패했습니다.\n다시 시도해주세요.');
-                    } else if(response.result > 0) {
-                        $('#email_msg').text('이미 존재하는 이메일입니다.');
-                    } else {
-                        $('.btn_common.email').text("확인완료");
-                        $('.btn_common.email').removeClass("active");
-                        $('.btn_common.email').attr('disabled', true);
-                        $('input[type=email]').attr('readonly', true);
+                    if(!okList[i]){
+                        inputList[i].focus();
+                        e.preventDefault();
+                        return;
                     }
-                }).catch((errorMsg) => {
-                    console.log(errorMsg)
-                });
-            });
-
-            $('input[name=pass]').keyup(function (){
-                const pass = $(this).val();
-                console.log(pass);
-                if(!rePass.test(pass)){
-                    $('#pass1_msg').text('8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.')
-                } else {
-                    $('#pass1_msg').text('')
                 }
             });
-
-            $('input[name=pass2]').keyup(function (){
-                const confirmPass = $(this).val();
-                const pass =  $('input[name=pass]').val();
-
-                if(!rePass.test(pass))
-                    $('#pass2_msg').text('8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.')
-
-                else if(confirmPass != pass)
-                    $('#pass2_msg').text('비밀번호가 일치하지 않습니다.')
-
-                else
-                    $('#pass2_msg').text('')
-            });
-
-            getNick();
-
-            $('.btn_common.nick').click(function (){
-                getNick();
-            });
-
-            $('input[name=nick]').keyup(function (){
-                const nick = $(this).val();
-                if(!reNick.test(nick)){
-                    $('#nick_msg').text('한글과 영문을 사용해주세요.');
-                } else {
-                    $('#nick_msg').text('');
-                }
-            });
-
-            $('input[name=nick]').focusout(function (){
-                const nick = $(this).val();
-                ajaxAPI("user/nick/duplicate?nick="+nick, null, "GET").then((response) => {
-                    if(response.result == -99999) {
-                        console.log('중복확인에 실패했습니다. 다시 시도해주세요.');
-                    } else if(response.result > 0) {
-                        $('#nick_msg').text('이미 존재하는 닉네임입니다.');
-                    } else {
-                        $('#nick_msg').text('');
-                    }
-                }).catch((errorMsg) => {
-                    console.log(errorMsg)
-                });
-            });
-
-
         });
     </script>
 </th:block>

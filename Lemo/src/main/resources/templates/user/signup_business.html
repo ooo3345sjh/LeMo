@@ -10,7 +10,8 @@
 
     <main id="signup_bis">
         <section>
-            <form action="#" class="joinForm">
+            <form th:action="@{/user/signup}" action="post" class="joinForm">
+                <input type="hidden" name="userType" th:value="${type}">
                 <div class="title">
                     <strong class="logo">
                         <img th:src="@{/images/index/lemo_logo-removebg-preview.png}" alt="">
@@ -18,67 +19,74 @@
                     </strong>
                 </div>
                 <div class="common signup">
-                    <strong class="sub_title">회원가입</strong>
+                    <strong class="sub_title">판매 회원가입</strong>
 
                     <b>회사 이메일(아이디)</b>
                     <div class="inp_type2 form-errors">
-                        <input type="email" name="bis_email"  placeholder="회사 이메일 주소를 입력해주세요.">
-                        <label id="email_msg" class="validate_msg">이메일 주소를 올바르게 입력하세요.</label>
-                        <button type="button" class="btn_common">중복확인</button>
+                        <input type="email" name="user_id"  placeholder="회사 이메일 주소를 입력해주세요." required>
+                        <label id="email_msg" class="validate_msg"></label>
+                        <button type="button" class="btn_common email">중복확인</button>
                     </div>
 
                     <b>비밀번호</b>
                     <div class="inp_type2 form-errors">
-                        <input type="password" name="pass1" placeholder="비밀번호를 입력해주세요.">
+                        <input type="password" name="pass" placeholder="비밀번호를 입력해주세요." required>
                         <label id="pass1_msg" class="validate_msg"></label>
 
                     </div>
 
                     <b>비밀번호 확인</b>
                     <div class="inp_type2 form-errors">
-                        <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요.">
+                        <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요." required>
                         <label id="pass2_msg" class="validate_msg"></label>
+                    </div>
+
+                    <b>닉네임</b>
+                    <div class="inp_type2 form-errors">
+                        <input type="text" name="nick"  placeholder="닉네임을 입력해주세요." maxlength="8" required>
+                        <label id="nick_msg" class="validate_msg"></label>
+                        <button type="button" class="btn_common nick">딴거할래요</button>
                     </div>
 
                     <b>회사명</b>
                     <div class="inp_type2 form-errors">
-                        <input type="text" name="bis_name" placeholder="회사명을 입력해주세요.">
-                        <label id="bis_name_msg" class="validate_msg"></label>
+                        <input type="text" name="bis_company" placeholder="회사명을 입력해주세요." required>
+                        <label id="bis_company_msg" class="validate_msg"></label>
+                    </div>
+
+                    <b>대표자 이름</b>
+                    <div class="inp_type2 form-errors">
+                        <input type="text" name="bis_ceo" placeholder="대표자 이름을 입력해주세요." required>
+                        <label id="bis_ceo_msg" class="validate_msg"></label>
                     </div>
 
                     <b>개업일자</b>
                     <div class="inp_type2 form-errors">
                         <!-- 날짜 선택시 class on -->
-                        <input type="date" name="bis_openDate" class="off" id="bis_openDate" placeholder="개업일자를 입력해주세요.">
+                        <input type="date" th:max="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" name="bis_openDate" class="off" id="bis_openDate" required>
                         <label id="bis_openDate_msg" class="validate_msg"></label>
                     </div>
 
                     <b>사업자 등록번호</b>
                     <div class="inp_type2 form-errors">
-                        <input type="text" name="bis_bizRegNum" id="bis_bizRegNum" placeholder="사업자등록번호를 입력해주세요.">
+                        <input type="text" minlength="10" maxlength="10" name="bis_bizRegNum" id="bis_bizRegNum" placeholder="사업자등록번호를 입력해주세요." required>
                         <label id="bis_bizRegNum_msg" class="validate_msg"></label>
-                        <button type="button" class="btn_common">인증확인</button>
-                    </div>
-
-                    <b>대표자 이름</b>
-                    <div class="inp_type2 form-errors">
-                        <input type="text" name="bis_ceo" placeholder="대표자 이름을 입력해주세요.">
-                        <label id="bis_ceo_msg" class="validate_msg"></label>
+                        <button type="button" class="btn_common bizRegNum">인증확인</button>
                     </div>
 
                     <b>회사 전화번호</b>
                     <div class="inp_type2 form-errors">
-                        <input type="text" name="bis_tel" placeholder="회사 전화번호를 입력해주세요.">
+                        <input type="text" name="bis_tel" placeholder="회사 전화번호를 입력해주세요." required>
                         <label id="bis_tel_msg" class="validate_msg"></label>
                     </div>
                     <b>주소</b>
                     <div id="div_addr">
                         <div class="inp_type2 form-errors">
-                            <input type="text" name="bis_zip" id="zip" placeholder="우편번호" readonly>
+                            <input type="text" name="bis_zip" id="zip" placeholder="우편번호" required readonly>
                             <button type="button" class="btn_common" onclick="zipcode()">주소찾기</button>
                         </div>
                         <div class="inp_type2 form-errors">
-                            <input type="text" name="bis_addr1" id="addr1" placeholder="기본주소 입력" readonly>
+                            <input type="text" name="bis_addr1" id="addr1" placeholder="기본주소 입력" required readonly>
                         </div>
                         <div class="inp_type2 form-errors">
                             <input type="text" name="bis_addr2" id="addr2" placeholder="상세주소 입력">
@@ -86,7 +94,7 @@
                     </div>
 
                     <!-- 유효성 검사 통과 시 class에 on 추가 -->
-                    <button type="button" class="btn_link on" id="signup_btn" disabled="disabled">
+                    <button type="submit" class="btn_link on" id="signup_btn">
                         <span>가입하기</span>
                     </button>
                 </div>
@@ -96,5 +104,87 @@
     </main>
 
 </th:block>
-<th:block layout:fragment="script"></th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/user/register_general.js}"></script>
+    <script>
+        // Validation Check
+        let companyOk = false;
+        let openDateOk = false;
+        let bizRegNumOk = false;
+        let ceoOk = false;
+        let telOk = false;
+
+        const reCompany = /^[a-zA-Z가-힣0-9()][a-zA-Zㄱ-힣0-9()]*$/;
+        const regBizRegNum = /^[0-9]+$/;
+
+        // Input
+        const companyInput = $('input[name=bis_company]');
+        const openDateInput = $('input[name=bis_openDate]');
+        const bizRegNumInput = $('input[name=bis_bizRegNum]');
+
+        // button
+        const bizRegNumBtn = $('.btn_common.bizRegNum');
+
+
+        $(function(){
+
+            companyInput.focusout(function (){
+                const company = $(this).val();
+                if(!reCompany.test(company)){
+                    $('#bis_company_msg').text("한글과 영문, '()'을 사용해주세요.");
+                    companyOk = false;
+                } else {
+                    $('#bis_company_msg').text('');
+                    companyOk = true;
+                }
+            });
+
+            openDateInput.change(function (){
+                const openDate = $(this).val();
+                console.log(openDate);
+                if(!!openDate?.trim()){
+                    $(this).addClass('on');
+                    $(this).removeClass('off');
+                } else {
+                    $(this).addClass('off');
+                    $(this).removeClass('on');
+                }
+            });
+
+            bizRegNumInput.keyup(function(){
+                let bizRegNum = $(this).val();
+                bizRegNum = bizRegNum.replace(/[^0-9]/g, "");
+                $(this).val(bizRegNum);
+
+                if(!regBizRegNum.test(bizRegNum) || bizRegNum.length != 10){
+                    $('.btn_common.bizRegNum').removeClass('active');
+                } else if(regBizRegNum.test(bizRegNum) && bizRegNum.length == 10){
+                    $('.btn_common.bizRegNum').addClass('active');
+                }
+            });
+
+            bizRegNumBtn.click(function(){
+                const bizRegNum = bizRegNumInput.val();
+                const openDate = openDateInput.val();
+                console.log(bizRegNum);
+                console.log(openDate);
+                if(bizRegNum.length != 10){
+                    $('#bis_bizRegNum_msg').text('10자리의 번호를 입력해주세요.');
+                }
+
+                else if(!regBizRegNum.test(bizRegNum)){
+                    $('#bis_bizRegNum_msg').text('숫자만 입력해주세요.');
+                }
+
+                else {
+                    $('#bis_bizRegNum_msg').text('');
+                }
+
+
+            });
+        });
+
+
+    </script>
+</th:block>
 </html>
