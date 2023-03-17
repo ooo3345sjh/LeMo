@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -43,10 +45,10 @@ public class SecurityConfig implements WebMvcConfigurer {
         return http.build();
     }
 
-//    @Bean
-//    public PasswordEncoder PasswordEncoder () {
-//        return new BCryptPasswordEncoder();
-//    }
+    @Bean
+    public PasswordEncoder PasswordEncoder () {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
 	public InMemoryUserDetailsManager userDetailsService() {
