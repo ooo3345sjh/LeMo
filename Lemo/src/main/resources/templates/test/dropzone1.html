@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+</head>
+<body>
+    <h3>dropzone1.html</h3>
+    <!-- 드롭존을 적용할 클래스이름을 dropzone 해야 css테마가 적용된다 -->
+    <form th:action="@{/test/dropzone}"
+          class="dropzone"
+          id="my-awesome-dropzone" method="post" enctype="multipart/form-data"></form>
+
+
+
+</body>
+</html>

@@ -109,6 +109,9 @@
 </th:block>
 <th:block layout:fragment="script">
     <script>
+        let maxFiles = 1;
+        let url = "/admin/cs/event/write";
+
         $(document).ready(function() {
                 $('#summernote').summernote({
                     height: 450,

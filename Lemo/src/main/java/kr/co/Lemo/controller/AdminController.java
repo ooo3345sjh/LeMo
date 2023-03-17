@@ -252,7 +252,11 @@ public class AdminController {
 
 
 
-    // 황원진
+    /**
+     * @since 2023/03/09
+     * @author 황원진
+     * @apiNote list 통합
+     */
     @GetMapping("cs/{cs_cate}/list")
     public String findAllCs_list(@PathVariable("cs_cate") String cs_cate,
                                  String cs_type,
@@ -295,7 +299,11 @@ public class AdminController {
 
 
 
-    //@since 2023/03/16
+
+    /**
+     * @since 2023/03/16
+     * @author 황원진
+     */
     @ResponseBody
     @DeleteMapping("cs/{cs_cate}/articleRemove")
     public Map<String, Integer> removeAdminArticle(@PathVariable("cs_cate") String cs_cate, @RequestBody Map map) throws Exception {
@@ -310,7 +318,11 @@ public class AdminController {
         return resultMap;
     }
 
-    // @since 2023/03/14
+    /**
+     * @since 2023/03/14
+     * @author 황원진
+     * @apiNote 관리자 controller
+     */
     @GetMapping("cs/{cs_cate}/modify")
     public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model Model){
         if("notice".equals(cs_cate)){
@@ -333,7 +345,12 @@ public class AdminController {
         return "admin/cs/faq/modify";
     }
 
-    // @since 2023/03/15
+
+    /**
+     * @since 2023/03/15
+     * @author 황원진
+     */
+    
     @PostMapping("cs/{cs_cate}/modify")
     public String usaveAdminNotice(@PathVariable("cs_cate") String cs_cate, CsVO vo){
         if ("notice".equals(cs_cate)) {
@@ -347,7 +364,11 @@ public class AdminController {
         return "redirect:/admin/cs/faq/list";
     }
 
-    // @since 2023/03/16
+
+    /**
+     * @since 2023/03/16
+     * @author 황원진
+     */
     @GetMapping("cs/{cs_cate}/write")
     public String notice_write(@PathVariable("cs_cate") String cs_cate){
         if("faq".equals(cs_cate)){
@@ -361,6 +382,10 @@ public class AdminController {
     }
 
     // @since 2023/03/10
+    /**
+     * @since 2023/03/10
+     * @author 황원진
+     */
     @PostMapping("cs/{cs_cate}/write")
     public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
         if("notice".equals(cs_cate)){
@@ -384,9 +409,12 @@ public class AdminController {
         }
         return "redirect:/admin/cs/event/list";
     }
-
-
-    // @since 2023/03/12
+    
+    
+    /**
+     * @since 2023/03/12
+     * @author 황원진
+     */
     @GetMapping("cs/{cs_cate}/view")
     public String findAdminCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
         log.info("cs_view Start");
@@ -409,7 +437,10 @@ public class AdminController {
         return "admin/cs/notice/view";
     }
 
-    // @since 2023/03/14
+    /**
+     * @since 2023/03/14
+     * @author 황원진
+     */
     @PostMapping("cs/{cs_cate}/view")
     public String usaveQnaArticle(String cs_reply, int cs_no){
         log.info("cs_reply : " + cs_reply);
@@ -420,8 +451,12 @@ public class AdminController {
         return "redirect:/admin/cs/qna/list";
     }
 
-
-    // @since 2023/03/17
+    
+    /**
+     * @since 2023/03/17
+     * @author 황원진
+     * @apiNote 관리자 이벤트 활성화
+     */
     @ResponseBody
     @PostMapping("cs/event/eventOn")
     public Map<String, Integer> usaveOnEvent(@RequestBody Map map){
@@ -436,7 +471,11 @@ public class AdminController {
         return resultMap;
     }
 
-    // @since 2023/03/17
+    /**
+     * @since 2023/03/17
+     * @author 황원진
+     * @apiNote 관리자 이벤트 비활성화
+     */
     @ResponseBody
     @PostMapping("cs/event/eventEnd")
     public Map<String, Integer> usaveEndEvent(@RequestBody Map map){

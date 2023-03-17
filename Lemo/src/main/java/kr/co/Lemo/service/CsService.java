@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -133,6 +134,15 @@ public class CsService {
         return dao.insertFaqArticle(vo);
     }
 
+    //@since 2023/03/17
+    public void fileUpload(CsVO vo){
+
+        //MultipartFile file = vo.getCs_eventbannerImg();
+
+        String path = new File("C:/Users/hwangwonjin/Desktop/workspace/LeMo/Lemo/img/cs/").getAbsolutePath();
+
+
+    }
 
     /** update **/
     //@since 2023/03/14
