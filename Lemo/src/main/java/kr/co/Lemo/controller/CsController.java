@@ -68,6 +68,7 @@ public class CsController {
 
         sc.setMap(map);
         model.addAttribute("title", environment.getProperty(group));
+
         service.findAllFaqArticles(sc, model);
         model.addAttribute("type", cs_type);
         return "cs/faq";
@@ -115,8 +116,8 @@ public class CsController {
         CsVO eventPrev = service.findEventPrev(cs_cate, cs_no);
         CsVO eventNext = service.findEventNext(cs_cate, cs_no);
 
-        log.info("prevCs_cate : " + eventPrev.getCs_cate());
-        log.info("nextCs_cate : " + eventNext.getCs_cate());
+        //log.info("prevCs_cate : " + eventPrev.getCs_cate());
+        //log.info("nextCs_cate : " + eventNext.getCs_cate());
 
 
         model.addAttribute("title", environment.getProperty(group));

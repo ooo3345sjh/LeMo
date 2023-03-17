@@ -47,6 +47,8 @@ public interface CsDAO {
     public int insertArticleQna(CsVO vo);
     //@since 2023/03/15
     public int insertFaqArticle(CsVO vo);
+
+
     /** update **/
     //@since 2023/03/14
     public int updateQnaArticle(@Param("cs_reply") String cs_reply, @Param("cs_no") int cs_no);
@@ -54,6 +56,12 @@ public interface CsDAO {
     public int updateAdminNotice(CsVO vo);
     //@since 2023/03/16
     public int updateFaqArticle(CsVO vo);
+    //@since 2023/03/17
+    public int updateOnEvent(@Param("cs_no") int cs_no);
+    //@since 2023/03/17
+    public int updateEndEvent(@Param("cs_no") int cs_no);
+
+
     /** delete **/
     //@since 2023/03/15
     public int deleteFaqWrite(@Param("cs_no") int cs_no);

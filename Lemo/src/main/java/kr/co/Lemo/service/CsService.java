@@ -133,6 +133,7 @@ public class CsService {
         return dao.insertFaqArticle(vo);
     }
 
+
     /** update **/
     //@since 2023/03/14
     public int usaveQnaArticle(@RequestParam("cs_reply") String cs_reply, @RequestParam("cs_no") int cs_no){
@@ -146,8 +147,17 @@ public class CsService {
     public int usaveFaqArticle(CsVO vo){
         return dao.updateFaqArticle(vo);
     }
+    //@since 2023/03/17
+    public int usaveOnEvent(@RequestParam("cs_no") int cs_no){
+        return dao.updateOnEvent(cs_no);
+    }
+    //@since 2023/03/17
+    public int usaveEndEvent(@RequestParam("cs_no") int cs_no){
+        return dao.updateEndEvent(cs_no);
+    }
 
     /** delete **/
+    //@since 2023/03/15
     public int removeAdminArticle(@RequestParam("cs_no") int cs_no){
         return dao.deleteFaqWrite(cs_no);
     }

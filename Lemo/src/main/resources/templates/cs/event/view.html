@@ -54,23 +54,52 @@
 
                 <!-- 페이징 -->
                 <div class="page">
-                    <p th:style="${eventPrev.cs_cate == null} ? 'display:none' : ''" th:styleappend="${eventPrev.cs_cate == 'event'} ? 'display:block' : 'display:none'">
-                        <a href="#">
+                    <th:bolck th:if="${eventPrev == null}">
+                        <p>
+                            <a>
+                                <span class="ico_arr_up">이전글</span>
+                                <b>이전글이 없습니다</b>
+                                <em></em>
+                            </a>
+                        </p>
+                    </th:bolck>
+
+                    <th:bolck th:if="${eventPrev != null} and ${eventPrev.cs_eventState == 1}">
+                    <p>
+                        <a th:href="@{/cs/event/view (cs_cate=${eventPrev.cs_cate}, cs_no=${eventPrev.cs_no})}">
                             <span class="ico_arr_up">이전글</span>
                             <b>[[${eventPrev.cs_title}]]</b>
                             <em>기간 : [[${eventPrev.cs_eventStart}]] ~ [[${eventPrev.cs_eventEnd}]]</em>
                         </a>
                     </p>
-                        <p th:style="${eventNext.cs_cate == 'event'} ? 'display:block' : 'display:none'">
-                            <a href="#">
+                    </th:bolck>
+
+
+                    <th:bolck th:if="${eventNext == null}">
+                        <p>
+                            <a>
                                 <span class="ico_arr_down">다음글</span>
-                                <b>[[${eventNext.cs_title}]]</b>
-                                <em>기간 : [[${eventNext.cs_eventStart}]] ~ [[${eventPrev.cs_eventEnd}]]</em>
+                                <b>다음글이 없습니다</b>
+                                <em></em>
                             </a>
                         </p>
+                    </th:bolck>
+
+                    <th:bolck th:if="${eventNext != null} and ${eventNext.cs_eventState == 1}">
+                        <p>
+                            <a th:href="@{/cs/event/view (cs_cate=${eventNext.cs_cate}, cs_no=${eventNext.cs_no})}">
+                                <span class="ico_arr_down">다음글</span>
+                                <b>[[${eventNext.cs_title}]]</b>
+                                <em>기간 : [[${eventNext.cs_eventStart}]] ~ [[${eventNext.cs_eventEnd}]]</em>
+                            </a>
+                        </p>
+                    </th:bolck>
+
+
+
                 </div>
                 <div class="aligncenter">
-                    <button onclick="window.location.href='#'" class="btn">목록보기</button>
+                    <button onclick="window.location.href='/Lemo/cs/event/list'" class="btn">목록보기</button>
                 </div>
             </div>
         </section>

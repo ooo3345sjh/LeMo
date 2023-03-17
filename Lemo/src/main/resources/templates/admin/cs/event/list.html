@@ -36,10 +36,10 @@
                                                 </li>
                                                 <li>[[${article.cs_eventStart}]] ~ [[${article.cs_eventEnd}]]</li>
                                                 <li class="prodBtn" id="event_li">
-                                                    <span class="btnDelete">삭제</span>
+                                                    <span class="btnEventDelete" th:data-no="${article.cs_no}">삭제</span>
                                                     <span class="btnModify">수정</span>
-                                                    <span class="btnAct">활성화</span>
-                                                    <span class="btnDeAct on">비활성화</span>
+                                                    <span class="btnAct" th:data-no="${article.cs_no}">활성화</span>
+                                                    <span class="btnDeAct on" th:data-no="${article.cs_no}">비활성화</span>
                                                 </li>
                                             </ul>
                                             </th:block>
@@ -62,7 +62,7 @@
 
                                         </div>
                                         <div class="btnAdminProd">
-                                            <a href="#">
+                                            <a th:href="@{/admin/cs/event/write}">
                                                 이벤트등록
                                             </a>
                                         </div>
@@ -97,6 +97,91 @@
                     $('.btnAct').removeClass('on');
                 }
             });
+
+             // event 활성화
+            $('.btnAct').click(function(e){
+                e.preventDefault();
+
+                let isChangeOK = confirm('해당 글을 활성화시키겠습니까?');
+
+                if(isChangeOK){
+                    let cs_no = $(this).attr('data-no');
+
+                    console.log('cs_no ajax : ' + cs_no);
+
+                    const jsonData = {"cs_no": cs_no};
+
+                    ajaxAPI("admin/cs/event/eventOn", jsonData, "post").then((response) => {
+                        if(response.result > 0) {
+                            alert("해당 글이 활성화되었습니다.");
+                            location.replace("/Lemo/admin/cs/event/list");
+                        }else {
+                            alert('error');
+                        }
+                    }).catch((errMsg) => {
+                        console.log(errorMsg);
+                    });
+                }
+
+            });
+
+
+             // event 비활성화
+            $('.btnDeAct').click(function(e){
+                e.preventDefault();
+
+                let isChangeOK = confirm('해당 글을 비활성화시키겠습니까?');
+
+                if(isChangeOK){
+                    let cs_no = $(this).attr('data-no');
+
+                    console.log('cs_no ajax : ' + cs_no);
+
+                    const jsonData = {"cs_no": cs_no};
+
+                    ajaxAPI("admin/cs/event/eventEnd", jsonData, "post").then((response) => {
+                        if(response.result > 0) {
+                            alert("해당 글이 비활성화되었습니다.");
+                            location.replace("/Lemo/admin/cs/event/list");
+                        }else {
+                            alert('error');
+                        }
+                    }).catch((errMsg) => {
+                        console.log(errorMsg);
+                    });
+                }
+
+            });
+
+
+           // event 삭제
+            $('.btnEventDelete').click(function(e){
+                e.preventDefault();
+
+                let isDeleteOK = confirm('해당 글을 삭제하시겠습니까?');
+
+                if(isDeleteOK){
+                    let cs_no = $(this).attr('data-no');
+
+                    console.log('cs_no ajax : ' + cs_no);
+
+                    const jsonData = {"cs_no": cs_no};
+
+                    ajaxAPI("admin/cs/event/articleRemove", jsonData, "delete").then((response) => {
+                        if(response.result > 0) {
+                            alert("해당 글이 삭제되었습니다.");
+                            location.replace("/Lemo/admin/cs/event/list");
+                        }else {
+                            alert('error');
+                        }
+                    }).catch((errMsg) => {
+                        console.log(errorMsg);
+                    });
+                }
+
+            });
+
+
         });
 
     </script>
