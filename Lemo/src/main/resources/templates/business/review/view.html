@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin-layout}">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/admin/adminSubStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+</th:block>
+<th:block layout:fragment="content">
+    <main>
+        <div class="main_inner">
+            <!-- 죄측 사이드바 -->
+            <th:block th:replace="~{fragments/_aside::adminFragment}"></th:block>
+            <!-- 우측 메인 컨테이너 -->
+            <section class="main_content">
+                <div class="main_cotent_inner">
+                    <div class="main_content_div">
+                        <div class="col_nav">
+                            <span>리뷰관리 ></span>
+                            <span>등록리뷰</span>
+                        </div>
+                        <div class="col2" style="padding-top: 90px; padding-bottom: 76px;">
+                                <div class="col2_r_slider">
+                                    <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide"><img th:src="@{/images/admin/4bda9d9a-c1c3-11ed-a377-00e04c239987.jpg}"/></div>
+                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c0b577c-c1c3-11ed-969a-00e04c239987.jpg}"/></div>
+                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c3fc302-c1c3-11ed-8f72-00e04c239987.jpg}"/></div>
+                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c85294a-c1c3-11ed-b077-00e04c239987.jpg}"/></div>
+                                            <div class="swiper-slide"><img th:src="@{/images/admin/4cb6946b-c1c3-11ed-a013-00e04c239987.jpg}"/></div>
+                                        </div>
+                                        <div class="swiper-button-next"></div>
+                                        <div class="swiper-button-prev"></div>
+                                    </div>
+                                    <div thumbsSlider="" class="swiper mySwiper">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide"><img th:src="@{/images/admin/4bda9d9a-c1c3-11ed-a377-00e04c239987.jpg}"/></div>
+                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c0b577c-c1c3-11ed-969a-00e04c239987.jpg}"/></div>
+                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c3fc302-c1c3-11ed-8f72-00e04c239987.jpg}"/></div>
+                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c85294a-c1c3-11ed-b077-00e04c239987.jpg}"/></div>
+                                            <div class="swiper-slide"><img th:src="@{/images/admin/4cb6946b-c1c3-11ed-a013-00e04c239987.jpg}"/></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2_r_box">
+                                    <input type="text" class="r_revi_id" th:value="${review.revi_id}"></input>
+                                    <div class="r_nick">
+                                        [[${#strings.substringBefore(review.user_id, '@') + '**'}]] <i>님의 후기</i>
+                                    </div>
+                                    <div class="r_stay">
+                                        [[${review.acc_name}]] <i>[[${review.room_name}]]</i>
+                                    </div>
+                                    <div class="r_date">
+                                        [[${review.res_checkIn}]] ~ [[${review.res_checkOut}]]
+                                    </div>
+                                    <div class="r_rating">
+                                        <th:block th:if="${review.revi_rate == 5}">
+                                            <h6 class="rating5">&nbsp;</h6>
+                                        </th:block>
+                                        <th:block th:if="${review.revi_rate == 4}">
+                                            <h6 class="rating4">&nbsp;</h6>
+                                        </th:block>
+                                        <th:block th:if="${review.revi_rate == 3}">
+                                            <h6 class="rating3">&nbsp;</h6>
+                                        </th:block>
+                                        <th:block th:if="${review.revi_rate == 2}">
+                                            <h6 class="rating2">&nbsp;</h6>
+                                        </th:block>
+                                        <th:block th:if="${review.revi_rate == 1}">
+                                            <h6 class="rating1">&nbsp;</h6>
+                                        </th:block>
+                                    </div>
+                                    <div class="r_content">
+                                        <div class="r_content_wrap">
+                                            <div class="r_content_tit">
+                                                [[${review.revi_title}]]
+                                            </div>
+                                            <div class="r_content_txt">
+                                                [[${review.revi_content}]]
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- 모달 팝업 -->
+                    <button class="btn_R_answer">리뷰답변</button>
+                    <dialog id="d_review">
+                        <form method="dialog">
+                            <nav class="rr_nav">
+                                <h1>리뷰 답변</h1>
+                                <input type="text" class="rp_revi_id">
+                            </nav>
+                            <div class="rr_box">
+                                <section class="rr_content">
+                                    <div>
+                                        [[${review.revi_content}]]
+                                    </div>
+                                </section>
+
+                            </div>
+                            <div class="rr_box2">
+                                <section class="rr_content2">
+                                    <div>
+                                        <textarea placeholder="답변을 작성해 주세요" class="rp_revi_reply"
+                                            th:text="${review.revi_reply != null}? ${review.revi_reply}:''"></textarea>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="rr_btn">
+                                <button class="btnRclose" value="close">닫기</button>
+                                <button class="btnRsubmit" value="confirm">작성</button>
+                            </div>
+                        </form>
+                    </dialog>
+
+
+
+                    <div class="btnAdminProd">
+                        <a href="javascript:history.back(-1)">
+                            리뷰목록
+                        </a>
+                    </div>
+                    <div class="btnAdminProd">
+                        <a href="#" id="removeReviewBtn">
+                            리뷰삭제
+                        </a>
+                    </div>
+                    <div class="blank30"></div>
+
+                </div>
+            </section>
+        </div>
+    </main>
+    <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
+</th:block>
+<th:block layout:fragment="script">
+    <!-- swiperSlider -->
+    <link rel="stylesheet"href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var swiper = new Swiper(".mySwiper", {
+                spaceBetween: 5,
+                slidesPerView: 4,
+                freeMode: true,
+                watchSlidesProgress: true,
+                loop: true
+            });
+            var swiper2 = new Swiper(".mySwiper2", {
+                spaceBetween: 5,
+                loop : true,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                thumbs: {
+                swiper: swiper,
+                },
+            });
+
+            // 리뷰 답변하기 (dialog 팝업)
+            const button = document.querySelector("button");
+            const dialog = document.querySelector("dialog");
+
+            button.addEventListener("click", ()=>{
+                dialog.showModal();
+                let r_revi_id = $('.r_revi_id').val();
+                console.log('r_revi_id :' +r_revi_id);
+
+                $('.rp_revi_id').attr('value', r_revi_id);
+            });
+
+            dialog.addEventListener("close", ()=>{
+                console.log(dialog.returnValue);
+            });
+
+            // input 엔터키 submit 막기
+            $('input[type="text"]').keydown(function() {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                };
+            });
+
+            // 리뷰 답변 작성하기
+            $('.btnRsubmit').click(function(e){
+                e.preventDefault();
+                alert('click the submit button in review reply form');
+
+                let revi_id = $('.rp_revi_id').val();
+                let revi_reply = $('.rp_revi_reply').val();
+
+                console.log('revi_id: '+ revi_id);
+                console.log('revi_reply: '+ revi_reply);
+
+                const jsonData = {
+                    "revi_reply":revi_reply,
+                    "revi_id":revi_id
+                }
+
+                console.log('here in business/review html');
+
+                ajaxAPI("business/usaveReply", jsonData, "POST").then((response) => {
+                    if(response.result > 0) {
+                        alert('리뷰 답변 작성이 완료되었습니다.');
+                        $('#d_review').hide();
+                    } else {
+                        alert('error');
+                    }
+                 }).catch((errorMsg) => {
+                    console.log(errorMsg);
+                 });
+            });
+
+            // 리뷰 삭제
+            $('#removeReviewBtn').click(function(e){
+                e.preventDefault();
+
+                let isDeleteOK = confirm('정말 삭제하시겠습니까?');
+
+                if(isDeleteOK){
+
+                    let revi_id = $('.r_revi_id').val();
+                    console.log('revi_id: '+ revi_id);
+
+                    const jsonData = {"revi_id":revi_id};
+
+                    ajaxAPI("business/removeReview", jsonData, "POST").then((response) => {
+                        if(response.result > 0) {
+                            alert('해당 리뷰가 삭제되었습니다.');
+                        } else {
+                            alert('error');
+                        }
+                    }).catch((errorMsg) => {
+                        console.log(errorMsg);
+                    });
+                }
+            });
+
+
+
+        });
+    </script>
+
+</th:block>
+</html>

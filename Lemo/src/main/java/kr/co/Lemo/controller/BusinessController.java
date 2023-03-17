@@ -31,7 +31,7 @@ public class BusinessController {
     @Autowired
     private BusinessService service;
 
-    @GetMapping("index")
+    @GetMapping(value = {"", "index"})
     public String index_business() {
         return "business/index";
     }
@@ -112,7 +112,7 @@ public class BusinessController {
         log.info("acc_id"+map.get("acc_id"));
         model.addAttribute("acc_id", map.get("acc_id"));
 
-        List<ReviewVO> accs = service.findAccOwnedForReview("0hotelthem1@gmail.com");
+        List<ReviewVO> accs = service.findAccOwnedForReview("1foodtax@within.co.kr");
         model.addAttribute("selectList", accs);
         service.findAllReview(model, sc);
         return "business/review/list";
@@ -144,7 +144,7 @@ public class BusinessController {
         return ResponseEntity.ok(accs);
     }
 
-    // @since 2023/03/16 관리자 쿠폰 답변 작성
+    // @since 2023/03/16 판매자 쿠폰 답변 작성
     @ResponseBody
     @PostMapping("usaveReply")
     public Map<String, Integer> usaveReply(@RequestBody Map map) throws Exception {
@@ -161,6 +161,53 @@ public class BusinessController {
         return resultMap;
 
     }
+
+    // @since 2023/03/16 판매자 리뷰 삭제
+    @ResponseBody
+    @PostMapping("removeReview")
+    public Map<String, Integer> removeReview(@RequestBody Map map) throws Exception {
+        String revi_id = (String)map.get("revi_id");
+
+        int result = service.removeReview(revi_id);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
+
+    @GetMapping("info/list")
+    public String info_list(){
+        return "business/info/list";
+    }
+
+    @GetMapping("info/modify")
+    public String info_modify(){
+        return "business/info/modify";
+    }
+
+    @GetMapping("info/view")
+    public String info_view(){
+        return "business/info/view";
+    }
+
+    @GetMapping("info/write")
+    public String info_write(){
+        return "business/info/write";
+    }
+
+    @GetMapping("MapTest")
+    public String MapTest() {
+
+        // API 정보
+
+
+
+
+        return "business/MapTest";
+    }
+
 
 
 

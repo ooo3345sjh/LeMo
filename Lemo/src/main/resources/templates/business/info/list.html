@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin-layout}">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/admin/adminSubStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+</th:block>
+<th:block layout:fragment="content">
+    <main>
+        <div class="main_inner">
+            <!-- 죄측 사이드바 -->
+            <th:block th:replace="~{fragments/_aside::businessFragment}"></th:block>
+            <!-- 우측 메인 컨테이너 -->
+            <section class="main_content">
+                <div class="main_cotent_inner">
+                    <div class="main_content_div">
+                        <div class="col0">
+                            <form action="#">
+                                <div class="searchProd">
+                                    <input type="text" class="search_box" placeholder="검색 키워드 입력">
+                                    <button type="submit" class="btnSearch">
+                                        <input type="image" th:src="@{/images/admin/btn_search.png}">
+                                    </button>
+                                </div>
+                                <div class="selectProd">
+                                    <select>
+                                        <option value="0">회사명</option>
+                                        <option value="1">푸른제주펜션</option>
+                                        <option value="2">보우힐펜션</option>
+                                        <option value="3">파라다이스호텔부산</option>
+                                        <option value="4">프리지아펜션</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col_nav">
+                            <span>상품관리 ></span>
+                            <span>숙박관리</span>
+                        </div>
+                        <div class="col2">
+                            <form action="#">
+                                <div class="board_list">
+                                    <ul>
+                                        <li>#</li>
+                                        <li>숙소번호</li>
+                                        <li id="width50">회사명</li>
+                                        <li id="width14">아이디</li>
+                                        <li>등록일</li>
+                                        <li>비고</li>
+                                    </ul>
+                                    <ul>
+                                        <li>1</li>
+                                        <li>11023</li>
+                                        <li class="prodName" id="width50">부산 힐튼 호텔</li>
+                                        <li id="width14">hilton@gmail.com</li>
+                                        <li>2023-02-26</li>
+                                        <li class="prodBtn">
+                                            <span class="btnDelete">삭제</span>
+                                            <span class="btnModify">수정</span>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <li>2</li>
+                                        <li>11243</li>
+                                        <li class="prodName" id="width50">조선 호텔</li>
+                                        <li id="width14">josun@gmail.com</li>
+                                        <li>2023-02-26</li>
+                                        <li class="prodBtn">
+                                            <span class="btnDelete">삭제</span>
+                                            <span class="btnModify">수정</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="pagination">
+                                    <a href="#">&laquo;</a>
+                                    <a href="#">1</a>
+                                    <a href="#" class="active">2</a>
+                                    <a href="#">3</a>
+                                    <a href="#">4</a>
+                                    <a href="#">5</a>
+                                    <a href="#">6</a>
+                                    <a href="#">&raquo;</a>
+                                </div>
+                                <div class="btnAdminProd">
+                                    <a th:href="@{/business/info/write}">
+                                        숙소등록
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="blank30"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
+</th:block>
+<th:block layout:fragment="script">
+</th:block>
+</html>
