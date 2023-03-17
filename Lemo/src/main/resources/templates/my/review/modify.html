@@ -109,8 +109,10 @@
             </main>
         </th:block>
         <th:block layout:fragment="script">
-            <script th:src="@{/js/my/dropzoneJS.js}"></script>
+            <script th:src="@{/js/admin/dragNdrop.js}"></script>
             <script>
+            let url = "/admin/cs/event/write";
+            let maxFiles = 1;
                     $(function(){
 
                         // 취소버튼 확인

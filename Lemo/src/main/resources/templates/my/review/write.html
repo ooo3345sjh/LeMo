@@ -11,8 +11,9 @@
     <link rel="stylesheet" th:href="@{/css/my/my.css}">
 
     <!--dropzone-->
-    <script th:src="@{https://unpkg.com/dropzone@5/dist/min/dropzone.min.js}"></script>
-    <link rel="stylesheet" th:href="@{https://unpkg.com/dropzone@5/dist/min/dropzone.min.css}" type="text/css"/>
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+    <script th:src="@{/js/admin/dragNdrop.js}"></script>
 </th:block>
 <th:block layout:fragment="content">
             <main>
@@ -108,8 +109,9 @@
             </main>
             </th:block>
             <th:block layout:fragment="script">
-                <script th:src="@{/js/my/dropzoneJS.js}"></script>
                 <script>
+                let url = "/admin/cs/event/write";
+                let maxFiles = 1;
                     $(function(){
                             // 취소버튼 확인
                             $('.my_review_cancel').click(function(){

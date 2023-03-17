@@ -38,8 +38,12 @@
                                                 <li class="prodBtn" id="event_li">
                                                     <span class="btnEventDelete" th:data-no="${article.cs_no}">삭제</span>
                                                     <span class="btnModify">수정</span>
-                                                    <span class="btnAct" th:data-no="${article.cs_no}">활성화</span>
-                                                    <span class="btnDeAct on" th:data-no="${article.cs_no}">비활성화</span>
+                                                    <th:block th:if="${article.cs_eventState} == 2">
+                                                        <span class="btnAct on" th:data-no="${article.cs_no}">활성화</span>
+                                                    </th:block>
+                                                    <th:block th:if="${article.cs_eventState} == 1">
+                                                        <span class="btnDeAct on" th:data-no="${article.cs_no}">비활성화</span>
+                                                    </th:block>
                                                 </li>
                                             </ul>
                                             </th:block>
