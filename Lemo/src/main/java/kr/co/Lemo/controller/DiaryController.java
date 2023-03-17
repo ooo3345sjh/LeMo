@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -76,16 +77,17 @@ public class DiaryController {
 
     // @since 2023/03/16
     @ResponseBody
-    @PostMapping("rsaveComment")
+    @PostMapping("comment")
     public ResponseEntity<Map<String, String>> rsaveComment(
             @RequestBody DiaryCommentVO commentVO,
             HttpServletRequest req
     ) {
         commentVO.setUser_id("test@test.com");
         commentVO.setCom_regip(req.getRemoteAddr());
-        int result = service.rsaveComment(commentVO);
 
-        String nick = service.findCommentNick(commentVO.getCom_pno());
+        String nick = service.findCommentNick(commentVO.getCom_no());
+
+        int result = service.rsaveComment(commentVO);
 
         Map<String, String> map = new HashMap<>();
 
@@ -93,8 +95,19 @@ public class DiaryController {
         map.put("nick", "유연한뚱이210001");
         map.put("com_nick", nick);
         map.put("result", Integer.toString(result));
+        map.put("com_pno", Integer.toString(commentVO.getCom_no()));
 
         return ResponseEntity.ok(map);
+    }
+
+    // @since 2023/03/17
+    @ResponseBody
+    @DeleteMapping("comment")
+    public ResponseEntity<Integer> removeComment(@RequestBody DiaryCommentVO commentVO) {
+
+        int result = service.removeComment(commentVO.getCom_no());
+
+        return ResponseEntity.ok(result);
     }
 
 }

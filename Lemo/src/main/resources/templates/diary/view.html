@@ -49,28 +49,32 @@
                                 <ul th:if="${map.size != 0}">
                                     <!--댓글-->
                                     <th:block th:each="com:${map}">
-                                        <li th:each="comment:${map.get(com.key)}" th:classappend="${comment.com_no != comment.com_pno} ? 're_reply com__${comment.com_pno}__'">
-                                            <div class="repdiv1">
-                                                <img th:src="@{/images/admin/user_default.png}" alt="프사">
-                                                <div>
-                                                    <strong>[[${comment.nick}]]</strong><span>[[${comment.com_rdate.substring(0,10)}]]</span>
+                                        <th:block th:each="comment, i:${map.get(com.key)}">
+                                            <li th:classappend="${comment.com_no != comment.com_pno} ? 're_reply com__${comment.com_pno}__'">
+                                                <div class="repdiv1">
+                                                    <img th:src="@{/images/admin/user_default.png}" alt="프사">
+                                                    <div>
+                                                        <strong>[[${comment.nick}]]</strong><span>[[${comment.com_rdate.substring(0,10)}]]</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="repdiv2">
-                                                <p class="reply_id" th:if="${comment.com_no != comment.com_pno}">@[[${comment.nick}]]</p>
-                                                <textarea readonly>[[${comment.com_comment}]]</textarea>
-                                            </div>
-                                            <div class="repdiv3">
-                                                <div>
-                                                    <a href="#" class="showall" th:data-no="${comment.com_no}" th:if="${comment.com_no == comment.com_pno}">댓글 모두보기</a>
-                                                    <a href="#" class="comment" th:data-no="${comment.com_no}">댓글 쓰기</a>
+                                                <div class="repdiv2">
+                                                    <th:block th:if="${comment.com_no != comment.com_pno}">
+                                                        <p class="reply_id">@[[${map.get(com.key).get(0).getNick}]]</p>
+                                                    </th:block>
+                                                    <textarea readonly>[[${comment.com_comment}]]</textarea>
                                                 </div>
-                                                <div>
-                                                    <a href="#">수정</a>
-                                                    <a href="#">삭제</a>
+                                                <div class="repdiv3">
+                                                    <div>
+                                                        <a href="#" class="showall" th:data-pno="${com.key}" th:data-no="${comment.com_no}" th:if="${comment.com_no == comment.com_pno}">댓글 모두보기</a>
+                                                        <a href="#" class="comment" th:data-pno="${com.key}" th:data-no="${comment.com_no}">댓글 쓰기</a>
+                                                    </div>
+                                                    <div>
+                                                        <a href="#" class="comModify" th:data-pno="${com.key}" th:data-no="${comment.com_no}">수정</a>
+                                                        <a href="#" class="comDelete" th:data-pno="${com.key}" th:data-no="${comment.com_no}">삭제</a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </li>
+                                            </li>
+                                        </th:block>
                                     </th:block>
                                 </ul>
                             </div>

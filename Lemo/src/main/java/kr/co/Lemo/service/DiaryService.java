@@ -64,4 +64,8 @@ public class DiaryService {
         return dao.selectCommentNick(com_no);
     }
 
+    // @since 2023/03/17
+    public int removeComment(int com_no) {
+        return dao.deleteComment(com_no);
+    };
 }
