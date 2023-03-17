@@ -29,6 +29,12 @@
         WHERE `arti_no`=#{arti_no};
     </select>
 
+    <select id="selectCommentNick" resultType="string">
+        SELECT b.`nick` FROM `lemo_diary_comment` AS a JOIN
+        `lemo_member_userinfo` AS b ON a.`user_id` = b.`user_id`
+        WHERE `com_no`=#{com_no};
+    </select>
+
     <!--테스트용 사용중 아님 추후 삭제-->
     <resultMap id="DiarySpotVO" type="kr.co.Lemo.domain.DiarySpotVO">
         <result column="spot_no" property="spot_no"/>

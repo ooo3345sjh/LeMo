@@ -59,4 +59,9 @@ public class DiaryService {
         return result;
     }
 
+    // @since 2023/03/17
+    public String findCommentNick(int com_no) {
+        return dao.selectCommentNick(com_no);
+    }
+
 }

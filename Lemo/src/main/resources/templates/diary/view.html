@@ -61,8 +61,8 @@
                                                 <textarea readonly>[[${comment.com_comment}]]</textarea>
                                             </div>
                                             <div class="repdiv3">
-                                                <div th:if="${comment.com_no == comment.com_pno}">
-                                                    <a href="#" class="showall" th:data-no="${comment.com_no}">댓글 모두보기</a>
+                                                <div>
+                                                    <a href="#" class="showall" th:data-no="${comment.com_no}" th:if="${comment.com_no == comment.com_pno}">댓글 모두보기</a>
                                                     <a href="#" class="comment" th:data-no="${comment.com_no}">댓글 쓰기</a>
                                                 </div>
                                                 <div>

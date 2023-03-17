@@ -77,7 +77,7 @@ public class DiaryController {
     // @since 2023/03/16
     @ResponseBody
     @PostMapping("rsaveComment")
-    public ResponseEntity<Integer> rsaveComment(
+    public ResponseEntity<Map<String, String>> rsaveComment(
             @RequestBody DiaryCommentVO commentVO,
             HttpServletRequest req
     ) {
@@ -85,7 +85,16 @@ public class DiaryController {
         commentVO.setCom_regip(req.getRemoteAddr());
         int result = service.rsaveComment(commentVO);
 
-        return ResponseEntity.ok(result);
+        String nick = service.findCommentNick(commentVO.getCom_pno());
+
+        Map<String, String> map = new HashMap<>();
+
+        map.put("user_id", "test@test.com");
+        map.put("nick", "유연한뚱이210001");
+        map.put("com_nick", nick);
+        map.put("result", Integer.toString(result));
+
+        return ResponseEntity.ok(map);
     }
 
 }
