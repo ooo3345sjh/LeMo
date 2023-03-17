@@ -1,5 +1,6 @@
 package kr.co.Lemo.controller;
 
+import kr.co.Lemo.domain.BusinessVO;
 import kr.co.Lemo.domain.MessageVO;
 import kr.co.Lemo.domain.SmsResponseVO;
 import kr.co.Lemo.domain.UserVO;
@@ -109,7 +110,7 @@ public class UserController {
         String termsType_no = getTermsAuth(req);
 
         if(termsType_no == null){
-            return "redirect:/user/terms";
+            return "redirect:/user/terms?type="+type;
         }
 
         m.addAttribute("title", environment.getProperty(group));
@@ -130,22 +131,23 @@ public class UserController {
         log.debug("POST hpAuthentication start...");
         log.debug("code : " + code.toString());
         log.debug("hp : " + hp);
+        log.debug("type : " + type);
 
         if(!"general".equals(type) && !"business".equals(type))
             return "redirect:/user/join";
 
         String termsType_no = getTermsAuth(req);
         if(termsType_no == null){
-            return "redirect:/user/terms";
+            return "redirect:/user/terms?type="+type;
         }
 
         HttpSession session = req.getSession();
         Integer authCode = session.getAttribute("authCode") == null? null:(Integer) session.getAttribute("authCode");
 
         if(hp == null || !Pattern.matches("^01(?:0|1|[6-9])(?:\\d{4})\\d{4}$", hp))
-            return "redirect:/user/hp/auth?error=hp";
+            return "redirect:/user/hp/auth?error=hp&type="+type;
         else if(authCode == null || !authCode.equals(code))
-            return "redirect:/user/hp/auth?error=code";
+            return "redirect:/user/hp/auth?error=code&type="+type;
 
         session.setAttribute("authHp", hp);
 
@@ -172,9 +174,12 @@ public class UserController {
         String termsType_no = getTermsAuth(req);
 
         if(termsType_no == null)
-            return "redirect:/user/terms";
+            return "redirect:/user/terms?type="+type;
 
         String hp = (String)req.getSession().getAttribute("authHp");
+
+        if(hp == null)
+            return  "redirect:/user/hp/auth?type="+type;
 
         if("general".equals(type))
             return "user/signup_general";
@@ -189,12 +194,14 @@ public class UserController {
     @PostMapping("signup")
     public String signup(
             @ModelAttribute UserVO userVO,
+            @ModelAttribute BusinessVO businessVO,
             @RequestParam(name = "userType", defaultValue = "null") String type,
             Model m,
             HttpServletRequest req
     ) throws Exception {
         log.debug("POST signup start...");
         log.debug(userVO.toString());
+        log.debug(businessVO.toString());
 
         if(!"general".equals(type) && !"business".equals(type))
             return "redirect:/user/join";
@@ -205,12 +212,20 @@ public class UserController {
         String termsType_no = getTermsAuth(req);
 
         if(termsType_no == null)
-            return "redirect:/user/terms";
+            return "redirect:/user/terms?type="+type;
+
+        String hp = (String)req.getSession().getAttribute("authHp");
+
+        if(hp == null)
+            return  "redirect:/user/hp/auth?type="+type;
+
+        if("business".equals(type))
+            userVO.setBusinessVO(businessVO);
 
         setSelectedTerms(userVO, termsType_no);
         userVO.setRegip(req.getRemoteAddr());
+        userVO.setHp(hp);
         userService.saveUser(userVO);
-
 
         log.debug(termsType_no);
         return "redirect:/user/login";

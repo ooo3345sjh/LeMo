@@ -24,7 +24,7 @@
             `rdate`=NOW()
     </insert>
     <insert id="saveHomeUser">
-        INSERT INTO `lemo_member_userinfo` SET
+        INSERT INTO `lemo_member_user` SET
             `user_id`=#{user_id},
             `pass`=#{pass}
     </insert>

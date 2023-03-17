@@ -70,7 +70,7 @@ public class UserService {
             nick = "오류";
         }
         System.out.println("nick = " + nick);
-        return nick.replaceAll(" ", "");
+        return nick.replaceAll("[^a-zA-Z0-9가-힣]", "").replaceAll(" ", "");
     }
 
     // @since 2023/03/16
@@ -82,8 +82,13 @@ public class UserService {
         user.setPass(passwordEncoder.encode(user.getPass()));
         log.debug(user.toString());
         int result = 0;
-//        result = userDAO.saveUserInfo(user);
-//        result = userDAO.saveHomeUser(user.getUser_id(), user.getPass());
+        result = userDAO.saveUserInfo(user);
+        result = userDAO.saveHomeUser(user.getUser_id(), user.getPass());
+
+        if("BUSINESS".equals(user.getRole())){
+
+        }
+
         return result;
     }
 
