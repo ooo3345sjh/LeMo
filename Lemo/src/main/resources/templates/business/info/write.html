@@ -8,6 +8,7 @@
     <!-- 드래그앤드롭 파일 업로드 -->
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+    <script th:src="@{/js/admin/dragNdropTest.js}"></script>
     <!-- 다음 주소 API -->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=219050d1872ccb773b543fa419402493&libraries=services"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -15,12 +16,9 @@
     <!-- summernote -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script th:src="@{/js/admin/summernote-ko-KR.js}"></script>
     <!-- include summernote css/js -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-    <!-- 드래그앤드롭 -->
-    <script th:src="@{/js/admin/dragNdrop.js}"></script>
     <!-- 할인율 적용 -->
     <script th:src="@{/js/admin/salePercent.js}"></script>
     <style>
@@ -38,9 +36,39 @@
            background : #e6d1ff;
        }
 
-       ol, ul {
-        margin-left: 10px;
-       }
+       input[type=file] {
+            display: none;
+        }
+
+        .my_button {
+            display: inline-block;
+            width: 200px;
+            text-align: center;
+            padding: 10px;
+            background-color: #006BCC;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+
+
+        .imgs_wrap {
+
+            border: 2px solid #A8A8A8;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+
+        }
+        .imgs_wrap img {
+            max-width: 150px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+
    </style>
 
 </th:block>
@@ -108,7 +136,7 @@
                                 </div>
                                 <div id="map"></div>
                                 <div>
-                                    <input type="button" id="BtnButton" value="버튼">
+                                    <input type="button" id="BtnButton" value="주소입력">
                                 </div>
                             </div>
                             <!-- 체크인 체크아웃 기본 시간 -->
@@ -294,13 +322,39 @@
                                 </div>
                                 <div class="stayThumb" style="justify-content: center;">
                                     <div class="dropzone" id="fileDropzone">
-                                        <div>
+                                        <!--<div>
                                             <button class="dz-default dz-message" type="button">
                                                 사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
                                             </button>
+                                        </div>-->
+
+                                        <div>
+                                            <h2><b>이미지 미리보기</b></h2>
+                                            <div class="input_wrap">
+                                                <a href="javascript:" onclick="fileUploadAction();" class="my_button">파일 업로드</a>
+                                                <input type="file" id="input_imgs" multiple/>
+                                            </div>
                                         </div>
+                                        <div>
+                                            <div class="imgs_wrap">
+                                                <img id="img" />
+                                            </div>
+                                        </div>
+                                        <a href="javascript:" class="my_button" onclick="submitAction();">업로드</a>
+
+
                                     </div>
                                 </div>
+                            </div>
+
+                            <!-- 메인 정보 입력 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>메인 정보</span>
+                                    </div>
+                                </div>
+                                <input class="input_stayMention" type="text" name="acc_mainInfo" placeholder="내용을 입력해 주세요.">
                             </div>
 
                             <!-- 숙서 정보 입력 -->
@@ -324,7 +378,22 @@
                                         <span>사장님 한마디</span>
                                     </div>
                                 </div>
-                                <input class="input_stayMention" type="text" placeholder="내용을 입력해 주세요.">
+                                <input class="input_stayMention" type="text" name="acc_comment" placeholder="내용을 입력해 주세요.">
+                            </div>
+
+                            <!-- 성수기/비성수기 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>성수기/비성수기</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <select name="acc_season">
+                                        <option value="1">비성수기</option>
+                                        <option value="2">성수기</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <!-- 할인율 적용 -->
@@ -348,7 +417,7 @@
                                                 <input type="number" id="input1" placeholder="기준가 입력(원)">
                                             </td>
                                             <td>
-                                                <input type="number" id="input2" placeholder="할인율 입력(%)">
+                                                <input type="number" id="input2" placeholder="할인율 입력(%)" name="rp_peakSeason_weekday">
                                             </td>
                                             <td>
                                                 <input type="number" id="result" readonly>
@@ -360,7 +429,7 @@
                                                 <input type="number" id="input1" placeholder="기준가 입력(원)">
                                             </td>
                                             <td>
-                                                <input type="number" id="input2" placeholder="할인율 입력(%)">
+                                                <input type="number" id="input2" placeholder="할인율 입력(%)" name="rp_peakSeason_weekend">
                                             </td>
                                             <td>
                                                 <input type="number" id="result" readonly>
@@ -372,7 +441,7 @@
                                                 <input type="number" id="input1" placeholder="기준가 입력(원)">
                                             </td>
                                             <td>
-                                                <input type="number" id="input2" placeholder="할인율 입력(%)">
+                                                <input type="number" id="input2" placeholder="할인율 입력(%)" name="rp_offSeason_weekday">
                                             </td>
                                             <td>
                                                 <input type="number" id="result" readonly>
@@ -384,7 +453,7 @@
                                                 <input type="number" id="input1" placeholder="기준가 입력(원)">
                                             </td>
                                             <td>
-                                                <input type="number" id="input2" placeholder="할인율 입력(%)">
+                                                <input type="number" id="input2" placeholder="할인율 입력(%)" name="rp_offSeason_weekend">
                                             </td>
                                             <td>
                                                 <input type="number" id="result" readonly>
@@ -414,13 +483,11 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
-
-
+<script th:src="@{/js/admin/summernote-ko-KR.js}"></script>
 <script>
      $(document).ready(function() {
         $('#summernote').summernote({
             height: 450,
-            focus: true,
             lang : 'ko-KR',
             spellCheck: false,
             toolbar: [

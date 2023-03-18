@@ -209,9 +209,9 @@ public class BusinessController {
         return "business/MapTest";
     }
 
-    @GetMapping("summernoteTest")
+    @GetMapping("dragNdropTest")
     public String summernoteTest(){
-        return "business/summernoteTest";
+        return "business/dragNdropTest";
     }
 
 

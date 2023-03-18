@@ -95,6 +95,27 @@
     </insert>
 
     <!-- business - info - write (Accommodation registration) -->
+    <insert id="insertInfo">
+        insert into `lemo_product_accommodation` set
+        `user_id`='1foodtax@within.co.kr',
+        `acc_name`=#{acc_name},
+        `accType_no`=#{accType_no},
+        `province_no`=#{province_no},
+        `acc_zip`=#{acc_zip},
+        `acc_addr`=#{acc_addr},
+        `acc_addrDetail`=#{acc_addrDetail},
+        `acc_longtitude`=#{acc_longtitude},
+        `acc_lattitude`=#{acc_lattitude},
+        <include refid="insertPoint"/>,
+        `acc_mainInfo`=#{acc_mainInfo},
+        `acc_info`=#{acc_info},
+        `acc_comment`=#{acc_comment},
+        `acc_thumbs`=#{acc_thumbs},
+        `acc_rate`=#{acc_rate},
+        `acc_checkIn`=#{acc_checkIn},
+        `acc_checkOut`=#{acc_checkOut},
+        `acc_season`=#{acc_season};
+    </insert>
 
 
     <!-- business - review - reply -->
@@ -133,6 +154,13 @@
         <if test="acc_id != null">
             and b.`acc_id`=#{acc_id}
         </if>
+    </sql>
+
+    <!-- 숙소 등록 -->
+    <sql id="insertPoint">
+        <![CDATA[
+        ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{acc_longtitude}, ' ', #{acc_lattitude}, ')')))
+        ]]>
     </sql>
 
 
