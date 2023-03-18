@@ -10,15 +10,30 @@
       box-sizing: border-box;
       scroll-behavior: smooth;
   }
+  ul, ol { list-style: none; }
   a {text-decoration: none !important; color: #252525 !important;}
   input, textarea {outline: none;}
 
-  #wrapper {
-      /* overflow: hidden; */
-      min-width: 1200px;
-      height: auto;
-      margin: 0 auto;
-  }
+/*summernote*/
+.note-editor ul {
+    list-style-type: disc;
+    padding-inline-start: 40px;
+}
+.note-editor ol {
+    list-style-type: decimal;
+    padding-inline-start: 40px;
+}
+::marker {
+    font-size: 14px;
+}
+
+
+#wrapper {
+  /* overflow: hidden; */
+  min-width: 1200px;
+  height: auto;
+  margin: 0 auto;
+}
 
   /* 하이라이터 */
   .highlight {

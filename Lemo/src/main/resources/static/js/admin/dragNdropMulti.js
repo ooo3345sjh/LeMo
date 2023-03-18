@@ -1,9 +1,9 @@
-// 드래그앤드롭 파일 업로드 
+// 드래그앤드롭 파일 업로드
 
 Dropzone.autoDiscover=false;
 $(document).ready(function(){
     const myDropzone = new Dropzone('div.dropzone', {
-        url: url,       //업로드할 url (ex)컨트롤러)
+        url: "/business/info/write",       //업로드할 url (ex)컨트롤러)
         method: 'post',
         headers: {
           // 요청 보낼때 헤더 설정
@@ -28,12 +28,12 @@ $(document).ready(function(){
 
         init: function(){
             var submitButton = document.querySelector("#btnUpload");
-            var myDropzone = this; 
+            var myDropzone = this;
 
             submitButton.addEventListener("click", function () {
-        
+
             console.log("업로드");
-            
+
             // 거부된 파일이 있다면
             if (myDropzone.getRejectedFiles().length > 0) {
                 let files = myDropzone.getRejectedFiles();
@@ -41,7 +41,7 @@ $(document).ready(function(){
                 return;
             }
 
-            myDropzone.processQueue(); 
+            myDropzone.processQueue();
 
             });
 
@@ -54,47 +54,4 @@ $(document).ready(function(){
     });
 
 
-    const myDropzone2 = new Dropzone('div#fileDropzone2', {
-        url: "/admin/cs/event/write",
-        method: 'post',
-
-        autoProcessQueue: false,    // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
-        clickable: true,            // 클릭가능여부
-        thumbnailHeight: 90,        // Upload icon size
-        thumbnailWidth: 90,         // Upload icon size
-        maxFiles: 5,                // 업로드 파일수
-        maxFilesize: 10,            // 최대업로드용량 : 10MB
-        parallelUploads: 99,        // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 컨트롤러에 넘긴다.)
-        addRemoveLinks: true,       // 삭제버튼 표시 여부
-        dictRemoveFile: '삭제',     // 삭제버튼 표시 텍스트
-        uploadMultiple: true,       // 다중업로드 기능
-        acceptedFiles: '.jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF', // 이미지 파일 포맷만 허용
-        createImageThumbnails: true, //파일 업로드 썸네일 생성
-
-        init: function(){
-            var submitButton = document.querySelector("#btnUpload");
-            var myDropzone2 = this; 
-
-            submitButton.addEventListener("click", function () {
-        
-            console.log("업로드");
-            
-            // 거부된 파일이 있다면
-            if (myDropzone2.getRejectedFiles().length > 0) {
-                let files = myDropzone2.getRejectedFiles();
-                console.log('거부된 파일이 있습니다.', files);
-                return;
-            }
-
-            myDropzone2.processQueue(); 
-
-            });
-           myDropzone.on("success", function(file, response) {
-                  alert("업로드 완료!");
-                });
-        },
-
-    });
-
-        
 });
