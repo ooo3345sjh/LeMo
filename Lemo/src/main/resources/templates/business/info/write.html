@@ -8,7 +8,6 @@
     <!-- 드래그앤드롭 파일 업로드 -->
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-    <script th:src="@{/js/admin/dragNdropTest.js}"></script>
     <!-- 다음 주소 API -->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=219050d1872ccb773b543fa419402493&libraries=services"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -22,53 +21,57 @@
     <!-- 할인율 적용 -->
     <script th:src="@{/js/admin/salePercent.js}"></script>
     <style>
-       #autoMaker{
-           padding : 3px;
-           position: absolute; width: 200px;
-           height: auto; background: white;
-           margin-top: 3px; cursor:pointer;
-       }
-       #autoMaker > div{
-           border : 1px solid #e6e6e6;
-           margin-top : 3px;
-       }
-       #autoMaker > div:hover{
+        #autoMaker{
+           position: absolute;
+           width: 200px;
+           height: auto;
+           background: white;
+           cursor:pointer;
+        }
+        #autoMaker > div{
+            border: 1px solid #e6e6e6;
+            margin-top: 3px;
+            font-size: 12px;
+            padding: 5px 6px;
+            background: #fafafa;
+        }
+        #autoMaker > div:hover{
            background : #e6d1ff;
-       }
-
-       input[type=file] {
-            display: none;
         }
 
-        .my_button {
-            display: inline-block;
-            width: 200px;
-            text-align: center;
-            padding: 10px;
-            background-color: #006BCC;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
+        .wrap {
+           display: inline-block;
+           margin-right: 11px;
+           margin-bottom: 6px;
+        }
+        .preview {
+           width: 100px;
+           height: 100px;
+           background-size: cover;
+           background-repeat: no-repeat;
+           z-index: 999;
+           background-position: center;
+           pointer-events: none;
+           background-image: url(https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg);
         }
 
-
-
-        .imgs_wrap {
-
-            border: 2px solid #A8A8A8;
-            margin-top: 30px;
-            margin-bottom: 30px;
-            padding-top: 10px;
-            padding-bottom: 10px;
-
+        #wrap-container {
+           overflow: auto;
+           white-space: nowrap;
+           overflow-y: hidden;
+           margin-bottom: 7px;
         }
-        .imgs_wrap img {
-            max-width: 150px;
-            margin-left: 10px;
-            margin-right: 10px;
+        #wrap-container::-webkit-scrollbar {
+            height: 10px;
         }
-
-
+        #wrap-container::-webkit-scrollbar-thumb {
+            background: #bbd444;
+            border-radius: 10px;
+            box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+        }
+        #wrap-container::-webkit-scrollbar-track {
+            background-color: #e4e4e4;
+        }
    </style>
 
 </th:block>
@@ -87,7 +90,7 @@
                         </div>
 
                         <!-- 숙소 등록 폼 -->
-                        <form class="col_register_form" action="#">
+                        <form name="form" class="col_register_form" action="#" method="post" enctype="multipart/form-data">
                             <!-- 숙소명 등록 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -108,7 +111,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <select name="accType_no">
+                                    <select name="accType_no" class="accType">
                                         <option value="1">모텔</option>
                                         <option value="2">호텔</option>
                                         <option value="3">펜션</option>
@@ -126,18 +129,19 @@
                                 </div>
                                 <div class="stayZip">
                                     <button type="button" onclick="postcode()">주소찾기</button>
-                                    <input type="text" id="zip" name="acc_zio" readonly>
+                                    <input type="text" id="zip" name="acc_zip" readonly>
                                 </div>
                                 <div class="stayAddr1">
                                     <input type="text" id="addr" name="acc_adder" readonly>
                                 </div>
                                 <div class="stayAddr2">
                                     <input type="text" id="addrDetail" name="acc_addrDetail" placeholder="상세주소 입력">
+                                    <div>
+                                        <input type="button" id="BtnButton" value="주소입력">
+                                    </div>
                                 </div>
                                 <div id="map"></div>
-                                <div>
-                                    <input type="button" id="BtnButton" value="주소입력">
-                                </div>
+
                             </div>
                             <!-- 체크인 체크아웃 기본 시간 -->
                             <div class="col_register1">
@@ -146,13 +150,13 @@
                                         <span>기본 체크인/체크아웃 시간</span>
                                     </div>
                                 </div>
-                                <div>
-                                    <span>체크인</span>
-                                    <input type="time" name="acc_checkIn">
+                                <div class="acc_checkTime_div">
+                                    <span class="acc_checkTime_tit">체크인:</span>
+                                    <input type="time" name="acc_checkIn" class="acc_checkTime" onchange="getCheckIn">
                                 </div>
-                                <div>
-                                    <span>체크아웃</span>
-                                    <input type="time" name="acc_checkOut">
+                                <div class="acc_checkTime_div">
+                                    <span class="acc_checkTime_tit">체크아웃:</span>
+                                    <input type="time" name="acc_checkOut" class="acc_checkTime" onchange="getCheckOut">
                                 </div>
                             </div>
                             <!-- 편의시설 및 서비스 체크박스 등록 -->
@@ -163,154 +167,21 @@
                                     </div>
                                 </div>
                                 <div class="cs_checkbox">
-                                    <input type="text" id="insert_target" readonly>
-                                    <input type="text" id="search_area" autocomplete="off">
+                                    <span id="help_cs">
+                                        💡 전체 서비스 참고
+                                    </span>
+                                    <div id="result_help_cs" style="display: none;">
+                                        <ul id="result_td"></ul>
+                                    </div>
+                                    <input type="text" id="insert_target" style="display: none;">
+                                    <input type="text" id="search_area" placeholder="검색어를 입력하세요." autocomplete="off">
                                     <div id="autoMaker"></div>
-                                    <!--
-                                    <table style="width: 100%;">
-                                        <tr>
-                                            <td>
-                                                <label class="c_container">피트니스
-                                                    <input type="checkbox" checked="checked">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">와이파이
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">레스토랑
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">TV
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">에어컨
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">냉장고
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
 
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <label class="c_container">드라이기
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">장애인편의시설
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">주차장
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">무료주차
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">금연
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">카페
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <label class="c_container">수영장
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">욕조
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">스파
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">엘리베이터
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">욕실용품
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">사우나
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label class="c_container">짐보관
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">세탁기
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">건조기
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    -->
                                 </div>
-                                <div id="tag_area" style="width: 100%; margin-top: 44px;">TAG</div>
+                                <div id="tag_area" style="width: 100%; margin-top: 44px;">
+                                    <img th:src="@{/images/admin/label.png}" width="15px;">&nbsp;TAG
+                                </div>
+
                             </div>
 
                             <!-- 숙소 썸네일 이미지 -->
@@ -321,29 +192,24 @@
                                     </div>
                                 </div>
                                 <div class="stayThumb" style="justify-content: center;">
-                                    <div class="dropzone" id="fileDropzone">
-                                        <!--<div>
-                                            <button class="dz-default dz-message" type="button">
-                                                사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
-                                            </button>
-                                        </div>-->
-
-                                        <div>
-                                            <h2><b>이미지 미리보기</b></h2>
-                                            <div class="input_wrap">
-                                                <a href="javascript:" onclick="fileUploadAction();" class="my_button">파일 업로드</a>
-                                                <input type="file" id="input_imgs" multiple/>
+                                    <div id="fileDropzone">
+                                        <div id="wrap-container"></div>
+                                        <button type="button" id="add-wrap-button">사진 추가</button>
+                                        <div class="flex-container">
+                                            <div id="wrap-template" style="display: none">
+                                                <div class="wrap" style="position: relative;">
+                                                    <input class="insertFile" type="file" accept="image/*" name="file"/>
+                                                    <div class="preview" style="width:200px; height:200px;"></div>
+                                                    <div class="file_edit">
+                                                        <button type="button" class="preview_de">
+                                                            <img th:src="@{/images/admin/cross.png}">
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div>
-                                            <div class="imgs_wrap">
-                                                <img id="img" />
-                                            </div>
-                                        </div>
-                                        <a href="javascript:" class="my_button" onclick="submitAction();">업로드</a>
-
-
                                     </div>
+                                    <input type="hidden" id="fileNames" />
                                 </div>
                             </div>
 
@@ -366,7 +232,21 @@
                                 </div>
                                 <div class="stayInfoContent">
                                     <textarea class="notice_text" id="summernote" name="acc_info">
+                                        <p style="font-size: 15px; font-weight:500">주변정보</p>
+                                        <ul>
+                                            <li style="font-size: 13px;">주변 정보를 입력해 주십시오.</li>
+                                        </ul>
+                                        <hr>
+                                        <p style="font-size: 15px; font-weight:500">기본정보</p>
+                                        <ul>
+                                            <li style="font-size: 13px;">체크인 :</li>
+                                            <li style="font-size: 13px;">체크아웃 :</li>
+                                        </ul>
 
+                                        <p style="font-size: 13px;">그 외 기본 정보를 입력해 주십시오.</p>
+                                        <hr>
+                                        <p style="font-size: 15px; font-weight:500">인원추가정보</p>
+                                        <p style="font-size: 13px;">기준 인원 외 추가 인원 발생 시 요금 정보를 입력해 주십시오.</p>
                                     </textarea>
                                 </div>
                             </div>
@@ -389,7 +269,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <select name="acc_season">
+                                    <select name="acc_season" class="acc_season">
                                         <option value="1">비성수기</option>
                                         <option value="2">성수기</option>
                                     </select>
@@ -463,15 +343,15 @@
 
                                 </div>
                                 <span class="result_stayName">
-                                    💡 해당 기준가와 할인가는 예시일뿐 실제 할인율 값이 적용됩니다
+                                    💡 해당 기준가와 할인가는 예시일뿐 <i class="result_highlight">할인율 값만 적용</i>됩니다
                                 </span>
                             </div>
 
 
                             <div class="btnAdminProd" id="btnUpload">
-                                <a href="#">
+                                <button type="submit">
                                     숙소등록
-                                </a>
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -485,7 +365,9 @@
 <th:block layout:fragment="script">
 <script th:src="@{/js/admin/summernote-ko-KR.js}"></script>
 <script>
+
      $(document).ready(function() {
+        // 써머노트
         $('#summernote').summernote({
             height: 450,
             lang : 'ko-KR',
@@ -496,11 +378,20 @@
                 ['font', ['strikethrough']],
                 ['fontsize', ['fontsize']],
                 ['color', ['color']],
-                ['table', ['table']],
+                ['table', ['table', 'hr']],
                 ['para', ['ul', 'ol', 'paragraph']]
             ]
         });
+
+        // input 엔터키 submit 막기
+        $('input[type="text"]').keydown(function() {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+            };
+        });
+
     });
+
 
     // 다음 주소 API 입력 주소 -> 위도, 경도 변환
     const btnButton = document.getElementById("BtnButton");
@@ -525,12 +416,44 @@
 
             }
         });
+        alert('주소가 입력되었습니다.');
+
+   });
+
+   // 편의시설 카테고리 전체보기
+   var help = document.getElementById("help_cs");
+   var result_help = document.getElementById("result_help_cs");
+   var result_td = document.getElementById("result_td");
+
+   help.addEventListener("click", function(){
+        alert('here');
+
+        if(result_help.style.display === 'none'){
+            result_help.style.display = 'block';
+
+            ajaxAPI("business/info/findService", null, "GET").then((response)=>{
+                console.log('response1 : %o', response);
+
+                result_td.innerHTML = "";
+
+                for (let i = 0; i < response.length; i++) {
+                    console.log("sc_name1 : %s", response[i].sc_name);
+                    let li = document.createElement('li');
+                    li.innerHTML = response[i].sc_name;
+                    result_td.appendChild(li);
+                }
+
+            }).catch((errorMsg)=>{
+                console.log(errorMsg);
+            });
+        }else if(result_help.style.display === 'block'){
+           result_help.style.display = 'none'
+        }
 
 
-       });
+   });
 
     // 편의시설 자동완성
-
     const search_area = document.getElementById("search_area");
     let ref = [];
     let isComplete = false; // autoMaker 자식이 선택되었는지 여부
@@ -556,8 +479,6 @@
         }).catch((errorMsg)=>{
             console.log(errorMsg);
         });
-
-
     });
 
     function keyUP(){
@@ -596,7 +517,161 @@
         }
     }
 
+    // 사진 업로드
+    $(document).ready(function() {
+        let wrapCount = 0;      // 사진 추가 버튼 누를 때마다 div 추가하기 위해 첫 wrapCount = 0
+        const maxWraps = 20;    // 최대 추가 가능 이미지 개수
 
+        // wrap div 추가하기
+        function addWrap() {
+            // wrap 템플릿 복사하기
+            const wrapTemplate = document.querySelector('#wrap-template');
+            const wrapClone = wrapTemplate.cloneNode(true);
+            wrapClone.removeAttribute('id');
+            wrapClone.style.display = 'inline-block';
+
+            // wrapCount += 1, data-fileindex 업데이트
+            wrapCount++;
+            wrapClone.querySelector('.insertFile').setAttribute('data-fileindex', wrapCount);
+            wrapClone.querySelector('.preview').setAttribute('data-previewindex', wrapCount);
+
+            // 복사한 wrap 추가
+            document.querySelector('#wrap-container').appendChild(wrapClone);
+
+            // 이벤트 요소 추가
+            const newInput = wrapClone.querySelector('.insertFile');
+            newInput.addEventListener('change', (event) => {
+                const selectedFile = event.target.files[0];
+                const fileIndex = event.target.getAttribute('data-fileindex');
+                console.log(selectedFile);
+                console.log(fileIndex);
+
+                // 업로드 사진 미리보기
+                const reader = new FileReader();
+                reader.onload = () => {
+                  const previewIndex = document.querySelector(`[data-previewindex="${fileIndex}"]`);
+                  previewIndex.style.backgroundImage = `url('${reader.result}')`;
+                }
+                reader.readAsDataURL(selectedFile);
+            });
+
+            // 삭제 버튼
+            const newDeleteButton = wrapClone.querySelector('.preview_de');
+            newDeleteButton.addEventListener('click', () => {
+
+                // 해당 wrap 삭제
+                wrapClone.remove();
+
+                // 파일 삭제
+                newInput.value = '';
+
+                // 미리보기 삭제
+                const previewIndex = wrapClone.querySelector('.preview').getAttribute('data-previewindex');
+                document.querySelector(`[data-previewindex="${previewIndex}"]`).style.backgroundImage = '';
+            });
+        }
+
+        // '추가하기' 버튼
+        const addButton = document.querySelector('#add-wrap-button');
+        addButton.addEventListener('click', () => {
+            if (wrapCount < maxWraps) {
+                addWrap();
+            } else {
+                alert('사진은 최대 20장까지 등록할 수 있습니다.');
+            }
+        });
+    });
+
+    // 업로드 사진 이름 랜덤 + 하나로
+    $('.insertFile').on('change', function(){
+        var files = $(this).get(0).files();
+        var fileNames = [];     // 빈 배열 생성
+
+        for (var i = 0; i < files.length; i++) {
+            var oriName = files[i].name;
+            var ext = oriName.substring(oriName.indexOf("."));
+            var newName = UUID.randomUUID().toString() + ext;
+            fileNames.push(newName);     // 배열에 파일 랜덤 이름 추가
+        }
+        $('#fileNames').val(fileNames.join('/'));  // hidden input에 /로 하나로 모으기
+
+    });
+
+    // 유효성 검사
+    window.onload = function (){
+        let acc_name = document.querySelector(".input_stayName");
+        let addrDetail = document.querySelector("#input_addrDetail");
+        let tag = document.querySelector('#tag_area');
+        let checkInTime = document.querySelector('input[name="acc_checkIn"]').value;
+        let checkOutTime = document.querySelector('input[name="acc_checkOut"]').value;
+        let summernote = document.querySelector("#summernote");
+        var fileNamesInput = $('#fileNames');
+
+        form.addEventListener('submit', function(e){
+
+            // 숙소명
+            if(acc_name.value.trim() === '') {
+                alert('숙소명을 입력해 주십시오.');
+                return;
+            }
+
+            // 주소
+            if(addrDetail.value.trim() === '') {
+                alert('주소를 입력해 주십시오.');
+                return;
+            }
+
+            // 체크인, 체크아웃
+            if(checkInTime === '' || checkOutTime === '') {
+                alert('체크인 및 체크아웃 시간을 선택해 주십시오.');
+                return;
+            }
+
+            // 편의시설 및 서비스 태그
+            if(tag.text().trim() === 'TAG') {
+                alert('태그를 최소 1개 이상 등록해 주세요.');
+                return;
+            }
+
+            // 숙소 정보
+            if (summernote.value.trim() === "") {
+              alert("숙소 정보를 입력해 주십시오.");
+              return;
+            }
+
+            let basicForm =
+              '<p style="font-size: 15px; font-weight:500">주변정보</p>\n<ul>\n<li style="font-size: 13px;">주변 정보를 입력해 주십시오.</li>\n</ul>\n<hr>\n<p style="font-size: 15px; font-weight:500">기본정보</p>\n<ul>\n<li style="font-size: 13px;">체크인 :</li>\n<li style="font-size: 13px;">체크아웃 :</li>\n</ul>\n<p style="font-size: 13px;">그 외 기본 정보를 입력해 주십시오.</p>\n<hr>\n<p style="font-size: 15px; font-weight:500">인원추가정보</p>\n<p style="font-size: 13px;">기준 인원 외 추가 인원 발생 시 요금 정보를 입력해 주십시오.</p>';
+
+            if (summernote.value.trim() === basicForm) {
+              alert("기본정보 이외에 다른 정보를 입력해 주십시오.");
+              return;
+            }
+
+            // 할인율 적용
+            if (!$("input[name='rp_peakSeason_weekday']").val() || !$("input[name='rp_peakSeason_weekend']").val() || !$("input[name='rp_offSeason_weekday']").val() || !$("input[name='rp_offSeason_weekend']").val()) {
+              alert("할인율을 입력해 주십시오.");
+              return;
+            }
+
+            // 숙소 이미지
+            if(wrapCount === 0) {
+                alert('사진을 최소 1장 이상 등록해 주세요.');
+                return;
+            }
+
+            if (fileNamesInput.length && fileNamesInput.val() !== '') {
+                fileNamesInput.attr('name', 'acc_thumbs');   // hidden 타입의 input 이름 설정
+                fileNamesInput.appendTo('#fileDropzone'); // hidden 타입 input 추가
+            } else {
+                alert('사진을 최소 1장 이상 등록해 주세요.');
+                return false;
+            }
+
+
+        });
+
+
+    }
 
 
 
