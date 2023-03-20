@@ -60,7 +60,12 @@
         WHERE `user_id` = #{user_id};
     </select>
 
-
+    <select id="selectDiaries" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
+        SELECT b.* FROM `lemo_product_reservation` AS a
+        JOIN `lemo_diary_article` AS b
+        ON a.res_no = b.res_no
+        WHERE `acc_id` = #{acc_id} ;
+    </select>
 
 
 
