@@ -1,99 +1,79 @@
-Dropzone.autoDiscover=false;
-        $(function(){
-            const myDropzone = new Dropzone('form.dropzone', {
-                url: "/test/dropzone",
-                method:'post',
+// 사진 업로드
+    $(document).ready(function() {
+        let wrapCount = 0;      // 사진 추가 버튼 누를 때마다 div 추가하기 위해 첫 wrapCount = 0
+        const maxWraps = 20;    // 최대 추가 가능 이미지 개수
 
+        // wrap div 추가하기
+        function addWrap() {
+            // wrap 템플릿 복사하기
+            const wrapTemplate = document.querySelector('#wrap-template');
+            const wrapClone = wrapTemplate.cloneNode(true);
+            wrapClone.removeAttribute('id');
+            wrapClone.style.display = 'inline-block';
 
+            // wrapCount += 1, data-fileindex 업데이트
+            wrapCount++;
+            wrapClone.querySelector('.insertFile').setAttribute('data-fileindex', wrapCount);
+            wrapClone.querySelector('.preview').setAttribute('data-previewindex', wrapCount);
 
+            // 복사한 wrap 추가
+            document.querySelector('#wrap-container').appendChild(wrapClone);
 
-               autoProcessQueue: false, // 자동으로 보내기. true : 파일 업로드 되자마자 서버로 요청, false : 서버에는 올라가지 않은 상태. 따로 this.processQueue() 호출시 전송
-               clickable: true, // 클릭 가능 여부
-               autoQueue: false, // 드래그 드랍 후 바로 서버로 전송
-               createImageThumbnails: true, //파일 업로드 썸네일 생성
+            // 이벤트 요소 추가
+            const newInput = wrapClone.querySelector('.insertFile');
+            newInput.addEventListener('change', (event) => {
+                const selectedFile = event.target.files[0];
+                const fileIndex = event.target.getAttribute('data-fileindex');
+                console.log(selectedFile);
+                console.log(fileIndex);
 
-               thumbnailHeight: 90, // Upload icon size
-               thumbnailWidth: 90, // Upload icon size
+                // 업로드 사진 미리보기
+                const reader = new FileReader();
+                reader.onload = () => {
+                  const previewIndex = document.querySelector(`[data-previewindex="${fileIndex}"]`);
+                  previewIndex.style.backgroundImage = `url('${reader.result}')`;
+                }
+                reader.readAsDataURL(selectedFile);
+            });
 
-               maxFiles: 5, // 업로드 파일수
-               maxFilesize: 100, // 최대업로드용량 : 100MB
-               paramName: 'image', // 서버에서 사용할 formdata 이름 설정 (default는 file)
-               parallelUploads: 5, // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 넘긴다.)
-               uploadMultiple: true, // 다중업로드 기능
-               timeout: 300000, //커넥션 타임아웃 설정 -> 데이터가 클 경우 꼭 넉넉히 설정해주자
+            // 삭제 버튼
+            const newDeleteButton = wrapClone.querySelector('.preview_de');
+            newDeleteButton.addEventListener('click', () => {
 
-               addRemoveLinks: true, // 업로드 후 파일 삭제버튼 표시 여부
-               dictRemoveFile: '삭제', // 삭제버튼 표시 텍스트
-               acceptedFiles: '.jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF', // 이미지 파일 포맷만 허용
+                // 해당 wrap 삭제
+                wrapClone.remove();
 
-               init: function () {
-                  // 최초 dropzone 설정시 init을 통해 호출
-                  console.log('최초 실행');
-                  let myDropzone = this; // closure 변수 (화살표 함수 쓰지않게 주의)
+                // 파일 삭제
+                newInput.value = '';
 
-                   console.log("myDropzone : " + myDropzone);
-                   console.log("myDropzone : " + myDropzone.getSize());
-                   console.log("myDropzone : " + myDropzone.getFile());
+                // 미리보기 삭제
+                const previewIndex = wrapClone.querySelector('.preview').getAttribute('data-previewindex');
+                document.querySelector(`[data-previewindex="${previewIndex}"]`).style.backgroundImage = '';
+            });
+        }
 
+        // '추가하기' 버튼
+        const addButton = document.querySelector('#add-wrap-button');
+        addButton.addEventListener('click', () => {
+            if (wrapCount < maxWraps) {
+                addWrap();
+            } else {
+                alert('사진은 최대 20장까지 등록할 수 있습니다.');
+            }
+        });
+    });
 
-                  // 서버에 제출 submit 버튼 이벤트 등록
-                  document.querySelector('#btn_upload').addEventListener('click', function (e) {
-                     console.log('업로드');
-                     e.preventDefault();
+    // 업로드 사진 이름 랜덤 + 하나로
+    $('.insertFile').on('change', function(){
+        var files = $(this).get(0).files();
+        var fileNames = [];     // 빈 배열 생성
 
+        for (var i = 0; i < files.length; i++) {
+            var oriName = files[i].name;
+            var ext = oriName.substring(oriName.indexOf("."));
+            var newName = UUID.randomUUID().toString() + ext;
+            fileNames.push(newName);     // 배열에 파일 랜덤 이름 추가
+        }
+        $('#fileNames').val(fileNames.join('/'));  // hidden input에 /로 하나로 모으기
 
-                     // 거부된 파일이 있다면
-                     if (myDropzone.getRejectedFiles().length > 0) {
-                        let files = myDropzone.getRejectedFiles();
-                        console.log('거부된 파일이 있습니다.', files);
-                        return;
-                     }
-
-                     myDropzone.processQueue(); // autoProcessQueue: false로 해주었기 때문에, 메소드 api로 파일을 서버로 제출
-                  });
-                    
-                    let addedfile = myDropzone.file;
-                    console.log("addedfile : " + addedfile);
-                    let addedFiles = [];
-
-                  // 파일이 업로드되면 실행
-                  this.on('addedfile', function (file) {
-                     // 중복된 파일의 제거
-                     if (this.files.length) {
-                        // -1 to exclude current file
-                        var hasFile = false;
-                        for (var i = 0; i < this.files.length - 1; i++) {
-                           if (
-                              this.files[i].name === file.name &&
-                              this.files[i].size === file.size &&
-                              this.files[i].lastModifiedDate.toString() === file.lastModifiedDate.toString()
-                           ) {
-                              hasFile = true;
-                              this.removeFile(file);
-                           }
-                        }
-                        if (!hasFile) {
-                           addedFiles.push(file);
-                        }
-                     } else {
-                        addedFiles.push(file);
-                     }
-                  });
-
-                  // 업로드한 파일을 서버에 요청하는 동안 호출 실행
-                  this.on('sending', function (file, xhr, formData) {
-                     console.log('보내는중');
-                  });
-
-                  // 서버로 파일이 성공적으로 전송되면 실행
-                  this.on('success', function (file, responseText) {
-                     console.log('성공');
-                  });
-
-                  // 업로드 에러 처리
-                  this.on('error', function (file, errorMessage) {
-                     alert(errorMessage);
-                  });
-               },
-             });
-          });
+    });

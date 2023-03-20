@@ -795,6 +795,32 @@ main .col_register1 .stayThumb {
     justify-content: center;
     margin: auto 0;
 }
+
+#wrap-container {
+    overflow: auto;
+    white-space: nowrap;
+    overflow-y: hidden;
+    margin-bottom: 7px;
+}
+
+main #add-wrap-button1{
+        box-shadow: inset 0px 1px 0px 0px #ffffff;
+        background: linear-gradient(to bottom, #fafafa 5%, #e7e7e7 100%);
+        background-color: #ffffff;
+        border-radius: 6px;
+        border: 1px solid #dcdcdc;
+        display: inline-block;
+        cursor: pointer;
+        color: #666666;
+        width: 85px;
+        font-size: 12px;
+        font-weight: 500;
+        padding: 3px 10px;
+        height: 27px;
+        float: left;
+        margin-left: 6px;
+}
+
 main .col_register1 .stayThumb > .st_inner {
     flex: 0 0 auto;
     width: 100%;
