@@ -32,7 +32,7 @@ $(function(){
 
             submitButton.addEventListener("click", function () {
         
-            console.log("업로드");
+            console.log("업로드1", myDropzone.files);
             
             // 거부된 파일이 있다면
             if (myDropzone.getRejectedFiles().length > 0) {
@@ -77,7 +77,7 @@ $(function(){
 
             submitButton.addEventListener("click", function () {
         
-            console.log("업로드");
+            console.log("업로드2", myDropzone2.files);
             
             // 거부된 파일이 있다면
             if (myDropzone2.getRejectedFiles().length > 0) {

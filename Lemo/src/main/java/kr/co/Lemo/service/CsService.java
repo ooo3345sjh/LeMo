@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.util.List;
 
@@ -117,8 +118,13 @@ public class CsService {
     }
 
     /** insert **/
+    @Transactional
     public int rsaveEventArticle(CsVO vo){
-        return dao.insertEventArticle(vo);
+
+        int result = dao.insertEventArticle(vo);
+
+
+        return result;
     }
 
     public int rsaveNoticeArticle(CsVO vo) {
