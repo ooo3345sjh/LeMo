@@ -14,5 +14,5 @@
     <th:block layout:fragment="script"></th:block>
     <script th:src="@{/js/common/googlemap.js}"></script>
     <!-- googleSearchAPI -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBntl8pNwtscVPGQraeyZVdAJ9AaH9bWBw&libraries=places&callback=initMap"></script>
+    <script th:src="|https://maps.googleapis.com/maps/api/js?key=${@environment.getProperty('googleMap.key')}&libraries=places&callback=initMap|"></script>
 </body>

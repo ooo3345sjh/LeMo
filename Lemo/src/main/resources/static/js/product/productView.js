@@ -31,6 +31,17 @@ function remove_tab_class(){
     $('.prodQna').attr('style', "display:none;");
 }
 
+/* 탭의 데이터 로드 */
+function loadData(cate, acc_id) {
+
+    let url = "/Lemo/product/loadData?cate=" + cate + "&acc_id=" + acc_id;
+
+    $('#detail_'+cate).load(url, function() {
+        console.log('load complete!');
+    });
+
+}
+
 
 // 현재 주소의 파라미터
 const urlParams = new URLSearchParams(window.location.search);
@@ -58,7 +69,7 @@ $(function(){
     });
     
     /** 사장님 한마디 확장/축소 */
-    $('.sellerComment > button').click(function(){
+    $(document).on('click', '.sellerComment > button', function(){
 
         if( $(this).text() == '더보기' ){
             $('.sellerComment > div').removeClass('clamp');
@@ -94,14 +105,14 @@ $(function(){
     }); 
 
     /** 쿠폰 팝업 */
-    $('.product_coupon').click(function(){
+    $(document).on('click', '.product_coupon', function(){
         $('#popup_coupon').addClass('on');
     });
     
     /** 쿠폰 팝업 해제 */
 
     /** 확장 이미지 닫기 버튼 */
-    $('.expansionImg > button').click(function(){
+    $(document).on('click', '.expansionImg > button', function(){
         $(this).parent().removeClass('on');
         let count = $(this).parent().parent().parent().index();
         
@@ -112,55 +123,29 @@ $(function(){
     });
 
     /** 객실안내/예약 팝업 */
-    $('#showRoom').click(function(){
+    $(document).on('click' ,'#showRoom',function(){
         remove_tab_class();
         $(this).addClass('on');
         $('#detail_room').attr('style', "display:block;");
     });
 
     /** 탭 - 숙소정보 */
-    $('#showInfo').click(function(){
+    $(document).on('click', '#showInfo', function(){
         remove_tab_class();
         $(this).addClass('on');
-
-//        let url = "/Lemo/product/getview?cate=info&acc_id="+acc_id;
-//
-//        $('#detail_info').load(url + ' #detail_info', function() {
-//            console.log('load complete!');
-//        });
-
-//        $.ajax({
-//            type: "GET",
-//            url: "/Lemo/product/getview?cate=info&acc_id="+acc_id,
-//            dataType: "text"
-//        }).done(function(response){
-//            $('#detail_info').replaceWith(response);
-//        }).fail(function(jqXHR) {
-//            alert('fail');
-//            console.log(jqXHR);
-//        });
-
-
-//        ajaxAPI("product/getview?cate=info&acc_id="+acc_id, null, "GET").then((response) => {
-//
-//            console.log(response);
-//
-//            $('#detail_info').html(response);
-//            alert('성공이야!');
-//
-//        }).catch((errorMsg) => {
-//            alert('에러!');
-//            console.log(errorMsg)
-//        });
 
         $('.detail_info').attr('style', "display:block;");
 
     });
 
     /** 탭 - 리뷰 */
-    $('#showReview').click(function(){
+    $(document).on('click','#showReview', function(){
         remove_tab_class();
         $(this).addClass('on');
+
+        let cate = 'review';
+        loadData(cate, acc_id);
+
         $('.detail_review').attr('style', "display:block;");
 
         /** 리뷰 사진 슬라이더 */
@@ -171,22 +156,31 @@ $(function(){
     });
 
     /** 탭 - 여행일기 */
-    $('#showDiary').click(function(){
+    $(document).on('click','#showDiary', function(){
         remove_tab_class();
         $(this).addClass('on');
+
+        let cate = 'diary';
+        loadData(cate, acc_id);
+
         $('.detail_diary').attr('style', 'display:block');
     });
 
     /** 탭 - 문의하기 */
-    $('#showQna').click(function(){
+    $(document).on('click', '#showQna', function(){
         remove_tab_class();
         $(this).addClass('on');
-        $('.prodQna').attr('style', "display:block;");
+
+        let cate = 'qna';
+        loadData(cate, acc_id);
+
+        $('.prodQna').attr('style', 'display:block');
+
     });
 
     /** 숙소정보 */
     /** 숙소정보 - 기본정보 */
-    $('.detail_info_default').click(function(){
+    $(document).on('click', '.detail_info_default', function(){
         
         let info_default = $(this).next().attr('class')
 
@@ -198,7 +192,7 @@ $(function(){
     });
 
     /** 숙소정보 - 편의시설 및 서비스 */
-    $('.detail_info_service').click(function(){
+    $(document).on('click', '.detail_info_service', function(){
         let info_service = $(this).next().attr('class')
         
         if( info_service == 'info_service' ){
@@ -209,7 +203,7 @@ $(function(){
     });
 
     /** 숙소정보 - 판매자 정보 */
-    $('.detail_info_seller').click(function(){
+    $(document).on('click','.detail_info_seller',function(){
         let info_seller = $(this).next().attr('class')
         
         if( info_seller == 'info_seller' ){

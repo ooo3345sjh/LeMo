@@ -1,7 +1,9 @@
 package kr.co.Lemo.controller;
 
+import kr.co.Lemo.domain.ArticleDiaryVO;
 import kr.co.Lemo.domain.BusinessInfoVO;
 import kr.co.Lemo.domain.ProductAccommodationVO;
+import kr.co.Lemo.domain.ServiceCateVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
 import kr.co.Lemo.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -67,6 +69,16 @@ public class ProductController {
         // 숙소 정보 가져오기
         List<ProductAccommodationVO> rooms = service.findAccommodation(acc_id, checkIn, checkOut);
 
+        String user_id = rooms.get(0).getUser_id();
+        
+        // 서비스 카테 가져오기
+        List<ServiceCateVO> scs = service.findAllServiceCate(acc_id);
+
+        // 판매자 정보 가져오기
+        BusinessInfoVO bv = service.findBusinessInfo(user_id);
+
+        model.addAttribute("scs", scs);
+        model.addAttribute("bv", bv);
         model.addAttribute("rooms", rooms);
         model.addAttribute("checkIn", checkIn);
         model.addAttribute("checkOut", checkOut);
@@ -85,27 +97,35 @@ public class ProductController {
     }
 
     // @since 2023/03/19
-    @GetMapping("getview")
-    public String getview(Model model,
+    @GetMapping("loadData")
+    public String loadData(Model model,
                           int acc_id ,
                           String cate) throws Exception {
 
-        log.debug("Get getview start");
+        log.debug("Get loadData start");
 
-        log.info("cate" + cate);
-        log.info("acc_id" + acc_id);
+        log.info("cate : " + cate);
 
-        //List<ServiceCateVO> scs = service.findAllServiceCate(acc_id);
-        //model.addAttribute("scs", scs);
+        // 리뷰
+        if(cate.equals("review")){
 
-        String user_id = "1000hyeok0819@naver.com";
+            log.info("here");
 
-        BusinessInfoVO bv = service.findBusinessInfo(user_id);
+            return "product/data/detailReview";
 
+        }else if(cate.equals("diary")) {
 
-        log.info("bv : " + bv);
+            List<ArticleDiaryVO> articles = service.findAllDiary(acc_id);
+            model.addAttribute("vos", articles);
 
-        return "product/data";
+            return "product/data/detailDiary";
+
+        }else if(cate.equals("qna")) {
+
+            return "product/data/detailQna";
+        }
+
+        return "product/list";
     }
 
 }

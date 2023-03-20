@@ -1,5 +1,6 @@
 package kr.co.Lemo.dao;
 
+import kr.co.Lemo.domain.ArticleDiaryVO;
 import kr.co.Lemo.domain.BusinessInfoVO;
 import kr.co.Lemo.domain.ProductAccommodationVO;
 import kr.co.Lemo.domain.ServiceCateVO;
@@ -25,7 +26,6 @@ public interface ProductDAO {
     // select
     public int countTotal(SearchCondition sc);
 
-
     // @since 2023/03/09
     public List<ProductAccommodationVO> selectAccommodations(SearchCondition sc);
 
@@ -38,6 +38,9 @@ public interface ProductDAO {
 
     // @since 2023/03/19
     public BusinessInfoVO selectBusinessInfo(@Param("user_id") String user_id);
+
+    // @since 2023/03/20
+    public List<ArticleDiaryVO> selectDiaries(@Param("acc_id") int acc_id);
 
     // update
 

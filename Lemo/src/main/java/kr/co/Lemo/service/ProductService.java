@@ -3,13 +3,16 @@ package kr.co.Lemo.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.Lemo.dao.ProductDAO;
+import kr.co.Lemo.domain.ArticleDiaryVO;
 import kr.co.Lemo.domain.BusinessInfoVO;
 import kr.co.Lemo.domain.ProductAccommodationVO;
 import kr.co.Lemo.domain.ServiceCateVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
 import kr.co.Lemo.utils.PageHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -39,6 +42,9 @@ public class ProductService {
 
     @Autowired
     private ProductDAO dao;
+
+    @Value("${kakaoMap.AdminKey}")
+    private String serviceKey;
 
     // insert
 
@@ -139,6 +145,11 @@ public class ProductService {
         return dao.selectBusinessInfo(user_id);
     }
 
+    // @since 2023/03/20
+    public List<ArticleDiaryVO> findAllDiary(@Param("acc_id") int acc_id){
+        return dao.selectDiaries(acc_id);
+    }
+
     // update
 
     // delete
@@ -154,7 +165,6 @@ public class ProductService {
         keyword = URLEncoder.encode(keyword, "UTF-8");
 
         String apiURL = "http://dapi.kakao.com/v2/local/search/keyword.json";
-        String serviceKey = "b1e7614910a4b6cb075115cef338f033";
 
         URI uri = UriComponentsBuilder
                 .fromUriString(apiURL)
