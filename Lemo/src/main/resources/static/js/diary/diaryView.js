@@ -237,6 +237,7 @@ $(function(){
 
         let textarea = $(this).parent().parent().prev().children('textarea');
         textarea.removeAttr('readonly');
+<<<<<<< HEAD
         textarea.css("height", "80px");
         textarea.css("background", "#f9f8e0");
         textarea.css("padding", "5px");
@@ -287,5 +288,7 @@ $(function(){
                 alert('다시 시도해주세요!');
             }
         });
+=======
+>>>>>>> 996852e16c5db545f7c1363e0dc629e1738d6617
     });
 });
