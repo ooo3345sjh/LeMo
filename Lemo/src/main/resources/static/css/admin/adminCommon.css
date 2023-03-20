@@ -176,6 +176,10 @@ main .sidebar > .sidebar_menu .sidebar_collapse_menu a {
     margin-top: 0;
     margin-left: 0;
     z-index: 0;
+    cursor: pointer;
+}
+main .sidebar > .sidebar_menu .sidebar_collapse_menu a:hover {
+    font-weight: 400;
 }
 /* 우측 메인 컨테이너 */
 main .main_content {

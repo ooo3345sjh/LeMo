@@ -1,6 +1,7 @@
 package kr.co.Lemo.dao;
 
 import kr.co.Lemo.domain.CouponVO;
+import kr.co.Lemo.domain.ProvinceVO;
 import kr.co.Lemo.domain.ReviewVO;
 import kr.co.Lemo.domain.ServiceCateVO;
 import kr.co.Lemo.utils.SearchCondition;
@@ -44,6 +45,9 @@ public interface BusinessDAO {
 
     // @since 2023/03/17
     public List<ServiceCateVO> selectService();
+
+    // @since 2023/03/20
+    public List<ProvinceVO> selectProvince();
 
     // @since 2023/03/13
     public void insertCoupon(CouponVO vo);
