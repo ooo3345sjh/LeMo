@@ -57,7 +57,18 @@ public class Oauth2Entity {
                         .user_id(format("%s_%s", name(), resp.get("id")))
                         .provider(naver)
                         .email(""+resp.get("email"))
-                        .soci_typ("naber")
+                        .soci_typ("naver")
+                        .build();
+            }
+        },
+        kakao{
+            public Oauth2Entity convert(OAuth2User user){
+                Map<String, Object> resp = user.getAttribute("response");
+                return Oauth2Entity.builder()
+                        .user_id(format("%s_%s", name(), resp.get("id")))
+                        .provider(kakao)
+                        .email(""+resp.get("email"))
+                        .soci_typ("kakao")
                         .build();
             }
         };
