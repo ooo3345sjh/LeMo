@@ -91,6 +91,7 @@
 
                         <!-- 숙소 등록 폼 -->
                         <form name="form" class="col_register_form" action="#" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="sc_no">
                             <!-- 숙소명 등록 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -349,7 +350,7 @@
 
 
                             <div class="btnAdminProd" id="btnUpload">
-                                <button type="submit">
+                                <button type="submit" id="btnSubmit">
                                     숙소등록
                                 </button>
                             </div>
@@ -426,7 +427,6 @@
    var result_td = document.getElementById("result_td");
 
    help.addEventListener("click", function(){
-        alert('here');
 
         if(result_help.style.display === 'none'){
             result_help.style.display = 'block';
@@ -456,6 +456,7 @@
     // 편의시설 자동완성
     const search_area = document.getElementById("search_area");
     let ref = [];
+    let submitRef = [];
     let isComplete = false; // autoMaker 자식이 선택되었는지 여부
 
     search_area.addEventListener("click", function(){
@@ -498,7 +499,11 @@
                     $('#search_area').val($(this).text());
                     $('#insert_target').val("sc_no : "+$(this).attr('sc_no')+ ", sc_name : " + $(this).text());
 
-                    let temp = '<div name="sc_no" value="'+$(this).attr('sc_no')+'">#'+$(this).text()+'</div>';
+                    let temp = '<div class="checkNo'+ $(this).attr('sc_no') +'">';
+                       temp += '<input type="hidden" name="sc_no" class="checkNo'+ $(this).attr('sc_no') +'" data-value="'+$(this).attr('sc_no')+'">#'+$(this).text()+'</>';
+                       temp += '<span><img class="tag_delete" src="/Lemo/images/admin/x-button.png" width="15px;" onclick="tag_delete('+ $(this).attr('sc_no') +')"></span>';
+                       temp += '</div>'
+
                     $('#tag_area').append(temp);
 
                     $('#autoMaker').children().remove();
@@ -511,10 +516,17 @@
         }
     }
 
+
     function keyDOWN(){
         if(isComplete) {  //autoMaker 자식이 선택 되었으면 초기화
             $('#insert_target').val('')
         }
+    }
+
+    function tag_delete(tag_value){
+        console.log("delete tag selected: " + tag_value);
+        $('.checkNo'+tag_value).remove();
+        console.log(ref);
     }
 
     // 사진 업로드
@@ -606,37 +618,38 @@
         let checkOutTime = document.querySelector('input[name="acc_checkOut"]').value;
         let summernote = document.querySelector("#summernote");
         var fileNamesInput = $('#fileNames');
+        let btnSubmit = $('#btnSubmit');
 
         form.addEventListener('submit', function(e){
 
             // 숙소명
             if(acc_name.value.trim() === '') {
                 alert('숙소명을 입력해 주십시오.');
-                return;
+                e.preventDefault();
             }
 
             // 주소
             if(addrDetail.value.trim() === '') {
                 alert('주소를 입력해 주십시오.');
-                return;
+                e.preventDefault();
             }
 
             // 체크인, 체크아웃
             if(checkInTime === '' || checkOutTime === '') {
                 alert('체크인 및 체크아웃 시간을 선택해 주십시오.');
-                return;
+                e.preventDefault();
             }
 
             // 편의시설 및 서비스 태그
             if(tag.text().trim() === 'TAG') {
                 alert('태그를 최소 1개 이상 등록해 주세요.');
-                return;
+                e.preventDefault();
             }
 
             // 숙소 정보
             if (summernote.value.trim() === "") {
               alert("숙소 정보를 입력해 주십시오.");
-              return;
+              e.preventDefault();
             }
 
             let basicForm =
@@ -644,19 +657,19 @@
 
             if (summernote.value.trim() === basicForm) {
               alert("기본정보 이외에 다른 정보를 입력해 주십시오.");
-              return;
+              e.preventDefault();
             }
 
             // 할인율 적용
             if (!$("input[name='rp_peakSeason_weekday']").val() || !$("input[name='rp_peakSeason_weekend']").val() || !$("input[name='rp_offSeason_weekday']").val() || !$("input[name='rp_offSeason_weekend']").val()) {
               alert("할인율을 입력해 주십시오.");
-              return;
+              e.preventDefault();
             }
 
             // 숙소 이미지
             if(wrapCount === 0) {
                 alert('사진을 최소 1장 이상 등록해 주세요.');
-                return;
+                e.preventDefault();
             }
 
             if (fileNamesInput.length && fileNamesInput.val() !== '') {
@@ -664,7 +677,7 @@
                 fileNamesInput.appendTo('#fileDropzone'); // hidden 타입 input 추가
             } else {
                 alert('사진을 최소 1장 이상 등록해 주세요.');
-                return false;
+                e.preventDefault();
             }
 
 
