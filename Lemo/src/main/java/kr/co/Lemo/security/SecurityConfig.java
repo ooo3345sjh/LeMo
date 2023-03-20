@@ -1,5 +1,6 @@
 package kr.co.Lemo.security;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -14,16 +15,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebSecurity(debug = false)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@AllArgsConstructor
 public class SecurityConfig implements WebMvcConfigurer {
 
-    @Autowired
     private ResourceLoader resourceLoader;
-
+    private LoginSuccessHandler loginSuccessHandler;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -33,14 +36,29 @@ public class SecurityConfig implements WebMvcConfigurer {
 
                 // 인가(접근권한) 설정
                 .authorizeHttpRequests(req ->
-                        req.mvcMatchers("/**").permitAll()
-                );
+                        req.mvcMatchers("/", "/index").permitAll()
+                                .antMatchers("/my/**").authenticated()
+                )
 
-//                // 로그인 설정
-//                .formLogin(login ->
-//                        login.loginPage("/user/login")      // 로그인 페이지 경로 설정
-//                                .loginProcessingUrl("/user/login")  // POST로 로그인 정보를 보낼 시 경로
-//                );
+                // 로그인 설정
+                .formLogin(login ->
+                        login.loginPage("/user/login")           // 로그인 페이지 경로 설정
+						     .loginProcessingUrl("/user/login")  // POST로 로그인 정보를 보낼 시 경로
+                             .successHandler(loginSuccessHandler)
+				)
+                // sns 로그인 설정
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(loginSuccessHandler)
+                        .loginPage("/user/lgoin")
+                )
+                // 로그아웃 설정
+                .logout(logout -> logout
+                        .invalidateHttpSession(true)
+                        .logoutUrl("/user/logout")
+                        .logoutSuccessHandler((req, resp, auth) -> {
+                            resp.sendRedirect(req.getHeader("Referer"));
+                        })
+                );
 
         return http.build();
     }
@@ -49,32 +67,6 @@ public class SecurityConfig implements WebMvcConfigurer {
     public PasswordEncoder PasswordEncoder () {
         return new BCryptPasswordEncoder();
     }
-
-    @Bean
-	public InMemoryUserDetailsManager userDetailsService() {
-		UserDetails[] user = {
-				User.withDefaultPasswordEncoder()
-						.username("user")
-						.password("1234")
-						.roles("1")
-						.build()
-				,
-				User.withDefaultPasswordEncoder()
-						.username("seller")
-						.password("1234")
-						.roles("2")
-						.build()
-				,
-				User.withDefaultPasswordEncoder()
-						.username("admin")
-						.password("1234")
-						.roles("3")
-						.build()
-		};
-
-		return new InMemoryUserDetailsManager(user);
-	}
-
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {

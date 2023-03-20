@@ -28,8 +28,23 @@
             `user_id`=#{user_id},
             `pass`=#{pass}
     </insert>
+    <insert id="saveBusinessInfo" parameterType="kr.co.Lemo.domain.BusinessInfoVO">
+        INSERT INTO `lemo_member_businessinfo` SET
+        `user_id`=#{user_id},
+        `bis_company`=#{bis_company},
+        `bis_ceo`=#{bis_ceo},
+        `bis_openDate`=#{bis_openDate},
+        `bis_bizRegNum`=#{bis_bizRegNum},
+        `bis_tel`=#{bis_tel},
+        `bis_zip`=#{bis_zip},
+        `bis_addr`=#{bis_addr},
+        `bis_addrDetail`=#{bis_addrDetail}
+    </insert>
 
     <!-- select -->
+    <select id="findByEmail" resultType="int">
+        SELECT * FROM `lemo_member_userinfo` WHERE `user_id` = #{email};
+    </select>
     <select id="countByEmail" resultType="int">
         SELECT COUNT(*) FROM `lemo_member_userinfo` WHERE `user_id` = #{email};
     </select>

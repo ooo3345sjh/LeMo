@@ -1,9 +1,10 @@
- // Validation Check
+// Validation Check
 let emailOk = false;
 let passOk = false;
 let confirmPassOk = false;
 let nickOk = false;
 
+// regex
 const rePass = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
 const reNick = /^[a-zA-Z가-힣0-9][a-zA-Zㄱ-힣0-9]*$/;
 const reEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
@@ -15,6 +16,9 @@ const passInput =  $('input[name=pass]');
 const confirmPassInput =  $('input[name=pass2]');
 const inputList = [emailInput, passInput, confirmPassInput, nickInput];
 
+// auth - 인증완료된 데이터 변수에 저장
+let user_id_auth;
+
 function getNick(){
     ajaxAPI("user/nick/create", null, "GET").then((response) => {
         if(response.nick == "error") {
@@ -22,6 +26,8 @@ function getNick(){
         }
         else {
             nickInput.val(response.nick);
+            $('#nick_msg').text('');
+            nickOk = true;
         }
     }).catch((errorMsg) => {
         console.log(errorMsg)
@@ -29,7 +35,7 @@ function getNick(){
 }
 
 $(function (){
-    emailInput.focusout(function (){
+    emailInput.on('focusout', function (){
         const email = $(this).val();
         if(!reEmail.test(email)){
             $('#email_msg').text('이메일 주소를 올바르게 입력해주세요.');
@@ -41,7 +47,7 @@ $(function (){
         }
     });
 
-    emailInput.keyup(function (){
+    emailInput.on('keyup focus', function (){
         if($('.btn_common.email').attr('disabled') == undefined){
             const email = $(this).val();
             if(!reEmail.test(email)){
@@ -80,13 +86,14 @@ $(function (){
                 $('.btn_common.email').attr('disabled', true);
                 $('input[type=email]').attr('readonly', true);
                 emailOk = true;
+                user_id_auth=email;
             }
         }).catch((errorMsg) => {
             console.log(errorMsg)
         });
     });
 
-    passInput.focusout(function (){
+    passInput.on('focusout keyup', function (){
         const pass = $(this).val();
         console.log(pass);
         if(!rePass.test(pass)){
@@ -98,7 +105,7 @@ $(function (){
         }
     });
 
-    confirmPassInput.focusout(function (){
+    confirmPassInput.on('focusout keyup', function (){
         const confirmPass = $(this).val();
         const pass =  $('input[name=pass]').val();
 
@@ -124,7 +131,7 @@ $(function (){
         getNick();
     });
 
-    nickInput.focusout(function (){
+    nickInput.on('focusout keyup', function (){
         const nick = $(this).val();
         if(!reNick.test(nick)){
             $('#nick_msg').text('한글과 영문을 사용해주세요.');
@@ -133,7 +140,6 @@ $(function (){
         } else {
             $('#nick_msg').text('');
             nickOk = true;
-            return;
         }
 
         ajaxAPI("user/nick/duplicate?nick="+nick, null, "GET").then((response) => {

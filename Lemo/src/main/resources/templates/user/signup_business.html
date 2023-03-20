@@ -10,7 +10,7 @@
 
     <main id="signup_bis">
         <section>
-            <form th:action="@{/user/signup}" action="post" class="joinForm">
+            <form th:action="@{/user/signup}" method="post" class="joinForm">
                 <input type="hidden" name="userType" th:value="${type}">
                 <div class="title">
                     <strong class="logo">
@@ -30,14 +30,14 @@
 
                     <b>비밀번호</b>
                     <div class="inp_type2 form-errors">
-                        <input type="password" name="pass" placeholder="비밀번호를 입력해주세요." required>
+                        <input type="password" name="pass" placeholder="비밀번호를 입력해주세요." required autocomplete="off">
                         <label id="pass1_msg" class="validate_msg"></label>
 
                     </div>
 
                     <b>비밀번호 확인</b>
                     <div class="inp_type2 form-errors">
-                        <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요." required>
+                        <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요." required autocomplete="off">
                         <label id="pass2_msg" class="validate_msg"></label>
                     </div>
 
@@ -45,7 +45,7 @@
                     <div class="inp_type2 form-errors">
                         <input type="text" name="nick"  placeholder="닉네임을 입력해주세요." maxlength="8" required>
                         <label id="nick_msg" class="validate_msg"></label>
-                        <button type="button" class="btn_common nick">딴거할래요</button>
+                        <button type="button" class="btn_common nick active">딴거할래요</button>
                     </div>
 
                     <b>회사명</b>
@@ -62,7 +62,7 @@
 
                     <b>개업일자</b>
                     <div class="inp_type2 form-errors">
-                        <!-- 날짜 선택시 class on -->
+                        <!-- 날짜 선택시 class on-->
                         <input type="date" th:max="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}" name="bis_openDate" class="off" id="bis_openDate" required>
                         <label id="bis_openDate_msg" class="validate_msg"></label>
                     </div>
@@ -76,25 +76,26 @@
 
                     <b>회사 전화번호</b>
                     <div class="inp_type2 form-errors">
-                        <input type="text" name="bis_tel" placeholder="회사 전화번호를 입력해주세요." required>
+                        <input type="text" name="bis_tel" minlength="9" maxlength="11" placeholder="회사 전화번호를 입력해주세요." required>
                         <label id="bis_tel_msg" class="validate_msg"></label>
                     </div>
                     <b>주소</b>
                     <div id="div_addr">
                         <div class="inp_type2 form-errors">
-                            <input type="text" name="bis_zip" id="zip" placeholder="우편번호" required readonly>
-                            <button type="button" class="btn_common" onclick="zipcode()">주소찾기</button>
+                            <input type="text" name="bis_zip" id="zip" minlength="5" maxlength="5" placeholder="우편번호" required readonly>
+                            <button type="button" class="btn_common active" onclick="postcode()">주소찾기</button>
                         </div>
                         <div class="inp_type2 form-errors">
-                            <input type="text" name="bis_addr1" id="addr1" placeholder="기본주소 입력" required readonly>
+                            <input type="text" name="bis_addr" id="addr" placeholder="기본주소 입력" required readonly>
                         </div>
                         <div class="inp_type2 form-errors">
-                            <input type="text" name="bis_addr2" id="addr2" placeholder="상세주소 입력">
+                            <input type="text" name="bis_addrDetail" id="addrDetail" placeholder="상세주소 입력">
+                            <label id="addr_msg" class="validate_msg"></label>
                         </div>
                     </div>
 
                     <!-- 유효성 검사 통과 시 class에 on 추가 -->
-                    <button type="submit" class="btn_link on" id="signup_btn">
+                    <button type="submit" class="btn_link" id="signup_btn" disabled>
                         <span>가입하기</span>
                     </button>
                 </div>
@@ -106,85 +107,94 @@
 </th:block>
 <th:block layout:fragment="script">
     <script th:src="@{/js/user/register_general.js}"></script>
+    <script th:src="@{/js/user/register_business.js}"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script th:src="@{/js/common/zipCode.js}"></script>
     <script>
-        // Validation Check
-        let companyOk = false;
-        let openDateOk = false;
-        let bizRegNumOk = false;
-        let ceoOk = false;
-        let telOk = false;
+        const url = "[[${@environment.getProperty('bizRegNum.serviceKey')}]]";
+        $(function (){
+            $('input, button').on('change keyup focus mouseout', function (){
+                let okList = [emailOk, passOk, confirmPassOk, nickOk,
+                    companyOk, openDateOk, bizRegNumOk, ceoOk, telOk, bizRegCheck];
+                let zip = zipInput.val().trim().replace(/[^0-9]/g, "");
+                zipInput.val(zip);
+                let addr = addrInput.val().trim();
 
-        const reCompany = /^[a-zA-Z가-힣0-9()][a-zA-Zㄱ-힣0-9()]*$/;
-        const regBizRegNum = /^[0-9]+$/;
-
-        // Input
-        const companyInput = $('input[name=bis_company]');
-        const openDateInput = $('input[name=bis_openDate]');
-        const bizRegNumInput = $('input[name=bis_bizRegNum]');
-
-        // button
-        const bizRegNumBtn = $('.btn_common.bizRegNum');
-
-
-        $(function(){
-
-            companyInput.focusout(function (){
-                const company = $(this).val();
-                if(!reCompany.test(company)){
-                    $('#bis_company_msg').text("한글과 영문, '()'을 사용해주세요.");
-                    companyOk = false;
+                if(!okList.includes(false) && zip.length == 5 && addr.length != 0){
+                    $('button[type=submit]').addClass("on");
+                    $('button[type=submit]').attr('disabled', false);
                 } else {
-                    $('#bis_company_msg').text('');
-                    companyOk = true;
+                    $('button[type=submit]').removeClass("on");
+                    $('button[type=submit]').attr('disabled', true);
                 }
             });
 
-            openDateInput.change(function (){
-                const openDate = $(this).val();
-                console.log(openDate);
-                if(!!openDate?.trim()){
-                    $(this).addClass('on');
-                    $(this).removeClass('off');
-                } else {
-                    $(this).addClass('off');
-                    $(this).removeClass('on');
+            $('button[type=submit]').click(function(e){
+
+                if(user_id_auth !== undefined && user_id_auth !== emailInput.val()){
+                    $('.btn_common.email').text('중복확인');
+                    $('.btn_common.email').attr('disabled', false);
+                    emailInput.attr('readonly', false);
+                    emailOk = false;
+                    alert('중복확인한 이메일과 다른 이메일주소가 입력되었습니다.\n다시 중복확인을 해주세요.');
+                    emailInput.focus();
+                    return;
+                }
+
+                if((company_auth !== undefined && company_auth !== companyInput.val()) ||
+                    (ceo_auth !== undefined && ceo_auth !== ceoInput.val()) ||
+                    (openDate_auth !== undefined && openDate_auth !== openDateInput.val()) ||
+                    (openDate_auth !== undefined && bizRegNum_auth !== bizRegNumInput.val()))
+                {
+                    if(company_auth !== companyInput.val()){
+                        companyInput.attr('readonly', false);
+                        companyOk = false;
+                        alert('인증하신 회사명과 다른 회사명이 입력되었습니다.\n다시 인증확인을 해주세요.');
+                        companyInput.focus();
+                    }
+
+                    else if(ceo_auth !== ceoInput.val()){
+                        ceoInput.attr('readonly', false);
+                        ceoOk = false;
+                        alert('인증하신 대표자 이름과 다른 대표자 이름이 입력되었습니다.\n다시 인증확인을 해주세요.');
+                        ceoInput.focus();
+                    }
+
+                    else if(openDate_auth !== openDateInput.val()){
+                        openDateInput.attr('readonly', false);
+                        openDateOk = false;
+                        alert('인증하신 개업일자와 다른 개업일자가 입력되었습니다.\n다시 인증확인을 해주세요.');
+                        openDateInput.focus();
+                    }
+
+                    else if(bizRegNum_auth !== bizRegNumInput.val()){
+                        bizRegNumInput.attr('readonly', false);
+                        bizRegNumOk = false;
+                        alert('인증하신 사업자 등록번호와 다른 사업자 등록번호가 입력되었습니다.\n다시 인증확인을 해주세요.');
+                        bizRegNumInput.focus();
+                    }
+                    bizRegCheck = false;
+                    bizRegNumBtn.text("인증확인");
+                    return;
+                }
+
+
+                for (i of inputList){ i.focus(); }
+
+                let okList = [emailOk, passOk, confirmPassOk, nickOk,
+                    companyOk, openDateOk, bizRegNumOk, ceoOk, telOk, bizRegCheck, zipOk, addrOk];
+
+                for (i in inputList){
+
+                    if(!okList[i]){
+                        inputList[i].focus();
+                        e.preventDefault();
+                        return;
+                    }
                 }
             });
 
-            bizRegNumInput.keyup(function(){
-                let bizRegNum = $(this).val();
-                bizRegNum = bizRegNum.replace(/[^0-9]/g, "");
-                $(this).val(bizRegNum);
-
-                if(!regBizRegNum.test(bizRegNum) || bizRegNum.length != 10){
-                    $('.btn_common.bizRegNum').removeClass('active');
-                } else if(regBizRegNum.test(bizRegNum) && bizRegNum.length == 10){
-                    $('.btn_common.bizRegNum').addClass('active');
-                }
-            });
-
-            bizRegNumBtn.click(function(){
-                const bizRegNum = bizRegNumInput.val();
-                const openDate = openDateInput.val();
-                console.log(bizRegNum);
-                console.log(openDate);
-                if(bizRegNum.length != 10){
-                    $('#bis_bizRegNum_msg').text('10자리의 번호를 입력해주세요.');
-                }
-
-                else if(!regBizRegNum.test(bizRegNum)){
-                    $('#bis_bizRegNum_msg').text('숫자만 입력해주세요.');
-                }
-
-                else {
-                    $('#bis_bizRegNum_msg').text('');
-                }
-
-
-            });
         });
-
-
     </script>
 </th:block>
 </html>

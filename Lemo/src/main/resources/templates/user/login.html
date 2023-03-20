@@ -10,7 +10,7 @@
 
     <main id="login">
         <section>
-            <form action="#" id="loginForm">
+            <form th:action="@{/user/login}" method="post" id="loginForm">
                 <div class="title">
                     <strong class="logo">
                         <img th:src="@{/images/index/lemo_logo-removebg-preview.png}" alt="">
@@ -18,24 +18,24 @@
                     </strong>
                 </div>
                 <!-- 연동 로그인 -->
-                <button type="button" class="btn_start btn_kakao">
+                <a href="#" class="btn_start btn_kakao">
                         <span>
                             <img th:src="@{/images/user/icon_kakao.png}">
                             <i>카카오톡으로 로그인</i>
                         </span>
-                </button>
-                <a href="#" class="btn_start btn_naver">
+                </a>
+                <a th:href="@{/oauth2/authorization/naver}" class="btn_start btn_naver">
                         <span>
                             <img th:src="@{/images/user/icon_naver.png}">
                             <i>네이버로 로그인</i>
                         </span>
                 </a>
-                <button type="button" class="btn_start btn_google">
+                <a th:href="@{/oauth2/authorization/google}" class="btn_start btn_google">
                         <span>
                             <img th:src="@{/images/user/icon_google.png}">
                             <i>구글으로 로그인</i>
                         </span>
-                </button>
+                </a>
                 <!-- 또는 -->
                 <p class="or">
                     <span>또는</span>
@@ -43,7 +43,7 @@
                 <!-- 일반 로그인 -->
                 <!-- 유효성 검사에 어긋나면 div에 inp_error 클래스를 추가, label의 display 속성을 none->block 으로 변경 -->
                 <div class="inp_type1 ico_email form-errors">
-                    <input type="email" name="uid" placeholder="이메일 주소" required class="required" aria-invalid="true">
+                    <input type="email" name="username" placeholder="이메일 주소" required class="required" aria-invalid="true">
                     <label class="error">이메일 주소를 입력해주세요</label>
                 </div>
                 <div class="inp_type1 ico_pw form-errors">
