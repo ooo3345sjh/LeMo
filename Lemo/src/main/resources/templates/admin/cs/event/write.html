@@ -17,6 +17,55 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script th:src="@{/js/admin/summernote-ko-KR.js}"></script>
+    <style>
+        .preview {
+            width: 100px;
+            height: 100px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: 999;
+            background-position: center;
+            pointer-events: none;
+            background-image: url(https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg);
+        }
+
+       .diary_write_img {
+            width: 232px;
+            height: 238px;
+            border-radius: 4px;
+        }
+        .diary_write_img > img {
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+        }
+        #fileDropzone > label {
+            width: 45px;
+            height: 27px;
+            margin: 4px 0px 4px 1px;
+            box-shadow: inset 0px 1px 0px 0px #ffffff;
+            background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            border: 1px solid #dcdcdc;
+            display: inline-block;
+            cursor: pointer;
+            color: #666666;
+            font-size: 15px;
+            font-weight: 500;
+            text-align: center;
+            }
+        #fileDropzone > #ex_file {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
+    </style>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -60,12 +109,13 @@
                                         <td>배너 이미지</td>
                                         <td>
                                             <div class="stayThumb">
-                                                <div class="dropzone" name="cs_eventbannerImg" id="fileDropzone">
-                                                    <div>
-                                                        <button class="dz-default dz-message" type="button">
-                                                            사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
-                                                        </button>
+                                                <div id="fileDropzone">
+                                                    <div class="event_write_img">
+                                                        <img id="image">
                                                     </div>
+                                                    <div id="wrap-container"></div>
+                                                    <label for="ex_file">업로드</label>
+                                                    <input type="file" id="ex_file" accept="image/png, image/jpeg">
                                                 </div>
                                             </div>
                                         </td>
@@ -131,6 +181,7 @@
                 });
                 $('#summernote').summernote('fontSize', 14);
             });
+
             /** 날짜 계산**/
 
             /* 시작 날짜 */
@@ -148,6 +199,104 @@
                 var endDay = e.target.value;
                 document.getElementById('endDate').setAttribute("min", endDay);
             }
+
+
+            /** 이미지 미리보기 **/
+            const fileDOM = document.querySelector('#ex_file');
+            const previews = document.querySelectorAll('#image');
+
+
+            fileDOM.addEventListener('change', () => {
+            const reader = new FileReader();
+            reader.onload = ({ target }) => {
+                previews[0].src = target.result;
+            };
+            reader.readAsDataURL(fileDOM.files[0]);
+            });
+
+
+
+
+
+            // 베너 사진 업로드
+            $(document).ready(function() {
+                let wrapCount = 0;      // 사진 추가 버튼 누를 때마다 div 추가하기 위해 첫 wrapCount = 0
+                const maxWraps = 1;    // 최대 추가 가능 이미지 개수
+
+                // wrap div 추가하기
+                function addWrap() {
+                    // wrap 템플릿 복사하기
+                    const wrapTemplate = document.querySelector('#wrap-template');
+                    const wrapClone = wrapTemplate.cloneNode(true);
+                    wrapClone.removeAttribute('id');
+                    wrapClone.style.display = 'inline-block';
+
+                    // wrapCount += 1, data-fileindex 업데이트
+                    wrapCount++;
+                    wrapClone.querySelector('.insertFile').setAttribute('data-fileindex', wrapCount);
+                    wrapClone.querySelector('.preview').setAttribute('data-previewindex', wrapCount);
+
+                    // 복사한 wrap 추가
+                    document.querySelector('#wrap-container').appendChild(wrapClone);
+
+                    // 이벤트 요소 추가
+                    const newInput = wrapClone.querySelector('.insertFile');
+                    newInput.addEventListener('change', (event) => {
+                        const selectedFile = event.target.files[0];
+                        const fileIndex = event.target.getAttribute('data-fileindex');
+                        console.log(selectedFile);
+                        console.log(fileIndex);
+
+                        // 업로드 사진 미리보기
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                          const previewIndex = document.querySelector(`[data-previewindex="${fileIndex}"]`);
+                          previewIndex.style.backgroundImage = `url('${reader.result}')`;
+                        }
+                        reader.readAsDataURL(selectedFile);
+                    });
+
+                    // 삭제 버튼
+                    const newDeleteButton = wrapClone.querySelector('.preview_de');
+                    newDeleteButton.addEventListener('click', () => {
+
+                        // 해당 wrap 삭제
+                        wrapClone.remove();
+
+                        // 파일 삭제
+                        newInput.value = '';
+
+                        // 미리보기 삭제
+                        const previewIndex = wrapClone.querySelector('.preview').getAttribute('data-previewindex');
+                        document.querySelector(`[data-previewindex="${previewIndex}"]`).style.backgroundImage = '';
+                    });
+                }
+
+                // '추가하기' 버튼
+                const addButton = document.querySelector('#add-wrap-button1');
+                addButton.addEventListener('click', () => {
+                    if (wrapCount <= maxWraps) {
+                        addWrap();
+                    } else {
+                        alert('사진은 최대 20장까지 등록할 수 있습니다.');
+                    }
+                });
+            });
+
+            // 업로드 사진 이름 랜덤 + 하나로
+            $('.insertFile').on('change', function(){
+                var files = $(this).get(0).files();
+                var fileNames = [];     // 빈 배열 생성
+
+                for (var i = 0; i < files.length; i++) {
+                    var oriName = files[i].name;
+                    var ext = oriName.substring(oriName.indexOf("."));
+                    var newName = UUID.randomUUID().toString() + ext;
+                    fileNames.push(newName);     // 배열에 파일 랜덤 이름 추가
+                }
+                $('#fileNames').val(fileNames.join('/'));  // hidden input에 /로 하나로 모으기
+
+            });
 
         </script>
 </th:block>
