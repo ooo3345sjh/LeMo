@@ -31,9 +31,9 @@ $(document).ready(function(){
             var myDropzone = this; 
 
             submitButton.addEventListener("click", function () {
-        
+
             console.log("업로드1", myDropzone.files);
-            
+
             // 거부된 파일이 있다면
             if (myDropzone.getRejectedFiles().length > 0) {
                 let files = myDropzone.getRejectedFiles();
@@ -41,7 +41,7 @@ $(document).ready(function(){
                 return;
             }
 
-            myDropzone.processQueue(); 
+            myDropzone.processQueue();
 
             });
 
@@ -73,12 +73,12 @@ $(document).ready(function(){
 
         init: function(){
             var submitButton = document.querySelector("#btnUpload");
-            var myDropzone2 = this; 
+            var myDropzone2 = this;
 
             submitButton.addEventListener("click", function () {
-        
+
             console.log("업로드2", myDropzone2.files);
-            
+
             // 거부된 파일이 있다면
             if (myDropzone2.getRejectedFiles().length > 0) {
                 let files = myDropzone2.getRejectedFiles();
@@ -86,7 +86,7 @@ $(document).ready(function(){
                 return;
             }
 
-            myDropzone2.processQueue(); 
+            myDropzone2.processQueue();
 
             });
            myDropzone.on("success", function(file, response) {
