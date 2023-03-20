@@ -2,6 +2,7 @@ package kr.co.Lemo.dao;
 
 import kr.co.Lemo.domain.DiaryCommentVO;
 import kr.co.Lemo.domain.DiarySpotVO;
+import kr.co.Lemo.domain.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -30,9 +31,12 @@ public interface DiaryDAO {
     public int insertDiaryComment(DiaryCommentVO commentVO);
 
     // @since 2023/03/17
-    public String selectCommentNick(int com_no);
+    public UserVO selectCommentNick(int com_no);
 
     // @since 2023/03/17
     public int deleteComment(int com_no);
+
+    // @since 2023/03/20
+    public int updateComment(DiaryCommentVO commentVO);
 
 }

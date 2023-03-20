@@ -3,6 +3,7 @@ package kr.co.Lemo.service;
 import kr.co.Lemo.dao.DiaryDAO;
 import kr.co.Lemo.domain.DiaryCommentVO;
 import kr.co.Lemo.domain.DiarySpotVO;
+import kr.co.Lemo.domain.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,7 +61,7 @@ public class DiaryService {
     }
 
     // @since 2023/03/17
-    public String findCommentNick(int com_no) {
+    public UserVO findCommentNick(int com_no) {
         return dao.selectCommentNick(com_no);
     }
 
@@ -68,4 +69,9 @@ public class DiaryService {
     public int removeComment(int com_no) {
         return dao.deleteComment(com_no);
     };
+
+    // @since 2023/03/20
+    public int usaveComment(DiaryCommentVO commentVO) {
+        return dao.updateComment(commentVO);
+    }
 }
