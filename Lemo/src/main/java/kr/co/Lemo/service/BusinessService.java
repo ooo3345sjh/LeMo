@@ -2,6 +2,7 @@ package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.BusinessDAO;
 import kr.co.Lemo.domain.CouponVO;
+import kr.co.Lemo.domain.ProvinceVO;
 import kr.co.Lemo.domain.ReviewVO;
 import kr.co.Lemo.domain.ServiceCateVO;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
@@ -106,6 +107,13 @@ public class BusinessService {
     public List<ServiceCateVO> findService(){
         return dao.selectService();
     }
+
+    /**
+     * 판매자 숙소 - 지역 선택
+     * @since 2023/03/20
+     */
+    public List<ProvinceVO> selectService(){ return dao.selectProvince();}
+
 
 
     /**

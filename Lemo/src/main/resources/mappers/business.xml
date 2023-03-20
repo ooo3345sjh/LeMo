@@ -75,6 +75,10 @@
         select * from `lemo_product_servicecate`;
     </select>
 
+    <!-- business - info - write (Accommodation registration::select province) -->
+    <select id="selectProvince" resultType="kr.co.Lemo.domain.ProvinceVO">
+        select * from `lemo_product_province`;
+    </select>
 
     <!-- business - user - insert coupon -->
     <insert id="insertCoupon">
@@ -95,28 +99,44 @@
     </insert>
 
     <!-- business - info - write (Accommodation registration) -->
-    <insert id="insertInfo">
+    <insert id="insertInfo" parameterType="kr.co.Lemo.domain.ProductAccommodationVO" useGeneratedKeys="true" keyProperty="acc_id">
         insert into `lemo_product_accommodation` set
         `user_id`='1foodtax@within.co.kr',
         `acc_name`=#{acc_name},
         `accType_no`=#{accType_no},
         `province_no`=#{province_no},
+        `acc_city`=#{acc_city},
         `acc_zip`=#{acc_zip},
         `acc_addr`=#{acc_addr},
         `acc_addrDetail`=#{acc_addrDetail},
         `acc_longtitude`=#{acc_longtitude},
         `acc_lattitude`=#{acc_lattitude},
-        <include refid="insertPoint"/>,
+        `acc_xy` = ST_GeomFromText(CONCAT('POINT(', #{acc_longtitude}, ' ', #{acc_lattitude}, ')')),
         `acc_mainInfo`=#{acc_mainInfo},
         `acc_info`=#{acc_info},
         `acc_comment`=#{acc_comment},
         `acc_thumbs`=#{acc_thumbs},
-        `acc_rate`=#{acc_rate},
         `acc_checkIn`=#{acc_checkIn},
         `acc_checkOut`=#{acc_checkOut},
         `acc_season`=#{acc_season};
     </insert>
 
+    <!-- business - info - write (Accommodation registration::Convenience facility) -->
+    <insert id="insertServiceRegInfo" parameterType="kr.co.Lemo.domain.ServicereginfoVO">
+        insert into `lemo_product_servicereginfo` set
+        `acc_id`=#{acc_id},
+        `sc_no`=#{sc_no}
+    </insert>
+
+    <!-- business - info - write (Accommodation registration::rate policy) -->
+    <insert id="insertRatePolicy" parameterType="kr.co.Lemo.domain.ProductAccommodationVO">
+        insert into `lemo_product_ratepolicy` set
+        `acc_id`=#{acc_id},
+        `rp_offSeason_weekday`=#{rp_offSeason_weekday},
+        `rp_offSeason_weekend`=#{rp_offSeason_weekend},
+        `rp_peakSeason_weekday`=#{rp_peakSeason_weekday},
+        `rp_peakSeason_weekend`=#{rp_peakSeason_weekend}
+    </insert>
 
     <!-- business - review - reply -->
     <update id="updateReply">
@@ -156,12 +176,7 @@
         </if>
     </sql>
 
-    <!-- 숙소 등록 -->
-    <sql id="insertPoint">
-        <![CDATA[
-        ST_Distance_Sphere(`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{acc_longtitude}, ' ', #{acc_lattitude}, ')')))
-        ]]>
-    </sql>
+
 
 
 
