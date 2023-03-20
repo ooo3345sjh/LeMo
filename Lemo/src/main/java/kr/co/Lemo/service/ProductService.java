@@ -3,7 +3,7 @@ package kr.co.Lemo.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.Lemo.dao.ProductDAO;
-import kr.co.Lemo.domain.BusinessVO;
+import kr.co.Lemo.domain.BusinessInfoVO;
 import kr.co.Lemo.domain.ProductAccommodationVO;
 import kr.co.Lemo.domain.ServiceCateVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
@@ -135,7 +135,7 @@ public class ProductService {
     }
 
     // @since 2023/03/19
-    public BusinessVO findBusinessInfo(String user_id){
+    public BusinessInfoVO findBusinessInfo(String user_id){
         return dao.selectBusinessInfo(user_id);
     }
 

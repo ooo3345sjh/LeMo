@@ -1,6 +1,6 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.domain.BusinessVO;
+import kr.co.Lemo.domain.BusinessInfoVO;
 import kr.co.Lemo.domain.ProductAccommodationVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
 import kr.co.Lemo.service.ProductService;
@@ -100,7 +100,7 @@ public class ProductController {
 
         String user_id = "1000hyeok0819@naver.com";
 
-        BusinessVO bv = service.findBusinessInfo(user_id);
+        BusinessInfoVO bv = service.findBusinessInfo(user_id);
 
 
         log.info("bv : " + bv);

@@ -1,6 +1,6 @@
 package kr.co.Lemo.dao;
 
-import kr.co.Lemo.domain.BusinessVO;
+import kr.co.Lemo.domain.BusinessInfoVO;
 import kr.co.Lemo.domain.ProductAccommodationVO;
 import kr.co.Lemo.domain.ServiceCateVO;
 import kr.co.Lemo.utils.SearchCondition;
@@ -37,7 +37,7 @@ public interface ProductDAO {
     public List<ServiceCateVO> selectServiceCates(@Param("acc_id") int acc_id);
 
     // @since 2023/03/19
-    public BusinessVO selectBusinessInfo(@Param("user_id") String user_id);
+    public BusinessInfoVO selectBusinessInfo(@Param("user_id") String user_id);
 
     // update
 
