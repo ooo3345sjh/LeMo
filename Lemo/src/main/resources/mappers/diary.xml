@@ -22,15 +22,25 @@
     
     <select id="selectDiaryComment" resultType="kr.co.Lemo.domain.DiaryCommentVO">
         SELECT
-        `com_no`, `arti_no`, a.`user_id`, IFNULL(`com_pno`,`com_no`) AS `com_pno`,
-        `com_comment`, `com_regip`, `com_rdate`, `com_udate`, b.`nick`
-        FROM `lemo_diary_comment`   AS a JOIN
-        `lemo_member_userinfo` AS b ON a.`user_id` = b.`user_id`
-        WHERE `arti_no`=#{arti_no};
+            T.`com_no`, T.`arti_no`, T.`user_id`, T.`com_pno`,
+            T.`com_comment`, T.`com_regip`, T.`com_rdate`, T.`com_udate`, T.`nick`, IFNULL(F.`reply`, T.`nick`) AS reply
+        FROM
+            (SELECT
+                `com_no`, `arti_no`, a.`user_id`, IFNULL(`com_pno`,`com_no`) AS `com_pno`,
+                `com_comment`, `com_regip`, `com_rdate`, `com_udate`, b.`nick`, IFNULL(`reply`, b.`user_id`) AS reply
+            FROM `lemo_diary_comment` AS a JOIN
+                `lemo_member_userinfo` AS b ON a.`user_id` = b.`user_id`
+            WHERE `arti_no`=#{arti_no})
+        AS T LEFT JOIN
+            (SELECT c.`com_no`, d.`nick` AS reply FROM
+                `lemo_diary_comment` AS c JOIN
+                `lemo_member_userinfo` AS d ON d.`user_id` = c.`reply`
+            WHERE `arti_no`=#{arti_no})
+        AS F ON T.`com_no` = F.`com_no` ORDER BY `com_pno` ASC;
     </select>
 
-    <select id="selectCommentNick" resultType="string">
-        SELECT b.`nick` FROM `lemo_diary_comment` AS a JOIN
+    <select id="selectCommentNick" resultType="kr.co.Lemo.domain.UserVO">
+        SELECT b.`nick`, b.`user_id` FROM `lemo_diary_comment` AS a JOIN
         `lemo_member_userinfo` AS b ON a.`user_id` = b.`user_id`
         WHERE `com_no`=#{com_no};
     </select>
@@ -52,13 +62,21 @@
     <!-- insert -->
     <insert id="insertDiaryComment" parameterType="kr.co.Lemo.domain.DiaryCommentVO" useGeneratedKeys="true" keyProperty="com_no">
         INSERT INTO `lemo_diary_comment` SET
-            `arti_no` = #{arti_no},
-            `user_id` = #{user_id},
-            `com_pno` = #{com_pno},
+            `arti_no`     = #{arti_no},
+            `user_id`     = #{user_id},
+            `com_pno`     = #{com_pno},
             `com_comment` = #{com_comment},
-            `com_regip` = #{com_regip};
+            `com_regip`   = #{com_regip},
+            `reply`       = #{reply};
     </insert>
     <!-- update -->
+    <update id="updateComment" parameterType="kr.co.Lemo.domain.DiaryCommentVO">
+        UPDATE `lemo_diary_comment` SET
+            `com_comment` = #{com_comment},
+            `com_regip`   = #{com_regip},
+            `com_udate`   = NOW()
+        WHERE `com_no`=#{com_no};
+    </update>
 
     <!-- delete -->
     <delete id="deleteComment">

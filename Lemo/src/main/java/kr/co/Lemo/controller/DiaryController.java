@@ -2,6 +2,7 @@ package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.DiaryCommentVO;
 import kr.co.Lemo.domain.DiarySpotVO;
+import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.service.DiaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -85,7 +86,8 @@ public class DiaryController {
         commentVO.setUser_id("test@test.com");
         commentVO.setCom_regip(req.getRemoteAddr());
 
-        String nick = service.findCommentNick(commentVO.getCom_no());
+        UserVO userVO = service.findCommentNick(commentVO.getCom_no());
+        commentVO.setReply(userVO.getUser_id());
 
         int result = service.rsaveComment(commentVO);
 
@@ -93,7 +95,7 @@ public class DiaryController {
 
         map.put("user_id", "test@test.com");
         map.put("nick", "유연한뚱이210001");
-        map.put("com_nick", nick);
+        map.put("com_nick", userVO.getNick());
         map.put("result", Integer.toString(result));
         map.put("com_pno", Integer.toString(commentVO.getCom_no()));
 
@@ -106,6 +108,16 @@ public class DiaryController {
     public ResponseEntity<Integer> removeComment(@RequestBody DiaryCommentVO commentVO) {
 
         int result = service.removeComment(commentVO.getCom_no());
+
+        return ResponseEntity.ok(result);
+    }
+
+    // @since 2023/03/20
+    @ResponseBody
+    @PatchMapping("comment")
+    public ResponseEntity<Integer> usaveComment(@RequestBody DiaryCommentVO commentVO, HttpServletRequest req) {
+        commentVO.setCom_regip(req.getRemoteAddr());
+        int result = service.usaveComment(commentVO);
 
         return ResponseEntity.ok(result);
     }

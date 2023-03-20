@@ -107,8 +107,9 @@ $(function(){
     $(document).on('click', '.comment', function(e){
         e.preventDefault();
 
-        let com_no  = $(this).attr('data-no');
-        let com_pno = $(this).attr('data-pno');
+        let com_no  = $(this).parent().parent().parent().attr('data-no');
+        let com_pno = $(this).parent().parent().parent().attr('data-pno');
+
 
         let content = '<div class="write_reReply re'+com_pno+'">';
            content += '<form action="#" class="comWrite">';
@@ -137,15 +138,13 @@ $(function(){
         let com_no  = $(this).children('button').attr('data-no');
         let com_pno = $(this).children('button').attr('data-pno');
 
-        console.log(com_no);
-        console.log(com_pno);
         let re_reply = $('.com'+com_no).length;
 
-        let jsonData = { "com_pno":com_pno, "com_comment":comment, "arti_no":arti_no, "com_no":com_pno };
+        let jsonData = { "com_pno":com_pno, "com_comment":comment, "arti_no":arti_no, "com_no":com_no };
 
         ajaxAPI("diary/comment", jsonData, "POST").then((response)=>{
 
-            let content = '<li class="re_reply com'+com_pno+'" style="display:block;">';
+            let content = '<li class="re_reply com'+com_pno+'" style="display:block;" data-no="'+com_no+'" data-pno="'+response["com_pno"]+'">';
                content += '<div class="repdiv1">';
                content += '<img src="/Lemo/images/admin/user_default.png" alt="프사">';
                content += '<div>';
@@ -157,29 +156,25 @@ $(function(){
                content += '<textarea readonly>'+comment+'</textarea>';
                content += '</div>';
                content += '<div class="repdiv3">';
-               content += '<div><a href="#" class="comment" data-no="'+com_no+'" data-pno="'+response["com_pno"]+'">댓글 쓰기</a></div>';
+               content += '<div><a href="#" class="comment">댓글 쓰기</a></div>';
                content += '<div>';
-               content += '<a href="#" data-no="'+com_no+'" data-pno="'+response["com_pno"]+'">수정</a>';
-               content += '<a href="#" data-no="'+com_no+'" data-pno="'+response["com_pno"]+'">삭제</a>';
+               content += '<a href="#">수정</a> ';
+               content += '<a href="#">삭제</a>';
                content += '</div>';
                content += '</div>';
                content += '</li>';
 
-            if(re_reply == 0){
-                $(this).parent().after(content);
-                $(this).parent().prev().find('.comment').removeClass('open');
+            if(re_reply == 0) {
+                $(this).parent().prev().after(content);
                 $(this).parent().prev().find('.comment').text('댓글 쓰기');
-                $(this).parent().next('.emptyCom').remove();
                 $(this).parent().remove();
-                //$(this).parent().next('.emptyCom').remove();
             }else {
-                $('.com'+com_no+':eq('+ (re_reply - 1) +')').after(content);
+                $('.com'+com_pno).last().after(content);
+                $(this).parent().next('.emptyCom'+com_pno).remove();
                 $(this).parent().prev().find('.comment').removeClass('open');
                 $(this).parent().prev().find('.comment').text('댓글 쓰기');
-                $(this).parent().next('.emptyCom'+com_pno).remove();
                 $(this).parent().remove();
             }
-
         });
     });
 
@@ -187,7 +182,7 @@ $(function(){
     $('.showall').click(function(e){
         e.preventDefault();
 
-        let com_pno = $(this).attr('data-no');
+        let com_pno = $(this).parent().parent().parent().attr('data-no');
 
         let status = $(this).hasClass('open');
 
@@ -216,29 +211,81 @@ $(function(){
 
     $(document).on('click', '.comDelete', function(e){
         e.preventDefault();
-        let com_no  = $(this).attr('data-no');
-        let com_pno = $(this).attr('data-pno');
+        let com_no  = $(this).parent().parent().parent().attr('data-no');
+        let com_pno = $(this).parent().parent().parent().attr('data-pno');
 
-        let jsonData = { "com_no":com_no };
+        let jsonData = { "com_no":com_pno };
 
         ajaxAPI("diary/comment", jsonData, "DELETE").then((response)=>{
             if(response == 1) {
                 alert('삭제 되었습니다.');
+
+                if(( $('.com'+com_no).length - 1 ) == 0) {
+                    let content = '<li class="re_reply com'+com_pno+' emptyCom'+com_pno+' style="display:block; font-size:12px; padding-bottom:15px;">등록된 답글이 없습니다.</li>';
+                    $(this).parent().parent().parent().prev().after(content);
+                }
 
                 $(this).parent().parent().parent().remove();
             }else {
                 alert('다시 시도해주세요!');
             }
         });
-
     });
 
     $(document).on('click', '.comModify', function(e){
         e.preventDefault();
-        alert('test');
 
-        let textarea = $(this).parent().parent().prev().children();
+        let textarea = $(this).parent().parent().prev().children('textarea');
         textarea.removeAttr('readonly');
-        //textarea.style.background = white;
+        textarea.css("height", "80px");
+        textarea.css("background", "#f9f8e0");
+        textarea.css("padding", "5px");
+        $(this).text("취소");
+        $(this).attr("class","comCancel");
+        $(this).next().text("수정");
+        $(this).next().attr("class","comSubmit");
+    });
+
+    $(document).on('click', '.comCancel', function(e){
+        e.preventDefault();
+
+        let textarea = $(this).parent().parent().prev().children('textarea');
+        textarea.attr('readonly', true);
+        textarea.css("height", "");
+        textarea.css("background", "");
+        textarea.css("padding", "");
+        $(this).text("수정");
+        $(this).attr("class","comModify");
+        $(this).next().text("삭제");
+        $(this).next().attr("class","comDelete");
+    });
+
+    $(document).on('click', '.comSubmit', function(e){
+        e.preventDefault();
+
+        let textarea = $(this).parent().parent().prev().children('textarea');
+        textarea.attr('readonly', true);
+        textarea.css("height", "");
+        textarea.css("background", "");
+        textarea.css("padding", "");
+        $(this).text("삭제");
+        $(this).attr("class","comDelete");
+        $(this).prev().text("수정");
+        $(this).prev().attr("class","comModify");
+
+        let com_pno     = $(this).parent().parent().parent().attr('data-pno');
+        let com_comment = textarea.val();
+
+        textarea.text(com_comment);
+
+        let jsonData = { "com_no":com_pno, "com_comment":com_comment };
+
+        ajaxAPI("diary/comment", jsonData, "PATCH").then((response)=>{
+            if(response == 1) {
+                alert('수정 되었습니다.');
+            }else {
+                alert('다시 시도해주세요!');
+            }
+        });
     });
 });

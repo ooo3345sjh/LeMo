@@ -28,6 +28,8 @@ public class DiaryCommentVO {
     // 추가
     // @since 2023/03/16
     private String nick;
+    // @since 2023/03/18
+    private String reply;
 
 
 }
