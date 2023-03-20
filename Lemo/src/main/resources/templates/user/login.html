@@ -14,11 +14,11 @@
                 <div class="title">
                     <strong class="logo">
                         <img th:src="@{/images/index/lemo_logo-removebg-preview.png}" alt="">
-                        <a href="#">LEMO</a>
+                        <a th:href="@{/}">LEMO</a>
                     </strong>
                 </div>
                 <!-- 연동 로그인 -->
-                <a href="#" class="btn_start btn_kakao">
+                <a th:href="@{/oauth2/authorization/kakao}" class="btn_start btn_kakao">
                         <span>
                             <img th:src="@{/images/user/icon_kakao.png}">
                             <i>카카오톡으로 로그인</i>
