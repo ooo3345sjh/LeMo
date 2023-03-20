@@ -43,14 +43,16 @@
                                 <span>댓글</span><b>[[${total}]]</b>개
                             </div>
                             <div id="rep">
-                                <div class="commentEmpty" th:if="${map.size == 0}">
-                                    등록된 댓글이 없습니다.
-                                </div>
+                                <ul th:if="${map.size == 0}">
+                                    <li class="commentEmpty">
+                                        등록된 댓글이 없습니다.
+                                    </li>
+                                </ul>
                                 <ul th:if="${map.size != 0}">
                                     <!--댓글-->
                                     <th:block th:each="com:${map}">
                                         <th:block th:each="comment, i:${map.get(com.key)}">
-                                            <li th:classappend="${comment.com_no != comment.com_pno} ? 're_reply com__${comment.com_pno}__'" th:data-no="${com.key}" th:data-pno="${comment.com_no}">
+                                            <li th:classappend="${comment.com_no != comment.com_pno} ? 're_reply com__${comment.com_pno}__' : 'oriCom__${comment.com_no}__'" th:data-no="${com.key}" th:data-pno="${comment.com_no}">
                                                 <div class="repdiv1">
                                                     <img th:src="@{/images/admin/user_default.png}" alt="프사">
                                                     <div>
@@ -59,7 +61,7 @@
                                                 </div>
                                                 <div class="repdiv2">
                                                     <th:block th:if="${comment.com_no != comment.com_pno}">
-                                                        <p class="reply_id">@[[${comment.reply}]]</p>
+                                                        <p class="reply_id">@[[${comment.com_replyId}]]</p>
                                                     </th:block>
                                                     <textarea readonly>[[${comment.com_comment}]]</textarea>
                                                 </div>
@@ -81,7 +83,7 @@
                         </div>
                         <!-- 댓글 쓰기 -->
                         <div class="write_reply">
-                            <form action="#">
+                            <form action="#" class="comOriWrite">
                                 <textarea></textarea>
                                 <button>댓글 쓰기</button>
                             </form>
@@ -106,7 +108,8 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712&libraries=services"></script>
     <script th:inline="javascript">
         let positionMap = [[${article}]];
-        let arti_no = [[${arti_no}]];
+        let arti_no     = [[${arti_no}]];
+        let total       = [[${total}]];
     </script>
     <script th:src="@{/js/diary/diaryView.js}"></script>
 </th:block>

@@ -8,8 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -47,9 +46,17 @@ public class DiaryService {
     public Map<Integer, List<DiaryCommentVO>> findDiaryComment(int arti_no) {
 
         List<DiaryCommentVO> commentVO = dao.selectDiaryComment(arti_no);
-        Map<Integer, List<DiaryCommentVO>> map = commentVO.stream().collect(Collectors.groupingBy(DiaryCommentVO::getCom_pno));
 
-        return map;
+        Map<Integer, List<DiaryCommentVO>> map = commentVO.stream().collect(Collectors.groupingBy(DiaryCommentVO::getCom_pno));
+        Map<Integer, List<DiaryCommentVO>> sortedTreeMap = map.entrySet().stream().sorted(Map.Entry.comparingByKey())
+        				.collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2, LinkedHashMap::new));
+
+        return sortedTreeMap;
+    }
+
+    // @since 2023/03/20
+    public int rsaveOriComment(DiaryCommentVO commentVO) {
+        return dao.insertDiaryOriComment(commentVO);
     }
 
     // @since 2023/03/16
