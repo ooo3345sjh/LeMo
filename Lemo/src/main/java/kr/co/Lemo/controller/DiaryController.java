@@ -17,9 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @since 2023/03/14
@@ -57,6 +55,8 @@ public class DiaryController {
     public String view(Model m,
                        @RequestParam(defaultValue = "0") int arti_no
     ){
+        log.debug("GET view start");
+
         if(arti_no == 0) { return "redirect:/diary/list"; }
         m.addAttribute("arti_no", arti_no);
 
@@ -76,6 +76,28 @@ public class DiaryController {
         return "diary/view";
     }
 
+    // @since 2023/03/20
+    @ResponseBody
+    @PostMapping("oriComment")
+    public ResponseEntity<Map<String, String>> rsaveOriComment(
+            @RequestBody DiaryCommentVO commentVO,
+            HttpServletRequest req
+    ){
+        log.debug("POST oriComment start");
+        commentVO.setUser_id("test@test.com");
+        commentVO.setCom_replyId("test@test.com");
+        commentVO.setCom_regip(req.getRemoteAddr());
+
+        int result = service.rsaveOriComment(commentVO);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("result", Integer.toString(result));
+        map.put("nick", "유연한뚱이210001");
+        map.put("com_no", Integer.toString(commentVO.getCom_no()));
+
+        return ResponseEntity.ok(map);
+    }
+
     // @since 2023/03/16
     @ResponseBody
     @PostMapping("comment")
@@ -83,21 +105,26 @@ public class DiaryController {
             @RequestBody DiaryCommentVO commentVO,
             HttpServletRequest req
     ) {
+        log.debug("POST comment start");
+
         commentVO.setUser_id("test@test.com");
         commentVO.setCom_regip(req.getRemoteAddr());
 
-        UserVO userVO = service.findCommentNick(commentVO.getCom_no());
-        commentVO.setReply(userVO.getUser_id());
-
-        int result = service.rsaveComment(commentVO);
-
         Map<String, String> map = new HashMap<>();
 
-        map.put("user_id", "test@test.com");
-        map.put("nick", "유연한뚱이210001");
-        map.put("com_nick", userVO.getNick());
-        map.put("result", Integer.toString(result));
-        map.put("com_pno", Integer.toString(commentVO.getCom_no()));
+        if(commentVO.getCom_pno() != 0) {
+            UserVO userVO = service.findCommentNick(commentVO.getCom_no());
+            commentVO.setCom_replyId(userVO.getUser_id());
+
+            int result = service.rsaveComment(commentVO);
+
+            map.put("user_id", "test@test.com");
+            map.put("nick", "유연한뚱이210001");
+            map.put("com_nick", userVO.getNick());
+            map.put("result", Integer.toString(result));
+            map.put("com_pno", Integer.toString(commentVO.getCom_no()));
+        }
+
 
         return ResponseEntity.ok(map);
     }
@@ -106,6 +133,7 @@ public class DiaryController {
     @ResponseBody
     @DeleteMapping("comment")
     public ResponseEntity<Integer> removeComment(@RequestBody DiaryCommentVO commentVO) {
+        log.debug("DELETE comment start");
 
         int result = service.removeComment(commentVO.getCom_no());
 
@@ -116,6 +144,8 @@ public class DiaryController {
     @ResponseBody
     @PatchMapping("comment")
     public ResponseEntity<Integer> usaveComment(@RequestBody DiaryCommentVO commentVO, HttpServletRequest req) {
+        log.debug("PATCH comment start");
+
         commentVO.setCom_regip(req.getRemoteAddr());
         int result = service.usaveComment(commentVO);
 

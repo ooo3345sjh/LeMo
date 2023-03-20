@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.geo.Point;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * @since 2023/03/08
@@ -37,5 +40,7 @@ public class DiarySpotVO {
     // @since 2023/03/15
     private String arti_rdate;
     private int arti_like;
+
+    private List<MultipartFile> spot_files;
 
 }

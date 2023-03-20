@@ -29,7 +29,7 @@ public class DiaryCommentVO {
     // @since 2023/03/16
     private String nick;
     // @since 2023/03/18
-    private String reply;
+    private String com_replyId;
 
 
 }

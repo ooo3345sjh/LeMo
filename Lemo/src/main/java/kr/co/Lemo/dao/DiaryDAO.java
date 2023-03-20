@@ -27,6 +27,9 @@ public interface DiaryDAO {
     // @since 2023/03/15
     public List<DiaryCommentVO> selectDiaryComment(int arti_no);
 
+    // @since 2023/03/20
+    public int insertDiaryOriComment(DiaryCommentVO commentVO);
+
     // @since 2023/03/16
     public int insertDiaryComment(DiaryCommentVO commentVO);
 

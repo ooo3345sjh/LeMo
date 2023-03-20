@@ -132,6 +132,51 @@ $(function(){
     })
 
     /* 댓글쓰기 */
+    $(document).on('submit', '.comOriWrite', function(e){
+        e.preventDefault();
+        let comment = $(this).children('textarea').val();
+
+        let jsonData = { "arti_no":arti_no , "com_comment":comment }
+
+        ajaxAPI("diary/oriComment", jsonData, "POST").then((response)=>{
+            if(response["result"] == '1'){
+                alert('작성되었습니다.');
+
+                let content = '<li data-no="'+response["com_no"]+'" data-pno="'+response["com_no"]+'">';
+                   content += '<div class="repdiv1">';
+                   content += '<img src="/Lemo/images/admin/user_default.png" alt="프사">';
+                   content += '<div>';
+                   content += '<strong>'+response["nick"]+'</strong><span>'+date+'</span>';
+                   content += '</div>';
+                   content += '</div>';
+                   content += '<div class="repdiv2">';
+                   content += '<textarea readonly>'+comment+'</textarea>';
+                   content += '</div>';
+                   content += '<div class="repdiv3">';
+                   content += '<div>';
+                   content += '<a href="#" class="showall">댓글 모두보기</a>';
+                   content += '<a href="#" class="comment">댓글 쓰기</a>'
+                   content += '</div>';
+                   content += '<div>';
+                   content += '<a href="#" class="comModify">수정</a> ';
+                   content += '<a href="#" class="comDelete">삭제</a>';
+                   content += '</div>';
+                   content += '</div>';
+                   content += '</li>';
+
+                if($('.commentEmpty').length == 1) {
+                    $('.commentEmpty').remove();
+                }
+
+                total += 1
+                $('#tit').children('b').text(total);
+                $(this).parent().parent().find('#rep').children().append(content);
+
+            }
+        });
+    })
+
+    /* 대댓글쓰기 */
     $(document).on('submit', '.comWrite', function(e){
         e.preventDefault();
         let comment = $(this).children('textarea').val();
@@ -158,8 +203,8 @@ $(function(){
                content += '<div class="repdiv3">';
                content += '<div><a href="#" class="comment">댓글 쓰기</a></div>';
                content += '<div>';
-               content += '<a href="#">수정</a> ';
-               content += '<a href="#">삭제</a>';
+               content += '<a href="#" class="comModify">수정</a> ';
+               content += '<a href="#" class="comDelete">삭제</a>';
                content += '</div>';
                content += '</div>';
                content += '</li>';
@@ -168,18 +213,24 @@ $(function(){
                 $(this).parent().prev().after(content);
                 $(this).parent().prev().find('.comment').text('댓글 쓰기');
                 $(this).parent().remove();
+
+                total += 1
+                $('#tit').children('b').text(total);
             }else {
                 $('.com'+com_pno).last().after(content);
                 $(this).parent().next('.emptyCom'+com_pno).remove();
                 $(this).parent().prev().find('.comment').removeClass('open');
                 $(this).parent().prev().find('.comment').text('댓글 쓰기');
                 $(this).parent().remove();
+
+                total += 1
+                $('#tit').children('b').text(total);
             }
         });
     });
 
     /* 댓글 모두보기 팝업 */
-    $('.showall').click(function(e){
+    $(document).on('click', '.showall', function(e){
         e.preventDefault();
 
         let com_pno = $(this).parent().parent().parent().attr('data-no');
@@ -209,6 +260,7 @@ $(function(){
         }
     });
 
+    /* 댓글 삭제 */
     $(document).on('click', '.comDelete', function(e){
         e.preventDefault();
         let com_no  = $(this).parent().parent().parent().attr('data-no');
@@ -220,11 +272,6 @@ $(function(){
             if(response == 1) {
                 alert('삭제 되었습니다.');
 
-                if(( $('.com'+com_no).length - 1 ) == 0) {
-                    let content = '<li class="re_reply com'+com_pno+' emptyCom'+com_pno+' style="display:block; font-size:12px; padding-bottom:15px;">등록된 답글이 없습니다.</li>';
-                    $(this).parent().parent().parent().prev().after(content);
-                }
-
                 $(this).parent().parent().parent().remove();
             }else {
                 alert('다시 시도해주세요!');
@@ -232,12 +279,12 @@ $(function(){
         });
     });
 
+    /* 댓글 수정 */
     $(document).on('click', '.comModify', function(e){
         e.preventDefault();
 
         let textarea = $(this).parent().parent().prev().children('textarea');
         textarea.removeAttr('readonly');
-<<<<<<< HEAD
         textarea.css("height", "80px");
         textarea.css("background", "#f9f8e0");
         textarea.css("padding", "5px");
@@ -247,6 +294,7 @@ $(function(){
         $(this).next().attr("class","comSubmit");
     });
 
+    /* 댓글 수정 취소 */
     $(document).on('click', '.comCancel', function(e){
         e.preventDefault();
 
@@ -261,19 +309,11 @@ $(function(){
         $(this).next().attr("class","comDelete");
     });
 
+    /* 댓글 수정 */
     $(document).on('click', '.comSubmit', function(e){
         e.preventDefault();
 
         let textarea = $(this).parent().parent().prev().children('textarea');
-        textarea.attr('readonly', true);
-        textarea.css("height", "");
-        textarea.css("background", "");
-        textarea.css("padding", "");
-        $(this).text("삭제");
-        $(this).attr("class","comDelete");
-        $(this).prev().text("수정");
-        $(this).prev().attr("class","comModify");
-
         let com_pno     = $(this).parent().parent().parent().attr('data-pno');
         let com_comment = textarea.val();
 
@@ -284,11 +324,18 @@ $(function(){
         ajaxAPI("diary/comment", jsonData, "PATCH").then((response)=>{
             if(response == 1) {
                 alert('수정 되었습니다.');
+
+                textarea.attr('readonly', true);
+                textarea.css("height", "");
+                textarea.css("background", "");
+                textarea.css("padding", "");
+                $(this).text("삭제");
+                $(this).attr("class","comDelete");
+                $(this).prev().text("수정");
+                $(this).prev().attr("class","comModify");
             }else {
                 alert('다시 시도해주세요!');
             }
         });
-=======
->>>>>>> 996852e16c5db545f7c1363e0dc629e1738d6617
     });
 });
