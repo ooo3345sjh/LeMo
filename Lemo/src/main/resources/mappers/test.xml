@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    날짜 : 2023/03/18
+    이름 : 황원진
+    내용 : dropzone Test
+ -->
+<mapper namespace="kr.co.Lemo.test.testDAO">
+
+
+    <!-- insert -->
+    <insert id="insertTestArticle">
+        insert into `lemo_cs` set
+        `user_id`='b1848@naver.com',
+        `cs_cate`='event',
+        `cs_type`=#{cs_type},
+        `cs_title`='이벤트 테스트파일 이미지',
+        `cs_content`='이벤트 테스트 파일 이미지',
+        `cs_regip`='0:0:0:0:0:0:0:1',
+        `cs_rdate`=NOW(),
+        `cs_eventbannerImg`=#{cs_eventbannerImg},
+        `cs_eventViewImg`=#{cs_eventViewImg},
+        `cs_eventStart`=#{cs_eventStart},
+        `cs_eventEnd`=#{cs_eventEnd};
+    </insert>
+
+
+
+
+
+
+
+</mapper>

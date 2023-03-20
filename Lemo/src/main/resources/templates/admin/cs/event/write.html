@@ -33,7 +33,7 @@
                         </div>
 
                         <!-- 이벤트 등록 폼 -->
-                        <form class="col_register_form" th:action="@{/admin/cs/event/write}" method="post">
+                        <form class="col_register_form" th:action="@{/admin/cs/event/write}" method="post" enctype="multipart/form-data">
 
                             <!-- 이벤트 정보 -->
                             <div class="col_register1">
@@ -94,7 +94,7 @@
                                 </table>
                             </div>
                             <div class="btnAdminProd" id="btnUpload">
-                                <button type="submit" onclick="document.getElementById('faqWrite').submit();">
+                                <button type="submit">
                                     이벤트등록
                                 </button>
                             </div>

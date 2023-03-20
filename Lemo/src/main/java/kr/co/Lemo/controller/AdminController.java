@@ -252,11 +252,7 @@ public class AdminController {
 
 
 
-    /**
-     * @since 2023/03/09
-     * @author 황원진
-     * @apiNote list 통합
-     */
+   // @since 2023/03/20 황원진
     @GetMapping("cs/{cs_cate}/list")
     public String findAllCs_list(@PathVariable("cs_cate") String cs_cate,
                                  String cs_type,
@@ -321,7 +317,6 @@ public class AdminController {
     /**
      * @since 2023/03/14
      * @author 황원진
-     * @apiNote 관리자 controller
      */
     @GetMapping("cs/{cs_cate}/modify")
     public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model Model){
@@ -381,13 +376,15 @@ public class AdminController {
         return "admin/cs/event/write";
     }
 
-    // @since 2023/03/10
+
     /**
      * @since 2023/03/10
      * @author 황원진
      */
     @PostMapping("cs/{cs_cate}/write")
-    public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
+    public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate,
+                                     CsVO vo,
+                                     HttpServletRequest req) {
         if("notice".equals(cs_cate)){
             vo.setUser_id("b1848@naver.com");
             vo.setCs_regip(req.getRemoteAddr());
@@ -404,6 +401,9 @@ public class AdminController {
         }else if("event".equals(cs_cate)){
             vo.setUser_id("b1848@naver.com");
             vo.setCs_regip(req.getRemoteAddr());
+
+            log.info("bannerImg : " + vo.getCs_eventbannerImg());
+            log.info("contentImg : " + vo.getCs_eventViewImg());
 
             csService.rsaveEventArticle(vo);
         }
