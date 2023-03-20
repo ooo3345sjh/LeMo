@@ -106,9 +106,6 @@ $(function(){
         let checkInDate = new Date(checkIn);
         let today = new Date(date);
 
-        console.log('checkIn' + checkIn);
-        console.log('checkOut' + checkOut);
-
         if(checkInDate < today) {
             alert('지나간 날짜는 선택이 불가능합니다.');
             return;

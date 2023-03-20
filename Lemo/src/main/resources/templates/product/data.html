@@ -1,140 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layouts/default-layout">
-<th:block layout:fragment="css-js">
-    <!-- swiperSlider -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-    <!-- bxSlider -->
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
-    <!-- swiperSlider -->
-    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-    <!-- bxSlider -->
-    <script src="//cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-    <!-- Date Range Picker -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <link rel="stylesheet" th:href="@{/css/product/product.css}">
-    <script th:src="@{/js/product/daterangepicker.js}"></script>
-    <script th:src="@{/js/product/productView.js}"></script>
-</th:block>
-    <th:block layout:fragment="content">
+<html xmlns:th="http://www.thymeleaf.org">
         <!-- 메인 -->
         <main id="productView">
             <!-- 상단 이미지 & 상품 정보 -->
-            <div id="topContent">
-                <div id="productImg">
-                    <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide" th:each="img, i : ${#strings.arraySplit(rooms.get(0).acc_thumbs, '/')}">
-                                <img th:src="|@{/}img/product/${rooms.get(0).province_no}/${rooms.get(0).acc_id}/${img}|"/>
-                            </div>
-                        </div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div>
-                    <div thumbsSlider="" class="swiper mySwiper">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide" th:each="img, i : ${#strings.arraySplit(rooms.get(0).acc_thumbs, '/')}">
-                                <img th:src="|@{/}img/product/${rooms.get(0).province_no}/${rooms.get(0).acc_id}/${img}|"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="productInfo">
-                    <!-- 상품 정보 -->
-                    <div class="info">
-                        <h3>[[${rooms.get(0).acc_name}]]</h3>
-                        <div class="score">
-                            <span>[[${#numbers.formatDecimal(rooms.get(0).acc_rate,1,1)}]]</span>
-                            <th:block th:if="${rooms.get(0).acc_rate >=5}">최고에요</th:block>
-                            <th:block th:if="${rooms.get(0).acc_rate >= 4 && rooms.get(0).acc_rate < 5 }">추천해요</th:block>
-                            <th:block th:if="${rooms.get(0).acc_rate >= 3 && rooms.get(0).acc_rate < 4 }">추천해요</th:block>
-                            <th:block th:if="${rooms.get(0).acc_rate < 3 }">괜찮아요</th:block>
-                        </div>
-                        <p class="address">
-                            [[${rooms.get(0).acc_addr}]]
-                            <th:block th:if="${rooms.get(0).acc_addrDetail != 'None'}">[[${rooms.get(0).acc_addrDetail}]]</th:block>
-                        </p>
-                    </div>
-                    <!-- 사장님 한마디 -->
-                    <div class="sellerComment">
-                        <strong>사장님 한마디</strong>
-                        <button>더보기</button>
-                        <div class="clamp" th:if="${rooms.get(0).acc_comment != 'None'}">
-                            [[${rooms.get(0).acc_comment}]]
-                        </div>
-                        <div class="clamp" th:unless="${rooms.get(0).acc_comment != 'None'}">
-                            등록된 사장님 한마디가 없습니다.
-                        </div>
-                    </div>
-                    <!-- 쿠폰 -->
-                    <div class="product_coupon">
-                        <p>
-                            적용되는 쿠폰 확인하기
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="tab">
-                <!-- 객실안내/예약 -->
-                <button id="showRoom" class="on">객실안내/예약</button>
-                <!-- 숙소정보 -->
-                <button id="showInfo">숙소정보</button>
-                <!-- 리뷰 -->
-                <button id="showReview">리뷰</button>
-                <!-- 여행일기 -->
-                <button id="showDiary">여행일기</button>
-                <!-- 문의하기 -->
-                <button id="showQna">문의하기</button>
-            </div>
             <!-- 객실정보 -->
-            <form id="detail_room">
-                <div class="date">
-                    체크인 / 체크아웃
-                    <input type="text" name="daterange" id="daterange">
-                </div>
-                <div id="div-article">
-                    <article class="roominformation" th:each="room,count : ${rooms}">
-                        <div class="room">
-                            <p class="expansion_Img">
-                                <img th:if="${not #strings.contains(room.room_thumb, '/')} "
-                                     th:src="|@{/}img/product/${room.province_no}/${room.acc_id}/${room.room_thumb}|" alt="#">
-                                <img th:if="${#strings.contains(room.room_thumb, '/')} "
-                                     th:src="|@{/}img/product/${room.province_no}/${room.acc_id}/${#strings.substringBefore(room.room_thumb, '/')}|" alt="#">
-                            </p>
-                            <div class="detail_room_info">
-                                <strong>[[${room.room_name}]]</strong>
-                                <div>
-                                    <span>가격</span>
-                                    <span>[[${#numbers.formatInteger(room.avg_price, 1, 'COMMA')}]]원/1박</span>
-                                </div>
-                                <button type="button" th:onclick="'popup_room_guide('+${count.count}+')'">객실 이용 안내</button>
-                            </div>
-                            <button type="button" class="status" th:if="${room.empty_room_stock == 0}">예약마감</button>
-                            <button type="button" class="status on" th:if="${room.empty_room_stock != 0}">예약</button>
-                            <div class="expansionImg">
-                                <button type="button">닫기</button>
-                                <div class="view_slider">
-                                    <div class="slider">
-                                        <div th:each="img : ${#strings.arraySplit(room.room_thumb,'/')}">
-                                            <img th:src="|@{/}img/product/${room.province_no}/${room.acc_id}/${img}|" alt="#3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </form>
             <!-- 숙소정보 -->
-            <article class="detail_info" id="detail_info">
+            <article class="detail_info" id="detail_info" style="display:block;">
                 <!-- 기본정보 -->
                 <button type="button" class="detail_info_default">
                     <span>기본 정보</span>
                 </button>
-                <section class="info_default" th:utext="${rooms.get(0).acc_info.replaceAll('\r\n|\r|\n', '<br/>')}">
+                <section class="info_default">
+                    주변정보 테스트<br>
+                    강문해변 차량 2분<br>
+                    경포아쿠아리움 차량 5분<br>
+                    강릉항 차량 8분<br>
+                    기본정보<br>
+                    체크인 : 15:00 | 체크아웃 : 11:00<br>
+                    22시 이후 체크인 시 호텔 프론트 문의<br>
+                    무료 Wi-Fi<br>
+                    전 객실 금연<br>
+                    주차 가능 (무료 / 객실 당 1대)<br>
+                    [그린 캠페인] 플라스틱 없는 호텔 만들기로 기본 욕실 어메니티 3종(샴푸, 린스, 바디워시) 이외에 1회 용품은 제공하지 않습니다<br>
+                    인원 추가 정보<br>
+                    최대인원 초과불가 (영유아 인원수 포함)<br>
+                    객실 당 2인 기준으로 세팅되어 있으며, 1인 추가 시 22,000원/박당 현장 결제입니다
                 </section>
                 <!-- 편의시설 및 서비스 -->
                 <button type="button" class="detail_info_service">
@@ -184,6 +74,7 @@
                     604-88-00718
                 </section>
             </article>
+
             <!-- 리뷰 -->
             <article class="detail_review">
                 <div class="score_top">
@@ -308,6 +199,7 @@
                     </li>
                 </ul>
             </article>
+
             <!-- 여행일기 -->
             <article class="detail_diary">
                 <span>테스트 호텔</span>
@@ -450,107 +342,5 @@
                 </div>
             </article>
         </main>
-        <!-- 객실 이용 안내 팝업 -->
 
-        <div th:each="room,count : ${rooms}" id="popup_room_guide" th:data-room-guide="${count.count}" th:class="'popup popup_room_guide'+${count.count}">
-            <div>
-                <div class="fix_title">
-                    객실 이용 안내
-                    <button type="button" th:onclick="'popdown_room_guide('+${count.count}+')'">닫기</button>
-                </div>
-                <div class="iscroll_cp" style="touch-action: none;" th:if="${room.room_info != null}">
-                    <section>
-                        <ul class="dot_txt">
-                            <strong></strong>
-                            <li th:utext="${room.room_info.replaceAll('\r\n|\r|\n', '<br/>')}">
-                            </li>
-                        </ul>
-                    </section>
-                </div>
-                <div class="iscroll_cp" style="touch-action: none;" th:if="${room.room_info == null}">
-                    <section>
-                        <ul class="dot_txt">
-                            <strong></strong>
-                            <li>등록된 객실 이용안내가 없습니다.</li>
-                        </ul>
-                    </section>
-                </div>
-            </div>
-        </div>
-        <!--
-        <div th:each="num : ${#numbers.sequence(1, rooms.size())}" id="popup_room_guide" th:data-room-guide="${num}" th:class="'popup popup_room_guide'+${num}">
-            <div>
-                <div class="fix_title">
-                    객실 이용 안내
-                    <button type="button" th:onclick="'popdown_room_guide('+${num}+')'">닫기</button>
-                </div>
-                <div class="iscroll_cp" style="touch-action: none;">
-                    <div class="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
-                        <section>
-                            <strong>기본정보</strong>
-                            <ul class="dot_txt">
-                                <li>2인 기준 최대 2인</li>
-                                <li>더블베드 1개</li>
-                                <li>객실+욕실 / 7.14평</li>
-                            </ul>
-                        </section>
-                        <section>
-                            <strong>편의시설</strong>
-                            <ul class="dot_txt">
-                                <li>침구류, TV, 에어컨, 쇼파, 테이블, 옷장, 냉장고, 헤어드라이기, 욕실용품, 샤워가운</li>
-                            </ul>
-                        </section>
-                        <section>
-                            <strong>추가 정보</strong>
-                            <ul class="dot_txt">
-                                <li>
-                                    Room Only /  퀸베드 1개
-                                </li>
-                            </ul>
-                        </section>
-                        <section>
-                            <strong>선택 날짜</strong>
-                            <ul class="dot_txt">
-                                <li>03월 01일 ~ 03월 03일</li>
-                            </ul>
-                        </section>
-                    </div>
-                </div>
-            </div>
-        </div>
-        -->
-        <!-- 쿠폰 팝업 -->
-        <div id="popup_coupon" class="popup_coupon">
-            <div>
-                <div class="fix_title">
-                    사용 가능한 쿠폰
-                    <button type="button" onclick="popdown_coupon()">닫기</button>
-                </div>
-                <div class="iscroll_cp" style="touch-action: none;">
-                    <div class="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
-                        <section>
-                            <strong>Lemo에서 드리는 쿠폰!</strong>
-                            <ul class="dot_coupon_txt">
-                                <li>회원가입 10,000원 할인!</li>
-                                <li>여름 특별 50,000 할인!</li>
-                            </ul>
-                        </section>
-                        <section>
-                            <strong>테스트 호텔에서 드리는 쿠폰!</strong>
-                            <ul class="dot_coupon_txt">
-                                <li>여름 특별 50,000 할인</li>
-                                <li>도보 방문시 5,000원 할인</li>
-                            </ul>
-                        </section>
-                        제공되는 쿠폰은 다음과 같으며 예약 결제 페이지에서 적용가능합니다.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </th:block>
-    <th:block layout:fragment="script">
-        <script th:inline="javascript">
-            let acc_id = [[${rooms.get(0).acc_id}]];
-        </script>
-    </th:block>
 </html>

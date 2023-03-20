@@ -3,7 +3,9 @@ package kr.co.Lemo.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.Lemo.dao.ProductDAO;
+import kr.co.Lemo.domain.BusinessVO;
 import kr.co.Lemo.domain.ProductAccommodationVO;
+import kr.co.Lemo.domain.ServiceCateVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
 import kr.co.Lemo.utils.PageHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -98,21 +100,43 @@ public class ProductService {
 
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
 
+
         // 숙박 업소 가져오기
         List<ProductAccommodationVO> accs = dao.selectAccommodations(sc);
         
         // 가격 데이터 가공
         accs = setAvgPrice(sc, accs);
 
+        model.addAttribute("checkIn", checkIn);
+        model.addAttribute("checkOut", checkOut);
         model.addAttribute("accs", accs);
         model.addAttribute("ph", pageHandler);
 
     };
 
     // @since 2023/03/17
-    public ProductAccommodationVO findAccommodation(Model model, int acc_id) throws Exception {
-        //return dao.selectAccommodation(acc_id);
-        return null;
+    public List<ProductAccommodationVO> findAccommodation(int acc_id, String checkIn, String checkOut) throws Exception {
+
+        Product_SearchVO sc = new Product_SearchVO();
+        sc.setCheckIn(checkIn);
+        sc.setCheckOut(checkOut);
+
+        List<ProductAccommodationVO> accs = dao.selectAccommodation(acc_id, checkIn, checkOut);
+
+        // 가격 데이터 가공
+        accs = setAvgPrice(sc, accs);
+
+        return accs;
+    }
+
+    // @since 2023/03/19
+    public List<ServiceCateVO> findAllServiceCate(int acc_id){
+        return dao.selectServiceCates(acc_id);
+    }
+
+    // @since 2023/03/19
+    public BusinessVO findBusinessInfo(String user_id){
+        return dao.selectBusinessInfo(user_id);
     }
 
     // update

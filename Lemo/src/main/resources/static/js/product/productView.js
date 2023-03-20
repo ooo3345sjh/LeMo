@@ -31,6 +31,10 @@ function remove_tab_class(){
     $('.prodQna').attr('style', "display:none;");
 }
 
+
+// 현재 주소의 파라미터
+const urlParams = new URLSearchParams(window.location.search);
+
 $(function(){
     /** swiper Slider */
     // main slider 실행
@@ -118,7 +122,39 @@ $(function(){
     $('#showInfo').click(function(){
         remove_tab_class();
         $(this).addClass('on');
+
+//        let url = "/Lemo/product/getview?cate=info&acc_id="+acc_id;
+//
+//        $('#detail_info').load(url + ' #detail_info', function() {
+//            console.log('load complete!');
+//        });
+
+//        $.ajax({
+//            type: "GET",
+//            url: "/Lemo/product/getview?cate=info&acc_id="+acc_id,
+//            dataType: "text"
+//        }).done(function(response){
+//            $('#detail_info').replaceWith(response);
+//        }).fail(function(jqXHR) {
+//            alert('fail');
+//            console.log(jqXHR);
+//        });
+
+
+//        ajaxAPI("product/getview?cate=info&acc_id="+acc_id, null, "GET").then((response) => {
+//
+//            console.log(response);
+//
+//            $('#detail_info').html(response);
+//            alert('성공이야!');
+//
+//        }).catch((errorMsg) => {
+//            alert('에러!');
+//            console.log(errorMsg)
+//        });
+
         $('.detail_info').attr('style', "display:block;");
+
     });
 
     /** 탭 - 리뷰 */
@@ -182,4 +218,9 @@ $(function(){
             $('.info_seller').removeClass('on');
         }
     });
+
+    page = 'view';
+
+
+
 });

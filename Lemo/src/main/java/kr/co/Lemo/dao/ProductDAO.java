@@ -1,8 +1,11 @@
 package kr.co.Lemo.dao;
 
+import kr.co.Lemo.domain.BusinessVO;
 import kr.co.Lemo.domain.ProductAccommodationVO;
+import kr.co.Lemo.domain.ServiceCateVO;
 import kr.co.Lemo.utils.SearchCondition;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,7 +30,14 @@ public interface ProductDAO {
     public List<ProductAccommodationVO> selectAccommodations(SearchCondition sc);
 
     // @since 2023/03/17
-    //public ProductAccommodationVO findAccommodation(int acc_id);
+    public List<ProductAccommodationVO> selectAccommodation(@Param("acc_id") int acc_id,
+                                                      @Param("checkIn")String checkIn, @Param("checkOut") String checkOut);
+
+    // @since 2023/03/19
+    public List<ServiceCateVO> selectServiceCates(@Param("acc_id") int acc_id);
+
+    // @since 2023/03/19
+    public BusinessVO selectBusinessInfo(@Param("user_id") String user_id);
 
     // update
 
