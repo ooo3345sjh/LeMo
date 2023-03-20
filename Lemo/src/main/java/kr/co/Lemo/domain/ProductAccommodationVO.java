@@ -44,6 +44,15 @@ public class ProductAccommodationVO {
     private int room_price;
     private int room_stock;
     private int room_id;
+
+    private String room_thumb;
+    private String room_name;
+    private int room_addPrice;
+    private String room_info;
+    private String room_checkIn;
+    private String room_checkOut;
+
+
     private int empty_room_stock;
     private int sum_room_stock;
     private String accType_type;

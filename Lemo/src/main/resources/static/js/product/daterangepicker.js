@@ -1,7 +1,12 @@
 /* 날짜 */
-let tommorrow = now.getDate() + 1;
-let startDate = date;
-let endDate = nowYear + '-' + nowMonth + '-' + tommorrow;
+let month = String(now.getMonth() + 1).padStart(2, '0');
+let day = String(now.getDate()).padStart(2, '0');
+let tommorrow = String(now.getDate() + 1).padStart(2, '0');
+
+let startDate = nowYear + '-' + month + '-' + day;
+let endDate = nowYear + '-' + month + '-' + tommorrow;
+let page = '';
+
 $(function(){
 
     checkInParam = urlParams.get("checkIn");
@@ -34,5 +39,16 @@ $(function(){
     }, function (start, end, label) {
         checkIn = start.format('YYYY-MM-DD');
         checkOut = end.format('YYYY-MM-DD');
+
+        // 페이지가 view 일 경우
+        if(page == 'view') {
+
+            let newUrl = '/Lemo/product/view?acc_id='+acc_id+'&checkIn=' + checkIn + '&checkOut='+checkOut;
+            $('#div-article').load(newUrl + ' #div-article', function() {
+                console.log('load complete!');
+            });
+
+        }
+
     });
 });

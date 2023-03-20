@@ -121,7 +121,7 @@
                                         <span class="badge">[[${acc.accType_type}]]</span>
                                         <img th:src="|@{/}img/product/${acc.province_no}/${acc.acc_id}/${#strings.substringBefore(acc.acc_thumbs, '/')}|" alt="상품 이미지">
                                         <article class="stage">
-                                            <a th:href="@{/product/view(acc_id=${acc.acc_id})}">
+                                            <a th:href="@{/product/view(acc_id=${acc.acc_id},checkIn=${checkIn},checkOut=${checkOut})}">
                                                 <div class="stage-name">
                                                     <strong>[[${acc.acc_name}]]</strong>
                                                     <p>

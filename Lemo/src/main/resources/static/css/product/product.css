@@ -189,11 +189,15 @@
 
 #productInfo > .sellerComment > div {
     display: block;
-    overflow: hidden;
-    height: auto;
+    overflow: scroll;
+    height: 138px;
     font-size: 16px;
     line-height: 26px;
     color: rgba(0,0,0,0.56);
+    -ms-overflow-style: none;
+}
+#productInfo > .sellerComment > div::-webkit-scrollbar {
+    display:none;
 }
 
 /** 쿠폰 */
@@ -408,6 +412,15 @@
     text-align: center;
 }
 
+#detail_room .room > button.status {
+    color: #111;
+}
+
+#detail_room .room > button.status.on {
+    background-color: rgb(255,0,85);
+    color: #fff;
+}
+
 #detail_room .room > p {
     float: left;
     display: inline-block;
@@ -613,6 +626,8 @@
     text-align: left;
     line-height: 26px;
     color: rgba(0,0,0,0.56);
+    /* 추가 */
+    list-style: none;
 }
 
 #popup_room_guide > div > .iscroll_cp .dot_txt > li {

@@ -18,4 +18,8 @@ import lombok.NoArgsConstructor;
 public class ServiceCateVO {
     private int sc_no;
     private String sc_name;
+
+
+    /* 추가필드 */
+    private int srg_id;
 }

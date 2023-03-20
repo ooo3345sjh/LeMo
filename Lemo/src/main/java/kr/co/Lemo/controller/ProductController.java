@@ -1,5 +1,7 @@
 package kr.co.Lemo.controller;
 
+import kr.co.Lemo.domain.BusinessVO;
+import kr.co.Lemo.domain.ProductAccommodationVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
 import kr.co.Lemo.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,7 +43,9 @@ public class ProductController {
      * @Map map (상품 검색 조건)
      */
     @GetMapping("list")
-    public String list(Model model, @RequestParam Map map, @ModelAttribute Product_SearchVO vo) throws Exception {
+    public String list(Model model,
+                       @RequestParam Map map,
+                       @ModelAttribute Product_SearchVO vo) throws Exception {
         log.debug("GET list start");
 
         // 숙박업소 리스트 가져오기
@@ -52,12 +57,19 @@ public class ProductController {
 
     // @since 2023/03/17 상품 보기
     @GetMapping("view")
-    public String view(Model model, int acc_id) throws Exception {
+    public String view(Model model,
+                       int acc_id,
+                       String checkIn,
+                       String checkOut) throws Exception {
 
         log.debug("Get view start");
-        
+
         // 숙소 정보 가져오기
-        //service.findAccommodation(model,acc_id);
+        List<ProductAccommodationVO> rooms = service.findAccommodation(acc_id, checkIn, checkOut);
+
+        model.addAttribute("rooms", rooms);
+        model.addAttribute("checkIn", checkIn);
+        model.addAttribute("checkOut", checkOut);
 
         return "product/view";
     }
@@ -71,4 +83,29 @@ public class ProductController {
     public String result() throws Exception{
         return "product/result";
     }
+
+    // @since 2023/03/19
+    @GetMapping("getview")
+    public String getview(Model model,
+                          int acc_id ,
+                          String cate) throws Exception {
+
+        log.debug("Get getview start");
+
+        log.info("cate" + cate);
+        log.info("acc_id" + acc_id);
+
+        //List<ServiceCateVO> scs = service.findAllServiceCate(acc_id);
+        //model.addAttribute("scs", scs);
+
+        String user_id = "1000hyeok0819@naver.com";
+
+        BusinessVO bv = service.findBusinessInfo(user_id);
+
+
+        log.info("bv : " + bv);
+
+        return "product/data";
+    }
+
 }

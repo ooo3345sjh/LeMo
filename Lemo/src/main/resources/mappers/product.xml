@@ -26,6 +26,39 @@
         <include refid="common"/>
     </select>
 
+    <select id="selectAccommodation" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+        SELECT a.*, r.*, IFNULL(b.empty_room_stock, r.room_stock) as 'empty_room_stock',c.*
+        FROM `lemo_product_accommodation` a
+        JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
+        LEFT JOIN (
+            SELECT a.acc_id 'acc_id', r.room_id 'room_id', (r.room_stock - COUNT(rero.rero_id)) 'empty_room_stock' FROM `lemo_product_accommodation` a
+            JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
+            JOIN    `lemo_product_reserved_room` rero ON r.room_id = rero.room_id AND r.acc_id = rero.acc_id
+
+            <![CDATA[
+                AND (rero.rero_checkOut_date > #{checkIn} AND rero.rero_checkIn_date < #{checkOut})
+            ]]>
+
+            GROUP BY a.`acc_id`, r.room_id
+        ) b
+        ON a.acc_id = b.acc_id AND r.room_id = b.room_id
+        JOIN `lemo_product_ratepolicy` c
+        ON a.acc_id = c.acc_id
+        WHERE a.acc_id = #{acc_id}
+        ORDER BY a.acc_id;
+    </select>
+
+    <select id="selectServiceCates" resultType="kr.co.Lemo.domain.ServiceCateVO">
+        SELECT a.*, b.`sc_name` FROM `lemo_product_servicereginfo` AS a
+        JOIN `lemo_product_servicecate` AS b
+        ON a.sc_no = b.sc_no
+        WHERE `acc_id`= #{acc_id}
+    </select>
+
+    <select id="selectBusinessInfo" resultType="kr.co.Lemo.domain.BusinessVO">
+        SELECT * FROM `lemo_member_businessinfo`
+        WHERE `user_id` = #{user_id};
+    </select>
 
 
 
@@ -70,13 +103,13 @@
     </sql>
 
     <sql id="common">
-
         FROM (
         SELECT *, ROW_NUMBER() OVER(PARTITION BY a.acc_id ORDER BY a.room_price, IFNULL(a.empty_room_stock, a.room_stock) desc) 'order'
         FROM(
-        SELECT a.acc_id 'acc_id', a.user_id, a.acc_name, a.accType_no, a.province_no, a.acc_city, a.acc_zip ,a.acc_addr, a.acc_addrDetail,
+        SELECT a.acc_id 'acc_id', a.user_id, a.acc_name, a.accType_no, a.province_no, a.acc_city, a.acc_zip, a.acc_addr,a.acc_addrDetail,
         a.acc_longtitude, a.acc_lattitude, a.acc_xy, a.acc_mainInfo, a.acc_info, a.acc_comment, a.acc_thumbs, a.acc_rate, a.acc_review, a.acc_season,
-        r.room_maxNum 'room_maxNum', r.room_id, r.room_price 'room_price', r.room_stock 'room_stock', IFNULL(b.empty_room_stock, r.room_stock) as 'empty_room_stock',
+        r.room_maxNum 'room_maxNum', r.room_id, r.room_price 'room_price', r.room_stock 'room_stock',
+        r.room_thumb, r.room_name,r.room_addPrice,r.room_info,r.room_checkIn, r.room_checkOut, IFNULL(b.empty_room_stock, r.room_stock) as 'empty_room_stock',
         ROW_NUMBER() OVER(PARTITION BY a.acc_id ORDER BY r.room_price, IFNULL(b.empty_room_stock, r.room_stock) desc) 'top',
         SUM(IFNULL(b.empty_room_stock, r.room_stock)) OVER(PARTITION BY a.acc_id) 'sum_room_stock'
         FROM `lemo_product_accommodation` a
