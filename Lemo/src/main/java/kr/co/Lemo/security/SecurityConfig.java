@@ -35,9 +35,9 @@ public class SecurityConfig implements WebMvcConfigurer {
 //			.csrf().disable()
 
                 // 인가(접근권한) 설정
-                .authorizeHttpRequests(req ->
-                        req.mvcMatchers("/", "/index").permitAll()
-                                .antMatchers("/my/**").authenticated()
+                .authorizeHttpRequests(req -> req.mvcMatchers("/**").permitAll()
+//                        req.mvcMatchers("/", "/index").permitAll()
+//                                .antMatchers("/my/**").authenticated()
                 )
 
                 // 로그인 설정

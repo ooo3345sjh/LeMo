@@ -55,7 +55,7 @@
         WHERE `acc_id`= #{acc_id}
     </select>
 
-    <select id="selectBusinessInfo" resultType="kr.co.Lemo.domain.BusinessVO">
+    <select id="selectBusinessInfo" resultType="kr.co.Lemo.domain.BusinessInfoVO">
         SELECT * FROM `lemo_member_businessinfo`
         WHERE `user_id` = #{user_id};
     </select>
