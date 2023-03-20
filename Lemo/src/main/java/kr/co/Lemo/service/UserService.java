@@ -6,13 +6,20 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.Lemo.dao.UserDAO;
 import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.entity.UserEntity;
+import kr.co.Lemo.entity.UserInfoEntity;
+import kr.co.Lemo.repository.UserInfoRepo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,7 +38,6 @@ import java.net.URI;
 @AllArgsConstructor
 @Transactional(rollbackOn = Exception.class)
 public class UserService {
-
     private UserDAO userDAO;
     private PasswordEncoder passwordEncoder;
 
@@ -86,10 +92,9 @@ public class UserService {
         result = userDAO.saveHomeUser(user.getUser_id(), user.getPass());
 
         if("BUSINESS".equals(user.getRole())){
-
+            userDAO.saveBusinessInfo(user.getBusinessInfoVO());
         }
 
         return result;
     }
-
 }

@@ -1,13 +1,12 @@
 package kr.co.Lemo.dao;
 
-import kr.co.Lemo.domain.ProductAccommodationVO;
+import kr.co.Lemo.domain.BusinessInfoVO;
 import kr.co.Lemo.domain.UserVO;
-import kr.co.Lemo.utils.SearchCondition;
+import kr.co.Lemo.entity.UserEntity;
+import kr.co.Lemo.entity.UserInfoEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * @since 2023/03/14
@@ -26,8 +25,11 @@ public interface UserDAO {
 
     // @since 2023/03/16
     int saveHomeUser(@Param("user_id")String user_id, @Param("pass")String pass) throws Exception;
+    int saveBusinessInfo(BusinessInfoVO businessInfoVO) throws Exception;
 
     // select
+    // @since 2023/03/19
+    UserInfoEntity findByEmail (@Param("email")String email) throws Exception;
 
     // @since 2023/03/16
     int countByEmail (@Param("email")String email) throws Exception;

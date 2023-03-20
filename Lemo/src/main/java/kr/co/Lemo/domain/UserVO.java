@@ -5,9 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
-
 /**
  * @since 2023/03/08
  * @author 이원정
@@ -50,5 +47,5 @@ public class UserVO {
     private String email;
 
     // lemo_member_businessinfo
-    private BusinessVO businessVO;
+    private BusinessInfoVO businessInfoVO;
 }

@@ -1,6 +1,6 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.domain.BusinessVO;
+import kr.co.Lemo.domain.BusinessInfoVO;
 import kr.co.Lemo.domain.MessageVO;
 import kr.co.Lemo.domain.SmsResponseVO;
 import kr.co.Lemo.domain.UserVO;
@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,8 +42,15 @@ public class UserController {
 
     // @since 2023/03/08
     @GetMapping("login")
-    public String login(Model m) {
+    public String login(Model m, HttpServletRequest req) {
         log.debug("GET login start...");
+        
+        // 회원가입 페이지로부터 로그인 페이지로 온 경우 실행
+        String referer = req.getHeader("Referer");
+        if(referer != null && referer.contains("/user/signup")){
+            req.getSession().setAttribute("fromSignup", true);
+        }
+
         m.addAttribute("title", environment.getProperty(group));
         return "user/login";
     }
@@ -194,14 +202,14 @@ public class UserController {
     @PostMapping("signup")
     public String signup(
             @ModelAttribute UserVO userVO,
-            @ModelAttribute BusinessVO businessVO,
+            @ModelAttribute BusinessInfoVO businessInfoVO,
             @RequestParam(name = "userType", defaultValue = "null") String type,
             Model m,
             HttpServletRequest req
     ) throws Exception {
         log.debug("POST signup start...");
         log.debug(userVO.toString());
-        log.debug(businessVO.toString());
+        userVO.setBusinessInfoVO(businessInfoVO);
 
         if(!"general".equals(type) && !"business".equals(type))
             return "redirect:/user/join";
@@ -218,9 +226,6 @@ public class UserController {
 
         if(hp == null)
             return  "redirect:/user/hp/auth?type="+type;
-
-        if("business".equals(type))
-            userVO.setBusinessVO(businessVO);
 
         setSelectedTerms(userVO, termsType_no);
         userVO.setRegip(req.getRemoteAddr());
@@ -289,11 +294,6 @@ public class UserController {
         Map map = new HashMap();
         map.put("result", result);
         return map;
-    }
-    // @since 2023/03/08
-    @GetMapping("checknick")
-    public String checknick() {
-        return "user/checknick";
     }
 
     // @since 2023/03/08

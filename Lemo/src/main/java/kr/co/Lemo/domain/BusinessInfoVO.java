@@ -14,12 +14,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BusinessVO {
+public class BusinessInfoVO {
     private String user_id;
     private String bis_company;
     private String bis_ceo;
     private String bis_openDate;
     private String bis_bizRegNum;
+    private String bis_tel;
     private String bis_zip;
     private String bis_addr;
     private String bis_addrDetail;

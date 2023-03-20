@@ -1,16 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <th:block th:fragment="headerFragment">
     <header>
         <div class="header_inner">
             <div class="header_flex">
                 <div class="header_logo">
                     <!-- 메인으로 이동 -->
-                    <a href="#"><img th:src="@{/images/index/lemo_logo.png}" alt="레모 로고"></a>
+                    <a th:href="@{/}"><img th:src="@{/images/index/lemo_logo.png}" alt="레모 로고"></a>
                     <div class="logo">LEMO</div>
                 </div>
                 <div class="header_service">
-                    <a href="#">로그인</a>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <form th:action="@{/user/logout}" th:method="post">
+                            <input type="submit"  class="logout" value="로그아웃"/>
+                        </form>
+                    </th:block>
+                    <a th:href="@{/user/login}" sec:authorize="!isAuthenticated()">로그인</a>
                     <a href="#">여행일기</a>
                     <div class="dropdown_menu" id="dropdown_menu">
                         <button id="dropdown">마이페이지

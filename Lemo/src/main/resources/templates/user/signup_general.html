@@ -30,14 +30,14 @@
 
                     <b>비밀번호</b>
                     <div class="inp_type2 form-errors">
-                        <input type="password" name="pass" placeholder="비밀번호를 입력해주세요." required>
+                        <input type="password" name="pass" placeholder="비밀번호를 입력해주세요." required autocomplete="off">
                         <label id="pass1_msg" class="validate_msg"></label>
 
                     </div>
 
                     <b>비밀번호 확인</b>
                     <div class="inp_type2 form-errors">
-                        <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요." required>
+                        <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요." required autocomplete="off">
                         <label id="pass2_msg" class="validate_msg"></label>
                     </div>
 
@@ -45,10 +45,10 @@
                     <div class="inp_type2 form-errors">
                         <input type="text" name="nick"  placeholder="닉네임을 입력해주세요." maxlength="8" required>
                         <label id="nick_msg" class="validate_msg"></label>
-                        <button type="button" class="btn_common nick">딴거할래요</button>
+                        <button type="button" class="btn_common nick active">딴거할래요</button>
                     </div>
                     <!-- 유효성 검사 통과 시 class에 on 추가 -->
-                    <button type="submit" class="btn_link on" id="signup_btn" >
+                    <button type="submit" class="btn_link" id="signup_btn" disabled>
                         <span>가입하기</span>
                     </button>
                 </div>
@@ -62,13 +62,37 @@
     <script th:src="@{/js/user/register_general.js}"></script>
     <script>
         $(function(){
+
+            $('input').on('change keyup', function (){
+                let okList = [emailOk, passOk, confirmPassOk, nickOk];
+
+                if(okList.includes(false)){
+                    $('button[type=submit]').removeClass("on");
+                    $('button[type=submit]').attr('disabled', true);
+                } else {
+                    $('button[type=submit]').addClass("on");
+                    $('button[type=submit]').attr('disabled', false);
+                }
+            })
+
             $('button[type=submit]').click(function(e){
 
-            let okList = [emailOk, passOk, confirmPassOk, nickOk];
+                if(user_id_auth !== undefined && user_id_auth !== emailInput.val()){
+                    $('.btn_common.email').text('중복확인');
+                    $('.btn_common.email').attr('disabled', false);
+                    emailInput.attr('readonly', false);
+                    emailOk = false;
+                    alert('중복확인한 이메일과 다른 이메일주소가 입력되었습니다.\n다시 중복확인을 해주세요.');
+                    emailInput.focus();
+                    e.preventDefault();
+                    return;
+                }
 
-            for (i of inputList){ i.focus(); }
+                let okList = [emailOk, passOk, confirmPassOk, nickOk];
 
-            for (i in inputList){
+                for (i of inputList){ i.focus(); }
+
+                for (i in inputList){
 
                     if(!okList[i]){
                         inputList[i].focus();
