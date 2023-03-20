@@ -780,6 +780,15 @@ main #tag_area > div {
     background: #71bf90;
     color: #fff;
     border-radius: 6px;
+    position: relative;
+}
+main .tag_delete {
+    position: absolute;
+    top: -6px;
+    opacity: 80%;
+}
+main .tag_delete:hover {
+    opacity: 1;
 }
 main .accType {
     margin-top: 5px;
