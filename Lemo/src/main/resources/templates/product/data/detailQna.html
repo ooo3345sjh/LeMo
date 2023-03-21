@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
     <div class="prodQna" style="display:block;">
         <ul class="co_list">
@@ -46,13 +47,14 @@
             <div class="co_write_inner">
                 <div class="co_inner_txt">
                     <label>
-                        <input type="text" name="qna_content" placeholder="문의 댓글을 남겨주세요." autocomplete="off">
+                        <input type="text" name="qna_content"  sec:authorize="!isAuthenticated()" placeholder="로그인 후 문의작성이 가능합니다." autocomplete="off">
+                        <input type="text" name="qna_content" sec:authorize="isAuthenticated()" placeholder="문의 댓글을 남겨주세요." autocomplete="off">
                     </label>
                 </div>
                 <button type="button" class="btnComment">등록</button>
             </div>
             <div class="co_inner_secret">
-                <label><input type="checkbox">비공개로 문의하기</label>
+                <label><input type="checkbox" name="chk_secret">비공개로 문의하기</label>
             </div>
         </form>
     </div>

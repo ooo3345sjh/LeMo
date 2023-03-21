@@ -228,13 +228,42 @@ $(function(){
         }
 
         let content = $('input[name=qna_content]').val();
+        alert(content);
+
+        let chk_secret = $('input[name=chk_secret]').is(':checked');
+        let secret = 0;
+
+        if(chk_secret) {
+            secret = 1;
+        }
 
         if(content.trim().length == 0) {
             alert("문의 내용을 작성해주세요.")
             return;
         }
 
+        console.log("secret : " + secret);
+        console.log("content : " + content);
 
+        let jsonData = {
+            "acc_id" : acc_id,
+            "user_id" : uid,
+            "qna_content" : content,
+            "qna_secret" : secret
+        }
+
+        console.log(jsonData);
+
+        ajaxAPI("product/rsaveQna", jsonData, "POST").then((response) => {
+            if(response.result > 0) {
+                alert("성공");
+            }
+            else {
+                alert("실패");
+            }
+        }).catch((errorMsg) => {
+            console.log(errorMsg)
+        });
 
    })
 

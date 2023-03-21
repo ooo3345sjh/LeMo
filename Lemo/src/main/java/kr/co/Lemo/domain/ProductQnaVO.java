@@ -17,14 +17,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductQnaVO {
 
-    private int pQna_no;
+    private int qna_no;
     private int acc_id;
-    private String userId_id;
-    private String pQna_title;
-    private String pQna_content;
-    private String pQna_regip;
-    private String pQna_rdate;
-    private String pQna_udate;
-    private String pQna_reply;
+    private String user_id;
+    private String qna_title;
+    private String qna_content;
+    private String qna_regip;
+    private String qna_rdate;
+    private String qna_udate;
+    private String qna_reply;
+    private int qna_secret;
 
 }
