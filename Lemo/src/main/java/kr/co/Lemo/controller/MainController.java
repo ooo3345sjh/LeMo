@@ -34,8 +34,12 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class MainController {
 
+    private final Environment environment;
+    private String group = "title.main";
+
     @GetMapping(value = {"/", "/index"})
-    public String index(){
+    public String index(Model m){
+        m.addAttribute("title", environment.getProperty(group));
         return "index";
     }
 

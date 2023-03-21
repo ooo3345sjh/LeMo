@@ -1,9 +1,8 @@
 package kr.co.Lemo.security;
 
-import kr.co.Lemo.dao.UserDAO;
-import kr.co.Lemo.entity.Oauth2Entity;
+import kr.co.Lemo.entity.SocialEntity;
+import kr.co.Lemo.entity.UserEntity;
 import kr.co.Lemo.entity.UserInfoEntity;
-import kr.co.Lemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,48 +26,22 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
-
+/**
+ * @since 2023/03/21
+ * @author 서정현
+ * @apiNote LoginSuccessHandler
+ */
 @Component
-public class LoginSuccessHandler implements AuthenticationSuccessHandler {
+public class LoginSuccessHandler {
 
-    @Autowired
-    private SecurityUserService userService;
-    private final RequestCache requestCache = new HttpSessionRequestCache();
-    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    protected final RequestCache requestCache = new HttpSessionRequestCache();
+    protected final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-
-    @Override
-    public void onAuthenticationSuccess(
+    // @since 2023/03/21
+    public void loginSuccessPage(
             HttpServletRequest request,
-            HttpServletResponse response,
-            Authentication authentication) throws IOException, ServletException
+            HttpServletResponse response) throws IOException, ServletException
     {
-        Object principal = authentication.getPrincipal();
-        if(principal instanceof UserInfoEntity) {
-            UserInfoEntity userInfo = (UserInfoEntity)principal;
-            userInfo.getUserEntity().setPass(null);
-            SecurityContextHolder.getContext().setAuthentication(
-                    new UsernamePasswordAuthenticationToken(userInfo, null, List.of(new SimpleGrantedAuthority("ROLE_" + userInfo.getRole())))
-            );
-        } else if(principal instanceof OidcUser){
-            // google
-            Oauth2Entity oauth = Oauth2Entity.Provider.google.convert((OidcUser) principal);
-            UserInfoEntity user = UserInfoEntity.builder().user_id(oauth.getUser_id()).build();
-//            user.getUserEntity().setPass(null);
-            SecurityContextHolder.getContext().setAuthentication(
-                    new UsernamePasswordAuthenticationToken(user, null, List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())))
-            );
-
-        } else if(principal instanceof OAuth2User) {
-            // naver
-            Oauth2Entity oauth = Oauth2Entity.Provider.naver.convert((OAuth2User) principal);
-            UserInfoEntity user = UserInfoEntity.builder().user_id(oauth.getUser_id()).build();
-//            user.getUserEntity().setPass(null);
-            SecurityContextHolder.getContext().setAuthentication(
-                    new UsernamePasswordAuthenticationToken(user, null, List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())))
-            );
-        }
-
         clearSession(request);
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
@@ -114,7 +87,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     }
 
-    // 로그인 실패 후 성공 시 남아있는 에러 세션 제거
+    /**
+     * @since 2023/03/21
+     * @param request
+     * @apiNote 로그인 실패 후 성공 시 남아있는 에러 세션 제거
+     */
     protected void clearSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
