@@ -34,6 +34,7 @@ public class CsVO {
 
     /** 추가 **/
     private String nick;
+    private String newName;
 
     public String getCs_type_ko(){
         String type = null;

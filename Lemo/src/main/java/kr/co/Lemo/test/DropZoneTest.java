@@ -27,20 +27,23 @@ public class DropZoneTest {
 
     @GetMapping("test/dropzone")
     public String test(){
-        return "test/dropzone";
+        return "test/dropzone1";
     }
 
 
     @ResponseBody
     @PostMapping("test/dropzone")
-    public String upload(CsVO vo, MultipartHttpServletRequest request, @RequestParam HashMap<String, Object> parameter){
+    public String upload(String newName, CsVO vo, MultipartHttpServletRequest request, @RequestParam HashMap<String, Object> parameter){
 
-        service.insertTestArticle(vo,request, parameter);
+
 
         service.uploadFile(request, parameter);
 
         log.info("dropzone!!!!");
 
-        return "success";
+
+        service.insertTestArticle(newName, vo,request, parameter);
+
+        return null;
     }
 }
