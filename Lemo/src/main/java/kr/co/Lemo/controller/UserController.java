@@ -127,6 +127,20 @@ public class UserController {
         return "user/hpAuth";
     }
 
+    // @since 2023/03/21
+    @GetMapping("social/signup")
+    public String singn_social(
+            Model m
+    ){
+        m.addAttribute("title", environment.getProperty(group));
+        return "user/signup_social";
+    }
+
+    @GetMapping("social/nick")
+    public String CreatNick(){
+        return "user/_createNick";
+    }
+
     // @since 2023/03/15
     @PostMapping("hp/auth")
     public String hpAuthentication(

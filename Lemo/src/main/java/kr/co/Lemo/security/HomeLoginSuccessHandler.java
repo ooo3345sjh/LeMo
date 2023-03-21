@@ -42,6 +42,13 @@ public class HomeLoginSuccessHandler extends LoginSuccessHandler implements Auth
         loginSuccessPage(request, response);
     }
 
+    /**
+     *
+     * @since 2023/03/21
+     * @param principal 회원 인증된 객체
+     * @return userVO
+     * @apiNote UserEntity -> UserVO 객체로 변환한 객체를 반환
+     */
     private static UserVO userVoConvert(Object principal) {
         UserEntity user = (UserEntity) principal;
         UserInfoEntity userInfo = user.getUserInfoEntity();
