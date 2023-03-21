@@ -1,8 +1,13 @@
 package kr.co.Lemo.security;
 
+import kr.co.Lemo.domain.BusinessInfoVO;
+import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.entity.BusinessInfoEntity;
+import kr.co.Lemo.entity.SocialEntity;
 import kr.co.Lemo.entity.UserEntity;
 import kr.co.Lemo.entity.UserInfoEntity;
 import kr.co.Lemo.repository.SocialRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +29,7 @@ import java.util.List;
  * @apiNote SocialLoginSuccessHandler
  */
 
+@Slf4j
 @Component
 public class SocialLoginSuccessHandler extends LoginSuccessHandler implements AuthenticationSuccessHandler {
 
@@ -39,11 +45,49 @@ public class SocialLoginSuccessHandler extends LoginSuccessHandler implements Au
     {
         Object principal = authentication.getPrincipal();
 
+//        UserVO user = userVoConvert(principal);
+//        log.debug("user : "+user.toString());
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(principal, null, List.of(new SimpleGrantedAuthority("ROLE_USER")))
         );
         loginSuccessPage(request, response);
 
+    }
+
+    /**
+     *
+     * @since 2023/03/21
+     * @param principal 회원 인증된 객체
+     * @return userVO
+     * @apiNote SocialEntity -> UserVO 객체로 변환한 객체를 반환
+     */
+    private static UserVO userVoConvert(Object principal) {
+        SocialEntity user = (SocialEntity) principal;
+        UserInfoEntity userInfo = user.getUserInfoEntity();
+
+        UserVO userVO = UserVO.builder()
+                .user_id(user.getUser_id())
+                .pass(null)
+                .nick(userInfo.getNick())
+                .photo(userInfo.getPhoto())
+                .type(userInfo.getType())
+                .role(userInfo.getRole())
+                .level(userInfo.getLevel())
+                .point(userInfo.getPoint())
+                .regip(userInfo.getRegip())
+                .isEnabled(userInfo.getIsEnabled())
+                .isLocked(userInfo.getIsLocked())
+                .isPassNonExpired(userInfo.getIsPassNonExpired())
+                .isNoticeEnabled(userInfo.getIsNoticeEnabled())
+                .isLocationEnabled(userInfo.getIsLocationEnabled())
+                .memo(userInfo.getMemo())
+                .udate(userInfo.getUdate())
+                .rdate(userInfo.getUdate())
+                .wdate(userInfo.getWdate())
+                .soci_type(user.getSoci_typ())
+                .soci_email(user.getEmail())
+                .build();
+        return userVO;
     }
 
     @Override

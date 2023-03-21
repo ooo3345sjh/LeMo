@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/user-layout">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/user/user.css}">
+</th:block>
+<th:block layout:fragment="content">
+    <main id="checknick">
+        <section>
+            <form action="#">
+                <div class="title">
+                    <strong class="logo">
+                        <img th:src="@{/images/index/lemo_logo-removebg-preview.png}" alt="">
+                        <a th:href="@{/}">LEMO</a>
+                    </strong>
+                </div>
+                <div id="social_reg">
+                    <div class="common certification">
+                        <strong class="sub_title">휴대폰 인증</strong>
+                        <p>원활한 서비스 제공을 위해 본인확인을 부탁드립니다.</p>
+
+                        <section id="section1">
+                            <b>휴대폰 번호</b>
+                            <div class="inp_type2 form-errors">
+                                <input type="tel" name=hp maxlength="11">
+                                <label id="hp_result" class="validate_msg"></label>
+                                <button type="button" class="btn_common">전송</button>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/user/hpAuth.js}"></script>
+    <script>
+
+        $(function(){
+            $(document).on('click', '#section2 .btn_common', function(){
+                codeInput = $(this).parent().find('input[name="authcode"]');
+                authcode_msg = $(this).parent().find('#authcode_msg');
+                code = codeInput.val();
+
+                if(!authTime){
+                    authcode_msg.text('인증 시간이 만료되었습니다.');
+                    return;
+                }
+
+                if(code == null || code == ''){
+                    authcode_msg.text('인증번호를 입력해주세요.');
+                    return;
+                }
+
+                if(!regCode.test(code)){
+                    authcode_msg.text('숫자만 입력해주세요.');
+                    code = code.replace(/[^0-9]/g, "");
+                    codeInput.val(code);
+                    return;
+                }
+
+                if(code.length != 6){
+                    authcode_msg.text('인증 번호 6자리를 입력해주세요.');
+                    return;
+                }
+
+                if(smsAuthCode != code){
+                    authcode_msg.text('인증 번호가 다릅니다. 재입력 해주세요.');
+                    smsAuthCodeCnt = smsAuthCodeCnt - 1;
+
+                    if(smsAuthCodeCnt <= 0){
+                        alert('인증 번호 5회 입력 실패했습니다. 재인증 해주세요.');
+                        $(this).closest('#section2').remove();
+                        authTime = false;
+                        smsAuthCodeCnt = 5;
+                    }
+
+                    return;
+                }
+
+
+                $('#social_reg').load(contextPath + "user/social/nick", function() {
+                    console.log('load complete!');
+                    console.log("authHp :"+authHp);
+                    console.log("smsAuthCode :"+smsAuthCode);
+                });
+            });
+        });
+    </script>
+</th:block>
+</html>
+

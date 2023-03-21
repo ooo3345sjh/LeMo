@@ -4,6 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @since 2023/03/08
@@ -15,7 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserVO {
+public class UserVO implements UserDetails {
     // lemo_member_userinfo
     private String user_id;
     private String hp;
@@ -41,11 +48,47 @@ public class UserVO {
     private String pass;
 
     // lemo_member_social
-    private String id;
     private String soci_type;
     private String soci_token;
-    private String email;
+    private String soci_email;
 
     // lemo_member_businessinfo
     private BusinessInfoVO businessInfoVO;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_"+role));
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return pass;
+    }
+
+    @Override
+    public String getUsername() {
+        return user_id;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return isLocked == 1;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return isPassNonExpired == 1;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isEnabled == 1;
+    }
 }
