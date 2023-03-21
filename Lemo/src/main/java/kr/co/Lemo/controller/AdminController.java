@@ -264,6 +264,8 @@ public class AdminController {
 
         sc.setMap(map);
         if("event".equals(cs_cate)){
+            log.info("admin/cs/event/list");
+
             csService.findAllCsArticles(sc, model);
 
             return "admin/cs/event/list";
@@ -383,13 +385,13 @@ public class AdminController {
      * @since 2023/03/10
      * @author 황원진
      */
-    @ResponseBody
     @PostMapping("cs/{cs_cate}/write")
     public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate,
                                      CsVO vo,
                                      @RequestParam HashMap<String, Object> parameter,
                                      MultipartHttpServletRequest request,
                                      HttpServletRequest req) {
+
         if("notice".equals(cs_cate)){
             vo.setUser_id("b1848@naver.com");
             vo.setCs_regip(req.getRemoteAddr());
@@ -418,8 +420,10 @@ public class AdminController {
             log.info("param : " + parameter);
             log.info("bannerImg : " + vo.getCs_eventbannerImg());
             log.info("contentImg : " + vo.getCs_eventViewImg());
+            log.info("cs_title : " + vo.getCs_title());
 
-            csService.rsaveEventArticle(vo);
+            csService.uploadFile(request, parameter);
+            csService.rsaveEventArticle(vo, request, parameter);
         }
         return "redirect:/admin/cs/event/list";
     }
