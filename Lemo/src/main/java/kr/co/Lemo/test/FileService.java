@@ -9,10 +9,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  *  2023/03/17
@@ -31,8 +28,8 @@ public class FileService {
 
 
     /* PDF 등록 yunsd@20190115 */
-    public HashMap<String, Object> uploadFile(MultipartHttpServletRequest request, HashMap<String, Object> parameter) {
-        HashMap<String,Object> resultMap = new HashMap<String, Object>();
+    public ArrayList<String> uploadFile(MultipartHttpServletRequest request, HashMap<String, Object> parameter) {
+        HashMap<String,Object> resultMap = new HashMap<>();
 
         // Getting uploaded files from the request object
         Map<String, MultipartFile> fileMap = request.getFileMap();
@@ -41,8 +38,7 @@ public class FileService {
 
 
         //파일 정보 저장용도
-        ArrayList<HashMap<String,Object>> ArrFilesInfo = new ArrayList<HashMap<String,Object>>();
-        HashMap<String,Object> sendParam = new HashMap<String,Object>();
+        ArrayList<String> arrFilesInfo = new ArrayList<>();
 
         // 사진 저장
         String path = new File("C:/Users/hwangwonjin/Desktop/workspace/LeMo/Lemo/img/cs").getAbsolutePath();
@@ -52,7 +48,7 @@ public class FileService {
         for (MultipartFile multipartFile : fileMap.values()) {
 
             //'저장용 맵'
-            HashMap<String,Object> param = new HashMap<String,Object>();
+            //HashMap<String, String> param = new HashMap<>();
 
             /*파일 기본 정보 추출*/
             HashMap<String, Object> fileInfo = getUploadedFileInfo(multipartFile);
@@ -73,21 +69,20 @@ public class FileService {
             }
 
 
+            //param.put("New_NAME", newName);
 
-            param.put("New_NAME",newName);
-
-            ArrFilesInfo.add(param);
+            arrFilesInfo.add(newName);
         }
         //mybatis foreach를 위해 array를 param에 담는다.
 
         //String newName = String.valueOf(ArrFilesInfo);
 
-        log.info("arrFileInfo" + ArrFilesInfo);
+        log.info("arrFileInfo" + arrFilesInfo);
 
 
-        resultMap.put("RESULT", ArrFilesInfo);
+        //resultMap.put("RESULT", ArrFilesInfo);
 
-        return resultMap;
+        return arrFilesInfo;
     }
 
     /*fileMap에서 파일 정보 추출*/
@@ -106,11 +101,17 @@ public class FileService {
 
     public int insertTestArticle(String newName, CsVO vo, MultipartHttpServletRequest request, HashMap<String, Object> parameter){
 
-        HashMap<String, Object> imgName = uploadFile(request, parameter);
+        List<String> imgNames = uploadFile(request, parameter);
 
-        log.info("imgName5 : " + imgName);
 
-        vo.setCs_eventbannerImg(newName);
+        String joinedImgNames = String.join("/", imgNames);
+
+//        for(String imgName : imgNames){
+//            joinedImgNames += imgName + "/";
+//        }
+
+        log.info("joinedImg : " + joinedImgNames);
+        vo.setCs_eventbannerImg(joinedImgNames);
 
         log.info("cs_eventbanner : " + vo.getCs_eventbannerImg());
 

@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.transaction.Transactional;
 import java.io.File;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @since 2023/03/08
@@ -118,14 +120,22 @@ public class CsService {
     }
 
     /** insert **/
-    @Transactional
-    public int rsaveEventArticle(CsVO vo){
+    public int rsaveEventArticle(CsVO vo, MultipartHttpServletRequest request, HashMap<String, Object> parameter){
+        List<String> imgNames = uploadFile(request, parameter);
 
-        int result = dao.insertEventArticle(vo);
+        String newName = String.join("/", imgNames);
+
+        log.info("newName : " + newName);
+
+        //uploadFile(request, parameter);
+
+        vo.setCs_eventViewImg(newName);
 
 
-        return result;
+        return dao.insertEventArticle(vo);
     }
+
+
 
     public int rsaveNoticeArticle(CsVO vo) {
         return dao.insertNoticeArticle(vo);
@@ -179,4 +189,68 @@ public class CsService {
     }
 
 
+    /* 이미지 등록 */
+    public ArrayList<String> uploadFile(MultipartHttpServletRequest request, HashMap<String, Object> parameter) {
+        HashMap<String,Object> resultMap = new HashMap<>();
+
+        // Getting uploaded files from the request object
+        Map<String, MultipartFile> fileMap = request.getFileMap();
+
+
+        // 리스트 저장용
+
+
+        //파일 정보 저장용도
+        ArrayList<String> arrFilesInfo = new ArrayList<>();
+
+        // 사진 저장
+        String path = new File("C:/Users/hwangwonjin/Desktop/workspace/LeMo/Lemo/img/cs").getAbsolutePath();
+
+
+        // Iterate through the map
+        for (MultipartFile multipartFile : fileMap.values()) {
+
+            //'저장용 맵'
+            //HashMap<String, String> param = new HashMap<>();
+
+            /*파일 기본 정보 추출*/
+            HashMap<String, Object> fileInfo = getUploadedFileInfo(multipartFile);
+
+            //파일 이름 추출 (확장자 제거)
+            String fName = (String)fileInfo.get("fileName");
+            String ext = fName.substring(fName.indexOf("."));
+            String newName = UUID.randomUUID().toString() + ext;
+            log.info("newName : " + newName);
+
+            // 파일 저장
+            try {
+                multipartFile.transferTo(new File(path, newName));
+            } catch (IllegalStateException e) {
+                log.error(e.getMessage());
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
+
+
+            arrFilesInfo.add(newName);
+        }
+
+        log.info("arrFileInfo" + arrFilesInfo);
+
+
+        return arrFilesInfo;
+    }
+
+    /*fileMap에서 파일 정보 추출*/
+    private HashMap<String, Object> getUploadedFileInfo(MultipartFile multipartFile){
+
+        HashMap<String, Object> fileInfo = new HashMap<String, Object>();
+        fileInfo.put("fileName",multipartFile.getOriginalFilename());
+        fileInfo.put("fileSize",multipartFile.getSize());
+        fileInfo.put("fileContentType",multipartFile.getContentType());
+
+        log.info("fileSize" + multipartFile.getSize());
+
+        return fileInfo;
+    }
 }
