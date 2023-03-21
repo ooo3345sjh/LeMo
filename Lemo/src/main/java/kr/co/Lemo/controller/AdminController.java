@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -381,9 +383,12 @@ public class AdminController {
      * @since 2023/03/10
      * @author 황원진
      */
+    @ResponseBody
     @PostMapping("cs/{cs_cate}/write")
     public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate,
                                      CsVO vo,
+                                     @RequestParam HashMap<String, Object> parameter,
+                                     MultipartHttpServletRequest request,
                                      HttpServletRequest req) {
         if("notice".equals(cs_cate)){
             vo.setUser_id("b1848@naver.com");
@@ -402,6 +407,15 @@ public class AdminController {
             vo.setUser_id("b1848@naver.com");
             vo.setCs_regip(req.getRemoteAddr());
 
+            Map<String, MultipartFile> fileMap = request.getFileMap();
+//
+//            int count = 0;
+//            for(MultipartFile mf = fileMap.values()){
+//                count += 1;
+//                log.info(count + " : " + mf.getOriginalFilename());
+//            }
+
+            log.info("param : " + parameter);
             log.info("bannerImg : " + vo.getCs_eventbannerImg());
             log.info("contentImg : " + vo.getCs_eventViewImg());
 

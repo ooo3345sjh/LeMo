@@ -28,18 +28,7 @@ public class FileService {
     @Autowired
     private testDAO dao;
 
-    public int insertTestArticle(CsVO vo, MultipartHttpServletRequest request, HashMap<String, Object> parameter){
 
-       HashMap<String, Object> imgName = uploadFile(request, parameter);
-
-        log.info("imgName5 : " + imgName);
-
-        vo.setCs_eventbannerImg(imgName.toString());
-
-        log.info("cs_eventbanner : " + vo.getCs_eventbannerImg());
-
-        return dao.insertTestArticle(vo);
-    }
 
     /* PDF 등록 yunsd@20190115 */
     public HashMap<String, Object> uploadFile(MultipartHttpServletRequest request, HashMap<String, Object> parameter) {
@@ -83,18 +72,20 @@ public class FileService {
                 log.error(e.getMessage());
             }
 
+
+
             param.put("New_NAME",newName);
 
             ArrFilesInfo.add(param);
         }
         //mybatis foreach를 위해 array를 param에 담는다.
 
-        String newName = String.valueOf(ArrFilesInfo);
+        //String newName = String.valueOf(ArrFilesInfo);
 
-        log.info("arrFileInfo" + newName);
+        log.info("arrFileInfo" + ArrFilesInfo);
 
 
-        resultMap.put("RESULT", newName);
+        resultMap.put("RESULT", ArrFilesInfo);
 
         return resultMap;
     }
@@ -110,5 +101,19 @@ public class FileService {
         log.info("fileSize" + multipartFile.getSize());
 
         return fileInfo;
+    }
+
+
+    public int insertTestArticle(String newName, CsVO vo, MultipartHttpServletRequest request, HashMap<String, Object> parameter){
+
+        HashMap<String, Object> imgName = uploadFile(request, parameter);
+
+        log.info("imgName5 : " + imgName);
+
+        vo.setCs_eventbannerImg(newName);
+
+        log.info("cs_eventbanner : " + vo.getCs_eventbannerImg());
+
+        return dao.insertTestArticle(vo);
     }
 }
