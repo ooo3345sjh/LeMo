@@ -1,25 +1,19 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.domain.ArticleDiaryVO;
-import kr.co.Lemo.domain.BusinessInfoVO;
-import kr.co.Lemo.domain.ProductAccommodationVO;
-import kr.co.Lemo.domain.ServiceCateVO;
+import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.Product_SearchVO;
-import kr.co.Lemo.entity.UserInfoEntity;
 import kr.co.Lemo.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +60,7 @@ public class ProductController {
                        int acc_id,
                        String checkIn,
                        String checkOut,
-                       @AuthenticationPrincipal UserDetails myUser
+                       @AuthenticationPrincipal UserVO myUser
                        ) throws Exception {
 
 
@@ -74,9 +68,9 @@ public class ProductController {
 
         String uid = "";
         if(myUser != null) {
-            UserInfoEntity user = (UserInfoEntity) myUser;
-            uid = user.getUser_id();
+            uid = myUser.getUser_id();
         }
+
         log.info("myUser : " + myUser);
         log.info("uid : " + uid);
 
@@ -141,6 +135,25 @@ public class ProductController {
             return "product/data/detailQna";
         }
         return "product/list";
+    }
+
+    @ResponseBody
+    @PostMapping("rsaveQna")
+    public Map<String, Integer> rsaveQna(@RequestBody ProductQnaVO qna, HttpServletRequest req) {
+
+        log.debug("Get loadData start");
+        log.info("qna :" + qna);
+
+        int result = 0;
+
+        qna.setQna_regip(req.getRemoteAddr());
+
+        result = service.rsaveQna(qna);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
     }
 
 }

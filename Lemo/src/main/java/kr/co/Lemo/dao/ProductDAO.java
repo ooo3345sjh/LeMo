@@ -1,9 +1,6 @@
 package kr.co.Lemo.dao;
 
-import kr.co.Lemo.domain.ArticleDiaryVO;
-import kr.co.Lemo.domain.BusinessInfoVO;
-import kr.co.Lemo.domain.ProductAccommodationVO;
-import kr.co.Lemo.domain.ServiceCateVO;
+import kr.co.Lemo.domain.*;
 import kr.co.Lemo.utils.SearchCondition;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,6 +19,9 @@ import java.util.List;
 public interface ProductDAO {
 
     // insert
+
+    // @since 2023/03/21
+    public int insertQna(ProductQnaVO qna);
 
     // select
     public int countTotal(SearchCondition sc);

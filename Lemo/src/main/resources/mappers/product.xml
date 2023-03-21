@@ -10,6 +10,17 @@
 <mapper namespace="kr.co.Lemo.dao.ProductDAO">
 
     <!-- insert -->
+    <insert id="insertQna" parameterType="kr.co.Lemo.domain.ProductQnaVO">
+        INSERT INTO `lemo_product_qna`
+        SET
+        `acc_id` = #{acc_id},
+        `user_id` = #{user_id},
+        `pQna_content` = #{qna_content},
+        `pQna_regip` = #{qna_regip},
+        `pQna_rdate` = NOW(),
+        `pQna_secret` = #{qna_secret};
+    </insert>
+
 
     <!-- select-->
     <select id="selectAccommodations" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
