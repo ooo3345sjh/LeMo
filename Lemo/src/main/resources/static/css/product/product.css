@@ -699,7 +699,7 @@
     background: rgb(250,250,250);
 }
 
-.detail_info > .info_service.on { display: block; }
+.detail_info > .info_service.on { display: block;}
 
 .detail_info > .info_seller {
     display: none;
@@ -711,6 +711,7 @@
 
 .detail_info > .info_seller.on { display: block; }
 
+/*
 .theme_1 { background: url(/Lemo/images/product/serviceCate/fitness.png) 0 0 no-repeat; }
 .theme_2 { background: url(/Lemo/images/product/serviceCate/wifi.png) 0 0 no-repeat; }
 .theme_3 { background: url(/Lemo/images/product/serviceCate/restaurant.png) 0 0 no-repeat; }
@@ -732,6 +733,8 @@
 .theme_19 { background: url(/Lemo/images/product/serviceCate/baggage.png) 0 0 no-repeat; }
 .theme_20 { background: url(/Lemo/images/product/serviceCate/washing-machine.png) 0 0 no-repeat; }
 .theme_21 { background: url(/Lemo/images/product/serviceCate/dryer.png) 0 0 no-repeat; }
+*/
+
 
 /** 문의하기 */
 .info_service .theme_wrap { 
@@ -754,7 +757,7 @@
 
 .detail_qna > .prodQna {
     display: none;
-    width: 95%;
+    width: 82%;
     margin: 0 auto;
 }
 
@@ -765,10 +768,10 @@
 
 .detail_qna > .prodQna > .co_list {
     margin-top: 23px;
-    max-height: 450px;
     margin-bottom: 24px;
-    overflow-y: auto;
 }
+
+.detail_qna > .prodQna > .co_list:last-child {border-bottom: none;}
 
 .detail_qna .co_list::-webkit-scrollbar { width: 10px; }
 
@@ -780,7 +783,9 @@
 
 .detail_qna .co_list::-webkit-scrollbar-track { background: rgb(245 244 183 / 51%);;  /*스크롤바 뒷 배경 색상*/ }
 
-.detail_qna > .prodQna .co_item { margin-bottom: 24px; }
+.detail_qna > .prodQna .co_item { margin-bottom: 24px; border-bottom: 1px solid #d9d9d9;}
+
+.detail_qna > .prodQna .co_item:last-of-type {border-bottom: none;}
 
 .detail_qna > .prodQna .co_img { float: left; }
 
@@ -796,15 +801,14 @@
 
 .detail_qna > .prodQna .area_txt > p { 
     font-size: 13px;
-    margin-left: 10px;
+    margin-bottom: 15px;
 }
 
-.detail_qna > .prodQna .re_item { margin-left: 43px; }
+.detail_qna > .prodQna .re_item { margin-left: 43px;}
 
 .detail_qna > .prodQna .re_item > li { overflow: hidden; }
 
-.detail_qna > .prodQna .re_item .re_item2 { 
-    margin-top: 12px;
+.detail_qna > .prodQna .re_item .re_item2 {
     border: 1px solid #f5f5f5;
     background: #f5f5f5;
     overflow: visible;
@@ -812,6 +816,8 @@
     padding: 8px 12px;
     text-align: left;
     margin-left: 10px;
+    margin-right: 15px;
+    margin-bottom: 23px;
 }
 
 .detail_qna > .prodQna .re_item .re_item2 > .area_img { display: inline-block; }
@@ -825,8 +831,8 @@
 .detail_qna > .prodQna .re_item .re_item2 > .area_txt_re { display: inline-block; margin-left: 8px; }
 
 .detail_qna > .prodQna .re_item .re_item2 > .area_txt_re > span {
-    font-size: 11px;
-    font-weight: 400;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .detail_qna > .prodQna .re_item .re_item2 > .area_txt_re > p {
@@ -836,7 +842,8 @@
 
 .detail_qna > .prodQna > .co_write {
     padding: 16px 0;
-    border-top: 1px solid #d9d9d9;
+    /* border-top: 1px solid #d9d9d9; */
+    margin-bottom: 20px;
 }
 
 .detail_qna > .prodQna > .co_write > .co_write_inner {
@@ -846,26 +853,45 @@
 
 .detail_qna > .prodQna .co_inner_img { text-align: left; }
 
-.detail_qna > .prodQna .co_inner_txt { 
+.detail_qna > .prodQna .co_inner_txt {
+    width: 794px;
     position: absolute;
     top: 7px;
     left: 40px;
 }
 
 .detail_qna > .prodQna .co_inner_txt > label {
+    display: block;
     border: 1px solid #dcdee0;
     padding: 8px 10px;
 }
 
 .detail_qna > .prodQna .co_inner_txt > label > input {
     font-size: 12px;
-    width: 1100px;
     border: none;
+    background : none;
+    width: 100%
 }
+
+.detail_qna > .prodQna .co_inner_secret {
+    padding: 0 47px;
+    margin-top: 18px;
+    display: block;
+    }
+.detail_qna > .prodQna .co_inner_secret > label {
+
+}
+.detail_qna > .prodQna .co_inner_secret input {
+    margin-right: 8px;
+    position: relative;
+    top: 2px;
+}
+
+
 
 .detail_qna .btnComment {
     position: absolute;
-    top: -1px;
+    top: 7px;
     right: 84px;
     width: 56px;
     height: 32px;
@@ -2247,7 +2273,7 @@ margin-left: 25px;
     /* 페이징 */
     #productView .paging{
         border-top: none;
-        padding: 32px 0 0 0;
+        padding: 32px 0 32px 0;
         display: block;
         text-align: center;
     }
@@ -2276,16 +2302,12 @@ margin-left: 25px;
         background: url('../../images/cs/ico_paging_arr1.png') 50% 50% no-repeat;
         background-size: 10px auto;
         margin-right: 5px;
-        position: relative;
-        top: 12px;
     }
 
     #productView .paging  .next {
         background: url('../../images/cs/ico_paging_arr2.png') 50% 50% no-repeat;
         background-size: 10px auto;
         margin-left: 5px;
-        position: relative;
-        top: 12px;
     }
 
     #productView .paging .on{

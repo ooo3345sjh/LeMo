@@ -204,8 +204,9 @@ $(function(){
 
     /** 숙소정보 - 판매자 정보 */
     $(document).on('click','.detail_info_seller',function(){
+
         let info_seller = $(this).next().attr('class')
-        
+
         if( info_seller == 'info_seller' ){
             $('.info_seller').addClass('on');
         }else if( info_seller == 'info_seller on' ){
@@ -214,6 +215,28 @@ $(function(){
     });
 
     page = 'view';
+
+
+    /* 문의하기 등록 */
+
+   $(document).on('click', '.btnComment', function(){
+
+        // 비회원인 경우 문의작성 막기
+        if(uid == "") {
+            alert("로그인을 하셔야 문의댓글 작성이 가능합니다.");
+            return;
+        }
+
+        let content = $('input[name=qna_content]').val();
+
+        if(content.trim().length == 0) {
+            alert("문의 내용을 작성해주세요.")
+            return;
+        }
+
+
+
+   })
 
 
 
