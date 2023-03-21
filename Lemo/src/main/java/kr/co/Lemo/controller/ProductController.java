@@ -5,11 +5,14 @@ import kr.co.Lemo.domain.BusinessInfoVO;
 import kr.co.Lemo.domain.ProductAccommodationVO;
 import kr.co.Lemo.domain.ServiceCateVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
+import kr.co.Lemo.entity.UserInfoEntity;
 import kr.co.Lemo.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,9 +65,21 @@ public class ProductController {
     public String view(Model model,
                        int acc_id,
                        String checkIn,
-                       String checkOut) throws Exception {
+                       String checkOut,
+                       @AuthenticationPrincipal UserDetails myUser
+                       ) throws Exception {
+
 
         log.debug("Get view start");
+
+        String uid = "";
+        if(myUser != null) {
+            UserInfoEntity user = (UserInfoEntity) myUser;
+            uid = user.getUser_id();
+        }
+        log.info("myUser : " + myUser);
+        log.info("uid : " + uid);
+
 
         // 숙소 정보 가져오기
         List<ProductAccommodationVO> rooms = service.findAccommodation(acc_id, checkIn, checkOut);
@@ -77,6 +92,7 @@ public class ProductController {
         // 판매자 정보 가져오기
         BusinessInfoVO bv = service.findBusinessInfo(user_id);
 
+        model.addAttribute("uid", uid);
         model.addAttribute("scs", scs);
         model.addAttribute("bv", bv);
         model.addAttribute("rooms", rooms);
@@ -124,7 +140,6 @@ public class ProductController {
 
             return "product/data/detailQna";
         }
-
         return "product/list";
     }
 

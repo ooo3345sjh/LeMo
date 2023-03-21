@@ -141,7 +141,9 @@
                 </button>
                 <section class="info_service">
                     <ul class="theme_wrap">
-                        <li th:class="'theme_' + ${sc.sc_no}" th:each="sc : ${scs}">[[${sc.sc_name}]]</li>
+                        <li th:each="sc : ${scs}" th:style="'background: url(/Lemo/images/product/serviceCate/' + ${sc.sc_no} + '.png) 0 0 no-repeat;'">
+                            [[${sc.sc_name}]]
+                        </li>
                     </ul>
                 </section>
                 <!-- 판매자 정보 -->
@@ -197,48 +199,6 @@
                 </div>
             </div>
         </div>
-        <!--
-        <div th:each="num : ${#numbers.sequence(1, rooms.size())}" id="popup_room_guide" th:data-room-guide="${num}" th:class="'popup popup_room_guide'+${num}">
-            <div>
-                <div class="fix_title">
-                    객실 이용 안내
-                    <button type="button" th:onclick="'popdown_room_guide('+${num}+')'">닫기</button>
-                </div>
-                <div class="iscroll_cp" style="touch-action: none;">
-                    <div class="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
-                        <section>
-                            <strong>기본정보</strong>
-                            <ul class="dot_txt">
-                                <li>2인 기준 최대 2인</li>
-                                <li>더블베드 1개</li>
-                                <li>객실+욕실 / 7.14평</li>
-                            </ul>
-                        </section>
-                        <section>
-                            <strong>편의시설</strong>
-                            <ul class="dot_txt">
-                                <li>침구류, TV, 에어컨, 쇼파, 테이블, 옷장, 냉장고, 헤어드라이기, 욕실용품, 샤워가운</li>
-                            </ul>
-                        </section>
-                        <section>
-                            <strong>추가 정보</strong>
-                            <ul class="dot_txt">
-                                <li>
-                                    Room Only /  퀸베드 1개
-                                </li>
-                            </ul>
-                        </section>
-                        <section>
-                            <strong>선택 날짜</strong>
-                            <ul class="dot_txt">
-                                <li>03월 01일 ~ 03월 03일</li>
-                            </ul>
-                        </section>
-                    </div>
-                </div>
-            </div>
-        </div>
-        -->
         <!-- 쿠폰 팝업 -->
         <div id="popup_coupon" class="popup_coupon">
             <div>
@@ -272,6 +232,7 @@
         <script th:inline="javascript">
             let acc_id = [[${rooms.get(0).acc_id}]];
             let user_id = [[${rooms.get(0).user_id}]];
+            let uid = [[${uid}]];
         </script>
     </th:block>
 </html>
