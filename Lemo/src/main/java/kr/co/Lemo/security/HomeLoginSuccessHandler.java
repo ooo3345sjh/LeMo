@@ -46,23 +46,25 @@ public class HomeLoginSuccessHandler extends LoginSuccessHandler implements Auth
         UserEntity user = (UserEntity) principal;
         UserInfoEntity userInfo = user.getUserInfoEntity();
         BusinessInfoEntity businessInfo = user.getBusinessInfoEntity();
-        user.setPass(null);
 
-        BusinessInfoVO businessInfoVO = BusinessInfoVO.builder()
-                .user_id(user.getUser_id())
-                .bis_company(businessInfo.getBis_company())
-                .bis_ceo(businessInfo.getBis_ceo())
-                .bis_openDate(businessInfo.getBis_openDate())
-                .bis_bizRegNum(businessInfo.getBis_bizRegNum())
-                .bis_tel(businessInfo.getBis_tel())
-                .bis_zip(businessInfo.getBis_zip())
-                .bis_addr(businessInfo.getBis_addr())
-                .bis_addrDetail(businessInfo.getBis_addrDetail())
-                .build();
+        BusinessInfoVO businessInfoVO = null;
+        if(businessInfo != null){
+            businessInfoVO = BusinessInfoVO.builder()
+                    .user_id(user.getUser_id())
+                    .bis_company(businessInfo.getBis_company())
+                    .bis_ceo(businessInfo.getBis_ceo())
+                    .bis_openDate(businessInfo.getBis_openDate())
+                    .bis_bizRegNum(businessInfo.getBis_bizRegNum())
+                    .bis_tel(businessInfo.getBis_tel())
+                    .bis_zip(businessInfo.getBis_zip())
+                    .bis_addr(businessInfo.getBis_addr())
+                    .bis_addrDetail(businessInfo.getBis_addrDetail())
+                    .build();
+        }
 
         UserVO userVO = UserVO.builder()
                 .user_id(user.getUser_id())
-                .pass(user.getPass())
+                .pass(null)
                 .nick(userInfo.getNick())
                 .photo(userInfo.getPhoto())
                 .type(userInfo.getType())
