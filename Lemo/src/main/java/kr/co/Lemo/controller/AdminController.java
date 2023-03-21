@@ -254,7 +254,7 @@ public class AdminController {
 
 
 
-   // @since 2023/03/20 황원진
+    // @since 2023/03/20 황원진
     @GetMapping("cs/{cs_cate}/list")
     public String findAllCs_list(@PathVariable("cs_cate") String cs_cate,
                                  String cs_type,
@@ -262,7 +262,7 @@ public class AdminController {
                                  @RequestParam Map map,
                                  @ModelAttribute Cs_SearchVO sc){
 
-       sc.setMap(map);
+        sc.setMap(map);
         if("event".equals(cs_cate)){
             csService.findAllCsArticles(sc, model);
 
@@ -276,8 +276,8 @@ public class AdminController {
             return "admin/cs/qna/list";
         }else if("faq".equals(cs_cate)){
             if(cs_type != null){
-                    csService.findAllFaqArticles(sc, model);
-                    return "admin/cs/faq/list";
+                csService.findAllFaqArticles(sc, model);
+                return "admin/cs/faq/list";
             }else {
                 csService.findAllCsArticles(sc, model);
             }
@@ -332,9 +332,9 @@ public class AdminController {
 
         }else if("faq".equals(cs_cate)){
             log.info("faqModify");
-           CsVO faqArticle = csService.findAdminCsArticle(cs_cate, cs_no);
-           log.info("faqContent : " +faqArticle.getCs_content());
-           log.info("faqTitle : " +faqArticle.getCs_title());
+            CsVO faqArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+            log.info("faqContent : " +faqArticle.getCs_content());
+            log.info("faqTitle : " +faqArticle.getCs_title());
 
             Model.addAttribute("mFaq", faqArticle);
             Model.addAttribute("cs_no", cs_no);
@@ -347,7 +347,7 @@ public class AdminController {
      * @since 2023/03/15
      * @author 황원진
      */
-    
+
     @PostMapping("cs/{cs_cate}/modify")
     public String usaveAdminNotice(@PathVariable("cs_cate") String cs_cate, CsVO vo){
         if ("notice".equals(cs_cate)) {
@@ -423,8 +423,8 @@ public class AdminController {
         }
         return "redirect:/admin/cs/event/list";
     }
-    
-    
+
+
     /**
      * @since 2023/03/12
      * @author 황원진
@@ -465,7 +465,7 @@ public class AdminController {
         return "redirect:/admin/cs/qna/list";
     }
 
-    
+
     /**
      * @since 2023/03/17
      * @author 황원진

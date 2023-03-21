@@ -48,7 +48,7 @@ $(document).ready(function(){
                 return;
             }
 
-            myDropzone.processQueue(); 
+            myDropzone.processQueue();
 
             });
 
@@ -84,12 +84,11 @@ $(document).ready(function(){
 
         init: function(){
             var submitButton = document.querySelector("#btnUpload");
-            var myDropzone2 = this; 
+            var myDropzone2 = this;
 
             submitButton.addEventListener("click", function () {
-        
-            console.log("업로드2", myDropzone2.files);
 
+            console.log("업로드2", myDropzone2.files);
 
             // 거부된 파일이 있다면
             if (myDropzone2.getRejectedFiles().length > 0) {
@@ -98,7 +97,7 @@ $(document).ready(function(){
                 return;
             }
 
-            myDropzone2.processQueue(); 
+            myDropzone2.processQueue();
 
             });
            myDropzone2.on("success", function(file, response) {
