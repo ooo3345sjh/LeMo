@@ -19,14 +19,21 @@ import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
+/**
+ * @since 2023/03/21
+ * @author 서정현
+ * @apiNote SecurityConfig
+ */
 @EnableWebSecurity(debug = false)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 public class SecurityConfig implements WebMvcConfigurer {
 
     private ResourceLoader resourceLoader;
-    private LoginSuccessHandler loginSuccessHandler;
+    private HomeLoginSuccessHandler homeLoginSuccessHandler;
+    private SocialLoginSuccessHandler socialLoginSuccessHandler;
+
+    // @since 2023/03/21
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -44,11 +51,11 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .formLogin(login ->
                         login.loginPage("/user/login")           // 로그인 페이지 경로 설정
 						     .loginProcessingUrl("/user/login")  // POST로 로그인 정보를 보낼 시 경로
-                             .successHandler(loginSuccessHandler)
+                             .successHandler(homeLoginSuccessHandler)
 				)
                 // sns 로그인 설정
                 .oauth2Login(oauth2 -> oauth2
-                        .successHandler(loginSuccessHandler)
+                        .successHandler(socialLoginSuccessHandler)
                         .loginPage("/user/lgoin")
                 )
                 // 로그아웃 설정
@@ -63,16 +70,19 @@ public class SecurityConfig implements WebMvcConfigurer {
         return http.build();
     }
 
+    // @since 2023/03/21
     @Bean
     public PasswordEncoder PasswordEncoder () {
         return new BCryptPasswordEncoder();
     }
 
+    // @since 2023/03/21
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
+    // @since 2023/03/21
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**")
