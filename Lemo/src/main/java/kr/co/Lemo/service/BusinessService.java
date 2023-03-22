@@ -133,12 +133,12 @@ public class BusinessService {
      * @param request
      * @param uid
      */
-    public void info_rsave(HashMap<String,Object> param,
+    public void info_rsave(Map<String,Object> param,
                            MultipartHttpServletRequest request,
-                           String uid
-                          ){
+                           String uid){
 
-        log.warn("here3: service info_rsave");
+        log.warn("here3-1: service info_rsave");
+        log.warn("here3-2: param: " + param.toString());
 
         // 업로드 파일 가져오기
         Map<String,MultipartFile> fileMap = request.getFileMap();
@@ -162,46 +162,20 @@ public class BusinessService {
 
         log.warn("here6 newName: " + newName);
 
-        String accType_no_Str = ((String) param.get("accType_no"));
-        int accType_no = Integer.parseInt(accType_no_Str);
+        // 1. lemo_product_accommodation (숙소등록)
 
-        String province_no_Str = ((String) param.get("province_no"));
-        int province_no = Integer.parseInt(province_no_Str);
+        param.put("user_id", uid);
+        param.put("acc_thumbs", newName);
 
-        String acc_season_Str = ((String) param.get("acc_season"));
-        int acc_season = Integer.parseInt(acc_season_Str);
+        dao.insertInfo(param);
 
-        String acc_longtitude_Str = ((String) param.get("acc_longtitude"));
-        double acc_longtitude = Double.parseDouble(acc_longtitude_Str);
+        String acc_id = String.valueOf(param.get("acc_id"));
+        // int acc_id = (Integer) param.get("acc_id"); -> Error: class java.math.BigInteger cannot be cast to class java.lang.Integer
+        // 원인: Mysql: INT형 데이터 타입을 HashMap으로 받아 Java에서 사용하려 할 때 발생
+        // 해결방법: String.valueOf 사용
 
-        String acc_lattitude_Str = ((String) param.get("acc_lattitude"));
-        double acc_lattitude = Double.parseDouble(acc_lattitude_Str);
+        log.info("here7 acc_id: " + acc_id);
 
-        ProductAccommodationVO infoVO = ProductAccommodationVO.builder()
-                                    .user_id(uid)
-                                    .acc_name((String) param.get("acc_name"))
-                                    //.accType_no((Integer).parse param.get("accType_no"))
-                                    .accType_no(accType_no)
-                                    .province_no(province_no)
-                                    .acc_city((String) param.get("acc_city"))
-                                    .acc_zip((String) param.get("acc_zip"))
-                                    .acc_addr((String) param.get("acc_addr"))
-                                    .acc_addrDetail((String) param.get("acc_addrDetail"))
-                                    .acc_longtitude(acc_longtitude)
-                                    .acc_lattitude(acc_lattitude)
-                                    .acc_mainInfo((String) param.get("acc_mainInfo"))
-                                    .acc_info((String) param.get("acc_info"))
-                                    .acc_comment((String) param.get("acc_comment"))
-                                    .acc_thumbs(newName)
-                                    .acc_checkIn((String) param.get("acc_checkIn"))
-                                    .acc_checkOut((String) param.get("acc_checkOut"))
-                                    .acc_season(acc_season)
-                                    .build();
-
-        // lemo_product_accommodation (숙소등록)
-        dao.insertInfo(infoVO);
-
-        int acc_id = infoVO.getAcc_id();
 
         // 파일 업로드
         String path = new File("/Users/yiwonjeong/Desktop/Workspace/LeMo/Lemo/img/acc/" + acc_id).getAbsolutePath();
@@ -227,31 +201,17 @@ public class BusinessService {
             }
         }
 
-        //
-
-        ProductAccommodationVO rateVO = ProductAccommodationVO.builder()
-                                        .acc_id(acc_id)
-                                        .rp_offSeason_weekday((Integer) param.get("rp_offSeason_weekday"))
-                                        .rp_offSeason_weekend((Integer) param.get("rp_offSeason_weekend"))
-                                        .rp_peakSeason_weekday((Integer) param.get("rp_peakSeason_weekday"))
-                                        .rp_peakSeason_weekend((Integer) param.get("rp_peakSeason_weekend"))
-                                        .build();
-
         // lemo_product_ratepolicy (할인율 등록)
-        dao.insertRatePolicy(rateVO);
+        dao.insertRatePolicy(param);
 
-        String[] service = ((String) param.get("sc_no")).split("/");
-        String[] images  = newName.split("/");
+        String[] service = ((String) param.get("sc_no")).split(",");
+        log.warn("here8 service: " + service.toString());
 
-        for(int i=0; i<images.length; i++) {
-            ServicereginfoVO regVO = ServicereginfoVO.builder()
-                                    .acc_id(acc_id)
-                                    .sc_no(Integer.parseInt(service[i]))
-                                    .build();
-
+       /* for(int i=0; i<service.length; i++) {
             // lemo_product_servicereginfo (서비스 등록)
-            dao.insertServiceRegInfo(regVO);
-        }
+            //dao.insertServiceRegInfo(regVO);
+            dao.insertServiceRegInfo(param);
+        }*/
 
     }
 

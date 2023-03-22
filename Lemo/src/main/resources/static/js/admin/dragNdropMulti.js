@@ -66,6 +66,21 @@ $(document).ready(function(){
                 count++;
             });
             */
+            let btnSubmit = document.getElementById('btnSubmit');
+
+            /*btnSubmit.addEventListener('click', function(e){
+               // 숙소 이미지 -> dragNdropMulti.js
+                if (myDropzone.files != null && myDropzone.files.length > 0) {
+                    return true;
+                }
+                else {
+                  alert("사진을 최소 1장 이상 등록해 주십시오.");
+                  return false;
+                }
+            });*/
+
+
+
 
             myDropzone.on("sending", function(file, xhr, formData){
                 formData.append("acc_name", $('input[name="acc_name"]').val());
@@ -82,11 +97,16 @@ $(document).ready(function(){
                 formData.append("acc_comment", $('input[name="acc_comment"]').val());
                 formData.append("acc_season", $('select[name="acc_season"]').val());
                 formData.append("rp_peakSeason_weekday", $('input[name="rp_peakSeason_weekday"]').val());
-                formData.append("rp_peakSeason_weekday", $('input[name="rp_peakSeason_weekend"]').val());
-                formData.append("rp_peakSeason_weekday", $('input[name="rp_offSeason_weekday"]').val());
-                formData.append("rp_peakSeason_weekday", $('input[name="rp_offSeason_weekend"]').val());
-                formData.append("sc_no", $('input[name="sc_no"]').val());
+                formData.append("rp_peakSeason_weekend", $('input[name="rp_peakSeason_weekend"]').val());
+                formData.append("rp_offSeason_weekday", $('input[name="rp_offSeason_weekday"]').val());
+                formData.append("rp_offSeason_weekend", $('input[name="rp_offSeason_weekend"]').val());
+                formData.append("sc_no", submitRef.join(',') );
+                formData.append("acc_checkIn", $('input[name="acc_checkIn"]').val());
+                formData.append("acc_checkOut", $('input[name="acc_checkOut"]').val());
             });
+
+
+
 
             myDropzone.on("success", function(file, response) {
               alert("업로드 완료!");

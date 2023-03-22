@@ -21,6 +21,8 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <!-- 할인율 적용 -->
     <script th:src="@{/js/admin/salePercent.js}"></script>
+    <!-- 유효성 검사 -->
+    <script th:src="@{/js/admin/accValidation.js}"></script>
     <style>
         #autoMaker{
            position: absolute;
@@ -378,10 +380,7 @@
 
      $(document).ready(function() {
 
-        // submit 버튼 막기
-        $("#btnSubmit").click(function(e) {
-            e.preventDefault();
-        })
+
 
         // 써머노트
         $('#summernote').summernote({
@@ -557,12 +556,20 @@
             });
             $('#autoMaker').children().each(function(){
                 $(this).click(function(){
+
+                    let check = submitRef.includes( $(this).attr('sc_no') );
+
+                    if( check ) {
+                        alert('이미 등록하신 서비스입니다.');
+                        return;
+                    }
+
                     $('#search_area').val($(this).text());
                     $('#insert_target').val("sc_no : "+$(this).attr('sc_no')+ ", sc_name : " + $(this).text());
 
                     let temp = '<div class="checkNo'+ $(this).attr('sc_no') +'">';
                        //temp += '<input type="hidden" name="sc_no" class="checkNo'+ $(this).attr('sc_no') +'" data-value="'+$(this).attr('sc_no')+'">#'+$(this).text()+'</>';
-                       temp += '<input type="hidden" name="sc_no" class="checkNo'
+                       temp += '<input type="text" name="sc_no" class="checkNo'
                                        + $(this).attr('sc_no')
                                        +'" data-value="'
                                        +$(this).attr('sc_no')
@@ -571,11 +578,13 @@
                                        +'">#'+$(this).text()+'</>';
                        temp += '<span><img class="tag_delete" src="/Lemo/images/admin/x-button.png" width="15px;" onclick="tag_delete('+ $(this).attr('sc_no') +')"></span>';
                        temp += '</div>'
-
+                    submitRef.push($(this).attr('sc_no'));
                     $('#tag_area').append(temp);
 
                     $('#autoMaker').children().remove();
                     isComplete = true; // 자식 선택 완료
+
+                    console.log(submitRef);
                 });
             });
 
@@ -597,82 +606,7 @@
         console.log(ref);
     }
 
-    // 유효성 검사
-    window.onload = function (){
-        let acc_name = document.querySelector(".input_stayName");
-        let addrDetail = document.querySelector("#input_addrDetail");
-        let tag = document.querySelector('#tag_area');
-        let checkInTime = document.querySelector('input[name="acc_checkIn"]').value;
-        let checkOutTime = document.querySelector('input[name="acc_checkOut"]').value;
-        let summernote = document.querySelector("#summernote");
-        var fileNamesInput = $('#fileNames');
-        let btnSubmit = $('#btnSubmit');
 
-        form.addEventListener('submit', function(e){
-
-            // 숙소명
-            if(acc_name.value.trim() === '') {
-                alert('숙소명을 입력해 주십시오.');
-                e.preventDefault();
-            }
-
-            // 주소
-            if(addrDetail.value.trim() === '') {
-                alert('주소를 입력해 주십시오.');
-                e.preventDefault();
-            }
-
-            // 체크인, 체크아웃
-            if(checkInTime === '' || checkOutTime === '') {
-                alert('체크인 및 체크아웃 시간을 선택해 주십시오.');
-                e.preventDefault();
-            }
-
-            // 편의시설 및 서비스 태그
-            if(tag.text().trim() === 'TAG') {
-                alert('태그를 최소 1개 이상 등록해 주세요.');
-                e.preventDefault();
-            }
-
-            // 숙소 정보
-            if (summernote.value.trim() === "") {
-              alert("숙소 정보를 입력해 주십시오.");
-              e.preventDefault();
-            }
-
-            let basicForm =
-              '<p style="font-size: 15px; font-weight:500">주변정보</p>\n<ul>\n<li style="font-size: 13px;">주변 정보를 입력해 주십시오.</li>\n</ul>\n<hr>\n<p style="font-size: 15px; font-weight:500">기본정보</p>\n<ul>\n<li style="font-size: 13px;">체크인 :</li>\n<li style="font-size: 13px;">체크아웃 :</li>\n</ul>\n<p style="font-size: 13px;">그 외 기본 정보를 입력해 주십시오.</p>\n<hr>\n<p style="font-size: 15px; font-weight:500">인원추가정보</p>\n<p style="font-size: 13px;">기준 인원 외 추가 인원 발생 시 요금 정보를 입력해 주십시오.</p>';
-
-            if (summernote.value.trim() === basicForm) {
-              alert("기본정보 이외에 다른 정보를 입력해 주십시오.");
-              e.preventDefault();
-            }
-
-            // 할인율 적용
-            if (!$("input[name='rp_peakSeason_weekday']").val() || !$("input[name='rp_peakSeason_weekend']").val() || !$("input[name='rp_offSeason_weekday']").val() || !$("input[name='rp_offSeason_weekend']").val()) {
-              alert("할인율을 입력해 주십시오.");
-              e.preventDefault();
-            }
-
-            // 숙소 이미지
-            if(wrapCount === 0) {
-                alert('사진을 최소 1장 이상 등록해 주세요.');
-                e.preventDefault();
-            }
-
-            if (fileNamesInput.length && fileNamesInput.val() !== '') {
-                fileNamesInput.attr('name', 'acc_thumbs');   // hidden 타입의 input 이름 설정
-                fileNamesInput.appendTo('#fileDropzone'); // hidden 타입 input 추가
-            } else {
-                alert('사진을 최소 1장 이상 등록해 주세요.');
-                e.preventDefault();
-            }
-
-
-        });
-
-
-    }
 
 
 

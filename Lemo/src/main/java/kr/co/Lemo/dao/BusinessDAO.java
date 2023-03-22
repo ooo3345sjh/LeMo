@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @since  2023/03/13
@@ -50,13 +51,13 @@ public interface BusinessDAO {
     public void insertCoupon(CouponVO vo);
 
     // @since 2023/03/20
-    public int insertInfo(ProductAccommodationVO infoVO);
+    public int insertInfo(Map<String, Object> param);
 
     // @since 2023/03/20
-    public int insertRatePolicy(ProductAccommodationVO rateVO);
+    public int insertRatePolicy(Map<String, Object> param);
 
     // @since 2023/03/20
-    public int insertServiceRegInfo(ServicereginfoVO regVO);
+    public int insertServiceRegInfo(Map<String, Object> param);
 
     // @since 2023/03/16
     public int updateReply(@Param("revi_reply") String revi_reply, @Param("revi_id") String revi_id);
