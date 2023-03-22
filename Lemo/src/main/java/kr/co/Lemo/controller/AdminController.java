@@ -422,7 +422,7 @@ public class AdminController {
             log.info("contentImg : " + vo.getCs_eventViewImg());
             log.info("cs_title : " + vo.getCs_title());
 
-            csService.uploadFile(request, parameter);
+            //csService.uploadFile(request, parameter);
             csService.rsaveEventArticle(vo, request, parameter);
         }
         return "redirect:/admin/cs/event/list";
