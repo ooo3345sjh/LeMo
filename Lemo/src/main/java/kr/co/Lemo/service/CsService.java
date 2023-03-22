@@ -131,6 +131,7 @@ public class CsService {
 
         vo.setCs_eventViewImg(newName);
 
+        uploadFile(request, parameter);
 
         return dao.insertEventArticle(vo);
     }
