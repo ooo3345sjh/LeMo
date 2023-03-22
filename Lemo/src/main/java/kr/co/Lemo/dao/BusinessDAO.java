@@ -1,9 +1,6 @@
 package kr.co.Lemo.dao;
 
-import kr.co.Lemo.domain.CouponVO;
-import kr.co.Lemo.domain.ProvinceVO;
-import kr.co.Lemo.domain.ReviewVO;
-import kr.co.Lemo.domain.ServiceCateVO;
+import kr.co.Lemo.domain.*;
 import kr.co.Lemo.utils.SearchCondition;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,11 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/*
-    날짜 : 2023/03/13
-    이름 : 이원정
-    내용 : 판매자 DAO
-*/
+/**
+ * @since  2023/03/13
+ * @author 이원정
+ * @apiNote 판매자 DAO
+ */
 
 
 @Repository
@@ -52,7 +49,16 @@ public interface BusinessDAO {
     // @since 2023/03/13
     public void insertCoupon(CouponVO vo);
 
-    // @since 2023/03/016
+    // @since 2023/03/20
+    public int insertInfo(ProductAccommodationVO infoVO);
+
+    // @since 2023/03/20
+    public int insertRatePolicy(ProductAccommodationVO rateVO);
+
+    // @since 2023/03/20
+    public int insertServiceRegInfo(ServicereginfoVO regVO);
+
+    // @since 2023/03/16
     public int updateReply(@Param("revi_reply") String revi_reply, @Param("revi_id") String revi_id);
 
     // @since 2023/03/13
