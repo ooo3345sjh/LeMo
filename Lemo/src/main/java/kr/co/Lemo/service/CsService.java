@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -120,20 +121,39 @@ public class CsService {
     }
 
     /** insert **/
-    public int rsaveEventArticle(CsVO vo, MultipartHttpServletRequest request, HashMap<String, Object> parameter){
-        List<String> imgNames = uploadFile(request, parameter);
+    public int rsaveEventArticle(MultipartHttpServletRequest request, Map<String, Object> parameter, MultipartFile cs_eventBanner){
+        Map<String, MultipartFile> fileMap = request.getFileMap();
 
-        String newName = String.join("/", imgNames);
+        ArrayList<String> arrFilesInfo = new ArrayList<>();
 
-        log.info("newName : " + newName);
+        String bannerName = cs_eventBanner.getOriginalFilename();
+        String bannerExt = bannerName.substring(bannerName.indexOf("."));
+        String bannerNewName = UUID.randomUUID().toString() + bannerExt;
 
-        //uploadFile(request, parameter);
+        for (MultipartFile multipartFile : fileMap.values()) {
+            //파일 이름 추출 (확장자 제거)
+            String fName = multipartFile.getOriginalFilename();
+            String ext = fName.substring(fName.indexOf("."));
+            String newName = UUID.randomUUID().toString() + ext;
+            log.info("newName : " + newName);
 
-        vo.setCs_eventViewImg(newName);
+            arrFilesInfo.add(newName);
+        }
 
-        uploadFile(request, parameter);
+        String newName = String.join("/", arrFilesInfo);
 
-        return dao.insertEventArticle(vo);
+        parameter.put("cs_eventViewImg", newName);
+        parameter.put("cs_eventbannerImg", bannerNewName);
+
+        int result = dao.insertEventArticle(parameter);
+
+        if(result == 1 ) {
+            String cs_no = String.valueOf(parameter.get("cs_no"));
+
+            List<String> imgNames = uploadFile(arrFilesInfo, fileMap, bannerNewName, cs_eventBanner, cs_no);
+        }
+
+        return 1;
     }
 
 
@@ -151,15 +171,6 @@ public class CsService {
         return dao.insertFaqArticle(vo);
     }
 
-    //@since 2023/03/17
-    public void fileUpload(CsVO vo){
-
-        //MultipartFile file = vo.getCs_eventbannerImg();
-
-        String path = new File("C:/Users/hwangwonjin/Desktop/workspace/LeMo/Lemo/img/cs/").getAbsolutePath();
-
-
-    }
 
     /** update **/
     //@since 2023/03/14
@@ -191,49 +202,43 @@ public class CsService {
 
 
     /* 이미지 등록 */
-    public ArrayList<String> uploadFile(MultipartHttpServletRequest request, HashMap<String, Object> parameter) {
-        HashMap<String,Object> resultMap = new HashMap<>();
-
-        // Getting uploaded files from the request object
-        Map<String, MultipartFile> fileMap = request.getFileMap();
-
-
-        // 리스트 저장용
-
-
-        //파일 정보 저장용도
-        ArrayList<String> arrFilesInfo = new ArrayList<>();
+    public ArrayList<String> uploadFile(ArrayList<String> arrFilesInfo, Map<String, MultipartFile> fileMap, String bannerNewName, MultipartFile cs_eventBanner, String cs_no) {
 
         // 사진 저장
-        String path = new File("C:/Users/hwangwonjin/Desktop/workspace/LeMo/Lemo/img/cs").getAbsolutePath();
+        String path = new File("C:/Users/hwangwonjin/Desktop/workspace/LeMo/Lemo/img/cs/"+cs_no ).getAbsolutePath();
 
+        log.info(path);
+        // 폴더 존재 여부 검사
+        File checkFolder = new File(path);
+        if(!checkFolder.exists()){
+            try {
+                Files.createDirectories(checkFolder.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
+        // 배너 이미지 저장
+        try {
+            cs_eventBanner.transferTo(new File(path, bannerNewName));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // 이벤트 이미지 저장
+        int count = 0;
         // Iterate through the map
-        for (MultipartFile multipartFile : fileMap.values()) {
-
-            //'저장용 맵'
-            //HashMap<String, String> param = new HashMap<>();
-
-            /*파일 기본 정보 추출*/
-            HashMap<String, Object> fileInfo = getUploadedFileInfo(multipartFile);
-
-            //파일 이름 추출 (확장자 제거)
-            String fName = (String)fileInfo.get("fileName");
-            String ext = fName.substring(fName.indexOf("."));
-            String newName = UUID.randomUUID().toString() + ext;
-            log.info("newName : " + newName);
+        for (MultipartFile mf : fileMap.values()) {
 
             // 파일 저장
             try {
-                multipartFile.transferTo(new File(path, newName));
+                mf.transferTo(new File(path, arrFilesInfo.get(count)));
+                count ++;
             } catch (IllegalStateException e) {
                 log.error(e.getMessage());
             } catch (IOException e) {
                 log.error(e.getMessage());
             }
-
-
-            arrFilesInfo.add(newName);
         }
 
         log.info("arrFileInfo" + arrFilesInfo);

@@ -5,6 +5,7 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminEvent.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+
     <!-- 드래그앤드롭 파일 업로드 -->
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
@@ -32,11 +33,6 @@
        .diary_write_img {
             width: 232px;
             height: 238px;
-            border-radius: 4px;
-        }
-        .diary_write_img > img {
-            width: 100%;
-            height: 100%;
             border-radius: 4px;
         }
         #fileDropzone > label {
@@ -118,7 +114,6 @@
                                                     <label for="ex_file">업로드</label>
                                                     <input type="file" name="cs_eventbannerImg" id="ex_file" accept="image/png, image/jpeg" class="insertFile">
                                                 </div>
-                                                <input type="hidden" id="fileName"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -161,9 +156,8 @@
 </th:block>
 <th:block layout:fragment="script">
     <script th:src="@{/js/admin/dragNdrop.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
     <script>
-        let maxFiles = 1;
-        let url = "/admin/cs/event/write";
 
         $(document).ready(function() {
                 $('#summernote').summernote({
@@ -203,39 +197,21 @@
                 document.getElementById('endDate').setAttribute("min", endDay);
             }
 
+            $(document).ready(function() {
+                /** 이미지 미리보기 **/
+                const fileDOM = document.querySelector('#ex_file');
+                const previews = document.querySelectorAll('#image');
 
-            /** 이미지 미리보기 **/
-            const fileDOM = document.querySelector('#ex_file');
-            const previews = document.querySelectorAll('#image');
 
+                fileDOM.addEventListener('change', () => {
+                const reader = new FileReader();
+                reader.onload = ({ target }) => {
+                    previews[0].src = target.result;
+                };
+                reader.readAsDataURL(fileDOM.files[0]);
+                });
 
-            fileDOM.addEventListener('change', () => {
-            const reader = new FileReader();
-            reader.onload = ({ target }) => {
-                previews[0].src = target.result;
-            };
-            reader.readAsDataURL(fileDOM.files[0]);
             });
-
-
-<!--          $(document).ready(function() {-->
-<!--                $('.insertFile').on('change', function(){-->
-<!--                    var file = $('this').get(0);-->
-
-<!--                    console.log("file : " + file);-->
-
-<!--                    var oriName = file.name;-->
-<!--                    var ext = oriName.substring(oriName.indexOf("."));-->
-<!--                    var newName = UUID.randomUUID().toString() + ext;-->
-<!--                    file.push(newName);-->
-
-<!--                    $('#cs_eventbannerImg').val(file);-->
-
-<!--                    console.log("cs_banner : " + $('#cs_eventbannerImg').val());-->
-
-<!--                });-->
-<!--          });-->
-
         </script>
     <script>
 
