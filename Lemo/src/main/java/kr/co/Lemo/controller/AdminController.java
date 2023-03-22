@@ -388,7 +388,8 @@ public class AdminController {
     @PostMapping("cs/{cs_cate}/write")
     public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate,
                                      CsVO vo,
-                                     @RequestParam HashMap<String, Object> parameter,
+                                     @RequestPart(value = "cs_eventBanner", required = false) MultipartFile cs_eventBanner,
+                                     @RequestParam Map<String, Object> parameter,
                                      MultipartHttpServletRequest request,
                                      HttpServletRequest req) {
 
@@ -406,24 +407,16 @@ public class AdminController {
             csService.rsaveFaqArticle(vo);
             return "redirect:/admin/cs/faq/list";
         }else if("event".equals(cs_cate)){
-            vo.setUser_id("b1848@naver.com");
-            vo.setCs_regip(req.getRemoteAddr());
 
-            Map<String, MultipartFile> fileMap = request.getFileMap();
-//
-//            int count = 0;
-//            for(MultipartFile mf = fileMap.values()){
-//                count += 1;
-//                log.info(count + " : " + mf.getOriginalFilename());
-//            }
+            parameter.put("user_id", "b1848@naver.com");
+            parameter.put("cs_regip", req.getRemoteAddr());
+            parameter.put("cs_cate", "event");
+
 
             log.info("param : " + parameter);
-            log.info("bannerImg : " + vo.getCs_eventbannerImg());
-            log.info("contentImg : " + vo.getCs_eventViewImg());
-            log.info("cs_title : " + vo.getCs_title());
+            log.info("cs_eventBanner : " + cs_eventBanner);
 
-            //csService.uploadFile(request, parameter);
-            csService.rsaveEventArticle(vo, request, parameter);
+            csService.rsaveEventArticle(request, parameter, cs_eventBanner);
         }
         return "redirect:/admin/cs/event/list";
     }

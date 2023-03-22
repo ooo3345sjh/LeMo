@@ -76,7 +76,7 @@
     </select>
 
     <!-- insert -->
-        <insert id="insertEventArticle">
+        <insert id="insertEventArticle" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="cs_no">
             insert into `lemo_cs` set
             `user_id`=#{user_id},
             `cs_cate`=#{cs_cate},

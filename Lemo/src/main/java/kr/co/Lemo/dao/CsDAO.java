@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @since 2023/03/08
@@ -41,7 +42,7 @@ public interface CsDAO {
 
     /** insert **/
     // @since 2023/03/09
-    public int insertEventArticle(CsVO vo);
+    public int insertEventArticle(Map<String, Object> parameter);
     public int insertNoticeArticle(CsVO vo);
     //@since 2023/03/10
     public int insertArticleQna(CsVO vo);
