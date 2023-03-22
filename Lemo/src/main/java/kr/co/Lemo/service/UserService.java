@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.Lemo.dao.UserDAO;
 import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.entity.SocialEntity;
 import kr.co.Lemo.entity.UserEntity;
 import kr.co.Lemo.entity.UserInfoEntity;
+import kr.co.Lemo.repository.SocialRepo;
 import kr.co.Lemo.repository.UserInfoRepo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import java.net.URI;
+import java.util.Optional;
 
 /**
  * @since 2023/03/16
@@ -38,6 +41,8 @@ import java.net.URI;
 @AllArgsConstructor
 @Transactional(rollbackOn = Exception.class)
 public class UserService {
+
+    private SocialRepo socialRepo;
     private UserDAO userDAO;
     private PasswordEncoder passwordEncoder;
 
@@ -84,6 +89,7 @@ public class UserService {
         return userDAO.countByNick(nick);
     }
 
+    // @since 2023/03/18
     public int saveUser(UserVO user) throws Exception {
         user.setPass(passwordEncoder.encode(user.getPass()));
         log.debug(user.toString());
@@ -96,5 +102,9 @@ public class UserService {
         }
 
         return result;
+    }
+
+    public SocialEntity saveSocial(SocialEntity socialEntity){
+        return socialRepo.save(socialEntity);
     }
 }
