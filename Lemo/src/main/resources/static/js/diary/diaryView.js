@@ -110,6 +110,13 @@ $(function(){
         let com_no  = $(this).parent().parent().parent().attr('data-no');
         let com_pno = $(this).parent().parent().parent().attr('data-pno');
 
+        let emptyCom = $('.emptyCom'+com_no).length;
+
+        if( emptyCom == 1 ) {
+            $('.emptyCom'+com_no).remove();
+            $(this).parent().find('.showall').removeClass('open');
+            $(this).parent().find('.showall').text('댓글 모두보기');
+        }
 
         let content = '<div class="write_reReply re'+com_pno+'">';
            content += '<form action="#" class="comWrite">';
@@ -140,9 +147,9 @@ $(function(){
 
         ajaxAPI("diary/oriComment", jsonData, "POST").then((response)=>{
             if(response["result"] == '1'){
-                alert('작성되었습니다.');
+                Swal.fire(`작성되었습니다.!`)
 
-                let content = '<li data-no="'+response["com_no"]+'" data-pno="'+response["com_no"]+'">';
+                let content = '<li data-no="'+response["com_no"]+'" data-pno="'+response["com_no"]+'" class="oriCom'+response["com_no"]+'">';
                    content += '<div class="repdiv1">';
                    content += '<img src="/Lemo/images/admin/user_default.png" alt="프사">';
                    content += '<div>';
@@ -164,13 +171,13 @@ $(function(){
                    content += '</div>';
                    content += '</li>';
 
-                if($('.commentEmpty').length == 1) {
-                    $('.commentEmpty').remove();
-                }
+                if($('.commentEmpty').length == 1) { $('.commentEmpty').remove(); }
 
                 total += 1
                 $('#tit').children('b').text(total);
                 $(this).parent().parent().find('#rep').children().append(content);
+
+                $(this).children('textarea').val('');
 
             }
         });
@@ -209,23 +216,20 @@ $(function(){
                content += '</div>';
                content += '</li>';
 
-            if(re_reply == 0) {
-                $(this).parent().prev().after(content);
-                $(this).parent().prev().find('.comment').text('댓글 쓰기');
-                $(this).parent().remove();
+            let commentWrite = $(this).parent().prev().find('.comment');
+            let commentHide  = $(this).parent().prev().find('.showall');
 
-                total += 1
-                $('#tit').children('b').text(total);
-            }else {
-                $('.com'+com_pno).last().after(content);
-                $(this).parent().next('.emptyCom'+com_pno).remove();
-                $(this).parent().prev().find('.comment').removeClass('open');
-                $(this).parent().prev().find('.comment').text('댓글 쓰기');
-                $(this).parent().remove();
+            $('.com'+com_no).attr('style', "display:block;");
+            $(this).parent().prev().after(content);
+            $(this).parent().parent().find('.emptyCom'+com_pno).remove();
+            commentWrite.removeClass('open');
+            commentWrite.text('댓글 쓰기');
+            commentHide.text('댓글 숨기기');
+            commentHide.addClass('open');
+            $(this).parent().remove();
 
-                total += 1
-                $('#tit').children('b').text(total);
-            }
+            total += 1
+            $('#tit').children('b').text(total);
         });
     });
 
@@ -266,17 +270,38 @@ $(function(){
         let com_no  = $(this).parent().parent().parent().attr('data-no');
         let com_pno = $(this).parent().parent().parent().attr('data-pno');
 
-        let jsonData = { "com_no":com_pno };
+        let jsonData;
+        if( $(this).parent().parent().parent().hasClass('oriCom'+com_no) ) {
+            jsonData = { "com_no":com_pno, "com_state":0 };
+            ajaxAPI("diary/oriComment", jsonData, "PATCH").then((response)=>{
+                if(response == 1) {
+                    Swal.fire(`삭제 되었습니다.!`)
 
-        ajaxAPI("diary/comment", jsonData, "DELETE").then((response)=>{
-            if(response == 1) {
-                alert('삭제 되었습니다.');
+                    let content = "<div class='removeCom'>";
+                       content +=   "<p>삭제된 댓글입니다.</p>";
+                       content +=   "<div>";
+                       content +=       "<a href='#' class='showall'>댓글 모두보기</a>";
+                       content +=   "</div>";
+                       content += "</div>";
 
-                $(this).parent().parent().parent().remove();
-            }else {
-                alert('다시 시도해주세요!');
-            }
-        });
+                    $(this).parent().parent().parent().empty().append(content);
+                    $('.com'+com_pno).attr('style', "display:none;");
+
+                }else {
+                    Swal.fire(`다시 시도해주세요.!`)
+                }
+            });
+        }else {
+            jsonData = { "com_no":com_pno };
+            ajaxAPI("diary/comment", jsonData, "DELETE").then((response)=>{
+                if(response == 1) {
+                    Swal.fire(`삭제 되었습니다.!`)
+                    $(this).parent().parent().parent().remove();
+                }else {
+                    Swal.fire(`다시 시도해주세요.!`)
+                }
+            });
+        }
     });
 
     /* 댓글 수정 */
@@ -323,7 +348,7 @@ $(function(){
 
         ajaxAPI("diary/comment", jsonData, "PATCH").then((response)=>{
             if(response == 1) {
-                alert('수정 되었습니다.');
+                Swal.fire(`수정 되었습니다.`)
 
                 textarea.attr('readonly', true);
                 textarea.css("height", "");
@@ -334,7 +359,7 @@ $(function(){
                 $(this).prev().text("수정");
                 $(this).prev().attr("class","comModify");
             }else {
-                alert('다시 시도해주세요!');
+                Swal.fire(`다시 시도해주세요.`)
             }
         });
     });

@@ -22,20 +22,20 @@
     
     <select id="selectDiaryComment" resultType="kr.co.Lemo.domain.DiaryCommentVO">
         SELECT
-            T.`com_no`, T.`arti_no`, T.`user_id`, T.`com_pno`,
-            T.`com_comment`, T.`com_regip`, T.`com_rdate`, T.`com_udate`, T.`nick`, IFNULL(F.`com_replyId`, T.`nick`) AS `com_replyId`
+           T.`com_no`, T.`arti_no`, T.`user_id`, T.`com_pno`,
+           T.`com_comment`, T.`com_regip`, T.`com_rdate`, T.`com_udate`, T.`nick`, IFNULL(F.`com_replyId`, T.`nick`) AS `com_replyId`, T.`com_state`
         FROM
-            (SELECT
-                `com_no`, `arti_no`, a.`user_id`, IFNULL(`com_pno`,`com_no`) AS `com_pno`,
-                `com_comment`, `com_regip`, `com_rdate`, `com_udate`, b.`nick`, IFNULL(`com_replyId`, b.`user_id`) AS `com_replyId`
-            FROM `lemo_diary_comment` AS a JOIN
-                `lemo_member_userinfo` AS b ON a.`user_id` = b.`user_id`
-            WHERE `arti_no`=#{arti_no})
+           (SELECT
+               `com_no`, `arti_no`, a.`user_id`, IFNULL(`com_pno`,`com_no`) AS `com_pno`,
+               `com_comment`, `com_regip`, `com_rdate`, `com_udate`, b.`nick`, IFNULL(`com_replyId`, b.`user_id`) AS `com_replyId`, `com_state`
+           FROM `lemo_diary_comment` AS a JOIN
+               `lemo_member_userinfo` AS b ON a.`user_id` = b.`user_id`
+           WHERE `arti_no`=#{arti_no})
         AS T LEFT JOIN
-            (SELECT c.`com_no`, d.`nick` AS com_replyId FROM
-                `lemo_diary_comment` AS c JOIN
-                `lemo_member_userinfo` AS d ON d.`user_id` = c.`com_replyId`
-            WHERE `arti_no`=#{arti_no})
+           (SELECT c.`com_no`, d.`nick` AS com_replyId FROM
+               `lemo_diary_comment` AS c JOIN
+               `lemo_member_userinfo` AS d ON d.`user_id` = c.`com_replyId`
+           WHERE `arti_no`=#{arti_no})
         AS F ON T.`com_no` = F.`com_no` ORDER BY `com_rdate` ASC;
     </select>
 
@@ -87,9 +87,17 @@
         WHERE `com_no`=#{com_no};
     </update>
 
+    <update id="updateOriComment" parameterType="kr.co.Lemo.domain.DiaryCommentVO">
+        UPDATE `lemo_diary_comment` SET
+            `com_state` = #{com_state},
+            `com_regip` = #{com_regip},
+            `com_udate` = NOW()
+        WHERE `com_no`=#{com_no};
+    </update>
+
     <!-- delete -->
     <delete id="deleteComment">
-        DELETE FROM `lemo_diary_comment` WHERE `com_no`=#{com_no} AND `com_pno`=#{com_no};
+        DELETE FROM `lemo_diary_comment` WHERE `com_no`=#{com_no};
     </delete>
 
     <!-- 공통 키 -->

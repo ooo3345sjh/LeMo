@@ -125,7 +125,6 @@ public class DiaryController {
             map.put("com_pno", Integer.toString(commentVO.getCom_no()));
         }
 
-
         return ResponseEntity.ok(map);
     }
 
@@ -152,4 +151,16 @@ public class DiaryController {
         return ResponseEntity.ok(result);
     }
 
+    // @since 2023/0322
+    @ResponseBody
+    @PatchMapping("oriComment")
+    public ResponseEntity<Integer> usaveOriComment(@RequestBody DiaryCommentVO commentVO, HttpServletRequest req) {
+        log.debug("PATCH oriComment start");
+
+        commentVO.setCom_regip(req.getRemoteAddr());
+
+        int result = service.usaveOriComment(commentVO);
+
+        return ResponseEntity.ok(result);
+    }
 }

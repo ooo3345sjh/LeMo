@@ -627,6 +627,17 @@ button {cursor: pointer;}
 
 }
 
+.removeCom > p {
+    margin-top: 10px;
+    margin-bottom: 25px;
+    font-size: 13px;
+}
+
+.removeCom .showall {
+    display: inline-block;
+    font-size: 12px;
+}
+
 .showall {
     width : 80px;
 }

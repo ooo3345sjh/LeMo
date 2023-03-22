@@ -42,4 +42,7 @@ public interface DiaryDAO {
     // @since 2023/03/20
     public int updateComment(DiaryCommentVO commentVO);
 
+    // @since 2023/03/22
+    public int updateOriComment(DiaryCommentVO commentVO);
+
 }

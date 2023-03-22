@@ -81,4 +81,9 @@ public class DiaryService {
     public int usaveComment(DiaryCommentVO commentVO) {
         return dao.updateComment(commentVO);
     }
+
+    // @since 2023/03/22
+    public int usaveOriComment(DiaryCommentVO commentVO) {
+        return dao.updateOriComment(commentVO);
+    }
 }
