@@ -66,5 +66,10 @@
     </main>
 
 </th:block>
-<th:block layout:fragment="script"></th:block>
+<th:block layout:fragment="script">
+    <script>
+       const error = "[[${param.error}]]"
+       console.log(error);
+    </script>
+</th:block>
 </html>

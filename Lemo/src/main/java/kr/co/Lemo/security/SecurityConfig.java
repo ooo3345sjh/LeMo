@@ -32,6 +32,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     private ResourceLoader resourceLoader;
     private HomeLoginSuccessHandler homeLoginSuccessHandler;
     private SocialLoginSuccessHandler socialLoginSuccessHandler;
+    private LoginFailurHandler loginFailurHandler;
 
     // @since 2023/03/21
     @Bean
@@ -53,6 +54,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                         login.loginPage("/user/login")           // 로그인 페이지 경로 설정
 						     .loginProcessingUrl("/user/login")  // POST로 로그인 정보를 보낼 시 경로
                              .successHandler(homeLoginSuccessHandler)
+                             .failureHandler(loginFailurHandler)
 				)
                 // sns 로그인 설정
                 .oauth2Login(oauth2 -> oauth2

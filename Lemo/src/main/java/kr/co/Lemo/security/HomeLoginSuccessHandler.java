@@ -39,6 +39,13 @@ public class HomeLoginSuccessHandler extends LoginSuccessHandler implements Auth
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(user, null, List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())))
         );
+//        if(user.getIsEnabled() != 1){
+//            redirectStrategy.sendRedirect(request, response, "/user/login?error=W");
+//            return;
+//        } else if(user.getIsLocked() != 1){
+//            redirectStrategy.sendRedirect(request, response, "/user/login?error=L");
+//            return;
+//        }
         loginSuccessPage(request, response);
     }
 

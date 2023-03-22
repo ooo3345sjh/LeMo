@@ -21,7 +21,8 @@
             `isNoticeEnabled`=#{isNoticeEnabled},
             `isLocationEnabled`=#{isLocationEnabled},
             `isPrivacySelected`=#{isPrivacySelected},
-            `rdate`=NOW()
+            `rdate`=NOW(),
+            `udate`=NOW()
     </insert>
     <insert id="saveHomeUser">
         INSERT INTO `lemo_member_user` SET

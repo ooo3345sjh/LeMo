@@ -7,6 +7,74 @@
     <link rel="stylesheet" th:href="@{/css/user/user.css}">
 </th:block>
 <th:block layout:fragment="content">
+    <main id="terms">
+        <section>
+            <div class="title">
+                <strong>LEMO 약관 동의</strong>
+            </div>
+            <form th:action="@{/user/terms/}" method="post" class="terms_agree" name="termsFrom">
+                <input type="hidden" name="type" th:value="${type}">
+                <p class="all_check">
+                    <label><input type="checkbox" id="checkAll" class="chk chk_default">전체 동의</label>
+                </p>
+                <p>
+                    <input type="checkbox" name="termsType_no" value="1" class="chk chk_default required" required>
+                    <a href="#" target="_blank">이용약관 동의</a>
+                    <span>(필수)</span>
+                </p>
+                <p>
+                    <input type="checkbox" name="termsType_no" value="2" class="chk chk_default required" required>
+                    <a href="#" target="_blank">만 14세 이상 확인</a>
+                    <span>(필수)</span>
+                </p>
+                <p>
+                    <input type="checkbox" name="termsType_no" value="3" class="chk chk_default required" required>
+                    <a href="#" target="_blank">개인정보 수집 및 이용동의</a>
+                    <span>(필수)</span>
+                </p>
+                <p>
+                    <input type="checkbox" name="termsType_no" value="6" class="chk chk_default">
+                    <a href="#" target="_blank">위치기반 서비스 이용약관</a>
+                    (선택)
+                </p>
+                <p>
+                    <input type="checkbox" name="termsType_no" value="5" class="chk chk_default">
+                    <a href="#" target="_blank">마케팅 알림 수신동의</a>
+                    (선택)
+                </p>
+                <!-- 필수 동의 약관 전부 선택시 class에 on 추가 -->
+                <button type="submit" class="btn_link" id="terms_agree_btn" disabled>
+                    <span>다음</span>
+                </button>
+            </form>
+        </section>
+    </main>
+    <main id="certification">
+        <section>
+            <form name="form" th:action="@{/user/hp/auth}" method="post">
+                <input type="hidden" name="type" th:value="${type}">
+                <div class="title">
+                    <strong class="logo">
+                        <img th:src="@{/images/index/lemo_logo-removebg-preview.png}" alt="">
+                        <a th:href="@{/}">LEMO</a>
+                    </strong>
+                </div>
+                <div class="common certification">
+                    <strong class="sub_title">휴대폰 인증</strong>
+                    <p>원활한 서비스 제공을 위해 본인확인을 부탁드립니다.</p>
+
+                    <section id="section1">
+                        <b>휴대폰 번호</b>
+                        <div class="inp_type2 form-errors">
+                            <input type="tel" name=hp maxlength="11">
+                            <label id="hp_result" class="validate_msg"></label>
+                            <button type="button" class="btn_common">전송</button>
+                        </div>
+                    </section>
+                </div>
+            </form>
+        </section>
+    </main>
     <main id="checknick">
         <section>
             <form action="#">
@@ -16,26 +84,26 @@
                         <a th:href="@{/}">LEMO</a>
                     </strong>
                 </div>
-                <div id="social_reg">
-                    <div class="common certification">
-                        <strong class="sub_title">휴대폰 인증</strong>
-                        <p>원활한 서비스 제공을 위해 본인확인을 부탁드립니다.</p>
+                <div class="common checknick">
+                    <strong class="sub_title">닉네임 설정</strong>
 
-                        <section id="section1">
-                            <b>휴대폰 번호</b>
-                            <div class="inp_type2 form-errors">
-                                <input type="tel" name=hp maxlength="11">
-                                <label id="hp_result" class="validate_msg"></label>
-                                <button type="button" class="btn_common">전송</button>
-                            </div>
-                        </section>
-                    </div>
+                    <section id="section3">
+                        <div class="inp_type2 form-errors">
+                            <input type="text" name="nick" maxlength="8">
+                            <label id="nick_msg" class="validate_msg"></label>
+                            <button type="button" class="btn_common nick active">딴거할래요</button>
+                        </div>
+                    </section>
                 </div>
+                <button type="button" name="signup" class="btn_link" disabled="disabled">
+                    <span>가입하기</span>
+                </button>
             </form>
         </section>
     </main>
 </th:block>
 <th:block layout:fragment="script">
+    <script th:src="@{/js/user/terms.js}"></script>
     <script th:src="@{/js/user/hpAuth.js}"></script>
     <script>
         // Validation Check
@@ -43,6 +111,17 @@
 
         // regex
         const reNick = /^[a-zA-Z가-힣0-9][a-zA-Zㄱ-힣0-9]*$/;
+
+        // main tag
+        const termsMain = $("#terms");
+        const hpMain = $("#certification");
+        const nickMain = $("#checknick");
+        hpMain.remove();
+        nickMain.remove();
+
+        // 약관동의 체크한 값 리스트
+        let termsList = [];
+
 
         function getNick(){
             ajaxAPI("user/nick/create", null, "GET").then((response) => {
@@ -63,6 +142,27 @@
         }
 
         $(function(){
+            $('#terms_agree_btn').on('click', function(e){
+                let req = $(".required");
+                let reqList = [];
+                req.each (function (index, el) {
+                    reqList.push($(this).is(':checked'));
+                });
+
+                if(!reqList.includes(false)){
+                    let chk = $(".chk.chk_default").not('#checkAll');
+                    termsList = [];
+                    chk.each (function (index, el) {
+                        if($(this).is(':checked')){
+                            termsList.push($(this).val());
+                        }
+                    });
+                    console.log(termsList);
+                    termsMain.html(hpMain);
+                    e.preventDefault();
+                }
+            });
+
             $(document).on('click', '#section2 .btn_common', function(){
                 codeInput = $(this).parent().find('input[name="authcode"]');
                 authcode_msg = $(this).parent().find('#authcode_msg');
@@ -104,77 +204,80 @@
                     return;
                 }
 
-                $('#social_reg').load(contextPath + "user/social/nick", function() {
+                $('main').html(nickMain);
+                getNick();
+                console.log('load complete!');
+                console.log("authHp :"+authHp);
+                console.log("smsAuthCode :"+smsAuthCode);
+
+                $('.btn_common.nick').click(function (){
                     getNick();
-                    console.log('load complete!');
-                    console.log("authHp :"+authHp);
-                    console.log("smsAuthCode :"+smsAuthCode);
+                });
 
-                    $('.btn_common.nick').click(function (){
-                        getNick();
-                    });
+                $('input[name=nick]').on("keyup focusout",function (){
+                    const nick = $(this).val();
+                    if(!reNick.test(nick)){
+                        $('#nick_msg').text('한글과 영문을 사용해주세요.');
+                        $("button[name=signup]").removeClass("on");
+                        $("button[name=signup]").attr('disabled', true);
+                        nickOk = false;
+                        return;
+                    } else {
+                        $('#nick_msg').text('');
+                        nickOk = true;
+                    }
 
-                    $('input[name=nick]').on("keyup focusout",function (){
-                        const nick = $(this).val();
-                        if(!reNick.test(nick)){
-                            $('#nick_msg').text('한글과 영문을 사용해주세요.');
+                    ajaxAPI("user/nick/duplicate?nick="+nick, null, "GET").then((response) => {
+                        if(response.result == -99999) {
+                            console.log('중복확인에 실패했습니다. 다시 시도해주세요.');
                             nickOk = false;
-                            return;
+                        } else if(response.result > 0) {
+                            $("button[name=signup]").removeClass("on");
+                            $('#nick_msg').text('이미 존재하는 닉네임입니다.');
+                            $("button[name=signup]").attr('disabled', true);
+                            nickOk = false;
                         } else {
+                            $("button[name=signup]").addClass("on");
+                            $("button[name=signup]").attr('disabled', false);
                             $('#nick_msg').text('');
                             nickOk = true;
                         }
-
-                        ajaxAPI("user/nick/duplicate?nick="+nick, null, "GET").then((response) => {
-                            if(response.result == -99999) {
-                                console.log('중복확인에 실패했습니다. 다시 시도해주세요.');
-                                nickOk = false;
-                            } else if(response.result > 0) {
-                                $("button[name=signup]").removeClass("on");
-                                $('#nick_msg').text('이미 존재하는 닉네임입니다.');
-                                $("button[name=signup]").attr('disabled', true);
-                                nickOk = false;
-                            } else {
-                                $("button[name=signup]").addClass("on");
-                                $("button[name=signup]").attr('disabled', false);
-                                $('#nick_msg').text('');
-                                nickOk = true;
-                            }
-                        }).catch((errorMsg) => {
-                            console.log(errorMsg)
-                        });
+                    }).catch((errorMsg) => {
+                        console.log(errorMsg)
                     });
-
-                    $("button[name=signup]").click(function (){
-
-                        const nick = $('input[name=nick]').val();
-                        if(nick.trim().length == 0){
-                            $('#nick_msg').text('닉네임을 입력해주세요.');
-                            $('input[name=nick]').focus();
-                            return
-                        } else if(!nickOk){
-                            $('#nick_msg').text('한글과 영문을 사용해주세요.');
-                            $('input[name=nick]').focus();
-                            return;
-                        }
-
-                        const jsonData = {
-                            "hp":authHp,
-                            "nick":nick
-                        }
-                        ajaxAPI("user/social/signup", jsonData, "POST").then((response) => {
-                            console.log(response);
-                            if(response.result !== 1) {
-                            } else {
-                                alert('sd');
-                            }
-                        }).catch((errorMsg) => {
-                            console.log(errorMsg)
-                        });
-                    });
-
                 });
 
+                $("button[name=signup]").click(function (){
+
+                    const nick = $('input[name=nick]').val();
+                    if(nick.trim().length == 0){
+                        $('#nick_msg').text('닉네임을 입력해주세요.');
+                        $('input[name=nick]').focus();
+                        return
+                    } else if(!nickOk){
+                        $('#nick_msg').text('한글과 영문을 사용해주세요.');
+                        $('input[name=nick]').focus();
+                        return;
+                    }
+
+                    const jsonData = {
+                        "termsList":termsList,
+                        "hp":authHp,
+                        "nick":nick
+                    }
+                    console.log(jsonData);
+                    ajaxAPI("user/social/signup", jsonData, "POST").then((response) => {
+                        console.log(response);
+                        const result = response.result;
+                        if(result === 1) {
+                            location.href = contextPath+"user/login";
+                        } else {
+                            alert('회원가입에 실패 했습니다. 다시 시도해주세요.');
+                        }
+                    }).catch((errorMsg) => {
+                        console.log(errorMsg)
+                    });
+                });
             });
         });
     </script>

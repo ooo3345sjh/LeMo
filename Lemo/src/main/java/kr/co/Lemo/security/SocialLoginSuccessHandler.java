@@ -48,6 +48,7 @@ public class SocialLoginSuccessHandler extends LoginSuccessHandler implements Au
         Object principal = authentication.getPrincipal();
         SocialEntity socialEntity = (SocialEntity) principal;
         SocialEntity user = socialRepo.findById(socialEntity.getUser_id()).orElse(null);
+        HttpSession session = request.getSession();
         log.debug("social : " + ((SocialEntity)principal).toString());
         if(user == null){
 
@@ -55,13 +56,13 @@ public class SocialLoginSuccessHandler extends LoginSuccessHandler implements Au
                     new AnonymousAuthenticationToken("anonymousUser", principal, List.of(new SimpleGrantedAuthority("ROLE_ANONYMOUS")))
             );
 
-            HttpSession session = request.getSession();
             session.setMaxInactiveInterval(30*60);
             session.setAttribute("principal", principal);
             response.sendRedirect(request.getContextPath() + "/user/social/signup");
             return;
         }
 
+        session.removeAttribute("principal");
         UserVO userVO = userVoConvert(user);
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(userVO, null, userVO.getAuthorities())
@@ -98,7 +99,7 @@ public class SocialLoginSuccessHandler extends LoginSuccessHandler implements Au
                 .isLocationEnabled(userInfo.getIsLocationEnabled())
                 .memo(userInfo.getMemo())
                 .udate(userInfo.getUdate())
-                .rdate(userInfo.getUdate())
+                .rdate(userInfo.getRdate())
                 .wdate(userInfo.getWdate())
                 .soci_type(user.getSoci_typ())
                 .soci_email(user.getEmail())

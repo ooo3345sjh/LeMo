@@ -14,14 +14,26 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.relational.core.sql.In;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -65,8 +77,10 @@ public class UserController {
     ) {
         log.debug("GET terms start...");
 
-        if(!"general".equals(type) && !"business".equals(type))
+        if("social".equals(type)){}
+        else if(!"general".equals(type) && !"business".equals(type))
             return "redirect:/user/join";
+
 
         m.addAttribute("title", environment.getProperty(group));
         m.addAttribute("type", type);
@@ -142,12 +156,6 @@ public class UserController {
 
         m.addAttribute("title", environment.getProperty(group));
         return "user/signup_social";
-    }
-
-    // @since 2023/03/21
-    @GetMapping("social/nick")
-    public String loadNickPage(){
-        return "user/_createNick";
     }
 
     // @since 2023/03/15
@@ -267,21 +275,17 @@ public class UserController {
         HttpSession session = req.getSession();
         Object principal = session.getAttribute("principal");
 
-        String hp = (String)map.get("hp");
-        String nick = (String)map.get("nick");
         int result = 0;
 
-        if(principal != null){
+        SocialEntity socialEntity = setSocialObj(map, req, principal);
+        if(socialEntity != null){
             result = 1;
-            SocialEntity socialEntity = (SocialEntity) principal;
-            socialEntity.setUserInfoEntity(new UserInfoEntity());
-            socialEntity.getUserInfoEntity().setHp(hp);
-            socialEntity.getUserInfoEntity().setNick(nick);
             userService.saveSocial((SocialEntity) principal);
         }
 
         map.put("result", result);
         return map;
+
     }
 
     // @since 2023/03/16
@@ -374,6 +378,45 @@ public class UserController {
         }
 
         return map;
+    }
+
+    /**
+     * @since 2023/03/22
+     * @param map hp, nick, termsList 값이 들어있는 Map객체
+     * @param principal 회원 정보 객체
+     * @return SocialEntity 데이터를 셋팅한 객체
+     */
+    private SocialEntity setSocialObj(Map map, HttpServletRequest req, Object principal) {
+        String hp = (String)map.get("hp");
+        String nick = (String)map.get("nick");
+        Object terms = map.get("termsList");
+
+        SocialEntity socialEntity = null;
+
+        if(hp != null && nick != null && terms != null){
+            List<Integer> termsList = (List<Integer>)terms;
+            if(principal != null){
+                socialEntity = (SocialEntity) principal;
+                String rdate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                socialEntity.setUserInfoEntity(UserInfoEntity.builder()
+                        .user_id(socialEntity.getUser_id())
+                        .hp(hp)
+                        .nick(nick)
+                        .type(2)
+                        .role("USER")
+                        .regip(req.getRemoteAddr())
+                        .isLocked(1)
+                        .isEnabled(1)
+                        .isPassNonExpired(1)
+                        .isNoticeEnabled(termsList.contains("5")? 1:0)
+                        .isLocationEnabled(termsList.contains("6")? 1:0)
+                        .isPrivacySelected(termsList.contains("4")? 1:0)
+                        .rdate(rdate)
+                        .udate(rdate)
+                        .build());
+            }
+        }
+        return socialEntity;
     }
 
     /**
