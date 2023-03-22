@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin-layout}">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/admin/adminSubStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <!-- 드래그앤드롭 파일 업로드 -->
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+    <script th:src="@{/js/admin/dragNdropMulti.js}"></script>
+
+</th:block>
+<th:block layout:fragment="content">
+    <main>
+        <div class="main_inner">
+            <!-- 죄측 사이드바 -->
+            <th:block th:replace="~{fragments/_aside::businessFragment}"></th:block>
+            <!-- 우측 메인 컨테이너 -->
+            <section class="main_content">
+                <!-- 숙소 등록 폼 -->
+                <form name="form" class="col_register_form" th:action="@{/business/info/rsave}" method="post" enctype="multipart/form-data">
+                    <input type="text" name="sc_no">
+                    <!-- 숙소 썸네일 이미지 -->
+                    <div class="col_register1">
+                        <div class="stayName" >
+                            <div>
+                                <span id="btnTest">숙소 이미지</span>
+                            </div>
+                        </div>
+                        <div class="stayThumb">
+                            <div class="dropzone" name="files" id="fileDropzone">
+                                <div>
+                                    <button class="dz-default dz-message" type="button">
+                                        사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btnAdminProd" id="btnUpload">
+                        <button type="submit" id="btnSubmit">숙소등록</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+    <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
+    <th:block layout:fragment="script">
+    <script>
+         $(document).ready(function() {
+
+            // submit 버튼 막기
+            $("#btnSubmit").click(function(e) {
+                e.preventDefault();
+            })
+
+         });
+    </script>
+    </th:block>
+</th:block>
+</html>
