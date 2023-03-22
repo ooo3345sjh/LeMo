@@ -200,7 +200,7 @@ public class BusinessController {
 
     @ResponseBody
     @PostMapping("info/rsave")
-    public String info_rsave(@RequestParam HashMap<String,Object> param,
+    public String info_rsave(@RequestParam Map<String,Object> param,
                              MultipartHttpServletRequest request) throws Exception
     {
         String uid = "1foodtax@within.co.kr";

@@ -99,7 +99,7 @@
     </insert>
 
     <!-- business - info - write (Accommodation registration) -->
-    <insert id="insertInfo" parameterType="kr.co.Lemo.domain.ProductAccommodationVO" useGeneratedKeys="true" keyProperty="acc_id">
+    <insert id="insertInfo" parameterType="hashMap" useGeneratedKeys="true" keyProperty="acc_id">
         insert into `lemo_product_accommodation` set
         `user_id`=#{user_id},
         `acc_name`=#{acc_name},
@@ -122,7 +122,7 @@
     </insert>
 
     <!-- business - info - write (Accommodation registration::rate policy) -->
-    <insert id="insertRatePolicy" parameterType="kr.co.Lemo.domain.ProductAccommodationVO">
+    <insert id="insertRatePolicy" parameterType="hashMap">
         insert into `lemo_product_ratepolicy` set
         `acc_id`=#{acc_id},
         `rp_offSeason_weekday`=#{rp_offSeason_weekday},
@@ -132,7 +132,7 @@
     </insert>
 
     <!-- business - info - write (Accommodation registration::Convenience facility) -->
-    <insert id="insertServiceRegInfo" parameterType="kr.co.Lemo.domain.ServicereginfoVO">
+    <insert id="insertServiceRegInfo" parameterType="hashMap">
         insert into `lemo_product_servicereginfo` set
         `acc_id`=#{acc_id},
         `sc_no`=#{sc_no}
