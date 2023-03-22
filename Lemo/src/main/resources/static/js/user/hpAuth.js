@@ -105,11 +105,11 @@ function getCodeAuth(){
 }
 
 $(function(){
-    $('input[name=hp]').keyup(function(){
+    $(document).on('keyup', 'input[name=hp]', function(){
         regHpConfirm();
     });
 
-    $('#section1 .btn_common').click(function (){
+    $(document).on('click', '#section1 .btn_common', function (){
         if(getCodeAuth()){
             $('#hp_result').text('1분 후에 다시 시도해주세요.');
             return;
