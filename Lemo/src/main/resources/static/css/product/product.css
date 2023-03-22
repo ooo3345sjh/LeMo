@@ -122,7 +122,7 @@
 
 }
 
-#productInfo > .info > h3 { font-size: 28px; font-weight: bold;}
+#productInfo > .info > h3 { font-size: 28px; font-weight: bold; display: inline-block;}
 
 #productInfo > .info > .score {
     position: relative;
@@ -198,6 +198,42 @@
 }
 #productInfo > .sellerComment > div::-webkit-scrollbar {
     display:none;
+}
+
+/* 상품 찜하기 */
+#productInfo > .info > .pick {
+    float: right;
+    bottom: 0;
+    top: auto;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #c1c1c1;
+    display: inline-block;
+    vertical-align: bottom;
+    margin-right: 10px;
+}
+
+#productInfo > .info > .pick div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+#productInfo > .info > .pick > div > a {
+    position: relative;
+    top: 3px;
+    display: inline-block;
+    width: 25px;
+    height: 21px;
+    padding: 0px;
+    background: url('/Lemo/images/product/wish.png') no-repeat center / 25px 21px;
+    color: transparent;
+    font-size: 0;
+}
+#productInfo > .info > .pick > div > a.on {
+    background-image: url('/Lemo/images/product/wish_on.png')
 }
 
 /** 쿠폰 */
@@ -2317,4 +2353,440 @@ margin-left: 25px;
     }
     #productView .paging .on a.on {
         font-weight: bold;
+    }
+
+    /* 상품 - 보기 문의하기 */
+
+
+    .prodQna #top-wrap {
+        overflow: hidden;
+    }
+
+    /* 문의하기 버튼 */
+    .board_btnswrap {
+        float: right;
+    }
+
+    .board_btnswrap li {
+        display: block;
+        float: left;
+    }
+
+    .board_btnswrap a {
+        display: inline-block;
+        line-height: 22px;
+        padding: 5px 22px;
+        font-size: 16px;
+        color: #fff;
+        background: #bbd444;
+        text-align: center;
+        margin-left: 12px;
+    }
+
+    .board_btnswrap .bt_question a {
+        padding: 0 20px;
+        border: 1px solid #bbd444;
+        border-radius: 2px;
+        line-height: 30px;
+        height: 30px;
+    }
+
+    .board_btnswrap .tab_rt a {
+        padding: 0 0 0 11px;
+        color: #5e636d;
+        letter-spacing: -1px;
+        line-height: 32px;
+        font-size: 16px;
+        background : none;
+    }
+    .board_btnswrap .tab_rt .my {
+        margin-left : 0px;
+        background: none;
+    }
+
+    .board_btnswrap .tab_rt .tl {
+        background: url('/Lemo/images/product/sp_vipgroup.png') no-repeat;
+        background-position: -999px -141px;
+    }
+
+    .board_btnswrap .tab_rt a:hover {
+        color: rgb(242,17,76);
+    }
+
+    .prodQna #inputSearchForm {
+        margin-top: 30px;
+    }
+    .prodQna .board_schbox {float:left;}
+    .prodQna .board_schbox * {vertical-align: middle;}
+
+    .prodQna .board_schbox .ip_board-sch {
+        width: 145px;
+        padding: 6px 18px 6px 12px;
+        height: 32px;
+        border: 1px solid #d6d7d8;
+        border-radius: 2px;
+        line-height: 14px;
+        font-size: 14px;
+        color: #000;
+    }
+
+    .board_schbox .btn_sch {
+        border : 1px solid #d6d7d8;
+        font-size: 13px;
+        display: inline-block;
+        width: 50px;
+        height: 32px;
+        margin-left: 2px;
+        cursor : pointer;
+    }
+
+    .board_schbox .btn_sch:hover {
+        border: 1px solid #9d9999;
+    }
+
+
+    .board_schbox .btn_sch .blind {
+        font-size: 13px;
+    }
+
+    .board_schbox .txt_result {
+        margin-left: 10px;
+        line-height: 32px;
+        font-size: 12px;
+        color: #5e636d;
+    }
+
+    .board_schbox .txt_result #txtSearchCount {
+        font-weight : bold;
+    }
+
+    /* 상품 문의 - 테이블 */
+   .board_qna .tb_board {
+       margin-top : 20px;
+       table-layout: fixed;
+       width: 100%;
+       border-collapse: collapse;
+       border-top: 1px solid #a4a9b0;
+       border-bottom: 1px solid #ececec;
+   }
+
+   .tb_board thead th {
+       padding: 13px 0;
+       text-align: center;
+       font-size: 14px;
+       line-height: 20px;
+       color: #222;
+       background: #f8f9fa;
+   }
+
+   .tb_board td {
+       padding: 16px 0 16px 0;
+       border-top: 1px solid #ececec;
+       font-size: 14px;
+       line-height: 14px;
+       text-align: center;
+       color: #5e636d;
+       word-wrap: break-word;
+   }
+
+    .htit > a .blind.arr {
+        width: 14px;
+        height: 14px;
+        display: block;
+        position: absolute;
+        left: auto;
+        right: 0;
+        top: 4px;
+        text-indent: -999em;
+        font-size: 0;
+        background: url('/Lemo/images/product/sp_vipgroup.png') no-repeat;
+        background-position: -590px -310px;
+    }
+
+    .board_dropbox {
+        display: none;
+    }
+
+    .tb_board thead th:nth-child(1) {width: 7%;}
+    .tb_board thead th:nth-child(2) {width: 15%;}
+    .tb_board thead th:nth-child(3) {width: 50%;}
+    .tb_board thead th:nth-child(4) {width: 14%}
+    .tb_board thead th:nth-child(5) {width: 14%}
+    .tb_board td:nth-child(3) {text-align : left;}
+
+
+    .htit > a {
+        font-size: 14px;
+        color: #222;
+    }
+
+    .tb_board .qt_tit a {
+        font-size: 14px;
+        color: #5e636d;
+    }
+    .tb_board .qt_tit .ic_lock {
+        margin-left: 5px;
+        margin-bottom: -1px;
+        width: 10px;
+        height: 13px;
+        display: inline-block;
+        font-size: 0;
+        text-indent: -999em;
+        overflow: hidden;
+        background: url(/Lemo/images/product/sp_vipgroup.png) no-repeat;
+        background-position: -252px 0;
+    }
+
+    /* 문의 답변 */
+    .tb_board .answerwrap {
+        word-break: break-all;
+    }
+
+    .tb_board.tb_qna tr.answerwrap td {
+        padding: 16px 22px 16px 232px;
+        text-align: left;
+        background: #fafafa;
+        color: #5e636d;
+        font-size: 14px;
+        line-height: 22px;
+        border-top: none;
+    }
+
+    .tb_board .answerwrap .ic_qt, .tb_board .answerwrap .ic_as {
+        width: 20px;
+        height: 20px;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius : 50%;
+        background : #bbd444;
+        text-align : center;
+        line-height: 20px;
+        font-size : bold;
+    }
+
+
+
+    .tb_board .answerwrap .qt {
+        position: relative;
+        padding: 0 14px 0 24px;
+        font-size: 14px;
+    }
+
+    .tb_board .answerwrap .as {
+        position: relative;
+        padding: 0 14px 0 24px;
+        margin-top: 24px;
+        font-size: 14px;
+    }
+
+    .tb_board .answerwrap .ic_qt {background : #d9d9d9;}
+
+    .tb_board .answerwrap .reginfo {
+        padding-left: 24px;
+        padding-top: 4px;
+        font-size: 0;
+        line-height: 0;
+    }
+
+    .tb_board .answerwrap .reginfo span {
+        font-size: 14px;
+        font-weight : bold;
+        line-height: 22px;
+    }
+
+    .board_qna .answerwrap .date {
+        padding-left: 7px;
+        margin-left: 7px;
+        font-weight: 400 !important;
+        background: url(/Lemo/images/product/sp_vipgroup.png) no-repeat;
+        background-position: -999px -147px;
+    }
+
+    .board_qna .answerwrap .date > em {font-size:14px; font-style:normal;}
+
+    /* 문의하기 폼 */
+
+    .vip_popup_wrap {
+        width : 644px;
+        padding: 22px 20px 46px;
+        box-sizing : border-box;
+        border : 1px solid red;
+    }
+
+    .vip_popup_wrap .tit_vippop {
+        margin-bottom: 21px;
+        line-height: 22px;
+        letter-spacing: -1px;
+        font-size: 20px;
+        color: #1e2732;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #a4a9b0;
+        font-weight: bold;
+    }
+
+    .vip_popup_wrap .subinfo {
+        margin-bottom: 14px;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: -1px;
+        text-align: center;
+        color: #757c8a;
+    }
+
+    .vip_popup_wrap .tb_questionform th {
+        padding: 13px 0 13px 20px;
+        text-align: left;
+        vertical-align: middle;
+        color: #222;
+        font-weight: 400;
+        background: #f8f9fa;
+        border-bottom: 1px solid #ececec;
+        font-size: 14px;
+    }
+
+    .vip_popup_wrap .tb_questionform td {
+        padding: 12px 20px 12px 20px;
+        border-bottom: 1px solid #ececec;
+        color: #5e636d;
+    }
+
+    .vip_popup_wrap .tb_questionform .pdtit {
+        color: #2e8de5;
+    }
+
+    .vip_popup_wrap .tb_questionform td {
+        padding: 12px 20px 12px 20px;
+        border-bottom: 1px solid #ececec;
+        color: #5e636d;
+        font-size: 14px;
+    }
+
+    .vip_popup_wrap .ip_viptxt {
+        padding: 7px 18px 5px 12px;
+        height: 27px;
+        border: 1px solid #d6d7d8;
+        border-radius: 2px;
+        width: 496px;
+        font-size: 14px;
+        color: #000;
+    }
+
+    .vip_popup_wrap .ip_viptxtarea {
+        width: 496px;
+        height: 118px;
+        padding: 6px 18px 6px 12px;
+        border: 1px solid #d6d7d8;
+        border-radius: 2px;
+        font-size: 14px;
+        resize : none;
+    }
+
+    .vip_popup_wrap .info_formbottom {
+        margin-top: 15px;
+        margin-left: 21px;
+    }
+
+    .vip_popup_wrap .info_formbottom p {
+        font-size: 14px;
+        line-height: 20px;
+        color: #222;
+    }
+
+    .vip_popup_wrap .info_formbottom p {
+        font-size: 14px;
+        line-height: 20px;
+        color: #222;
+    }
+
+    .vip_popup_wrap .info_formbottom .txt_emp{
+        font-size : 14px;
+    }
+
+    .vip_popup_wrap .check_line {
+        margin-top: 8px;
+    }
+
+    .frm_wrap {
+        display: inline-block;
+    }
+
+    .frm_wrap label, .frm_wrap input {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .frm_wrap .ds_checkbox {
+        position: relative;
+        top: 5px;
+        display : inline-block;
+        width: 20px;
+        height: 20px;
+        background: url(/Lemo/images/product/sp_vipgroup.png) no-repeat;
+        background-position: -622px -306px;
+    }
+    .frm_wrap .ds_checkbox.js_checked {
+        background-position: -644px -306px;
+    }
+
+    .frm_wrap .ds_checkbox input {
+        cursor: pointer;
+    }
+
+    .frm_wrap .ds_form > input {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+
+    .frm_wrap label, .frm_wrap input {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .vip_popup_wrap .check_line .txt_sub {
+        color: #94989f;
+    }
+
+    .vip_popup_wrap .bottom_btns {
+        margin-top: 21px;
+        font-size: 0;
+        text-align: center;
+    }
+
+    .vip_popup_wrap .bottom_btns a {
+        display: inline-block;
+        width: 100px;
+        height: 38px;
+    }
+
+    .bt_vipround100 {
+        display: inline-block;
+        width: 100px;
+        height: 38px;
+        border: 1px solid #2383dc;
+        overflow: hidden;
+        background: #2e8de5;
+        border-radius: 20px;
+        margin : 10px;
+    }
+
+    .bt_vipround100 span {
+        display: inline-block;
+        line-height: 16px;
+        padding: 11px 0;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .bt_vipround100.bt_cancel {
+        background: #a4a9b0;
+        border-color: #9ba0a8;
     }

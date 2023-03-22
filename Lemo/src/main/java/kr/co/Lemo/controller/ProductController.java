@@ -115,10 +115,10 @@ public class ProductController {
 
         log.debug("Get loadData start");
 
-        String cate = (String) map.get("cate");
-        int acc_id = (int) map.get("acc_id");
+        String cate = vo.getCate();
+        int acc_id = vo.getAcc_id();
 
-        log.info("cate : " + cate);
+        //log.info("cate : " + cate);
 
         // 리뷰
         if(cate.equals("review")){
@@ -134,7 +134,7 @@ public class ProductController {
             return "product/data/detailDiary";
 
         }else if(cate.equals("qna")) {
-            List<ProductQnaVO> qnas = service.findAllProductQna(vo);
+            //List<ProductQnaVO> qnas = service.findAllProductQna(vo);
             return "product/data/detailQna";
         }
         return "product/list";
