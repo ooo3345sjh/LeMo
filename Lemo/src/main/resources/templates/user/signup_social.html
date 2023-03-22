@@ -38,6 +38,29 @@
 <th:block layout:fragment="script">
     <script th:src="@{/js/user/hpAuth.js}"></script>
     <script>
+        // Validation Check
+        let nickOk = false;
+
+        // regex
+        const reNick = /^[a-zA-Z가-힣0-9][a-zA-Zㄱ-힣0-9]*$/;
+
+        function getNick(){
+            ajaxAPI("user/nick/create", null, "GET").then((response) => {
+                if(response.nick == "error") {
+                    console.log('GET nick fail...');
+                }
+                else {
+                    $('input[name=nick]').val(response.nick);
+                    $('#nick_msg').text('');
+                    nickOk = true;
+                }
+                $('input[name=nick]').focus();
+                $("button[type=button]").focus();
+
+            }).catch((errorMsg) => {
+                console.log(errorMsg)
+            });
+        }
 
         $(function(){
             $(document).on('click', '#section2 .btn_common', function(){
@@ -81,12 +104,77 @@
                     return;
                 }
 
-
                 $('#social_reg').load(contextPath + "user/social/nick", function() {
+                    getNick();
                     console.log('load complete!');
                     console.log("authHp :"+authHp);
                     console.log("smsAuthCode :"+smsAuthCode);
+
+                    $('.btn_common.nick').click(function (){
+                        getNick();
+                    });
+
+                    $('input[name=nick]').on("keyup focusout",function (){
+                        const nick = $(this).val();
+                        if(!reNick.test(nick)){
+                            $('#nick_msg').text('한글과 영문을 사용해주세요.');
+                            nickOk = false;
+                            return;
+                        } else {
+                            $('#nick_msg').text('');
+                            nickOk = true;
+                        }
+
+                        ajaxAPI("user/nick/duplicate?nick="+nick, null, "GET").then((response) => {
+                            if(response.result == -99999) {
+                                console.log('중복확인에 실패했습니다. 다시 시도해주세요.');
+                                nickOk = false;
+                            } else if(response.result > 0) {
+                                $("button[name=signup]").removeClass("on");
+                                $('#nick_msg').text('이미 존재하는 닉네임입니다.');
+                                $("button[name=signup]").attr('disabled', true);
+                                nickOk = false;
+                            } else {
+                                $("button[name=signup]").addClass("on");
+                                $("button[name=signup]").attr('disabled', false);
+                                $('#nick_msg').text('');
+                                nickOk = true;
+                            }
+                        }).catch((errorMsg) => {
+                            console.log(errorMsg)
+                        });
+                    });
+
+                    $("button[name=signup]").click(function (){
+
+                        const nick = $('input[name=nick]').val();
+                        if(nick.trim().length == 0){
+                            $('#nick_msg').text('닉네임을 입력해주세요.');
+                            $('input[name=nick]').focus();
+                            return
+                        } else if(!nickOk){
+                            $('#nick_msg').text('한글과 영문을 사용해주세요.');
+                            $('input[name=nick]').focus();
+                            return;
+                        }
+
+                        const jsonData = {
+                            "hp":authHp,
+                            "nick":nick
+                        }
+                        ajaxAPI("user/social/signup", jsonData, "POST").then((response) => {
+                            console.log(response);
+                            if(response.result !== 1) {
+                            } else {
+                                alert('sd');
+                            }
+                        }).catch((errorMsg) => {
+                            console.log(errorMsg)
+                        });
+                    });
+
                 });
+
             });
         });
     </script>
