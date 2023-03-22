@@ -9,6 +9,7 @@ import kr.co.Lemo.entity.UserInfoEntity;
 import kr.co.Lemo.repository.SocialRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -44,14 +46,28 @@ public class SocialLoginSuccessHandler extends LoginSuccessHandler implements Au
             Authentication authentication) throws IOException, ServletException
     {
         Object principal = authentication.getPrincipal();
+        SocialEntity socialEntity = (SocialEntity) principal;
+        SocialEntity user = socialRepo.findById(socialEntity.getUser_id()).orElse(null);
+        log.debug("social : " + ((SocialEntity)principal).toString());
+        if(user == null){
 
-//        UserVO user = userVoConvert(principal);
-//        log.debug("user : "+user.toString());
+            SecurityContextHolder.getContext().setAuthentication(
+                    new AnonymousAuthenticationToken("anonymousUser", principal, List.of(new SimpleGrantedAuthority("ROLE_ANONYMOUS")))
+            );
+
+            HttpSession session = request.getSession();
+            session.setMaxInactiveInterval(30*60);
+            session.setAttribute("principal", principal);
+            response.sendRedirect(request.getContextPath() + "/user/social/signup");
+            return;
+        }
+
+        UserVO userVO = userVoConvert(user);
         SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(principal, null, List.of(new SimpleGrantedAuthority("ROLE_USER")))
+                new UsernamePasswordAuthenticationToken(userVO, null, userVO.getAuthorities())
         );
-        loginSuccessPage(request, response);
 
+        loginSuccessPage(request, response);
     }
 
     /**

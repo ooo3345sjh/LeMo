@@ -5,6 +5,8 @@ import kr.co.Lemo.domain.MessageVO;
 import kr.co.Lemo.domain.SmsResponseVO;
 import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.domain.search.SearchconditionTestVO_sjh;
+import kr.co.Lemo.entity.SocialEntity;
+import kr.co.Lemo.entity.UserInfoEntity;
 import kr.co.Lemo.service.SmsService;
 import kr.co.Lemo.service.UserService;
 import kr.co.Lemo.utils.SearchCondition;
@@ -129,15 +131,22 @@ public class UserController {
 
     // @since 2023/03/21
     @GetMapping("social/signup")
-    public String singn_social(
-            Model m
-    ){
+    public String singnup_social(Model m, HttpServletRequest req){
+        log.debug("GET singnup_social start...");
+        HttpSession session = req.getSession();
+        Object principal = session.getAttribute("principal");
+
+        if(principal == null){
+            return "redirect:/user/login";
+        }
+
         m.addAttribute("title", environment.getProperty(group));
         return "user/signup_social";
     }
 
+    // @since 2023/03/21
     @GetMapping("social/nick")
-    public String CreatNick(){
+    public String loadNickPage(){
         return "user/_createNick";
     }
 
@@ -248,6 +257,31 @@ public class UserController {
 
         log.debug(termsType_no);
         return "redirect:/user/login";
+    }
+
+    // @since 2023/03/16
+    @ResponseBody
+    @PostMapping("social/signup")
+    public Map signup_social(@RequestBody Map map, HttpServletRequest req){
+        log.debug("POST signup_social start...");
+        HttpSession session = req.getSession();
+        Object principal = session.getAttribute("principal");
+
+        String hp = (String)map.get("hp");
+        String nick = (String)map.get("nick");
+        int result = 0;
+
+        if(principal != null){
+            result = 1;
+            SocialEntity socialEntity = (SocialEntity) principal;
+            socialEntity.setUserInfoEntity(new UserInfoEntity());
+            socialEntity.getUserInfoEntity().setHp(hp);
+            socialEntity.getUserInfoEntity().setNick(nick);
+            userService.saveSocial((SocialEntity) principal);
+        }
+
+        map.put("result", result);
+        return map;
     }
 
     // @since 2023/03/16
