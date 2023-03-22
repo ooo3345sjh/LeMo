@@ -765,6 +765,7 @@ main .acc_season {
     border-radius: 6px;
     padding: 0 5px;
     resize: none;
+    cursor: pointer;
 }
 
 main #tag_area {
@@ -786,11 +787,13 @@ main .tag_delete {
     position: absolute;
     top: -6px;
     opacity: 80%;
+    cursor: pointer;
 }
 main .tag_delete:hover {
     opacity: 1;
 }
 main .accType {
+    cursor: pointer;
     margin-top: 5px;
     border: 1px solid #dbdbdb;
     font-size: 13px;
@@ -805,7 +808,8 @@ main .acc_checkTime_div {
 }
 main .acc_checkTime_tit {
     font-size: 13px;
-    margin-right: 7px;}
+    margin-right: 7px;
+}
 main .acc_checkTime {
     border: 1px solid #dbdbdb;
     font-size: 13px;
@@ -813,6 +817,7 @@ main .acc_checkTime {
     padding: 0 8px;
     border-radius: 6px;
     resize: none;
+    cursor: pointer;
 }
 
 

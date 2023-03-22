@@ -101,7 +101,7 @@
     <!-- business - info - write (Accommodation registration) -->
     <insert id="insertInfo" parameterType="kr.co.Lemo.domain.ProductAccommodationVO" useGeneratedKeys="true" keyProperty="acc_id">
         insert into `lemo_product_accommodation` set
-        `user_id`='1foodtax@within.co.kr',
+        `user_id`=#{user_id},
         `acc_name`=#{acc_name},
         `accType_no`=#{accType_no},
         `province_no`=#{province_no},
@@ -121,13 +121,6 @@
         `acc_season`=#{acc_season};
     </insert>
 
-    <!-- business - info - write (Accommodation registration::Convenience facility) -->
-    <insert id="insertServiceRegInfo" parameterType="kr.co.Lemo.domain.ServicereginfoVO">
-        insert into `lemo_product_servicereginfo` set
-        `acc_id`=#{acc_id},
-        `sc_no`=#{sc_no}
-    </insert>
-
     <!-- business - info - write (Accommodation registration::rate policy) -->
     <insert id="insertRatePolicy" parameterType="kr.co.Lemo.domain.ProductAccommodationVO">
         insert into `lemo_product_ratepolicy` set
@@ -137,6 +130,14 @@
         `rp_peakSeason_weekday`=#{rp_peakSeason_weekday},
         `rp_peakSeason_weekend`=#{rp_peakSeason_weekend}
     </insert>
+
+    <!-- business - info - write (Accommodation registration::Convenience facility) -->
+    <insert id="insertServiceRegInfo" parameterType="kr.co.Lemo.domain.ServicereginfoVO">
+        insert into `lemo_product_servicereginfo` set
+        `acc_id`=#{acc_id},
+        `sc_no`=#{sc_no}
+    </insert>
+
 
     <!-- business - review - reply -->
     <update id="updateReply">

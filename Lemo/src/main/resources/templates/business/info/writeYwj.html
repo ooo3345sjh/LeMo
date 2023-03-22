@@ -8,7 +8,6 @@
     <!-- 드래그앤드롭 파일 업로드 -->
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-    <script th:src="@{/js/admin/dragNdropMulti.js}"></script>
     <!-- 다음 주소 API -->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=219050d1872ccb773b543fa419402493&libraries=services"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -35,8 +34,6 @@
             font-size: 12px;
             padding: 5px 6px;
             background: #fafafa;
-            z-index: 9999;
-            position: sticky;
         }
         #autoMaker > div:hover{
            background : #e6d1ff;
@@ -75,22 +72,6 @@
         #wrap-container::-webkit-scrollbar-track {
             background-color: #e4e4e4;
         }
-
-        #fileDropzone .dz-image{
-        }
-        .dropzone .dz-preview .dz-remove {
-            background-image: url('/Lemo/images/admin/x-button.png');
-            background-repeat:no-repeat;
-            background-size: 20px 20px;
-            opacity: 70%;
-            position: absolute;
-            top: -5px;
-            z-index: 999;
-            right: -7px;
-        }
-        .dropzone .dz-preview .dz-remove:hover {
-            opacity: 1;
-        }
    </style>
 
 </th:block>
@@ -109,11 +90,8 @@
                         </div>
 
                         <!-- 숙소 등록 폼 -->
-                        <form name="form" class="col_register_form" th:action="@{/business/info/rsave}" method="post" enctype="multipart/form-data">
-                            <input type="text" name="province_no">
-                            <input type="text" name="acc_city">
-                            <input type="text" name="acc_longtitude">
-                            <input type="text" name="acc_lattitude">
+                        <form name="form" class="col_register_form" action="#" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="sc_no">
                             <!-- 숙소명 등록 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -155,7 +133,7 @@
                                     <input type="text" id="zip" name="acc_zip" readonly>
                                 </div>
                                 <div class="stayAddr1">
-                                    <input type="text" id="addr" name="acc_addr" readonly>
+                                    <input type="text" id="addr" name="acc_adder" readonly>
                                 </div>
                                 <div class="stayAddr2">
                                     <input type="text" id="addrDetail" name="acc_addrDetail" placeholder="상세주소 입력">
@@ -175,11 +153,11 @@
                                 </div>
                                 <div class="acc_checkTime_div">
                                     <span class="acc_checkTime_tit">체크인:</span>
-                                    <input type="time" name="acc_checkIn" class="acc_checkTime">
+                                    <input type="time" name="acc_checkIn" class="acc_checkTime" onchange="getCheckIn">
                                 </div>
                                 <div class="acc_checkTime_div">
                                     <span class="acc_checkTime_tit">체크아웃:</span>
-                                    <input type="time" name="acc_checkOut" class="acc_checkTime">
+                                    <input type="time" name="acc_checkOut" class="acc_checkTime" onchange="getCheckOut">
                                 </div>
                             </div>
                             <!-- 편의시설 및 서비스 체크박스 등록 -->
@@ -211,17 +189,28 @@
                             <div class="col_register1">
                                 <div class="stayName" >
                                     <div>
-                                        <span id="btnTest">숙소 이미지</span>
+                                        <span>숙소 이미지</span>
                                     </div>
                                 </div>
-                                <div class="stayThumb">
-                                    <div class="dropzone" name="files" id="fileDropzone">
-                                        <div>
-                                            <button class="dz-default dz-message" type="button">
-                                                사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
-                                            </button>
+                                <div class="stayThumb" style="justify-content: center;">
+                                    <div id="fileDropzone">
+                                        <div id="wrap-container"></div>
+                                        <button type="button" id="add-wrap-button">사진 추가</button>
+                                        <div class="flex-container">
+                                            <div id="wrap-template" style="display: none">
+                                                <div class="wrap" style="position: relative;">
+                                                    <input class="insertFile" type="file" accept="image/*" name="file"/>
+                                                    <div class="preview" style="width:200px; height:200px;"></div>
+                                                    <div class="file_edit">
+                                                        <button type="button" class="preview_de">
+                                                            <img th:src="@{/images/admin/cross.png}">
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" id="fileNames" />
                                 </div>
                             </div>
 
@@ -235,7 +224,7 @@
                                 <input class="input_stayMention" type="text" name="acc_mainInfo" placeholder="내용을 입력해 주세요.">
                             </div>
 
-                            <!-- 숙소 정보 입력 -->
+                            <!-- 숙서 정보 입력 -->
                             <div class="col_register1">
                                 <div class="stayName">
                                     <div>
@@ -361,7 +350,9 @@
 
 
                             <div class="btnAdminProd" id="btnUpload">
-                                <button type="submit" id="btnSubmit">숙소등록</button>
+                                <button type="submit" id="btnSubmit">
+                                    숙소등록
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -377,12 +368,6 @@
 <script>
 
      $(document).ready(function() {
-
-        // submit 버튼 막기
-        $("#btnSubmit").click(function(e) {
-            e.preventDefault();
-        })
-
         // 써머노트
         $('#summernote').summernote({
             height: 450,
@@ -412,12 +397,9 @@
     // 다음 주소 API 입력 주소 -> 위도, 경도 변환
     const btnButton = document.getElementById("BtnButton");
     const addrInput = document.getElementById("addr");
-    let province_ref = [];
 
     btnButton.addEventListener("click", function() {
-        console.log(addrInput.value);   // 경남 진주시 가좌길 11 (가좌동)
-        let acc_city = addrInput.value.split(' ')[1];   // 진주시
-
+        console.log(addrInput.value);
         // 주소-좌표 변환 객체를 생성합니다
         var geocoder = new kakao.maps.services.Geocoder();
 
@@ -433,54 +415,11 @@
                 console.log(result[0].y);   // 위도 (acc_lattitude)
                 console.log(result[0].x);   // 경도 (acc_longtitude)
 
-                $('input[name=acc_lattitude]').attr("value", result[0].y);
-                $('input[name=acc_longtitude]').attr("value", result[0].x);
-
-                // 지역 비교
-                ajaxAPI("business/info/province", null, "GET").then((response)=>{
-                    var province_txt = $('#addr').val();
-
-                    console.log('response province : %o', response);
-                    console.log('province_txt: ' + province_txt);
-                    province_ref = response;
-
-                    for (let i = 0; i < response.length; i++) {
-                        console.log("province_no : %d, province_name : %s", response[i].province_no, response[i].province_name);
-                    }
-
-                    province_ref.forEach(function(arg){
-
-                        let name1 = arg.province_name;                         // 부산광역시, 경상남도
-                        let name2 = arg.province_name.substring(0,2);          // 부산
-                        let name3 = arg.province_name.substring(0,1) + arg.province_name.substring(2,3); // 경남
-
-                        console.log(name1, name2, name3);
-
-                        if (province_txt.includes(name1) || province_txt.includes(name2) || province_txt.includes(name3)) {
-                            console.log("here : " +  name1, arg.province_no);
-
-                            $('input[name=province_no]').attr("value", arg.province_no);
-                            $('input[name=acc_city]').attr("value",acc_city);
-
-
-                        }
-
-
-                    });
-
-                }).catch((errorMsg)=>{
-                    console.log(errorMsg);
-                });
-
             }
         });
         alert('주소가 입력되었습니다.');
 
    });
-
-
-
-
 
    // 편의시설 카테고리 전체보기
    var help = document.getElementById("help_cs");
@@ -561,14 +500,7 @@
                     $('#insert_target').val("sc_no : "+$(this).attr('sc_no')+ ", sc_name : " + $(this).text());
 
                     let temp = '<div class="checkNo'+ $(this).attr('sc_no') +'">';
-                       //temp += '<input type="hidden" name="sc_no" class="checkNo'+ $(this).attr('sc_no') +'" data-value="'+$(this).attr('sc_no')+'">#'+$(this).text()+'</>';
-                       temp += '<input type="hidden" name="sc_no" class="checkNo'
-                                       + $(this).attr('sc_no')
-                                       +'" data-value="'
-                                       +$(this).attr('sc_no')
-                                       +'"value="'
-                                       +$(this).attr('sc_no')
-                                       +'">#'+$(this).text()+'</>';
+                       temp += '<input type="hidden" name="sc_no" class="checkNo'+ $(this).attr('sc_no') +'" data-value="'+$(this).attr('sc_no')+'">#'+$(this).text()+'</>';
                        temp += '<span><img class="tag_delete" src="/Lemo/images/admin/x-button.png" width="15px;" onclick="tag_delete('+ $(this).attr('sc_no') +')"></span>';
                        temp += '</div>'
 
@@ -596,6 +528,86 @@
         $('.checkNo'+tag_value).remove();
         console.log(ref);
     }
+
+    // 사진 업로드
+    $(document).ready(function() {
+        let wrapCount = 0;      // 사진 추가 버튼 누를 때마다 div 추가하기 위해 첫 wrapCount = 0
+        const maxWraps = 20;    // 최대 추가 가능 이미지 개수
+
+        // wrap div 추가하기
+        function addWrap() {
+            // wrap 템플릿 복사하기
+            const wrapTemplate = document.querySelector('#wrap-template');
+            const wrapClone = wrapTemplate.cloneNode(true);
+            wrapClone.removeAttribute('id');
+            wrapClone.style.display = 'inline-block';
+
+            // wrapCount += 1, data-fileindex 업데이트
+            wrapCount++;
+            wrapClone.querySelector('.insertFile').setAttribute('data-fileindex', wrapCount);
+            wrapClone.querySelector('.preview').setAttribute('data-previewindex', wrapCount);
+
+            // 복사한 wrap 추가
+            document.querySelector('#wrap-container').appendChild(wrapClone);
+
+            // 이벤트 요소 추가
+            const newInput = wrapClone.querySelector('.insertFile');
+            newInput.addEventListener('change', (event) => {
+                const selectedFile = event.target.files[0];
+                const fileIndex = event.target.getAttribute('data-fileindex');
+                console.log(selectedFile);
+                console.log(fileIndex);
+
+                // 업로드 사진 미리보기
+                const reader = new FileReader();
+                reader.onload = () => {
+                  const previewIndex = document.querySelector(`[data-previewindex="${fileIndex}"]`);
+                  previewIndex.style.backgroundImage = `url('${reader.result}')`;
+                }
+                reader.readAsDataURL(selectedFile);
+            });
+
+            // 삭제 버튼
+            const newDeleteButton = wrapClone.querySelector('.preview_de');
+            newDeleteButton.addEventListener('click', () => {
+
+                // 해당 wrap 삭제
+                wrapClone.remove();
+
+                // 파일 삭제
+                newInput.value = '';
+
+                // 미리보기 삭제
+                const previewIndex = wrapClone.querySelector('.preview').getAttribute('data-previewindex');
+                document.querySelector(`[data-previewindex="${previewIndex}"]`).style.backgroundImage = '';
+            });
+        }
+
+        // '추가하기' 버튼
+        const addButton = document.querySelector('#add-wrap-button');
+        addButton.addEventListener('click', () => {
+            if (wrapCount < maxWraps) {
+                addWrap();
+            } else {
+                alert('사진은 최대 20장까지 등록할 수 있습니다.');
+            }
+        });
+    });
+
+    // 업로드 사진 이름 랜덤 + 하나로
+    $('.insertFile').on('change', function(){
+        var files = $(this).get(0).files();
+        var fileNames = [];     // 빈 배열 생성
+
+        for (var i = 0; i < files.length; i++) {
+            var oriName = files[i].name;
+            var ext = oriName.substring(oriName.indexOf("."));
+            var newName = UUID.randomUUID().toString() + ext;
+            fileNames.push(newName);     // 배열에 파일 랜덤 이름 추가
+        }
+        $('#fileNames').val(fileNames.join('/'));  // hidden input에 /로 하나로 모으기
+
+    });
 
     // 유효성 검사
     window.onload = function (){

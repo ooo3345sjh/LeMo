@@ -1,8 +1,6 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.domain.CouponVO;
-import kr.co.Lemo.domain.ReviewVO;
-import kr.co.Lemo.domain.ServiceCateVO;
+import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.service.BusinessService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
@@ -198,10 +198,62 @@ public class BusinessController {
         return "business/info/write";
     }
 
+    @ResponseBody
+    @PostMapping("info/rsave")
+    public String info_rsave(@RequestParam HashMap<String,Object> param,
+                             MultipartHttpServletRequest request) throws Exception
+    {
+        String uid = "1foodtax@within.co.kr";
+
+        log.warn("here1");
+        log.info("request.getFileMap: "+ request.getFileMap());
+
+        Map<String, MultipartFile> fileMap = request.getFileMap();
+
+        log.warn("here2 : " + fileMap);
+
+        if(fileMap != null){
+
+            log.info("fileMap : " + fileMap);
+            log.info("fileMap values : " + fileMap.values());
+            log.info("fileMap size : " + fileMap.size());
+
+            int count = 1;
+
+            for(MultipartFile mf: fileMap.values()){
+
+                log.warn("count : " + count);
+                log.info("mf.getOriginalFilename() : " + mf.getOriginalFilename());
+                log.info("mf.getSize() : " + mf.getSize());
+                log.info("mf.getContentType() : " + mf.getContentType());
+                count++;
+
+            }
+
+            log.info("param : "+param);
+
+            // service: param, vo, fileMap, req, uid 보내기
+            service.info_rsave(param, request, uid);
+
+
+
+        }
+
+        return "/business/info/list";
+    }
+
+
+
     @GetMapping("info/findService")
     public ResponseEntity<List<ServiceCateVO>> findService(){
         List<ServiceCateVO> services = service.findService();
         return ResponseEntity.ok(services);
+    }
+
+    @GetMapping("info/province")
+    public ResponseEntity<List<ProvinceVO>> findProvince(){
+        List<ProvinceVO> provinces = service.findProvince();
+        return ResponseEntity.ok(provinces);
     }
 
     @GetMapping("MapTest")
