@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.Lemo.dao.ProductDAO;
 import kr.co.Lemo.domain.*;
+import kr.co.Lemo.domain.search.ProductQna_SearchVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
 import kr.co.Lemo.utils.PageHandler;
+import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,6 +152,17 @@ public class ProductService {
     public List<ArticleDiaryVO> findAllDiary(@Param("acc_id") int acc_id){
         return dao.selectDiaries(acc_id);
     }
+
+    // @since 2023/03/22
+    public List<ProductQnaVO> findAllProductQna(ProductQna_SearchVO vo){
+        return dao.selectProductQnas(vo);
+    }
+
+    // @since 2023/03/22
+    public int getTotalProductQna(SearchCondition sc){
+        return dao.getTotalProductQna(sc);
+    }
+
 
     // update
 

@@ -1,6 +1,7 @@
 package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.*;
+import kr.co.Lemo.domain.search.ProductQna_SearchVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
 import kr.co.Lemo.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -109,18 +110,20 @@ public class ProductController {
     // @since 2023/03/19
     @GetMapping("loadData")
     public String loadData(Model model,
-                          int acc_id ,
-                          String cate) throws Exception {
+                           @RequestParam Map map,
+                           @ModelAttribute ProductQna_SearchVO vo) throws Exception {
 
         log.debug("Get loadData start");
 
-        log.info("cate : " + cate);
+        String cate = vo.getCate();
+        int acc_id = vo.getAcc_id();
+
+        //log.info("cate : " + cate);
 
         // 리뷰
         if(cate.equals("review")){
 
             log.info("here");
-
             return "product/data/detailReview";
 
         }else if(cate.equals("diary")) {
@@ -131,7 +134,7 @@ public class ProductController {
             return "product/data/detailDiary";
 
         }else if(cate.equals("qna")) {
-
+            //List<ProductQnaVO> qnas = service.findAllProductQna(vo);
             return "product/data/detailQna";
         }
         return "product/list";

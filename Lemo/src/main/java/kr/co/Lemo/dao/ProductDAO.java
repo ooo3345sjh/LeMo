@@ -42,6 +42,12 @@ public interface ProductDAO {
     // @since 2023/03/20
     public List<ArticleDiaryVO> selectDiaries(@Param("acc_id") int acc_id);
 
+    // @since 2023/03/22
+    public List<ProductQnaVO> selectProductQnas(SearchCondition sc);
+
+    // @since 2023/03/22
+    public int getTotalProductQna(SearchCondition sc);
+
     // update
 
     // delete

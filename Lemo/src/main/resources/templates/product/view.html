@@ -46,6 +46,11 @@
                     <!-- 상품 정보 -->
                     <div class="info">
                         <h3>[[${rooms.get(0).acc_name}]]</h3>
+                        <span class="pick">
+                                <div>
+                                    <a href="#" id="pick" class=""></a>
+                                </div>
+                            </span>
                         <div class="score">
                             <span>[[${#numbers.formatDecimal(rooms.get(0).acc_rate,1,1)}]]</span>
                             <th:block th:if="${rooms.get(0).acc_rate >=5}">최고에요</th:block>

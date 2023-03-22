@@ -267,6 +267,18 @@ $(function(){
 
    })
 
+   /* 찜하기 */
+    $(document).on('click', '#pick', function(){
+
+        let status = $(this).hasClass('on');
+
+        if(!status) {
+            $(this).addClass('on');
+        }else {
+            $(this).removeClass('on');
+        }
+
+    });
 
 
 });

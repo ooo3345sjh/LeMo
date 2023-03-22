@@ -2,37 +2,91 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
     <div class="prodQna" style="display:block;">
-        <ul class="co_list">
-            <!-- co_item 반복 -->
-            <li class="co_item">
-                <div class="co_img">
-                    <img src="../img/user_img3.jpeg" alt="">
+        <div id="top-wrap">
+            <form id="inputSearchForm" action="#">
+                <div class="board_schbox">
+                    <input type="text" class="ip_board-sch" id="inputSearch" placeholder="제목으로 검색">
+                    <button type="submit" class="btn_sch"><span class="blind">검색</span></button>
+                    <span class="txt_result">총 검색 결과 <strong id="txtSearchCount">13건</strong></span>
                 </div>
-                <div class="area_txt">
-                    <span>이동*</span>
-                    <p>냉장 보관인가요? 실온 보관인가요?</p>
-                </div>
-                <ul class="re_item">
-                    <li>
-                        <div class="re_item2">
-                            <div class="area_txt_re">
-                                <span>베리베리</span>
-                                <p>햇빛이 들지 않는 실온에 보관해 주세요. 감사합니다 ^^ [[${uid}]]</p>
-                            </div>
-                        </div>
+            </form>
+            <!-- 버튼 -->
+            <div class="board_btnswrap">
+                <ul>
+                    <li class="bt_question">
+                        <a href="#">문의하기</a>
                     </li>
+                    <li class="tab_rt"><a href="#" class="my">내 문의보기</a></li>
+                    <li class="tab_rt"><a href="#" class="tl">전체 문의보기</a></li>
                 </ul>
-            </li>
-            <li class="co_item">
-                <div class="co_img">
-                    <img src="../img/user_img3.jpeg" alt="">
-                </div>
-                <div class="area_txt">
-                    <span>이동*</span>
-                    <p>냉장 보관인가요? 실온 보관인가요?</p>
-                </div>
-            </li>
-        </ul>
+            </div>
+        </div>
+
+        <div class="board_qna">
+            <!-- 문의목록 -->
+            <div id="qnaList-wrapper">
+                <table class="tb_board tb_qna">
+                    <thead>
+                    <tr>
+                        <th class="hnum">번호</th>
+                        <th class="htit">
+                            <a href="#" class="dropctrl uxeDropdown">
+                                답변상태<span class="blind arr">열기</span>
+                            </a>
+                            <ul id="board_as_status" class="board_dropbox">
+                                <li><a href="javascript:;" data-ans-kind="">전체</a></li>
+                                <li><a href="javascript:;" data-ans-kind="NA">검토중</a></li>
+                                <li><a href="javascript:;" data-ans-kind="CA">답변완료</a></li>
+                            </ul>
+                        </th>
+                        <th>제목</th>
+                        <th>문의자</th>
+                        <th>등록일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>13</td>
+                        <td class="ing">검토중</td>
+                        <!--D: 내가 열수 없는 글일 경우, locked 클래스명이 붙음-->
+                        <td class="qt_tit">
+                            <a href="#" class="locked">반품/취소 문의입니다.
+                                <span class="ic_lock">비밀글</span>
+                            </a>
+                        </td>
+                        <td>god*****</td>
+                        <td>2023.03.22</td>
+                    </tr>
+                    <tr id="qna_464306670">
+                        <td>14</td>
+                        <td class="ing">검토중</td>
+                        <!--D: 내가 열수 없는 글일 경우, locked 클래스명이 붙음-->
+                        <td class="qt_tit">
+                            <a href="#" class="uxeBlock-ctrl on" aria-expanded="true">상품 문의입니다.
+                            </a>
+                        </td>
+                        <td>ims*****</td>
+                        <td>2023.03.22</td>
+                    </tr>
+                    <tr id="ans_464306670" class="answerwrap" style="display: table-row;">
+                        <td colspan="6">
+                            <div class="qt">
+                                <span class="ic_qt">Q</span>남성제품  사이즈34 (86)입으면 어떤걸로 주문해야하나요? 작게나왔는지  혹은 크게나왔는지알려주세요
+                            </div>
+                            <div class="as">
+                                <span class="ic_as">A</span>안녕하세요 고객님 85사이즈 주문해주시면되십니다
+                                사이즈는 딱 정사이즈로 나온상품입니다 감사합니다 즐거운하루되세요
+                            </div>
+                            <p class="reginfo">
+                                <span class="wh">판매자의 답변</span>
+                                <span class="date">등록일 : <em>2023-03-22 오후 6:13:11</em></span>
+                            </p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <!-- 페이징 -->
         <div class="paging">
             <span class="prev"><a href="#"></a></span>
@@ -43,19 +97,48 @@
             <span><a href="#">5</a></span>
             <span class="next"><a href="#"></a></span>
         </div>
-        <form class="co_write" action="#">
-            <div class="co_write_inner">
-                <div class="co_inner_txt">
-                    <label>
-                        <input type="text" name="qna_content"  sec:authorize="!isAuthenticated()" placeholder="로그인 후 문의작성이 가능합니다." autocomplete="off">
-                        <input type="text" name="qna_content" sec:authorize="isAuthenticated()" placeholder="문의 댓글을 남겨주세요." autocomplete="off">
-                    </label>
-                </div>
-                <button type="button" class="btnComment">등록</button>
+    </div>
+
+    <!-- 등록 팝업 -->
+    <div class="vip_popup_wrap">
+        <h1 class="tit_vippop">판매자에게 문의하기</h1>
+        <p class="subinfo"> 숙소 예약, 변경, 취소, 환불 등의 문의를 남겨주시면 판매자가 직접 답변을 드립니다.</p>
+        <form action="">
+            <table class="tb_questionform">
+                <tr>
+                    <th>숙소명</th>
+                    <td class="pdtit">(대구신세계)시원한 쿨맥스 아이스 데님팬츠 - 7I11641 7I21641</td>
+                </tr>
+                <tr>
+                    <th>이름</th>
+                    <td>이해빈(k#0*******)</td>
+                </tr>
+                <tr>
+                    <th>제목</th>
+                    <td><input type="text" title="제목" class="ip_viptxt" id="qa_title"></td>
+                </tr>
+                <tr>
+                    <th>내용</th>
+                    <td>
+                        <textarea title="내용" class="ip_viptxtarea" id="ta_content"></textarea>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="info_formbottom">
+                <p>문의하신 내용의 답변은 고객님의 <span class="txt_emp">회원정보 &gt; 이메일</span>로 보내드립니다.</p>
+                <p class="check_line">
+            <span class="frm_wrap js_checkbox">
+                <em class="ds_form ds_checkbox"><input type="checkbox" id="check_secret" data-montelena-acode="200000574" onclick="pdsClickLog('200000574', 'utility', {});"></em>
+                <label class="label" for="check_secret">비밀글로 문의하기<em class="txt_sub">(판매자와 본인만 확인 가능합니다.)</em></label>
+            </span>
+                </p>
             </div>
-            <div class="co_inner_secret">
-                <label><input type="checkbox" name="chk_secret">비공개로 문의하기</label>
-            </div>
+            <p class="bottom_btns">
+                <a href="#" class="bt_confirm bt_vipround100"><span>확인</span></a>
+                <a href="#" class="bt_cancel bt_vipround100"><span>취소</span></a>
+            </p>
         </form>
+        <p class="bar_close"><a href="#" class="bt_close">닫기<span class="ic">X</span></a></p>
     </div>
 </html>
