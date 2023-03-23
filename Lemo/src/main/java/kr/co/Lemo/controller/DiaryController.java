@@ -17,6 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -56,12 +59,10 @@ public class DiaryController {
                        @RequestParam(defaultValue = "0") int arti_no
     ){
         log.debug("GET view start");
+        m.addAttribute("title", environment.getProperty(diaryGroup));
 
         if(arti_no == 0) { return "redirect:/diary/list"; }
         m.addAttribute("arti_no", arti_no);
-
-        log.debug("GET view start");
-        m.addAttribute("title", environment.getProperty(diaryGroup));
 
         List<DiarySpotVO> spotVO = service.findDiarySpot(arti_no);
         m.addAttribute("article", spotVO);
