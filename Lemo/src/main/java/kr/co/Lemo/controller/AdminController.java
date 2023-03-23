@@ -292,10 +292,7 @@ public class AdminController {
         return "admin/cs/event/modify";
     }
 
-    @GetMapping("cs/event/view")
-    public String event_view(){
-        return "admin/cs/event/view";
-    }
+
 
 
 
@@ -444,8 +441,17 @@ public class AdminController {
 
             model.addAttribute("notice", noticeArticle);
             model.addAttribute("cs_no", cs_no);
+            return "admin/cs/notice/view";
+
+        }else if("event".equals(cs_cate)){
+            log.info("admin/event");
+            CsVO eventArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+            log.info("event : " + eventArticle);
+            model.addAttribute("event", eventArticle);
+            model.addAttribute("cs_no", cs_no);
+            model.addAttribute("cs_cate", cs_cate);
         }
-        return "admin/cs/notice/view";
+        return "admin/cs/event/view";
     }
 
     /**

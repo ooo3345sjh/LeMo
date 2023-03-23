@@ -126,10 +126,12 @@ public class CsService {
 
         ArrayList<String> arrFilesInfo = new ArrayList<>();
 
+        // eventbannerImg 이름 변경
         String bannerName = cs_eventBanner.getOriginalFilename();
         String bannerExt = bannerName.substring(bannerName.indexOf("."));
         String bannerNewName = UUID.randomUUID().toString() + bannerExt;
 
+        // evnetViewImg 이름 변경
         for (MultipartFile multipartFile : fileMap.values()) {
             //파일 이름 추출 (확장자 제거)
             String fName = multipartFile.getOriginalFilename();

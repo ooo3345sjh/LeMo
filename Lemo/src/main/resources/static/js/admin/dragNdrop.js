@@ -18,6 +18,12 @@ Dropzone.autoDiscover=false;
             addRemoveLinks: true, // 업로드 후 파일 삭제버튼 표시 여부
             dictRemoveFile: '삭제', // 삭제버튼 표시 텍스트
             acceptedFiles: '.jpeg,.jpg,.png,.gif,.JPEG,.JPG,.PNG,.GIF', // 이미지 파일 포맷만 허용
+            dictInvalidFileType: "이 파일 형식은 업로드할 수 없습니다.",                         // Set the invalid file type message
+            dictFileTooBig: "이 파일이 너무 큽니다. ({{filesize}} MB). 최대 파일 크기는 {{maxFilesize}} MB 입니다.",            // Set the file too big message
+            dictResponseError: "서버에서 {{statusCode}} 코드를 받았습니다.",                                               // Set the server response error message
+            dictCancelUpload: "업로드를 취소하시겠습니까?",                                                                // Set the cancel upload message
+            dictCancelUploadConfirmation: "정말로 이 파일의 업로드를 취소하시겠습니까?",                                       // Set the cancel upload confirmation message
+
 
              init: function () {
                // 최초 dropzone 설정시 init을 통해 호출
@@ -27,11 +33,10 @@ Dropzone.autoDiscover=false;
 
 
                // 서버에 제출 submit 버튼 이벤트 등록
-               document.querySelector('#btnUpload').addEventListener('click', function (e) {
+               document.querySelector('#btnUpload').addEventListener('click', function () {
 
 
                    console.log("업로드1", myDropzone.files);
-                      e.preventDefault();
 
                       for( data in myDropzone)
                               console.log("myDropZone : " + JSON.stringify(data));
