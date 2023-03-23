@@ -32,7 +32,6 @@
                             <form th:action="@{/my/diary/rsave}" id="diaryForm" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="spot_lattitude">
                                 <input type="hidden" name="spot_longtitude">
-                                <input type="submit" id="btnDiarySubmit" name="submit" value="작성완료">
                                 <div class="list-area">
                                     <div id="diary_content">
                                         <input type="text" style="border: none; font-size:18px;" name="arti_title" placeholder="제목을 작성해주세요">
@@ -41,7 +40,7 @@
                                                 <input type="text" name="arti_start" id="daterange">
                                                 <span style="font-size: 12px; color:#a39797;">※여행기간을 선택해주세요</span>
                                             </li>
-                                            <li>스카이베이호텔 경포</li>
+                                            <li class="arti_title">스카이베이호텔 경포</li>
                                         </ul>
                                     </div>
                                     <div class="write_search" style="margin-top: 40px; font-size: 13px; color: #342929;">
@@ -51,6 +50,7 @@
                                         <br>
                                     </div>
                                 </div>
+                                <input type="submit" id="btnDiarySubmit" name="submit" value="작성완료">
                             </form>
                         </div>
                         <!-- 지도 -->
@@ -109,13 +109,19 @@
                         // 마커에 mouseover이벤트를 등록합니다
                         kakao.maps.event.addListener(marker, 'mouseover', function() {
                             // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-                            infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-                            infowindow.open(map, marker);
+                            let content = markerOverlay( place.place_name , $('.arti_title').text())
+                            overlay.setContent(content);
+                            overlay.setPosition(marker.getPosition());
+                            overlay.setMap(map);
+
+                            //infowindow.setContent(content);
+                            //infowindow.open(map, marker);
                         });
 
                         // 마커에 mouseout이벤트를 등록합니다
                         kakao.maps.event.addListener(marker, 'mouseout', function() {
-                            infowindow.close();
+                            overlay.setMap(null);
+                            //infowindow.close();
                         });
 
                         // 마커에 click이벤트를 등록합니다
@@ -161,13 +167,18 @@
                                 // 마커에 mouseover 이벤트를 등록합니다
                                 kakao.maps.event.addListener(marker, 'mouseover', function() {
                                     // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-                                    infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place + '</div>');
-                                    infowindow.open(map, marker);
+                                    let content = markerOverlay(place, $('.arti_title').text() )
+                                    overlay.setContent(content);
+                                    overlay.setPosition(marker.getPosition());
+                                    overlay.setMap(map);
+
+                                    //infowindow.setContent(content);
+                                    //infowindow.open(map, marker);
                                 });
 
                                 // 마커에 mouseout 이벤트를 등록합니다
                                 kakao.maps.event.addListener(marker, 'mouseout', function() {
-                                    infowindow.close();
+                                    overlay.setMap(null);
                                 });
 
                                                  // #F4
@@ -179,6 +190,11 @@
                                 kakao.maps.event.addListener(marker, 'click', function() {
                                     // #F7
                                     removeAlert(marker, place);
+                                });
+
+                                Swal.fire({
+                                    title: '생성완료!',
+                                    text: '마커를 클릭하시면 지우실 수 있습니다.!'
                                 });
 
                             }else {
@@ -247,12 +263,16 @@
                             markers.splice(count, 1);
 
                             marker.setMap(null);
-                            infowindow.close();
+                            overlay.setMap(null);
 
                             place = place.replace(/\s/g, "");
 
                             $('.place_D'+place).remove();
+
+                          }else {
+                            overlay.setMap(null);
                           }
+
                         })
                     }
 
@@ -266,10 +286,26 @@
                         })
                     }
 
+                    // #F9 : 인포윈도우
+                    function markerOverlay(spot_title, arti_title) {
+                        let content = '<div class="spot_wrap">';
+                           content += '<div class="spot_title">';
+                           content += spot_title
+                           content += '<div class="spot_close" title="닫기"></div>'
+                           content += '</div>';
+                           content += '<div class="spot_content">';
+                           content += arti_title
+                           content += '</div>';
+                           content += '</div>';
+
+                        return content;
+                    }
+
                     /** 카카오 맵 */
 
                     // #1 마커에 mouseover하면 장소명을 표출할 인포윈도우
                     var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+                    var overlay = new kakao.maps.CustomOverlay({zIndex:1});
                     var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
                     var options = { //지도를 생성할 때 필요한 기본 옵션
                         center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
@@ -335,13 +371,18 @@
 
                             // 마커에 mouseover이벤트를 등록합니다
                             kakao.maps.event.addListener(marker, 'mouseover', function() {
-                                infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.name + '</div>');
-                                infowindow.open(map, marker);
+                                let content = markerOverlay(place, " ")
+                                overlay.setContent(content);
+                                overlay.setPosition(marker.getPosition());
+                                overlay.setMap(map);
+                                //infowindow.setContent(content);
+                                //infowindow.open(map, marker);
                             });
 
                             // 마커에 mouseout이벤트를 등록합니다
                             kakao.maps.event.addListener(marker, 'mouseout', function() {
-                                infowindow.close();
+                                overlay.setMap(null);
+                                //infowindow.close();
                             });
 
                             // 마커에 click이벤트를 등록합니다
@@ -357,10 +398,25 @@
 
                     // #5 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록합니다
                     kakao.maps.event.addListener(map, 'dblclick', function(mouseEvent) {
-                        if(markers.length >= 10){ Swal.fire( '더 이상 등록하실 수 없습니다.' )
+
+                        if(markers.length >= 10){
+                            Swal.fire( '더 이상 등록하실 수 없습니다.' )
                         }else {
-                            /** #F3 */
-                            addMarker(null, mouseEvent.latLng.Ma, mouseEvent.latLng.La);
+                            Swal.fire({
+                                title: '마커를 작성하시겠습니까?',
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: '확인',
+                                cancelButtonText: '취소',
+                                reverseButtons: false,
+                            }).then(result => {
+                                if (result.isConfirmed) {
+                                   /** #F3 */
+                                   addMarker(null, mouseEvent.latLng.Ma, mouseEvent.latLng.La);
+                                }
+                            });
                         }
                     });
 

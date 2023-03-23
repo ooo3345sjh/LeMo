@@ -280,12 +280,11 @@ $(function(){
                     let content = "<div class='removeCom'>";
                        content +=   "<p>삭제된 댓글입니다.</p>";
                        content +=   "<div>";
-                       content +=       "<a href='#' class='showall'>댓글 모두보기</a>";
+                       content +=       "<a href='#' class='showall open'>댓글 숨기기</a>";
                        content +=   "</div>";
                        content += "</div>";
 
                     $(this).parent().parent().parent().empty().append(content);
-                    $('.com'+com_pno).attr('style', "display:none;");
 
                 }else {
                     Swal.fire(`다시 시도해주세요.!`)
@@ -304,11 +303,13 @@ $(function(){
         }
     });
 
+    let oriContent;
     /* 댓글 수정 */
     $(document).on('click', '.comModify', function(e){
         e.preventDefault();
 
         let textarea = $(this).parent().parent().prev().children('textarea');
+        oriContent = textarea.val();
         textarea.removeAttr('readonly');
         textarea.css("height", "80px");
         textarea.css("background", "#f9f8e0");
@@ -322,7 +323,6 @@ $(function(){
     /* 댓글 수정 취소 */
     $(document).on('click', '.comCancel', function(e){
         e.preventDefault();
-
         let textarea = $(this).parent().parent().prev().children('textarea');
         textarea.attr('readonly', true);
         textarea.css("height", "");
@@ -332,6 +332,7 @@ $(function(){
         $(this).attr("class","comModify");
         $(this).next().text("삭제");
         $(this).next().attr("class","comDelete");
+        textarea.val(oriContent);
     });
 
     /* 댓글 수정 */
@@ -341,8 +342,7 @@ $(function(){
         let textarea = $(this).parent().parent().prev().children('textarea');
         let com_pno     = $(this).parent().parent().parent().attr('data-pno');
         let com_comment = textarea.val();
-
-        textarea.text(com_comment);
+        let modified = $(this).parent().parent().parent().find('.repdiv1');
 
         let jsonData = { "com_no":com_pno, "com_comment":com_comment };
 
@@ -358,6 +358,12 @@ $(function(){
                 $(this).attr("class","comDelete");
                 $(this).prev().text("수정");
                 $(this).prev().attr("class","comModify");
+                textarea.val(com_comment);
+
+                let content = "<span class='comModified'>수정됨</span>";
+
+                modified.append(content);
+
             }else {
                 Swal.fire(`다시 시도해주세요.`)
             }

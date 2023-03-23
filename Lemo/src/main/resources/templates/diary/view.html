@@ -67,7 +67,9 @@
                                                 <div class="repdiv1">
                                                     <img th:src="@{/images/admin/user_default.png}" alt="프사">
                                                     <div>
-                                                        <strong>[[${comment.nick}]]</strong><span>[[${comment.com_rdate}]]</span>
+                                                        <strong>[[${comment.nick}]]</strong>
+                                                        <span style="margin-left: 10px;">[[${comment.before24H}]]</span>
+                                                        <span class="comModified" th:if="${comment.com_rdate != comment.com_udate}">&nbsp;수정됨&nbsp;</span>
                                                     </div>
                                                 </div>
                                                 <div class="repdiv2">
