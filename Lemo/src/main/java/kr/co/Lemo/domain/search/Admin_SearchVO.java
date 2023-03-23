@@ -24,6 +24,7 @@ public class Admin_SearchVO extends SearchCondition {
     private String searchCouponRole;
     private String searchAccName;
     private Integer acc_id;
+    private String searchAccType;
 
 
 }

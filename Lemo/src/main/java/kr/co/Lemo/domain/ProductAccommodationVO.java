@@ -39,6 +39,9 @@ public class ProductAccommodationVO {
     private String acc_checkOut;
     private int acc_season;
 
+    // 추가
+    private String acc_rdate;
+
 
     /* 추가 필드 room 정보 */
     private int room_price;

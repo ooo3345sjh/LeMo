@@ -1,6 +1,9 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.domain.*;
+import kr.co.Lemo.domain.CouponVO;
+import kr.co.Lemo.domain.ProvinceVO;
+import kr.co.Lemo.domain.ReviewVO;
+import kr.co.Lemo.domain.ServiceCateVO;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.service.BusinessService;
 import lombok.extern.slf4j.Slf4j;
@@ -177,9 +180,16 @@ public class BusinessController {
         return resultMap;
     }
 
-
+    // @since 2023/03/23 판매자 숙소 목록
     @GetMapping("info/list")
-    public String info_list(){
+    public String info_list(Model model,
+                            @ModelAttribute Admin_SearchVO sc){
+
+
+        String user_id = "1foodtax@within.co.kr";
+
+        service.findAllAccForInfo(model,sc);
+
         return "business/info/list";
     }
 
@@ -240,6 +250,24 @@ public class BusinessController {
         }
 
         return "/business/info/list";
+    }
+
+
+    @ResponseBody
+    @PostMapping("info/removeAcc")
+    public Map<String,Integer> removeAcc(@RequestBody Map map) throws Exception {
+        String acc_id = (String)map.get("acc_id");
+
+        log.warn("GET removeAcc");
+
+        int result = service.removeAcc(acc_id);
+
+        log.warn("after service : " + result);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
     }
 
 
