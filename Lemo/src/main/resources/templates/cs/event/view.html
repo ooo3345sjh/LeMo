@@ -24,8 +24,8 @@
                 <div class="event_view">
                     <span>[[${eventArticle.cs_title}]]</span>
                     <div class="event_content">
-                        <p>
-                            <img th:src="@{/images/cs/event_view_sample.png}">
+                        <p id="eventImg">
+                            <img th:src="|@{/}img/cs/${eventArticle.cs_no}/${#strings.substringBefore(eventArticle.cs_eventViewImg, '/')}|">
                         </p>
                         <!-- 이벤트 링크
                         <div class="evt-link">

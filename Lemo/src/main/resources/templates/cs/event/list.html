@@ -26,7 +26,7 @@
                             <li th:class="${article.cs_eventState == 1 ? 'on' : 'end'}">
                                 <b>[[${article.cs_title}]]</b>
                                 <span>기간: [[${article.cs_eventStart}]] ~ [[${article.cs_eventEnd}]]</span>
-                                <a th:href="@{/cs/event/view (cs_cate=${article.cs_cate}, cs_no=${article.cs_no})}"><img th:src="@{/images/cs/event1.jpg}"></a>
+                                <a th:href="@{/cs/event/view (cs_cate=${article.cs_cate}, cs_no=${article.cs_no})}"><img th:src="|@{/}img/cs/${article.cs_no}/${article.cs_eventbannerImg}|"></a>
                             </li>
                         </th:block>
                     </ul>
