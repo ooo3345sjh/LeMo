@@ -153,7 +153,7 @@ $(function(){
                    content += '<div class="repdiv1">';
                    content += '<img src="/Lemo/images/admin/user_default.png" alt="프사">';
                    content += '<div>';
-                   content += '<strong>'+response["nick"]+'</strong><span>'+date+'</span>';
+                   content += '<strong>'+response["nick"]+'</strong><span>방금 전</span>';
                    content += '</div>';
                    content += '</div>';
                    content += '<div class="repdiv2">';
@@ -200,7 +200,7 @@ $(function(){
                content += '<div class="repdiv1">';
                content += '<img src="/Lemo/images/admin/user_default.png" alt="프사">';
                content += '<div>';
-               content += '<strong>'+response["nick"]+'</strong><span>'+date+'</span>';
+               content += '<strong>'+response["nick"]+'</strong><span>방금 전</span>';
                content += '</div>';
                content += '</div>';
                content += '<div class="repdiv2">';

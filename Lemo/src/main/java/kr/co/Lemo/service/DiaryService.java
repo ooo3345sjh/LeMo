@@ -8,6 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -46,6 +53,51 @@ public class DiaryService {
     public Map<Integer, List<DiaryCommentVO>> findDiaryComment(int arti_no) {
 
         List<DiaryCommentVO> commentVO = dao.selectDiaryComment(arti_no);
+
+        LocalDateTime now = LocalDateTime.now();
+
+        String nowDate = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        Date d1 = null;
+        Date d2 = null;
+
+        for(DiaryCommentVO vo : commentVO) {
+            log.debug("nowDate : " + nowDate);
+            log.debug("commentDate : " + vo.getCom_rdate());
+
+            try {
+                d1 = format.parse(nowDate);
+                d2 = format.parse(vo.getCom_rdate());
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+            int result = d2.compareTo(d1);
+
+            if(result < 0) {
+                long diff = d1.getTime() - d2.getTime();
+
+                if(diff > 86400000) {
+                    log.debug("24시간 이후 작성");
+                    vo.setCom_rdate(vo.getCom_rdate().substring(0,10));
+                }else if(diff < 86400000 && diff >= 3600000) {
+                    log.debug("24시간 이전 작성");
+                    long diffHours = diff / (60 * 60 * 1000);
+                    log.debug(diffHours  + "시간 전");
+                    vo.setCom_rdate(diffHours  + "시간 전");
+                }else if(diff < 3600000 && diff >= 60000) {
+                    log.debug("1시간 이전 작성");
+                    long diffMinutes = diff / (60 * 1000);
+                    log.debug(diffMinutes + "분 전");
+                    vo.setCom_rdate(diffMinutes + "분 전");
+                }else {
+                    log.debug("diff"+diff);
+                    vo.setCom_rdate("방금 전");
+                }
+            }
+        }
 
         Map<Integer, List<DiaryCommentVO>> map = commentVO.stream().collect(Collectors.groupingBy(DiaryCommentVO::getCom_pno));
         Map<Integer, List<DiaryCommentVO>> sortedTreeMap = map.entrySet().stream().sorted(Map.Entry.comparingByKey())
