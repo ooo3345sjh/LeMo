@@ -305,14 +305,15 @@ main .main_content .col2 .board_list .prodName {
 main .main_content .col2 .board_list .prodName > a {
     font-size: 14px;
 }
-main .main_content .col2 .board_list li:nth-of-type(1) {width: 5%;}
+main .main_content .col2 .board_list li:nth-of-type(1) {width: 5%; margin-bottom: 12px;}
 main .main_content .col2 .board_list li:nth-of-type(2) {width: 17%;}
 main .main_content .col2 .board_list li:nth-of-type(3) {width: 17%;}
 main .main_content .col2 .board_list li:nth-of-type(4) {width: 10%;}
 main .main_content .col2 .board_list li:nth-of-type(5) {width: 10%;}
 main .main_content .col2 .board_list li:nth-of-type(6) {width: 10%;}
 main .main_content .col2 .board_list li:nth-of-type(7) {width: 14%;}
-main .main_content .col2 .board_list li:nth-of-type(8) {width: 14%;}
+main .main_content .col2 .board_list li:nth-of-type(8) {width: 7%;}
+main .main_content .col2 .board_list li:nth-of-type(9) {width: 7%;}
 main .main_content .col2 .board_list .prodBtn > span {
     box-shadow: inset 0px 1px 0px 0px #ffffff;
     background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
@@ -326,6 +327,19 @@ main .main_content .col2 .board_list .prodBtn > span {
     padding: 2px 8px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
+}
+main .user_id {
+    text-align: left !important;
+    padding-left: 5px;
+}
+main .user_date {
+    font-family: 고딕;
+}
+main .user_memo {
+    text-align: right !important;
+}
+main .user_manage {
+   text-align: left!important;
 }
 main .btnNote {
     box-shadow: inset 0px 1px 0px 0px #ffffff;
@@ -354,6 +368,17 @@ main .btnBlockUser {
     color: #fff;
     background: #8d8d8d;
 }
+main .btnClearUser {
+    border-radius: 5px;
+    border: 1px solid #00bbfe;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 2px 8px;
+    text-decoration: none;
+    color: #fff;
+    background: #00bbfe;
+}
 main .btnDeleteUser {
     background-color: #ffffff;
     border-radius: 5px;
@@ -371,7 +396,7 @@ main .drop {
     color: #E84545;
 }
 main .block {
-    color: #02797e;
+    color: #00bbfe;
 }
 main #width50 {
     width: 50% !important;

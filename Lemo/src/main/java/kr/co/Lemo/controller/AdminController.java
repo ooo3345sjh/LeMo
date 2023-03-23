@@ -103,18 +103,18 @@ public class AdminController {
         return resultMap;
     }
 
-    // @since 2023/03/10
     @ResponseBody
-    @PostMapping("updateIsEnabled")
-    public Map<String, Integer> updateIsEnabled(@RequestBody Map map) throws Exception {
+    @PostMapping("usaveClear")
+    public Map<String, Integer> usaveClear(@RequestBody Map map) throws Exception {
         String user_id = (String) map.get("user_id");
-        int result = service.updateIsEnabled(user_id);
+        int result = service.usaveClear(user_id);
 
         Map<String, Integer> resultMap = new HashMap<>();
         resultMap.put("result", result);
 
         return resultMap;
     }
+
 
     // @since 2023/03/11
     @GetMapping("coupon/insertCoupon")

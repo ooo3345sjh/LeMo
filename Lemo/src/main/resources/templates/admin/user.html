@@ -75,7 +75,7 @@
                                     </table>
                                 </div>
                                 <!-- 목록 -->
-                                <div class="board_list">
+                                <div class="board_list" id="userList">
                                     <ul>
                                         <li>번호</li>
                                         <li>회원 아이디</li>
@@ -84,7 +84,8 @@
                                         <li>등급</li>
                                         <li>구분</li>
                                         <li>가입일</li>
-                                        <li>비고</li>
+                                        <li style="text-align: right;">관리</li>
+                                        <li></li>
                                     </ul>
                                     <ul th:each="user,i:${users}">
                                         <li>[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
@@ -93,8 +94,8 @@
                                         <li th:text="${user.isEnabled == 0 ? '탈퇴' : (user.isLocked == 0 ? '차단' : '정상')}" th:class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}"></li>
                                         <li th:text="${user.level == 1}? '일반':'엘리트'">등급</li>
                                         <li th:text="${user.type == 1}? '홈회원':'sns회원'">회원 구분</li>
-                                        <li th:text="${user.rdate}">가입일</li>
-                                        <li>
+                                        <li class="user_date" th:text="${user.rdate}">가입일</li>
+                                        <li class="user_memo">
                                             <button class="btnNote">메모</button>
                                             <!-- 메모 팝업 -->
                                             <dialog id="d_Memo">
@@ -114,8 +115,11 @@
                                                     </section>
                                                 </form>
                                             </dialog>
-                                            <button class="btnBlockUser" type="button" id="btnBlockUser">차단</button>
-                                            <button class="btnDeleteUser" type="button">삭제</button>
+
+                                        </li>
+                                        <li class="user_manage">
+                                            <button th:if="${user.isLocked == 1}" class="btnBlockUser" type="button" id="btnBlockUser" th:value="${user.user_id}">회원차단</button>
+                                            <button th:if="${user.isLocked == 0}" class="btnClearUser" type="button" id="btnClearUser" th:value="${user.user_id}">차단해제</button>
                                         </li>
                                     </ul>
                                 </div>
@@ -219,56 +223,45 @@
         // 회원 차단
         $('.btnBlockUser').click(function(e){
             e.preventDefault();
-            alert('click the block button');
 
-            let user_id = $(this).parent().parent().find('.user_id').text();
+            let user_id = $(this).val();
             console.log('user_id:' + user_id);
 
-            if(!confirm("해당 회원을 차단하겠습니까?")){
-                alert('차단이 취소되었습니다.');
-            }else{
-                const jsonData = {"user_id": user_id};
+            const jsonData = {"user_id": user_id};
 
-                ajaxAPI("admin/updateIsLocked", jsonData, "POST").then((response) => {
-                        if(response.result > 0) {
-                            alert('해당 회원이 차단되었습니다.');
-                        } else {
-                            alert('error');
-                        }
-                }).catch((errorMsg) => {
-                    console.log(errorMsg);
-                });
-            }
+            ajaxAPI("admin/updateIsLocked", jsonData, "POST").then((response) => {
+                    if(response.result > 0) {
+                        alert('해당 회원이 차단되었습니다.');
+                        //$('#userList').load(location.href+' #userList');
+                        location.reload();
+                    } else {
+                        alert('error');
+                    }
+            }).catch((errorMsg) => {
+                console.log(errorMsg);
+            });
         });
 
-
-        // 회원 삭제
-        $('.btnDeleteUser').click(function(e){
+        // 회원 차단 해제
+        $('.btnClearUser').click(function(e){
             e.preventDefault();
-            alert('click the delete button');
 
-            let user_id = $(this).parent().parent().find('.user_id').text();
+            let user_id = $(this).val();
             console.log('user_id:' + user_id);
 
-            if(!confirm("해당 회원을 삭제하겠습니까?")){
-                alert('삭제가 취소되었습니다.');
-            }else{
-                const jsonData = {"user_id": user_id};
+            const jsonData = {"user_id": user_id};
 
-                ajaxAPI("admin/updateIsEnabled", jsonData, "POST").then((response) => {
-                        if(response.result > 0) {
-                            alert('해당 회원이 삭제되었습니다.');
-                        } else {
-                            alert('error');
-                        }
-                }).catch((errorMsg) => {
-                    console.log(errorMsg);
-                });
-            }
+            ajaxAPI("admin/usaveClear", jsonData, "POST").then((response) => {
+                    if(response.result > 0) {
+                        alert('해당 회원의 차단이 해제되었습니다.');
+                        location.reload();
+                    } else {
+                        alert('error');
+                    }
+            }).catch((errorMsg) => {
+                console.log(errorMsg);
+            });
         });
-
-
-
 
 
     });

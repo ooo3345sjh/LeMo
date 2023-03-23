@@ -37,7 +37,6 @@ $(document).ready(function(){
 
             submitButton.addEventListener("click", function (e) {
 
-                //console.log("업로드1", myDropzone.files);
                 console.log("업로드1", myDropzone.files[0]);
 
                 e.preventDefault();
@@ -58,29 +57,8 @@ $(document).ready(function(){
 
             });
 
-            /*
 
-            var count = 0;
-
-            myDropzone.on("addedfile", function(file) {
-                count++;
-            });
-            */
             let btnSubmit = document.getElementById('btnSubmit');
-
-            /*btnSubmit.addEventListener('click', function(e){
-               // 숙소 이미지 -> dragNdropMulti.js
-                if (myDropzone.files != null && myDropzone.files.length > 0) {
-                    return true;
-                }
-                else {
-                  alert("사진을 최소 1장 이상 등록해 주십시오.");
-                  return false;
-                }
-            });*/
-
-
-
 
             myDropzone.on("sending", function(file, xhr, formData){
                 formData.append("acc_name", $('input[name="acc_name"]').val());
