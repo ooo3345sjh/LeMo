@@ -34,7 +34,7 @@ function remove_tab_class(){
 /* 탭의 데이터 로드 */
 function loadData(cate, acc_id) {
 
-    let url = "/Lemo/product/loadData?cate=" + cate + "&acc_id=" + acc_id;
+    let url = "/Lemo/product/detail"+cate+"?acc_id=" + acc_id;
 
     $('#detail_'+cate).load(url, function() {
         console.log('load complete!');
@@ -279,6 +279,46 @@ $(function(){
         }
 
     });
+
+    /* 문의하기 */
+    $(document).on('click', '#check_secret', function(){
+
+        let status = $(this).parent().hasClass('on');
+
+        if(!status) {
+            $(this).parent().addClass('on');
+        }else {
+            $(this).parent().removeClass('on');
+        }
+
+    });
+
+
+
+
+    /* 문의 등록 dialog */
+    $('.vip_popup_wrap').dialog({
+        autoOpen:false,
+        position:{
+            my:"center",
+            at:"center",
+            of:"section"
+        },
+        modal:true,
+        resizable:true
+    })
+
+    $(document).on('click', '#w_qna', function(e){
+        e.preventDefault();
+
+        if(uid == "") {
+            alert("로그인을 하셔야 문의글 작성이 가능합니다.")
+            return;
+        }
+
+        $('.vip_popup_wrap').dialog('open');
+    });
+
 
 
 });

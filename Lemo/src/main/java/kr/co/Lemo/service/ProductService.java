@@ -163,7 +163,6 @@ public class ProductService {
         return dao.getTotalProductQna(sc);
     }
 
-
     // update
 
     // delete
