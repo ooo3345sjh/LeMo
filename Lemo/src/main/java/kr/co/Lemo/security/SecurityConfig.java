@@ -1,7 +1,6 @@
 package kr.co.Lemo.security;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ResourceLoader;
@@ -9,14 +8,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.firewall.DefaultHttpFirewall;
-import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
@@ -32,7 +26,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     private ResourceLoader resourceLoader;
     private HomeLoginSuccessHandler homeLoginSuccessHandler;
     private SocialLoginSuccessHandler socialLoginSuccessHandler;
-    private LoginFailurHandler loginFailurHandler;
+    private LoginFailureHandler loginFailureHandler;
 
     // @since 2023/03/21
     @Bean
@@ -54,7 +48,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                         login.loginPage("/user/login")           // 로그인 페이지 경로 설정
 						     .loginProcessingUrl("/user/login")  // POST로 로그인 정보를 보낼 시 경로
                              .successHandler(homeLoginSuccessHandler)
-                             .failureHandler(loginFailurHandler)
+                             .failureHandler(loginFailureHandler)
 				)
                 // sns 로그인 설정
                 .oauth2Login(oauth2 -> oauth2

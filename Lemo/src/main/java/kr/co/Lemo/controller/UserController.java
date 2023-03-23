@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,6 +68,24 @@ public class UserController {
 
         m.addAttribute("title", environment.getProperty(group));
         return "user/login";
+    }
+
+    /**
+     * @since 2023/03/23
+     * @param error error 파라미터 값 L:차단된 회원, W:탈퇴한 회원
+     * @apiNote 로그인시 에러가 발생할 경우 넘어오는 uri
+     */
+    @GetMapping("login/error")
+    public String login(
+            Model m,
+            @RequestParam(defaultValue = "null") String error,
+            RedirectAttributes rttr
+    ) {
+        log.debug("GET login start...");
+
+        rttr.addFlashAttribute("error", error);
+
+        return "redirect:/user/login";
     }
 
     // @since 2023/03/08
