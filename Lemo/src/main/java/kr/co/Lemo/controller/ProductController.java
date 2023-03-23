@@ -157,6 +157,7 @@ public class ProductController {
         return "product/data/detailReview";
     }
 
+    // @since 2023/03/22
     @GetMapping("detailqna")
     public String detailQna(Model model,
                               @RequestParam Map map,
@@ -174,26 +175,40 @@ public class ProductController {
 
         PageHandler pageHandler = new PageHandler(totalCnt, vo);
 
+        model.addAttribute("totalCnt", totalCnt);
         model.addAttribute("ph", pageHandler);
         model.addAttribute("qnas", qnas);
 
         return "product/data/detailQna";
     }
 
-
-
+    // @since 2023/03/22
     @ResponseBody
     @PostMapping("rsaveQna")
     public Map<String, Integer> rsaveQna(@RequestBody ProductQnaVO qna, HttpServletRequest req) {
 
-        log.debug("Get loadData start");
-        log.info("qna :" + qna);
+        log.debug("Get rsaveQna start");
 
         int result = 0;
 
         qna.setQna_regip(req.getRemoteAddr());
 
         result = service.rsaveQna(qna);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+    @ResponseBody
+    @GetMapping("getQna")
+    public Map<String, Integer> findQna(int qna_no) {
+
+        log.debug("Get rsaveQna start");
+
+        log.info("qna_no : " +qna_no );
+
+        int result = 0;
 
         Map<String, Integer> resultMap = new HashMap<>();
         resultMap.put("result", result);

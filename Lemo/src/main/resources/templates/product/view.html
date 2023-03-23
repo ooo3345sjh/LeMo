@@ -232,6 +232,49 @@
                 </div>
             </div>
         </div>
+        <!-- dialog -->
+        <dialog id="qnadialog">
+            <div class="vip_popup_wrap">
+                <h1 class="tit_vippop">판매자에게 문의하기</h1>
+                <p class="subinfo"> 숙소 예약, 변경, 취소, 환불 등의 문의를 남겨주시면 판매자가 직접 답변을 드립니다.</p>
+                <form action="" method="dialog">
+                    <table class="tb_questionform">
+                        <tr>
+                            <th>숙소명</th>
+                            <td class="pdtit">[[${rooms.get(0).acc_name}]]</td>
+                        </tr>
+                        <tr>
+                            <th>아이디</th>
+                            <td>[[${uid}]]</td>
+                        </tr>
+                        <tr>
+                            <th>제목</th>
+                            <td><input type="text" title="제목" class="ip_viptxt" id="qa_title"></td>
+                        </tr>
+                        <tr>
+                            <th>내용</th>
+                            <td>
+                                <textarea title="내용" class="ip_viptxtarea" id="ta_content"></textarea>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="info_formbottom">
+                        <p>문의하신 내용의 답변은 고객님의 <span class="txt_emp">회원정보 &gt; 이메일</span>로 보내드립니다.</p>
+                        <p class="check_line">
+                        <span class="frm_wrap js_checkbox">
+                            <em class="ds_form ds_checkbox"><input type="checkbox" id="check_secret"></em>
+                            <label class="label" for="check_secret">비밀글로 문의하기<em class="txt_sub">(판매자와 본인만 확인 가능합니다.)</em></label>
+                        </span>
+                        </p>
+                    </div>
+                    <p class="bottom_btns">
+                        <a href="#" class="bt_confirm bt_vipround100"><span>확인</span></a>
+                        <a href="#" class="bt_cancel bt_vipround100"><span>취소</span></a>
+                    </p>
+                </form>
+            </div>
+        </dialog>
     </th:block>
     <th:block layout:fragment="script">
         <script th:inline="javascript">

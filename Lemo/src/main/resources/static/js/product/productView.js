@@ -42,6 +42,35 @@ function loadData(cate, acc_id) {
 
 }
 
+/* 페이지 이동 함수 */
+function movePage(event,obj){
+    event.preventDefault();
+    let href = $(obj).attr('href');
+    alert(href);
+
+    $('#detail_qna').load(href, function() {
+        console.log('load complete!');
+    });
+}
+
+/* 문의글 답변 가져오기 */
+function getQNA(event, obj) {
+
+    event.preventDefault();
+    let qna_no = $(obj).parent().parent().attr('id');
+
+    ajaxAPI("product/getQna?qna_no=" +qna_no, null, "GET").then((response) => {
+        if(response.result > 0) {
+            alert("성공");
+        }
+        else {
+            console.log("실패..");
+        }
+    }).catch((errorMsg) => {
+        console.log(errorMsg)
+    });
+}
+
 
 // 현재 주소의 파라미터
 const urlParams = new URLSearchParams(window.location.search);
@@ -217,55 +246,7 @@ $(function(){
     page = 'view';
 
 
-    /* 문의하기 등록 */
 
-   $(document).on('click', '.btnComment', function(){
-
-        // 비회원인 경우 문의작성 막기
-        if(uid == "") {
-            alert("로그인을 하셔야 문의댓글 작성이 가능합니다.");
-            return;
-        }
-
-        let content = $('input[name=qna_content]').val();
-        alert(content);
-
-        let chk_secret = $('input[name=chk_secret]').is(':checked');
-        let secret = 0;
-
-        if(chk_secret) {
-            secret = 1;
-        }
-
-        if(content.trim().length == 0) {
-            alert("문의 내용을 작성해주세요.")
-            return;
-        }
-
-        console.log("secret : " + secret);
-        console.log("content : " + content);
-
-        let jsonData = {
-            "acc_id" : acc_id,
-            "user_id" : uid,
-            "qna_content" : content,
-            "qna_secret" : secret
-        }
-
-        console.log(jsonData);
-
-        ajaxAPI("product/rsaveQna", jsonData, "POST").then((response) => {
-            if(response.result > 0) {
-                alert("성공");
-            }
-            else {
-                alert("실패");
-            }
-        }).catch((errorMsg) => {
-            console.log(errorMsg)
-        });
-
-   })
 
    /* 찜하기 */
     $(document).on('click', '#pick', function(){
@@ -295,30 +276,74 @@ $(function(){
 
 
 
-
     /* 문의 등록 dialog */
-    $('.vip_popup_wrap').dialog({
-        autoOpen:false,
-        position:{
-            my:"center",
-            at:"center",
-            of:"section"
-        },
-        modal:true,
-        resizable:true
-    })
+    const dialog = document.getElementById('qnadialog');
 
-    $(document).on('click', '#w_qna', function(e){
-        e.preventDefault();
+    $(document).on('click',  '#w_qna', function(){
 
         if(uid == "") {
             alert("로그인을 하셔야 문의글 작성이 가능합니다.")
             return;
         }
+        dialog.showModal();
+    });
 
-        $('.vip_popup_wrap').dialog('open');
+    $(document).on('click', '.bt_cancel', function(){
+        dialog.close();
     });
 
 
+    /* 문의하기 등록 */
+
+   $(document).on('click', '.bt_confirm', function(){
+
+        let title = $('#qa_title').val();
+        let content = $('#ta_content').val();
+
+        let chk_secret = $('#check_secret').is(':checked');
+        let secret = 0;
+
+        if(chk_secret) {
+            secret = 1;
+        }
+
+        if(title.trim().length == 0) {
+            alert("문의 제목을 작성해주세요.");
+            return;
+        }
+
+        if(content.trim().length == 0) {
+            alert("문의 내용을 작성해주세요.");
+            return;
+        }
+
+        let jsonData = {
+            "acc_id" : acc_id,
+            "user_id" : uid,
+            "qna_title" : title,
+            "qna_content" : content,
+            "qna_secret" : secret
+        }
+
+        ajaxAPI("product/rsaveQna", jsonData, "POST").then((response) => {
+            if(response.result > 0) {
+                // 글 등록 성공시 문의작성폼 초기화
+                $('#qa_title').val("");
+                $('#ta_content').val("");
+                dialog.close();
+                // qna 탭 새로 고침
+                let cate = 'qna';
+                loadData(cate, acc_id);
+
+            }
+            else {
+                alert("실패");
+            }
+        }).catch((errorMsg) => {
+            console.log(errorMsg)
+        });
+
+   })
 
 });
+

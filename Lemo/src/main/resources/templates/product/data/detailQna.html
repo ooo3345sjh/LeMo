@@ -47,28 +47,17 @@
                     <tbody>
                     <tr th:id="${qna.qna_no}" th:each="qna,i : ${qnas}">
                         <!--<td th:text="${#numbers.integerSubtract(ph.naviSize, i.index)}"></td>-->
-                        <td th:text="${ph.naviSize}"></td>
+                        <td>[[*{totalCnt-ph.sc.offset} - ${i.index}]]</td>
                         <td th:class="${qna.qna_reply == null ? 'ing' : 'end'}"
                             th:text="${qna.qna_reply == null ? '검토중' : '답변완료'}"></td>
                         <!--D: 내가 열수 없는 글일 경우, locked 클래스명이 붙음-->
                         <td class="qt_tit">
-                            <a href="#" class="locked">[[${qna.qna_title}]]
+                            <a href="#" th:classappend="${qna.qna_secret == 1 ? 'locked':''}" onclick="getQNA(event, this)">[[${qna.qna_title}]]
                                 <span class="ic_lock" th:if="${qna.qna_secret == 1}">비밀글</span>
                             </a>
                         </td>
                         <td>[[${qna.nick}]]</td>
                         <td>[[${qna.qna_rdate.substring(2,10)}]]</td>
-                    </tr>
-                    <tr id="qna_464306670">
-                        <td>14</td>
-                        <td class="ing">검토중</td>
-                        <!--D: 내가 열수 없는 글일 경우, locked 클래스명이 붙음-->
-                        <td class="qt_tit">
-                            <a href="#" class="uxeBlock-ctrl on" aria-expanded="true">상품 문의입니다.
-                            </a>
-                        </td>
-                        <td>ims*****</td>
-                        <td>2023.03.22</td>
                     </tr>
                     <tr id="ans_464306670" class="answerwrap" style="display: table-row;">
                         <td colspan="6">
@@ -92,56 +81,14 @@
         <!-- 페이징 -->
         <div class="paging" th:object="${ph}">
             <span class="prev" th:if="*{showPrev}">
-                <a href="#"></a>
+                <a th:href="@{/product/detailqna} + ${ph.sc.getQueryString(ph.beginPage-1)}" onclick="movePage(event,this)"></a>
             </span>
             <span class="on" th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
-                <a href="#">[[${num}]]</a>
+                <a th:href="@{/product/detailqna} + ${ph.sc.getQueryString(num)}" onclick="movePage(event,this)">[[${num}]]</a>
             </span>
             <span class="next" th:if="*{showNext}">
-                <a href="#"></a>
+                <a th:href="@{/product/detailqna} + ${ph.sc.getQueryString(ph.endPage+1)}" onclick="movePage(event,this)"></a>
             </span>
-        </div>
-        <!-- 등록 팝업 -->
-        <div class="vip_popup_wrap">
-            <h1 class="tit_vippop">판매자에게 문의하기</h1>
-            <p class="subinfo"> 숙소 예약, 변경, 취소, 환불 등의 문의를 남겨주시면 판매자가 직접 답변을 드립니다.</p>
-            <form action="" method="dialog">
-                <table class="tb_questionform">
-                    <tr>
-                        <th>숙소명</th>
-                        <td class="pdtit"></td>
-                    </tr>
-                    <tr>
-                        <th>이름</th>
-                        <td>이해빈(k#0*******)</td>
-                    </tr>
-                    <tr>
-                        <th>제목</th>
-                        <td><input type="text" title="제목" class="ip_viptxt" id="qa_title"></td>
-                    </tr>
-                    <tr>
-                        <th>내용</th>
-                        <td>
-                            <textarea title="내용" class="ip_viptxtarea" id="ta_content"></textarea>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="info_formbottom">
-                    <p>문의하신 내용의 답변은 고객님의 <span class="txt_emp">회원정보 &gt; 이메일</span>로 보내드립니다.</p>
-                    <p class="check_line">
-                        <span class="frm_wrap js_checkbox">
-                            <em class="ds_form ds_checkbox"><input type="checkbox" id="check_secret"></em>
-                            <label class="label" for="check_secret">비밀글로 문의하기<em class="txt_sub">(판매자와 본인만 확인 가능합니다.)</em></label>
-                        </span>
-                    </p>
-                </div>
-                <p class="bottom_btns">
-                    <a href="#" class="bt_confirm bt_vipround100"><span>확인</span></a>
-                    <a href="#" class="bt_cancel bt_vipround100"><span>취소</span></a>
-                </p>
-            </form>
-            <p class="bar_close"><a href="#" class="bt_close">닫기<span class="ic">X</span></a></p>
         </div>
     </div>
 </html>
