@@ -26,13 +26,13 @@
                             <div class="col_register1">
                                 <div class="stayName">
                                     <div>
-                                        <span>23년 2월 롯데카드 즉시할인 - 신용카드</span>
+                                        <span>[[${event.cs_title}]]</span>
                                     </div>
                                 </div>
                                 <div class="event_view">
                                     <div class="event_content">
                                         <p>
-                                            <img th:src="@{/images/admin/event_view_sample.png}">
+                                            <img th:src="|@{/}img/cs/${event.cs_no}/${#strings.substringBefore(event.cs_eventViewImg, '/')}|">
                                         </p>
                                         <!-- 이벤트 링크
                                         <div class="evt-link">

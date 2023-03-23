@@ -432,7 +432,6 @@ main .pagination a:hover:not(.active) {
 /* faq */
 main .faq_list {
     list-style: none;
-    border-top: 1px solid #bbb;
     border-collapse: collapse;
 }
 main .faq_list ul {

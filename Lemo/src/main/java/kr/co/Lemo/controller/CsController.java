@@ -52,8 +52,11 @@ public class CsController {
 
             model.addAttribute("title", environment.getProperty(group));
             service.findAllQnaArticles(sc, model);
+            return "cs/qna";
+        }else if("faq".equals(cs_cate)){
+
         }
-        return "cs/qna";
+        return "cs/faq/event";
     }
 
     // @since 2023/03/11

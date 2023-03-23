@@ -29,12 +29,10 @@
             pointer-events: none;
             background-image: url(https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg);
         }
-
-       .diary_write_img {
-            width: 232px;
-            height: 238px;
-            border-radius: 4px;
+        .event_write_img > #image {
+            height: 180px;
         }
+
         #fileDropzone > label {
             width: 84px;
             height: 28px;
@@ -91,7 +89,7 @@
                                 <table class="input_stayRoomInfo">
                                     <tr>
                                         <td>이벤트 이름</td>
-                                        <td><input type="text" name="cs_title" id="cs_title"></td>
+                                        <td><input type="text" name="cs_title" id="cs_title" required></td>
                                     </tr>
                                     <tr>
                                         <td>기간</td>
@@ -108,11 +106,11 @@
                                             <div class="stayThumb">
                                                 <div id="fileDropzone">
                                                     <div class="event_write_img">
-                                                        <img id="image">
+                                                        <img id="image" style="display:none;">
                                                     </div>
                                                     <div id="wrap-container"></div>
                                                     <label for="ex_file">업로드</label>
-                                                    <input type="file" name="cs_eventbannerImg" id="ex_file" accept="image/png, image/jpeg" class="insertFile">
+                                                    <input type="file" name="cs_eventbannerImg" id="ex_file" accept="image/png, image/jpeg" class="insertFile" required>
                                                 </div>
                                             </div>
                                         </td>
@@ -134,7 +132,7 @@
                                     <tr>
                                         <td>이벤트 내용</td>
                                         <td>
-                                            <textarea id="summernote" name="cs_content"></textarea>
+                                            <textarea id="summernote" name="cs_content" required></textarea>
                                         </td>
                                     </tr>
 
@@ -209,6 +207,11 @@
                     previews[0].src = target.result;
                 };
                 reader.readAsDataURL(fileDOM.files[0]);
+                });
+
+                /** img click 보여주기 **/
+                $('label[for="ex_file"]').click(function(){
+                    $('#image').show();
                 });
 
             });

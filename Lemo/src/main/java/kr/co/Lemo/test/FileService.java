@@ -111,7 +111,7 @@ public class FileService {
 //        }
 
         log.info("joinedImg : " + joinedImgNames);
-        vo.setCs_eventbannerImg(joinedImgNames);
+       //vo.setCs_eventbannerImg(joinedImgNames);
 
         log.info("cs_eventbanner : " + vo.getCs_eventbannerImg());
 
