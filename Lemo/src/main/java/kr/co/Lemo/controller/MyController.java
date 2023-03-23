@@ -68,11 +68,16 @@ public class MyController {
             case "reservation" :
                 m.addAttribute("cate", "reservation");
 
+
                 return "my/reservation";
             case "view" :
                 m.addAttribute("cate", "view");
 
                 return "my/view";
+            case "review" :
+                m.addAttribute("cate", "review");
+
+                return "my/review/list";
         }
 
         return "my/info";
