@@ -5,6 +5,7 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminSubStyle.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <script th:src="@{/js/common/jquery.highlight-5.js}"></script>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -16,20 +17,18 @@
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
                         <div class="col0">
-                            <form action="#">
+                            <form th:action="@{/business/info/list}" method="GET">
                                 <div class="searchProd">
-                                    <input type="text" class="search_box" placeholder="검색 키워드 입력">
+                                    <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}">
                                     <button type="submit" class="btnSearch">
-                                        <input type="image" th:src="@{/images/admin/btn_search.png}">
+                                        <img th:src="@{/images/admin/btn_search.png}">
                                     </button>
                                 </div>
                                 <div class="selectProd">
-                                    <select>
-                                        <option value="0">회사명</option>
-                                        <option value="1">푸른제주펜션</option>
-                                        <option value="2">보우힐펜션</option>
-                                        <option value="3">파라다이스호텔부산</option>
-                                        <option value="4">프리지아펜션</option>
+                                    <select class="selectAccOwned" name="searchField" id="companySelect">
+                                        <option value="">검색유형선택</option>
+                                        <option value="acc_id" th:selected="${ph.sc.searchField == 'acc_id'}">숙소아이디</option>
+                                        <option value="acc_name" th:selected="${ph.sc.searchField == 'acc_name'}">숙소명</option>
                                     </select>
                                 </div>
                             </form>
@@ -49,38 +48,37 @@
                                         <li>등록일</li>
                                         <li>비고</li>
                                     </ul>
-                                    <ul>
-                                        <li>1</li>
-                                        <li>11023</li>
-                                        <li class="prodName" id="width50">부산 힐튼 호텔</li>
-                                        <li id="width14">hilton@gmail.com</li>
-                                        <li>2023-02-26</li>
-                                        <li class="prodBtn">
-                                            <span class="btnDelete">삭제</span>
-                                            <span class="btnModify">수정</span>
+                                    <ul th:each="acc,i:${accs}">
+                                        <li>[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
+                                        <li th:text="${acc.acc_id}" class="acc_id">11023</li>
+                                        <li class="prodName" id="width50">
+                                            <a href="@{/business/info/view (acc_id=${acc.acc_id})}"
+                                               th:text="${acc.acc_name}" th:data-no="${acc.acc_id}"></a>
                                         </li>
-                                    </ul>
-                                    <ul>
-                                        <li>2</li>
-                                        <li>11243</li>
-                                        <li class="prodName" id="width50">조선 호텔</li>
-                                        <li id="width14">josun@gmail.com</li>
-                                        <li>2023-02-26</li>
+                                        <li th:text="${acc.user_id}" id="width14">hilton@gmail.com</li>
+                                        <li th:text="${acc.acc_rdate}">2023-02-26</li>
                                         <li class="prodBtn">
-                                            <span class="btnDelete">삭제</span>
+                                            <span class="btnDelete" th:data-no="${acc.acc_id}">삭제</span>
                                             <span class="btnModify">수정</span>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="pagination">
-                                    <a href="#">&laquo;</a>
-                                    <a href="#">1</a>
-                                    <a href="#" class="active">2</a>
-                                    <a href="#">3</a>
-                                    <a href="#">4</a>
-                                    <a href="#">5</a>
-                                    <a href="#">6</a>
-                                    <a href="#">&raquo;</a>
+                                <div class="pagination" th:object="${ph}" th:style="${#lists.size(accs) == 0 ? 'visibility:hidden;':''}">
+
+                                    <th:block th:if="*{showPrev}">
+                                        <a th:href="@{/business/info/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
+                                    </th:block>
+
+                                    <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                                        <a th:href="@{/business/info/list} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                            [[${num}]]
+                                        </a>
+                                    </th:block>
+
+                                    <th:block th:if="*{showNext}">
+                                       <a th:href="@{/business/info/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                    </th:block>
+
                                 </div>
                                 <div class="btnAdminProd">
                                     <a th:href="@{/business/info/write}">
@@ -98,5 +96,42 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+<script th:inline="javascript">
+    // 검색 키워드 하이라이트
+    const searchField = document.querySelector('select[name=searchField]');
+    const searchWord = document.querySelector('input[name=searchWord]');
+
+    $(function (){
+        if(searchField.options[searchField.selectedIndex].value === "acc_id"){
+            $('.acc_id').highlight(searchWord.value);
+        }
+        else if(searchField.options[searchField.selectedIndex].value === "acc_name"){
+            $('.prodName').highlight(searchWord.value);
+        }
+    })
+
+    // 숙소 삭제
+    $('.btnDelete').click(function(e){
+        e.preventDefault();
+
+        let isDeleteOK = confirm('숙소를 정말 삭제하시겠습니까? (확인 버튼 삭제 취소가 불가능합니다.)');
+
+        if(isDeleteOK){
+            let acc_id = $(this).attr('data-no');
+            const jsonData = {"acc_id": acc_id};
+
+            ajaxAPI("business/info/removeAcc", jsonData, "POST").then((response) => {
+                if(response.result > 0) {
+                    alert("해당 숙소가 삭제되었습니다.");
+                    location.replace("/Lemo/business/info/list");
+                } else {
+                    alert('error');
+                }
+            }).catch((errorMsg) => {
+            console.log(errorMsg);
+            });
+        }
+    })
+</script>
 </th:block>
 </html>

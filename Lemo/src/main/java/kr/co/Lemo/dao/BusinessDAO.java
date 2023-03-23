@@ -47,6 +47,15 @@ public interface BusinessDAO {
     // @since 2023/03/20
     public List<ProvinceVO> selectProvince();
 
+    // @since 2023/03/23
+    public List<ProductAccommodationVO> selectAccForInfo(SearchCondition sc);
+
+    // @since 2023/03/23
+    public int countAcc(SearchCondition sc);
+
+    // @since 2023/03/23
+   public List<ProductAccommodationVO> selectAccOwnedForInfo(String user_id);
+
     // @since 2023/03/13
     public void insertCoupon(CouponVO vo);
 
@@ -67,6 +76,9 @@ public interface BusinessDAO {
 
    // @since 2023/03/16
    public int deleteReview(@Param("revi_id") String revi_id);
+
+   // @since 2023/03/23
+   public int deleteAcc(@Param("acc_id") String acc_id);
 
 
 }

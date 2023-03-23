@@ -14,7 +14,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -116,6 +119,38 @@ public class BusinessService {
     public List<ProvinceVO> findProvince(){ return dao.selectProvince();}
 
 
+    /**
+     * 판매자 숙소 - 목록
+     * @param model
+     * @param sc
+     */
+    public List<ProductAccommodationVO> findAllAccForInfo(Model model, Admin_SearchVO sc){
+        int totalCnt = dao.countAcc(sc);
+        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<ProductAccommodationVO> accs = dao.selectAccForInfo(sc);
+
+        log.warn("Selected accs in business: " + accs.toString());
+
+        model.addAttribute("accs", accs);
+        model.addAttribute("ph", pageHandler);
+
+        return accs;
+    }
+
+    /**
+     * 판매자 숙소 - 숙소 목록 소유 숙소 선택
+     * @param user_id
+     * @return
+     */
+    public List<ProductAccommodationVO> findAccOwnedForInfo(String user_id){
+        return dao.selectAccOwnedForInfo(user_id);
+    }
+
+
 
     /**
      * 판매자 쿠폰 - 쿠폰 등록
@@ -207,11 +242,13 @@ public class BusinessService {
         String[] service = ((String) param.get("sc_no")).split(",");
         log.warn("here8 service: " + service.toString());
 
-       /* for(int i=0; i<service.length; i++) {
+        for(int i=0; i<service.length; i++) {
             // lemo_product_servicereginfo (서비스 등록)
             //dao.insertServiceRegInfo(regVO);
+            param.put("sc_no", service[i]);
             dao.insertServiceRegInfo(param);
-        }*/
+            log.warn("here9 service: " + service[i]);
+        }
 
     }
 
@@ -243,6 +280,16 @@ public class BusinessService {
      */
     public int removeReview(String revi_id){
         return dao.deleteReview(revi_id);
+    }
+
+
+    /**
+     * 판매자 숙소 - 숙소 삭제
+     * @since 2023/03/23
+     * @param acc_id
+     */
+    public int removeAcc(String acc_id){
+        return dao.deleteAcc(acc_id);
     }
 
 
