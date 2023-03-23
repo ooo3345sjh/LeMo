@@ -15,10 +15,11 @@
         SET
         `acc_id` = #{acc_id},
         `user_id` = #{user_id},
-        `pQna_content` = #{qna_content},
-        `pQna_regip` = #{qna_regip},
-        `pQna_rdate` = NOW(),
-        `pQna_secret` = #{qna_secret};
+        `qna_title` = #{qna_title},
+        `qna_content` = #{qna_content},
+        `qna_regip` = #{qna_regip},
+        `qna_rdate` = NOW(),
+        `qna_secret` = #{qna_secret};
     </insert>
 
 
@@ -85,6 +86,7 @@
         JOIN `lemo_member_userinfo` AS c
         ON a.user_id = c.user_id
         WHERE a.`acc_id` = #{acc_id}
+        Order by a.`qna_no` desc
         LIMIT #{offset}, 10;
     </select>
 
