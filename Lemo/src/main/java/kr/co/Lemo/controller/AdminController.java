@@ -262,6 +262,8 @@ public class AdminController {
                                  @RequestParam Map map,
                                  @ModelAttribute Cs_SearchVO sc){
 
+        log.info("admin/cs/.../list...");
+
         sc.setMap(map);
         if("event".equals(cs_cate)){
             log.info("admin/cs/event/list");
@@ -413,7 +415,17 @@ public class AdminController {
             log.info("param : " + parameter);
             log.info("cs_eventBanner : " + cs_eventBanner);
 
-            csService.rsaveEventArticle(request, parameter, cs_eventBanner);
+            Map<String, MultipartFile> fileMap = request.getFileMap();
+            for (MultipartFile multipartFile : fileMap.values()) {
+                log.debug(""+multipartFile.getOriginalFilename());
+            }
+
+            try{
+                csService.rsaveEventArticle(request, parameter, cs_eventBanner);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
         return "redirect:/admin/cs/event/list";
     }
@@ -446,10 +458,11 @@ public class AdminController {
         }else if("event".equals(cs_cate)){
             log.info("admin/event");
             CsVO eventArticle = csService.findAdminCsArticle(cs_cate, cs_no);
-            log.info("event : " + eventArticle);
             model.addAttribute("event", eventArticle);
             model.addAttribute("cs_no", cs_no);
             model.addAttribute("cs_cate", cs_cate);
+
+            return "admin/cs/event/view";
         }
         return "admin/cs/event/view";
     }

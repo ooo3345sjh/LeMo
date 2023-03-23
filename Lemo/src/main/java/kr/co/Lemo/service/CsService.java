@@ -121,31 +121,37 @@ public class CsService {
     }
 
     /** insert **/
-    public int rsaveEventArticle(MultipartHttpServletRequest request, Map<String, Object> parameter, MultipartFile cs_eventBanner){
+    public int rsaveEventArticle(MultipartHttpServletRequest request, Map<String, Object> parameter, MultipartFile cs_eventBanner) throws Exception {
         Map<String, MultipartFile> fileMap = request.getFileMap();
 
-        ArrayList<String> arrFilesInfo = new ArrayList<>();
+        log.info("fileMap : " + fileMap);
 
-        // eventbannerImg 이름 변경
-        String bannerName = cs_eventBanner.getOriginalFilename();
-        String bannerExt = bannerName.substring(bannerName.indexOf("."));
-        String bannerNewName = UUID.randomUUID().toString() + bannerExt;
+        ArrayList<String> arrFilesInfo = new ArrayList<>();
 
         // evnetViewImg 이름 변경
         for (MultipartFile multipartFile : fileMap.values()) {
             //파일 이름 추출 (확장자 제거)
             String fName = multipartFile.getOriginalFilename();
+            log.info("fName : " + fName);
+
             String ext = fName.substring(fName.indexOf("."));
+            log.info("ext : " + ext);
+
             String newName = UUID.randomUUID().toString() + ext;
             log.info("newName : " + newName);
 
             arrFilesInfo.add(newName);
         }
 
+        String bannerNewName = arrFilesInfo.get(0);
+
+        parameter.put("cs_eventbannerImg", bannerNewName);
+
+        arrFilesInfo.remove(0);
+
         String newName = String.join("/", arrFilesInfo);
 
         parameter.put("cs_eventViewImg", newName);
-        parameter.put("cs_eventbannerImg", bannerNewName);
 
         int result = dao.insertEventArticle(parameter);
 
