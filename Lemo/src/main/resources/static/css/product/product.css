@@ -2489,6 +2489,10 @@ margin-left: 25px;
        word-wrap: break-word;
    }
 
+   .tb_board td.end {
+       color : #2778c4;
+   }
+
     .htit > a .blind.arr {
         width: 14px;
         height: 14px;
@@ -2609,7 +2613,7 @@ margin-left: 25px;
     /* 문의하기 폼 */
 
     .vip_popup_wrap {
-        width : 644px;
+        width : 660px;
         padding: 22px 20px 46px;
         box-sizing : border-box;
         border : 1px solid red;
@@ -2636,14 +2640,14 @@ margin-left: 25px;
     }
 
     .vip_popup_wrap .tb_questionform th {
-        padding: 13px 0 13px 20px;
-        text-align: left;
+        padding: 13px;
         vertical-align: middle;
         color: #222;
         font-weight: 400;
         background: #f8f9fa;
         border-bottom: 1px solid #ececec;
         font-size: 14px;
+        width:77px;
     }
 
     .vip_popup_wrap .tb_questionform td {
@@ -2727,7 +2731,7 @@ margin-left: 25px;
         background: url(/Lemo/images/product/sp_vipgroup.png) no-repeat;
         background-position: -622px -306px;
     }
-    .frm_wrap .ds_checkbox.js_checked {
+    .frm_wrap .ds_checkbox.on {
         background-position: -644px -306px;
     }
 

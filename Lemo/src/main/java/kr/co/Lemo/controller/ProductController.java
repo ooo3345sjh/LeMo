@@ -4,6 +4,7 @@ import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.ProductQna_SearchVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
 import kr.co.Lemo.service.ProductService;
+import kr.co.Lemo.utils.PageHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -50,6 +51,7 @@ public class ProductController {
 
         // 숙박업소 리스트 가져오기
         service.findAllAccommodations(model, map, vo);
+
         model.addAttribute("title", environment.getProperty(group));
 
         return "product/list";
@@ -108,6 +110,7 @@ public class ProductController {
     }
 
     // @since 2023/03/19
+    /*
     @GetMapping("loadData")
     public String loadData(Model model,
                            @RequestParam Map map,
@@ -138,7 +141,46 @@ public class ProductController {
             return "product/data/detailQna";
         }
         return "product/list";
+    }*/
+
+    @GetMapping("detaildiary")
+    public String detailDiary() {
+
+
+
+        return "product/data/detailDiary";
     }
+
+    @GetMapping("detailreview")
+    public String detailReview() {
+
+        return "product/data/detailReview";
+    }
+
+    @GetMapping("detailqna")
+    public String detailQna(Model model,
+                              @RequestParam Map map,
+                              @ModelAttribute ProductQna_SearchVO vo) throws Exception {
+
+        log.info("acc_id" + vo.getAcc_id());
+
+        vo.setMap(map);
+        List<ProductQnaVO> qnas = service.findAllProductQna(vo);
+
+        // 페이징
+        int totalCnt = service.getTotalProductQna(vo); // 전체 게시물 개수
+        int totalPage = (int)Math.ceil(totalCnt / (double)vo.getPageSize());  // 전체 페이지의 수
+        if(vo.getPage() > totalPage) vo.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, vo);
+
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("qnas", qnas);
+
+        return "product/data/detailQna";
+    }
+
+
 
     @ResponseBody
     @PostMapping("rsaveQna")

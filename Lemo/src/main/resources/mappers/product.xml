@@ -78,13 +78,18 @@
         WHERE `acc_id` = #{acc_id} ;
     </select>
 
-    <select id="selectProductQnas">
-        SELECT * FROM `lemo_product_qna` WHERE `acc_id` = #{acc_id}
+    <select id="selectProductQnas" resultType="kr.co.Lemo.domain.ProductQnaVO">
+        SELECT a.*, b.acc_name, c.nick  FROM `lemo_product_qna` AS a
+        JOIN `lemo_product_accommodation` AS b
+        ON a.`acc_id` = b.`acc_id`
+        JOIN `lemo_member_userinfo` AS c
+        ON a.user_id = c.user_id
+        WHERE a.`acc_id` = #{acc_id}
         LIMIT #{offset}, 10;
     </select>
 
-    <select id="getTotalProductQna">
-        SELECT COUNT(`pQna_no`) FROM `lemo_product_qna` WHERE `acc_id` = #{acc_id};
+    <select id="getTotalProductQna" resultType="int">
+        SELECT COUNT(`qna_no`) FROM `lemo_product_qna` WHERE `acc_id` = #{acc_id};
     </select>
 
 

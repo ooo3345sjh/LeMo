@@ -28,4 +28,8 @@ public class ProductQnaVO {
     private String qna_reply;
     private int qna_secret;
 
+    /* 추가필드 */
+    private String acc_name;
+    private String nick;
+
 }
