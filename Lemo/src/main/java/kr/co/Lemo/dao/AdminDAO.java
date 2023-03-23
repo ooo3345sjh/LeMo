@@ -50,8 +50,10 @@ public interface AdminDAO {
     // @since 2023/03/10
     public int updateIsLocked(@Param("user_id") String user_id);
 
-    // @since 2023/03/10
-    public int updateIsEnabled(@Param("user_id") String user_id);
+    // @since 2023/03/23
+    public int updateIsLockedClear(@Param("user_id") String user_id);
+
+
 
     // @since 2023/03/15
     public int updateReply(@Param("revi_reply") String revi_reply, @Param("revi_id") String revi_id);

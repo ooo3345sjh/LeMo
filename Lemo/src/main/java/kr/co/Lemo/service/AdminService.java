@@ -142,11 +142,13 @@ public class AdminService {
     public int updateIsLocked(String user_id) { return dao.updateIsLocked(user_id); }
 
     /**
-     * 관리자 회원 - 회원 삭제
-     * @since 2023/03/10
+     * 관리자 회원 - 회원 차단 해제
+     * @since 2023/03/23
      * @param user_id
      */
-    public int updateIsEnabled(String user_id){ return dao.updateIsEnabled(user_id); }
+    public int usaveClear(String user_id){
+        return dao.updateIsLockedClear(user_id);
+    }
 
     /**
      * 관리자 리뷰 - 리뷰 답변
