@@ -367,9 +367,12 @@ public class UserController {
         return map;
     }
 
-    // @since 2023/03/08
-    @GetMapping("resetPw")
-    public String resetPw() {
+    // @since 2023/03/24
+    @GetMapping("pw/reset")
+    public String resetPw(@RequestParam(required = false) String isPassNonExpired) {
+        if(isPassNonExpired.equals("true")){
+            return "user/resetPw_isPassNonExpired";
+        }
         return "user/resetPw";
     }
 
