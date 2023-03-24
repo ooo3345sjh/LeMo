@@ -21,7 +21,10 @@ public class Admin_SearchVO extends SearchCondition {
     private Integer searchIsEnabled;        // 회원 검색 - 계정활성화여부
     private Integer searchLevel;            // 회원 검색 - 회원등급 (일반/엘리트)
     private Integer searchType;             // 회원 검색 - 회원구분 (일반/판매자)
-    private String sort;               // 회원 검색 - 회원정렬
+    private String sort;                    // 회원 검색 - 회원정렬 - 활성화 여부 (정상/차단/탈퇴)
+    private String sortLevel;               // 회원 검색 - 회원정렬 - 등급 (일반/엘리트)
+    private String sortType;                // 회원 검색 - 회원정렬 (홈회원/SNS회원)
+    private String sortRdate;               // 회원 검색 - 회원정렬 (날짜)
     private String searchCouponRole;
     private String searchAccName;
     private Integer acc_id;
