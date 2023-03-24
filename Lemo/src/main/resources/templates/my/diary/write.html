@@ -69,6 +69,7 @@
                 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712&libraries=services"></script>
                 <script>
                     let markerMap = new Map();
+                    let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
                     /**
                         검색된 마크에도 mouseover, mouselevae, click 적용시켰고
                         지도에 클릭해서 생성한 마크에도 적용시킴
@@ -207,9 +208,11 @@
                                     removeAlert(marker, place);
                                 });
 
+                                markerMap.set(place.replace(reg, ""), marker);
+
                                 Swal.fire({
                                     title: '생성완료!',
-                                    text: '마커를 클릭하시면 지우실 수 있습니다.!'
+                                    text: '마커를 클릭해서도 지우실 수 있습니다.!'
                                 });
 
                             }else {
@@ -221,14 +224,15 @@
 
                     // #F4 : 마커 클릭시 여행일기 작성란이 추가되는 공통 함수
                     function addDiary(place, Lat, Lng){
-                        let withoutSpace = place.replace(/\s/g, "");
+                        let withoutSpace = place.replace(reg, "");
+
                         let addContent  = '<div class="place place_D' + withoutSpace + '">';
                             addContent +=   '<div class="spot">';
                             addContent +=       '<img src="/Lemo/images/diary/marker7.png" width="30px" height="40px">';
                             addContent +=       '<span>'+ place +'</span>';
                             addContent +=   '</div>';
                             addContent +=   '<img src="/Lemo/images/cs/arr_down.png" class="arrow">';
-                            addContent +=   '<button>삭제</button>';
+                            addContent +=   '<button class="delete_diary" data-place="'+withoutSpace+'">삭제</button>';
                             addContent +=   '<div class="toggle">';
                             addContent +=       '<div class="image">';
                             addContent +=           '<input type="file" class="ex_file" name="thumb" accept="image/png, image/jpeg" style="display: none;">';
@@ -278,11 +282,13 @@
                             // 마커 제거 이후 마커배열에서도 제거
                             markers.splice(count, 1);
 
+                            console.log(marker);
+
                             marker.setMap(null);
                             //overlay.setMap(null);
                             infowindow.close();
 
-                            place = place.replace(/\s/g, "");
+                            place = place.replace(reg, "");
 
                             $('.place_D'+place).remove();
 
@@ -492,6 +498,8 @@
                             if($(this).val()){ submitSpotContent.push($(this).val()); }
                         });
 
+                        console.log(markers);
+
                         // Lat, Lng 가져오기
                         for(var i=0; i<markers.length; i++){
                             submitLat.push(markers[i].getPosition().getLat());
@@ -542,10 +550,30 @@
                             processData: false,
                             enctype : 'multipart/form-data',
                             success: function(data) {
-
+                                if(data.result == 1) {
+                                    Swal.fire( '등록되었습니다. 목록으로 이동합니다.' );
+                                    location.href = "/Lemo/my/diary/list";
+                                }else if(data.result == 2) {
+                                    Swal.fire( '등록에 실패했습니다. 새로고침 후 다시 시도해주세요.' );
+                                }else if(data.result == 3) {
+                                    Swal.fire( '이미지 저장에 실패했습니다. 이미지를 다시 등록해주세요.' );
+                                }
                             }
                         });
 
+                    });
+
+                    $(document).on('click', '.delete_diary', function(e){
+                        e.stopPropagation();
+                        e.preventDefault();
+
+                        let data_place = $(this).attr('data-place');
+                        console.log(data_place);
+
+                        let deleteMarker = markerMap.get(data_place);
+                        console.log(deleteMarker);
+
+                        removeAlert(deleteMarker, data_place);
                     });
 
                     // submit시 lat, lng 가져오기

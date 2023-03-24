@@ -289,7 +289,7 @@ h3 {
 .spot_wrap {
     position: absolute;
     left: 0;
-    bottom: -25px;
+    bottom: 57px;
     width: 196px;
     margin-left: -102px;
     text-align: left;
@@ -321,6 +321,7 @@ h3 {
     width: 12px; height: 12px;
     background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png);
     background-size: 12px;
+    cursor: pointer;
 }
 
 .diary_spot_wrap {
@@ -570,30 +571,21 @@ button {cursor: pointer;}
 }
 
 .place > button {
-    width: 30px; height: 30px;
+    width: 20px;
+    height: 20px;
     position: relative;
-    bottom: 27px;
+    right: -74px;
+    bottom: 63px;
     float: right;
     margin-right: 20px;
-    background-image: url(/Lemo/images/diary/delete.png);
+    background-image: url(/Lemo/images/diary/delete-button.png);
     background-color: transparent;
-    background-size: 30px;
+    background-size: 20px;
     border: none;
     font-size: 0;
 }
 
-.place > button:hover {
-    width: 30px; height: 30px;
-    position: relative;
-    bottom: 27px;
-    float: right;
-    margin-right: 20px;
-    background-image: url(/Lemo/images/diary/recycle-bin.png);
-    background-color: transparent;
-    background-size: 30px;
-    border: none;
-    font-size: 0;
-}
+
 
 .place > .arrow.on {
     content: url('../../images/cs/arr_top.png');

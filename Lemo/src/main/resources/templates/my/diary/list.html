@@ -14,7 +14,6 @@
     <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-    <script th:src="@{/js/common/kakaomap-scroll.js}"></script>
 </th:block>
 <th:block layout:fragment="content">
             <main>
@@ -27,8 +26,14 @@
                                 나의 여행일기
                             </span>
                         </div>
-                        <div class="my_diary_list">                       
-                            <div class="list-area">
+                        <div class="my_diary_list">
+                            <div class="list-area" th:if="${map.size == 0}">
+                                <div class="emptyDiary">
+                                    <p>등록된 게시글이 없습니다.</p>
+                                    <a th:href="@{/my/diary/write}">작성하러 가기</a>
+                                </div>
+                            </div>
+                            <div class="list-area" th:if="${map.size != 0}">
                                 <ul>
                                     <li th:each="article:${map}">
                                         <button class="heart"><img th:src="@{/images/diary/heart.png}"></button>
@@ -98,6 +103,17 @@
                         var container = document.getElementById('my_diary_listMap');
                         container.style.marginLeft = '100px';
                         container.style.width = '600px';
+                    }
+
+                    function foldMap(){
+                        $('.my_diary_list').css({'width' : '610px'});
+                        $('#my_diary_listMap').css({ 'width' : '280px' });
+                        $('#my_diary_listMap').css({ 'margin-left' : '0' });
+                        $('.foldMap').css({ 'display' : 'none' });
+                        $('.foldMap').css({ 'cursor' : 'pointer' });
+                        //bounds.extend(new kakao.maps.LatLng(36.3504119, 127.3845475));
+                        //map.setBounds(bounds);
+                        //map.setLevel(13);
                     }
 
                     // 마커 이미지 변경하는 공통 함수
@@ -203,7 +219,6 @@
 
                         clusterer.addMarkers(markers);
                     });
-
                 </script>
                 <script th:src="@{/js/my/diaryList.js}"></script>
             </th:block>

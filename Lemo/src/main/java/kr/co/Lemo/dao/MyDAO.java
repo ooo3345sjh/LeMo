@@ -1,8 +1,8 @@
 package kr.co.Lemo.dao;
 
-import kr.co.Lemo.domain.ArticleDiaryVO;
-import kr.co.Lemo.domain.DiarySpotVO;
+import kr.co.Lemo.domain.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,5 +29,18 @@ public interface MyDAO {
     public List<DiarySpotVO> selectDiarySpot(int arti_no);
 
     // @since 2023/03/13
-    public List<DiarySpotVO> selectDiary(String uid);
+    public List<DiarySpotVO> selectDiary(String user_id);
+
+    // @since 2023/03/24
+    // public MyVO selectMyArticle(@Param("myCate") String myCate, @Param("user_id") String user_id);
+
+    // @since 2023/03/24
+    public List<CouponVO> selectCoupons(String user_id);
+
+    // @since 2023/03/24
+    public List<PickVO> selectPicks(String user_id);
+
+    // @since 2023/03/24
+    public List<ReservationVO> selectReservations(String user_id);
+
 }
