@@ -3,11 +3,13 @@ package kr.co.Lemo.controller;
 import kr.co.Lemo.domain.CouponVO;
 import kr.co.Lemo.domain.CsVO;
 import kr.co.Lemo.domain.ReviewVO;
+import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.domain.search.Cs_SearchVO;
 import kr.co.Lemo.repository.AdminRepo;
 import kr.co.Lemo.service.AdminService;
 import kr.co.Lemo.service.CsService;
+import kr.co.Lemo.utils.PageHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +61,7 @@ public class AdminController {
         return "admin/stats";
     }
 
-    // @since 2023/03/09 관리자 회원 - 회원 목록
+    // @since 2023/03/09 관리자 회원 - 회원 목록 (Form 전송)
     @GetMapping("user")
     public String user(Model model,
                        @RequestParam Map map,
@@ -71,6 +73,33 @@ public class AdminController {
         service.selectUser(model, sc);
 
         return "admin/user";
+    }
+
+    // @since 2023/03/24 관리자 회원 - 회원 목록 (Ajax 전송)
+    @ResponseBody
+    @GetMapping("users")
+    public Map users(Model model,
+                     @RequestParam Map map,
+                     @ModelAttribute Admin_SearchVO sc) {
+        log.warn("GET users start...");
+
+        sc.setMap(map);
+        sc.setSort("isEnabledOn");
+
+        List<UserVO> users = service.selectUser(model, sc);
+        log.warn("GET users : " + users);
+        PageHandler ph = (PageHandler) model.getAttribute("ph");
+
+        log.warn("ph : " + ph.getTotalCnt());
+
+        // String value = String.valueOf(map.get("value"));
+        //Map<String, Object> resultMap = new HashMap<>();
+
+        map.put("users", users);
+        map.put("totalCnt", ph.getTotalCnt());
+        map.put("offset", ph.getSc().getOffset());
+
+        return map;
     }
 
     // @since 2023/03/09 관리자 회원 - 메모 작성

@@ -58,24 +58,24 @@
                                 <button type="submit" class="btnSearch">검색</button>
                                 <!-- 목록 -->
                                 <div class="board_list" id="userList">
-                                    <ul>
+                                    <ul class="column">
                                         <li>번호</li>
                                         <li>회원 아이디</li>
-                                        <li>닉네임</li>
-                                        <li class="sortIsEnabled" name="sort" value="" onclick="toggleEnabled(this); submitForm()" style="pointer-events: auto;" >활성화</li>
-                                        <li>등급</li>
+                                        <li class="nick" >닉네임</li>
+                                        <li class="sortIsEnabled" name="sort" value="1">활성화</li>
+                                        <li class="sortLevel" name="sortLevel" value="">등급</li>
                                         <li>구분</li>
                                         <li>가입일</li>
                                         <li>관리</li>
                                     </ul>
                                     <th:block th:if="${#lists.size(users) !=0}">
-                                        <ul th:each="user,i:${users}">
+                                        <ul th:each="user,i:${users}" id="userTable">
                                             <li>[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
                                             <li class="user_id" th:text="${user.user_id}">mango@gmail.com</li>
                                             <li class="user_nick" th:text="${user.nick}">고민중인흰둥이</li>
                                             <li th:text="${user.isEnabled == 0 ? '탈퇴' : (user.isLocked == 0 ? '차단' : '정상')}" th:class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}"></li>
                                             <li th:text="${user.level == 1}? '일반':'엘리트'">등급</li>
-                                            <li th:text="${user.type == 1}? '홈회원':'sns회원'">회원 구분</li>
+                                            <li th:text="${user.type == 1}? '홈회원':'SNS회원'">회원 구분</li>
                                             <li class="user_date" th:text="${user.rdate}">가입일</li>
                                             <li class="user_memo">
                                                 <button class="btnNote">메모</button>
@@ -136,7 +136,7 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
-    <script>
+<script>
     $(document).ready(function(){
         // 메모 팝업
         $(document).on('click', '.btnNote', function(e){
@@ -287,35 +287,92 @@
             });
         });
 
-        // 체크박스 유지
-        $(document).ready(function() {
-           var searchLevel = getUrlParameter('searchLevel');
-           var searchType = getUrlParameter('searchType');
-           var searchIsNoticeEnabled = getUrlParameter('searchIsNoticeEnabled');
-           var searchField = getUrlParameter('searchField');
-           var searchWord = getUrlParameter('searchWord');
 
-            if (searchLevel == '1') {
-                $('#rdGen').prop('checked', true);
-            } else if (searchLevel == '2') {
-                $('#rdElite').prop('checked', true);
+
+
+    });
+
+    $('.sortIsEnabled').click(function() {
+
+        //alert('dfdfd!');
+        //$(this).text('활성화On');
+
+        //const jsonData = {"user_id": user_id};
+        const value = $(this).val();
+
+        if(value == 1){
+            $(this).val(2);
+        }else if(value == 2){
+            $(this).val(3);
+        }else if(value == 3) {
+            $(this).val(1);
+        }
+
+        console.log('value : ' + value);
+
+        const jsonData = {"sort": value};
+
+        ajaxAPI("admin/users", jsonData, "GET").then((response) => {
+
+            //alert('ddd!');
+            console.log(response);
+
+            $("#userList > *:not('.column')").empty();
+            //$("#userTable").empty();
+
+
+            for(const [i, user] of response.users.entries()){
+
+                console.log('i : ' + i);
+                let  = user.isEnabled;
+
+
+                let tags = `<ul>
+                                <li>${response.totalCnt - response.offset - i}</li>
+                                <li class="user_id">${user.user_id}</li>
+                                <li class="user_nick">${user.nick}</li>
+                                <li class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}">${user.isEnabled == 0 ? '탈퇴' :  (user.isLocked == 0 ? '차단' : '정상')}</li>
+                                <li>${user.level == 1? '일반': '엘리트'}</li>
+                                <li>${user.type == 1? '홈회원':'SNS회원'}</li>
+                                <li>${user.rdate}</li>
+                                <li>8</li>
+                           </ul>`;
+
+                $('#userList').append(tags);
             }
 
-            if (searchType == '1') {
-                $('#rdUser').prop('checked', true);
-            } else if (searchType == '2') {
-                $('#rdBusiness').prop('checked', true);
-            }
-
-            if (searchIsNoticeEnabled == '1') {
-                $('#rdPer').prop('checked', true);
-            } else if (searchIsNoticeEnabled == '2') {
-                $('#rdDec').prop('checked', true);
-            }
-
-            $('.search_box').val(searchWord);
-
+        }).catch((errorMsg) => {
+            console.log(errorMsg);
         });
+
+    });
+    // 체크박스 유지
+    $(document).ready(function() {
+       var searchLevel = getUrlParameter('searchLevel');
+       var searchType = getUrlParameter('searchType');
+       var searchIsNoticeEnabled = getUrlParameter('searchIsNoticeEnabled');
+       var searchField = getUrlParameter('searchField');
+       var searchWord = getUrlParameter('searchWord');
+
+        if (searchLevel == '1') {
+            $('#rdGen').prop('checked', true);
+        } else if (searchLevel == '2') {
+            $('#rdElite').prop('checked', true);
+        }
+
+        if (searchType == '1') {
+            $('#rdUser').prop('checked', true);
+        } else if (searchType == '2') {
+            $('#rdBusiness').prop('checked', true);
+        }
+
+        if (searchIsNoticeEnabled == '1') {
+            $('#rdPer').prop('checked', true);
+        } else if (searchIsNoticeEnabled == '2') {
+            $('#rdDec').prop('checked', true);
+        }
+
+        $('.search_box').val(searchWord);
 
         function getUrlParameter(name) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -323,25 +380,9 @@
             var results = regex.exec(location.search);
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
+
     });
 
-    // 정렬
-    function toggleEnabled(elem) {
-        if (elem.getAttribute("value") === ""){
-            elem.setAttribute("value", "isEnabledOn");
-            elem.textContent = "활성화On";
-        }else if (elem.getAttribute("value") === "isEnabledOn"){
-            elem.setAttribute("value", "isEnabledOff");
-            elem.textContent = "활성화Off";
-        }else if (elem.getAttribute("value") === "isEnabledOff"){
-            elem.setAttribute("value", "");
-            elem.textContent = "활성화";
-        }
-    }
-
-    function submitForm() {
-        document.querySelector('.btnSearch').click();
-    }
 </script>
 </th:block>
 </html>

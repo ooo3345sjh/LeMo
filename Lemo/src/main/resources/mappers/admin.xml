@@ -17,8 +17,24 @@
         <include refid="searchType"/>
         <include refid="searchIsNoticeEnabled"/>
         <include refid="searchCondition"/>
+
+        <!--
+        <if test="">
+            order by `isLocked` asc, `isEnabled` desc, `rdate` desc
+        </if>
+        <if test="">
+            order by `isLocked` asc, `isEnabled` desc, `rdate` desc
+        </if>
+        <if test="">
+            order by `isLocked` asc, `isEnabled` desc, `rdate` desc
+        </if>
+-->
+        <!--
         <include refid="orderUser"/>
-        order by `rdate` desc limit #{offset}, 10;
+        <include refid="orderType"/>
+        <include refid="orderRdate"/>
+        -->
+        limit #{offset}, 10;
     </select>
 
     <!-- admin - user - count total users for pagination -->
@@ -29,7 +45,7 @@
         <include refid="searchType"/>
         <include refid="searchIsNoticeEnabled"/>
         <include refid="searchCondition"/>
-        <include refid="orderUser"/>
+        <!-- <include refid="orderUser"/> -->
     </select>
 
     <!-- admin - coupon - coupon list -->
@@ -137,6 +153,9 @@
 
 
     <!-- 공통 키 -->
+    <sql id="sortRdate">
+
+    </sql>
 
     <!-- 회원검색  -->
     <!-- 검색어 입력 (회원아이디/회원닉네임) -->
@@ -214,35 +233,67 @@
         <if test="sort !=null">
             <choose>
                 <when test="sort == 'isEnabledOn'">
-                    order by `isEnabled` desc
+                    ORDER BY `isLocked` ASC, `isEnabled` DESC, `rdate` DESC
                 </when>
                 <when test="sort == 'isEnabledOff'">
-                    order by `isEnabled` asc
-                </when>
-
-                <when test="sort == 'level'">
-                    order by `level` desc
-                </when>
-                <when test="sort == 'level'">
-                    order by `level` asc
-                </when>
-
-                <when test="sort == 'type'">
-                    order by `type` desc
-                </when>
-                <when test="sort == 'type'">
-                    order by `type` asc
-                </when>
-
-                <when test="sort == 'rdate'">
-                    order by `rdate` desc
-                </when>
-                <when test="sort == 'rdate'">
-                    order by `rdate` asc
+                    ORDER BY `isLocked` DESC, `isEnabled` ASC, `rdate` DESC
                 </when>
             </choose>
         </if>
+        <if test="sort == null">
+            ORDER BY `rdate` DESC
+        </if>
     </sql>
+
+    <sql id="orderLevel">
+        <if test="sortLevel !=null">
+            <choose>
+                <when test="sortLevel == 'levelOn'">
+                    ORDER BY `level` DESC, `rdate` DESC
+                </when>
+                <when test="sortLevel == 'levelOff'">
+                    ORDER BY `level` ASC, `rdate` DESC
+                </when>
+            </choose>
+        </if>
+        <if test="sortLevel == null">
+            ORDER BY `rdate` DESC
+        </if>
+    </sql>
+
+    <sql id="orderType">
+        <if test="sortType !=null">
+            <choose>
+                <when test="sort == 'typeOn'">
+                    ORDER BY `type` DESC, `rdate` DESC
+                </when>
+                <when test="sort == 'typeOff'">
+                    ORDER BY `type` ASC, `rdate` DESC
+                </when>
+            </choose>
+        </if>
+        <if test="sort == null">
+            ORDER BY `rdate` DESC
+        </if>
+    </sql>
+
+    <sql id="orderRdate">
+       <if test="sortRdate !=null">
+           <choose>
+               <when test="sort == 'rdateOn'">
+                   ORDER BY `rdate` DESC
+               </when>
+               <when test="sort == 'rdateOff'">
+                   ORDER BY `rdate` ASC
+               </when>
+           </choose>
+       </if>
+       <if test="sort == null">
+           ORDER BY `rdate` DESC
+       </if>
+   </sql>
+
+
 
     <!-- 쿠폰 검색 -->
     <sql id="searchCouponType">

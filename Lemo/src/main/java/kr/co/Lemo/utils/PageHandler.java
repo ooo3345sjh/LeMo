@@ -2,8 +2,10 @@ package kr.co.Lemo.utils;
 
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
+@ToString
 public class PageHandler {
 
     private SearchCondition sc;
