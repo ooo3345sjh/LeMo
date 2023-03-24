@@ -161,9 +161,16 @@ public class ProductController {
     @GetMapping("detailqna")
     public String detailQna(Model model,
                               @RequestParam Map map,
-                              @ModelAttribute ProductQna_SearchVO vo) throws Exception {
+                              @ModelAttribute ProductQna_SearchVO vo,
+                              @AuthenticationPrincipal UserVO myUser) throws Exception {
 
-        log.info("acc_id" + vo.getAcc_id());
+
+        String uid = "";
+        if(myUser != null) {
+            uid = myUser.getUser_id();
+        }
+
+        log.info("searchWord : " + vo.getSearchWord());
 
         vo.setMap(map);
         List<ProductQnaVO> qnas = service.findAllProductQna(vo);
@@ -175,6 +182,10 @@ public class ProductController {
 
         PageHandler pageHandler = new PageHandler(totalCnt, vo);
 
+        log.info("totalCnt : " + totalCnt);
+
+
+        model.addAttribute("user_id", uid);
         model.addAttribute("totalCnt", totalCnt);
         model.addAttribute("ph", pageHandler);
         model.addAttribute("qnas", qnas);
@@ -200,19 +211,29 @@ public class ProductController {
 
         return resultMap;
     }
+
+    // @since 2023/03/24
     @ResponseBody
-    @GetMapping("getQna")
-    public Map<String, Integer> findQna(int qna_no) {
-
+    @PostMapping("pick")
+    public Map<String, Integer> pick(@RequestBody Map map) {
         log.debug("Get rsaveQna start");
-
-        log.info("qna_no : " +qna_no );
 
         int result = 0;
 
+        log.info("map" + map);
+
+        Boolean sts = (Boolean) map.get("status");
+
+        if(!sts){ // 찜하기가 되어있지 않은 경우
+            result = service.saveProductPick(map);
+        } else if(sts){ // 찜하기가 된 경우
+
+        }
+
+
+
         Map<String, Integer> resultMap = new HashMap<>();
         resultMap.put("result", result);
-
         return resultMap;
     }
 

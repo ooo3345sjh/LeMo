@@ -26,6 +26,7 @@ public class ProductQnaVO {
     private String qna_rdate;
     private String qna_udate;
     private String qna_reply;
+    private String qna_reply_date;
     private int qna_secret;
 
     /* 추가필드 */
