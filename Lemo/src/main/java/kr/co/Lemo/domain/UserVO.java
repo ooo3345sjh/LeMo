@@ -55,6 +55,8 @@ public class UserVO implements UserDetails {
     // lemo_member_businessinfo
     private BusinessInfoVO businessInfoVO;
 
+    private Object details;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -91,4 +93,5 @@ public class UserVO implements UserDetails {
     public boolean isEnabled() {
         return isEnabled == 1;
     }
+
 }
