@@ -53,6 +53,12 @@
     </main>
 </th:block>
 <th:block layout:fragment="script"></th:block>
+<script>
+    const article = [[${csArticles}]];
+    for(var i = 0; i < article.length; i++){
+        console.log("eventBanner : " + article.cs_cs_eventbannerImg);
+    }
+</script>
 </html>
 
 

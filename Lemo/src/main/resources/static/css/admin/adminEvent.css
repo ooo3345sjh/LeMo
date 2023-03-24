@@ -408,7 +408,7 @@ main .main_content .btnAdminProd {
     color: #666666;
     font-size: 15px;
     font-weight: 500;
-    padding: 9px 12px;
+    padding: 9px 7px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
     float: right;
@@ -425,7 +425,7 @@ main .main_content .btnAdminProd > a {
         font-size: 14px;
         font-weight: 500;
         border: none;
-        padding: 12px 22px;
+        padding: 12px 24px;
 }
 main .main_content .btnAdminProd > button {
         font-size: 14px;

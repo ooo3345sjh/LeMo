@@ -29,8 +29,12 @@
             pointer-events: none;
             background-image: url(https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg);
         }
+        .event_write_img{
+            cursor: pointer;
+        }
         .event_write_img > #image {
             height: 180px;
+
         }
 
         #fileDropzone > label {
@@ -60,6 +64,7 @@
             clip: rect(0,0,0,0);
             border: 0;
         }
+
     </style>
 </th:block>
 <th:block layout:fragment="content">
@@ -89,7 +94,7 @@
                                 <table class="input_stayRoomInfo">
                                     <tr>
                                         <td>이벤트 이름</td>
-                                        <td><input type="text" name="cs_title" id="cs_title" required></td>
+                                        <td><input type="text" name="cs_title" id="cs_title" placeholder="이벤트 제목을 작성해 주세요" required></td>
                                     </tr>
                                     <tr>
                                         <td>기간</td>
@@ -106,11 +111,9 @@
                                             <div class="stayThumb">
                                                 <div id="fileDropzone">
                                                     <div class="event_write_img">
-                                                        <img id="image" style="display:none;">
+                                                        <img id="image" src="/Lemo/images/admin/eventImgUpload.JPG">
                                                     </div>
-                                                    <div id="wrap-container"></div>
-                                                    <label for="ex_file">업로드</label>
-                                                    <input type="file" name="cs_eventbannerImg" id="ex_file" accept="image/png, image/jpeg" class="insertFile" required>
+                                                    <input type="file" name="eventbannerImg[]" id="ex_file" accept="image/png, image/jpeg" class="insertFile" required>
                                                 </div>
                                             </div>
                                         </td>
@@ -122,7 +125,7 @@
                                                 <div class="dropzone" name="cs_eventViewImg" id="fileDropzone2">
                                                     <div>
                                                         <button class="dz-default dz-message" type="button">
-                                                            사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
+                                                            사진을 첨부하려면 클릭하거나 드로우 앤 드롭해주세요
                                                         </button>
                                                     </div>
                                                 </div>
@@ -132,7 +135,7 @@
                                     <tr>
                                         <td>이벤트 내용</td>
                                         <td>
-                                            <textarea id="summernote" name="cs_content" required></textarea>
+                                            <textarea id="summernote" name="cs_content" placeholder="이벤트 내용을 작성해 주세요" required></textarea>
                                         </td>
                                     </tr>
 
@@ -210,11 +213,21 @@
                 });
 
                 /** img click 보여주기 **/
-                $('label[for="ex_file"]').click(function(){
+                $('div [class="event_write_img"]').click(function(){
                     $('#image').show();
                 });
 
+                $('div.event_write_img').on('click', function() {
+                  $('input#ex_file').click();
+                });
+
+            // 타이틀 포커스
+            const cs_title = document.getElementById('cs_title');
+            cs_title.focus();
+
             });
+
+
         </script>
     <script>
 

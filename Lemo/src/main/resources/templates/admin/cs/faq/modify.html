@@ -43,12 +43,12 @@
                                             </div>
                                         </div>
                                         <div class="view_content">
-                                            <textarea th:text="${mFaq.cs_title}" name="cs_title" id="cs_title"></textarea>
+                                            <textarea th:text="${mFaq.cs_title}" name="cs_title" id="cs_title" placeholder="자주 묻는 질문의 질문 내용을 작성해 주세요" required></textarea>
                                         </div>
                                         <div class="view_recomment">
                                             <div class="write_recomment">
                                                 <div class="inner_txt">
-                                                    <textarea th:text="${mFaq.cs_content}" name="cs_content"></textarea>
+                                                    <textarea th:text="${mFaq.cs_content}" name="cs_content" placeholder="자주 묻는 질문의 답변 내용을 작성해 주세요" required></textarea>
                                                 </div>
                                                 <div class="btnSubmit">
                                                     <button class="btnAdminProd" type="submit">수정</button>
