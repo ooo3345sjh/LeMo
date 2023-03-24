@@ -5,10 +5,11 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminEvent.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+
     <!-- 드래그앤드롭 파일 업로드 -->
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-    <script th:src="@{/js/admin/dragNdrop.js}"></script>
+
     <!-- summernote -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -17,28 +18,54 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script th:src="@{/js/admin/summernote-ko-KR.js}"></script>
-    <script>
-        $(document).ready(function() {
-            $('#summernote').summernote({
-                height: 450,
-                focus: true,
-                disableDragAndDrop: true,
-                lang : 'ko-KR',
-                spellCheck: false,
-                toolbar: [
-                    // [groupName, [list of button]]
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['insert', ['table','hr']]
-                ]
-            });
-            $('#summernote').summernote('fontSize', 14);
-        });
-    </script>
+    <style>
+        .preview {
+            width: 100px;
+            height: 100px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: 999;
+            background-position: center;
+            pointer-events: none;
+            background-image: url(https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg);
+        }
+        .event_write_img{
+            cursor: pointer;
+        }
+        .event_write_img > #image {
+            height: 181px;
+            width: 1100px;
+        }
 
+        #fileDropzone > label {
+            width: 84px;
+            height: 28px;
+            margin: -5px 0px 4px 20px;
+            box-shadow: inset 0px 1px 0px 0px #ffffff;
+            background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            border: 1px solid #dcdcdc;
+            display: inline-block;
+            cursor: pointer;
+            color: #666666;
+            font-size: 15px;
+            font-weight: 500;
+            text-align: center;
+            float: left;
+            }
+        #fileDropzone > #ex_file {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
+
+    </style>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -54,8 +81,8 @@
                             <span>이벤트 수정</span>
                         </div>
 
-                        <!-- 이벤트 수정 폼 -->
-                        <form class="col_register_form" action="#">
+                        <!-- 이벤트 등록 폼 -->
+                        <form class="col_register_form" th:action="@{/admin/cs/event/write}" method="post" enctype="multipart/form-data">
 
                             <!-- 이벤트 정보 -->
                             <div class="col_register1">
@@ -67,14 +94,14 @@
                                 <table class="input_stayRoomInfo">
                                     <tr>
                                         <td>이벤트 이름</td>
-                                        <td><input type="text"></td>
+                                        <td><input type="text" name="cs_title" id="cs_title" placeholder="이벤트 제목을 작성해 주세요" required th:text="${mEvent.cs_title}"></td>
                                     </tr>
                                     <tr>
                                         <td>기간</td>
                                         <td>
-                                            <input class="input_130" type="date">
+                                            <input class="input_130" type="date" name="cs_eventStart" id="currentDate" value="" onchange="CharacterData(event)">
                                             &nbsp;~&nbsp;
-                                            <input class="input_130" type="date">
+                                            <input class="input_130" type="date" name="cs_eventEnd" id="endDate">
                                         </td>
                                     </tr>
 
@@ -82,12 +109,11 @@
                                         <td>배너 이미지</td>
                                         <td>
                                             <div class="stayThumb">
-                                                <div class="dropzone" id="fileDropzone">
-                                                    <div>
-                                                        <button class="dz-default dz-message" type="button">
-                                                            사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
-                                                        </button>
+                                                <div id="fileDropzone">
+                                                    <div class="event_write_img">
+                                                        <img id="image" src="/Lemo/images/admin/eventImgUpload.JPG">
                                                     </div>
+                                                    <input type="file" name="eventbannerImg[]" id="ex_file" accept="image/png, image/jpeg" class="insertFile" required>
                                                 </div>
                                             </div>
                                         </td>
@@ -96,10 +122,10 @@
                                         <td>이벤트 이미지</td>
                                         <td>
                                             <div class="stayThumb">
-                                                <div class="dropzone2" id="fileDropzone">
+                                                <div class="dropzone" name="cs_eventViewImg" id="fileDropzone2">
                                                     <div>
                                                         <button class="dz-default dz-message" type="button">
-                                                            사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
+                                                            사진을 첨부하려면 클릭해주세요
                                                         </button>
                                                     </div>
                                                 </div>
@@ -109,14 +135,15 @@
                                     <tr>
                                         <td>이벤트 내용</td>
                                         <td>
-                                            <div id="summernote"></div>
+                                            <textarea id="summernote" name="cs_content" placeholder="이벤트 내용을 작성해 주세요" required></textarea>
                                         </td>
                                     </tr>
+
                                 </table>
                             </div>
                             <div class="btnAdminProd">
-                                <a href="#">
-                                    이벤트수정
+                                <a type="submit" id="btnUpload">
+                                    이벤트등록
                                 </a>
                             </div>
                         </form>
@@ -129,6 +156,112 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+    <script th:src="@{/js/admin/dragNdrop.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
+    <script>
 
+        $(document).ready(function() {
+                $('#summernote').summernote({
+                    height: 450,
+                    focus: true,
+                    lang : 'ko-KR',
+                    spellCheck: false,
+                    disableDragAndDrop: true,
+                    toolbar: [
+                        // [groupName, [list of button]]
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough']],
+                        ['fontsize', ['fontsize']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['insert', ['table','hr']]
+                    ]
+                });
+                $('#summernote').summernote('fontSize', 14);
+            });
+
+            /** 날짜 계산**/
+
+            /* 시작 날짜 */
+            document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
+                console.log("date : " + document.getElementById('currentDate').value);
+            var today = new Date().toISOString().substring(0, 10);
+            document.getElementById('currentDate').setAttribute("min", today);
+
+            /* 종료 날짜 */
+            document.getElementById('endDate').value = new Date().toISOString().substring(0, 10);
+            var endday = new Date().toISOString().substring(0, 10);
+            document.getElementById('endDate').setAttribute("min", endday);
+
+            function CharacterData(e){
+                var endDay = e.target.value;
+                document.getElementById('endDate').setAttribute("min", endDay);
+            }
+
+            $('.col_register_form').submit(function(e){
+                e.preventDefault();
+            });
+
+            $(document).ready(function() {
+                /** 이미지 미리보기 **/
+                const fileDOM = document.querySelector('#ex_file');
+                const previews = document.querySelectorAll('#image');
+
+
+                fileDOM.addEventListener('change', () => {
+                const reader = new FileReader();
+                reader.onload = ({ target }) => {
+                    previews[0].src = target.result;
+                };
+                reader.readAsDataURL(fileDOM.files[0]);
+                });
+
+                /** img click 보여주기 **/
+                $('div [class="event_write_img"]').click(function(){
+                    $('#image').show();
+                });
+
+                $('div.event_write_img').on('click', function() {
+                  $('input#ex_file').click();
+                });
+
+            // 타이틀 포커스
+            const cs_title = document.getElementById('cs_title');
+            cs_title.focus();
+
+            });
+
+            $('#ex_file').change(function(){
+                 var img = document.getElementById("image");
+                 var file = document.getElementById("ex_file").files[0];
+
+
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function() {
+                        var image = new Image();
+                        image.src = reader.result;
+                        image.onload = function() {
+                        if (image.width < 1000 || image.height < 200) {
+                                alert("베너이미지 크기(가로 1000px이상 세로 200px 이하)에 맞춰서 올려주세요.");
+                                return;
+                            }
+                        img.src = reader.result;
+                        };
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert("파일을 선택하세요.");
+                }
+            });
+        </script>
+    <script>
+
+
+    </script>
 </th:block>
+
+
+
+
 </html>

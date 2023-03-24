@@ -120,12 +120,11 @@ public class CsService {
     }
 
     /** insert **/
-    public int rsaveEventArticle(MultipartHttpServletRequest request, Map<String, Object> parameter, MultipartFile cs_eventBanner) throws Exception {
+    public int rsaveEventArticle(MultipartHttpServletRequest request, Map<String, Object> parameter, MultipartFile cs_eventBanner) {
         Map<String, MultipartFile> fileMap = request.getFileMap();
 
-        log.info("fileMap : " + fileMap);
-
         ArrayList<String> arrFilesInfo = new ArrayList<>();
+        ArrayList<String> newArrFilesInfo = new ArrayList<>();
 
         // evnetViewImg 이름 변경
         for (MultipartFile multipartFile : fileMap.values()) {
@@ -140,27 +139,32 @@ public class CsService {
             log.info("newName : " + newName);
 
             arrFilesInfo.add(newName);
+            newArrFilesInfo.add(newName);
         }
+
+        log.info("filemap size : " + fileMap.size());
+        log.info("newArrFilesInfo size : " + newArrFilesInfo.size());
 
         String bannerNewName = new String(arrFilesInfo.get(0).getBytes());
 
         parameter.put("cs_eventbannerImg", bannerNewName);
 
         arrFilesInfo.remove(0);
+        log.info("arrFilesInfo size : " + arrFilesInfo.size());
 
         String newName = String.join("/", arrFilesInfo);
 
         parameter.put("cs_eventViewImg", newName);
 
         int result = dao.insertEventArticle(parameter);
-
+        int finalResult = 0;
         if(result == 1 ) {
             String cs_no = String.valueOf(parameter.get("cs_no"));
 
-            List<String> imgNames = uploadFile(arrFilesInfo, fileMap, bannerNewName, cs_eventBanner, cs_no);
+            finalResult = uploadFile(newArrFilesInfo, fileMap, bannerNewName, cs_eventBanner, cs_no);
         }
 
-        return 1;
+        return finalResult;
     }
 
 
@@ -209,8 +213,9 @@ public class CsService {
 
 
     /* 이미지 등록 */
-    public ArrayList<String> uploadFile(ArrayList<String> arrFilesInfo, Map<String, MultipartFile> fileMap, String bannerNewName, MultipartFile cs_eventBanner, String cs_no) {
-
+    public int uploadFile(ArrayList<String> newArrFilesInfo, Map<String, MultipartFile> fileMap, String bannerNewName, MultipartFile cs_eventBanner, String cs_no) {
+        log.info("newArrFilesInfo : "+newArrFilesInfo.size());
+        log.info("fileMap : "+fileMap.size());
         // 사진 저장
         String path = new File("C:/Users/hwangwonjin/Desktop/workspace/LeMo/Lemo/img/cs/"+cs_no ).getAbsolutePath();
 
@@ -225,22 +230,17 @@ public class CsService {
             }
         }
 
-        // 배너 이미지 저장
-        try {
-            cs_eventBanner.transferTo(new File(path, bannerNewName));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         // 이벤트 이미지 저장
         int count = 0;
+        int finalResult = 0;
         // Iterate through the map
         for (MultipartFile mf : fileMap.values()) {
 
             // 파일 저장
             try {
-                mf.transferTo(new File(path, arrFilesInfo.get(count)));
+                mf.transferTo(new File(path, newArrFilesInfo.get(count)));
                 count ++;
+                finalResult = 1;
             } catch (IllegalStateException e) {
                 log.error(e.getMessage());
             } catch (IOException e) {
@@ -248,10 +248,10 @@ public class CsService {
             }
         }
 
-        log.info("arrFileInfo" + arrFilesInfo);
+        log.info("arrFileInfo" + newArrFilesInfo);
 
 
-        return arrFilesInfo;
+        return finalResult;
     }
 
     /*fileMap에서 파일 정보 추출*/

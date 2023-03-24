@@ -33,8 +33,8 @@
             cursor: pointer;
         }
         .event_write_img > #image {
-            height: 180px;
-
+            height: 181px;
+            width: 1100px;
         }
 
         #fileDropzone > label {
@@ -125,7 +125,7 @@
                                                 <div class="dropzone" name="cs_eventViewImg" id="fileDropzone2">
                                                     <div>
                                                         <button class="dz-default dz-message" type="button">
-                                                            사진을 첨부하려면 클릭하거나 드로우 앤 드롭해주세요
+                                                            사진을 첨부하려면 클릭해주세요
                                                         </button>
                                                     </div>
                                                 </div>
@@ -142,9 +142,9 @@
                                 </table>
                             </div>
                             <div class="btnAdminProd">
-                                <button type="submit" id="btnUpload">
+                                <a type="submit" id="btnUpload">
                                     이벤트등록
-                                </button>
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -198,6 +198,10 @@
                 document.getElementById('endDate').setAttribute("min", endDay);
             }
 
+            $('.col_register_form').submit(function(e){
+                e.preventDefault();
+            });
+
             $(document).ready(function() {
                 /** 이미지 미리보기 **/
                 const fileDOM = document.querySelector('#ex_file');
@@ -227,7 +231,29 @@
 
             });
 
+            $('#ex_file').change(function(){
+                 var img = document.getElementById("image");
+                 var file = document.getElementById("ex_file").files[0];
 
+
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function() {
+                        var image = new Image();
+                        image.src = reader.result;
+                        image.onload = function() {
+                        if (image.width < 1000 || image.height < 200) {
+                                alert("베너이미지 크기(가로 1000px이상 세로 200px 이하)에 맞춰서 올려주세요.");
+                                return;
+                            }
+                        img.src = reader.result;
+                        };
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert("파일을 선택하세요.");
+                }
+            });
         </script>
     <script>
 
