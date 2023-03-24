@@ -43,6 +43,11 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/accessDenied")
+    public String accessDenied(){
+        return "/error/accessDeniedPage";
+    }
+
     /**
      * @since 2023/03/19
      * @return 로그인한 회원정보 객체

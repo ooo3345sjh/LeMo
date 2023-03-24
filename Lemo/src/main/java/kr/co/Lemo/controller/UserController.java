@@ -9,6 +9,7 @@ import kr.co.Lemo.entity.SocialEntity;
 import kr.co.Lemo.entity.UserInfoEntity;
 import kr.co.Lemo.service.SmsService;
 import kr.co.Lemo.service.UserService;
+import kr.co.Lemo.utils.RemoteAddrHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,9 @@ import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -278,7 +281,7 @@ public class UserController {
             return  "redirect:/user/hp/auth?type="+type;
 
         setSelectedTerms(userVO, termsType_no);
-        userVO.setRegip(req.getRemoteAddr());
+        userVO.setRegip(RemoteAddrHandler.getRemoteAddr(req));
         userVO.setHp(hp);
         userService.saveUser(userVO);
 
@@ -299,7 +302,12 @@ public class UserController {
         SocialEntity socialEntity = setSocialObj(map, req, principal);
         if(socialEntity != null){
             result = 1;
-            userService.saveSocial((SocialEntity) principal);
+            socialEntity = userService.saveSocial((SocialEntity) principal);
+            UserVO userVO = userService.userVoConvert(socialEntity);
+            userVO.setDetails(new WebAuthenticationDetails(RemoteAddrHandler.getRemoteAddr(req), req.getSession().getId()));
+            SecurityContextHolder.getContext().setAuthentication(
+                    new UsernamePasswordAuthenticationToken(userVO, null, socialEntity.getAuthorities())
+            );
         }
 
         map.put("result", result);
@@ -426,7 +434,8 @@ public class UserController {
                         .nick(nick)
                         .type(2)
                         .role("USER")
-                        .regip(req.getRemoteAddr())
+                        .regip(RemoteAddrHandler.getRemoteAddr(req))
+                        .level(1)
                         .isLocked(1)
                         .isEnabled(1)
                         .isPassNonExpired(1)

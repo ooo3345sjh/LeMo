@@ -5,11 +5,13 @@ import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.entity.BusinessInfoEntity;
 import kr.co.Lemo.entity.UserEntity;
 import kr.co.Lemo.entity.UserInfoEntity;
+import kr.co.Lemo.utils.RemoteAddrHandler;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -35,17 +37,18 @@ public class HomeLoginSuccessHandler extends LoginSuccessHandler implements Auth
         Object principal = authentication.getPrincipal();
 
         UserVO user = userVoConvert(principal);
+        user.setDetails(new WebAuthenticationDetails(RemoteAddrHandler.getRemoteAddr(request), request.getSession().getId()));
 
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(user, null, List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())))
         );
-//        if(user.getIsEnabled() != 1){
-//            redirectStrategy.sendRedirect(request, response, "/user/login?error=W");
-//            return;
-//        } else if(user.getIsLocked() != 1){
-//            redirectStrategy.sendRedirect(request, response, "/user/login?error=L");
-//            return;
-//        }
+        if(user.getIsEnabled() != 1){
+            redirectStrategy.sendRedirect(request, response, "/user/login?error=W");
+            return;
+        } else if(user.getIsLocked() != 1){
+            redirectStrategy.sendRedirect(request, response, "/user/login?error=L");
+            return;
+        }
         loginSuccessPage(request, response);
     }
 

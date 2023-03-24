@@ -7,6 +7,7 @@ import kr.co.Lemo.entity.SocialEntity;
 import kr.co.Lemo.entity.UserEntity;
 import kr.co.Lemo.entity.UserInfoEntity;
 import kr.co.Lemo.repository.SocialRepo;
+import kr.co.Lemo.utils.RemoteAddrHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -16,6 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -74,6 +76,7 @@ public class SocialLoginSuccessHandler extends LoginSuccessHandler implements Au
 
         session.removeAttribute("principal");
         UserVO userVO = userVoConvert(user);
+        userVO.setDetails(new WebAuthenticationDetails(RemoteAddrHandler.getRemoteAddr(request), request.getSession().getId()));
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(userVO, null, userVO.getAuthorities())
         );
