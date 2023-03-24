@@ -222,11 +222,14 @@ main .main_content .col2 {
     text-align: center;
 }
 main .main_content .col2 .board_list {
-    border-top: 1px solid #bbb;
+    border-top: 1px solid #dbdbdb;
     border-collapse: collapse;
+    color: #505050;
+    margin-top: 30px;
+    margin-bottom: 15px;
 }
 main .main_content .col2 .board_list ul {
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #dbdbdb;
 }
 main .main_content .col2 .board_list ul:first-child {
     background: #F7F7F7;
@@ -235,8 +238,8 @@ main .main_content .col2 .board_list li {
     display: inline-block;
     height: 32px;
     font-size: 14px;
-    padding-top: 7px;
     text-align: center;
+    line-height: 32px;
 }
 main .main_content .col2 .board_list .prodName {
     text-align: left;
@@ -255,7 +258,7 @@ main .main_content .col2 .board_list li:nth-of-type(3) {width: 40%;}
 main .main_content .col2 .board_list li:nth-of-type(4) {width: 10%;}
 main .main_content .col2 .board_list li:nth-of-type(5) {width: 10%;}
 main .main_content .col2 .board_list li:nth-of-type(6) {width: 10%;}
-main .main_content .col2 .board_list li:nth-of-type(7) {width: 10%;}
+main .main_content .col2 .board_list li:nth-of-type(7) {width: 12%;}
 main .main_content .col2 .board_list .prodBtn > span {
     box-shadow: inset 0px 1px 0px 0px #ffffff;
     background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);

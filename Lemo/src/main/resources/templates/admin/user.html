@@ -16,25 +16,6 @@
             <section class="main_content">
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
-                        <div class="col0">
-                            <form th:action="@{/admin/user}">
-                                <div class="selectProd">
-                                    <select name="searchField">
-                                        <option value="userId" th:selected="${ph.sc.searchField == 'userId'}">회원 아이디</option>
-                                        <option value="userNick" th:selected="${ph.sc.searchField == 'userNick'}">회원 닉네임</option>
-                                    </select>
-                                </div>
-                                <div class="searchProd">
-                                    <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}"/>
-                                    <button type="submit" class="btnSearch">
-                                        <img th:src="@{/images/admin/btn_search.png}">
-                                    </button>
-                                </div>
-                                <button type="button" class="download_list">
-                                    엑셀 다운로드
-                                </button>
-                            </form>
-                        </div>
                         <div class="col_nav">
                             <span>회원관리 ></span>
                             <span>회원목록</span>
@@ -42,86 +23,90 @@
                         <div class="col2">
                             <form th:action="@{/admin/user}">
                                 <!-- 선택 -->
-                                <div class="select_user_type">
-                                    <table>
-                                        <tr>
-                                            <th>상태</th>
-                                            <td>
-                                                <input type="radio" name="searchIsEnabled" value="1"><span>정상</span>
-                                            </td>
-                                            <td>
-                                                <input type="radio" name="searchIsEnabled" value="0"><span>탈퇴</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>등급</th>
-                                            <td>
-                                                <input type="radio" name="searchLevel" value="1"><span>일반</span>
-                                            </td>
-                                            <td>
-                                                <input type="radio" name="searchLevel" value="2"><span>엘리트</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>구분</th>
-                                            <td>
-                                                <input type="radio" name="searchType" value="1"><span>홈회원</span>
-                                            </td>
-                                            <td><input type="radio" name="searchType" value="2"><span>SNS회원</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3"><input type="submit" value="검색" class="btnSelectUser"></td>
-                                        </tr>
-                                    </table>
+                                <div>
+                                <span class="search_user_tit">회원검색</span>
+                                <table class="search_user_table">
+                                    <tr>
+                                        <th>회원등급</th>
+                                        <td>
+                                            <input type="radio" name="searchLevel" value="1" id="rdGen"><label for="rdGen">일반</label>
+                                            <input type="radio" name="searchLevel" value="2" id="rdElite"><label for="rdElite">엘리트</label>
+                                        </td>
+                                        <th>회원구분</th>
+                                        <td>
+                                            <input type="radio" name="searchType" value="1" id="rdUser"><label for="rdUser">일반</label>
+                                            <input type="radio" name="searchType" value="2" id="rdBusiness"><label for="rdBusiness">판매자</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>알림동의여부</th>
+                                        <td>
+                                            <input type="radio" name="searchIsNoticeEnabled" value="1" id="rdPer"><label for="rdPer">수신허용</label>
+                                            <input type="radio" name="searchIsNoticeEnabled" value="0" id="rdDec"><label for="rdDec">수신거부</label>
+                                        </td>
+                                        <th>검색</th>
+                                        <td>
+                                            <select name="searchField" class="searchField">
+                                                <option value="userId" th:selected="${ph.sc.searchField == 'userId'}">아이디</option>
+                                                <option value="userNick" th:selected="${ph.sc.searchField == 'userNick'}">닉네임</option>
+                                                <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요"/>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
                                 </div>
+                                <button type="submit" class="btnSearch">검색</button>
                                 <!-- 목록 -->
                                 <div class="board_list" id="userList">
                                     <ul>
                                         <li>번호</li>
                                         <li>회원 아이디</li>
                                         <li>닉네임</li>
-                                        <li>상태</li>
+                                        <li class="sortIsEnabled" name="sort" value="" onclick="toggleEnabled(this); submitForm()" style="pointer-events: auto;" >활성화</li>
                                         <li>등급</li>
                                         <li>구분</li>
                                         <li>가입일</li>
-                                        <li style="text-align: right;">관리</li>
-                                        <li></li>
+                                        <li>관리</li>
                                     </ul>
-                                    <ul th:each="user,i:${users}">
-                                        <li>[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
-                                        <li class="user_id" th:text="${user.user_id}">mango@gmail.com</li>
-                                        <li class="user_nick" th:text="${user.nick}">고민중인흰둥이</li>
-                                        <li th:text="${user.isEnabled == 0 ? '탈퇴' : (user.isLocked == 0 ? '차단' : '정상')}" th:class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}"></li>
-                                        <li th:text="${user.level == 1}? '일반':'엘리트'">등급</li>
-                                        <li th:text="${user.type == 1}? '홈회원':'sns회원'">회원 구분</li>
-                                        <li class="user_date" th:text="${user.rdate}">가입일</li>
-                                        <li class="user_memo">
-                                            <button class="btnNote">메모</button>
-                                            <!-- 메모 팝업 -->
-                                            <dialog id="d_Memo">
-                                                <form method="dialog">
-                                                    <section>
-                                                        <nav class="d_tit">
-                                                            <h1 class="d_tit2">메모</h1>
-                                                            <input type="text" class="d_id">
-                                                        </nav>
-                                                        <div class="d_box">
-                                                            <textarea class="d_content" placeholder="메모 내용을 작성하세요" th:text="${user.memo}"></textarea>
-                                                        </div>
-                                                        <div class="rr_btn">
-                                                            <button class="btnRclose" id="btnCloseModal2" value="close" type="reset">닫기</button>
-                                                            <button type="button" class="btnRsubmit" id="btnCloseModal3" >작성</button>
-                                                        </div>
-                                                    </section>
-                                                </form>
-                                            </dialog>
+                                    <th:block th:if="${#lists.size(users) !=0}">
+                                        <ul th:each="user,i:${users}">
+                                            <li>[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
+                                            <li class="user_id" th:text="${user.user_id}">mango@gmail.com</li>
+                                            <li class="user_nick" th:text="${user.nick}">고민중인흰둥이</li>
+                                            <li th:text="${user.isEnabled == 0 ? '탈퇴' : (user.isLocked == 0 ? '차단' : '정상')}" th:class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}"></li>
+                                            <li th:text="${user.level == 1}? '일반':'엘리트'">등급</li>
+                                            <li th:text="${user.type == 1}? '홈회원':'sns회원'">회원 구분</li>
+                                            <li class="user_date" th:text="${user.rdate}">가입일</li>
+                                            <li class="user_memo">
+                                                <button class="btnNote">메모</button>
+                                                <!-- 메모 팝업 -->
+                                                <dialog id="d_Memo">
+                                                    <form method="dialog">
+                                                        <section>
+                                                            <nav class="d_tit">
+                                                                <h1 class="d_tit2">메모</h1>
+                                                                <input type="hidden" class="d_id">
+                                                            </nav>
+                                                            <div class="d_box">
+                                                                <textarea class="d_content" placeholder="메모 내용을 작성하세요" th:text="${user.memo}"></textarea>
+                                                            </div>
+                                                            <div class="rr_btn">
+                                                                <button class="btnRclose" id="btnCloseModal2" value="close" type="reset">닫기</button>
+                                                                <button type="button" class="btnRsubmit" id="btnCloseModal3" >작성</button>
+                                                            </div>
+                                                        </section>
+                                                    </form>
+                                                </dialog>
+                                                <button th:if="${user.isLocked == 1}" class="btnBlockUser" type="button" id="btnBlockUser" th:value="${user.user_id}">차단</button>
+                                                <button th:if="${user.isLocked == 0}" class="btnClearUser" type="button" id="btnClearUser" th:value="${user.user_id}">해제</button>
+                                            </li>
 
-                                        </li>
-                                        <li class="user_manage">
-                                            <button th:if="${user.isLocked == 1}" class="btnBlockUser" type="button" id="btnBlockUser" th:value="${user.user_id}">회원차단</button>
-                                            <button th:if="${user.isLocked == 0}" class="btnClearUser" type="button" id="btnClearUser" th:value="${user.user_id}">차단해제</button>
-                                        </li>
-                                    </ul>
+                                        </ul>
+                                    </th:block>
+                                    <th:block th:if="${#lists.size(users) ==0}">
+                                        <span class="noResult">해당 회원이 없습니다.</span>
+                                    </th:block>
+
                                 </div>
                                 <div class="pagination" th:object="${ph}" th:style="${#lists.size(users) == 0 ? 'visibility:hidden;':''}">
 
@@ -165,11 +150,11 @@
         });
         $('.btnRclose').click(function(e){
             e.preventDefault();
-            alert('here2');
             $(this).closest('li').find('#d_Memo').hide();
         });
-        // input 엔터키 submit 막기
-        $('input[type="text"]').keydown(function() {
+
+        // 메모 팝업 - input 엔터키 submit 막기 btnCloseModal3
+        $('.btnRsubmit').keydown(function() {
             if (event.keyCode === 13) {
                 event.preventDefault();
             };
@@ -177,21 +162,60 @@
 
         // 검색 키워드 하이라이트
         const searchField = document.querySelector('select[name=searchField]');
-        const searchWord = document.querySelector('input[name=searchWord]');
 
-        $(function (){
-            if(searchField.options[searchField.selectedIndex].value === "userId"){
-                $('.user_id').highlight(searchWord.value);
-            }
-            else if(searchField.options[searchField.selectedIndex].value === "userNick"){
-                $('.user_nick').highlight(searchWord.value);
-            }
-        })
+        function highlightSearchKeyword() {
+          const searchWord = document.querySelector('input[name=searchWord]');
+
+          if (searchField.options[searchField.selectedIndex].value === "userId") {
+            $('.user_id').highlight(searchWord.value);
+          } else if (searchField.options[searchField.selectedIndex].value === "userNick") {
+            $('.user_nick').highlight(searchWord.value);
+          }
+        }
+
+        // 페이지 로드 시 함수 호출
+        $(function() {
+          highlightSearchKeyword();
+        });
+
+        // 검색 후 함수 호출
+        $('form[name=userSearchForm]').submit(function(event) {
+          highlightSearchKeyword();
+        });
+
+        // 검색 키워드가 변경 시 함수 호출
+        $('input[name=searchWord]').on('input', function() {
+          highlightSearchKeyword();
+        });
+
+        // URL로부터 parameter 가져오기
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchTerm = urlParams.get('searchWord');
+
+        // 하이라이트
+        if(searchTerm) {
+          if (searchField.options[searchField.selectedIndex].value === "userId") {
+            $('.user_id').highlight(searchTerm);
+          } else if (searchField.options[searchField.selectedIndex].value === "userNick") {
+            $('.user_nick').highlight(searchTerm);
+          }
+        }
+
+        // 제출버튼
+        $('form').on('submit', function() {
+          // URL에 검색 쿼리 매개 변수 추가
+          const url = $(this).attr('action') + '?' + $(this).serialize();
+
+          // 검색 후 url로부터 parameter 가져오기
+          window.location.href = url;
+          return false;
+        });
+
+
 
         // 메모 작성
         $('.btnRsubmit').click(function(e){
             e.preventDefault();
-            alert('click the submit button');
 
             let user_id = $(this).parent().prev().prev().find('.d_id').val();
             let memo = $(this).parent().prev().children().val();
@@ -263,8 +287,61 @@
             });
         });
 
+        // 체크박스 유지
+        $(document).ready(function() {
+           var searchLevel = getUrlParameter('searchLevel');
+           var searchType = getUrlParameter('searchType');
+           var searchIsNoticeEnabled = getUrlParameter('searchIsNoticeEnabled');
+           var searchField = getUrlParameter('searchField');
+           var searchWord = getUrlParameter('searchWord');
 
+            if (searchLevel == '1') {
+                $('#rdGen').prop('checked', true);
+            } else if (searchLevel == '2') {
+                $('#rdElite').prop('checked', true);
+            }
+
+            if (searchType == '1') {
+                $('#rdUser').prop('checked', true);
+            } else if (searchType == '2') {
+                $('#rdBusiness').prop('checked', true);
+            }
+
+            if (searchIsNoticeEnabled == '1') {
+                $('#rdPer').prop('checked', true);
+            } else if (searchIsNoticeEnabled == '2') {
+                $('#rdDec').prop('checked', true);
+            }
+
+            $('.search_box').val(searchWord);
+
+        });
+
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
     });
+
+    // 정렬
+    function toggleEnabled(elem) {
+        if (elem.getAttribute("value") === ""){
+            elem.setAttribute("value", "isEnabledOn");
+            elem.textContent = "활성화On";
+        }else if (elem.getAttribute("value") === "isEnabledOn"){
+            elem.setAttribute("value", "isEnabledOff");
+            elem.textContent = "활성화Off";
+        }else if (elem.getAttribute("value") === "isEnabledOff"){
+            elem.setAttribute("value", "");
+            elem.textContent = "활성화";
+        }
+    }
+
+    function submitForm() {
+        document.querySelector('.btnSearch').click();
+    }
 </script>
 </th:block>
 </html>

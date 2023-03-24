@@ -18,13 +18,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Admin_SearchVO extends SearchCondition {
 
-    private Integer searchIsEnabled;
-    private Integer searchLevel;
-    private Integer searchType;
+    private Integer searchIsEnabled;        // 회원 검색 - 계정활성화여부
+    private Integer searchLevel;            // 회원 검색 - 회원등급 (일반/엘리트)
+    private Integer searchType;             // 회원 검색 - 회원구분 (일반/판매자)
+    private String sort;               // 회원 검색 - 회원정렬
     private String searchCouponRole;
     private String searchAccName;
     private Integer acc_id;
     private String searchAccType;
+    private String searchIsNoticeEnabled;   // 회원 검색 - 알림동의여부
 
 
 }
