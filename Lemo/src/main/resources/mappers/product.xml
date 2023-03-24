@@ -22,8 +22,8 @@
         `qna_secret` = #{qna_secret};
     </insert>
 
-    <insert id="insertProductPick" parameterType="map">
-
+    <insert id="insertProductPick" parameterType="hashmap">
+        INSERT INTO `lemo_product_pick` VALUES(#{acc_id}, #{user_id});
     </insert>
 
     <!-- select-->
@@ -75,13 +75,6 @@
         WHERE `user_id` = #{user_id};
     </select>
 
-    <select id="selectDiaries" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
-        SELECT b.* FROM `lemo_product_reservation` AS a
-        JOIN `lemo_diary_article` AS b
-        ON a.res_no = b.res_no
-        WHERE `acc_id` = #{acc_id} ;
-    </select>
-
     <select id="selectProductQnas" resultType="kr.co.Lemo.domain.ProductQnaVO">
         SELECT a.*, b.acc_name, c.nick  FROM `lemo_product_qna` AS a
         JOIN `lemo_product_accommodation` AS b
@@ -105,10 +98,33 @@
         </if>;
     </select>
 
+    <select id="getTotalProductDiary" resultType="int">
+        SELECT count(`arti_no`) FROM `lemo_diary_article` AS a
+        JOIN `lemo_product_reservation` AS b
+        ON a.res_no = b.res_no
+        WHERE `acc_id` = #{acc_id}
+    </select>
+
+    <select id="selectProductPick" resultType="int">
+        SELECT COUNT(*) FROM `lemo_product_pick` WHERE `acc_id` = #{acc_id} AND `user_id` = #{user_id};
+    </select>
+
+    <select id="selectProductDiaries" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
+        SELECT a.*, b.acc_id FROM `lemo_diary_article` AS a
+        JOIN `lemo_product_reservation` AS b
+        ON a.res_no = b.res_no
+        WHERE `acc_id` = #{acc_id}
+        LIMIT #{offset}, 10;
+    </select>
+
 
     <!-- update -->
 
     <!-- delete -->
+    <delete id="deleteProductPick">
+        DELETE FROM `lemo_product_pick` WHERE `acc_id` = #{acc_id} AND `user_id` = #{user_id}
+    </delete>
+
 
     <!-- 공통 키 -->
 

@@ -1171,8 +1171,10 @@
 .detail_diary {
     display: none;
     width: 1000px;
-    height: 1000px;
+    height: auto;
     margin: 0 auto;
+    margin-bottom : 100px;
+    overflow: auto;
 }
 
 .detail_diary > span::before {

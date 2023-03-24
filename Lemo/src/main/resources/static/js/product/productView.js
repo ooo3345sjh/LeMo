@@ -227,8 +227,6 @@ $(function(){
     page = 'view';
 
 
-
-
    /* 찜하기 */
     $(document).on('click', '#pick', function(){
 
@@ -240,7 +238,7 @@ $(function(){
         let status = $(this).hasClass('on');
 
         jsonData = {
-            "uid" : uid,
+            "user_id" : uid,
             "acc_id" : acc_id,
             "status" : status
         }
@@ -249,7 +247,6 @@ $(function(){
 
         ajaxAPI("product/pick", jsonData, "POST").then((response) => {
             if(response.result > 0 ) {
-
                 if(!status) { // 찜하기
                     $(this).addClass('on');
                 }else { // 찜해제
@@ -259,13 +256,6 @@ $(function(){
         }).catch((errorMsg) => {
             console.log(errorMsg)
         });
-
-
-
-
-
-
-
 
     });
 
@@ -379,12 +369,44 @@ $(function(){
             return;
         }
 
-        let href = "/Lemo/product/detailqna?searchWord="+keyword;
+        let href = "/Lemo/product/detailqna?searchWord="+keyword+"&acc_id="+acc_id;
 
         $('#detail_qna').load(href, function() {
             console.log('load complete!');
         });
     });
 
+    /* 여행일기 스크롤시 게시글 가져오기 */
+    $(document).on('scroll', function(){
+
+        let scrollT = $(document).scrollTop(); // 페이지 스크롤 top 높이
+        let scrollH = $(document).height(); // 전체 페이지의 높이
+        let contentH = $('#detail_diary').height(); // 여행일기 content 높이
+
+        if(scrollT > contentH){
+            let status = $('#showDiary').hasClass('on');
+            if(status) { // 여행일기 탭이 열려 있을 경우
+                let currentPage = parseInt($('.diary_list li:last-child').attr('data-page'));
+                let endPage = parseInt($('.diary_list li:last-child').attr('data-endpage'));
+                let page = currentPage + 1;
+
+                // 마지막 페이지이면 데이터 불러오는거 중지
+                if(page > endPage) {return false;}
+
+                $.ajax({
+                    url: '/Lemo/product/detaildiary?acc_id='+acc_id+"&page="+page,
+                    success: function(response) {
+                        // 응답 결과를 jQuery객체로 변환후 html 추출후 append
+                        let html = $('<div>').html(response).find('.diary_list').html();
+                        $('.diary_list').append(html);
+                    }
+                });
+            }
+        }
+/*
+        console.log("scrollT : " + scrollT);
+        console.log("scrollH : " + scrollH);
+        console.log("contentH : " + contentH);*/
+    });
 });
 

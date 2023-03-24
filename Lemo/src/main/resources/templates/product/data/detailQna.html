@@ -83,7 +83,7 @@
             </div>
         </div>
         <!-- 페이징 -->
-        <div class="paging" th:object="${ph}" th:unless="${qnas.size()==0}">
+        <div class="paging" th:object="${ph}" th:if="${qnas.size() > 0}">
             <span class="prev" th:if="*{showPrev}">
                 <a th:href="@{/product/detailqna} + ${ph.sc.getQueryString(ph.beginPage-1)}" onclick="movePage(event,this)"></a>
             </span>
