@@ -51,6 +51,11 @@ public class ProductService {
         return dao.insertQna(qna);
     }
 
+    // @since 2023/03/24
+    public int saveProductPick(Map map){
+        return dao.insertProductPick(map);
+    };
+
     // select
 
     // @since 2023/03/09

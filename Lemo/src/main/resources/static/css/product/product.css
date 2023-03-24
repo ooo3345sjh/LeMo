@@ -2543,7 +2543,12 @@ margin-left: 25px;
 
     /* 문의 답변 */
     .tb_board .answerwrap {
+        display: none;
         word-break: break-all;
+    }
+
+    .tb_board .answerwrap.on {
+        display: table-row;
     }
 
     .tb_board.tb_qna tr.answerwrap td {

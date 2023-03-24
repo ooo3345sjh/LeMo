@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @since 2023/03/09
@@ -22,6 +23,9 @@ public interface ProductDAO {
 
     // @since 2023/03/21
     public int insertQna(ProductQnaVO qna);
+
+    // @since 2023/03/24
+    public int insertProductPick(Map map);
 
     // select
     public int countTotal(SearchCondition sc);

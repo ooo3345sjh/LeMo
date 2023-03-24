@@ -157,7 +157,7 @@
                                         </article>
                                     </li>
                                 </ul>
-                                <div class="paging" th:object="${ph}">
+                                <div class="paging" th:object="${ph}" th:unless="${accs.size() == 0}">
                                     <span th:if="*{showPrev}">
                                         <a th:href="@{/product/list} + ${ph.sc.getQueryString(ph.beginPage-1)}">
                                             <img th:src="@{/images/product/left.png}" alt="previous">

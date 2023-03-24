@@ -46,28 +46,9 @@ function loadData(cate, acc_id) {
 function movePage(event,obj){
     event.preventDefault();
     let href = $(obj).attr('href');
-    alert(href);
 
     $('#detail_qna').load(href, function() {
         console.log('load complete!');
-    });
-}
-
-/* 문의글 답변 가져오기 */
-function getQNA(event, obj) {
-
-    event.preventDefault();
-    let qna_no = $(obj).parent().parent().attr('id');
-
-    ajaxAPI("product/getQna?qna_no=" +qna_no, null, "GET").then((response) => {
-        if(response.result > 0) {
-            alert("성공");
-        }
-        else {
-            console.log("실패..");
-        }
-    }).catch((errorMsg) => {
-        console.log(errorMsg)
     });
 }
 
@@ -242,7 +223,7 @@ $(function(){
             $('.info_seller').removeClass('on');
         }
     });
-
+    /* daterangepicker 구분용 변수 */
     page = 'view';
 
 
@@ -251,13 +232,40 @@ $(function(){
    /* 찜하기 */
     $(document).on('click', '#pick', function(){
 
+        if(uid == "") {
+            alert("로그인을 하셔야 찜하기가 가능합니다.");
+            return false;
+        }
+
         let status = $(this).hasClass('on');
 
-        if(!status) {
-            $(this).addClass('on');
-        }else {
-            $(this).removeClass('on');
+        jsonData = {
+            "uid" : uid,
+            "acc_id" : acc_id,
+            "status" : status
         }
+
+        console.log(jsonData);
+
+        ajaxAPI("product/pick", jsonData, "POST").then((response) => {
+            if(response.result > 0 ) {
+
+                if(!status) { // 찜하기
+                    $(this).addClass('on');
+                }else { // 찜해제
+                    $(this).removeClass('on');
+                }
+            }
+        }).catch((errorMsg) => {
+            console.log(errorMsg)
+        });
+
+
+
+
+
+
+
 
     });
 
@@ -294,7 +302,6 @@ $(function(){
 
 
     /* 문의하기 등록 */
-
    $(document).on('click', '.bt_confirm', function(){
 
         let title = $('#qa_title').val();
@@ -334,7 +341,6 @@ $(function(){
                 // qna 탭 새로 고침
                 let cate = 'qna';
                 loadData(cate, acc_id);
-
             }
             else {
                 alert("실패");
@@ -342,8 +348,43 @@ $(function(){
         }).catch((errorMsg) => {
             console.log(errorMsg)
         });
-
    })
+
+   /* 문의 답변 보기 */
+    $(document).on('click', '.qt_tit > a', function(e){
+        e.preventDefault();
+        let qna_no = $(this).parent().parent().attr('id').slice(1);
+        let qnacontent = $('#a' + qna_no);
+
+        if($(this).attr('data-locked') == 1) {
+            alert('비밀글은 작성자만 조회할 수 있습니다.'); return;
+        }
+
+        let status = $(qnacontent).hasClass('on');
+        if(status) {
+            qnacontent.removeClass('on');
+        }else {
+            qnacontent.addClass('on');
+        }
+    });
+
+    /* 문의글 검색 */
+    $(document).on('click', '.btn_sch', function() {
+
+        let keyword = $('#inputSearch').val();
+
+        // 검색어가 없을 경우
+        if(keyword.trim().length == 0) {
+            alert('검색어를 입력해 주세요.');
+            return;
+        }
+
+        let href = "/Lemo/product/detailqna?searchWord="+keyword;
+
+        $('#detail_qna').load(href, function() {
+            console.log('load complete!');
+        });
+    });
 
 });
 
