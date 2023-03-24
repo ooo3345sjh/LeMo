@@ -58,7 +58,7 @@
                                         <span>제목</span>
                                     </div>
                                 </div>
-                                <input class="input_stayName" type="text" name="cs_title" th:value="${mNotice.cs_title}">
+                                <input class="input_stayName" type="text" id="cs_title" name="cs_title" th:value="${mNotice.cs_title}" placeholder="공지사항의 제목을 입력하세요.">
                                 <span class="result_stayName">
                                     💡 [안내], [발표] 등 말머리를 붙여주세요.
                                 </span>
@@ -92,7 +92,11 @@
 </th:block>
 <th:block layout:fragment="script">
     <script>
-
+       $(document).ready(function() {
+             // 타이틀 포커스
+            const cs_title = document.getElementById('cs_title');
+            cs_title.focus();
+            });
     </script>
 </th:block>
 </html>

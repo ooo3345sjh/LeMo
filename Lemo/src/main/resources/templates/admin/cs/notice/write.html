@@ -43,7 +43,7 @@
                                         <span>제목</span>
                                     </div>
                                 </div>
-                                <input class="input_stayName" name="cs_title" type="text" placeholder="공지사항의 제목을 입력하세요.">
+                                <input class="input_stayName" id="cs_title" name="cs_title" type="text" placeholder="공지사항의 제목을 입력하세요.">
                                 <span class="result_stayName">
                                     💡 [안내], [발표] 등 말머리를 붙여주세요.
                                 </span>
@@ -95,10 +95,9 @@
                 });
                 $('#summernote').summernote('fontSize', 14);
 
-
-
-
-
+             // 타이틀 포커스
+            const cs_title = document.getElementById('cs_title');
+            cs_title.focus();
             });
         </script>
     </th:block>

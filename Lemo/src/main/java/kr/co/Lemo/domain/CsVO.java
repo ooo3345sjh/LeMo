@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @since 2023/03/08
@@ -30,7 +29,7 @@ public class CsVO {
     private String cs_regip;
     private String cs_rdate;
     private String cs_reply;
-    private MultipartFile cs_eventbannerImg;
+    private String cs_eventbannerImg;
     private String cs_eventViewImg;
     private String cs_eventStart;
     private String cs_eventEnd;

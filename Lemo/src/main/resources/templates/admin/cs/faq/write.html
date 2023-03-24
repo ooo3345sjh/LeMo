@@ -42,7 +42,7 @@
                                             </div>
                                         </div>
                                         <div class="view_content">
-                                            <textarea placeholder="자주 묻는 질문의 질문 내용을 작성해 주세요" name="cs_title" required></textarea>
+                                            <textarea placeholder="자주 묻는 질문의 질문 내용을 작성해 주세요" name="cs_title" id="cs_title" required></textarea>
                                         </div>
                                         <div class="view_recomment">
                                             <div class="write_recomment">
@@ -75,7 +75,9 @@
 <th:block layout:fragment="script">
     <script th:src="@{/js/cs/cs_type-form.js}"></script>
     <script>
-
+        // 타이틀 포커스
+        const cs_title = document.getElementById('cs_title');
+        cs_title.focus();
     </script>
 </th:block>
 </html>

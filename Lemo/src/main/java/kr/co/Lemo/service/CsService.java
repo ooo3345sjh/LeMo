@@ -36,7 +36,6 @@ public class CsService {
 
         log.info("cs_cate : " + sc.getCs_cate());
         int totalCnt = dao.countEventArticles(sc.getCs_cate());
-        log.info("total : " + totalCnt);
         int totalPage = (int) Math.ceil(totalCnt / (double)sc.getPageSize());
 
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
@@ -143,7 +142,7 @@ public class CsService {
             arrFilesInfo.add(newName);
         }
 
-        String bannerNewName = arrFilesInfo.get(0);
+        String bannerNewName = new String(arrFilesInfo.get(0).getBytes());
 
         parameter.put("cs_eventbannerImg", bannerNewName);
 
