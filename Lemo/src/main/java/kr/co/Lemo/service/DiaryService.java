@@ -80,20 +80,20 @@ public class DiaryService {
                 long diff = d1.getTime() - d2.getTime();
 
                 if(diff > 86400000) {
-                    log.debug("24시간 이후 작성");
+                    //log.debug("24시간 이후 작성");
                     vo.setBefore24H(vo.getCom_rdate().substring(0,10));
                 }else if(diff < 86400000 && diff >= 3600000) {
-                    log.debug("24시간 이전 작성");
+                    //log.debug("24시간 이전 작성");
                     long diffHours = diff / (60 * 60 * 1000);
-                    log.debug(diffHours  + "시간 전");
+                    //log.debug(diffHours  + "시간 전");
                     vo.setBefore24H(diffHours  + "시간 전");
                 }else if(diff < 3600000 && diff >= 60000) {
-                    log.debug("1시간 이전 작성");
+                    //log.debug("1시간 이전 작성");
                     long diffMinutes = diff / (60 * 1000);
-                    log.debug(diffMinutes + "분 전");
+                    //log.debug(diffMinutes + "분 전");
                     vo.setBefore24H(diffMinutes + "분 전");
                 }else {
-                    log.debug("diff"+diff);
+                    //log.debug("diff"+diff);
                     vo.setBefore24H("방금 전");
                 }
             }

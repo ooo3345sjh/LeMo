@@ -290,7 +290,7 @@ h3 {
     position: absolute;
     left: 0;
     bottom: -25px;
-    width: 196px; height: 130px;
+    width: 196px;
     margin-left: -102px;
     text-align: left;
     overflow: hidden;
@@ -315,6 +315,43 @@ h3 {
 }
 
 .spot_close {
+    position: absolute;
+    top: 9px; right: 7px;
+    color: #888;
+    width: 12px; height: 12px;
+    background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png);
+    background-size: 12px;
+}
+
+.diary_spot_wrap {
+    position: absolute;
+    left: 76px;
+    bottom: -31px;
+    width: 196px;
+    margin-left: -102px;
+    text-align: left;
+    overflow: hidden;
+    font-size: 10px;
+}
+
+.diary_spot_title {
+    padding: 5px 0 0 10px;
+    height: 30px;
+    background: #bbd444;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.diary_spot_content {
+    padding: 5px 0 0 10px;
+    height: 30px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    font-size: 13px;
+}
+
+.diary_spot_close {
     position: absolute;
     top: 9px; right: 7px;
     color: #888;
@@ -530,6 +567,32 @@ button {cursor: pointer;}
     bottom: 18px;
     float: right;
     width: 15px;
+}
+
+.place > button {
+    width: 30px; height: 30px;
+    position: relative;
+    bottom: 27px;
+    float: right;
+    margin-right: 20px;
+    background-image: url(/Lemo/images/diary/delete.png);
+    background-color: transparent;
+    background-size: 30px;
+    border: none;
+    font-size: 0;
+}
+
+.place > button:hover {
+    width: 30px; height: 30px;
+    position: relative;
+    bottom: 27px;
+    float: right;
+    margin-right: 20px;
+    background-image: url(/Lemo/images/diary/recycle-bin.png);
+    background-color: transparent;
+    background-size: 30px;
+    border: none;
+    font-size: 0;
 }
 
 .place > .arrow.on {
