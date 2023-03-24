@@ -11,6 +11,8 @@ $(function(){
         let endPoint = listHeight - mapHeight;
         //console.log(position + currentPosition);
 
+        console.log(endPoint);
+
         if( scrollTop < boxOffsetTop ){
             point = 0;
         }else if( endPoint < 0 ){

@@ -17,14 +17,6 @@ function mapPosition(lat, lng){
     map.relayout();
 }
 
-function foldMap(){
-    $('.my_diary_list').css({'width' : '610px'});
-    $('#my_diary_listMap').css({ 'width' : '280px' });
-    $('#my_diary_listMap').css({ 'margin-left' : '0' });
-    $('.foldMap').css({ 'display' : 'none' });
-    $('.foldMap').css({ 'cursor' : 'pointer' });
-}
-
 $(function(){
     /** 카카오맵 - 스크롤 따라 이동 */
     $(window).scroll(function() {
@@ -39,6 +31,8 @@ $(function(){
         //console.log(position + currentPosition);
 
         if( scrollTop < boxOffsetTop ){
+            point = 0;
+        }else if( endPoint < 0 ){
             point = 0;
         }else if( scrollTop > endPoint ) {
             point = endPoint-30;
