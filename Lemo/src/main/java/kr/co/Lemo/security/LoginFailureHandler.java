@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
@@ -48,8 +50,11 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         else if(exception.getClass() == LockedException.class)
             error = "L";
 
-        else
-            error = "500";
+        else if(exception.getClass() == BadCredentialsException.class)
+            error = "NE";
+
+        else if(exception.getClass() == CredentialsExpiredException.class)
+            error = "PNE";
 
         redirectStrategy.sendRedirect(request, response, "/user/login/error?error="+error);
     }

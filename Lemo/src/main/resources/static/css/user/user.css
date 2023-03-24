@@ -240,6 +240,11 @@ section  div > input {
     background-size: 18px auto;
 }
 
+.ico_email.on::after{
+    background: url('../../images/user/ico_inp_mail.png') 0 50% no-repeat;
+    background-size: 18px auto;
+}
+
 .ico_pw::after {
     top: 15px;
     left: 16px;
@@ -247,7 +252,11 @@ section  div > input {
     height: 15px;
     background: url('../../images/user/ico_inp_pw.png') 50% 0 no-repeat;
     background-size: 14px auto;
+}
 
+.ico_pw.on::after {
+    background: url('../../images/user/ico_inp_pw.png') 50% 50% no-repeat;
+    background-size: 14px auto;
 }
 
 

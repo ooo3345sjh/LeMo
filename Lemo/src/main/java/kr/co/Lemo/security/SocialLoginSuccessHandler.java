@@ -62,6 +62,16 @@ public class SocialLoginSuccessHandler extends LoginSuccessHandler implements Au
             return;
         }
 
+        if(!user.isEnabled()){
+            redirectStrategy.sendRedirect(request, response, "/user/login/error?error=W");
+            return;
+        }
+
+        else if(!user.isAccountNonLocked()){
+            redirectStrategy.sendRedirect(request, response, "/user/login/error?error=L");
+            return;
+        }
+
         session.removeAttribute("principal");
         UserVO userVO = userVoConvert(user);
         SecurityContextHolder.getContext().setAuthentication(

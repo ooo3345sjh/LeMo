@@ -44,18 +44,18 @@
                 <!-- 유효성 검사에 어긋나면 div에 inp_error 클래스를 추가, label의 display 속성을 none->block 으로 변경 -->
                 <div class="inp_type1 ico_email form-errors">
                     <input type="email" name="username" placeholder="이메일 주소" required class="required" aria-invalid="true">
-                    <label class="error">이메일 주소를 입력해주세요</label>
+                    <label class="error email">이메일 주소를 입력해주세요</label>
                 </div>
                 <div class="inp_type1 ico_pw form-errors">
                     <input type="password" name="password" placeholder="비밀번호" required class="required" aria-invalid="true">
-                    <label class="error">비밀번호를 입력해주세요</label>
+                    <label class="error password">비밀번호를 입력해주세요</label>
                 </div>
                 <button type="submit" class="login">
                     <span>로그인</span>
                 </button>
                 <div class="link_half">
                     <div>
-                        <a href="#"><span>비밀번호 재설정</span></a>
+                        <a th:href="@{/user/pw/reset}"><span>비밀번호 재설정</span></a>
                     </div>
                     <div>
                         <a th:href="@{/user/join}"><span>회원가입</span></a>
@@ -85,9 +85,89 @@
            else if(error === "W")
                getSwal("탈퇴한 회원입니다.\n24시간후에 재가입할 수 있습니다.");
 
-           else if(error === "500")
+           else if(error === "NE")
+               getSwal("일치하는 회원이 없습니다.");
+
+           else if(error === "PNE"){
+
+               Swal.fire({
+                   html: '<p style="font-size:18px; font-weight:bold;">비밀번호를 변경한지 3개월이 지났습니다. <br>개인정보 보안을 위해 비밀번호를 변경 후 이용해 주시기 바랍니다.</p>',
+                   icon: 'warning',
+                   showCancelButton: true,
+                   confirmButtonColor: '#3085d6',
+                   cancelButtonColor: '#d33',
+                   confirmButtonText: '비밀번호 변경',
+                   cancelButtonText: '다음에 변경'
+               }).then((result) => {
+                    console.log(result);
+                    if(result.isConfirmed === true){
+                        location.href = contextPath + "user/pw/reset?isPassNonExpired=true";
+                    }
+               })
+           }
+
+           else
                getSwal("로그인에 실패했습니다.\n잠시후에 다시 시도해주세요.");
        }
+
+
+       $(function (){
+
+           // regex
+           const reEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
+           // Input
+           const usernameInput = $('input[name=username]');
+           const passwordInput =  $('input[name=password]');
+
+           // div
+           const usernameDiv = $('.ico_email');
+           const passwordDiv = $('.ico_pw');
+
+           // msg
+           const usernameMsg = $('.error.email');
+           const passwordMsg = $('.error.password');
+
+           usernameInput.on('keyup focusout', function (){
+               const user_id = usernameInput.val();
+               if(!reEmail.test(user_id)){
+                   usernameMsg.show();
+                   usernameDiv.addClass('inp_error');
+               }
+
+               else {
+                   usernameMsg.hide();
+                   usernameDiv.removeClass('inp_error');
+               }
+           });
+
+           passwordInput.on('keyup focusout', function (){
+               const password = $(this).val();
+               if(password === ""){
+                   passwordMsg.show();
+                   passwordDiv.addClass('inp_error');
+               }
+               else {
+                   passwordMsg.hide();
+                   passwordDiv.removeClass('inp_error');
+               }
+           })
+
+           usernameInput.focusin(function (){
+               usernameDiv.addClass('on');
+           });
+
+           usernameInput.focusout(function (){
+               usernameDiv.removeClass('on');
+           });
+
+           passwordInput.focusin(function (){
+               passwordDiv.addClass('on');
+           });
+           passwordInput.focusout(function (){
+               passwordDiv.removeClass('on');
+           });
+       });
     </script>
 </th:block>
 </html>

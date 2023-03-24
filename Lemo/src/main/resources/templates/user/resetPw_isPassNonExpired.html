@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/user-layout">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/user/user.css}">
+</th:block>
+<th:block layout:fragment="content">
+
+    <main id="resetPW">
+        <section>
+            <form action="#">
+                <div class="title">
+                    <strong class="logo">
+                        <img th:src="@{/images/index/lemo_logo-removebg-preview.png}" alt="">
+                        <a th:href="@{/}">LEMO</a>
+                    </strong>
+                </div>
+                <div class="common resetPw">
+                    <strong class="sub_title">비밀번호 재설정</strong>
+
+                    <section id="section2">
+                        <b>비밀번호</b>
+                        <div class="inp_type2 form-errors">
+                            <input type="password" name="pass1" placeholder="비밀번호를 입력해주세요.">
+                            <label id="pass1_msg" class="validate_msg"></label>
+
+                        </div>
+
+                        <b>비밀번호 확인</b>
+                        <div class="inp_type2 form-errors">
+                            <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요.">
+                            <label id="pass2_msg" class="validate_msg"></label>
+                        </div>
+                    </section>
+
+                    <!-- 유효성 검사 통과 시 class에 on 추가 -->
+                    <button type="button" class="btn_link on" id="signup_btn" disabled="disabled">
+                        <span>확인</span>
+                    </button>
+                </div>
+
+            </form>
+        </section>
+    </main>
+
+</th:block>
+<th:block layout:fragment="script"></th:block>
+</html>
+
