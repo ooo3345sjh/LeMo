@@ -9,14 +9,15 @@
  -->
 <mapper namespace="kr.co.Lemo.dao.AdminDAO">
 
-    <!-- admin - user - list (user+business+admin) -->
+    <!-- 관리자 - 회원 목록 -->
     <select id="selectUser" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.UserVO">
         select * from `lemo_member_userinfo`
         where 1=1
-        <include refid="searchCondition"/>
-        <include refid="searchIsEnabled"/>
         <include refid="searchLevel"/>
         <include refid="searchType"/>
+        <include refid="searchIsNoticeEnabled"/>
+        <include refid="searchCondition"/>
+        <include refid="orderUser"/>
         order by `rdate` desc limit #{offset}, 10;
     </select>
 
@@ -24,10 +25,11 @@
     <select id="countUser" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
         select count(*) from `lemo_member_userinfo`
         where 1=1
-        <include refid="searchCondition"/>
-        <include refid="searchIsEnabled"/>
         <include refid="searchLevel"/>
         <include refid="searchType"/>
+        <include refid="searchIsNoticeEnabled"/>
+        <include refid="searchCondition"/>
+        <include refid="orderUser"/>
     </select>
 
     <!-- admin - coupon - coupon list -->
@@ -135,8 +137,9 @@
 
 
     <!-- 공통 키 -->
-    <!-- include :: sql 구문 재사용 -->
+
     <!-- 회원검색  -->
+    <!-- 검색어 입력 (회원아이디/회원닉네임) -->
     <sql id="searchCondition">
         <if test="searchField != null">
             <choose>
@@ -150,6 +153,7 @@
         </if>
     </sql>
 
+    <!-- 계정활성화여부 (정상/탈퇴) -->
     <sql id="searchIsEnabled">
         <if test="searchIsEnabled != null">
             <choose>
@@ -163,6 +167,21 @@
         </if>
     </sql>
 
+    <!-- 알림동의여부 -->
+    <sql id="searchIsNoticeEnabled">
+        <if test="searchIsNoticeEnabled != null">
+            <choose>
+                <when test="searchIsNoticeEnabled == 1">
+                    and `isNoticeEnabled`=1
+                </when>
+                <when test="searchIsNoticeEnabled == 0">
+                    and `isNoticeEnabled`=0
+                </when>
+            </choose>
+        </if>
+    </sql>
+
+    <!-- 회회원등급 (일반/엘리트) -->
     <sql id="searchLevel">
         <if test="searchLevel != null">
             <choose>
@@ -176,14 +195,50 @@
         </if>
     </sql>
 
+    <!-- 회원구분 (일반/판매자) -->
     <sql id="searchType">
         <if test="searchType != null">
             <choose>
                 <when test="searchType == 1">
-                    and `type`=1
+                    and `role`='USER'
                 </when>
                 <when test="searchType == 2">
-                    and `type`=2
+                    and `role`='BUSINESS'
+                </when>
+            </choose>
+        </if>
+    </sql>
+
+    <!-- 회원 구분 (정렬) -->
+    <sql id="orderUser">
+        <if test="sort !=null">
+            <choose>
+                <when test="sort == 'isEnabledOn'">
+                    order by `isEnabled` desc
+                </when>
+                <when test="sort == 'isEnabledOff'">
+                    order by `isEnabled` asc
+                </when>
+
+                <when test="sort == 'level'">
+                    order by `level` desc
+                </when>
+                <when test="sort == 'level'">
+                    order by `level` asc
+                </when>
+
+                <when test="sort == 'type'">
+                    order by `type` desc
+                </when>
+                <when test="sort == 'type'">
+                    order by `type` asc
+                </when>
+
+                <when test="sort == 'rdate'">
+                    order by `rdate` desc
+                </when>
+                <when test="sort == 'rdate'">
+                    order by `rdate` asc
                 </when>
             </choose>
         </if>

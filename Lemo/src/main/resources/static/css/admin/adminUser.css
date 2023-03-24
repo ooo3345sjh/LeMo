@@ -229,8 +229,8 @@ main .select_user_type > table td {
 main .select_user_type > table td > input {
     margin-right: 6px;
     vertical-align: middle;
-
 }
+main .select_user_type label {}
 main .btnSelectUser {
     box-shadow: inset 0px 1px 0px 0px #ffffff;
     background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
@@ -276,17 +276,113 @@ main .select_user_type .on {
     font-weight: 600;
 }
 
+main .search_user_tit {
+    width: 100%;
+    display: block;
+    text-align: left;
+    font-size: 17px;
+    margin: 10px;
+    font-weight: 500;
+}
+main .search_user_table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #dbdbdb;
+}
+main .search_user_table tr {
+    height: 43px;
+}
+main .search_user_table th {
+    font-size: 13px;
+    text-align: left;
+    border-bottom: 1px solid #dbdbdb;
+    border-left: 1px solid #dbdbdb;
+    padding-left: 17px
+}
+main .search_user_table td {
+    font-size: 13px;
+    text-align: left;
+    border-bottom: 1px solid #dbdbdb;
+    border-left: 1px solid #dbdbdb;
+    padding-left: 17px
+}
+main .search_user_table th {
+    background: #f0f0f0;
+}
+main .search_user_table th:first-child, td:first-child {
+    border-left: none;
+}
+main .search_user_table label {
+    font-size: 13px;
+    color: #252525;
+    padding-left: 3px;
+    padding-right: 15px;
+}
+main .search_user_table input {
 
-
-
+}
+main .searchField {
+    font-size: 13px;
+    width: 80px;
+    height: 28px;
+    border: 1px solid #dbdbdb;
+}
+main .search_box {
+    font-size: 13px;
+    width: 250px;
+    height: 28px;
+    border: 1px solid #dbdbdb;
+    margin-left: 5px;
+    padding-left: 5px;
+}
+main .search_box::placeholder {
+    font-size: 13px;
+    color: #dcdee0;
+    font-weight: 100;
+}
+main .noResult {
+    font-size: 15px;
+    font-weight: 300;
+    width: 100%;
+    display: block;
+    margin-top: 37px;
+}
+main .btnSearch {
+    margin: 15px 0;
+    margin-left: 8px;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 5px 32px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+main .btnSearch:hover {
+    background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
+    background-color:#e9e9e9;
+}
+main .btnSearch:active {
+    position:relative;
+	top:1px;
+}
 
 
 main .main_content .col2 .board_list {
-    border-top: 1px solid #bbb;
+    border-top: 1px solid #dbdbdb;
     border-collapse: collapse;
+    color: #505050;
+    margin-top: 30px;
+    margin-bottom: 15px;
 }
 main .main_content .col2 .board_list ul {
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #dbdbdb;
 }
 main .main_content .col2 .board_list ul:first-child {
     background: #F7F7F7;
@@ -295,8 +391,8 @@ main .main_content .col2 .board_list li {
     display: inline-block;
     height: 32px;
     font-size: 14px;
-    padding-top: 7px;
     text-align: center;
+    line-height: 44px;
 }
 main .main_content .col2 .board_list .prodName {
     text-align: left;
@@ -312,8 +408,7 @@ main .main_content .col2 .board_list li:nth-of-type(4) {width: 10%;}
 main .main_content .col2 .board_list li:nth-of-type(5) {width: 10%;}
 main .main_content .col2 .board_list li:nth-of-type(6) {width: 10%;}
 main .main_content .col2 .board_list li:nth-of-type(7) {width: 14%;}
-main .main_content .col2 .board_list li:nth-of-type(8) {width: 7%;}
-main .main_content .col2 .board_list li:nth-of-type(9) {width: 7%;}
+main .main_content .col2 .board_list li:nth-of-type(8) {width: 14%;}
 main .main_content .col2 .board_list .prodBtn > span {
     box-shadow: inset 0px 1px 0px 0px #ffffff;
     background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
@@ -330,16 +425,12 @@ main .main_content .col2 .board_list .prodBtn > span {
 }
 main .user_id {
     text-align: left !important;
-    padding-left: 5px;
+    padding-left: 25px;
 }
 main .user_date {
     font-family: 고딕;
 }
 main .user_memo {
-    text-align: right !important;
-}
-main .user_manage {
-   text-align: left!important;
 }
 main .btnNote {
     box-shadow: inset 0px 1px 0px 0px #ffffff;

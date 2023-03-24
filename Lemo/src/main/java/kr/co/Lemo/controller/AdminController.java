@@ -59,7 +59,7 @@ public class AdminController {
         return "admin/stats";
     }
 
-    // @since 2023/03/09
+    // @since 2023/03/09 관리자 회원 - 회원 목록
     @GetMapping("user")
     public String user(Model model,
                        @RequestParam Map map,
@@ -73,7 +73,7 @@ public class AdminController {
         return "admin/user";
     }
 
-    // @since 2023/03/09 관리자 회원 메모 작성
+    // @since 2023/03/09 관리자 회원 - 메모 작성
     @ResponseBody
     @PostMapping("updateMemo")
     public Map<String, Integer> updateMemo(@RequestBody Map map) throws Exception {
@@ -90,7 +90,7 @@ public class AdminController {
         return resultMap;
     }
 
-    // @since 2023/03/10 관리자 회원 차단
+    // @since 2023/03/10 관리자 회원 - 회원 차단
     @ResponseBody
     @PostMapping("updateIsLocked")
     public Map<String, Integer> updateIsLocked(@RequestBody Map map) throws Exception {
