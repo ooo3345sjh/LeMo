@@ -289,10 +289,7 @@ public class AdminController {
         return "admin/cs/faq/list";
     }
 
-    @GetMapping("cs/event/modify")
-    public String event_modify(){
-        return "admin/cs/event/modify";
-    }
+
 
 
 
@@ -322,12 +319,12 @@ public class AdminController {
      * @author 황원진
      */
     @GetMapping("cs/{cs_cate}/modify")
-    public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model Model){
+    public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
         if("notice".equals(cs_cate)){
             log.info("noticeModify");
             CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
-            Model.addAttribute("mNotice", noticeArticle);
-            Model.addAttribute("cs_no", cs_no);
+            model.addAttribute("mNotice", noticeArticle);
+            model.addAttribute("cs_no", cs_no);
 
             return "admin/cs/notice/modify";
 
@@ -337,13 +334,27 @@ public class AdminController {
             log.info("faqContent : " +faqArticle.getCs_content());
             log.info("faqTitle : " +faqArticle.getCs_title());
 
-            Model.addAttribute("mFaq", faqArticle);
-            Model.addAttribute("cs_no", cs_no);
+            model.addAttribute("mFaq", faqArticle);
+            model.addAttribute("cs_no", cs_no);
+
+            return "admin/cs/faq/modify";
+        }else if("event".equals(cs_cate)){
+            log.info("eventModify");
+            CsVO eventArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+            log.info("eventContent : " +eventArticle.getCs_content());
+            log.info("eventTitle : " +eventArticle.getCs_title());
+
+            model.addAttribute("mEvent", eventArticle);
+            model.addAttribute("cs_no", cs_no);
         }
-        return "admin/cs/faq/modify";
+        return "admin/cs/event/modify";
     }
 
 
+    @GetMapping("cs/event/modify")
+    public String event_modify(){
+        return "admin/cs/event/modify";
+    }
     /**
      * @since 2023/03/15
      * @author 황원진
@@ -420,12 +431,7 @@ public class AdminController {
                 log.debug(""+multipartFile.getOriginalFilename());
             }
 
-            try{
-                csService.rsaveEventArticle(request, parameter, cs_eventBanner);
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            int result = csService.rsaveEventArticle(request, parameter, cs_eventBanner);
         }
         return "redirect:/admin/cs/event/list";
     }

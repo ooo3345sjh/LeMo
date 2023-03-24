@@ -29,42 +29,64 @@ Dropzone.autoDiscover=false;
                // 최초 dropzone 설정시 init을 통해 호출
                  console.log('최초 실행');
                  let myDropzone = this; // closure 변수 (화살표 함수 쓰지않게 주의)
+                 let title = document.querySelector('input[name="cs_title"]');
+                 let content = document.querySelector('textarea[name="cs_content"]');
+                 let eventBanner = document.querySelector('input[name="eventbannerImg[]"]');
+
+                 let fileInput = $('#ex_file');
+                    myDropzone.on("sending", function(file, xhr, formData){
+                         formData.append("cs_title", $('input[name="cs_title"]').val());
+                         formData.append("cs_content", $('textarea[name="cs_content"]').val());
+                         formData.append("cs_eventStart", $('input[name="cs_eventStart"]').val());
+                         formData.append("cs_eventEnd", $('input[name="cs_eventEnd"]').val());
+                         formData.append("cs_eventBanner", fileInput[0].files[0]);
+                    });
 
 
 
-               // 서버에 제출 submit 버튼 이벤트 등록
-               document.querySelector('#btnUpload').addEventListener('click', function () {
+                   // 서버에 제출 submit 버튼 이벤트 등록
+                   document.querySelector('#btnUpload').addEventListener('click', function (e) {
+
+                        console.log("업로드1", myDropzone.files);
+
+                        if(title.value.trim() === ''){
+                            alert('이벤트 이름을 입력하세요');
+                            title.focus();
+                            return;
+                        }
+
+                        if(content.value.trim() === ''){
+                            alert('이벤트 내용을 입력하세요');
+                            content.focus();
+                            return;
+                        }
+
+                        if(eventBanner.files.length === 0){
+                            alert('베너 이미지를 선택하세요');
+                            eventBanner.focus();
+                            return;
+                        }
 
 
-                   console.log("업로드1", myDropzone.files);
-
-                      for( data in myDropzone)
+                        for( data in myDropzone)
                               console.log("myDropZone : " + JSON.stringify(data));
 
-                          // 거부된 파일이 있다면
-                          if (myDropzone.getRejectedFiles().length > 0) {
-                             let files = myDropzone.getRejectedFiles();
-                             console.log('거부된 파일이 있습니다.', files);
-                             return;
-                          }
-
-
+                        // 거부된 파일이 있다면
+                        if (myDropzone.getRejectedFiles().length > 0) {
+                         let files = myDropzone.getRejectedFiles();
+                         console.log('거부된 파일이 있습니다.', files);
+                         return;
+                        }
 
                         myDropzone.processQueue(); // autoProcessQueue: false로 해주었기 때문에, 메소드 api로 파일을 서버로 제출
-                     });
-
-                    let fileInput = $('#ex_file');
-                   myDropzone.on("sending", function(file, xhr, formData){
-                        formData.append("cs_title", $('input[name="cs_title"]').val());
-                        formData.append("cs_content", $('textarea[name="cs_content"]').val());
-                        formData.append("cs_eventStart", $('input[name="cs_eventStart"]').val());
-                        formData.append("cs_eventEnd", $('input[name="cs_eventEnd"]').val());
-                        formData.append("cs_eventBanner", fileInput[0].files[0]);
 
 
+                    });
 
+                     myDropzone.on('success', function (file, responseText) {
 
-                     });
+                        location.href = "/Lemo/admin/cs/event/list";
+                      });
                },
           });
      });
