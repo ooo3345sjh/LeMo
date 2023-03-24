@@ -1,7 +1,7 @@
 package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.*;
-import kr.co.Lemo.domain.search.ProductQna_SearchVO;
+import kr.co.Lemo.domain.search.ProductDetail_SearchVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
 import kr.co.Lemo.service.ProductService;
 import kr.co.Lemo.utils.PageHandler;
@@ -89,6 +89,15 @@ public class ProductController {
         // 판매자 정보 가져오기
         BusinessInfoVO bv = service.findBusinessInfo(user_id);
 
+        // 숙소 찜 여부 가져오기
+
+        int result = 0;
+
+        if(uid != ""){
+            result = service.findProductPick(acc_id, uid);
+        }
+
+        model.addAttribute("result", result);
         model.addAttribute("uid", uid);
         model.addAttribute("scs", scs);
         model.addAttribute("bv", bv);
@@ -107,6 +116,108 @@ public class ProductController {
     @GetMapping("result")
     public String result() throws Exception{
         return "product/result";
+    }
+
+    @GetMapping("detaildiary")
+    public String detailDiary(Model model,
+                              @RequestParam Map map,
+                              @ModelAttribute ProductDetail_SearchVO vo) {
+
+
+        log.info("vo : " +vo);
+
+        vo.setMap(map);
+        List<ArticleDiaryVO> diaries = service.findAllProductDiaries(vo);
+
+        // 페이징
+        int totalCnt = service.getTotalProductDiary(vo); // 전체 게시물 개수
+        int totalPage = (int)Math.ceil(totalCnt / (double)vo.getPageSize());  // 전체 페이지의 수
+        if(vo.getPage() > totalPage) vo.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, vo);
+
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("diaries", diaries);
+
+        return "product/data/detailDiary";
+    }
+
+    @GetMapping("detailreview")
+    public String detailReview() {
+
+        return "product/data/detailReview";
+    }
+
+    // @since 2023/03/22
+    @GetMapping("detailqna")
+    public String detailQna(Model model,
+                              @RequestParam Map map,
+                              @ModelAttribute ProductDetail_SearchVO vo,
+                              @AuthenticationPrincipal UserVO myUser) throws Exception {
+
+        String uid = "";
+        if(myUser != null) {
+            uid = myUser.getUser_id();
+        }
+
+        vo.setMap(map);
+        List<ProductQnaVO> qnas = service.findAllProductQna(vo);
+
+        // 페이징
+        int totalCnt = service.getTotalProductQna(vo); // 전체 게시물 개수
+        int totalPage = (int)Math.ceil(totalCnt / (double)vo.getPageSize());  // 전체 페이지의 수
+        if(vo.getPage() > totalPage) vo.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, vo);
+
+
+        model.addAttribute("user_id", uid);
+        model.addAttribute("totalCnt", totalCnt);
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("qnas", qnas);
+
+        return "product/data/detailQna";
+    }
+
+    // @since 2023/03/22
+    @ResponseBody
+    @PostMapping("rsaveQna")
+    public Map<String, Integer> rsaveQna(@RequestBody ProductQnaVO qna, HttpServletRequest req) {
+
+        log.debug("Get rsaveQna start");
+
+        int result = 0;
+
+        qna.setQna_regip(req.getRemoteAddr());
+
+        result = service.rsaveQna(qna);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
+    // @since 2023/03/24
+    @ResponseBody
+    @PostMapping("pick")
+    public Map<String, Integer> pick(@RequestBody Map map) {
+
+        log.debug("Get pick start");
+
+        int result = 0;
+
+        Boolean sts = (Boolean) map.get("status");
+
+        if(!sts){ // 찜하기가 되어있지 않은 경우
+            result = service.saveProductPick(map);
+        } else if(sts){ // 찜하기가 된 경우
+            result = service.deleteProductPick(map);
+        }
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+        return resultMap;
     }
 
     // @since 2023/03/19
@@ -142,99 +253,5 @@ public class ProductController {
         }
         return "product/list";
     }*/
-
-    @GetMapping("detaildiary")
-    public String detailDiary() {
-
-
-
-        return "product/data/detailDiary";
-    }
-
-    @GetMapping("detailreview")
-    public String detailReview() {
-
-        return "product/data/detailReview";
-    }
-
-    // @since 2023/03/22
-    @GetMapping("detailqna")
-    public String detailQna(Model model,
-                              @RequestParam Map map,
-                              @ModelAttribute ProductQna_SearchVO vo,
-                              @AuthenticationPrincipal UserVO myUser) throws Exception {
-
-
-        String uid = "";
-        if(myUser != null) {
-            uid = myUser.getUser_id();
-        }
-
-        log.info("searchWord : " + vo.getSearchWord());
-
-        vo.setMap(map);
-        List<ProductQnaVO> qnas = service.findAllProductQna(vo);
-
-        // 페이징
-        int totalCnt = service.getTotalProductQna(vo); // 전체 게시물 개수
-        int totalPage = (int)Math.ceil(totalCnt / (double)vo.getPageSize());  // 전체 페이지의 수
-        if(vo.getPage() > totalPage) vo.setPage(totalPage);
-
-        PageHandler pageHandler = new PageHandler(totalCnt, vo);
-
-        log.info("totalCnt : " + totalCnt);
-
-
-        model.addAttribute("user_id", uid);
-        model.addAttribute("totalCnt", totalCnt);
-        model.addAttribute("ph", pageHandler);
-        model.addAttribute("qnas", qnas);
-
-        return "product/data/detailQna";
-    }
-
-    // @since 2023/03/22
-    @ResponseBody
-    @PostMapping("rsaveQna")
-    public Map<String, Integer> rsaveQna(@RequestBody ProductQnaVO qna, HttpServletRequest req) {
-
-        log.debug("Get rsaveQna start");
-
-        int result = 0;
-
-        qna.setQna_regip(req.getRemoteAddr());
-
-        result = service.rsaveQna(qna);
-
-        Map<String, Integer> resultMap = new HashMap<>();
-        resultMap.put("result", result);
-
-        return resultMap;
-    }
-
-    // @since 2023/03/24
-    @ResponseBody
-    @PostMapping("pick")
-    public Map<String, Integer> pick(@RequestBody Map map) {
-        log.debug("Get rsaveQna start");
-
-        int result = 0;
-
-        log.info("map" + map);
-
-        Boolean sts = (Boolean) map.get("status");
-
-        if(!sts){ // 찜하기가 되어있지 않은 경우
-            result = service.saveProductPick(map);
-        } else if(sts){ // 찜하기가 된 경우
-
-        }
-
-
-
-        Map<String, Integer> resultMap = new HashMap<>();
-        resultMap.put("result", result);
-        return resultMap;
-    }
 
 }

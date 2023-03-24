@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.Lemo.dao.ProductDAO;
 import kr.co.Lemo.domain.*;
-import kr.co.Lemo.domain.search.ProductQna_SearchVO;
+import kr.co.Lemo.domain.search.ProductDetail_SearchVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
 import kr.co.Lemo.utils.PageHandler;
 import kr.co.Lemo.utils.SearchCondition;
@@ -159,7 +159,11 @@ public class ProductService {
     }
 
     // @since 2023/03/22
-    public List<ProductQnaVO> findAllProductQna(ProductQna_SearchVO vo){
+    public List<ProductQnaVO> findAllProductQna(ProductDetail_SearchVO vo){
+        log.debug("serachwdrd"+vo.getSearchWord());
+
+        log.debug("list"+dao.selectProductQnas(vo));
+
         return dao.selectProductQnas(vo);
     }
 
@@ -168,9 +172,28 @@ public class ProductService {
         return dao.getTotalProductQna(sc);
     }
 
+    // @since 2023/03/24
+    public int getTotalProductDiary(SearchCondition sc){
+        return dao.getTotalProductDiary(sc);
+    }
+
+    // @since 2023/03/24
+    public int findProductPick(int acc_id, String user_id){
+        return dao.selectProductPick(acc_id, user_id);
+    }
+
+    // @since 2023/03/24
+    public List<ArticleDiaryVO> findAllProductDiaries (SearchCondition sc){
+        return dao.selectProductDiaries(sc);
+    }
+
     // update
 
     // delete
+    // @since 2023/03/24
+    public int deleteProductPick(Map map){
+        return dao.deleteProductPick(map);
+    };
 
 
     /* 키워드의 위도 경도 값 반환 */

@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Id;
 import java.util.List;
 
 /**
@@ -41,4 +39,7 @@ public class ArticleDiaryVO {
 
     // @since 2023/03/13
     private List<String> spot_thumb;
+    
+    // @since 2023/03/24 @author 이해빈
+    private int acc_id;
 }

@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductQna_SearchVO extends SearchCondition {
+public class ProductDetail_SearchVO extends SearchCondition {
     private int acc_id;
     private String cate;
 

@@ -1,9 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <span>테스트 호텔</span>
     <ul class="diary_list">
-        <li><a href="#"><img src="http://placehold.it/170x235"></a></li>
-        <li><a href="#"><img src="http://placehold.it/170x235"></a></li>
-        <li><a href="#"><img src="http://placehold.it/170x235"></a></li>
-        <li><a href="#"><img src="http://placehold.it/170x235"></a></li>
+        <li th:each="diary : ${diaries}" th:attr="data-page=${ph.sc.page},data-endpage=${ph.totalPage}">
+            <a href="#">
+                <img th:if="${not #strings.contains(diary.arti_thumb,'/')}"
+                     th:src="|@{/}img/diary/${diary.arti_no}/${diary.arti_thumb}|">
+                <img th:if="${#strings.contains(diary.arti_thumb,'/')}"
+                     th:src="|@{/}img/diary/${diary.arti_no}/${#strings.substringBefore(diary.arti_thumb, '/')}}|" >
+            </a>
+        </li>
     </ul>
 </html>
