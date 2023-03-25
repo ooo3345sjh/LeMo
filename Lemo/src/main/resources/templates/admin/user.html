@@ -63,9 +63,9 @@
                                         <li>회원 아이디</li>
                                         <li class="nick" >닉네임</li>
                                         <li class="sortIsEnabled" name="sort" value="1">활성화</li>
-                                        <li class="sortLevel" name="sortLevel" value="">등급</li>
-                                        <li>구분</li>
-                                        <li>가입일</li>
+                                        <li class="sortLevel" name="sortLevel" value="4">등급</li>
+                                        <li class="sortType" value="7">구분</li>
+                                        <li class="sortRdate" value="10">가입일</li>
                                         <li>관리</li>
                                     </ul>
                                     <th:block th:if="${#lists.size(users) !=0}">
@@ -293,9 +293,11 @@
 
     });
 
+    // 활성화 정렬 (정상/차단)
     $('.sortIsEnabled').click(function() {
 
         const value = $(this).val();
+        console.log('value : ' + value);
 
         // 1(asc) -> 2(desc) -> 3( )
         if(value == 1){
@@ -306,14 +308,13 @@
             $(this).val(1);
         }
 
-        console.log('value : ' + value);
-
-        const jsonData = {"sort": value};
-        //const jsonData = {"sort": JSON.stringify(value)};
+        const jsonData = {"sorted": value};
         console.log(jsonData);
 
+        const url = `admin/users?sorted=${value}`;
 
-        ajaxAPI("admin/users", JSON.stringify(jsonData), "GET").then((response) => {
+
+        ajaxAPI(url, null, "GET").then((response) => {
             console.log(response);
 
             $("#userList > *:not('.column')").empty();
@@ -328,15 +329,170 @@
                                 <li>${user.level == 1? '일반': '엘리트'}</li>
                                 <li>${user.type == 1? '홈회원':'SNS회원'}</li>
                                 <li>${user.rdate}</li>
-                                <li>8</li>
+                                <li>
+                                    <button class="btnNote">메모</button>
+                                    <dialog id="d_Memo">
+                                        <form method="dialog">
+                                            <section>
+                                                <nav class="d_tit">
+                                                    <h1 class="d_tit2">메모</h1>
+                                                    <input type="hidden" class="d_id">
+                                                </nav>
+                                                <div class="d_box">
+                                                    <textarea class="d_content" placeholder="메모 내용을 작성하세요" text="${user.memo}"></textarea>
+                                                </div>
+                                                <div class="rr_btn">
+                                                    <button class="btnRclose" id="btnCloseModal2" value="close" type="reset">닫기</button>
+                                                    <button type="button" class="btnRsubmit" id="btnCloseModal3" >작성</button>
+                                                </div>
+                                            </section>
+                                        </form>
+                                    </dialog>
+                                    <button data-action="${user.isLocked == 1? 'block':'clear'}" class="btnBlockUser" type="button" id="btnBlockUser" value="${user.user_id}">차단</button>
+                                    <button data-action="${user.isLocked == 0? 'block':'clear'}" class="btnClearUser" type="button" id="btnClearUser" value="${user.user_id}">해제</button>
+                                </li>
                            </ul>`;
                 $('#userList').append(tags);
             }
         }).catch((errorMsg) => {
             console.log(errorMsg);
         });
+    });
+
+    // 등급 정렬 (일반/엘리트)
+    $('.sortLevel').click(function(){
+
+         const value = $(this).val();
+         console.log('value : ' + value);
+
+        // 4(desc) -> 5(asc) -> 6( )
+         if(value == 4){
+             $(this).val(5);
+         }else if(value == 5){
+             $(this).val(6);
+         }else if(value == 6) {
+             $(this).val(4);
+         }
+
+         const jsonData = {"sorted": value};
+         console.log(jsonData);
+
+         const url = `admin/users?sorted=${value}`;
+
+        ajaxAPI(url, null, "GET").then((response) => {
+            console.log(response);
+
+            $("#userList > *:not('.column')").empty();
+
+            for(const [i, user] of response.users.entries()){
+                console.log('i : ' + i);
+                let  = user.isEnabled;
+                let tags = `<ul>
+                                <li>${response.totalCnt - response.offset - i}</li>
+                                <li class="user_id">${user.user_id}</li>
+                                <li class="user_nick">${user.nick}</li>
+                                <li class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}">${user.isEnabled == 0 ? '탈퇴' :  (user.isLocked == 0 ? '차단' : '정상')}</li>
+                                <li>${user.level == 1? '일반': '엘리트'}</li>
+                                <li>${user.type == 1? '홈회원':'SNS회원'}</li>
+                                <li>${user.rdate}</li>
+                                <li>8</li>
+                           </ul>`;
+                $('#userList').append(tags);
+        }
+        }).catch((errorMsg) => {
+        console.log(errorMsg);
+        });
+    });
+
+    // 구분 정렬 (홈회원/SNS회원)
+    $('.sortType').click(function(){
+        const value = $(this).val();
+        console.log('value : ' + value);
+
+        // 7(desc) -> 8(asc) -> 9( )
+        if(value == 7){
+            $(this).val(8);
+        }else if(value == 8){
+            $(this).val(9);
+        }else if(value == 9) {
+            $(this).val(7);
+        }
+
+        const jsonData = {"sorted": value};
+        console.log(jsonData);
+
+        const url = `admin/users?sorted=${value}`;
+
+        ajaxAPI(url, null, "GET").then((response) => {
+            console.log(response);
+
+            $("#userList > *:not('.column')").empty();
+
+            for(const [i, user] of response.users.entries()){
+                console.log('i : ' + i);
+                let  = user.isEnabled;
+                let tags = `<ul>
+                                <li>${response.totalCnt - response.offset - i}</li>
+                                <li class="user_id">${user.user_id}</li>
+                                <li class="user_nick">${user.nick}</li>
+                                <li class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}">${user.isEnabled == 0 ? '탈퇴' :  (user.isLocked == 0 ? '차단' : '정상')}</li>
+                                <li>${user.level == 1? '일반': '엘리트'}</li>
+                                <li>${user.type == 1? '홈회원':'SNS회원'}</li>
+                                <li>${user.rdate}</li>
+                                <li>8</li>
+                           </ul>`;
+                $('#userList').append(tags);
+        }
+        }).catch((errorMsg) => {
+        console.log(errorMsg);
+        });
+    });
+
+    // 가입일 정렬
+    $('.sortRdate').click(function(){
+        const value = $(this).val();
+        console.log('value : ' + value);
+
+        // 10(asc) -> 11(desc) -> 12( )
+        if(value == 10){
+            $(this).val(11);
+        }else if(value == 11){
+            $(this).val(12);
+        }else if(value == 12) {
+            $(this).val(10);
+        }
+
+        const jsonData = {"sorted": value};
+        console.log(jsonData);
+
+        const url = `admin/users?sorted=${value}`;
+
+        ajaxAPI(url, null, "GET").then((response) => {
+            console.log(response);
+
+            $("#userList > *:not('.column')").empty();
+
+            for(const [i, user] of response.users.entries()){
+                console.log('i : ' + i);
+                let  = user.isEnabled;
+                let tags = `<ul>
+                                <li>${response.totalCnt - response.offset - i}</li>
+                                <li class="user_id">${user.user_id}</li>
+                                <li class="user_nick">${user.nick}</li>
+                                <li class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}">${user.isEnabled == 0 ? '탈퇴' :  (user.isLocked == 0 ? '차단' : '정상')}</li>
+                                <li>${user.level == 1? '일반': '엘리트'}</li>
+                                <li>${user.type == 1? '홈회원':'SNS회원'}</li>
+                                <li>${user.rdate}</li>
+                                <li>8</li>
+                           </ul>`;
+                $('#userList').append(tags);
+        }
+        }).catch((errorMsg) => {
+        console.log(errorMsg);
+        });
 
     });
+
     // 체크박스 유지
     $(document).ready(function() {
        var searchLevel = getUrlParameter('searchLevel');

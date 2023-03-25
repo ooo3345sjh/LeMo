@@ -258,7 +258,27 @@ main .sortIsEnabled:hover {
     font-weight: 500;
     text-decoration: underline;
 }
-
+main .sortLevel {
+    cursor: pointer;
+}
+main .sortLevel:hover {
+    font-weight: 500;
+    text-decoration: underline;
+}
+main .sortType {
+   cursor: pointer;
+}
+main .sortType:hover {
+    font-weight: 500;
+    text-decoration: underline;
+}
+main .sortRdate {
+    cursor: pointer;
+}
+main .sortRdate:hover {
+   font-weight: 500;
+   text-decoration: underline;
+}
 
 
 
@@ -466,6 +486,9 @@ main .btnBlockUser {
     color: #fff;
     background: #8d8d8d;
 }
+main .btnBlockUser[data-action="clear"] {
+    display: none;
+}
 main .btnClearUser {
     border-radius: 5px;
     border: 1px solid #00bbfe;
@@ -476,6 +499,9 @@ main .btnClearUser {
     text-decoration: none;
     color: #fff;
     background: #00bbfe;
+}
+main .btnClearUser[data-action="clear"] {
+    display: none;
 }
 main .btnDeleteUser {
     background-color: #ffffff;
@@ -490,6 +516,10 @@ main .btnDeleteUser {
     color: #fff;
     background: #8d8d8d;
 }
+
+
+
+
 main .drop {
     color: #E84545;
 }
