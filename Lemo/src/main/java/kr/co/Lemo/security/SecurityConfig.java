@@ -51,9 +51,8 @@ public class SecurityConfig implements WebMvcConfigurer {
         http
                 // 인가(접근권한) 설정
                 .authorizeHttpRequests(req -> req
-//                          .mvcMatchers("/**").permitAll()
                         .mvcMatchers("/", "/index").permitAll()
-                        .antMatchers("/my/**").hasAnyRole("USER")
+                        .antMatchers("/my/**").authenticated()
                 )
 
                 // 로그인 설정
@@ -77,7 +76,12 @@ public class SecurityConfig implements WebMvcConfigurer {
                         .invalidateHttpSession(true)
                         .logoutUrl("/user/logout")
                         .logoutSuccessHandler((req, resp, auth) -> {
-                            resp.sendRedirect(req.getHeader("Referer"));
+                            String fromUri = req.getHeader("Referer");
+                            if(fromUri.contains("reset"))
+                                resp.sendRedirect(req.getContextPath()+"/user/login");
+                            else
+                                resp.sendRedirect(fromUri);
+
                         })
                 )
 

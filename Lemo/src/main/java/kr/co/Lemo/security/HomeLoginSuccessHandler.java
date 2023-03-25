@@ -6,6 +6,7 @@ import kr.co.Lemo.entity.BusinessInfoEntity;
 import kr.co.Lemo.entity.UserEntity;
 import kr.co.Lemo.entity.UserInfoEntity;
 import kr.co.Lemo.utils.RemoteAddrHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,13 +18,17 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
 /**
  * @since 2023/03/21
  * @author 서정현
  * @apiNote HomeLoginSuccessHandler
  */
+@Slf4j
 @Component
 public class HomeLoginSuccessHandler extends LoginSuccessHandler implements AuthenticationSuccessHandler {
 
@@ -35,32 +40,40 @@ public class HomeLoginSuccessHandler extends LoginSuccessHandler implements Auth
             Authentication authentication) throws IOException, ServletException
     {
         Object principal = authentication.getPrincipal();
-
-        UserVO user = userVoConvert(principal);
+        UserEntity userEntity = (UserEntity)principal;
+        UserVO user = userVoConvert(userEntity);
         user.setDetails(new WebAuthenticationDetails(RemoteAddrHandler.getRemoteAddr(request), request.getSession().getId()));
 
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(user, null, List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())))
         );
-        if(user.getIsEnabled() != 1){
-            redirectStrategy.sendRedirect(request, response, "/user/login?error=W");
-            return;
-        } else if(user.getIsLocked() != 1){
-            redirectStrategy.sendRedirect(request, response, "/user/login?error=L");
+
+        Calendar passExpiredTime = Calendar.getInstance();
+        passExpiredTime.setTime(userEntity.getPass_udate()); // 패스워드 설정 날짜
+        passExpiredTime.add(Calendar.MONTH, 3);       // 3개월 후 날짜
+
+        // 비밀번호 설정 후 3개월이 지났을 때 재설정 안내
+        if(passExpiredTime.getTimeInMillis() < System.currentTimeMillis()){
+            String uri = loginSuccessPage(request, response);
+            HttpSession session = request.getSession();
+            session.setAttribute("toUri", uri);
+            log.debug("uri : "+ uri);
+            redirectStrategy.sendRedirect(request, response, "/user/login/error?error=PNE");
             return;
         }
-        loginSuccessPage(request, response);
+
+        String uri = loginSuccessPage(request, response);
+        redirectStrategy.sendRedirect(request, response, uri);
     }
 
     /**
      *
      * @since 2023/03/21
-     * @param principal 회원 인증된 객체
+     * @param user 회원 인증된 객체
      * @return userVO
      * @apiNote UserEntity -> UserVO 객체로 변환한 객체를 반환
      */
-    private static UserVO userVoConvert(Object principal) {
-        UserEntity user = (UserEntity) principal;
+    private static UserVO userVoConvert(UserEntity user) {
         UserInfoEntity userInfo = user.getUserInfoEntity();
         BusinessInfoEntity businessInfo = user.getBusinessInfoEntity();
 

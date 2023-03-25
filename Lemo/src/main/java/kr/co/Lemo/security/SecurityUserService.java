@@ -23,24 +23,12 @@ import org.springframework.stereotype.Service;
 public class SecurityUserService implements UserDetailsService {
 
 	private UserRepo userRepo;
-	private UserDAO userDAO;
 
 
 	// @since 2023/03/21
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return userRepo.findById(username).orElseThrow(()-> new UsernameNotFoundException(username));
-	}
-
-	// @since 2023/03/21
-	public UserInfoEntity load(String username) {
-		UserInfoEntity userInfo = null;
-		try {
-			userInfo = userDAO.findByEmail(username);
-		} catch (Exception e){
-			log.error(e.getMessage());
-		}
-		return userInfo;
 	}
 
 }

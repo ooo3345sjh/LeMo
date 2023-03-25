@@ -44,50 +44,44 @@
                 alert("휴대폰 형식이 올바르지 않습니다. 다시 시도해주세요.");
             }
             $(function(){
-                    $(document).on('click', '#section2 .btn_common', function(){
-                        codeInput = $(this).parent().find('input[name="authcode"]');
-                        authcode_msg = $(this).parent().find('#authcode_msg');
-                        code = codeInput.val();
+                $(document).on('click', '#section2 .btn_common', function(){
+                    codeInput = $(this).parent().find('input[name="authcode"]');
+                    authcode_msg = $(this).parent().find('#authcode_msg');
+                    code = codeInput.val();
 
-                        if(!authTime){
-                            authcode_msg.text('인증 시간이 만료되었습니다.');
-                            return;
+                    if(code == null || code == ''){
+                        authcode_msg.text('인증번호를 입력해주세요.');
+                        return;
+                    }
+
+                    if(!regCode.test(code)){
+                        authcode_msg.text('숫자만 입력해주세요.');
+                        code = code.replace(/[^0-9]/g, "");
+                        codeInput.val(code);
+                        return;
+                    }
+
+                    if(code.length != 6){
+                        authcode_msg.text('인증 번호 6자리를 입력해주세요.');
+                        return;
+                    }
+
+                    if(smsAuthCode != code){
+                        authcode_msg.text('인증 번호가 다릅니다. 재입력 해주세요.');
+                        smsAuthCodeCnt = smsAuthCodeCnt - 1;
+
+                        if(smsAuthCodeCnt <= 0){
+                            alert('인증 번호 5회 입력 실패했습니다. 재인증 해주세요.');
+                            $('#section2').remove();
+                            smsAuthCodeCnt = 5;
                         }
 
-                        if(code == null || code == ''){
-                            authcode_msg.text('인증번호를 입력해주세요.');
-                            return;
-                        }
+                        return;
+                    }
 
-                        if(!regCode.test(code)){
-                            authcode_msg.text('숫자만 입력해주세요.');
-                            code = code.replace(/[^0-9]/g, "");
-                            codeInput.val(code);
-                            return;
-                        }
+                    form.submit();
 
-                        if(code.length != 6){
-                            authcode_msg.text('인증 번호 6자리를 입력해주세요.');
-                            return;
-                        }
-
-                        if(smsAuthCode != code){
-                            authcode_msg.text('인증 번호가 다릅니다. 재입력 해주세요.');
-                            smsAuthCodeCnt = smsAuthCodeCnt - 1;
-
-                            if(smsAuthCodeCnt <= 0){
-                                alert('인증 번호 5회 입력 실패했습니다. 재인증 해주세요.');
-                                $(this).closest('#section2').remove();
-                                authTime = false;
-                                smsAuthCodeCnt = 5;
-                            }
-
-                            return;
-                        }
-
-                        form.submit();
-
-                    });
+                });
             });
         </script>
     </th:block>

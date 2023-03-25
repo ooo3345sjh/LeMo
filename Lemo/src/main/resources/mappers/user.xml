@@ -10,7 +10,7 @@
 <mapper namespace="kr.co.Lemo.dao.UserDAO">
 
     <!-- insert -->
-    <insert id="saveUserInfo" parameterType="kr.co.Lemo.domain.UserVO">
+    <insert id="rsaveUserInfo" parameterType="kr.co.Lemo.domain.UserVO">
         INSERT INTO `lemo_member_userinfo` SET
             `user_id`=#{user_id},
             `hp`=#{hp},
@@ -24,12 +24,12 @@
             `rdate`=NOW(),
             `udate`=NOW()
     </insert>
-    <insert id="saveHomeUser">
+    <insert id="rsaveHomeUser">
         INSERT INTO `lemo_member_user` SET
             `user_id`=#{user_id},
             `pass`=#{pass}
     </insert>
-    <insert id="saveBusinessInfo" parameterType="kr.co.Lemo.domain.BusinessInfoVO">
+    <insert id="rsaveBusinessInfo" parameterType="kr.co.Lemo.domain.BusinessInfoVO">
         INSERT INTO `lemo_member_businessinfo` SET
         `user_id`=#{user_id},
         `bis_company`=#{bis_company},
@@ -43,17 +43,26 @@
     </insert>
 
     <!-- select -->
-    <select id="findByEmail" resultType="int">
-        SELECT * FROM `lemo_member_userinfo` WHERE `user_id` = #{email};
+    <select id="findByEmailAndType1" resultType="kr.co.Lemo.entity.UserInfoEntity">
+        SELECT * FROM `lemo_member_userinfo` WHERE `user_id` = #{email} AND `type`=1;
     </select>
     <select id="countByEmail" resultType="int">
         SELECT COUNT(*) FROM `lemo_member_userinfo` WHERE `user_id` = #{email};
+    </select>
+    <select id="countByEmailAndType1" resultType="int">
+        SELECT COUNT(*) FROM `lemo_member_userinfo` WHERE `user_id` = #{email} AND `type`=1;
     </select>
     <select id="countByNick" resultType="int">
         SELECT COUNT(*) FROM `lemo_member_userinfo` WHERE `nick` = #{nick};
     </select>
 
     <!-- update -->
+    <update id="usaveUserPw">
+        UPDATE `lemo_member_user` SET
+            `pass`=#{pass},
+            `pass_udate`=NOW()
+        WHERE `user_id`=#{user_id};
+    </update>
 
     <!-- delete -->
 

@@ -25,37 +25,28 @@
                         <b>이메일 아이디</b>
                         <div class="inp_type2 form-errors">
                             <input type="email" name="user_email" placeholder="이메일 주소를 입력해주세요.">
-                            <label id="email_msg" class="validate_msg">이메일 주소를 올바르게 입력하세요.</label>
-                            <button type="button" class="btn_common">인증메일 전송</button>
-                        </div>
-
-                        <b>인증번호</b>
-                        <div class="inp_type2 form-errors">
-                            <input type="text" name="authcode" placeholder="인증번호를 입력해주세요.">
-                            <!-- timer 활성/비활성 display:inline-block / none -->
-                            <span class="timer">02:43</span>
-                            <label id="authcode_msg" class="validate_msg"></label>
-                            <button type="button" class="btn_common">인증확인</button>
+                            <label id="email_msg" class="validate_msg"></label>
+                            <button type="button" class="btn_common email">전송</button>
                         </div>
                     </section>
 
                     <section id="section2">
                         <b>비밀번호</b>
                         <div class="inp_type2 form-errors">
-                            <input type="password" name="pass1" placeholder="비밀번호를 입력해주세요.">
+                            <input type="password" name="pass" placeholder="비밀번호를 입력해주세요.">
                             <label id="pass1_msg" class="validate_msg"></label>
 
                         </div>
 
                         <b>비밀번호 확인</b>
                         <div class="inp_type2 form-errors">
-                            <input type="password" name="pass2" placeholder="비밀번호를 입력해주세요.">
+                            <input type="password" name="confirmPass" placeholder="비밀번호를 입력해주세요.">
                             <label id="pass2_msg" class="validate_msg"></label>
                         </div>
                     </section>
 
                     <!-- 유효성 검사 통과 시 class에 on 추가 -->
-                    <button type="button" class="btn_link on" id="signup_btn" disabled="disabled">
+                    <button type="button" class="btn_link" id="signup_btn" disabled="disabled">
                         <span>확인</span>
                     </button>
                 </div>
@@ -65,6 +56,349 @@
     </main>
 
 </th:block>
-<th:block layout:fragment="script"></th:block>
+<th:block layout:fragment="script">
+    <script>
+
+        // input
+        const emailInput = $('input[name=user_email]');
+        const passInput = $('input[name=pass]');
+        const confirmPassInput = $('input[name=confirmPass]');
+
+        // button
+        const emailSendBtn = $('.btn_common.email');
+        const signupBtn = $('#signup_btn');
+        signupBtn.remove();
+
+        let authEmail;
+        let authCode;
+        let isSended = false;
+        let emailAuthCodeCnt = 5; // 이메일 인증코드 입력 횟수 제한
+
+        // tag
+        const passwordSec = $('#section2');
+        passwordSec.remove();
+
+        // validation
+        let passOk = false;
+        let confirmPassOk = false;
+
+        // regex
+        const rePass = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+        const reEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        const regCode = /^[0-9]+$/;
+
+        function getAuthCodeTag(){
+            let authCodeTag = "<div id='authCodeDiv'>"
+                            + "    <b>인증번호</b>"
+                            + "    <div class='inp_type2 form-errors'>"
+                            + "        <input type='text' name='authcode' maxlength='6' placeholder='인증번호를 입력해주세요.'>"
+                            + "        <span id='timer' class='timer'>03:00</span>"
+                            + "        <label id='authcode_msg' class='validate_msg'></label>"
+                            + "        <button type='button' class='btn_common code'>확인</button>"
+                            + "    </div>"
+                            + "</div>"
+            return authCodeTag;
+        }
+
+        // 인증코드 시간 제한
+        PlAYTIME = null;
+        function TIMER(){
+            const Timer=document.getElementById('timer'); //스코어 기록창-분
+            let time= 180000;
+            let min=3;
+            let sec=60;
+
+            Timer.textContent=String(min).padStart(2, '0')+":"+'00';
+
+            PlAYTIME=setInterval(function(){
+                time=time-1000; //1초씩 줄어듦
+                min=time/(60*1000); //초를 분으로 나눠준다.
+
+                if(sec>0){ //sec=60 에서 1씩 빼서 출력해준다.
+                    sec=sec-1;
+
+                    //실수로 계산되기 때문에 소숫점 아래를 버리고 출력해준다.
+                    Timer.textContent=String(Math.floor(min)).padStart(2, '0')+':'+String(sec).padStart(2, '0');
+
+                }
+                if(sec===0){
+                    // 0에서 -1을 하면 -59가 출력된다.
+                    // 그래서 0이 되면 바로 sec을 60으로 돌려주고 value에는 0을 출력하도록 해준다.
+                    sec=60;
+                    Timer.textContent=String(Math.floor(min)).padStart(2, '0')+':'+'00'
+                }
+                if(time === 120000){
+                    $('#section1 .btn_common.email').addClass('active');
+                    isSended = false;
+                }
+                if(time === 0){
+                    emailAuthCodeCnt = 5;
+                    clearInterval(PlAYTIME);
+                    $('#authCodeDiv').remove();
+                }
+
+            },1000); //1초마다
+        }
+
+        // 세션 저장
+        function saveCodeAuth(){
+            const now = new Date();
+            const nowTime = now.getTime() / 1000 + 60;
+
+            sessionStorage.setItem("AuthTime", nowTime); // 저장
+        }
+
+        // 세션 값 현재 시간과 비교 후 불리언 반환
+        function getCodeAuth(){
+            const now = new Date();
+            const nowTime = now.getTime() / 1000;
+            const authTime = Number(sessionStorage.getItem("AuthTime"));
+
+            if(authTime != null){
+                if(authTime < nowTime){
+                    sessionStorage.removeItem("AuthTime");
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+
+            else {
+                return false;
+            }
+        }
+
+
+        $(function (){
+
+            emailInput.on('focusout keyup', function (){
+                const email = $(this).val();
+                $('#authCodeDiv').remove();
+                if(!reEmail.test(email)){
+                    $('#email_msg').text('이메일 주소를 올바르게 입력해주세요.');
+                    if(!isSended){
+                        $('.btn_common.email').removeClass("active");
+                    }
+                }
+                else {
+                    $('#email_msg').text('');
+                    if(!isSended){
+                        $('.btn_common.email').addClass("active");
+                    }
+                }
+            });
+
+            emailSendBtn.click(function (){
+                const email = emailInput.val();
+
+                if(!reEmail.test(email)) {
+                    $('#email_msg').text('이메일 주소를 올바르게 입력해주세요.');
+                    return;
+                }
+
+                if(getCodeAuth()){
+                    $('#email_msg').text('1분 후에 다시 시도해주세요.');
+                    return;
+                }
+
+                if(isSended){
+                    $('#email_msg').text('1분 후에 다시 시도해주세요.');
+                    return;
+                }
+
+                emailOk = true;
+                $('#email_msg').text('');
+                if(PlAYTIME != null)
+                    clearInterval(PlAYTIME);
+
+
+                const jsonData = {
+                    "email":email
+                };
+
+                ajaxAPI("user/email/send", jsonData, "POST").then((response) => {
+                    if(response.result === 0){
+                        $('#email_msg').text('존재하지않는 회원입니다.');
+                    }
+                    else if(response.status === 0) {
+                        Swal.fire({
+                            title : "이메일 전송에 실패 했습니다.\n 다시 시동해주세요.",
+                            icon : 'error',
+                            confirmButtonText : '확인'
+                        })
+                        isSended = false;
+                    }
+
+                    else {
+                        authEmail = email;
+                        isSended = true;
+                        authCode = response.code;
+                        emailSendBtn.text("재전송");
+                        emailSendBtn.removeClass("active");
+
+                        $('#section1').append(getAuthCodeTag());
+                        TIMER();
+                        saveCodeAuth();
+                    }
+                }).catch((errorMsg) => {
+                    console.log(errorMsg)
+                });
+            });
+
+            $(document).on("keyup focusout", 'input[name="authcode"]', function (){
+                code = $(this).val();
+                button = $(this).parent().find('.btn_common');
+                code = code.replace(/[^0-9]/g, "");
+                $(this).val(code);
+
+                if(code != null && code != '' && regCode.test(code) && code.length == 6){
+                    button.addClass('active');
+                } else {
+                    button.removeClass('active');
+                }
+            });
+
+            $(document).on("click", '.btn_common.code', function (){
+                codeInput = $(this).parent().find('input[name="authcode"]');
+                authcode_msg = $(this).parent().find('#authcode_msg');
+                code = codeInput.val();
+
+                if(code == null || code === ''){
+                    authcode_msg.text('인증번호를 입력해주세요.');
+                    return;
+                }
+
+                if(!regCode.test(code)){
+                    authcode_msg.text('숫자만 입력해주세요.');
+                    code = code.replace(/[^0-9]/g, "");
+                    codeInput.val(code);
+                    return;
+                }
+
+                if(code.length !== 6){
+                    authcode_msg.text('인증 번호 6자리를 입력해주세요.');
+                    return;
+                }
+
+                if(authCode != code){
+                    authcode_msg.text('인증 번호가 다릅니다. 재입력 해주세요.');
+                    emailAuthCodeCnt = emailAuthCodeCnt - 1;
+
+                    if(emailAuthCodeCnt <= 0){
+                        Swal.fire({
+                            title : '인증 번호 5회 입력 실패했습니다.\n재인증 해주세요.',
+                            icon : 'warning',
+                            confirmButtonText : '확인'
+                        })
+                        $('#authCodeDiv').remove();
+                        emailAuthCodeCnt = 5;
+                    }
+
+                    return;
+                }
+                $('.common.resetPw').children().not('strong').remove();
+                $('.common.resetPw').append(passwordSec);
+                $('.common.resetPw').append(signupBtn);
+
+            });
+
+            passInput.on('focusout keyup focus', function (){
+                const pass = $(this).val();
+                if(!rePass.test(pass)){
+                    $('#pass1_msg').text('8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.')
+                    passOk = false;
+                } else {
+                    $('#pass1_msg').text('')
+                    passOk = true;
+                }
+            });
+
+            confirmPassInput.on('focusout keyup focus', function (){
+                const confirmPass = $(this).val();
+                const pass =  $('input[name=pass]').val();
+
+                if(!rePass.test(confirmPass)){
+                    $('#pass2_msg').text('8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.');
+                    confirmPassOk = false;
+                }
+
+                else if(confirmPass != pass){
+                    $('#pass2_msg').text('비밀번호가 일치하지 않습니다.');
+                    confirmPassOk = false;
+                }
+
+                else {
+                    $('#pass2_msg').text('');
+                    confirmPassOk = true;
+                }
+            });
+
+
+
+            $(document).on('input keyup', 'input',function (){
+
+                setTimeout(function (){
+                    let okList = [passOk, confirmPassOk];
+                    console.log(okList);
+                    if(okList.includes(false)){
+                        signupBtn.removeClass("on");
+                        signupBtn.attr('disabled', true);
+                    } else {
+                        signupBtn.addClass("on");
+                        signupBtn.attr('disabled', false);
+                    }
+                }, 10);
+            })
+
+            $(document).on('click', '#signup_btn', function (){
+
+                const inputs = [passInput, confirmPassInput];
+                for (i of inputs){ i.focus();}
+
+                let okList = [passOk, confirmPassOk];
+
+                for (i in inputs){
+                    console.log(i);
+                    if(!okList[i]){
+                        inputs[i].focus();
+                        return;
+                    }
+                }
+
+                const jsonData = {
+                    "email":authEmail,
+                    "password":passInput.val(),
+                    "code":authCode
+                }
+                ajaxAPI("user/pw/reset", jsonData, "PATCH").then((response) => {
+                    if(response.result === 1) {
+                        Swal.fire({
+                            title : "비밀번호 재설정에 성공했습니다.",
+                            icon : 'success',
+                            confirmButtonText : '확인'
+                        }).then((result) => {
+                            if(result.isConfirmed === true){
+                                location.href = contextPath + "user/login";
+                            }
+                        })
+                    } else {
+                        Swal.fire({
+                            title : "비밀번호 재설정에 실패했습니다.\n잠시 후에 다시 시도해주세요.",
+                            icon : 'error',
+                            confirmButtonText : '확인'
+                        }).then((result) => {
+                            if(result.isConfirmed === true){
+                                location.reload();
+                            }
+                        })
+                    }
+                }).catch((errorMsg) => {
+                    console.log(errorMsg)
+                });
+            });
+        });
+    </script>
+</th:block>
 </html>
 

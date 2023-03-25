@@ -5,9 +5,10 @@
         <meta charset="UTF-8">
         <meta th:name="_csrf" th:content="${_csrf.token}"/>
         <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
-        <th:block>
-            <title>Lemo::[[${title}]]</title>
-        </th:block>
+        <title>Lemo::[[${title}]]</title>
+        <!-- favicon -->
+        <link rel="shortcut icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
+        <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
         <!-- 구글 폰트 -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

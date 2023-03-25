@@ -6,7 +6,6 @@ let authHp;
 let isSended = false;      // 인증번호 전송 유무
 let smsAuthCode = -999999; // 인증번호
 let smsAuthCodeCnt = 5;    // 인증번호 입력 제한 5회
-let authTime = false;      // 인증번호 입력 유효시간
 
 function appendAuthCodeTag(){
     let authCodeTag = "<section id='section2'>"
@@ -27,14 +26,17 @@ function regHpConfirm(){
     $('input[name=hp]').val(hp);
     if(hp.length == 11 || hp.length == 10){
         if(regHp.test(hp)){
-            $('#section1 .btn_common').addClass('active')
             $('#hp_result').text('');
+            if(!isSended)
+                $('#section1 .btn_common').addClass('active')
         }
         else{
-            $('#section1 .btn_common').removeClass('active');
+            if(!isSended)
+                $('#section1 .btn_common').removeClass('active');
         }
     } else {
-        $('#section1 .btn_common').removeClass('active')
+        if(!isSended)
+            $('#section1 .btn_common').removeClass('active')
     }
 }
 
@@ -69,8 +71,11 @@ function TIMER(){
             $('#section1 .btn_common').addClass('active');
             isSended = false;
         }
-        if(time == 0)
-            authTime = false;
+        if(time == 0){
+            clearInterval(PlAYTIME);
+            $('#section2').remove();
+            smsAuthCodeCnt = 5;
+        }
 
     },1000); //1초마다
 }
@@ -106,6 +111,7 @@ function getCodeAuth(){
 
 $(function(){
     $(document).on('keyup', 'input[name=hp]', function(){
+        $('#section2').remove();
         regHpConfirm();
     });
 
@@ -157,10 +163,6 @@ $(function(){
 
                 TIMER();
                 saveCodeAuth();
-                authTime = true;
-                setTimeout(function(){
-                    clearInterval(PlAYTIME);
-                },180000); // 3분이 되면 타이머를 삭제한다.
             }
         }).catch((errorMsg) => {
             console.log(errorMsg)
