@@ -17,7 +17,13 @@
         <include refid="searchType"/>
         <include refid="searchIsNoticeEnabled"/>
         <include refid="searchCondition"/>
-
+        <if test="sort != null">
+            <choose>
+                <when test="sort == 'isEnabledOn'">
+                    order by `isLocked` asc, `isEnabled` desc, `rdate` desc
+                </when>
+            </choose>
+        </if>
         <!--
         <if test="">
             order by `isLocked` asc, `isEnabled` desc, `rdate` desc

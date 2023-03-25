@@ -76,24 +76,32 @@ public class AdminController {
     }
 
     // @since 2023/03/24 관리자 회원 - 회원 목록 (Ajax 전송)
-    @ResponseBody
+
     @GetMapping("users")
-    public Map users(Model model,
+    @ResponseBody
+    public Map<String, Object> users(Model model,
                      @RequestParam Map map,
-                     @ModelAttribute Admin_SearchVO sc) {
-        log.warn("GET users start...");
+                     @ModelAttribute Admin_SearchVO sc,
+                     Admin_SearchVO searchVO
+                     ) {
+
+        //String sort = (String) jsonData.get("sort");
+
+        log.warn("GET users start in ajax");
+        log.warn("sort1 : " + sc.getSort());
+        log.warn("sort2 : " + searchVO.getSort());
+        log.warn("map : " + map);
+        log.warn("sc : " + sc);
 
         sc.setMap(map);
-        sc.setSort("isEnabledOn");
+        sc.setSort("isEnabledOn");      // 여기서 sort 값 정할 예정 (ex. if sort=1 -> setSort("isEnabledOn") )
+
 
         List<UserVO> users = service.selectUser(model, sc);
         log.warn("GET users : " + users);
+
         PageHandler ph = (PageHandler) model.getAttribute("ph");
-
         log.warn("ph : " + ph.getTotalCnt());
-
-        // String value = String.valueOf(map.get("value"));
-        //Map<String, Object> resultMap = new HashMap<>();
 
         map.put("users", users);
         map.put("totalCnt", ph.getTotalCnt());
