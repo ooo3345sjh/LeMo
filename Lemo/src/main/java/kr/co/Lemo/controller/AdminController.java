@@ -79,23 +79,39 @@ public class AdminController {
 
     @GetMapping("users")
     @ResponseBody
-    public Map<String, Object> users(Model model,
+    public Map users(Model model,
                      @RequestParam Map map,
-                     @ModelAttribute Admin_SearchVO sc,
-                     Admin_SearchVO searchVO
-                     ) {
+                     @RequestParam(required = false, value = "sorted") String sorted,
+                     @ModelAttribute Admin_SearchVO sc) {
 
-        //String sort = (String) jsonData.get("sort");
-
-        log.warn("GET users start in ajax");
-        log.warn("sort1 : " + sc.getSort());
-        log.warn("sort2 : " + searchVO.getSort());
-        log.warn("map : " + map);
+        log.warn("sorted : " + sorted);
         log.warn("sc : " + sc);
 
         sc.setMap(map);
-        sc.setSort("isEnabledOn");      // 여기서 sort 값 정할 예정 (ex. if sort=1 -> setSort("isEnabledOn") )
 
+        if(sorted.equals("1")){
+            sc.setSort("isEnabledOn");
+        }else if(sorted.equals("2")){
+            sc.setSort("isEnabledOff");
+        }else if(sorted.equals("4")){
+            sc.setSort("levelOn");
+        }else if(sorted.equals("5")){
+            sc.setSort("levelOff");
+        }else if(sorted.equals("7")){
+            sc.setSort("typeOn");
+        }else if(sorted.equals("8")){
+            sc.setSort("typeOff");
+        }else if(sorted.equals("10")){
+            sc.setSort("rdateOn");
+        }else if(sorted.equals("11")){
+            sc.setSort("rdateOff");
+        }
+
+
+
+
+
+        //sc.setSort(sort);
 
         List<UserVO> users = service.selectUser(model, sc);
         log.warn("GET users : " + users);

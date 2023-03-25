@@ -22,24 +22,29 @@
                 <when test="sort == 'isEnabledOn'">
                     order by `isLocked` asc, `isEnabled` desc, `rdate` desc
                 </when>
+                <when test="sort == 'isEnabledOff'">
+                   order by `isLocked` desc, `isEnabled` asc, `rdate` desc
+                </when>
+                <when test="sort == 'levelOn'">
+                    order by `level` desc, `rdate` desc
+                </when>
+                <when test="sort == 'levelOff'">
+                    order by `level` asc, `rdate` desc
+                </when>
+                <when test="sort == 'typeOn'">
+                    order by `type` desc, `rdate` desc
+                </when>
+                <when test="sort == 'typeOff'">
+                    order by `type` asc, `rdate` desc
+                </when>
+                <when test="sort == 'rdateOn'">
+                    order by `rdate` asc
+                </when>
+                <when test="sort == 'rdateOff'">
+                    order by `rdate` desc
+                </when>
             </choose>
         </if>
-        <!--
-        <if test="">
-            order by `isLocked` asc, `isEnabled` desc, `rdate` desc
-        </if>
-        <if test="">
-            order by `isLocked` asc, `isEnabled` desc, `rdate` desc
-        </if>
-        <if test="">
-            order by `isLocked` asc, `isEnabled` desc, `rdate` desc
-        </if>
--->
-        <!--
-        <include refid="orderUser"/>
-        <include refid="orderType"/>
-        <include refid="orderRdate"/>
-        -->
         limit #{offset}, 10;
     </select>
 
