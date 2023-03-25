@@ -4,38 +4,35 @@ import kr.co.Lemo.domain.BusinessInfoVO;
 import kr.co.Lemo.domain.MessageVO;
 import kr.co.Lemo.domain.SmsResponseVO;
 import kr.co.Lemo.domain.UserVO;
-import kr.co.Lemo.domain.search.SearchconditionTestVO_sjh;
 import kr.co.Lemo.entity.SocialEntity;
 import kr.co.Lemo.entity.UserInfoEntity;
+import kr.co.Lemo.security.CustomPersistentToken;
+import kr.co.Lemo.security.RemembermeService;
+import kr.co.Lemo.service.EmailService;
 import kr.co.Lemo.service.SmsService;
 import kr.co.Lemo.service.UserService;
 import kr.co.Lemo.utils.RemoteAddrHandler;
-import kr.co.Lemo.utils.SearchCondition;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.data.relational.core.sql.In;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.net.URI;
-import java.time.LocalDate;
+import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,9 +50,12 @@ import java.util.regex.Pattern;
 @RequestMapping("user/")
 public class UserController {
 
+    private final RemembermeService remembermeService;
+    private final DataSource dataSource;
     private final Environment environment;
     private final SmsService smsService;
     private final UserService userService;
+    private final EmailService emailService;
     private String group = "title.user";
 
     // @since 2023/03/08
@@ -82,11 +82,16 @@ public class UserController {
     public String login(
             Model m,
             @RequestParam(defaultValue = "null") String error,
-            RedirectAttributes rttr
+            RedirectAttributes rttr,
+            HttpSession session
     ) {
         log.debug("GET login start...");
 
+        String uri = (String)session.getAttribute("toUri");
+        session.removeAttribute("toUri");
+
         rttr.addFlashAttribute("error", error);
+        rttr.addFlashAttribute("toUri", uri);
 
         return "redirect:/user/login";
     }
@@ -211,7 +216,7 @@ public class UserController {
             return "redirect:/user/hp/auth?error=code&type="+type;
 
         session.setAttribute("authHp", hp);
-
+        session.removeAttribute("authCode");
         m.addAttribute("title", environment.getProperty(group));
 
         return "redirect:/user/signup?type=" + type;
@@ -283,7 +288,7 @@ public class UserController {
         setSelectedTerms(userVO, termsType_no);
         userVO.setRegip(RemoteAddrHandler.getRemoteAddr(req));
         userVO.setHp(hp);
-        userService.saveUser(userVO);
+        userService.rsaveUser(userVO);
 
         log.debug(termsType_no);
         return "redirect:/user/login";
@@ -292,7 +297,7 @@ public class UserController {
     // @since 2023/03/16
     @ResponseBody
     @PostMapping("social/signup")
-    public Map signup_social(@RequestBody Map map, HttpServletRequest req){
+    public Map signup_social(@RequestBody Map map, HttpServletRequest req, HttpServletResponse resp){
         log.debug("POST signup_social start...");
         HttpSession session = req.getSession();
         Object principal = session.getAttribute("principal");
@@ -302,17 +307,22 @@ public class UserController {
         SocialEntity socialEntity = setSocialObj(map, req, principal);
         if(socialEntity != null){
             result = 1;
-            socialEntity = userService.saveSocial((SocialEntity) principal);
+            socialEntity = userService.rsaveSocial((SocialEntity) principal);
             UserVO userVO = userService.userVoConvert(socialEntity);
             userVO.setDetails(new WebAuthenticationDetails(RemoteAddrHandler.getRemoteAddr(req), req.getSession().getId()));
             SecurityContextHolder.getContext().setAuthentication(
                     new UsernamePasswordAuthenticationToken(userVO, null, socialEntity.getAuthorities())
             );
+
+            // remember-me 쿠키 저장
+            JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
+            repository.setDataSource(dataSource);
+            CustomPersistentToken customPersistentToken = new CustomPersistentToken("hello", remembermeService, repository);
+            customPersistentToken.addCookie(req, resp, SecurityContextHolder.getContext().getAuthentication());
         }
 
         map.put("result", result);
         return map;
-
     }
 
     // @since 2023/03/16
@@ -377,12 +387,69 @@ public class UserController {
 
     // @since 2023/03/24
     @GetMapping("pw/reset")
-    public String resetPw(@RequestParam(required = false) String isPassNonExpired) {
-        if(isPassNonExpired.equals("true")){
-            return "user/resetPw_isPassNonExpired";
-        }
+    public String resetPw(Model m) {
+        m.addAttribute("title", environment.getProperty(group));
         return "user/resetPw";
     }
+
+    // @since 2023/03/25
+    @GetMapping("expiredPw/reset")
+    public String resetExpiredPw(Model m, @AuthenticationPrincipal UserVO user) {
+        if(user.getType() != 1)
+            return "redirect:/index";
+
+        m.addAttribute("title", environment.getProperty(group));
+        return "user/resetPw_isPassExpired";
+    }
+
+    // @since 2023/03/25
+    @ResponseBody
+    @PatchMapping("expiredPw/reset")
+    public Map resetExpiredPw(
+            @AuthenticationPrincipal UserVO user,
+            @RequestBody Map map
+    ) throws Exception {
+        log.debug("PATCH resetExpiredPw start...");
+
+        if(user.getType() != 1)
+            return map;
+
+        String password = (String)map.get("password");
+        int result = userService.usaveUserPw(user.getUser_id(), password);
+
+        map.put("result", result);
+        return map;
+    }
+
+    // @since 2023/03/25
+    @ResponseBody
+    @PatchMapping("pw/reset")
+    public Map resetPw(@RequestBody Map map, HttpServletRequest req) throws Exception {
+        log.debug("PATCH resetPw start...");
+        Object email = map.get("email");
+        Object code = map.get("code");
+        Object authCode = req.getSession().getAttribute("authEmailCode");
+
+        map.put("result", 0);
+        if(email == null || code == null || authCode == null){
+            return map;
+        } else if(!code.equals(authCode)){
+            return map;
+        }
+
+        UserInfoEntity userInfoEntity = userService.findByEmailAndType1((String)email);
+
+        if(userInfoEntity != null && userInfoEntity.getType() == 1){
+            String password = (String)map.get("password");
+            int result = userService.usaveUserPw(userInfoEntity.getUser_id(), password);
+            map.put("result", result);
+        }
+
+        req.getSession().removeAttribute("authEmailCode");
+        return map;
+
+    }
+
 
     // @since 2023/03/12
     @PostMapping("sms/send")
@@ -406,6 +473,34 @@ public class UserController {
             log.error(e.getMessage());
             map.put("result", "error");
         }
+
+        return map;
+    }
+
+    // @since 2023/03/25
+    @ResponseBody
+    @PostMapping("email/send")
+    public Map sendEmail(@RequestBody Map map, HttpServletRequest req) throws Exception {
+        log.debug("POST sendEmail start...");
+
+        int result = userService.countByEmail((String)map.get("email"));
+
+        map.put("result", result);
+        log.debug(result+"");
+        if(result == 0)
+            return map;
+
+        if(map.get("email") != null){
+            map.put("status", 1);
+            map.put("code", 123123);
+            req.getSession().setAttribute("authEmailCode", map.get("code"));
+            log.debug("email is not null");
+            //emailService.emailAuth(map);
+        }
+
+        else
+            map.put("status", 0);
+
 
         return map;
     }
@@ -487,24 +582,5 @@ public class UserController {
             userVO.setRole("USER");
         else if("business".equals(type))
             userVO.setRole("BUSINESS");
-    }
-
-    // @since 2023/03/13
-    @GetMapping("test")
-    public String test(SearchCondition sc) {
-        log.debug("GET test start...");
-
-        log.info(sc.toString());
-
-        return "user/test";
-    }
-    @GetMapping("test2")
-    public String test2(@ModelAttribute SearchconditionTestVO_sjh sc, @RequestParam Map map) {
-        log.debug("GET test2 start...");
-        log.info("map : " + map.toString());
-        sc.setMap(map);
-        log.info("sc : " + sc.toString());
-        log.info("query : " + sc.getQueryString());
-        return "user/test";
     }
 }

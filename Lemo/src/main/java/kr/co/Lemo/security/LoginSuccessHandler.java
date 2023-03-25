@@ -38,7 +38,7 @@ public class LoginSuccessHandler {
     protected final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     // @since 2023/03/21
-    public void loginSuccessPage(
+    public String loginSuccessPage(
             HttpServletRequest request,
             HttpServletResponse response) throws IOException, ServletException
     {
@@ -83,7 +83,7 @@ public class LoginSuccessHandler {
         }
 
         System.out.println("uri = " + uri);
-        redirectStrategy.sendRedirect(request, response, uri);
+        return uri;
 
     }
 

@@ -101,7 +101,12 @@
                }).then((result) => {
                     console.log(result);
                     if(result.isConfirmed === true){
-                        location.href = contextPath + "user/pw/reset?isPassNonExpired=true";
+                        location.href = contextPath + "user/expiredPw/reset";
+                    } else {
+                        if("/"==="[[${toUri}]]")
+                            location.href = contextPath;
+                        else
+                            location.href = "[[${toUri}]]";
                     }
                })
            }

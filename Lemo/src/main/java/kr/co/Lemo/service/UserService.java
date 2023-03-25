@@ -53,6 +53,16 @@ public class UserService {
         return userDAO.countByEmail(email);
     }
 
+    // @since 2023/03/26
+    public int countByEmailAndType1(String email) throws Exception{
+        return userDAO.countByEmailAndType1(email);
+    }
+
+    // @since 2023/03/26
+    public UserInfoEntity findByEmailAndType1(String email) throws Exception{
+        return userDAO.findByEmailAndType1(email);
+    }
+
     // @since 2023/03/16
     public String getNick() throws JsonProcessingException {
         String apiURL = "https://nickname.hwanmoo.kr/";
@@ -92,22 +102,29 @@ public class UserService {
     }
 
     // @since 2023/03/18
-    public int saveUser(UserVO user) throws Exception {
+    public int rsaveUser(UserVO user) throws Exception {
         user.setPass(passwordEncoder.encode(user.getPass()));
         log.debug(user.toString());
         int result = 0;
-        result = userDAO.saveUserInfo(user);
-        result = userDAO.saveHomeUser(user.getUser_id(), user.getPass());
+        result = userDAO.rsaveUserInfo(user);
+        result = userDAO.rsaveHomeUser(user.getUser_id(), user.getPass());
 
         if("BUSINESS".equals(user.getRole())){
-            userDAO.saveBusinessInfo(user.getBusinessInfoVO());
+            userDAO.rsaveBusinessInfo(user.getBusinessInfoVO());
         }
 
         return result;
     }
 
-    public SocialEntity saveSocial(SocialEntity socialEntity){
+    // @since 2023/03/18
+    public SocialEntity rsaveSocial(SocialEntity socialEntity){
         return socialRepo.save(socialEntity);
+    }
+
+    // @since 2023/03/25
+    public int usaveUserPw(String username, String password) throws Exception {
+        password = passwordEncoder.encode(password);
+        return userDAO.usaveUserPw(username, password);
     }
 
     /**

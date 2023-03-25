@@ -21,24 +21,28 @@ public interface UserDAO {
     // insert
 
     // @since 2023/03/16
-    int saveUserInfo(UserVO user) throws Exception;
+    int rsaveUserInfo(UserVO user) throws Exception;
 
     // @since 2023/03/16
-    int saveHomeUser(@Param("user_id")String user_id, @Param("pass")String pass) throws Exception;
-    int saveBusinessInfo(BusinessInfoVO businessInfoVO) throws Exception;
+    int rsaveHomeUser(@Param("user_id")String user_id, @Param("pass")String pass) throws Exception;
+    int rsaveBusinessInfo(BusinessInfoVO businessInfoVO) throws Exception;
 
     // select
-    // @since 2023/03/19
-    UserInfoEntity findByEmail (@Param("email")String email) throws Exception;
+    // @since 2023/03/26
+    UserInfoEntity findByEmailAndType1 (@Param("email")String email) throws Exception;
 
     // @since 2023/03/16
     int countByEmail (@Param("email")String email) throws Exception;
+
+    // @since 2023/03/26
+    int countByEmailAndType1  (@Param("email")String email) throws Exception;
 
     // @since 2023/03/16
     int countByNick (@Param("nick")String nick) throws Exception;
 
 
     // update
+    int usaveUserPw(@Param("user_id")String username, @Param("pass")String password) throws Exception;
 
     // delete
 

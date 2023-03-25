@@ -93,9 +93,8 @@ $(function (){
         });
     });
 
-    passInput.on('focusout keyup', function (){
+    passInput.on('focusout keyup focus', function (){
         const pass = $(this).val();
-        console.log(pass);
         if(!rePass.test(pass)){
             $('#pass1_msg').text('8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.')
             passOk = false;
@@ -105,7 +104,7 @@ $(function (){
         }
     });
 
-    confirmPassInput.on('focusout keyup', function (){
+    confirmPassInput.on('focusout keyup focus', function (){
         const confirmPass = $(this).val();
         const pass =  $('input[name=pass]').val();
 

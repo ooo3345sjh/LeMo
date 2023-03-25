@@ -18,12 +18,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.List;
 
@@ -40,6 +42,9 @@ public class SocialLoginSuccessHandler extends LoginSuccessHandler implements Au
     @Autowired
     private SocialRepo socialRepo;
 
+    @Autowired
+    private DataSource dataSource;
+
     // @since 2023/03/21
     @Override
     public void onAuthenticationSuccess(
@@ -51,8 +56,11 @@ public class SocialLoginSuccessHandler extends LoginSuccessHandler implements Au
         SocialEntity socialEntity = (SocialEntity) principal;
         SocialEntity user = socialRepo.findById(socialEntity.getUser_id()).orElse(null);
         HttpSession session = request.getSession();
-        log.debug("social : " + ((SocialEntity)principal).toString());
+
         if(user == null){
+            JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
+            repository.setDataSource(dataSource);
+            repository.removeUserTokens(socialEntity.getUser_id());
 
             SecurityContextHolder.getContext().setAuthentication(
                     new AnonymousAuthenticationToken("anonymousUser", principal, List.of(new SimpleGrantedAuthority("ROLE_ANONYMOUS")))
@@ -81,7 +89,8 @@ public class SocialLoginSuccessHandler extends LoginSuccessHandler implements Au
                 new UsernamePasswordAuthenticationToken(userVO, null, userVO.getAuthorities())
         );
 
-        loginSuccessPage(request, response);
+        String uri = loginSuccessPage(request, response);
+        redirectStrategy.sendRedirect(request, response, uri);
     }
 
     /**
@@ -118,10 +127,5 @@ public class SocialLoginSuccessHandler extends LoginSuccessHandler implements Au
                 .soci_email(user.getEmail())
                 .build();
         return userVO;
-    }
-
-    @Override
-    public void loginSuccessPage(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        super.loginSuccessPage(request, response);
     }
 }

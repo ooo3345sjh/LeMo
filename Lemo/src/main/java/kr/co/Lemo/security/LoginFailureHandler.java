@@ -32,7 +32,6 @@ import java.io.IOException;
 @Configuration
 public class LoginFailureHandler implements AuthenticationFailureHandler {
 
-    protected final RequestCache requestCache = new HttpSessionRequestCache();
     protected final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
@@ -53,8 +52,8 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         else if(exception.getClass() == BadCredentialsException.class)
             error = "NE";
 
-        else if(exception.getClass() == CredentialsExpiredException.class)
-            error = "PNE";
+        else
+            error = "error";
 
         redirectStrategy.sendRedirect(request, response, "/user/login/error?error="+error);
     }

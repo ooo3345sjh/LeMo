@@ -226,8 +226,13 @@ main > .main_inner {
 .btn_quick .btn_wishlist img {
     width: 33px;
 }
+.btn_quick #scrollToTop, .btn_quick #scrollToBottom {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
 
-/* 메인 슬라이더 */
+    /* 메인 슬라이더 */
 main .main_slider {
     background: pink;
     width: 1100px;
