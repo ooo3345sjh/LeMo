@@ -45,6 +45,9 @@
                 </when>
             </choose>
         </if>
+        <if test="sort == null">
+            order by `rdate` desc
+        </if>
         limit #{offset}, 10;
     </select>
 

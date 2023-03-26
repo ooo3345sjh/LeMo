@@ -517,8 +517,27 @@ main .btnDeleteUser {
     background: #8d8d8d;
 }
 
-
-
+main .user_id {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+main .sortIsEnabled > img {
+    width: 13px;
+    margin-left: 3px;
+}
+main .sortLevel > img {
+    width: 13px;
+    margin-left: 3px;
+}
+main .sortType > img {
+    width: 13px;
+    margin-left: 3px;
+}
+main .sortRdate > img {
+    width: 13px;
+    margin-left: 3px;
+}
 
 main .drop {
     color: #E84545;
@@ -526,6 +545,13 @@ main .drop {
 main .block {
     color: #00bbfe;
 }
+main .snsUser {
+    color: #bbd444;
+}
+main .eliteUser {
+    color: #FFD966;
+}
+
 main #width50 {
     width: 50% !important;
 }

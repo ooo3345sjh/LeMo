@@ -62,10 +62,18 @@
                                         <li>번호</li>
                                         <li>회원 아이디</li>
                                         <li class="nick" >닉네임</li>
-                                        <li class="sortIsEnabled" name="sort" value="1">활성화</li>
-                                        <li class="sortLevel" name="sortLevel" value="4">등급</li>
-                                        <li class="sortType" value="7">구분</li>
-                                        <li class="sortRdate" value="10">가입일</li>
+                                        <li class="sortIsEnabled" name="sort" value="1">활성화
+                                            <img id="sortIsEnabled_img" th:src="@{/images/admin/sort.png}">
+                                        </li>
+                                        <li class="sortLevel" name="sortLevel" value="4">등급
+                                            <img id="sortLevel_img" th:src="@{/images/admin/sort.png}">
+                                        </li>
+                                        <li class="sortType" value="7">구분
+                                            <img id="sortType_img" th:src="@{/images/admin/sort.png}">
+                                        </li>
+                                        <li class="sortRdate" value="10">가입일
+                                            <img id="sortRdate_img" th:src="@{/images/admin/sort.png}">
+                                        </li>
                                         <li>관리</li>
                                     </ul>
                                     <th:block th:if="${#lists.size(users) !=0}">
@@ -74,18 +82,18 @@
                                             <li class="user_id" th:text="${user.user_id}">mango@gmail.com</li>
                                             <li class="user_nick" th:text="${user.nick}">고민중인흰둥이</li>
                                             <li th:text="${user.isEnabled == 0 ? '탈퇴' : (user.isLocked == 0 ? '차단' : '정상')}" th:class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}"></li>
-                                            <li th:text="${user.level == 1}? '일반':'엘리트'">등급</li>
-                                            <li th:text="${user.type == 1}? '홈회원':'SNS회원'">회원 구분</li>
+                                            <li th:text="${user.level == 1}? '일반':'엘리트'" th:class="${user.level == 1? 'genUser' : 'eliteUSer'}">등급</li>
+                                            <li th:text="${user.type == 1}? '홈회원':'SNS회원'" th:class="${user.type == 1 ? 'homeUser' : 'snsUser'}">회원 구분</li>
                                             <li class="user_date" th:text="${user.rdate}">가입일</li>
                                             <li class="user_memo">
-                                                <button class="btnNote">메모</button>
+                                                <button class="btnNote" th:value="${user.user_id}">메모</button>
                                                 <!-- 메모 팝업 -->
                                                 <dialog id="d_Memo">
                                                     <form method="dialog">
                                                         <section>
                                                             <nav class="d_tit">
                                                                 <h1 class="d_tit2">메모</h1>
-                                                                <input type="hidden" class="d_id">
+                                                                <input type="text" class="d_id">
                                                             </nav>
                                                             <div class="d_box">
                                                                 <textarea class="d_content" placeholder="메모 내용을 작성하세요" th:text="${user.memo}"></textarea>
@@ -143,15 +151,20 @@
             e.preventDefault();
             $(this).next().show();
 
-            let d_id = $(this).parent().closest('ul').find('.user_id').text();
+            //let d_id = $(this).parent().closest('ul').find('.user_id').text();
+            let d_id = $(this).val();
             console.log('d_id: '+ d_id );
             $(this).next().find('.d_id').attr('value', d_id);
 
         });
-        $('.btnRclose').click(function(e){
+
+        // 메모 팝업 닫기
+        $(document).on('click', '.btnRclose', function(e) {
             e.preventDefault();
+            console.log("click the close button");
             $(this).closest('li').find('#d_Memo').hide();
         });
+
 
         // 메모 팝업 - input 엔터키 submit 막기 btnCloseModal3
         $('.btnRsubmit').keydown(function() {
@@ -213,42 +226,42 @@
 
 
 
+
+
         // 메모 작성
-        $('.btnRsubmit').click(function(e){
+        $(document).on('click', '.btnRsubmit', function(e) {
             e.preventDefault();
 
             let user_id = $(this).parent().prev().prev().find('.d_id').val();
             let memo = $(this).parent().prev().children().val();
-            console.log('user_id: '+user_id);
-            console.log('memo: '+memo);
+            console.log('user_id: ' + user_id);
+            console.log('memo: ' + memo);
 
             const jsonData = {
-                "user_id" : user_id,
-                "memo" : memo
+                "user_id": user_id,
+                "memo": memo
             };
 
-            console.log('here1 in html');
-
-             ajaxAPI("admin/updateMemo", jsonData, "POST").then((response) => {
-                    if(response.result > 0) {
-                        alert('메모 작성이 완료되었습니다.');
-                        $(this).closest('li').find('#d_Memo').hide();
-                    } else {
-                        alert('error');
-                    }
-             }).catch((errorMsg) => {
+            ajaxAPI("admin/updateMemo", jsonData, "POST").then((response) => {
+                if (response.result > 0) {
+                  alert('메모 작성이 완료되었습니다.');
+                  $(this).closest('li').find('#d_Memo').hide();
+                } else {
+                  alert('error');
+                }
+            }).catch((errorMsg) => {
                 console.log(errorMsg);
-             });
-
-
-
+            });
         });
 
+
         // 회원 차단
-        $('.btnBlockUser').click(function(e){
+        $('#userList').on('click', '.btnBlockUser', function(e) {
             e.preventDefault();
+            console.log("click");
 
             let user_id = $(this).val();
+            let normal = $(this).parent().closest('ul').find('.normal');
             console.log('user_id:' + user_id);
 
             const jsonData = {"user_id": user_id};
@@ -257,7 +270,11 @@
                     if(response.result > 0) {
                         alert('해당 회원이 차단되었습니다.');
                         //$('#userList').load(location.href+' #userList');
-                        location.reload();
+                        //location.reload();
+                        normal.attr('class', 'block');
+                        normal.text("차단");
+                        $(this).attr('class', 'btnClearUser');
+                        $(this).text("해제");
                     } else {
                         alert('error');
                     }
@@ -267,10 +284,11 @@
         });
 
         // 회원 차단 해제
-        $('.btnClearUser').click(function(e){
+        $('#userList').on('click', '.btnClearUser', function(e) {
             e.preventDefault();
 
             let user_id = $(this).val();
+            let block = $(this).parent().closest('ul').find('.block');
             console.log('user_id:' + user_id);
 
             const jsonData = {"user_id": user_id};
@@ -279,7 +297,11 @@
             ajaxAPI("admin/usaveClear", jsonData, "POST").then((response) => {
                     if(response.result > 0) {
                         alert('해당 회원의 차단이 해제되었습니다.');
-                        location.reload();
+                        //location.reload();
+                        block.attr('class', 'normal');
+                        block.text("정상");
+                        $(this).attr('class', 'btnBlockUser');
+                        $(this).text("차단");
                     } else {
                         alert('error');
                     }
@@ -287,10 +309,6 @@
                 console.log(errorMsg);
             });
         });
-
-
-
-
     });
 
     // 활성화 정렬 (정상/차단)
@@ -302,10 +320,13 @@
         // 1(asc) -> 2(desc) -> 3( )
         if(value == 1){
             $(this).val(2);
+            $('#sortIsEnabled_img').attr("src", "/Lemo/images/admin/arrow-up.png");
         }else if(value == 2){
             $(this).val(3);
+            $('#sortIsEnabled_img').attr("src", "/Lemo/images/admin/arrow-down.png");
         }else if(value == 3) {
             $(this).val(1);
+            $('#sortIsEnabled_img').attr("src", "/Lemo/images/admin/sort.png");
         }
 
         const jsonData = {"sorted": value};
@@ -318,31 +339,31 @@
             console.log(response);
 
             $("#userList > *:not('.column')").empty();
+
             for(const [i, user] of response.users.entries()){
-                console.log('i : ' + i);
                 let  = user.isEnabled;
                 let tags = `<ul>
                                 <li>${response.totalCnt - response.offset - i}</li>
                                 <li class="user_id">${user.user_id}</li>
                                 <li class="user_nick">${user.nick}</li>
                                 <li class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}">${user.isEnabled == 0 ? '탈퇴' :  (user.isLocked == 0 ? '차단' : '정상')}</li>
-                                <li>${user.level == 1? '일반': '엘리트'}</li>
-                                <li>${user.type == 1? '홈회원':'SNS회원'}</li>
+                                <li class="${user.level == 1? 'genUser' : 'eliteUser'}">${user.level == 1? '일반': '엘리트'}</li>
+                                <li class="${user.type == 1 ? 'homeUser' : 'snsUser'}">${user.type == 1? '홈회원':'SNS회원'}</li>
                                 <li>${user.rdate}</li>
                                 <li>
-                                    <button class="btnNote">메모</button>
+                                    <button class="btnNote" value="${user.user_id}">메모</button>
                                     <dialog id="d_Memo">
                                         <form method="dialog">
                                             <section>
                                                 <nav class="d_tit">
                                                     <h1 class="d_tit2">메모</h1>
-                                                    <input type="hidden" class="d_id">
+                                                    <input type="text" class="d_id">
                                                 </nav>
                                                 <div class="d_box">
-                                                    <textarea class="d_content" placeholder="메모 내용을 작성하세요" text="${user.memo}"></textarea>
+                                                    <textarea class="d_content" placeholder="메모 내용을 작성하세요">${user.memo}</textarea>
                                                 </div>
                                                 <div class="rr_btn">
-                                                    <button class="btnRclose" id="btnCloseModal2" value="close" type="reset">닫기</button>
+                                                    <button class="btnRclose" id="btnCloseModal2">닫기</button>
                                                     <button type="button" class="btnRsubmit" id="btnCloseModal3" >작성</button>
                                                 </div>
                                             </section>
@@ -353,6 +374,7 @@
                                 </li>
                            </ul>`;
                 $('#userList').append(tags);
+
             }
         }).catch((errorMsg) => {
             console.log(errorMsg);
@@ -368,10 +390,13 @@
         // 4(desc) -> 5(asc) -> 6( )
          if(value == 4){
              $(this).val(5);
+             $('#sortLevel_img').attr("src", "/Lemo/images/admin/arrow-up.png");
          }else if(value == 5){
              $(this).val(6);
+             $('#sortLevel_img').attr("src", "/Lemo/images/admin/arrow-down.png");
          }else if(value == 6) {
              $(this).val(4);
+             $('#sortLevel_img').attr("src", "/Lemo/images/admin/sort.png");
          }
 
          const jsonData = {"sorted": value};
@@ -392,10 +417,31 @@
                                 <li class="user_id">${user.user_id}</li>
                                 <li class="user_nick">${user.nick}</li>
                                 <li class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}">${user.isEnabled == 0 ? '탈퇴' :  (user.isLocked == 0 ? '차단' : '정상')}</li>
-                                <li>${user.level == 1? '일반': '엘리트'}</li>
-                                <li>${user.type == 1? '홈회원':'SNS회원'}</li>
+                                <li class="${user.level == 1? 'genUser' : 'eliteUser'}">${user.level == 1? '일반': '엘리트'}</li>
+                                <li class="${user.type == 1 ? 'homeUser' : 'snsUser'}">${user.type == 1? '홈회원':'SNS회원'}</li>
                                 <li>${user.rdate}</li>
-                                <li>8</li>
+                                <li>
+                                    <button class="btnNote" value="${user.user_id}">메모</button>
+                                    <dialog id="d_Memo">
+                                        <form method="dialog">
+                                            <section>
+                                                <nav class="d_tit">
+                                                    <h1 class="d_tit2">메모</h1>
+                                                    <input type="text" class="d_id">
+                                                </nav>
+                                                <div class="d_box">
+                                                    <textarea class="d_content" placeholder="메모 내용을 작성하세요">${user.memo}</textarea>
+                                                </div>
+                                                <div class="rr_btn">
+                                                    <button class="btnRclose" id="btnCloseModal2">닫기</button>
+                                                    <button type="button" class="btnRsubmit" id="btnCloseModal3" >작성</button>
+                                                </div>
+                                            </section>
+                                        </form>
+                                    </dialog>
+                                    <button data-action="${user.isLocked == 1? 'block':'clear'}" class="btnBlockUser" type="button" id="btnBlockUser" value="${user.user_id}">차단</button>
+                                    <button data-action="${user.isLocked == 0? 'block':'clear'}" class="btnClearUser" type="button" id="btnClearUser" value="${user.user_id}">해제</button>
+                                </li>
                            </ul>`;
                 $('#userList').append(tags);
         }
@@ -412,10 +458,13 @@
         // 7(desc) -> 8(asc) -> 9( )
         if(value == 7){
             $(this).val(8);
+            $('#sortType_img').attr("src", "/Lemo/images/admin/arrow-up.png");
         }else if(value == 8){
             $(this).val(9);
+            $('#sortType_img').attr("src", "/Lemo/images/admin/arrow-down.png");
         }else if(value == 9) {
             $(this).val(7);
+            $('#sortType_img').attr("src", "/Lemo/images/admin/sort.png");
         }
 
         const jsonData = {"sorted": value};
@@ -436,10 +485,31 @@
                                 <li class="user_id">${user.user_id}</li>
                                 <li class="user_nick">${user.nick}</li>
                                 <li class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}">${user.isEnabled == 0 ? '탈퇴' :  (user.isLocked == 0 ? '차단' : '정상')}</li>
-                                <li>${user.level == 1? '일반': '엘리트'}</li>
-                                <li>${user.type == 1? '홈회원':'SNS회원'}</li>
+                                <li class="${user.level == 1? 'genUser' : 'eliteUser'}">${user.level == 1? '일반': '엘리트'}</li>
+                                <li class="${user.type == 1 ? 'homeUser' : 'snsUser'}">${user.type == 1? '홈회원':'SNS회원'}</li>
                                 <li>${user.rdate}</li>
-                                <li>8</li>
+                                <li>
+                                    <button class="btnNote" value="${user.user_id}">메모</button>
+                                    <dialog id="d_Memo">
+                                        <form method="dialog">
+                                            <section>
+                                                <nav class="d_tit">
+                                                    <h1 class="d_tit2">메모</h1>
+                                                    <input type="text" class="d_id">
+                                                </nav>
+                                                <div class="d_box">
+                                                    <textarea class="d_content" placeholder="메모 내용을 작성하세요">${user.memo}</textarea>
+                                                </div>
+                                                <div class="rr_btn">
+                                                    <button class="btnRclose" id="btnCloseModal2">닫기</button>
+                                                    <button type="button" class="btnRsubmit" id="btnCloseModal3" >작성</button>
+                                                </div>
+                                            </section>
+                                        </form>
+                                    </dialog>
+                                    <button data-action="${user.isLocked == 1? 'block':'clear'}" class="btnBlockUser" type="button" id="btnBlockUser" value="${user.user_id}">차단</button>
+                                    <button data-action="${user.isLocked == 0? 'block':'clear'}" class="btnClearUser" type="button" id="btnClearUser" value="${user.user_id}">해제</button>
+                                </li>
                            </ul>`;
                 $('#userList').append(tags);
         }
@@ -456,10 +526,13 @@
         // 10(asc) -> 11(desc) -> 12( )
         if(value == 10){
             $(this).val(11);
+            $('#sortRdate_img').attr("src", "/Lemo/images/admin/arrow-up.png");
         }else if(value == 11){
             $(this).val(12);
+            $('#sortRdate_img').attr("src", "/Lemo/images/admin/arrow-down.png");
         }else if(value == 12) {
             $(this).val(10);
+            $('#sortRdate_img').attr("src", "/Lemo/images/admin/sort.png");
         }
 
         const jsonData = {"sorted": value};
@@ -480,10 +553,31 @@
                                 <li class="user_id">${user.user_id}</li>
                                 <li class="user_nick">${user.nick}</li>
                                 <li class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}">${user.isEnabled == 0 ? '탈퇴' :  (user.isLocked == 0 ? '차단' : '정상')}</li>
-                                <li>${user.level == 1? '일반': '엘리트'}</li>
-                                <li>${user.type == 1? '홈회원':'SNS회원'}</li>
+                                <li class="${user.level == 1? 'genUser' : 'eliteUser'}">${user.level == 1? '일반': '엘리트'}</li>
+                                <li class="${user.type == 1 ? 'homeUser' : 'snsUser'}">${user.type == 1? '홈회원':'SNS회원'}</li>
                                 <li>${user.rdate}</li>
-                                <li>8</li>
+                                <li>
+                                    <button class="btnNote" value="${user.user_id}">메모</button>
+                                    <dialog id="d_Memo">
+                                        <form method="dialog">
+                                            <section>
+                                                <nav class="d_tit">
+                                                    <h1 class="d_tit2">메모</h1>
+                                                    <input type="text" class="d_id">
+                                                </nav>
+                                                <div class="d_box">
+                                                    <textarea class="d_content" placeholder="메모 내용을 작성하세요">${user.memo}</textarea>
+                                                </div>
+                                                <div class="rr_btn">
+                                                    <button class="btnRclose" id="btnCloseModal2">닫기</button>
+                                                    <button type="button" class="btnRsubmit" id="btnCloseModal3" >작성</button>
+                                                </div>
+                                            </section>
+                                        </form>
+                                    </dialog>
+                                    <button data-action="${user.isLocked == 1? 'block':'clear'}" class="btnBlockUser" type="button" id="btnBlockUser" value="${user.user_id}">차단</button>
+                                    <button data-action="${user.isLocked == 0? 'block':'clear'}" class="btnClearUser" type="button" id="btnClearUser" value="${user.user_id}">해제</button>
+                                </li>
                            </ul>`;
                 $('#userList').append(tags);
         }
