@@ -125,6 +125,7 @@ public class ProductController {
 
 
         log.info("vo : " +vo);
+        log.info("map: " + map);
 
         vo.setMap(map);
         List<ArticleDiaryVO> diaries = service.findAllProductDiaries(vo);
@@ -142,8 +143,31 @@ public class ProductController {
         return "product/data/detailDiary";
     }
 
+    // @since 2023/03/25
     @GetMapping("detailreview")
-    public String detailReview() {
+    public String detailReview(Model model,
+                               @RequestParam Map map,
+                               @ModelAttribute ProductDetail_SearchVO vo) {
+
+        vo.setMap(map);
+        List<ReviewVO> reviews = service.findAllReviews(vo);
+
+        // 해당 숙소의 전체 리뷰 답변 갯수
+        service.getTotalProductReviewReply(model,vo);
+
+        // 판매자 정보 가져오기
+        UserVO business = service.findBusiness(vo.getAcc_id());
+
+        // 페이징
+        int totalCnt = service.getTotalProductReview(vo); // 전체 게시물 개수
+        int totalPage = (int)Math.ceil(totalCnt / (double)vo.getPageSize());  // 전체 페이지의 수
+        if(vo.getPage() > totalPage) vo.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, vo);
+
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("business", business);
 
         return "product/data/detailReview";
     }

@@ -42,4 +42,5 @@ public class ArticleDiaryVO {
     
     // @since 2023/03/24 @author 이해빈
     private int acc_id;
+    private String acc_name;
 }

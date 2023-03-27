@@ -1,59 +1,75 @@
 <html xmlns:th="http://www.thymeleaf.org">
-
-<div class="score_top">
-    <strong>추천해요</strong>
+<div class="score_top" th:if="${reviews.size > 0}">
+    <strong th:if="${reviews.get(0).acc_rate >=5}">최고에요</strong>
+    <strong th:if="${reviews.get(0).acc_rate >=4 && reviews.get(0).acc_rate < 5}">추천해요</strong>
+    <strong th:if="${reviews.get(0).acc_rate >=3 && reviews.get(0).acc_rate < 4}">좋아요</strong>
+    <strong th:if="${reviews.get(0).acc_rate < 3}">괜찮아요</strong>
     <div class="score_wrap">
-        <div class="score_star rating4">Designed by starline / Freepik</div>
-        <div class="num">5</div>
+        <div th:class="'score_star rating'+${reviews.get(0).acc_rate}">-</div>
+        <div class="num">[[${reviews.get(0).acc_rate}]]</div>
     </div>
     <p>
         전체 리뷰
-        <b>9999</b>
+        <b> [[${ph.totalCnt}]]</b>
         <span>|</span>
         제휴점 답변
-        <b>2</b>
+        <b>[[${totalReplies}]]</b>
     </p>
 </div>
 <ul>
-    <li>
+    <li th:each="review : ${reviews}">
         <div class="guest">
-            <p class="pic"></p>
-            <span class="best_review"></span>
-            <strong>여기만한 곳은 없을 거에요.</strong>
+            <p class="pic">
+                <img th:src="|@{/}img/user/${review.photo}|" th:if="${review.photo != null}">
+                <img th:src="@{/images/my/profile.png}" th:if="${review.photo == null}">
+            </p>
+<!--            <span class="best_review"></span>-->
+            <strong>[[${review.revi_title}]]</strong>
             <div class="score_wrap_sm">
-                <div class="score_star rating4"></div>
-                <div class="num">5</div>
+                <div th:class="'score_star rating'+${review.revi_rate}"></div>
+                <div class="num">[[${review.revi_rate}]]</div>
             </div>
             <div class="name">
-                <b>테스트 객실</b>
+                <b>[[${review.room_name}]]</b>
             </div>
             <div class="txt">
-                테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트
-                테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트
-                테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트
-                테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트
-                테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트
-                테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트
-                테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트 테스트
+                [[${review.revi_content}]]
             </div>
-            <div class="gallery_re">
+            <div class="gallery_re" th:if="${review.revi_thumb != null && review.revi_thumb !=''}">
                 <div class="gallerySlider">
-                    <div><img th:src="@{/images/product/testImg/apollo_17_blue_marble_photo_dec_7_1972_as17-148-22727.jpg}"></div>
+                    <div th:each="img, i : ${#strings.arraySplit(review.revi_thumb, '/')}">
+                        <img th:src="|@{/}img/review/${img}|">
+                    </div>
                 </div>
             </div>
-            <span class="date">2023/02/28 방문</span>
+            <span class="date">[[${review.res_checkIn}]] 방문</span>
         </div>
-        <div class="boss">
+        <div class="boss" th:if="${review.revi_reply != null}">
             <p class="pic">
-                <img th:src="@{/images/index/lemo_logo-removebg-preview.png}" alt="lemo">
+                <img th:src="|@{/}img/user/${business.photo}|" th:if="${business.photo != null}">
+                <img th:src="@{/images/my/profile.png}" th:if="${business.photo == null}">
             </p>
             <strong>제휴점 답변</strong>
             <div class="txt">
-                소중한 답변 감사드립니다.소중한 답변 감사드립니다.소중한 답변 감사드립니다.소중한 답변 감사드립니다.소중한 답변 감사드립니다.소중한 답변 감사드립니다.소중한 답변 감사드립니다.
+                [[${review.revi_reply}]]
             </div>
-            <span class="date">1일 전</span>
+            <span class="date">[[${review.revi_dateBF}]]</span>
         </div>
+    </li>
+    <li th:if="${reviews.size() == 0}" style="font-size:14px; text-align: center;">
+        등록된 리뷰가 없습니다.
     </li>
 </ul>
 
+<div class="paging" th:object="${ph}" th:if="${reviews.size() > 0}">
+    <span class="prev" th:if="*{showPrev}">
+        <a th:href="@{/product/detailreview} + ${ph.sc.getQueryString(ph.beginPage-1)}" onclick="movePage(event,this,'review')"></a>
+    </span>
+    <span class="on" th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
+        <a th:href="@{/product/detailreview} + ${ph.sc.getQueryString(num)}" onclick="movePage(event,this,'review')">[[${num}]]</a>
+    </span>
+    <span class="next" th:if="*{showNext}">
+        <a th:href="@{/product/detailreview} + ${ph.sc.getQueryString(ph.endPage+1)}" onclick="movePage(event,this,'review')"></a>
+    </span>
+</div>
 </html>

@@ -34,5 +34,10 @@ public class ReviewVO {
     private String res_checkIn;
     private String res_checkOut;
     private int acc_id;
+    private int acc_review;
+    private int acc_rate;
+    private String revi_reply_rdate;
+    private String revi_dateBF; // 리뷰 n일전 작성
+    private String photo; // 프로필 사진
 
 }

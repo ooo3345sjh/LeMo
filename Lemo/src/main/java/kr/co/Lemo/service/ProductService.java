@@ -23,7 +23,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URLEncoder;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -154,17 +157,29 @@ public class ProductService {
     }
 
     // @since 2023/03/20
-    public List<ArticleDiaryVO> findAllDiary(@Param("acc_id") int acc_id){
-        return dao.selectDiaries(acc_id);
+    public List<ArticleDiaryVO> findAlProductlDiary(@Param("acc_id") int acc_id){
+        return dao.selectProductDiaries(acc_id);
     }
 
     // @since 2023/03/22
     public List<ProductQnaVO> findAllProductQna(ProductDetail_SearchVO vo){
-        log.debug("serachwdrd"+vo.getSearchWord());
-
-        log.debug("list"+dao.selectProductQnas(vo));
-
         return dao.selectProductQnas(vo);
+    }
+
+    // @since 2023/03/26
+    public List<ReviewVO> findAllReviews(ProductDetail_SearchVO vo){
+
+        List<ReviewVO> reviews = dao.selectProductReviews(vo);
+        
+        // 리뷰 답변 날짜 n일전, n개월전 .. 설정
+        reviews = setReviewDateBF(reviews);
+
+        return reviews;
+    };
+
+    // @since 2023/03/26
+    public UserVO findBusiness(int acc_id){
+        return dao.selectBusiness(acc_id);
     }
 
     // @since 2023/03/22
@@ -175,6 +190,28 @@ public class ProductService {
     // @since 2023/03/24
     public int getTotalProductDiary(SearchCondition sc){
         return dao.getTotalProductDiary(sc);
+    }
+
+    // @since 2023/03/26
+    public int getTotalProductReview(SearchCondition sc){
+        return dao.getTotalProductReview(sc);
+    };
+
+    // @since 2023/03/26
+    public void getTotalProductReviewReply(Model model, ProductDetail_SearchVO vo){
+
+        List<ReviewVO> reviews = dao.getTotalProductReviewReply(vo);
+
+        int totalReplies = 0;
+
+        for(int i = 0; i < reviews.size(); i++){
+
+            if(reviews.get(i).getRevi_reply() != null ){
+                totalReplies ++;
+            }
+        }
+
+        model.addAttribute("totalReplies", totalReplies);
     }
 
     // @since 2023/03/24
@@ -251,7 +288,7 @@ public class ProductService {
         LocalDate CI;
         LocalDate CO;
 
-        if(sc.getCheckIn() == null && sc.getCheckOut() == null) {
+        if (sc.getCheckIn() == null && sc.getCheckOut() == null) {
             CI = LocalDate.now();
             CO = LocalDate.now().plusDays(1);
 
@@ -266,28 +303,28 @@ public class ProductService {
 
         List<LocalDate> dates = CI.datesUntil(CO).collect(Collectors.toList());
 
-        for(LocalDate date: dates) {
+        for (LocalDate date : dates) {
 
             // 요일 구하기
             int day = date.getDayOfWeek().getValue();
 
-            for(int i = 0; i < accs.size(); i ++) {
+            for (int i = 0; i < accs.size(); i++) {
                 int season = accs.get(i).getAcc_season(); // 성수기, 비성수기
                 int avg_price = accs.get(i).getAvg_price(); // 숙박기간의 평균 가격
                 int room_price = accs.get(i).getRoom_price();
 
 
-                if(season == 1) { // 성수기일때
-                    if(day == 5 || day ==6) { // 주말
-                        avg_price += room_price * (100 - accs.get(i).getRp_peakSeason_weekend())/100;
-                    }else { // 주중
-                        avg_price += room_price * (100 - accs.get(i).getRp_peakSeason_weekday())/100;
+                if (season == 1) { // 성수기일때
+                    if (day == 5 || day == 6) { // 주말
+                        avg_price += room_price * (100 - accs.get(i).getRp_peakSeason_weekend()) / 100;
+                    } else { // 주중
+                        avg_price += room_price * (100 - accs.get(i).getRp_peakSeason_weekday()) / 100;
                     }
-                }else if(season == 2){ // 비성수기일때
-                    if(day == 5 || day ==6) { // 주말
-                        avg_price += room_price * (100 - accs.get(i).getRp_offSeason_weekend())/100;
-                    }else { // 주중
-                        avg_price += room_price * (100 - accs.get(i).getRp_offSeason_weekday())/100;
+                } else if (season == 2) { // 비성수기일때
+                    if (day == 5 || day == 6) { // 주말
+                        avg_price += room_price * (100 - accs.get(i).getRp_offSeason_weekend()) / 100;
+                    } else { // 주중
+                        avg_price += room_price * (100 - accs.get(i).getRp_offSeason_weekday()) / 100;
                     }
                 }
 
@@ -295,8 +332,8 @@ public class ProductService {
 
             }
         }
-        for(int i = 0; i < accs.size(); i ++) {
-            int avg = accs.get(i).getAvg_price() / (int)days;
+        for (int i = 0; i < accs.size(); i++) {
+            int avg = accs.get(i).getAvg_price() / (int) days;
 
             avg = avg / 10 * 10;
 
@@ -306,6 +343,46 @@ public class ProductService {
         }
 
         return accs;
+    }
+
+    // @since 2023/03/26
+    public List<ReviewVO> setReviewDateBF(List<ReviewVO> reviews){
+
+        LocalDateTime today = LocalDateTime.now();
+
+        for(int i = 0; i < reviews.size(); i++){
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            String revi_date = reviews.get(i).getRevi_reply_rdate();
+
+            if (revi_date != null) {
+                LocalDateTime review_date = LocalDateTime.parse(revi_date, formatter);
+                long days = Duration.between(review_date, today).toDays();
+                long months = Period.between(review_date.toLocalDate(), today.toLocalDate()).toTotalMonths();
+                long years = Period.between(review_date.toLocalDate(), today.toLocalDate()).getYears();
+
+                String display = "";
+                if (years > 0) {
+                    display = years + "년 전";
+                } else if (months > 0) {
+                    display = months + "개월 전";
+                } else if (days >= 30) {
+                    int diff = (int) (days / 30);
+                    display = diff + "개월 전";
+                } else if (days > 0) {
+                    display = days + "일 전";
+                } else {
+                    display = "오늘";
+                }
+
+                reviews.get(i).setRevi_dateBF(display);
+
+                System.out.println("리뷰 작성 날짜 : " + revi_date + ", " + display);
+            }
+        }
+
+        return reviews;
     }
 
 }

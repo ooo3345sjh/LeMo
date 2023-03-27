@@ -1028,7 +1028,7 @@
     width: 56px;
     height: 56px;
     border-radius: 100%;
-    background: url(/Lemo/images/index/lemo_logo-removebg-preview.png) 0 0 no-repeat;
+    background: 0 0 no-repeat;
     background-size: 45px auto;
 }
 
@@ -1135,6 +1135,7 @@
     width: 30px;
     height: 30px;
     border-radius: 100%;
+    object-fit: cover;
 }
 
 .detail_review .boss > strong {
@@ -1183,7 +1184,8 @@
 
 .detail_diary > span {
     display: inline-block;
-    width: 200px; height: 60px;
+    padding: 0 10px;
+    height: 60px;
     border-radius: 10px;
     background: rgb(249 230 230);
     font-size: 25px;

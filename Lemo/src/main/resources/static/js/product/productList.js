@@ -72,7 +72,7 @@ $(function(){
         setUrlParams('accTypes', accTypes.join(','));
 
         if(maxPrice == 0){
-            alert('최대금액은 0원 보다 큰 금액이어야합니다.');
+            Swal.fire('최대금액은 0원 보다 큰 금액이어야합니다.');
             return false;
         }
 
@@ -107,7 +107,7 @@ $(function(){
         let today = new Date(date);
 
         if(checkInDate < today) {
-            alert('지나간 날짜는 선택이 불가능합니다.');
+            Swal.fire('지나간 날짜는 선택이 불가능합니다.');
             return;
         }
 
