@@ -35,4 +35,11 @@ public class ReviewVO {
     private String res_checkOut;
     private int acc_id;
 
+    /**
+     * @since 2023/03/27
+     * @author 박종협
+     */
+    private String acc_thumbs;
+    private int province_no;
+
 }

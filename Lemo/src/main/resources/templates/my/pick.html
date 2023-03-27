@@ -25,20 +25,20 @@
                         <div class="my_pick">
                             <table>
                                 <tbody>
-                                    <tr>
+                                    <tr th:each="pick:${picks}">
                                         <td>
                                             <a th:href="@{#}" class="my_pick_img">
-                                                <img th:src="@{/images/my/hotel_main.jpg}" alt="장소 이미지">
+                                                <img th:src="|@{/}img/product/${pick.province_no}/${pick.acc_id}/${#strings.substringBefore(pick.acc_thumbs, '/')}|" alt="장소 이미지">
                                             </a>
                                         </td>
                                         <td>
                                             <div class="my_pick_Name">
-                                                <span class="pickName">제주 레모 펜션 (Jeju Lemo Pension)</span>
+                                                <span class="pickName">[[${pick.acc_name}]]</span>
                                             </div>
                                             <div class="my_pick_rating">
                                                 <!-- 임시 평점 -->
                                                 <div class="star-ratings">
-                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: 4 + '%' }">
                                                         <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                                                     </div>
                                                     <div class="star-ratings-base space-x-2 text-lg">
@@ -46,110 +46,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="my_pick_review_count">
-                                                    <span>1,000</span>
+                                                    <span>[[${pick.acc_review}]]</span>
                                                 </div>
                                             </div>
                                             <div class="blank30"></div>
                                             <div class="my_pick_address">
-                                                <span>
-                                                제주도 서귀포 표선면
-                                                </span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a th:href="@{#}" class="my_pick_img">
-                                                <img th:src="@{/images/my/hotel_main.jpg}" alt="장소 이미지">
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div class="my_pick_Name">
-                                                <span class="pickName">제주 레모 펜션 (Jeju Lemo Pension)</span>
-                                            </div>
-                                            <div class="my_pick_rating">
-                                                <!-- 임시 평점 -->
-                                                <div class="star-ratings">
-                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
-                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                                    </div>
-                                                    <div class="star-ratings-base space-x-2 text-lg">
-                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                                    </div>
-                                                </div>
-                                                <div class="my_pick_review_count">
-                                                    <span>1,000</span>
-                                                </div>
-                                            </div>
-                                            <div class="blank30"></div>
-                                            <div class="my_pick_address">
-                                                <span>
-                                                제주도 서귀포 표선면
-                                                </span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a th:href="@{#}" class="my_pick_img">
-                                                <img th:src="@{/images/my/hotel_main.jpg}" alt="장소 이미지">
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div class="my_pick_Name">
-                                                <span class="pickName">제주 레모 펜션 (Jeju Lemo Pension)</span>
-                                            </div>
-                                            <div class="my_pick_rating">
-                                                <!-- 임시 평점 -->
-                                                <div class="star-ratings">
-                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
-                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                                    </div>
-                                                    <div class="star-ratings-base space-x-2 text-lg">
-                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                                    </div>
-                                                </div>
-                                                <div class="my_pick_review_count">
-                                                    <span>1,000</span>
-                                                </div>
-                                            </div>
-                                            <div class="blank30"></div>
-                                            <div class="my_pick_address">
-                                                <span>
-                                                제주도 서귀포 표선면
-                                                </span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a th:href="@{#}" class="my_pick_img">
-                                                <img th:src="@{/images/my/hotel_main.jpg}" alt="장소 이미지">
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div class="my_pick_Name">
-                                                <span class="pickName">제주 레모 펜션 (Jeju Lemo Pension)</span>
-                                            </div>
-                                            <div class="my_pick_rating">
-                                                <!-- 임시 평점 -->
-                                                <div class="star-ratings">
-                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
-                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                                    </div>
-                                                    <div class="star-ratings-base space-x-2 text-lg">
-                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                                    </div>
-                                                </div>
-                                                <div class="my_pick_review_count">
-                                                    <span>1,000</span>
-                                                </div>
-                                            </div>
-                                            <div class="blank30"></div>
-                                            <div class="my_pick_address">
-                                                <span>
-                                                제주도 서귀포 표선면
-                                                </span>
+                                                <span>[[${pick.acc_addr}]]</span>
                                             </div>
                                         </td>
                                     </tr>

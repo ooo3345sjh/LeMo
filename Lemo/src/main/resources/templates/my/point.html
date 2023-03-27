@@ -30,25 +30,32 @@
                                 <div class="mph_1">
                                     <h2>포인트 내역</h2>
                                 </div>
-                                <div class="mph_2">
-                                    <div class="mph_3"> <!-- 반복 -->
+                                <div class="mph_2" th:if="${points.size() == 0}">
+                                    <p>포인트 이용내역이 없습니다.</p>
+                                </div>
+                                <div class="mph_2" th:if="${points.size() != 0}">
+                                    <div class="mph_3" th:each="point:${points}">
                                         <div class="mph_4">
-                                            <div class="mph_4_1">2023.02.18</div>
+                                            <div class="mph_4_1">[[${point.poi_rdate.substring(0,10)}]]</div>
                                         </div>
                                         <div>
                                             <div class="mph_5">
-                                                <div class="save">적립</div>
-                                                <h2>사진 리뷰 작성(구매)</h2>
+                                                <div class="deleted" th:if="${point.poi_state == 0}">소멸</div>
+                                                <div class="save" th:if="${point.poi_state == 1}">적립</div>
+                                                <div class="used" th:if="${point.poi_state == 2}">사용</div>
+                                                <h2>[[${point.poi_content}]]</h2>
                                                 
                                             </div>
                                             <ul class="mph_6">
-                                                <li>[HEM] 헥사 인센스 스틱</li>
-                                                <li>유효기간: 2023.04.27까지</li>
+                                                <!--<li>[HEM] 헥사 인센스 스틱</li>-->
+                                                <li th:if="${point.poi_state == 0}">유효기간: [[${point.poi_maximum.substring(0,10)}]] 소멸</li>
+                                                <li th:if="${point.poi_state == 1}">유효기간: [[${point.poi_maximum.substring(0,10)}]] 적립</li>
+                                                <li th:if="${point.poi_state == 2}">유효기간: [[${point.poi_maximum.substring(0,10)}]] 까지</li>
                                             </ul>
                                         </div>
                                         <div class="mph_7">
                                             <span class="plus">
-                                                + 500P
+                                                + [[${point.poi_point}]]P
                                             </span>
                                         </div>
                                     </div>

@@ -66,6 +66,11 @@ public class ProductAccommodationVO {
 
     private int avg_price;
 
-
+    /**
+     * @since 2023/03/27
+     * @author 박종협
+     */
+    private String province_name;
+            
 
 }

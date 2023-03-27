@@ -30,4 +30,15 @@ public class ReservationVO {
     private String res_checkOut;
     private int res_state;
     private String res_memo;
+
+    // 추가
+
+    // @since 2023/03/27
+    private int province_no;
+    private String acc_thumbs;
+    private String room_checkIn;
+    private String room_checkOut;
+    private String acc_name;
+
+
 }

@@ -31,128 +31,29 @@
                                 </select>
                             </div>
                             <div class="visitList">
-                                <div class="visit_info">
+                                <p th:if="${reviews.size() == 0}">숙박완료된 내역이 없습니다.</p>
+                                <div class="visit_info" th:each="review:${reviews}">
                                     <div class="visit_img">
-                                        <img th:src="@{/images/my/hotel_main.jpg}" alt>
+                                        <img th:src="|@{/}img/product/${review.province_no}/${review.acc_id}/${#strings.substringBefore(review.acc_thumbs, '/')}|" alt>
                                     </div>
                                     <div>
                                         <div class="visit_tit">
-                                            부산 힐튼 호텔
+                                            [[${review.acc_name}]]
                                         </div>
                                         <div class="visit_checkin">
                                             <span>
                                                 체크인<br>
-                                                2023-01-13
+                                                [[${review.res_checkIn}]]
                                             </span>
                                         </div>
                                         <div class="visit_checkout">
                                             <span>
                                                 체크아웃<br>
-                                                2023-01-14
+                                                [[${review.res_checkOut}]]
                                             </span>
                                         </div>
                                         <div>
-                                            <a th:href="@{#}" class="review_btn">리뷰작성</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="visit_info">
-                                    <div class="visit_img">
-                                        <img th:src="@{/images/my/hotel_main.jpg}" alt>
-                                    </div>
-                                    <div>
-                                        <div class="visit_tit">
-                                            부산 힐튼 호텔
-                                        </div>
-                                        <div class="visit_checkin">
-                                            <span>
-                                                체크인<br>
-                                                2023-01-13
-                                            </span>
-                                        </div>
-                                        <div class="visit_checkout">
-                                            <span>
-                                                체크아웃<br>
-                                                2023-01-14
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <a th:href="@{#}" class="review_btn">리뷰작성</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="visit_info">
-                                    <div class="visit_img">
-                                        <img th:src="@{/images/my/hotel_main.jpg}" alt>
-                                    </div>
-                                    <div>
-                                        <div class="visit_tit">
-                                            부산 힐튼 호텔
-                                        </div>
-                                        <div class="visit_checkin">
-                                            <span>
-                                                체크인<br>
-                                                2023-01-13
-                                            </span>
-                                        </div>
-                                        <div class="visit_checkout">
-                                            <span>
-                                                체크아웃<br>
-                                                2023-01-14
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <a th:href="@{#}" class="review_btn">리뷰작성</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="visit_info">
-                                    <div class="visit_img">
-                                        <img th:src="@{/images/my/hotel_main.jpg}" alt>
-                                    </div>
-                                    <div>
-                                        <div class="visit_tit">
-                                            부산 힐튼 호텔
-                                        </div>
-                                        <div class="visit_checkin">
-                                            <span>
-                                                체크인<br>
-                                                2023-01-13
-                                            </span>
-                                        </div>
-                                        <div class="visit_checkout">
-                                            <span>
-                                                체크아웃<br>
-                                                2023-01-14
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <a th:href="@{#}" class="review_btn2">리뷰보기</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="visit_info">
-                                    <div class="visit_img">
-                                        <img th:src="@{/images/my/hotel_main.jpg}" alt>
-                                    </div>
-                                    <div>
-                                        <div class="visit_tit">
-                                            부산 힐튼 호텔
-                                        </div>
-                                        <div class="visit_checkin">
-                                            <span>
-                                                체크인<br>
-                                                2023-01-13
-                                            </span>
-                                        </div>
-                                        <div class="visit_checkout">
-                                            <span>
-                                                체크아웃<br>
-                                                2023-01-14
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <a th:href="@{#}" class="review_btn2">리뷰보기</a>
+                                            <a th:href="@{/my/review/write (acc_id = ${review.acc_id})}" class="review_btn">리뷰작성</a>
                                         </div>
                                     </div>
                                 </div>
