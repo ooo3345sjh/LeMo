@@ -190,21 +190,10 @@ $(function(){
             return false;
         }
 
-        let jsonData = {
-            "cp_id" = cp_id,
-            "user_id" = uid
-        }
-
-//        ajaxAPI("product/getCoupon", jsonData, "POST").then((response) => {
-//            if(response.result > 0 ) {
-//
-//            }
-//
-//        }).catch((errorMsg) => {
-//            console.log(errorMsg)
-//        });
-
-
+//        let jsonData = {
+//            "cp_id" = cp_id,
+//            "user_id" = uid
+//        }
     });
 
     /** 확장 이미지 닫기 버튼 */
