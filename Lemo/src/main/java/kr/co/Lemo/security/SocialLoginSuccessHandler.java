@@ -108,6 +108,7 @@ public class SocialLoginSuccessHandler extends LoginSuccessHandler implements Au
                 .user_id(user.getUser_id())
                 .pass(null)
                 .nick(userInfo.getNick())
+                .hp(userInfo.getHp())
                 .photo(userInfo.getPhoto())
                 .type(userInfo.getType())
                 .role(userInfo.getRole())

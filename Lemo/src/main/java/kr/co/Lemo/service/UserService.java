@@ -185,6 +185,7 @@ public class UserService {
                     .user_id(user.getUser_id())
                     .pass(null)
                     .nick(userInfo.getNick())
+                    .hp(userInfo.getHp())
                     .photo(userInfo.getPhoto())
                     .type(userInfo.getType())
                     .role(userInfo.getRole())
@@ -200,6 +201,7 @@ public class UserService {
                     .udate(userInfo.getUdate())
                     .rdate(userInfo.getUdate())
                     .wdate(userInfo.getWdate())
+                    .soci_type(user.getSoci_typ())
                     .build();
             return userVO;
 
