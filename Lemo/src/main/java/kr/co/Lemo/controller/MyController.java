@@ -1,7 +1,12 @@
 package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.*;
+import kr.co.Lemo.domain.search.My_SearchVO;
+import kr.co.Lemo.domain.search.ProductDetail_SearchVO;
 import kr.co.Lemo.service.MyService;
+
+import kr.co.Lemo.utils.PageHandler;
+import kr.co.Lemo.utils.SearchCondition;
 import kr.co.Lemo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,13 +50,17 @@ public class MyController {
     @GetMapping("{myCate}")
     public String myCate(
             @PathVariable String myCate,
+            @RequestParam Map map,
             @AuthenticationPrincipal UserVO myUser,
+            @ModelAttribute My_SearchVO vo,
             Model m
     ) {
         log.debug("GET " + myCate + " start");
         m.addAttribute("title", environment.getProperty(myGroup));
-
         String user_id = myUser.getUser_id();
+        vo.setUser_id( myUser.getUser_id() );
+        vo.setMap(map);
+        vo.setMyCate(myCate);
 
         switch (myCate) {
             case "coupon" :
@@ -73,24 +82,50 @@ public class MyController {
 
             case "pick" :
                 m.addAttribute("cate", "pick");
-                List<ProductAccommodationVO> picks = service.findPicks(user_id);
+
+                // 페이징
+                int totalPick = service.findTotalPicks(vo);
+                int totalPickPage = (int)Math.ceil(totalPick / (double)vo.getPageSize());
+                if(vo.getPage() > totalPickPage) vo.setPage(totalPickPage);
+
+                PageHandler pickPageHandler = new PageHandler(totalPick, vo);
+
+                List<ProductAccommodationVO> picks = service.findPicks(vo);
+
                 m.addAttribute("picks", picks);
-                log.debug("picks : " + picks);
+                m.addAttribute("ph", pickPageHandler);
 
                 return "my/pick";
 
             case "point" :
                 m.addAttribute("cate", "point");
-                List<PointVO> points = service.findPoints(user_id);
+
+                // 페이징
+                int totalPoint = service.findTotalPoints(vo);
+                int totalPointPage = (int)Math.ceil(totalPoint / (double)vo.getPageSize());
+                if(vo.getPage() > totalPointPage) vo.setPage(totalPointPage);
+
+                PageHandler pointPageHandler = new PageHandler(totalPoint, vo);
+                
+                List<PointVO> points = service.findPoints(vo);
                 m.addAttribute("points", points);
+                m.addAttribute("ph", pointPageHandler);
 
                 return "my/point";
 
             case "reservation" :
                 m.addAttribute("cate", "reservation");
-                List<ReservationVO> reservations = service.findReservations(user_id, myCate);
+
+                // 페이징
+                int totalReservation = service.findTotalReservations(vo);
+                int totalReservationPage = (int)Math.ceil(totalReservation / (double)vo.getPageSize());
+                if(vo.getPage() > totalReservationPage) vo.setPage(totalReservationPage);
+
+                PageHandler ReservationPageHandler = new PageHandler(totalReservation, vo);
+
+                List<ReservationVO> reservations = service.findReservations(vo);
                 m.addAttribute("reservations", reservations);
-                log.debug("reservations : " + reservations);
+                m.addAttribute("ph", ReservationPageHandler);
 
                 return "my/reservation";
 
@@ -102,7 +137,7 @@ public class MyController {
 
             case "review" :
                 m.addAttribute("cate", "review");
-                List<ReservationVO> reviews = service.findReservations(user_id, myCate);
+                List<ReservationVO> reviews = service.findReservations(vo);
                 m.addAttribute("reviews", reviews);
                 log.debug("reviews : " + reviews.size());
 
@@ -116,8 +151,11 @@ public class MyController {
     @ResponseBody
     @PostMapping("coupon")
     public int rsaveCoupon(@RequestBody CouponVO coupon, @AuthenticationPrincipal UserVO myUser) {
-        log.debug("cp_id : " + coupon.getCp_id());
         coupon.setUser_id(myUser.getUser_id());
+        log.debug("cp_id"+coupon.getCp_id());
+        int cnt = service.findProductCouponCnt(coupon);
+
+        if(cnt == 0) { return 101; }
 
         int result = service.rsaveCoupon(coupon);
 
@@ -127,15 +165,20 @@ public class MyController {
     // @since 2023/03/08
     @GetMapping("review/list")
     public  String reviewList(
+            @RequestParam Map map,
             @AuthenticationPrincipal UserVO myUser,
+            @ModelAttribute My_SearchVO vo,
             Model m
     ) {
         m.addAttribute("title", environment.getProperty(myGroup));
         m.addAttribute("cate", "review");
 
         String user_id = myUser.getUser_id();
+        vo.setMap(map);
+        vo.setUser_id(user_id);
+        vo.setMyCate("review");
 
-        List<ReservationVO> reviews = service.findReservations(user_id, "review");
+        List<ReservationVO> reviews = service.findReservations(vo);
         m.addAttribute("reviews", reviews);
         log.debug("reviews : " + reviews);
 

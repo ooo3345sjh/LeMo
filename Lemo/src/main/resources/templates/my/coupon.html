@@ -26,7 +26,8 @@
                             <strong>
                                 <span>보유쿠폰</span>
                             </strong>
-                            <b>&nbsp[[${members.size()}]]장</b>
+                            <b id="couponTotal">[[${members.size()}]]</b>
+                            <b>장</b>
                             </div>
                             <div class="consent" th:if="${members.size() == 0 }">
                                 <p>보유하신 쿠폰이 없습니다.</p>
@@ -42,7 +43,7 @@
                                             <span class="coupon_item_unit">%</span>
                                         </th:block>
                                         <th:block th:if="${member.cp_disType == 0}">
-                                            <span class="coupon_item_num">[[${member.cp_price}]]</span>
+                                            <span class="coupon_item_num">[[${#numbers.formatInteger(member.cp_price, 0, 'COMMA')}]]</span>
                                             <span class="coupon_item_unit">원</span>
                                         </th:block>
                                     </div>
@@ -54,10 +55,10 @@
                                 </div>
                             </div>
                             <div class="un_1" th:if="${products.size() == 0}">
-                                발급중인 쿠폰이 없습니다.
+                                <p>발급중인 쿠폰이 없습니다.</p>
                             </div>
-                            <div class="un_1" th:if="${products.size() != 0}">
-                                <div class="coupon_item" th:each="product:${products}">
+                            <div class="un_1" th:if="${products.size() != 0}" >
+                                <div class="coupon_item" th:each="product:${products}" th:id="rCoupon__${product.cp_id}__">
                                     <div class="coupon_item_tit">
                                         [[${product.cp_subject}]]
                                     </div>
@@ -67,7 +68,7 @@
                                             <span class="coupon_item_unit">%</span>
                                         </th:block>
                                         <th:block th:if="${product.cp_disType == 0}">
-                                            <span class="coupon_item_num">[[${product.cp_price}]]</span>
+                                            <span class="coupon_item_num">[[${#numbers.formatInteger(product.cp_price, 0, 'COMMA')}]]</span>
                                             <span class="coupon_item_unit">원</span>
                                         </th:block>
                                     </div>
@@ -131,14 +132,22 @@
                 }).then(result => {
                     if (result.isConfirmed) {
                         ajaxAPI("my/coupon", jsonData, "POST").then((response)=>{
-                            if(response == 1) {
+                            if(response == 101) {
+                                Swal.fire('재고량이 없습니다.');
+                            }else if(response == 1) {
                                 $('#rCoupon'+cp_id).find('.coupon_btn2').removeAttr('onclick');
                                 $('#rCoupon'+cp_id).find('.coupon_btn2').removeAttr('id');
                                 $('#rCoupon'+cp_id).find('.coupon_btn2').attr('class', 'coupon_btn');
 
                                 const rCoupon = $('#rCoupon'+cp_id).clone();
                                 $('#rCoupon'+cp_id).remove();
+                                $('.consent > p').remove();
                                 $('.consent').append(rCoupon);
+                                $('#couponTotal').text( Number( $('#couponTotal').text() ) + 1 );
+
+                                if( $('.un_1 > .coupon_item').length == 0 ) {
+                                    $('.un_1').append('<p>발급중인 쿠폰이 없습니다.</p>');
+                                }
 
                             }else {
                                 Swal.fire('다시 시도해주세요.!');
