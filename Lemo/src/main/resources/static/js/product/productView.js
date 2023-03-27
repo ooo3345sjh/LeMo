@@ -43,14 +43,15 @@ function loadData(cate, acc_id) {
 }
 
 /* 페이지 이동 함수 */
-function movePage(event,obj){
+function movePage(event,obj,cate){
     event.preventDefault();
     let href = $(obj).attr('href');
 
-    $('#detail_qna').load(href, function() {
+    $('#detail_'+cate).load(href, function() {
         console.log('load complete!');
     });
 }
+
 
 
 // 현재 주소의 파라미터
@@ -77,7 +78,7 @@ $(function(){
         swiper: swiper,
         }
     });
-    
+
     /** 사장님 한마디 확장/축소 */
     $(document).on('click', '.sellerComment > button', function(){
 
@@ -227,11 +228,12 @@ $(function(){
     page = 'view';
 
 
+
    /* 찜하기 */
     $(document).on('click', '#pick', function(){
 
         if(uid == "") {
-            alert("로그인을 하셔야 찜하기가 가능합니다.");
+            Swal.fire("로그인을 하셔야 찜하기가 가능합니다.");
             return false;
         }
 
@@ -280,7 +282,7 @@ $(function(){
     $(document).on('click',  '#w_qna', function(){
 
         if(uid == "") {
-            alert("로그인을 하셔야 문의글 작성이 가능합니다.")
+            Swal.fire("로그인을 하셔야 문의글 작성이 가능합니다.")
             return;
         }
         dialog.showModal();
@@ -305,12 +307,12 @@ $(function(){
         }
 
         if(title.trim().length == 0) {
-            alert("문의 제목을 작성해주세요.");
+            Swal.fire("문의 제목을 작성해주세요.");
             return;
         }
 
         if(content.trim().length == 0) {
-            alert("문의 내용을 작성해주세요.");
+            Swal.fire("문의 내용을 작성해주세요.");
             return;
         }
 
@@ -333,7 +335,7 @@ $(function(){
                 loadData(cate, acc_id);
             }
             else {
-                alert("실패");
+                Swal.fire("실패");
             }
         }).catch((errorMsg) => {
             console.log(errorMsg)
@@ -347,7 +349,7 @@ $(function(){
         let qnacontent = $('#a' + qna_no);
 
         if($(this).attr('data-locked') == 1) {
-            alert('비밀글은 작성자만 조회할 수 있습니다.'); return;
+            Swal.fire('비밀글은 작성자만 조회할 수 있습니다.'); return;
         }
 
         let status = $(qnacontent).hasClass('on');
@@ -365,7 +367,7 @@ $(function(){
 
         // 검색어가 없을 경우
         if(keyword.trim().length == 0) {
-            alert('검색어를 입력해 주세요.');
+            Swal.fire('검색어를 입력해 주세요.');
             return;
         }
 
@@ -375,6 +377,15 @@ $(function(){
             console.log('load complete!');
         });
     });
+
+    /* 전체 문의글 보기 */
+    $(document).on('click', '.tl', function(e){
+        e.preventDefault();
+        loadData('qna', acc_id)
+    });
+
+
+    let isFetchingData = false; // Ajax 요청이 진행 중인지 여부를 저장하는 변수
 
     /* 여행일기 스크롤시 게시글 가져오기 */
     $(document).on('scroll', function(){
@@ -391,14 +402,26 @@ $(function(){
                 let page = currentPage + 1;
 
                 // 마지막 페이지이면 데이터 불러오는거 중지
-                if(page > endPage) {return false;}
+                if(page > endPage) {
+                    return false;
+                }
 
+                // Ajax 요청이 진행 중인 경우, 다음 요청을 보내지 않음
+                if (isFetchingData) {
+                    return;
+                }
+
+                isFetchingData = true;
                 $.ajax({
                     url: '/Lemo/product/detaildiary?acc_id='+acc_id+"&page="+page,
                     success: function(response) {
                         // 응답 결과를 jQuery객체로 변환후 html 추출후 append
                         let html = $('<div>').html(response).find('.diary_list').html();
                         $('.diary_list').append(html);
+                        isFetchingData = false; // ajax 요청 종료
+                    },
+                    error: function(){
+                        isFetchingData = false; // ajax 요청 종료
                     }
                 });
             }

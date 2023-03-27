@@ -44,16 +44,29 @@ public interface ProductDAO {
     public BusinessInfoVO selectBusinessInfo(@Param("user_id") String user_id);
 
     // @since 2023/03/20
-    public List<ArticleDiaryVO> selectDiaries(@Param("acc_id") int acc_id);
+    public List<ArticleDiaryVO> selectProductDiaries(@Param("acc_id") int acc_id);
 
     // @since 2023/03/22
     public List<ProductQnaVO> selectProductQnas(SearchCondition sc);
+
+    // @since 2023/03/26
+    public List<ReviewVO> selectProductReviews(SearchCondition sc);
+
+    // @since 2023/03/26
+    public UserVO selectBusiness(@Param("acc_id") int acc_id);
+
 
     // @since 2023/03/22
     public int getTotalProductQna(SearchCondition sc);
 
     // @since 2023/03/24
     public int getTotalProductDiary(SearchCondition sc);
+
+    // @since 2023/03/26
+    public int getTotalProductReview(SearchCondition sc);
+
+    // @since 2023/03/26
+    public List<ReviewVO> getTotalProductReviewReply(SearchCondition sc);
 
     // @since 2023/03/24
     public int selectProductPick(@Param("acc_id")int acc_id, @Param("user_id") String user_id);

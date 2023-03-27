@@ -85,13 +85,13 @@
         <!-- 페이징 -->
         <div class="paging" th:object="${ph}" th:if="${qnas.size() > 0}">
             <span class="prev" th:if="*{showPrev}">
-                <a th:href="@{/product/detailqna} + ${ph.sc.getQueryString(ph.beginPage-1)}" onclick="movePage(event,this)"></a>
+                <a th:href="@{/product/detailqna} + ${ph.sc.getQueryString(ph.beginPage-1)}" onclick="movePage(event,this,'qna')"></a>
             </span>
             <span class="on" th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
-                <a th:href="@{/product/detailqna} + ${ph.sc.getQueryString(num)}" onclick="movePage(event,this)">[[${num}]]</a>
+                <a th:href="@{/product/detailqna} + ${ph.sc.getQueryString(num)}" onclick="movePage(event,this,'qna')">[[${num}]]</a>
             </span>
             <span class="next" th:if="*{showNext}">
-                <a th:href="@{/product/detailqna} + ${ph.sc.getQueryString(ph.endPage+1)}" onclick="movePage(event,this)"></a>
+                <a th:href="@{/product/detailqna} + ${ph.sc.getQueryString(ph.endPage+1)}" onclick="movePage(event,this,'qna')"></a>
             </span>
         </div>
         <div th:if="${qnas.size()==0}" style="margin-bottom:100px"></div>

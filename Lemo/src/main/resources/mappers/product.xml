@@ -91,6 +91,32 @@
         LIMIT #{offset}, 10;
     </select>
 
+    <select id="selectProductPick" resultType="int">
+        SELECT COUNT(*) FROM `lemo_product_pick` WHERE `acc_id` = #{acc_id} AND `user_id` = #{user_id};
+    </select>
+
+    <select id="selectProductDiaries" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
+        SELECT a.*, b.acc_id, c.acc_name FROM `lemo_diary_article` AS a
+        JOIN `lemo_product_reservation` AS b
+        ON a.res_no = b.res_no
+        JOIN `lemo_product_accommodation` AS c
+        ON b.acc_id = c.acc_id
+        WHERE b.`acc_id` = #{acc_id}
+        LIMIT #{offset}, 10;
+    </select>
+
+    <select id="selectProductReviews" resultType="kr.co.Lemo.domain.ReviewVO">
+        <include refid="commonProductReview"/>
+        LIMIT #{offset}, 10;
+    </select>
+
+    <select id="selectBusiness" resultType="kr.co.Lemo.domain.UserVO">
+        SELECT b.* FROM `lemo_product_accommodation` AS a
+        JOIN `lemo_member_userinfo` AS b
+        ON a.user_id = b.user_id
+        WHERE acc_id = #{acc_id}
+    </select>
+
     <select id="getTotalProductQna" resultType="int">
         SELECT COUNT(`qna_no`) FROM `lemo_product_qna` WHERE `acc_id` = #{acc_id}
         <if test="searchWord != null and searchWord != ''">
@@ -105,16 +131,18 @@
         WHERE `acc_id` = #{acc_id}
     </select>
 
-    <select id="selectProductPick" resultType="int">
-        SELECT COUNT(*) FROM `lemo_product_pick` WHERE `acc_id` = #{acc_id} AND `user_id` = #{user_id};
-    </select>
-
-    <select id="selectProductDiaries" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
-        SELECT a.*, b.acc_id FROM `lemo_diary_article` AS a
+    <select id="getTotalProductReview" resultType="int">
+        SELECT COUNT(*)
+        FROM `lemo_product_review` AS a
         JOIN `lemo_product_reservation` AS b
         ON a.res_no = b.res_no
-        WHERE `acc_id` = #{acc_id}
-        LIMIT #{offset}, 10;
+        JOIN `lemo_product_room` AS c
+        ON c.room_id = b.room_id
+        WHERE b.acc_id = #{acc_id}
+    </select>
+
+    <select id="getTotalProductReviewReply" resultType="kr.co.Lemo.domain.ReviewVO">
+        <include refid="commonProductReview"/>
     </select>
 
 
@@ -157,6 +185,20 @@
         <if test="sort == 'distance'">
             ORDER BY ST_Distance_Sphere(a.`acc_xy`, ST_GeomFromText(CONCAT('POINT(', #{lng}, ' ', #{lat}, ')'))) asc
         </if>
+    </sql>
+
+    <sql id="commonProductReview">
+        SELECT a.*, b.acc_id, b.res_checkIn, c.room_name, d.acc_review, d.acc_rate,e.photo
+        FROM `lemo_product_review` AS a
+        JOIN `lemo_product_reservation` AS b
+        ON a.res_no = b.res_no
+        JOIN `lemo_product_room` AS c
+        ON c.room_id = b.room_id
+        JOIN `lemo_product_accommodation` AS d
+        ON b.acc_id = d.acc_id
+        JOIN `lemo_member_userinfo` AS e
+        ON e.user_id = b.user_id
+        WHERE b.acc_id = #{acc_id}
     </sql>
 
     <sql id="common">
