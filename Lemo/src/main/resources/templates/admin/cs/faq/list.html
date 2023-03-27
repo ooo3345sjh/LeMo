@@ -43,12 +43,12 @@
                                 <form action="#">
                                     <div class="faq_list">
                                         <ul>
-                                            <th:block th:each="faq:${csArticles}">
+                                            <th:block th:each="faq,i:${csArticles}">
                                             <!-- li 반복 -->
                                                 <li class="faq_tit">
                                                     <input type="hidden" name="cs_no" th:data-no="${faq.cs_no}">
                                                     <a href="#" id="faq_tab" class="faq_list_a">
-                                                        <p>[[${faq.cs_type_ko}]]&nbsp;&nbsp;&nbsp;&nbsp; [[${faq.cs_title}]]</p>
+                                                        <p>[[*{totalCnt-sc.offset} - ${i.index}]]&nbsp;&nbsp;&nbsp;&nbsp; [[${faq.cs_title}]]</p>
                                                     </a>
                                                     <span>
                                                         <a class="btnFaqModify" th:href="@{/admin/cs/faq/modify (cs_no=${faq.cs_no})}">수정</a>

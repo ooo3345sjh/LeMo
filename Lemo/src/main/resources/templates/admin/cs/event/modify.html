@@ -94,14 +94,14 @@
                                 <table class="input_stayRoomInfo">
                                     <tr>
                                         <td>이벤트 이름</td>
-                                        <td><input type="text" name="cs_title" id="cs_title" placeholder="이벤트 제목을 작성해 주세요" required th:text="${mEvent.cs_title}"></td>
+                                        <td><input type="text" name="cs_title" id="cs_title" placeholder="이벤트 제목을 작성해 주세요" required th:value="${mEvent.cs_title}"></td>
                                     </tr>
                                     <tr>
                                         <td>기간</td>
                                         <td>
-                                            <input class="input_130" type="date" name="cs_eventStart" id="currentDate" value="" onchange="CharacterData(event)">
+                                            <input class="input_130" type="date" name="cs_eventStart" id="currentDate" th:value="${mEvent.cs_eventStart}" onchange="CharacterData(event)">
                                             &nbsp;~&nbsp;
-                                            <input class="input_130" type="date" name="cs_eventEnd" id="endDate">
+                                            <input class="input_130" type="date" name="cs_eventEnd" id="endDate" th:value="${mEvent.cs_eventEnd}">
                                         </td>
                                     </tr>
 
@@ -111,9 +111,9 @@
                                             <div class="stayThumb">
                                                 <div id="fileDropzone">
                                                     <div class="event_write_img">
-                                                        <img id="image" src="/Lemo/images/admin/eventImgUpload.JPG">
+                                                        <img id="image" th:src="@{/img/cs/{csNo}/{imageName}(csNo=${mEvent.cs_no}, imageName=${mEvent.cs_eventbannerImg})}">
                                                     </div>
-                                                    <input type="file" name="eventbannerImg[]" id="ex_file" accept="image/png, image/jpeg" class="insertFile" required>
+                                                    <input type="file" name="eventbannerImg[]" id="ex_file" accept="image/png, image/jpeg" class="insertFile" required >
                                                 </div>
                                             </div>
                                         </td>
@@ -183,13 +183,13 @@
             /** 날짜 계산**/
 
             /* 시작 날짜 */
-            document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);
+<!--            document.getElementById('currentDate').value = [[${mEvent.cs_eventStart}]];-->
                 console.log("date : " + document.getElementById('currentDate').value);
             var today = new Date().toISOString().substring(0, 10);
             document.getElementById('currentDate').setAttribute("min", today);
 
             /* 종료 날짜 */
-            document.getElementById('endDate').value = new Date().toISOString().substring(0, 10);
+<!--            document.getElementById('endDate').value = new Date().toISOString().substring(0, 10);-->
             var endday = new Date().toISOString().substring(0, 10);
             document.getElementById('endDate').setAttribute("min", endday);
 

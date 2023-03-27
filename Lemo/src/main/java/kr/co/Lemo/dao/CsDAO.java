@@ -22,7 +22,7 @@ public interface CsDAO {
     public List<CsVO> selectCsArticles(SearchCondition sc);
     public int countEventArticles(@Param("cs_cate") String cs_cate);
     public CsVO selectCsArticle(@Param("cs_no") int cs_no);
-    public List<CsVO> selectQnaArticles(SearchCondition sc);
+    public List<CsVO> selectQnaArticles(CsVO vo);
     // @since 2023/03/11
     public List<CsVO> selectFaqArticles(SearchCondition sc);
     public int countFaqArticles(@Param("cs_cate") String cs_cate, @Param("cs_type") String cs_type);

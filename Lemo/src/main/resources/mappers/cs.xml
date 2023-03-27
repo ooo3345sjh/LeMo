@@ -54,7 +54,7 @@
     </select>
 
     <select id="selectQnaArticles" resultType="kr.co.Lemo.domain.CsVO">
-        select * from `lemo_cs` where `cs_cate` =#{cs_cate} and `user_id`='b1848@naver.com' order by `cs_no` desc;
+        select * from `lemo_cs` where `cs_cate` =#{cs_cate} and `user_id`=#{user_id} order by `cs_no` desc;
     </select>
 
     <!-- 관리자 cs -->
@@ -131,7 +131,10 @@
 
     <!-- update -->
     <update id="updateQnaArticle">
-        update `lemo_cs` set `cs_reply`=#{cs_reply} where `cs_no` =#{cs_no};
+        update `lemo_cs` set
+        `cs_reply`=#{cs_reply},
+        `cs_reply_date`=NOW()
+        where `cs_no` =#{cs_no};
     </update>
 
     <update id="updateAdminNotice">

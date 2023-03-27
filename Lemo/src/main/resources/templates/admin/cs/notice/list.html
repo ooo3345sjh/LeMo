@@ -29,9 +29,9 @@
                                         <li>작성일</li>
                                         <li>비고</li>
                                     </ul>
-                                    <th:block th:each="notice:${csArticles}">
+                                    <th:block th:each="notice,i:${csArticles}">
                                         <ul>
-                                            <li>[[${notice.cs_no}]]</li>
+                                            <li>[[*{totalCnt-sc.offset} - ${i.index}]]</li>
                                             <li class="title">
                                                 <a th:href="@{/admin/cs/notice/view (cs_no=${notice.cs_no})}">[[${notice.cs_title}]]</a>
                                             </li>

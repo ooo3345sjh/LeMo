@@ -5,6 +5,7 @@ import kr.co.Lemo.domain.CsVO;
 import kr.co.Lemo.domain.search.Cs_SearchVO;
 import kr.co.Lemo.utils.PageHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -62,8 +63,9 @@ public class CsService {
     public CsVO findEventPrev(@RequestParam("cs_cate") String cs_cate, @RequestParam("cs_no") int cs_no) {return dao.selectEventPrev(cs_cate, cs_no);}
     public CsVO findEventNext(@RequestParam("cs_cate") String cs_cate, @RequestParam("cs_no") int cs_no) {return  dao.selectEventNext(cs_cate, cs_no);}
 
-    public List<CsVO> findAllQnaArticles(Cs_SearchVO sc, Model model) {
-       List<CsVO> qnaArticles = dao.selectQnaArticles(sc);
+    public List<CsVO> findAllQnaArticles(CsVO vo, Model model) {
+        vo.setUser_id("b1848@naver.com");
+       List<CsVO> qnaArticles = dao.selectQnaArticles(vo);
         log.info("qnaSize : " + qnaArticles.size());
        model.addAttribute("qnaArticles", qnaArticles);
 
@@ -88,6 +90,8 @@ public class CsService {
         model.addAttribute("csArticles", faqArticles);
         model.addAttribute("ph", pageHandler);
         model.addAttribute("cs_type", sc.getCs_type());
+        model.addAttribute("totalCnt", totalCnt);
+        model.addAttribute("sc", sc);
 
         return faqArticles;
     }
@@ -208,6 +212,18 @@ public class CsService {
     /** delete **/
     //@since 2023/03/15
     public int removeAdminArticle(@RequestParam("cs_no") int cs_no){
+       CsVO file =  dao.selectCsArticle(cs_no);
+       log.info("deleteFile : " + file.getCs_eventViewImg());
+
+       String delCs_no = Integer.toString(cs_no);
+
+       if(file.getCs_eventViewImg() != null){
+           String path = new File("C:/Users/hwangwonjin/Desktop/workspace/LeMo/Lemo/img/cs/"+delCs_no ).getAbsolutePath();
+           File deleteFile = new File(path);
+           if(deleteFile.exists()) {
+               deleteFile.delete();
+           }
+       }
         return dao.deleteFaqWrite(cs_no);
     }
 
@@ -226,6 +242,14 @@ public class CsService {
             try {
                 Files.createDirectories(checkFolder.toPath());
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(checkFolder.isFile()){
+            try{
+                FileUtils.cleanDirectory(checkFolder);
+            }catch (IOException e){
                 e.printStackTrace();
             }
         }
