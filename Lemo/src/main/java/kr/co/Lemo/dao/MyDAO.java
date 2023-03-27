@@ -43,4 +43,7 @@ public interface MyDAO {
     // @since 2023/03/24
     public List<ReservationVO> selectReservations(String user_id);
 
+    // update
+    int updateProfile(@Param("photo") String photo, @Param("username")String username) throws Exception;
+
 }

@@ -107,6 +107,7 @@ public class CustomAuthenticationTokenManager implements AuthenticationProvider 
                     .user_id(user.getUser_id())
                     .pass(null)
                     .nick(userInfo.getNick())
+                    .hp(userInfo.getHp())
                     .photo(userInfo.getPhoto())
                     .type(userInfo.getType())
                     .role(userInfo.getRole())
@@ -133,6 +134,7 @@ public class CustomAuthenticationTokenManager implements AuthenticationProvider 
                     .user_id(user.getUser_id())
                     .pass(null)
                     .nick(userInfo.getNick())
+                    .hp(userInfo.getHp())
                     .photo(userInfo.getPhoto())
                     .type(userInfo.getType())
                     .role(userInfo.getRole())
@@ -148,6 +150,7 @@ public class CustomAuthenticationTokenManager implements AuthenticationProvider 
                     .udate(userInfo.getUdate())
                     .rdate(userInfo.getUdate())
                     .wdate(userInfo.getWdate())
+                    .soci_type(user.getSoci_typ())
                     .build();
             return userVO;
         }

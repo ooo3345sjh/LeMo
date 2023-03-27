@@ -168,11 +168,6 @@
                 authcode_msg = $(this).parent().find('#authcode_msg');
                 code = codeInput.val();
 
-                if(!authTime){
-                    authcode_msg.text('인증 시간이 만료되었습니다.');
-                    return;
-                }
-
                 if(code == null || code == ''){
                     authcode_msg.text('인증번호를 입력해주세요.');
                     return;
@@ -197,7 +192,6 @@
                     if(smsAuthCodeCnt <= 0){
                         alert('인증 번호 5회 입력 실패했습니다. 재인증 해주세요.');
                         $(this).closest('#section2').remove();
-                        authTime = false;
                         smsAuthCodeCnt = 5;
                     }
 
