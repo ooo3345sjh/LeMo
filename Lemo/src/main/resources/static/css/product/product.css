@@ -370,6 +370,17 @@
     font-size: 15px;
 }
 
+.scroller .getCoupon {
+    float: right;
+    font-size: 14px;
+    padding: 0 5px;
+}
+
+.scroller > div {
+    font-size: 14px;
+    margin: 20px;
+}
+
 /** 탭 */
 #productView > .tab {
     width: 1000px;
@@ -1195,6 +1206,15 @@
     font-weight: bold;
     line-height: 60px;
     box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%);
+}
+
+.detail_diary .nodiary {
+    display: block;
+    padding: 0 0 10px 0;
+    font-size: 24px;
+    font-weight: normal;
+    text-align: center;
+    margin-top: 30px;
 }
 
 .detail_diary .diary_list {

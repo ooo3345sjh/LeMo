@@ -215,19 +215,20 @@
                     <div class="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
                         <section>
                             <strong>Lemo에서 드리는 쿠폰!</strong>
-                            <ul class="dot_coupon_txt">
-                                <li>회원가입 10,000원 할인!</li>
-                                <li>여름 특별 50,000 할인!</li>
+                            <ul class="dot_coupon_txt all">
+                                적용 가능한 쿠폰이 없습니다.
+                                <li>
+                                    예제 쿠폰
+                                    <button class="getCoupon">쿠폰 발급</button>
+                                </li>
                             </ul>
                         </section>
                         <section>
                             <strong>테스트 호텔에서 드리는 쿠폰!</strong>
-                            <ul class="dot_coupon_txt">
-                                <li>여름 특별 50,000 할인</li>
-                                <li>도보 방문시 5,000원 할인</li>
+                            <ul class="dot_coupon_txt acc">
+                                적용 가능한 쿠폰이 없습니다.
                             </ul>
                         </section>
-                        제공되는 쿠폰은 다음과 같으며 예약 결제 페이지에서 적용가능합니다.
                     </div>
                 </div>
             </div>
@@ -279,6 +280,9 @@
     <th:block layout:fragment="script">
         <script th:inline="javascript">
             let acc_id = [[${rooms.get(0).acc_id}]];
+            let accType_no = [[${rooms.get(0).accType_no}]]
+            let province_no = [[${rooms.get(0).province_no}]]
+            let acc_name = [[${rooms.get(0).acc_name}]];
             let user_id = [[${rooms.get(0).user_id}]];
             let uid = [[${uid}]];
         </script>

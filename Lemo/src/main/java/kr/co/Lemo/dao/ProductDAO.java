@@ -74,6 +74,9 @@ public interface ProductDAO {
     // @since 2023/03/24
     public List<ArticleDiaryVO> selectProductDiaries (SearchCondition sc);
 
+    // @since 2023/03/27
+    public List<CouponVO> selectCoupons(Map map);
+
     // update
 
     // delete
