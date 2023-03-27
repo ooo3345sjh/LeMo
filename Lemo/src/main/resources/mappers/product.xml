@@ -117,6 +117,19 @@
         WHERE acc_id = #{acc_id}
     </select>
 
+    <select id="selectCoupons" resultType="kr.co.Lemo.domain.CouponVO">
+        SELECT * FROM `lemo_product_coupon`
+        WHERE
+        (
+        `acc_id`= #{acc_id} OR
+        `cp_group` = 'ALL' OR
+        (`cp_group` = 'acc_province' AND `cp_type`= #{province_no}) OR
+        (`cp_group` = 'acc_type' AND `cp_type`=#{accType_no}))
+        <![CDATA[
+             AND CURDATE() <= `cp_end`
+        ]]>
+    </select>
+
     <select id="getTotalProductQna" resultType="int">
         SELECT COUNT(`qna_no`) FROM `lemo_product_qna` WHERE `acc_id` = #{acc_id}
         <if test="searchWord != null and searchWord != ''">

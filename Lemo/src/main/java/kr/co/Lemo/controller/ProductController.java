@@ -90,7 +90,6 @@ public class ProductController {
         BusinessInfoVO bv = service.findBusinessInfo(user_id);
 
         // 숙소 찜 여부 가져오기
-
         int result = 0;
 
         if(uid != ""){
@@ -244,38 +243,16 @@ public class ProductController {
         return resultMap;
     }
 
-    // @since 2023/03/19
-    /*
-    @GetMapping("loadData")
-    public String loadData(Model model,
-                           @RequestParam Map map,
-                           @ModelAttribute ProductQna_SearchVO vo) throws Exception {
+    @ResponseBody
+    @PostMapping("coupon")
+    public List<CouponVO> coupon(@RequestBody Map map){
 
-        log.debug("Get loadData start");
+        log.debug("Get product coupon start");
 
-        String cate = vo.getCate();
-        int acc_id = vo.getAcc_id();
+        List<CouponVO> coupons = service.findAllCoupons(map);
+        log.info("coupons : " + coupons);
 
-        //log.info("cate : " + cate);
-
-        // 리뷰
-        if(cate.equals("review")){
-
-            log.info("here");
-            return "product/data/detailReview";
-
-        }else if(cate.equals("diary")) {
-
-            List<ArticleDiaryVO> articles = service.findAllDiary(acc_id);
-            model.addAttribute("vos", articles);
-
-            return "product/data/detailDiary";
-
-        }else if(cate.equals("qna")) {
-            //List<ProductQnaVO> qnas = service.findAllProductQna(vo);
-            return "product/data/detailQna";
-        }
-        return "product/list";
-    }*/
+        return coupons;
+    }
 
 }

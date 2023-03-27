@@ -38,6 +38,16 @@ function loadData(cate, acc_id) {
 
     $('#detail_'+cate).load(url, function() {
         console.log('load complete!');
+
+        if(cate=='review'){
+            /** 리뷰 사진 슬라이더 */
+            $('.gallerySlider').bxSlider({
+                slideWidth: 500,
+                pager: false
+            });
+        }else if(cate=='diary'){
+            $('#acc_name_tag').text(acc_name);
+        }
     });
 
 }
@@ -49,6 +59,15 @@ function movePage(event,obj,cate){
 
     $('#detail_'+cate).load(href, function() {
         console.log('load complete!');
+
+        if(cate=='review'){
+            /** 리뷰 사진 슬라이더 */
+            $('.gallerySlider').bxSlider({
+                slideWidth: 500,
+                pager: false
+            });
+        }
+
     });
 }
 
@@ -117,10 +136,76 @@ $(function(){
 
     /** 쿠폰 팝업 */
     $(document).on('click', '.product_coupon', function(){
+
+        jsonData = {
+            "acc_id" : acc_id,
+            "province_no" : province_no,
+            "accType_no" : accType_no
+        }
+
+        ajaxAPI("product/coupon", jsonData, "POST").then((response) => {
+            if(response.length > 0 ) {
+
+                let htmlAll = "";
+                let htmlAcc = "";
+
+                for(let i = 0; i < response.length; i++) {
+
+                    if(response[i].cp_group != null){
+                        htmlAll += '<li>' + response[i].cp_subject;
+                        htmlAll +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">쿠폰발급</button></li>';
+                    }else {
+                        htmlAcc += '<li>' + response[i].cp_subject;
+                        htmlAcc +='<button class="getCoupon">쿠폰발급</button></li>';
+                    }
+                }
+
+                if(htmlAll != ""){ // 전체 쿠폰이 존재하면 초기화후 append
+                    $('.dot_coupon_txt.all').text("");
+                    $('.dot_coupon_txt.all').append(htmlAll);
+                }
+
+                if(htmlAcc != ""){ // 숙소 쿠폰이 존재하면 초기화후 append
+                    $('.dot_coupon_txt.acc').text("");
+                    $('.dot_coupon_txt.acc').append(htmlAcc);
+                }
+            }
+
+        }).catch((errorMsg) => {
+            console.log(errorMsg)
+        });
+
         $('#popup_coupon').addClass('on');
     });
     
     /** 쿠폰 팝업 해제 */
+
+    /* 쿠폰 발급 */
+    $(document).on('click', '.getCoupon', function(){
+
+        let cp_id = $(this).attr('data-cpid');
+
+        if(uid == ""){
+            Swal.fire("먼저 로그인을 하셔야 합니다.")
+            return false;
+        }
+
+        let jsonData = {
+            "cp_id" = cp_id,
+            "user_id" = uid
+        }
+
+//        ajaxAPI("product/getCoupon", jsonData, "POST").then((response) => {
+//            if(response.result > 0 ) {
+//
+//            }
+//
+//        }).catch((errorMsg) => {
+//            console.log(errorMsg)
+//        });
+
+
+    });
 
     /** 확장 이미지 닫기 버튼 */
     $(document).on('click', '.expansionImg > button', function(){
@@ -159,11 +244,8 @@ $(function(){
 
         $('.detail_review').attr('style', "display:block;");
 
-        /** 리뷰 사진 슬라이더 */
-        $('.gallerySlider').bxSlider({
-            slideWidth: 500,
-            pager: false
-        });
+
+
     });
 
     /** 탭 - 여행일기 */

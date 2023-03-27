@@ -20,7 +20,7 @@
     <li th:each="review : ${reviews}">
         <div class="guest">
             <p class="pic">
-                <img th:src="|@{/}img/user/${review.photo}|" th:if="${review.photo != null}">
+                <img th:src="|@{/}img/profile/${review.photo}|" th:if="${review.photo != null}">
                 <img th:src="@{/images/my/profile.png}" th:if="${review.photo == null}">
             </p>
 <!--            <span class="best_review"></span>-->
@@ -38,7 +38,7 @@
             <div class="gallery_re" th:if="${review.revi_thumb != null && review.revi_thumb !=''}">
                 <div class="gallerySlider">
                     <div th:each="img, i : ${#strings.arraySplit(review.revi_thumb, '/')}">
-                        <img th:src="|@{/}img/review/${img}|">
+                        <img th:src="|@{/}img/review/${review.acc_id}/${img}|">
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
         </div>
         <div class="boss" th:if="${review.revi_reply != null}">
             <p class="pic">
-                <img th:src="|@{/}img/user/${business.photo}|" th:if="${business.photo != null}">
+                <img th:src="|@{/}img/profile/${business.photo}|" th:if="${business.photo != null}">
                 <img th:src="@{/images/my/profile.png}" th:if="${business.photo == null}">
             </p>
             <strong>제휴점 답변</strong>
@@ -56,10 +56,22 @@
             <span class="date">[[${review.revi_dateBF}]]</span>
         </div>
     </li>
-    <li th:if="${reviews.size() == 0}" style="font-size:14px; text-align: center;">
-        등록된 리뷰가 없습니다.
-    </li>
 </ul>
+<div class="score_top" th:if="${reviews.size == 0}">
+    <strong>등록된 리뷰가 없습니다.</strong>
+    <div class="score_wrap">
+        <div class="score_star rating}">-</div>
+        <div class="num"></div>
+    </div>
+    <p>
+        전체 리뷰
+        <b>0</b>
+        <span>|</span>
+        제휴점 답변
+        <b>0</b>
+    </p>
+</div>
+
 
 <div class="paging" th:object="${ph}" th:if="${reviews.size() > 0}">
     <span class="prev" th:if="*{showPrev}">

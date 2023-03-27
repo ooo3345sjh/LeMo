@@ -224,6 +224,11 @@ public class ProductService {
         return dao.selectProductDiaries(sc);
     }
 
+    // @since 2023/03/27
+    public List<CouponVO> findAllCoupons(Map map){
+        return dao.selectCoupons(map);
+    }
+
     // update
 
     // delete

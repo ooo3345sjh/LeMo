@@ -1,5 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
-    <span th:if="${diaries.size > 0}">[[${diaries.get(0).acc_name}]]</span>
+    <span id="acc_name_tag"></span>
+    <div th:if="${diaries.size()== 0}" class="nodiary">
+        등록된 여행일기가 없습니다.
+    </div>
     <ul class="diary_list">
         <li th:each="diary : ${diaries}" th:attr="data-page=${ph.sc.page},data-endpage=${ph.totalPage}">
             <a href="#">
@@ -9,8 +12,5 @@
                      th:src="|@{/}img/diary/${diary.arti_no}/${#strings.substringBefore(diary.arti_thumb, '/')}|" >
             </a>
         </li>
-    </ul>
-    <ul th:if="${diaries.size() == 0}" style="font-size:14px; text-align: center;">
-        등록된 여행일기가 없습니다.
     </ul>
 </html>
