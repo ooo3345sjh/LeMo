@@ -211,24 +211,38 @@ public class CsService {
 
     /** delete **/
     //@since 2023/03/15
-    public int removeAdminArticle(@RequestParam("cs_no") int cs_no){
+    public int removeAdminArticle(@RequestParam("cs_no") int cs_no) throws IOException {
        CsVO file =  dao.selectCsArticle(cs_no);
        log.info("deleteFile : " + file.getCs_eventViewImg());
 
        String delCs_no = Integer.toString(cs_no);
 
        if(file.getCs_eventViewImg() != null){
+
            String path = new File("C:/Users/hwangwonjin/Desktop/workspace/LeMo/Lemo/img/cs/"+delCs_no ).getAbsolutePath();
+           log.info("path : " + path);
+
            File deleteFile = new File(path);
            if(deleteFile.exists()) {
-               deleteFile.delete();
+
+               log.info("deleteFile delete!!!");
+               //deleteFile.delete();
+               FileUtils.deleteDirectory(deleteFile);
            }
        }
         return dao.deleteFaqWrite(cs_no);
     }
 
+    //@since 2023/03/27
+    public int removeQnaList(@RequestParam(value = "checkList[]") List<String> checkList, @RequestParam("user_id") String user_id){
+        log.info("serviceQnaRemove");
+        return dao.deleteQnaList(checkList, user_id);
+    }
 
-    /* 이미지 등록 */
+
+
+
+    /** 이미지 등록 **/
     public int uploadFile(ArrayList<String> newArrFilesInfo, Map<String, MultipartFile> fileMap, String bannerNewName, MultipartFile cs_eventBanner, String cs_no) {
         log.info("newArrFilesInfo : "+newArrFilesInfo.size());
         log.info("fileMap : "+fileMap.size());
@@ -246,7 +260,7 @@ public class CsService {
             }
         }
 
-        if(checkFolder.isFile()){
+        if(checkFolder.isDirectory()){
             try{
                 FileUtils.cleanDirectory(checkFolder);
             }catch (IOException e){

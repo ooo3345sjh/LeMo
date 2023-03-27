@@ -368,6 +368,25 @@ public class AdminController {
     }
 
     /**
+     * @since 2023/03/27
+     * @author 황원진
+     */
+    @ResponseBody
+    @DeleteMapping("cs/qna/listRemove")
+    public Map<String, Integer> removeQnaList(@RequestParam(value = "checkList[]") List<String> checkList){
+        log.info("listRemoveStart");
+
+        String user_id = "b1848@naver.com";
+       int result = csService.removeQnaList(checkList, user_id);
+
+       Map<String, Integer> map = new HashMap<>();
+       map.put("result", result);
+
+       return map;
+    }
+
+
+    /**
      * @since 2023/03/14
      * @author 황원진
      */

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @since 2023/03/08
  * @author 황원진
@@ -38,6 +40,8 @@ public class CsVO {
     /** 추가 **/
     private String nick;
     private String newName;
+    private String cs_reply_date;
+    private List<String> checkList;
 
     public String getCs_type_ko(){
         String type = null;

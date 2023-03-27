@@ -83,7 +83,7 @@ public class CsController {
     @PostMapping("{cs_cate}")
     public String rsaveArticleQna(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
 
-        vo.setUser_id("1043pastel_tn@naver.com");
+        vo.setUser_id("b1848@naver.com");
         vo.setCs_regip(req.getRemoteAddr());
 
 
