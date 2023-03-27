@@ -1097,6 +1097,12 @@ main .insertSaleCount {
     display: inline-block;
     width: 180px !important;
 }
+main .insertSaleCount_noLimit {
+    display: none;
+    width: 180px !important;
+}
+
+
 main .selectSaleLimit {
     display: inline-block;
     width: 49%;

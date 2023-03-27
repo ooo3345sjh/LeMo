@@ -15,7 +15,7 @@
         const saleOptionInput = $('.insertSaleOption');
 
         saleOptionInput.on('input', function() {
-            if (discountRadio.is(':checked') && (isNaN(saleOptionInput.val()) || saleOptionInput.val() < 0 || saleOptionInput.val() > 101)) {
+            if (discountRadio.is(':checked') && (isNaN(saleOptionInput.val()) || saleOptionInput.val() < 0 || saleOptionInput.val() > 100)) {
                 alert('0과 100사이의 할인율을 입력하십시오.');
                 saleOptionInput.val(0);
             } else if (discountPriceRadio.is(':checked') && (isNaN(saleOptionInput.val()) || saleOptionInput.val() < 0)) {
@@ -56,14 +56,10 @@
             var selectedDate = new Date($(this).val());
             var minDate = new Date($(this).attr('min'));
 
-            if (selectedDate < minDate) {
-                $(this).val($(this).attr('min'));
-            }
-        });
+            console.log("selectedDate : " + selectedDate.toISOString().split('T')[0]);
+            console.log("minDate : " + minDate);
 
-        $('#cp_end').on('change', function() {
-            var selectedDate = new Date($(this).val());
-            var minDate = new Date($(this).attr('min'));
+            document.getElementById("cp_end").setAttribute("min", selectedDate.toISOString().split('T')[0]);
 
             if (selectedDate < minDate) {
                 $(this).val($(this).attr('min'));
@@ -77,11 +73,31 @@
                 event.preventDefault();
             }
         });
+
         input.addEventListener("input", function(event) {
             if (input.value < 0) {
                 input.value = 0;
             }
         });
+
+
+        document.querySelector('.noLimited_coupon').addEventListener('click', function(){
+            alert('click the no limit button');
+            document.querySelector('.insertSaleCount').style.display = 'none';
+            document.querySelector('.insertSaleCount_noLimit').style.display = 'inline-block';
+            document.querySelector('.insertSaleCount_noLimit').value = "수량제한없음";
+
+            document.querySelector('.noLimited_coupon').addEventListener('click', function(){
+                if (this.checked) {
+                    this.checked = false;
+                    document.querySelector('.insertSaleCount_noLimit').style.display = 'none';
+                    document.querySelector('.insertSaleCount').style.display = 'inline-block';
+                }
+            });
+
+            //document.querySelector('.noLimited_coupon').checked = false;
+        });
+
 
         // 이용가능 일수 제한 + 금액 조건 제한 (최소, 최대 주문 금액)
         var inputs = document.querySelectorAll(".input_100");
@@ -123,7 +139,7 @@
                         </div>
 
                         <!-- 등록 폼 -->
-                        <form class="col_register_form" th:action="@{/admin/coupon/insertCoupon}" method="post">
+                        <form class="col_register_form" th:action="@{/admin/coupon/rsaveCupon}" method="post">
                             <!-- <input type="hidden" name="userId_id" th:value="${#authentication.principal.user.uid}">-->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -175,8 +191,9 @@
                                         <td>발급 수량</td>
                                         <td>
                                             <input name="cp_limitedIssuance" class="insertSaleCount" type="number" min="0" value="cp_limitedIssuance" placeholder="쿠폰 발급 수량 작성">
+                                            <input class="insertSaleCount_noLimit" type="text">
                                             <div class="selectSaleLimit">
-                                                <input type="radio" name="sales_option" value="">수량제한없음
+                                                <input type="radio" name="sales_option" value="" class="noLimited_coupon">수량제한없음
                                             </div>
                                         </td>
                                     </tr>
@@ -191,7 +208,7 @@
                                         <td>배포일</td>
                                         <td>
                                             <input name="cp_start" id="cp_start" class="input_130" type="date" value="cp_start" min="">
-                                            &nbsp;~&nbsp;
+                                            &nbsp;&nbsp;~&nbsp;
                                             <input name="cp_end" id="cp_end" class="input_130" type="date" value="cp_end" min="">
                                         </td>
                                     </tr>
@@ -218,8 +235,5 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
-
-
-
 </th:block>
 </html>
