@@ -80,23 +80,23 @@
             }
         });
 
+        const noLimitedCoupon = document.querySelector('.noLimited_coupon');   // 수량제한없음 라디오 박스
+        const insertSaleCount = document.querySelector('.insertSaleCount');     // 쿠폰 발급 수량 작성 인풋
 
-        document.querySelector('.noLimited_coupon').addEventListener('click', function(){
-            alert('click the no limit button');
-            document.querySelector('.insertSaleCount').style.display = 'none';
-            document.querySelector('.insertSaleCount_noLimit').style.display = 'inline-block';
-            document.querySelector('.insertSaleCount_noLimit').value = "수량제한없음";
+        noLimitedCoupon.addEventListener('click', function() {
+            if (noLimitedCoupon.checked) {
+                alert('hi');
+                insertSaleCount.style.display = 'none';
+                insertSaleCount.value = '1';
+            }else {
+                alert('bye');
+                insertSaleCount.style.display = 'inline-block';
+                insertSaleCount.value = '';
+            }
 
-            document.querySelector('.noLimited_coupon').addEventListener('click', function(){
-                if (this.checked) {
-                    this.checked = false;
-                    document.querySelector('.insertSaleCount_noLimit').style.display = 'none';
-                    document.querySelector('.insertSaleCount').style.display = 'inline-block';
-                }
-            });
-
-            //document.querySelector('.noLimited_coupon').checked = false;
         });
+
+
 
 
         // 이용가능 일수 제한 + 금액 조건 제한 (최소, 최대 주문 금액)
@@ -153,7 +153,7 @@
                                 <table class="input_stayRoomInfo">
                                     <tr>
                                         <td>쿠폰명</td>
-                                        <td><input type="text" name="cp_subject"></td>
+                                        <td><input type="text" name="cp_subject" class="cp_subject" required></td>
                                     </tr>
                                     <tr>
                                         <td>쿠폰적용그룹</td>
@@ -164,7 +164,7 @@
                                                 <option value="acc_type">숙소 유형</option>
                                                 <option value="acc_province">지역</option>
                                             </select>
-                                            <select name="cp_type" class="category2" required>
+                                            <select name="cp_type" class="category2">
                                                 <option value="" disabled selected>적용항목선택</option>
                                             </select>
                                         </td>
@@ -180,7 +180,7 @@
                                                 <input type="radio" name="cp_disType" value="2" class="discountPrice">원(₩)
                                             </div>
                                             -->
-                                            <input class="insertSaleOption" type="number" placeholder="할인율 또는 할인가 택1 작성"/>
+                                            <input class="insertSaleOption" type="number" placeholder="할인율 또는 할인가 택1 작성" required/>
                                             <div class="selectSaleOption">
                                                 <input type="radio" name="cp_disType" value="1" class="discount">퍼센트(%)
                                                 <input type="radio" name="cp_disType" value="2" class="discountPrice">원(₩)
@@ -190,31 +190,31 @@
                                     <tr>
                                         <td>발급 수량</td>
                                         <td>
-                                            <input name="cp_limitedIssuance" class="insertSaleCount" type="number" min="0" value="cp_limitedIssuance" placeholder="쿠폰 발급 수량 작성">
-                                            <input class="insertSaleCount_noLimit" type="text">
+                                            <input name="cp_limitedIssuance" class="insertSaleCount" type="number" min="0" placeholder="쿠폰 발급 수량 작성" required>
                                             <div class="selectSaleLimit">
-                                                <input type="radio" name="sales_option" value="" class="noLimited_coupon">수량제한없음
+                                                <input type="checkbox" name="sales_option" value="" class="noLimited_coupon" id="noLimited_coupon">
+                                                <label for="noLimited_coupon">수량제한없음</label>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>금액 조건</td>
                                         <td>
-                                            <input name="cp_minimum" class="input_100" type="number" value="cp_minimum" placeholder="최소주문금액">/
-                                            <input name="cp_maximum" class="input_100" type="number" value="cp_maximum" placeholder="최대주문금액">
+                                            <input name="cp_minimum" class="input_100" type="number" placeholder="최소주문금액" required>/
+                                            <input name="cp_maximum" class="input_100" type="number" placeholder="최대주문금액" required>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>배포일</td>
                                         <td>
-                                            <input name="cp_start" id="cp_start" class="input_130" type="date" value="cp_start" min="">
+                                            <input name="cp_start" id="cp_start" class="input_130" type="date" min="">
                                             &nbsp;&nbsp;~&nbsp;
-                                            <input name="cp_end" id="cp_end" class="input_130" type="date" value="cp_end" min="">
+                                            <input name="cp_end" id="cp_end" class="input_130" type="date" min="">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>이용가능일수</td>
-                                        <td><input name="cp_daysAvailable" class="input_100" type="number" placeholder="일 단위 입력" value="cp_daysAvailable"></td>
+                                        <td><input name="cp_daysAvailable" id="cp_daysAvailable" class="input_100" type="number" placeholder="일 단위 입력" required></td>
                                     </tr>
                                 </table>
                             </div>
@@ -235,5 +235,8 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+    <script>
+
+    </script>
 </th:block>
 </html>

@@ -1,8 +1,9 @@
 // 관리자 쿠폰 - 등록 select box
 function optionChange(){
-    let all = ['전체적용'];
-    let type = ['모텔','호텔·리조트','펜션','게스트하우스','캠핑·글램핑','해외여행'];
-    let province = ['서울','경역','인천','강원','제주','부산','경남','대구','경북','울산','대전','충남','충북','광주','전남','전북'];
+    let all = [null];
+    let type = ['모텔','호텔','펜션','게스트하우스','캠핑·글램핑'];
+    let province = ['강원도', '경기도', '경상남도', '경상북도', '광주광역시', '대구광역시', '대전광역시', '부산광역시', '서울특별시', '울산광역시', '인천광역시', '전라남도', '전라북도', '제주특별자치도', '충청남도', '충청북도', '세종특별자치시'];
+
 
     let cate1 = $('.category1').val();
 
@@ -22,23 +23,24 @@ function optionChange(){
 
     $('.category2').empty();
     let option;
-    option = $("<option value='' disabled selected>적용항목선택</option>");
+    //option = $("<option value='' disabled selected>적용항목선택</option>");
     $('.category2').append(option);
 
 
     if(cate1 == 'ALL'){
-        for (let i = 0; i < all.length; i++) {
-            const option = $("<option>").attr("value", all[i]).text(all[i]);
-            $('.category2').append(option);
-        }
+        $('.category2').css('display','inline-block');
+        const option = $("<option>").attr("value", null).text('');
+        $('.category2').append(option);
     }else if(cate1 == 'acc_type'){
+        $('.category2').css('display','inline-block');
         for (let i = 0; i < type.length; i++) {
-            const option = $("<option>").attr("value", type[i]).text(type[i]);
+            const option = $("<option>").attr("value", i+1).text(type[i]);
             $('.category2').append(option);
         }
     }else if (cate1 == 'acc_province'){
+        $('.category2').css('display','inline-block');
         for (let i = 0; i < province.length; i++) {
-            const option = $("<option>").attr("value", province[i]).text(province[i]);
+            const option = $("<option>").attr("value", i+1).text(province[i]);
             $('.category2').append(option);
         }
     }

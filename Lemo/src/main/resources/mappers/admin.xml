@@ -127,13 +127,13 @@
             `cp_start`, `cp_end`, `cp_daysAvailable`, `cp_limitedIssuance`
         )
         VALUES (
-            'ADMIN', 'ADMIN', #{cp_subject}, #{cp_group}, #{cp_type}, #{cp_rate},
+            'admin@gmail.com', 'ADMIN', #{cp_subject}, #{cp_group}, #{cp_type}, #{cp_rate},
             CASE
                 WHEN #{cp_rate} IS NOT NULL THEN '1'
                 WHEN #{cp_price} IS NOT NULL THEN '2'
                 ELSE NULL
             END,
-            NULL, #{cp_minimum}, #{cp_maximum}, #{cp_start}, #{cp_end}, #{cp_daysAvailable}, #{cp_limitedIssuance}
+            #{cp_price}, #{cp_minimum}, #{cp_maximum}, #{cp_start}, #{cp_end}, #{cp_daysAvailable}, #{cp_limitedIssuance}
         );
     </insert>
 

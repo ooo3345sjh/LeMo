@@ -1115,6 +1115,10 @@ main .selectSaleLimit > input {
     margin-left: 13px;
     vertical-align: bottom;
 }
+main .selectSaleLimit > label {
+    font-size: 13px;
+    font-weight: 300;
+}
 
 /* 쿠폰 */
 main .col_register1 .coupon_top {
