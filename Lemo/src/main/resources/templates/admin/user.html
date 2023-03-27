@@ -374,8 +374,23 @@
                                 </li>
                            </ul>`;
                 $('#userList').append(tags);
-
             }
+
+            $('.pagination > .num').empty();
+
+            let totalCnt = response.totalCnt;                   // 게시글 총 개수
+            let rowPerPage = 10;                                // 한 페이지당 게시글 개수 (10개)
+            let pageTotal = Math.ceil(totalCnt / rowPerPage);   // 페이지 번호
+            console.log("게시글 총 개수 : " + totalCnt);
+            console.log("페이지 번호 : " + pageTotal);
+
+            for(i; i<pageTotal; i++){
+                
+            }
+
+
+
+
         }).catch((errorMsg) => {
             console.log(errorMsg);
         });
