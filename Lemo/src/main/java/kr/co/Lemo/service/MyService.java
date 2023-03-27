@@ -12,10 +12,7 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -84,7 +81,7 @@ public class MyService {
 
         // diary_article 입력 데이터 분류
         ArticleDiaryVO diaryVO = ArticleDiaryVO.builder()
-                                .res_no(123123)
+                                .res_no( Integer.parseInt(String.valueOf(param.get("res_no"))) )
                                 .user_id(user_id)
                                 .arti_title((String) param.get("diaryTitle"))
                                 .arti_thumb(newName)
@@ -97,6 +94,8 @@ public class MyService {
         int result = dao.insertDiaryArticle(diaryVO);
 
         int arti_no = diaryVO.getArti_no();
+
+        ProductAccommodationVO accommo = dao.selectProvinceAddr(Integer.parseInt(String.valueOf(param.get("res_no"))));
 
         // 파일 업로드
         if(result == 1) {
@@ -114,8 +113,8 @@ public class MyService {
                                 .spot_title(title[i])
                                 .spot_content(content[i])
                                 .spot_thumb(images[i])
-                                .province_name("test")
-                                .spot_addr("test").build();
+                                .province_name(accommo.getProvince_name())
+                                .spot_addr(accommo.getAcc_addr()).build();
 
             // diary_spot 테이블 입력
             dao.insertDiarySpot(spotVO);
@@ -148,19 +147,40 @@ public class MyService {
 //
 //    }
 
-    // @since 2023/03/24
-    public List<CouponVO> findCoupons(String uid) {
-        return dao.selectCoupons(uid);
+
+    // @since 2023/03/27
+    public List<CouponVO> findMemberCoupons(String user_id) {
+        return dao.selectMemberCoupons(user_id);
+    }
+
+    // @since 2023/03/27
+    public List<CouponVO> findProductCoupons(String user_id) {
+        return dao.selectProductCoupons(user_id);
     }
 
     // @since 2023/03/24
-    public List<PickVO> findPicks(String uid) {
-        return dao.selectPicks(uid);
+    public List<ProductAccommodationVO> findPicks(String user_id) {
+        return dao.selectPicks(user_id);
     }
 
     // @since 2023/03/24
-    public List<ReservationVO> findReservations(String uid) {
-        return dao.selectReservations(uid);
+    public List<ReservationVO> findReservations(String user_id, String myCate) {
+        return dao.selectReservations(user_id, myCate);
+    }
+
+    // @since 2023/03/27
+    public List<PointVO> findPoints(String user_id) {
+        return dao.selectPoints(user_id);
+    }
+
+    // @since 2023/03/27
+    public List<ReviewVO> findReviews(String user_id) {
+        return dao.selectReviews(user_id);
+    }
+
+    // @since 2023/03/27
+    public int rsaveCoupon(CouponVO coupon) {
+        return dao.insertCoupon(coupon);
     }
 
 

@@ -23,13 +23,13 @@
                             <img th:src="@{/images/index/down-arrow.png}">
                         </button>
                         <div class="dropdown_content" id="dropdown_content">
-                            <a href="#">나의 정보</a>
-                            <a href="#">포인트</a>
-                            <a href="#">쿠폰함</a>
-                            <a href="#">예약내역</a>
-                            <a href="#">위시리스트</a>
-                            <a href="#">나의 여행일기</a>
-                            <a href="#">나의 리뷰</a>
+                            <a th:href="@{/my/info}">나의 정보</a>
+                            <a th:href="@{/my/point}">포인트</a>
+                            <a th:href="@{/my/coupon}">쿠폰함</a>
+                            <a th:href="@{/my/reservation}">예약내역</a>
+                            <a th:href="@{/my/pick}">위시리스트</a>
+                            <a th:href="@{/my/diary/list}">나의 여행일기</a>
+                            <a th:href="@{/my/review/list}">나의 리뷰</a>
                         </div>
                     </div>
                     <div class="dropdown_menu" id="dropdown_menu2">

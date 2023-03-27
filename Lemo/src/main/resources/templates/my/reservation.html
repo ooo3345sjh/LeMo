@@ -23,16 +23,19 @@
                             예약 내역
                         </span>
                     </div>
-                    <div class="reserve_history">
-                        <div class="reserve_info">
+                    <div class="reserve_history" th:if="${reservations.size() == 0}">
+                        <p>예약내역이 없습니다.</p>
+                    </div>
+                    <div class="reserve_history" th:if="${reservations.size() != 0}">
+                        <div class="reserve_info" th:each="reserv:${reservations}">
                             <div class="reserve_img">
                                 <a th:href="@{#}" class="thumb">
-                                    <img th:src="@{/images/index/main_item1.jpg}" alt="장소 이미지">
+                                    <img th:src="|@{/}img/product/${reserv.province_no}/${reserv.acc_id}/${#strings.substringBefore(reserv.acc_thumbs, '/')}|" alt="장소 이미지">
                                 </a>
                             </div>
                             <div class="info_text_box">
                                 <div class="info_day">
-                                    <span class="reserve_day">2022.06.29(수)</span>
+                                    <span class="reserve_day">[[${reserv.res_date.substring(0,10)}]](해야함)</span>
                                 </div>
                                 <div class="info_more">
                                     <a th:href="@{#}" class="reserve_more"> 상세보기 ></a>
@@ -40,162 +43,24 @@
                                 <div class="info_num">
                                     <span class="reserve_num">
                                         예약 번호 : 
-                                        <i>202312332</i>
+                                        <i>[[${reserv.res_no}]]</i>
                                     </span>
                                 </div>
                                 <div class="info_state">
                                     <span class="reserve_state">
-                                        예약 상태 : 
-                                        <i>이용완료 </i>
+                                        예약 상태 :
+                                        <i th:if="${reserv.res_state == 0}">예약 취소 </i>
+                                        <i th:if="${reserv.res_state == 1}">예약 완료 </i>
+                                        <i th:if="${reserv.res_state == 2}">숙박 완료 </i>
                                     </span>
                                 </div>
                                 <div class="info_days">
-                                    <span class="reserve_days">2022.07.24(금) ~ 2022.07.28(토) | 1박</span>
+                                    <span class="reserve_days">[[${reserv.res_checkIn}]](해야함) ~ [[${reserv.res_checkOut}]](해야함) | 1박</span>
                                 </div>
                                 <div class="info_check">
-                                    <span class="reserve_check">체크인 15:00 | 체크아웃 12:00</span>
+                                    <span class="reserve_check">체크인 [[${reserv.room_checkIn.substring(0,5)}]] | 체크아웃 [[${reserv.room_checkOut.substring(0,5)}]]</span>
                                 </div>
-                                <a th:href="@{#}" class="myDiary">여행일기작성</a>
-                                <a th:href="@{#}" class="my_review_write">리뷰작성</a>
-                            </div>
-                        </div>
-                        <div class="reserve_info">
-                            <div class="reserve_img">
-                                <a th:href="@{#}" class="thumb">
-                                    <img th:src="@{/images/index/main_item1.jpg}" alt="장소 이미지">
-                                </a>
-                            </div>
-                            <div class="info_text_box">
-                                <div class="info_day">
-                                    <span class="reserve_day">2022.06.29(수)</span>
-                                </div>
-                                <div class="info_more">
-                                    <a th:href="@{#}" class="reserve_more"> 상세보기 ></a>
-                                </div>
-                                <div class="info_num">
-                                    <span class="reserve_num">
-                                        예약 번호 : 
-                                        <i>202312332</i>
-                                    </span>
-                                </div>
-                                <div class="info_state">
-                                    <span class="reserve_state">
-                                        예약 상태 : 
-                                        <i>이용완료 </i>
-                                    </span>
-                                </div>
-                                <div class="info_days">
-                                    <span class="reserve_days">2022.07.24(금) ~ 2022.07.28(토) | 1박</span>
-                                </div>
-                                <div class="info_check">
-                                    <span class="reserve_check">체크인 15:00 | 체크아웃 12:00</span>
-                                </div>
-                                <a th:href="@{#}" class="myDiary">여행일기작성</a>
-                                <a th:href="@{#}" class="my_review_write">리뷰작성</a>
-                            </div>
-                        </div>
-                        <div class="reserve_info">
-                            <div class="reserve_img">
-                                <a th:href="@{#}" class="thumb">
-                                    <img th:src="@{/images/index/main_item1.jpg}" alt="장소 이미지">
-                                </a>
-                            </div>
-                            <div class="info_text_box">
-                                <div class="info_day">
-                                    <span class="reserve_day">2022.06.29(수)</span>
-                                </div>
-                                <div class="info_more">
-                                    <a th:href="@{#}" class="reserve_more"> 상세보기 ></a>
-                                </div>
-                                <div class="info_num">
-                                    <span class="reserve_num">
-                                        예약 번호 : 
-                                        <i>202312332</i>
-                                    </span>
-                                </div>
-                                <div class="info_state">
-                                    <span class="reserve_state">
-                                        예약 상태 : 
-                                        <i>이용완료 </i>
-                                    </span>
-                                </div>
-                                <div class="info_days">
-                                    <span class="reserve_days">2022.07.24(금) ~ 2022.07.28(토) | 1박</span>
-                                </div>
-                                <div class="info_check">
-                                    <span class="reserve_check">체크인 15:00 | 체크아웃 12:00</span>
-                                </div>
-                                <a th:href="@{#}" class="myDiary">여행일기작성</a>
-                                <a th:href="@{#}" class="my_review_write">리뷰작성</a>
-                            </div>
-                        </div>
-                        <div class="reserve_info">
-                            <div class="reserve_img">
-                                <a th:href="@{#}" class="thumb">
-                                    <img th:src="@{/images/index/main_item1.jpg}" alt="장소 이미지">
-                                </a>
-                            </div>
-                            <div class="info_text_box">
-                                <div class="info_day">
-                                    <span class="reserve_day">2022.06.29(수)</span>
-                                </div>
-                                <div class="info_more">
-                                    <a th:href="@{#}" class="reserve_more"> 상세보기 ></a>
-                                </div>
-                                <div class="info_num">
-                                    <span class="reserve_num">
-                                        예약 번호 : 
-                                        <i>202312332</i>
-                                    </span>
-                                </div>
-                                <div class="info_state">
-                                    <span class="reserve_state">
-                                        예약 상태 : 
-                                        <i>이용완료 </i>
-                                    </span>
-                                </div>
-                                <div class="info_days">
-                                    <span class="reserve_days">2022.07.24(금) ~ 2022.07.28(토) | 1박</span>
-                                </div>
-                                <div class="info_check">
-                                    <span class="reserve_check">체크인 15:00 | 체크아웃 12:00</span>
-                                </div>
-                                <a th:href="@{#}" class="myDiary">여행일기작성</a>
-                                <a th:href="@{#}" class="my_review_write">리뷰작성</a>
-                            </div>
-                        </div>
-                        <div class="reserve_info">
-                            <div class="reserve_img">
-                                <a th:href="@{#}" class="thumb">
-                                    <img th:src="@{/images/index/main_item1.jpg}" alt="장소 이미지">
-                                </a>
-                            </div>
-                            <div class="info_text_box">
-                                <div class="info_day">
-                                    <span class="reserve_day">2022.06.29(수)</span>
-                                </div>
-                                <div class="info_more">
-                                    <a th:href="@{#}" class="reserve_more"> 상세보기 ></a>
-                                </div>
-                                <div class="info_num">
-                                    <span class="reserve_num">
-                                        예약 번호 : 
-                                        <i>202312332</i>
-                                    </span>
-                                </div>
-                                <div class="info_state">
-                                    <span class="reserve_state">
-                                        예약 상태 : 
-                                        <i>이용완료 </i>
-                                    </span>
-                                </div>
-                                <div class="info_days">
-                                    <span class="reserve_days">2022.07.24(금) ~ 2022.07.28(토) | 1박</span>
-                                </div>
-                                <div class="info_check">
-                                    <span class="reserve_check">체크인 15:00 | 체크아웃 12:00</span>
-                                </div>
-                                <a th:href="@{#}" class="myDiary">여행일기작성</a>
+                                <a th:href="@{/my/diary/write ( res_no=${reserv.res_no} )}" class="myDiary">여행일기작성</a>
                                 <a th:href="@{#}" class="my_review_write">리뷰작성</a>
                             </div>
                         </div>

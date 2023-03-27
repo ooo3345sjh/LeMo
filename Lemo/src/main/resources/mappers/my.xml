@@ -10,26 +10,54 @@
 <mapper namespace="kr.co.Lemo.dao.MyDAO">
 
     <!-- select -->
-    <select id="selectPoint" resultType="kr.co.Lemo.domain.PointVO">
-        SELECT * FROM `lemo_member_point_log` WHERE `user_id`= #{user_id};
+    <select id="selectPoints" resultType="kr.co.Lemo.domain.PointVO">
+        SELECT * FROM `lemo_member_point_log` WHERE `user_id`= #{user_id} ORDER BY `poi_rdate` DESC;
     </select>
 
     <select id="selectReservations" resultType="kr.co.Lemo.domain.ReservationVO">
-        SELECT * FROM `lemo_product_reservation` WHERE `user_id`= #{user_id};
+        SELECT
+            b.*, a.`acc_name`, a.`province_no`, a.`acc_thumbs`, c.`room_checkIn`, c.`room_checkOut`, b.`res_checkIn`, b.`res_checkOut`
+        FROM
+            `lemo_product_accommodation` AS a LEFT JOIN
+            `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+            `lemo_product_room`          AS c ON b.`room_id` = c.`room_id`
+        WHERE b.`user_id` = #{user_id}
+        <if test="myCate == 'review'">
+            AND b.`res_state` = 2
+        </if>
     </select>
 
-    <select id="selectCouponArticles" resultType="kr.co.Lemo.domain.CouponVO">
-        SELECT * FROM
-            `lemo_member_coupon` AS a JOIN
-            `lemo_product_coupon` AS b ON a.`cp_id` = b.`cp_id`
-        WHERE a.`user_id` = #{user_id};
+    <select id="selectMemberCoupons" resultType="kr.co.Lemo.domain.CouponVO">
+        SELECT
+            a.`cp_id`, a.`cp_subject`, a.`cp_rate`, a.`cp_price`, a.`cp_start`, a.`cp_end`, a.`cp_minimum`, a.`cp_disType`, b.`user_id`, b.`mcp_isUsed`
+        FROM
+            `lemo_product_coupon` AS a LEFT JOIN
+            `lemo_member_coupon` AS b ON a.`cp_id` = b.`cp_id`
+        WHERE a.`cp_end` > DATE(NOW()) AND b.`user_id`=#{user_id};
     </select>
 
-    <select id="selectPickArticles" resultType="kr.co.Lemo.domain.ReservationVO">
-        SELECT * FROM
-            `lemo_product_pick` AS a JOIN
+    <select id="selectProductCoupons" resultType="kr.co.Lemo.domain.CouponVO">
+        SELECT * FROM `lemo_product_coupon`
+        WHERE `cp_id` NOT IN( SELECT `cp_id` FROM `lemo_member_coupon` WHERE `user_id` = #{user_id} );
+    </select>
+
+    <select id="selectPicks" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+        SELECT
+            b.`acc_id`, b.`acc_name`, b.`province_no`, b.`acc_addr`, b.`acc_addrDetail`, b.`acc_rate`, b.`acc_thumbs`, b.`acc_review`
+        FROM
+            `lemo_product_pick` AS a LEFT JOIN
             `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
         WHERE a.`user_id` = #{user_id};
+    </select>
+
+    <select id="selectReviews" resultType="kr.co.Lemo.domain.ReviewVO">
+        SELECT
+            a.`province_no`, a.`acc_name`, a.`acc_id`, a.`acc_thumbs`, b.`res_checkIn`, b.`res_checkOut`
+        FROM
+            `lemo_product_accommodation` AS a LEFT JOIN
+            `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+            `lemo_product_review` AS c ON b.`res_no` = c.`res_no`
+        WHERE c.`user_id` = #{user_id};
     </select>
 
     <select id="selectDiaryArticle" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
@@ -41,9 +69,22 @@
     </select>
 
     <select id="selectDiary" resultType="kr.co.Lemo.domain.DiarySpotVO">
-        SELECT a.`arti_title`, b.* FROM `lemo_diary_article` AS a JOIN
-        `lemo_diary_spot` AS b ON a.`arti_no` = b.`arti_no`
+        SELECT
+            a.`arti_title`, b.*
+        FROM
+            `lemo_diary_article` AS a JOIN
+            `lemo_diary_spot` AS b ON a.`arti_no` = b.`arti_no`
         WHERE `user_id`=#{user_id};
+    </select>
+
+    <select id="selectProvinceAddr" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+        SELECT
+            c.`province_name`, b.`acc_addr`
+        FROM
+            `lemo_product_reservation` AS a LEFT JOIN
+            `lemo_product_accommodation`  AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+            `lemo_product_province` AS c ON b.`province_no` = c.`province_no`
+        WHERE a.`res_no` = #{res_no};
     </select>
 
     <!-- insert -->
@@ -70,6 +111,13 @@
             `spot_thumb`      = #{spot_thumb},
             `province_name`   = #{province_name},
             `spot_addr`       = #{spot_addr}
+    </insert>
+
+    <insert id="insertCoupon" parameterType="kr.co.Lemo.domain.CouponVO">
+        INSERT INTO `lemo_member_coupon` SET
+            `cp_id`     = #{cp_id},
+            `user_id`   = #{user_id},
+            `mcp_rdate` = NOW()
     </insert>
 
     <!-- update -->

@@ -31,16 +31,31 @@ public interface MyDAO {
     // @since 2023/03/13
     public List<DiarySpotVO> selectDiary(String user_id);
 
+    // @since 2023/03/27
+    public ProductAccommodationVO selectProvinceAddr(int res_no);
+
     // @since 2023/03/24
     // public MyVO selectMyArticle(@Param("myCate") String myCate, @Param("user_id") String user_id);
 
-    // @since 2023/03/24
-    public List<CouponVO> selectCoupons(String user_id);
+    // @since 2023/03/27
+    public List<CouponVO> selectMemberCoupons(String user_id);
+
+    // @since 2023/03/27
+    public List<CouponVO> selectProductCoupons(String user_id);
 
     // @since 2023/03/24
-    public List<PickVO> selectPicks(String user_id);
+    public List<ProductAccommodationVO> selectPicks(String user_id);
 
     // @since 2023/03/24
-    public List<ReservationVO> selectReservations(String user_id);
+    public List<ReservationVO> selectReservations(@Param("user_id")String user_id, @Param("myCate") String myCate);
+
+    //@since 2023/03/27
+    public List<PointVO> selectPoints(String user_id);
+
+    //@since 2023/03/27
+    public List<ReviewVO> selectReviews(String user_id);
+
+    // @since 2023/03/27
+    public int insertCoupon(CouponVO coupon);
 
 }

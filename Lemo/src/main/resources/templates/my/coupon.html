@@ -3,7 +3,6 @@
     이름 : 황원진
     내용 : 마이페이지 coupon HTML 
 -->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -25,83 +24,58 @@
                         <div class="my_Coupon">
                             <div class="keepCoupon">
                             <strong>
-                                    <span>보유쿠폰</span>
+                                <span>보유쿠폰</span>
                             </strong>
-                            <b>&nbsp0장</b>
+                            <b>&nbsp[[${members.size()}]]장</b>
                             </div>
-                            <div class="consent">
-                                <div class="coupon_item">
+                            <div class="consent" th:if="${members.size() == 0 }">
+                                <p>보유하신 쿠폰이 없습니다.</p>
+                            </div>
+                            <div class="consent" th:if="${members.size() != 0 }">
+                                <div class="coupon_item" th:each="member:${members}" th:if="${#authentication.principal.user_id == member.user_id}">
                                     <div class="coupon_item_tit">
-                                        WELCOME COUPON 
+                                        [[${member.cp_subject}]]
                                     </div>
                                     <div class="coupon_item_price">
-                                        <span class="coupon_item_num">5,000</span>
-                                        <span class="coupon_item_unit">원</span>
+                                        <th:block th:if="${member.cp_disType == 1}">
+                                            <span class="coupon_item_num">[[${member.cp_rate}]]</span>
+                                            <span class="coupon_item_unit">%</span>
+                                        </th:block>
+                                        <th:block th:if="${member.cp_disType == 0}">
+                                            <span class="coupon_item_num">[[${member.cp_price}]]</span>
+                                            <span class="coupon_item_unit">원</span>
+                                        </th:block>
                                     </div>
                                     <div class="coupon_item_info">
                                         <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
-                                        <span class="coupon_item_minimum">∙ 10,000원 이상 구매시</span>
-                                    </div>
-                                    <button class="coupon_btn" type="button">보유</button>
-                                </div>
-                                <div class="coupon_item">
-                                    <div class="coupon_item_tit">
-                                        WELCOME COUPON 
-                                    </div>
-                                    <div class="coupon_item_price">
-                                        <span class="coupon_item_num">5,000</span>
-                                        <span class="coupon_item_unit">원</span>
-                                    </div>
-                                    <div class="coupon_item_info">
-                                        <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
-                                        <span class="coupon_item_minimum">∙ 10,000원 이상 구매시</span>
-                                    </div>
-                                    <button class="coupon_btn" type="button">보유</button>
-                                </div>
-                                <div class="coupon_item">
-                                    <div class="coupon_item_tit">
-                                        WELCOME COUPON 
-                                    </div>
-                                    <div class="coupon_item_price">
-                                        <span class="coupon_item_num">5,000</span>
-                                        <span class="coupon_item_unit">원</span>
-                                    </div>
-                                    <div class="coupon_item_info">
-                                        <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
-                                        <span class="coupon_item_minimum">∙ 10,000원 이상 구매시</span>
-                                    </div>
-                                    <button class="coupon_btn" type="button">보유</button>
-                                </div>
-                                <div class="coupon_item">
-                                    <div class="coupon_item_tit">
-                                        WELCOME COUPON 
-                                    </div>
-                                    <div class="coupon_item_price">
-                                        <span class="coupon_item_num">5,000</span>
-                                        <span class="coupon_item_unit">원</span>
-                                    </div>
-                                    <div class="coupon_item_info">
-                                        <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
-                                        <span class="coupon_item_minimum">∙ 10,000원 이상 구매시</span>
+                                        <span class="coupon_item_minimum">∙ [[${#numbers.formatInteger(member.cp_minimum, 3, 'COMMA')}]]원 이상 구매시</span>
                                     </div>
                                     <button class="coupon_btn" type="button">보유</button>
                                 </div>
                             </div>
-        
-                            <div class="un_1">
-                                <div class="coupon_item">
+                            <div class="un_1" th:if="${products.size() == 0}">
+                                발급중인 쿠폰이 없습니다.
+                            </div>
+                            <div class="un_1" th:if="${products.size() != 0}">
+                                <div class="coupon_item" th:each="product:${products}">
                                     <div class="coupon_item_tit">
-                                        WELCOME COUPON 
+                                        [[${product.cp_subject}]]
                                     </div>
                                     <div class="coupon_item_price">
-                                        <span class="coupon_item_num">5,000</span>
-                                        <span class="coupon_item_unit">원</span>
+                                        <th:block th:if="${product.cp_disType == 1}">
+                                            <span class="coupon_item_num">[[${product.cp_rate}]]</span>
+                                            <span class="coupon_item_unit">%</span>
+                                        </th:block>
+                                        <th:block th:if="${product.cp_disType == 0}">
+                                            <span class="coupon_item_num">[[${product.cp_price}]]</span>
+                                            <span class="coupon_item_unit">원</span>
+                                        </th:block>
                                     </div>
                                     <div class="coupon_item_info">
                                         <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
-                                        <span class="coupon_item_minimum">∙ 10,000원 이상 구매시</span>
+                                        <span class="coupon_item_minimum">∙ [[${#numbers.formatInteger(product.cp_minimum, 3, 'COMMA')}]]원 이상 구매시</span>
                                     </div>
-                                    <button class="coupon_btn2" type="button">받기</button>
+                                    <button class="coupon_btn2" type="button" th:onclick="receiveCoupon([[${product.cp_id}]])">받기</button>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +115,38 @@
     </th:block>
     <th:block layout:fragment="script">
         <script>
+            function receiveCoupon(cp_id) {
 
+                let jsonData = { "cp_id" : cp_id };
+
+                Swal.fire({
+                    title: '쿠폰을 받으시겠습니까?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '확인',
+                    cancelButtonText: '취소',
+                    reverseButtons: false,
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        ajaxAPI("my/coupon", jsonData, "POST").then((response)=>{
+                            if(response == 1) {
+                                $('#rCoupon'+cp_id).find('.coupon_btn2').removeAttr('onclick');
+                                $('#rCoupon'+cp_id).find('.coupon_btn2').removeAttr('id');
+                                $('#rCoupon'+cp_id).find('.coupon_btn2').attr('class', 'coupon_btn');
+
+                                const rCoupon = $('#rCoupon'+cp_id).clone();
+                                $('#rCoupon'+cp_id).remove();
+                                $('.consent').append(rCoupon);
+
+                            }else {
+                                Swal.fire('다시 시도해주세요.!');
+                            }
+                        });
+                    }
+                });
+            }
         </script>
     </th:block>
 </html>

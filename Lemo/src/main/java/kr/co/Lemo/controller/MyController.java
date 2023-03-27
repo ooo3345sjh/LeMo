@@ -52,51 +52,72 @@ public class MyController {
         switch (myCate) {
             case "coupon" :
                 m.addAttribute("cate", "coupon");
-                //MyVO myVO = service.findMyArticle(myCate, user_id);
-                //log.debug("myVO : " + myVO);
-                List<CouponVO> coupons = service.findCoupons(user_id);
-                m.addAttribute("articles", coupons);
+
+                List<CouponVO> memberCoupons = service.findMemberCoupons(user_id);
+                m.addAttribute("members", memberCoupons);
+
+                List<CouponVO> productCoupons = service.findProductCoupons(user_id);
+                m.addAttribute("products", productCoupons);
 
                 return "my/coupon";
+
             case "info" :
                 m.addAttribute("cate", "info");
 
 
                 return "my/info";
+
             case "pick" :
                 m.addAttribute("cate", "pick");
-                //service.findMyArticle(myCate, uid);
-                List<PickVO> picks = service.findPicks(user_id);
-                m.addAttribute("articles", picks);
+                List<ProductAccommodationVO> picks = service.findPicks(user_id);
+                m.addAttribute("picks", picks);
                 log.debug("picks : " + picks);
 
                 return "my/pick";
+
             case "point" :
                 m.addAttribute("cate", "point");
-                //service.findMyArticle(myCate, uid);
+                List<PointVO> points = service.findPoints(user_id);
+                m.addAttribute("points", points);
 
                 return "my/point";
+
             case "reservation" :
                 m.addAttribute("cate", "reservation");
-                //service.findMyArticle(myCate, uid);
-                List<ReservationVO> reservations = service.findReservations(user_id);
-                m.addAttribute("articles", reservations);
+                List<ReservationVO> reservations = service.findReservations(user_id, myCate);
+                m.addAttribute("reservations", reservations);
                 log.debug("reservations : " + reservations);
 
                 return "my/reservation";
+
             case "view" :
                 m.addAttribute("cate", "view");
                 //service.findMyArticle(myCate, uid);
 
                 return "my/view";
+
             case "review" :
                 m.addAttribute("cate", "review");
-                //service.findMyArticle(myCate, uid);
+                List<ReservationVO> reviews = service.findReservations(user_id, myCate);
+                m.addAttribute("reviews", reviews);
+                log.debug("reviews : " + reviews.size());
 
                 return "my/review/list";
         }
 
         return "my/info";
+    }
+
+    // @since 2023/03/27
+    @ResponseBody
+    @PostMapping("coupon")
+    public int rsaveCoupon(@RequestBody CouponVO coupon, @AuthenticationPrincipal UserVO myUser) {
+        log.debug("cp_id : " + coupon.getCp_id());
+        coupon.setUser_id(myUser.getUser_id());
+
+        int result = service.rsaveCoupon(coupon);
+
+        return result;
     }
 
     // @since 2023/03/08
@@ -108,7 +129,11 @@ public class MyController {
         m.addAttribute("title", environment.getProperty(myGroup));
         m.addAttribute("cate", "review");
 
-        String uid = myUser.getUser_id();
+        String user_id = myUser.getUser_id();
+
+        List<ReservationVO> reviews = service.findReservations(user_id, "review");
+        m.addAttribute("reviews", reviews);
+        log.debug("reviews : " + reviews);
 
         return "my/review/list";
     }
@@ -173,9 +198,13 @@ public class MyController {
     @GetMapping("diary/write")
     public String diary_write(
             @AuthenticationPrincipal UserVO myUser,
+            @RequestParam(value = "res_no", defaultValue = "0") int res_no,
             Model m
     ) {
         log.debug("GET diary/write start");
+
+        if(res_no == 0) { return "redirect:/my/reservation"; }
+
         m.addAttribute("cate", "diary");
         m.addAttribute("title", environment.getProperty(diaryGroup));
 
@@ -200,6 +229,8 @@ public class MyController {
         
         // 이후에 principal로 대체
         String user_id = myUser.getUser_id();
+
+        log.debug("map : " + param);
 
         int result = service.diary_rsave(param, fileList, req, user_id);
 

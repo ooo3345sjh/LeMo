@@ -324,6 +324,13 @@
                         return content;
                     }
 
+                    function getUrlParameter(name) {
+                        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                        var results = regex.exec(location.search);
+                        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+                    }
+
                     /** 카카오 맵 */
 
                     // #1 마커에 mouseover하면 장소명을 표출할 인포윈도우
@@ -506,6 +513,7 @@
                             submitLng.push(markers[i].getPosition().getLng());
                         }
 
+                        let res_no          = getUrlParameter('res_no');
                         let formTitle       = $('input[name=arti_title]').val();
                         let formSpotTitle   = submitSpotTitle.join('/');
                         let formSpotContent = submitSpotContent.join('/');
@@ -513,6 +521,7 @@
                         let formLng         = submitLng.join('/');
 
                         let jsonData = {
+                            res_no           : res_no,
                             diaryTitle       : formTitle,
                             diaryStart       : diary_start,
                             diaryEnd         : diary_end,
