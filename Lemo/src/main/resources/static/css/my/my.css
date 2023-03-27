@@ -806,11 +806,10 @@
         overflow: hidden;
     }
     .my_page .my_data >li {
-        margin-bottom: 17px;
+        padding: 16px 0px;
         border-bottom: 1px solid rgba(220,227,233,.8);
     }
     .my_page .my_data .info_nick {
-        padding: 12px 0 12px 0;
         position: relative;
         overflow: hidden;
     }
@@ -823,7 +822,6 @@
         font-weight: bold;
     }
     .my_page .my_data .info_phone {
-        padding: 0px 0 17px 0px;
     }
     .my_page .my_data .info_phone > div::before {
         background-image: url(https://ssl.pstatic.net/static/nid/account/m_sp_01_home_849a216f.png);
@@ -840,8 +838,11 @@
     .my_page .my_data .phone_text {
         font-size: 21px;
     }
+     .my_page .my_data li:nth-of-type(2){
+        margin-bottom:15px;
+     }
     .info_phone .btn_edit {
-        margin: -5px 30px 0 0;
+        margin: 0px 30px 0 0;
     }
 
    .login_info > form > .btn_edit > .text {
@@ -851,24 +852,24 @@
    .my_info .login_info .btn_edit.profileBtn {margin-top: 46px; color:#ccc;}
    .my_info .login_info .btn_edit.profileBtn.mod{margin-right: 10px;}
    .my_info .login_info .btn_edit.profileBtn.mod.active {background: #bbd444; color:#FFFFFF;}
-   .my_info .login_info .btn_edit.profileBtn.del.active {
-       background: linear-gradient(to right, rgba(255,0,85,1) 1%,rgba(230,34,67,1) 100%);
-       color: #FFFFFF;
-   }
+   .my_info .login_info .btn_edit.profileBtn.del.active {color: #000;}
 
-   .my_info .info_nick section input {
+   .my_info .info_nick section{margin: 24px 0px;}
+   .my_info .info_phone > div {overflow:hidden;}
+
+   .my_info #section1 input, .my_info #section2 input {
        width: 451px;
        height: 48px;
        border: 1px solid rgba(0,0,0,0.08);
        border-radius: 6px;
        box-sizing: border-box;
-       margin-top: 10px;
+       margin-top:10px;
        font-size: 18px;
        font-weight: 500;
        text-indent: 7px;
    }
 
-   .my_info .info_nick section .validate_msg {
+   .my_info section .validate_msg {
        margin-top: 5px;
        margin-left: 5px;
        display: block;
@@ -886,14 +887,16 @@
        background: #ebebeb;
        font-size: 14px;
        font-weight: bold;
+       box-sizing: border-box;
        border: none;
        color: rgba(0,0,0,0.56);
    }
-   .my_info .btn_common.active{
-       background: #FCF951;
-   }
+   .my_info .btn_common.active{ background: #bbd444; color: #FFFFFF;}
 
-   .my_info .btn_common.nickChangeBtn{ margin-left: 10px; }
+   .my_info .btn_common.nickChangeBtn{ margin-left: 10px;}
+   .my_info .btn_common#sendCodeBtn{ margin-left: 10px;}
+   .my_info .btn_common#hpModCan{ margin-left: 5px;}
+   .my_info #section3 #confirmCode { margin-left: 10px; }
 
    .my_info .btn_common.mod {
        margin-top: 5px;
@@ -902,6 +905,32 @@
    .my_info .btn_common.mod:nth-of-type(3) {
        margin-left: 5px;
    }
+
+   .my_info #section3 {
+        margin-top:10px;
+   }
+   .my_info #section3 > b {
+       display: block;
+       font-size: 16px;
+       font-weight: bold;
+       color: rgba(0,0,0,0.56);
+   }
+   .my_info #section3 .inp_type2{
+       position: relative;
+   }
+
+   .my_info #section3 .timer {
+       display: inline-block;
+       position: absolute;
+       top: 9px;
+       right: 145px;
+       height: 48px;
+       line-height: 48px;
+       font-size: 16px;
+       color: #ff0055;
+   }
+
+
 
 
 

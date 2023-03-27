@@ -44,7 +44,4 @@ public interface MyDAO {
     public int updateProductCoupon(CouponVO coupon);
     public int selectProductCouponCnt(CouponVO coupon);
 
-    // update
-    int updateProfile(@Param("photo") String photo, @Param("username")String username) throws Exception;
-
 }

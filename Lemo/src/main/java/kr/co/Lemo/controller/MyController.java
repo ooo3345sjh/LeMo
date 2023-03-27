@@ -4,8 +4,10 @@ import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.My_SearchVO;
 import kr.co.Lemo.domain.search.ProductDetail_SearchVO;
 import kr.co.Lemo.service.MyService;
+
 import kr.co.Lemo.utils.PageHandler;
 import kr.co.Lemo.utils.SearchCondition;
+import kr.co.Lemo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
@@ -40,6 +42,9 @@ public class MyController {
     private String myGroup = "title.my";
     private String diaryGroup = "title.diary";
     private final MyService service;
+
+    // 서정현
+    private final UserService userService;
 
     // @since 2023/03/12
     @GetMapping("{myCate}")
@@ -295,6 +300,60 @@ public class MyController {
 
 
         return "my/diary/modify";
+    }
+
+
+    /**
+     * @since 2023/03/27
+     * @auhtor 서정현
+     * @param photo 프로필 사진 이미지 파일
+     * @return 결과값 1:성공 0:실패
+     */
+    @ResponseBody
+    @PatchMapping("info/profile")
+    public String uploadProfile(
+            @RequestPart(value = "profileFile") MultipartFile photo,
+            @AuthenticationPrincipal UserVO userVO
+    ) throws  Exception {
+        log.debug("MyService PATCH uploadProfile start...");
+        log.debug(""+photo.toString());
+        int result = userService.usaveProfile(photo, userVO);
+        return result+"";
+    }
+
+    /**
+     * @since 2023/03/27
+     * @author 서정현
+     * @return
+     */
+    @ResponseBody
+    @DeleteMapping("info/profile")
+    public Map removeProfile(
+            @AuthenticationPrincipal UserVO userVO
+    ) {
+        log.debug("MyService DELETE deleteProfile start...");
+        Map map = new HashMap();
+        map.put("result", userService.removeProfile(userVO));
+        return map;
+    }
+
+    /**
+     * @since 2023/03/28
+     * @author 서정현
+     * @return
+     */
+    @ResponseBody
+    @PatchMapping("info/nick")
+    public Map updateNick(
+            @AuthenticationPrincipal UserVO userVO,
+            @RequestBody Map map
+    ) throws  Exception {
+        log.debug("MyService PATCH updateNick start...");
+
+        String nick = (String)map.get("nick");
+        int result = userService.usaveNick(nick, userVO);
+        map.put("result", result);
+        return map;
     }
 
 }
