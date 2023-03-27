@@ -24,7 +24,7 @@
                         <div class="my_point">
                             <div class="nowPoint">
                                 <p>내 포인트</p>
-                                <span>0 P</span>
+                                <span>[[${#numbers.formatInteger(#authentication.principal.point, 0, 'COMMA')}]] P</span>
                             </div>
                             <div class="my_point_history">
                                 <div class="mph_1">
@@ -50,27 +50,33 @@
                                                 <!--<li>[HEM] 헥사 인센스 스틱</li>-->
                                                 <li th:if="${point.poi_state == 0}">유효기간: [[${point.poi_maximum.substring(0,10)}]] 소멸</li>
                                                 <li th:if="${point.poi_state == 1}">유효기간: [[${point.poi_maximum.substring(0,10)}]] 적립</li>
-                                                <li th:if="${point.poi_state == 2}">유효기간: [[${point.poi_maximum.substring(0,10)}]] 까지</li>
+                                                <li th:if="${point.poi_state == 2}">유효기간: [[${point.poi_maximum.substring(0,10)}]] 사용</li>
                                             </ul>
                                         </div>
                                         <div class="mph_7">
-                                            <span class="plus">
-                                                + [[${point.poi_point}]]P
-                                            </span>
+                                            <span class="minus" th:if="${point.poi_state == 0}"> - [[${#numbers.formatInteger(point.poi_point, 0, 'COMMA')}]]P </span>
+                                            <span class="plus" th:if="${point.poi_state == 1}"> + [[${#numbers.formatInteger(point.poi_point, 0, 'COMMA')}]]P </span>
+                                            <span class="minus" th:if="${point.poi_state == 2}"> - [[${#numbers.formatInteger(point.poi_point, 0, 'COMMA')}]]P </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- 페이징 -->
-                        <div class="paging">
-                            <span class="prev"><a th:href="@{#}"></a></span>
-                            <span class="on"><a th:href="@{#}">1</a></span>
-                            <span><a href="#">2</a></span>
-                            <span><a href="#">3</a></span>
-                            <span><a href="#">4</a></span>
-                            <span><a href="#">5</a></span>
-                            <span class="next"><a th:href="@{#}"></a></span>
+                        <div class="paging" th:object="${ph}" th:unless="${points.size() == 0}">
+                            <span th:if="*{showPrev}">
+                                <a th:href="@{/my/point} + ${ph.sc.getQueryString(ph.beginPage-1)}">
+                                    <img th:src="@{/images/product/left.png}" alt="previous">
+                                </a>
+                            </span>
+                            <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
+                                <a th:href="@{/my/point} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
+                            </span>
+                            <span th:if="*{showNext}">
+                                <a th:href="@{/my/point} + ${ph.sc.getQueryString(ph.endPage+1)}">
+                                    <img th:src="@{/images/product/right.png}" alt="next">
+                                </a>
+                            </span>
                         </div>
                     </div>  
                 </section>

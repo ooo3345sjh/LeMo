@@ -22,6 +22,10 @@
             line-height: 32px;
     
         }
+
+        .paging span > a {
+            padding: 9px;
+        }
     
         .paging .prev {
             background: url('../img/csImg/ico_paging_arr1.png') 50% 50% no-repeat;
@@ -496,7 +500,6 @@
     }
     .my_point_history .mph_7 > .plus {
         text-align: right;
-        margin-left: 9px;
         font-size: 20px;
         line-height: 28px;
         font-weight: 700;
@@ -504,7 +507,6 @@
     }
     .my_point_history .mph_7 > .minus {
         text-align: right;
-        margin-left: 16px;
         font-size: 20px;
         line-height: 28px;
         font-weight: 700;
@@ -616,7 +618,9 @@
         border-top: 1px solid #dcdee0;
     }
 
-
+    .my_Coupon .un_1 > p {
+        font-size: 20px;
+    }
 
 
      /* 나의 찜 */

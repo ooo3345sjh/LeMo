@@ -2,6 +2,7 @@ package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.MyDAO;
 import kr.co.Lemo.domain.*;
+import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -124,71 +125,47 @@ public class MyService {
     }
 
     // @since 2023/03/24
-//    public void findMyArticle(String myCate, String user_id) {
-//
-//        MyVO myVO = new MyVO();
-//
-//        switch (myCate) {
-//            case "coupon" :
-//                myVO.setCouponVO(dao.selectCoupon(user_id));
-//            case "info" :
-//
-//            case "pick" :
-//
-//            case "point" :
-//
-//            case "reservation" :
-//
-//            case "view" :
-//
-//            case "review" :
-//
-//        }
-//
-//    }
-
+    public List<ProductAccommodationVO> findPicks(SearchCondition sc) {
+        return dao.selectPicks(sc);
+    }
 
     // @since 2023/03/27
     public List<CouponVO> findMemberCoupons(String user_id) {
         return dao.selectMemberCoupons(user_id);
     }
-
-    // @since 2023/03/27
     public List<CouponVO> findProductCoupons(String user_id) {
         return dao.selectProductCoupons(user_id);
     }
+    public int rsaveCoupon(CouponVO coupon) {
 
-    // @since 2023/03/24
-    public List<ProductAccommodationVO> findPicks(String user_id) {
-        return dao.selectPicks(user_id);
+        int result = dao.insertCoupon(coupon);
+
+        if(result == 1) { result = dao.updateProductCoupon(coupon); }
+
+        return result;
     }
 
-    // @since 2023/03/24
-    public List<ReservationVO> findReservations(String user_id, String myCate) {
-        return dao.selectReservations(user_id, myCate);
+    public int findProductCouponCnt(CouponVO coupon) {
+        return dao.selectProductCouponCnt(coupon);
     }
-
-    // @since 2023/03/27
-    public List<PointVO> findPoints(String user_id) {
-        return dao.selectPoints(user_id);
+    public List<ReservationVO> findReservations(SearchCondition sc) {
+        return dao.selectReservations(sc);
     }
-
-    // @since 2023/03/27
+    public List<PointVO> findPoints(SearchCondition sc) {
+            return dao.selectPoints(sc);
+        }
     public List<ReviewVO> findReviews(String user_id) {
         return dao.selectReviews(user_id);
     }
-
-    // @since 2023/03/27
-    public int rsaveCoupon(CouponVO coupon) {
-        return dao.insertCoupon(coupon);
+    public int findTotalReservations(SearchCondition sc) {
+            return dao.selectTotalReservations(sc);
+        }
+    public int findTotalPoints(SearchCondition sc) {
+            return dao.selectTotalPoints(sc);
+        }
+    public int findTotalPicks(SearchCondition sc) {
+        return dao.selectTotalPicks(sc);
     }
-
-
-
-
-
-
-
 
     // 기능
 

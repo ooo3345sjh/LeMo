@@ -27,7 +27,7 @@
                                 <tbody>
                                     <tr th:each="pick:${picks}">
                                         <td>
-                                            <a th:href="@{#}" class="my_pick_img">
+                                            <a th:href="@{/product/view ( acc_id=${pick.acc_id} )}" class="my_pick_img">
                                                 <img th:src="|@{/}img/product/${pick.province_no}/${pick.acc_id}/${#strings.substringBefore(pick.acc_thumbs, '/')}|" alt="장소 이미지">
                                             </a>
                                         </td>
@@ -59,14 +59,20 @@
                             </table>
                         </div>
                         <!-- 페이징 -->
-                        <div class="paging">
-                            <span class="prev"><a href="#"></a></span>
-                            <span class="on"><a href="#">1</a></span>
-                            <span><a href="#">2</a></span>
-                            <span><a href="#">3</a></span>
-                            <span><a href="#">4</a></span>
-                            <span><a href="#">5</a></span>
-                            <span class="next"><a href="#"></a></span>
+                        <div class="paging" th:object="${ph}" th:unless="${picks.size() == 0}">
+                            <span th:if="*{showPrev}">
+                                <a th:href="@{/my/pick} + ${ph.sc.getQueryString(ph.beginPage-1)}">
+                                    <img th:src="@{/images/product/left.png}" alt="previous">
+                                </a>
+                            </span>
+                            <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
+                                <a th:href="@{/my/pick} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
+                            </span>
+                            <span th:if="*{showNext}">
+                                <a th:href="@{/my/pick} + ${ph.sc.getQueryString(ph.endPage+1)}">
+                                    <img th:src="@{/images/product/right.png}" alt="next">
+                                </a>
+                            </span>
                         </div>
                     </div>  
                 </section>

@@ -11,7 +11,14 @@
 
     <!-- select -->
     <select id="selectPoints" resultType="kr.co.Lemo.domain.PointVO">
-        SELECT * FROM `lemo_member_point_log` WHERE `user_id`= #{user_id} ORDER BY `poi_rdate` DESC;
+        SELECT * FROM
+            `lemo_member_point_log`
+        WHERE `user_id`= #{user_id} ORDER BY `poi_rdate` DESC
+        LIMIT #{offset}, 10;
+    </select>
+
+    <select id="selectTotalPoints" resultType="int">
+        SELECT COUNT(`poi_id`) FROM `lemo_member_point_log` WHERE `user_id`= #{user_id};
     </select>
 
     <select id="selectReservations" resultType="kr.co.Lemo.domain.ReservationVO">
@@ -25,6 +32,15 @@
         <if test="myCate == 'review'">
             AND b.`res_state` = 2
         </if>
+        LIMIT #{offset}, 10;
+    </select>
+
+    <select id="selectTotalReservations" resultType="int">
+        SELECT COUNT(a.`acc_name`) FROM
+            `lemo_product_accommodation` AS a LEFT JOIN
+            `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+            `lemo_product_room`          AS c ON b.`room_id` = c.`room_id`
+        WHERE b.`user_id` = #{user_id}
     </select>
 
     <select id="selectMemberCoupons" resultType="kr.co.Lemo.domain.CouponVO">
@@ -33,18 +49,33 @@
         FROM
             `lemo_product_coupon` AS a LEFT JOIN
             `lemo_member_coupon` AS b ON a.`cp_id` = b.`cp_id`
-        WHERE a.`cp_end` > DATE(NOW()) AND b.`user_id`=#{user_id};
+        WHERE ( a.`cp_end` > DATE(NOW()) AND b.`mcp_end` > DATE(NOW()) )
+        AND b.`user_id`=#{user_id} AND a.`cp_IssuedCnt` != 0;
     </select>
 
     <select id="selectProductCoupons" resultType="kr.co.Lemo.domain.CouponVO">
         SELECT * FROM `lemo_product_coupon`
-        WHERE `cp_id` NOT IN( SELECT `cp_id` FROM `lemo_member_coupon` WHERE `user_id` = #{user_id} );
+        WHERE `cp_id` NOT IN( SELECT `cp_id` FROM `lemo_member_coupon` WHERE `user_id` = #{user_id} )
+        AND `cp_end` > DATE(NOW())
+        AND `cp_IssuedCnt` != 0;
+    </select>
+
+    <select id="selectProductCouponCnt" resultType="int">
+        SELECT `cp_IssuedCnt` FROM `lemo_product_coupon` WHERE `cp_id` = #{cp_id};
     </select>
 
     <select id="selectPicks" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
         SELECT
             b.`acc_id`, b.`acc_name`, b.`province_no`, b.`acc_addr`, b.`acc_addrDetail`, b.`acc_rate`, b.`acc_thumbs`, b.`acc_review`
         FROM
+            `lemo_product_pick` AS a LEFT JOIN
+            `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
+        WHERE a.`user_id` = #{user_id}
+        LIMIT #{offset}, 10;
+    </select>
+
+    <select id="selectTotalPicks" resultType="int">
+        SELECT COUNT(b.`acc_id`) FROM
             `lemo_product_pick` AS a LEFT JOIN
             `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
         WHERE a.`user_id` = #{user_id};
@@ -114,10 +145,9 @@
     </insert>
 
     <insert id="insertCoupon" parameterType="kr.co.Lemo.domain.CouponVO">
-        INSERT INTO `lemo_member_coupon` SET
-            `cp_id`     = #{cp_id},
-            `user_id`   = #{user_id},
-            `mcp_rdate` = NOW()
+        INSERT INTO `lemo_member_coupon` (`cp_id`, `user_id`, `mcp_start`, `mcp_end`, `mcp_rdate`)
+        SELECT #{cp_id}, #{user_id}, NOW(), DATE_ADD(NOW(), INTERVAL `cp_daysAvailable` DAY), NOW()
+        FROM `lemo_product_coupon` WHERE `cp_id` = #{cp_id};
     </insert>
 
     <!-- update -->
@@ -128,104 +158,14 @@
         WHERE `user_id`=#{username};
     </update>
 
+    <update id="updateProductCoupon">
+        UPDATE `lemo_product_coupon` SET
+            `cp_IssuedCnt` = ( `cp_IssuedCnt` - 1 )
+        WHERE `cp_id` = #{cp_id}
+    </update>
+
     <!-- delete -->
 
-    <!-- MyVO안에 VO값들 -->
-    <!-- 공통으로 하려고 했으나 폐기 추후 삭제 -->
-    <!--
-    <select id="selectMyArticle" resultMap="MyVO">
-        <choose>
-            <when test="myCate == 'coupon'">
-                SELECT * FROM
-                    `lemo_member_coupon` AS a JOIN
-                    `lemo_product_coupon` AS b ON a.`cp_id` = b.`cp_id`
-                WHERE a.`user_id` = #{user_id};
-            </when>
-            <when test="myCate == 'info'">
-
-            </when>
-            <when test="myCate == 'pick'">
-                SELECT * FROM
-                    `lemo_product_pick` AS a JOIN
-                    `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
-                WHERE a.`user_id` = #{user_id};
-            </when>
-            <when test="myCate == 'point'">
-                SELECT * FROM `lemo_product_pick` WHERE `user_id`=#{user_id}
-            </when>
-            <when test="myCate == 'reservation'">
-
-            </when>
-            <when test="myCate == 'view'">
-
-            </when>
-            <when test="myCate == 'review'">
-
-            </when>
-        </choose>
-    </select>
-
-    <resultMap id="MyVO" type="kr.co.Lemo.domain.MyVO">
-        <collection property="pointVO" resultMap="pointVO"></collection>
-        <collection property="couponVO" resultMap="couponVO"></collection>
-        <collection property="reservationVO" resultMap="reservationVO"></collection>
-        <collection property="pickVO" resultMap="pickVO"></collection>
-        <collection property="reviewVO" resultMap="reviewVO"></collection>
-    </resultMap>
-
-    <resultMap id="pointVO" type="kr.co.Lemo.domain.PointVO">
-        <id property="poi_id" column="poi_id"/>
-        <id property="user_id" column="user_id"/>
-        <id property="res_no" column="res_no"/>
-        <id property="poi_content" column="poi_content"/>
-        <id property="poi_point" column="poi_point"/>
-        <id property="poi_maximum" column="poi_maximum"/>
-        <id property="poi_state" column="poi_state"/>
-        <id property="poi_rdate" column="poi_rdate"/>
-    </resultMap>
-
-    <resultMap id="couponVO" type="kr.co.Lemo.domain.CouponVO">
-        <id property="mcp_id" column="mcp_id"/>
-        <id property="mcp_isUsed" column="mcp_isUsed"/>
-        <id property="mcp_start" column="mcp_start"/>
-        <id property="mcp_end" column="mcp_end"/>
-        <id property="mcp_rdate" column="mcp_rdate"/>
-    </resultMap>
-
-    <resultMap id="reservationVO" type="kr.co.Lemo.domain.ReservationVO">
-        <id property="res_no" column="res_no"/>
-        <id property="acc_id" column="acc_id"/>
-        <id property="room_id" column="room_id"/>
-        <id property="user_id" column="user_id"/>
-        <id property="res_price" column="res_price"/>
-        <id property="res_disPrice" column="res_disPrice"/>
-        <id property="res_name" column="res_name"/>
-        <id property="res_hp" column="res_hp"/>
-        <id property="res_payment" column="res_payment"/>
-        <id property="res_date" column="res_date"/>
-        <id property="res_checkIn" column="res_checkIn"/>
-        <id property="res_checkOut" column="res_checkOut"/>
-        <id property="res_state" column="res_state"/>
-        <id property="res_memo" column="res_memo"/>
-    </resultMap>
-
-    <resultMap id="pickVO" type="kr.co.Lemo.domain.PickVO">
-        <id property="acc_id" column="acc_id"/>
-        <id property="user_id" column="user_id"/>
-    </resultMap>
-
-    <resultMap id="reviewVO" type="kr.co.Lemo.domain.ReviewVO">
-        <id property="revi_id" column="revi_id"/>
-        <id property="res_no" column="res_no"/>
-        <id property="revi_rate" column="revi_rate"/>
-        <id property="revi_title" column="revi_title"/>
-        <id property="revi_content" column="revi_content"/>
-        <id property="revi_reply" column="revi_reply"/>
-        <id property="revi_regip" column="revi_regip"/>
-        <id property="revi_rdate" column="revi_rdate"/>
-        <id property="revi_thumb" column="revi_thumb"/>
-    </resultMap>
-    -->
 
     <!-- 공통 키 -->
 
