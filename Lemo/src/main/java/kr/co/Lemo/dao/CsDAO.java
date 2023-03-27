@@ -65,4 +65,6 @@ public interface CsDAO {
     /** delete **/
     //@since 2023/03/15
     public int deleteFaqWrite(@Param("cs_no") int cs_no);
+    //@since 2023/03/27
+    public int deleteQnaList(@Param("checkList") List<String> checkList, @Param("user_id") String user_id);
 }

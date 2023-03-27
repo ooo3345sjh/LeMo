@@ -137,6 +137,19 @@
         where `cs_no` =#{cs_no};
     </update>
 
+    <update id="updateEventArticle" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="cs_no">
+        insert into `lemo_cs` set
+        `cs_title`=#{cs_title},
+        `cs_content`=#{cs_content},
+        `cs_regip`=#{cs_regip},
+        `cs_rdate`=NOW(),
+        `cs_eventbannerImg`=#{cs_eventbannerImg},
+        `cs_eventViewImg`=#{cs_eventViewImg},
+        `cs_eventStart`=#{cs_eventStart},
+        `cs_eventEnd`=#{cs_eventEnd}
+        where `cs_no` =#{cs_no};
+    </update>
+
     <update id="updateAdminNotice">
         update `lemo_cs` set
             `cs_title` =#{cs_title},
@@ -169,6 +182,13 @@
     <!-- delete -->
     <delete id="deleteFaqWrite">
         delete from `lemo_cs` where `cs_no` =#{cs_no};
+    </delete>
+    <delete id="deleteQnaList">
+        delete from `lemo_cs`
+        where `user_id`=#{user_id} and `cs_no` in
+        <foreach collection="checkList" index="index" item="checkList" open="(" close=")" separator=",">
+            #{checkList}
+        </foreach>
     </delete>
     <!-- 공통 키 -->
 

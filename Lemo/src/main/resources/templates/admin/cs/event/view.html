@@ -62,12 +62,12 @@
 
                             <!-- 버튼 -->
                             <div class="btnAdminProd">
-                                <a href="#">
+                                <a th:href="@{/admin/cs/event/list}">
                                     이벤트목록
                                 </a>
                             </div>
                             <div class="btnAdminProd">
-                                <a href="#">
+                                <a th:href="@{/admin/cs/event/modify (cs_no=${event.cs_no})}">
                                     이벤트수정
                                 </a>
                             </div>

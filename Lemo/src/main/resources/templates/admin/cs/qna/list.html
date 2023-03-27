@@ -35,7 +35,7 @@
                                     <th:block th:each="qna,i:${AdminQnaArticles}">
                                         <ul>
                                             <li>
-                                                <input type="checkbox" name="문의번호">
+                                                <input type="checkbox" name="cs_no" th:value="${qna.cs_no}">
                                             </li>
                                             <li>[[*{totalCnt-sc.offset} - ${i.index}]]</li>
                                             <li class="title">
@@ -66,7 +66,7 @@
 
                                 </div>
                                 <div class="btnAdminProd4">
-                                    <a href="#">
+                                    <a class="btnQnaDelete">
                                         선택삭제
                                     </a>
                                 </div>
@@ -81,8 +81,24 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+    <script th:src="@{/js/cs/test.js}"></script>
     <script>
+         $(function(){
+            var checkList = [];
 
+            $('input[name=all]').click(function(){
+                //리스트 초기화
+                checkList = [];
+
+                // 전체 선택 시 전부 체크
+                $('input[name=cs_no]').prop('checked', true);
+
+                // checkList에 담는 이유는 선택삭제시 필요
+                $('input[name=cs_no]:checked').each(function(){checkList.push($(this).val()); });
+
+                console.log("checklist : " + checkList);
+            });
+         });
     </script>
 </th:block>
 </html>

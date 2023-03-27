@@ -69,33 +69,6 @@
                 return;
             }
 
-            var img = document.getElementById("image");
-            var file = document.getElementById("ex_file").files[0];
-
-
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function() {
-                    var image = new Image();
-                    image.src = reader.result;
-                    image.onload = function() {
-                        if (image.width < 1000 || image.height < 200) {
-                            alert("베너이미지 크기(가로 1000px이상 세로 200px 이하)에 맞춰서 올려주세요.");
-                            return;
-                        }else{
-                            img.src = reader.result;
-                        }
-                    };
-                };
-                reader.readAsDataURL(file);
-            } else {
-                alert("파일을 선택하세요.");
-            }
-
-
-            for( data in myDropzone)
-            console.log("myDropZone : " + JSON.stringify(data));
-
             // 거부된 파일이 있다면
             if (myDropzone.getRejectedFiles().length > 0) {
                 let files = myDropzone.getRejectedFiles();
@@ -103,8 +76,34 @@
                 return;
             }
 
-            myDropzone.processQueue(); // autoProcessQueue: false로 해주었기 때문에, 메소드 api로 파일을 서버로 제출
 
+            var img = document.getElementById("image");
+            var file = document.getElementById("ex_file").files[0];
+            var result;
+
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var image = new Image();
+                    image.src = reader.result;
+                    image.onload = function() {
+                        console.log("width1 : " + image.width);
+                        console.log("height1 : " + image.height);
+                        if (image.width < 1000 || image.height > 300 || image.height < 200) {
+                            console.log("width2 : " + image.width);
+                            console.log("height2 : " + image.height);
+                            alert("베너이미지 크기(가로 1000px이상 세로 200px 이하)에 맞춰서 올려주세요.");
+                            return;
+                        }else{
+                            img.src = reader.result;
+                            myDropzone.processQueue();
+                        }
+                    };
+                };
+                    reader.readAsDataURL(file);
+            } else {
+                alert("파일을 선택하세요.");
+            }
         });
 
             myDropzone.on('success', function (file, responseText) {

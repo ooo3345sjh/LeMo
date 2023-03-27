@@ -55,14 +55,14 @@
             float: left;
             }
         #fileDropzone > #ex_file {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0,0,0,0);
-            border: 0;
+<!--            position: absolute;-->
+<!--            width: 1px;-->
+<!--            height: 1px;-->
+<!--            padding: 0;-->
+<!--            margin: -1px;-->
+<!--            overflow: hidden;-->
+<!--            clip: rect(0,0,0,0);-->
+<!--            border: 0;-->
         }
 
     </style>
@@ -135,7 +135,7 @@
                                     <tr>
                                         <td>이벤트 내용</td>
                                         <td>
-                                            <textarea id="summernote" name="cs_content" placeholder="이벤트 내용을 작성해 주세요" required></textarea>
+                                            <textarea id="summernote" name="cs_content" placeholder="이벤트 내용을 작성해 주세요" required th:value="${mEvent.cs_content}"></textarea>
                                         </td>
                                     </tr>
 
