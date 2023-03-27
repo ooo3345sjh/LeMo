@@ -155,39 +155,7 @@
         });
     });
 
-    // 쿠폰 목록 (판매자) 소유 숙소 셀렉트 옵션 추가
-    window.onload = function() {
-        let select = document.getElementsByClassName("selectAccOwned")[0];
 
-        let jsonData = {"user_id": "3min-ik@hanmail.net"};
-
-        console.log(jsonData);
-
-        ajaxAPI("admin/coupon/findAccOwned", jsonData, "GET").then((response)=>{
-            console.log('response:' + response);
-            select.innerHTML = "";
-            for (let i = 0; i < response.length; i++) {
-                let option = document.createElement("option");
-                option.value = response[i];
-                option.text = response[i];
-                select.add(option);
-            }
-        }).catch((errorMsg)=>{
-            console.log(errorMsg);
-        });
-    };
-
-    // 판매자 검색 시, 발급 구분 판매자 고정
-    const searchOption = document.querySelector('select[name="searchField"]');
-    const searchCouponRole = document.querySelector('select[name="searchCouponRole"]');
-
-    searchOption.addEventListener('change', (event) => {
-        const selectedValue = event.target.value;
-
-        if (selectedValue === "user_id") {
-            searchCouponRole.value = "BUSINESS";
-        }
-    });
 
 
     </script>

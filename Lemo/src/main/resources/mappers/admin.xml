@@ -119,7 +119,7 @@
 
 
 
-    <!-- admin - user - insert coupon -->
+    <!-- 관리자 - 쿠폰 등록  -->
     <insert id="insertCoupon">
         INSERT INTO `lemo_product_coupon` (
             `user_id`, `user_role`, `cp_subject`, `cp_group`, `cp_type`,
@@ -127,7 +127,7 @@
             `cp_start`, `cp_end`, `cp_daysAvailable`, `cp_limitedIssuance`
         )
         VALUES (
-            'google_test', 'ADMIN', #{cp_subject}, #{cp_group}, #{cp_type}, #{cp_rate},
+            'ADMIN', 'ADMIN', #{cp_subject}, #{cp_group}, #{cp_type}, #{cp_rate},
             CASE
                 WHEN #{cp_rate} IS NOT NULL THEN '1'
                 WHEN #{cp_price} IS NOT NULL THEN '2'

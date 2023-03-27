@@ -330,70 +330,58 @@
         }
 
         const jsonData = {"sorted": value};
-        console.log(jsonData);
+         console.log(jsonData);
 
-        const url = `admin/users?sorted=${value}`;
-
+         const url = `admin/users?sorted=${value}`;
 
         ajaxAPI(url, null, "GET").then((response) => {
             console.log(response);
 
-            $("#userList > *:not('.column')").empty();
+            // 동적 태그 생성
+            let tags = $("#userList > ul");
+            appendTags(tags, response);
 
-            for(const [i, user] of response.users.entries()){
-                let  = user.isEnabled;
-                let tags = `<ul>
-                                <li>${response.totalCnt - response.offset - i}</li>
-                                <li class="user_id">${user.user_id}</li>
-                                <li class="user_nick">${user.nick}</li>
-                                <li class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}">${user.isEnabled == 0 ? '탈퇴' :  (user.isLocked == 0 ? '차단' : '정상')}</li>
-                                <li class="${user.level == 1? 'genUser' : 'eliteUser'}">${user.level == 1? '일반': '엘리트'}</li>
-                                <li class="${user.type == 1 ? 'homeUser' : 'snsUser'}">${user.type == 1? '홈회원':'SNS회원'}</li>
-                                <li>${user.rdate}</li>
-                                <li>
-                                    <button class="btnNote" value="${user.user_id}">메모</button>
-                                    <dialog id="d_Memo">
-                                        <form method="dialog">
-                                            <section>
-                                                <nav class="d_tit">
-                                                    <h1 class="d_tit2">메모</h1>
-                                                    <input type="text" class="d_id">
-                                                </nav>
-                                                <div class="d_box">
-                                                    <textarea class="d_content" placeholder="메모 내용을 작성하세요">${user.memo}</textarea>
-                                                </div>
-                                                <div class="rr_btn">
-                                                    <button class="btnRclose" id="btnCloseModal2">닫기</button>
-                                                    <button type="button" class="btnRsubmit" id="btnCloseModal3" >작성</button>
-                                                </div>
-                                            </section>
-                                        </form>
-                                    </dialog>
-                                    <button data-action="${user.isLocked == 1? 'block':'clear'}" class="btnBlockUser" type="button" id="btnBlockUser" value="${user.user_id}">차단</button>
-                                    <button data-action="${user.isLocked == 0? 'block':'clear'}" class="btnClearUser" type="button" id="btnClearUser" value="${user.user_id}">해제</button>
-                                </li>
-                           </ul>`;
-                $('#userList').append(tags);
-            }
-
-            $('.pagination > .num').empty();
+            // 페이지번호 생성
+            $('.pagination').empty();
 
             let totalCnt = response.totalCnt;                   // 게시글 총 개수
-            let rowPerPage = 10;                                // 한 페이지당 게시글 개수 (10개)
-            let pageTotal = Math.ceil(totalCnt / rowPerPage);   // 페이지 번호
-            console.log("게시글 총 개수 : " + totalCnt);
-            console.log("페이지 번호 : " + pageTotal);
+            let beginPage = response.beginPage;
+            let endPage = response.endPage;
+            let showNext = response.showNext;
+            let showPrev = response.showPrev;
+            let page = response.page;
 
-            for(i; i<pageTotal; i++){
-                
+            console.log("게시글 총 개수 : " + totalCnt);
+            console.log("beginPage : " + beginPage);
+            console.log("endPage : " + endPage);
+            console.log("showPrev : " + showPrev);
+            console.log("showNext : " + showNext);
+            console.log("page : " + page);
+
+
+
+
+            // 이전 페이지
+            if(showPrev == true){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ (beginPage - 1) +')"></a>').html("<").addClass("prev").appendTo('.pagination');
+
             }
 
+            // 현재 페이지
+            for(i=beginPage; i<endPage; i++){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ i +')" class="' + (i == page ? 'current' : '') + '"></a>').attr('rel', i).html(i).appendTo('.pagination');
+            }
 
+            // 다음 페이지
+            if(showNext == true){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ (endPage + 1) +')"></a>').html(">").addClass("next").appendTo('.pagination');
+            }
 
 
         }).catch((errorMsg) => {
-            console.log(errorMsg);
+        console.log(errorMsg);
         });
+
     });
 
     // 등급 정렬 (일반/엘리트)
@@ -422,44 +410,43 @@
         ajaxAPI(url, null, "GET").then((response) => {
             console.log(response);
 
-            $("#userList > *:not('.column')").empty();
+            // 동적 태그 생성
+            let tags = $("#userList > ul");
+            appendTags(tags, response);
 
-            for(const [i, user] of response.users.entries()){
-                console.log('i : ' + i);
-                let  = user.isEnabled;
-                let tags = `<ul>
-                                <li>${response.totalCnt - response.offset - i}</li>
-                                <li class="user_id">${user.user_id}</li>
-                                <li class="user_nick">${user.nick}</li>
-                                <li class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}">${user.isEnabled == 0 ? '탈퇴' :  (user.isLocked == 0 ? '차단' : '정상')}</li>
-                                <li class="${user.level == 1? 'genUser' : 'eliteUser'}">${user.level == 1? '일반': '엘리트'}</li>
-                                <li class="${user.type == 1 ? 'homeUser' : 'snsUser'}">${user.type == 1? '홈회원':'SNS회원'}</li>
-                                <li>${user.rdate}</li>
-                                <li>
-                                    <button class="btnNote" value="${user.user_id}">메모</button>
-                                    <dialog id="d_Memo">
-                                        <form method="dialog">
-                                            <section>
-                                                <nav class="d_tit">
-                                                    <h1 class="d_tit2">메모</h1>
-                                                    <input type="text" class="d_id">
-                                                </nav>
-                                                <div class="d_box">
-                                                    <textarea class="d_content" placeholder="메모 내용을 작성하세요">${user.memo}</textarea>
-                                                </div>
-                                                <div class="rr_btn">
-                                                    <button class="btnRclose" id="btnCloseModal2">닫기</button>
-                                                    <button type="button" class="btnRsubmit" id="btnCloseModal3" >작성</button>
-                                                </div>
-                                            </section>
-                                        </form>
-                                    </dialog>
-                                    <button data-action="${user.isLocked == 1? 'block':'clear'}" class="btnBlockUser" type="button" id="btnBlockUser" value="${user.user_id}">차단</button>
-                                    <button data-action="${user.isLocked == 0? 'block':'clear'}" class="btnClearUser" type="button" id="btnClearUser" value="${user.user_id}">해제</button>
-                                </li>
-                           </ul>`;
-                $('#userList').append(tags);
-        }
+            // 페이지번호 생성
+            $('.pagination').empty();
+
+            let totalCnt = response.totalCnt;                   // 게시글 총 개수
+            let beginPage = response.beginPage;
+            let endPage = response.endPage;
+            let showNext = response.showNext;
+            let showPrev = response.showPrev;
+            let page = response.page;
+
+            console.log("게시글 총 개수 : " + totalCnt);
+            console.log("beginPage : " + beginPage);
+            console.log("endPage : " + endPage);
+            console.log("showPrev : " + showPrev);
+            console.log("showNext : " + showNext);
+            console.log("page : " + page);
+
+            // 이전 페이지
+            if(showPrev == true){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ (beginPage - 1) +')"></a>').html("<").addClass("prev").appendTo('.pagination');
+            }
+
+            // 현재 페이지
+            for(i=beginPage; i<endPage; i++){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ i +')" class="' + (i == page ? 'current' : '') + '"></a>').attr('rel', i).html(i).appendTo('.pagination');
+            }
+
+            // 다음 페이지
+            if(showNext == true){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ (endPage + 1) +')"></a>').html(">").addClass("next").appendTo('.pagination');
+            }
+
+
         }).catch((errorMsg) => {
         console.log(errorMsg);
         });
@@ -490,44 +477,43 @@
         ajaxAPI(url, null, "GET").then((response) => {
             console.log(response);
 
-            $("#userList > *:not('.column')").empty();
+            // 동적 태그 생성
+            let tags = $("#userList > ul");
+            appendTags(tags, response);
 
-            for(const [i, user] of response.users.entries()){
-                console.log('i : ' + i);
-                let  = user.isEnabled;
-                let tags = `<ul>
-                                <li>${response.totalCnt - response.offset - i}</li>
-                                <li class="user_id">${user.user_id}</li>
-                                <li class="user_nick">${user.nick}</li>
-                                <li class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}">${user.isEnabled == 0 ? '탈퇴' :  (user.isLocked == 0 ? '차단' : '정상')}</li>
-                                <li class="${user.level == 1? 'genUser' : 'eliteUser'}">${user.level == 1? '일반': '엘리트'}</li>
-                                <li class="${user.type == 1 ? 'homeUser' : 'snsUser'}">${user.type == 1? '홈회원':'SNS회원'}</li>
-                                <li>${user.rdate}</li>
-                                <li>
-                                    <button class="btnNote" value="${user.user_id}">메모</button>
-                                    <dialog id="d_Memo">
-                                        <form method="dialog">
-                                            <section>
-                                                <nav class="d_tit">
-                                                    <h1 class="d_tit2">메모</h1>
-                                                    <input type="text" class="d_id">
-                                                </nav>
-                                                <div class="d_box">
-                                                    <textarea class="d_content" placeholder="메모 내용을 작성하세요">${user.memo}</textarea>
-                                                </div>
-                                                <div class="rr_btn">
-                                                    <button class="btnRclose" id="btnCloseModal2">닫기</button>
-                                                    <button type="button" class="btnRsubmit" id="btnCloseModal3" >작성</button>
-                                                </div>
-                                            </section>
-                                        </form>
-                                    </dialog>
-                                    <button data-action="${user.isLocked == 1? 'block':'clear'}" class="btnBlockUser" type="button" id="btnBlockUser" value="${user.user_id}">차단</button>
-                                    <button data-action="${user.isLocked == 0? 'block':'clear'}" class="btnClearUser" type="button" id="btnClearUser" value="${user.user_id}">해제</button>
-                                </li>
-                           </ul>`;
-                $('#userList').append(tags);
-        }
+            // 페이지번호 생성
+            $('.pagination').empty();
+
+            let totalCnt = response.totalCnt;                   // 게시글 총 개수
+            let beginPage = response.beginPage;
+            let endPage = response.endPage;
+            let showNext = response.showNext;
+            let showPrev = response.showPrev;
+            let page = response.page;
+
+            console.log("게시글 총 개수 : " + totalCnt);
+            console.log("beginPage : " + beginPage);
+            console.log("endPage : " + endPage);
+            console.log("showPrev : " + showPrev);
+            console.log("showNext : " + showNext);
+            console.log("page : " + page);
+
+            // 이전 페이지
+            if(showPrev == true){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ (beginPage - 1) +')"></a>').html("<").addClass("prev").appendTo('.pagination');
+            }
+
+            // 현재 페이지
+            for(i=beginPage; i<endPage; i++){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ i +')" class="' + (i == page ? 'current' : '') + '"></a>').attr('rel', i).html(i).appendTo('.pagination');
+            }
+
+            // 다음 페이지
+            if(showNext == true){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ (endPage + 1) +')"></a>').html(">").addClass("next").appendTo('.pagination');
+            }
+
+
         }).catch((errorMsg) => {
         console.log(errorMsg);
         });
@@ -558,49 +544,144 @@
         ajaxAPI(url, null, "GET").then((response) => {
             console.log(response);
 
-            $("#userList > *:not('.column')").empty();
+            // 동적 태그 생성
+            let tags = $("#userList > ul");
+            appendTags(tags, response);
 
-            for(const [i, user] of response.users.entries()){
-                console.log('i : ' + i);
-                let  = user.isEnabled;
-                let tags = `<ul>
-                                <li>${response.totalCnt - response.offset - i}</li>
-                                <li class="user_id">${user.user_id}</li>
-                                <li class="user_nick">${user.nick}</li>
-                                <li class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}">${user.isEnabled == 0 ? '탈퇴' :  (user.isLocked == 0 ? '차단' : '정상')}</li>
-                                <li class="${user.level == 1? 'genUser' : 'eliteUser'}">${user.level == 1? '일반': '엘리트'}</li>
-                                <li class="${user.type == 1 ? 'homeUser' : 'snsUser'}">${user.type == 1? '홈회원':'SNS회원'}</li>
-                                <li>${user.rdate}</li>
-                                <li>
-                                    <button class="btnNote" value="${user.user_id}">메모</button>
-                                    <dialog id="d_Memo">
-                                        <form method="dialog">
-                                            <section>
-                                                <nav class="d_tit">
-                                                    <h1 class="d_tit2">메모</h1>
-                                                    <input type="text" class="d_id">
-                                                </nav>
-                                                <div class="d_box">
-                                                    <textarea class="d_content" placeholder="메모 내용을 작성하세요">${user.memo}</textarea>
-                                                </div>
-                                                <div class="rr_btn">
-                                                    <button class="btnRclose" id="btnCloseModal2">닫기</button>
-                                                    <button type="button" class="btnRsubmit" id="btnCloseModal3" >작성</button>
-                                                </div>
-                                            </section>
-                                        </form>
-                                    </dialog>
-                                    <button data-action="${user.isLocked == 1? 'block':'clear'}" class="btnBlockUser" type="button" id="btnBlockUser" value="${user.user_id}">차단</button>
-                                    <button data-action="${user.isLocked == 0? 'block':'clear'}" class="btnClearUser" type="button" id="btnClearUser" value="${user.user_id}">해제</button>
-                                </li>
-                           </ul>`;
-                $('#userList').append(tags);
-        }
+            // 페이지번호 생성
+            $('.pagination').empty();
+
+            let totalCnt = response.totalCnt;                   // 게시글 총 개수
+            let beginPage = response.beginPage;
+            let endPage = response.endPage;
+            let showNext = response.showNext;
+            let showPrev = response.showPrev;
+            let page = response.page;
+
+            console.log("게시글 총 개수 : " + totalCnt);
+            console.log("beginPage : " + beginPage);
+            console.log("endPage : " + endPage);
+            console.log("showPrev : " + showPrev);
+            console.log("showNext : " + showNext);
+            console.log("page : " + page);
+
+            // 이전 페이지
+            if(showPrev == true){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ (beginPage - 1) +')"></a>').html("<").addClass("prev").appendTo('.pagination');
+            }
+
+            // 현재 페이지
+            for(i=beginPage; i<endPage; i++){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ i +')" class="' + (i == page ? 'current' : '') + '"></a>').attr('rel', i).html(i).appendTo('.pagination');
+            }
+
+            // 다음 페이지
+            if(showNext == true){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ (endPage + 1) +')"></a>').html(">").addClass("next").appendTo('.pagination');
+            }
+
+
         }).catch((errorMsg) => {
         console.log(errorMsg);
         });
-
     });
+
+
+    function pagingTags(value, page) {
+
+        const jsonData = { "sorted": value, "page" : page };
+        console.log(jsonData);
+
+        const url = `admin/users?sorted=${value}&page=${page}`;
+
+
+
+        ajaxAPI(url, null, "GET").then((response) => {
+            console.log(response);
+
+            // 동적 태그 생성
+            let tags = $("#userList > ul");
+            appendTags(tags, response);
+
+            // 페이지번호 생성
+            $('.pagination').empty();
+
+            let totalCnt = response.totalCnt;                   // 게시글 총 개수
+            let beginPage = response.beginPage;
+            let endPage = response.endPage;
+            let showNext = response.showNext;
+            let showPrev = response.showPrev;
+            let page = response.page;
+
+            console.log("게시글 총 개수 : " + totalCnt);
+            console.log("beginPage : " + beginPage);
+            console.log("endPage : " + endPage);
+            console.log("showNext : " + showNext);
+            console.log("showPrev : " + showPrev);
+            console.log("page : " + page);
+
+            // 이전 페이지
+            if(showPrev == true){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ (beginPage - 10) +')"></a>').html("<").addClass("prev").appendTo('.pagination');
+            }
+
+            // 현재 페이지
+            for(i=beginPage; i<endPage; i++){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ i +')" class="' + (i == page ? 'current' : '') + '"></a>').attr('rel', i).html(i).appendTo('.pagination');
+            }
+
+            // 다음 페이지
+            if(showNext == true){
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ (endPage + 1) +')"></a>').html(">").addClass("next").appendTo('.pagination');
+            }
+
+        }).catch((errorMsg) => {
+            console.log(errorMsg);
+        });
+    }
+
+    function appendTags(tags, response){
+
+        tags.slice(1).remove();
+
+        for(const [i, user] of response.users.entries()){
+            let  = user.isEnabled;
+            let tags = `<ul>
+                            <li>${response.totalCnt - response.offset - i}</li>
+                            <li class="user_id">${user.user_id}</li>
+                            <li class="user_nick">${user.nick}</li>
+                            <li class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}">${user.isEnabled == 0 ? '탈퇴' :  (user.isLocked == 0 ? '차단' : '정상')}</li>
+                            <li class="${user.level == 1? 'genUser' : 'eliteUser'}">${user.level == 1? '일반': '엘리트'}</li>
+                            <li class="${user.type == 1 ? 'homeUser' : 'snsUser'}">${user.type == 1? '홈회원':'SNS회원'}</li>
+                            <li>${user.rdate}</li>
+                            <li>
+                                <button class="btnNote" value="${user.user_id}">메모</button>
+                                <dialog id="d_Memo">
+                                    <form method="dialog">
+                                        <section>
+                                            <nav class="d_tit">
+                                                <h1 class="d_tit2">메모</h1>
+                                                <input type="text" class="d_id">
+                                            </nav>
+                                            <div class="d_box">
+                                                <textarea class="d_content" placeholder="메모 내용을 작성하세요">${user.memo}</textarea>
+                                            </div>
+                                            <div class="rr_btn">
+                                                <button class="btnRclose" id="btnCloseModal2">닫기</button>
+                                                <button type="button" class="btnRsubmit" id="btnCloseModal3" >작성</button>
+                                            </div>
+                                        </section>
+                                    </form>
+                                </dialog>
+                                <button data-action="${user.isLocked == 1? 'block':'clear'}" class="btnBlockUser" type="button" id="btnBlockUser" value="${user.user_id}">차단</button>
+                                <button data-action="${user.isLocked == 0? 'block':'clear'}" class="btnClearUser" type="button" id="btnClearUser" value="${user.user_id}">해제</button>
+                            </li>
+                       </ul>`;
+            $('#userList').append(tags);
+        }
+
+    }
+
 
     // 체크박스 유지
     $(document).ready(function() {

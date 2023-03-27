@@ -106,11 +106,6 @@ public class AdminController {
         }else if(sorted.equals("11")){
             sc.setSort("rdateOff");
         }
-
-
-
-
-
         //sc.setSort(sort);
 
         List<UserVO> users = service.selectUser(model, sc);
@@ -122,6 +117,11 @@ public class AdminController {
         map.put("users", users);
         map.put("totalCnt", ph.getTotalCnt());
         map.put("offset", ph.getSc().getOffset());
+        map.put("beginPage", ph.getBeginPage());
+        map.put("endPage", ph.getEndPage());
+        map.put("showNext", ph.isShowNext());
+        map.put("showPrev", ph.isShowPrev());
+        map.put("page" , sc.getPage());
 
         return map;
     }
@@ -176,8 +176,10 @@ public class AdminController {
     }
 
     // @since 2023/03/12
-    @PostMapping("coupon/insertCoupon")
+    @PostMapping("coupon/rsaveCupon")
     public String rsaveCupon(CouponVO vo, RedirectAttributes redirectAttributes) throws Exception {
+
+        log.warn("rsaveCupon : " + vo);
 
         log.warn("쿠폰명 :" + vo.getCp_subject());
         log.warn("쿠폰적용그룹 :" + vo.getCp_group());
