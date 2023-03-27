@@ -59,8 +59,8 @@
                                                     <input type="text" class="mod_nick" maxlength="8"/>
                                                     <button type="button" class="btn_common nickChangeBtn active">딴거할래요</button>
                                                     <label id="nick_msg" class="validate_msg"></label>
-                                                    <button type="button" class="btn_common nick mod" disabled>수정완료</button>
-                                                    <button type="button" class="btn_common nick mod">수정취소</button>
+                                                    <button type="button" id="nickModReg" class="btn_common nick mod" disabled>수정완료</button>
+                                                    <button type="button" id="nickModCan" class="btn_common nick mod">수정취소</button>
 
                                                 </div>
                                             </section>
@@ -74,6 +74,15 @@
                                                     <span class="text">수정</span>
                                                 </button>
                                             </div>
+                                            <section id="section2">
+                                                <div class="inp_type2 form-errors">
+                                                    <input type="tel" name="hp" class="mod_hp" maxlength="11" placeholder="휴대폰 번호를 입력해주세요."/>
+                                                    <button type="button" class="btn_common" id="sendCodeBtn">전송</button>
+                                                    <label id="hp_result" class="validate_msg"></label>
+                                                </div>
+                                                    <button type="button" id="hpModReg" class="btn_common hp mod" disabled>수정완료</button>
+                                                    <button type="button" id="hpModCan" class="btn_common hp mod">수정취소</button>
+                                            </section>
                                         </div>
                                     </li>
                                     <div class="on-off-toggle">
@@ -96,6 +105,7 @@
         </main>
 </th:block>
 <th:block layout:fragment="script">
+    <script th:src="@{/js/user/hpAuth2.js}"></script>
     <script>
         //회원탈퇴
         $(function(){
@@ -112,6 +122,9 @@
         const profileDelBtn = $(".profileBtn.del");
         const modNickBtn = $('.btn_edit.nick');
         const changeNickBtn = $('.nickChangeBtn');
+        const nickModCanBtn = $('#nickModCan');
+        const nickModRegBtn = $('#nickRegCan');
+        const modHpBtn = $('.info_phone .btn_edit');
 
         // Validation Check
         let nickOk = false;
@@ -119,14 +132,16 @@
         // regex
         const reNick = /^[a-zA-Z가-힣0-9][a-zA-Zㄱ-힣0-9]*$/;
 
-        let nick = "[[${#authentication.principal.nick}]]";
+        let principalNick = "[[${#authentication.principal.nick}]]";
 
         // input
         const modNickInput = $('.mod_nick');
 
         // section
         const sectionNick = $('#section1');
+        const sectionHp = $('#section2');
         sectionNick.remove();
+        sectionHp.remove();
 
         function readURL(input) {
             const maxSize = 10 * 1024 * 1024;
@@ -262,18 +277,116 @@
 
 
 
-            modNickBtn.on('click', function (){
+            $(document).on('click', '.btn_edit.nick', function (){
+                modNickBtn.remove();
                 $('.info_nick').append(sectionNick);
-                modNickInput.val(nick);
-
+                modNickInput.val(principalNick);
+                $('#nickModReg').removeClass("active");
+                $('#nickModReg').attr('disabled', true);
+                $('#nick_msg').text('');
+                nickOk = false;
             });
 
-            changeNickBtn.on('click', function (){
+            $(document).on('click', '.nickChangeBtn', function (){
                 getNick();
             });
 
+            $(document).on('click', '#nickModCan', function(){
+                sectionNick.remove();
+                $('.info_nick > div').append(modNickBtn);
+            });
+
+            $(document).on('input focus', '.mod_nick', function(){
+                const nick = $(this).val();
+                if(!reNick.test(nick) || nick === principalNick || nick.length > 8){
+                    if(!reNick.test(nick))
+                        $('#nick_msg').text('한글과 영문을 사용해주세요.');
+
+                    else if(nick.length > 8)
+                        $('#nick_msg').text('8자리 까지만 입력 가능 합니다.');
+
+                    $('#nickModReg').removeClass("active");
+                    $('#nickModReg').attr('disabled', true);
+                    nickOk = false;
+                    return;
+                }
+
+                ajaxAPI("user/nick/duplicate?nick="+nick, null, "GET").then((response) => {
+                    if(response.result > 0) {
+                        $('#nickModReg').removeClass("active");
+                        $('#nick_msg').text('이미 존재하는 닉네임입니다.');
+                        $('#nickModReg').attr('disabled', true);
+                        nickOk = false;
+                    } else {
+                        $('#nick_msg').text('');
+                        $('#nickModReg').addClass("active");
+                        $('#nickModReg').attr('disabled', false);
+                        nickOk = true;
+                    }
+                }).catch((errorMsg) => {
+                    console.log(errorMsg)
+                });
+            });
+
+            $(document).on('click', '#nickModReg', function (){
+                $('.mod_nick').focus();
+                const nick = $('.mod_nick').val();
+
+                if(nick === principalNick){
+                    $('#nick_msg').text('현재 닉네임과 동일합니다.');
+                    return;
+                }
+
+                if(!nickOk){
+                    $('#nick_msg').text('닉네임을 올바르게 입력해주세요.');
+                    return;
+                }
 
 
+                Swal.fire({
+                    html: '<p style="font-size:18px; font-weight:bold;">닉네임을 정말 수정하시겠습니까?</p>',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '수정',
+                    cancelButtonText: '취소'
+                }).then((result) => {
+                    if(result.isConfirmed === true){
+                        const jsonData = {
+                            "nick":nick
+                        }
+                        ajaxAPI("my/info/nick", jsonData, "PATCH").then((response) => {
+                            if(response.result === 1) {
+                                $("#nickModCan").trigger("click");
+                                $(".nick_text").text(nick);
+                            }
+                        }).catch((errorMsg) => {
+                            console.log(errorMsg)
+                            Swal.fire({
+                                title : "닉네임 수정에 실패 했습니다.\n잠시 후에 다시 시도해주세요.",
+                                icon : 'error',
+                                confirmButtonText : '확인'
+                            })
+                        });
+                    }
+                });
+            });
+
+            $(document).on('click', '.info_phone .btn_edit', function (){
+                $(this).remove();
+                $('.info_phone').append(sectionHp);
+            });
+
+            $(document).on('click', '#hpModCan', function (){
+                $('#section3').remove();
+                $('#hp_result').text('');
+                $('input[name=hp]').val('');
+                $('#hpModReg').removeClass('active');
+                $('#hpModReg').attr('disabled', true);
+                sectionHp.remove();
+                $('.info_phone > div').append(modHpBtn);
+            });
         });
     </script>
 </th:block>

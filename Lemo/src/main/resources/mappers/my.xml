@@ -121,12 +121,7 @@
     </insert>
 
     <!-- update -->
-    <update id="updateProfile">
-        UPDATE `lemo_member_userinfo` SET
-            `photo`=#{photo},
-            `rdate`=NOW()
-        WHERE `user_id`=#{username};
-    </update>
+
 
     <!-- delete -->
 

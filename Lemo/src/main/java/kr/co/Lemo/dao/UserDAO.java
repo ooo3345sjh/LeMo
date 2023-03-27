@@ -42,7 +42,12 @@ public interface UserDAO {
 
 
     // update
+    // @since 2023/03/25
     int usaveUserPw(@Param("user_id")String username, @Param("pass")String password) throws Exception;
+
+    // @since 2023/03/27
+    int updateProfile(@Param("photo") String photo, @Param("username")String username) throws Exception;
+    int updateNick(@Param("nick") String nick, @Param("username")String username) throws Exception;
 
     // delete
 
