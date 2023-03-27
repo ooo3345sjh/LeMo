@@ -232,27 +232,7 @@
             });
 
             $('#ex_file').change(function(){
-                 var img = document.getElementById("image");
-                 var file = document.getElementById("ex_file").files[0];
 
-
-                if (file) {
-                    var reader = new FileReader();
-                    reader.onload = function() {
-                        var image = new Image();
-                        image.src = reader.result;
-                        image.onload = function() {
-                        if (image.width < 1000 || image.height < 200) {
-                                alert("베너이미지 크기(가로 1000px이상 세로 200px 이하)에 맞춰서 올려주세요.");
-                                return;
-                            }
-                        img.src = reader.result;
-                        };
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    alert("파일을 선택하세요.");
-                }
             });
         </script>
     <script>

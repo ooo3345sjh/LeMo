@@ -34,7 +34,7 @@
                                 <a href="#" id="qna_tab" class="list_n">
                                     <p>
                                         <span>[[${qna.cs_type_ko}]]</span>
-                                        [[${qna.cs_title}]]<b class="reply_chk" th:style="${qna.cs_reply == null ? 'display:none' : ''}">답변완료</b><b class="reply_chk" th:style="${qna.cs_reply != null} ? 'display: none' : ''">검토중</b>
+                                        [[${qna.cs_title}]]<b class="reply_complete" th:style="${qna.cs_reply == null ? 'display:none' : ''}">답변완료</b><b class="reply_chk" th:style="${qna.cs_reply != null} ? 'display: none' : ''">검토중</b>
                                         <span><b>작성일</b>[[${qna.cs_rdate}]]</span>
                                     </p>
                                 </a>

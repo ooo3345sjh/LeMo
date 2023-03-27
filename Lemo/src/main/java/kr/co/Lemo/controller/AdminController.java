@@ -403,11 +403,6 @@ public class AdminController {
         return "admin/cs/event/modify";
     }
 
-
-    @GetMapping("cs/event/modify")
-    public String event_modify(){
-        return "admin/cs/event/modify";
-    }
     /**
      * @since 2023/03/15
      * @author 황원진

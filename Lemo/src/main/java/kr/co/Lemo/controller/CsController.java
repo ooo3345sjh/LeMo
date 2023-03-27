@@ -39,6 +39,7 @@ public class CsController {
     @GetMapping("{cs_cate}")
     public String findAllCsArticles(@PathVariable("cs_cate") String cs_cate,
                                     Model model,
+                                    CsVO vo,
                                     @RequestParam Map map,
                                     @ModelAttribute Cs_SearchVO sc){
 
@@ -51,7 +52,7 @@ public class CsController {
         }else if("qna".equals(cs_cate)) {
 
             model.addAttribute("title", environment.getProperty(group));
-            service.findAllQnaArticles(sc, model);
+            service.findAllQnaArticles(vo, model);
             return "cs/qna";
         }else if("faq".equals(cs_cate)){
 
