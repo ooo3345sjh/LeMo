@@ -58,7 +58,4 @@ public interface MyDAO {
     // @since 2023/03/27
     public int insertCoupon(CouponVO coupon);
 
-    // update
-    int updateProfile(@Param("photo") String photo, @Param("username")String username) throws Exception;
-
 }
