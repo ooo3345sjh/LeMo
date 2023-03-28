@@ -6,6 +6,11 @@
     <link rel="stylesheet" th:href="@{/css/admin/adminFaq.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
 </th:block>
+<style>
+    .faq_list > ul:first-child {
+        background: violet;
+}
+</style>
 <th:block layout:fragment="content">
     <main>
         <div class="main_inner">
@@ -43,6 +48,11 @@
                                 <form action="#">
                                     <div class="faq_list">
                                         <ul>
+                                            <li>#</li>
+                                            <li>제목</li>
+                                            <li>관리</li>
+                                        </ul>
+                                        <ul>
                                             <th:block th:each="faq,i:${csArticles}">
                                             <!-- li 반복 -->
                                                 <li class="faq_tit">
@@ -55,7 +65,7 @@
                                                         <a class="btnFaqDelete">삭제</a>
                                                     </span>
 
-                                                    <div class="faq_content">
+                                                    <div class="faq_content" id="faq_content">
                                                         <p>
                                                             [[${faq.cs_content}]]
                                                         </p>
@@ -104,14 +114,14 @@
 <th:block layout:fragment="script">
 <script>
     $(document).ready(function() {
-        $('.faq_list_a').click(function(e){
-            e.preventDefault();
-            // $(this).find('div').slideToggle();
-            // $(this).find('.faq_list_a').toggleClass('open');
-            $(this).next().next().slideToggle();
-            $(this).toggleClass('open');
+        $('.faq_list_a').click(function(){
+            var content = $(this).next().next();
+            if (content.css('display') === 'none') {
+                content.css('display', 'block');
+            } else {
+                content.css('display', 'none');
+            }
         });
-
 
         // faq 삭제
         $('.btnFaqDelete').click(function(e){

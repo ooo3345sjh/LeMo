@@ -32,28 +32,10 @@
         .event_write_img{
             cursor: pointer;
         }
-        .event_write_img > #image {
+        .event_write_bannerImg > #image {
             height: 181px;
             width: 1100px;
         }
-
-        #fileDropzone > label {
-            width: 84px;
-            height: 28px;
-            margin: -5px 0px 4px 20px;
-            box-shadow: inset 0px 1px 0px 0px #ffffff;
-            background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-            background-color: #f9f9f9;
-            border-radius: 6px;
-            border: 1px solid #dcdcdc;
-            display: inline-block;
-            cursor: pointer;
-            color: #666666;
-            font-size: 15px;
-            font-weight: 500;
-            text-align: center;
-            float: left;
-            }
         #fileDropzone > #ex_file {
             position: absolute;
             width: 1px;
@@ -64,7 +46,51 @@
             clip: rect(0,0,0,0);
             border: 0;
         }
+        #fileDropzone #att_zone{
+            padding-top: 25px;
+        }
+        #fileDropzone #att_zone:empty::before{
+            content: attr(data-placeholder);
+            color: #999;
+            font-size: 26px;
+        }
 
+
+        /** 메인 베너 **/
+        #fileDropzone1 {
+            width: 99%;
+            min-height: 95px;
+            background-color: white;
+            border-radius: 6px;
+            padding: 4px 0;
+            text-align: center;
+            font-size: 24px;
+            border: none;
+            border: 2px dashed #e3e3e3;
+            display: table-cell;
+        }
+         .event_write_mainImg > #mainImage {
+            height: 181px;
+            width: 1100px;
+        }
+        #fileDropzone1 #main_zone{
+            padding-top: 25px;
+        }
+        #fileDropzone1 #main_zone:empty::before{
+            content: attr(data-placeholder);
+            color: #999;
+            font-size: 26px;
+        }
+        #fileDropzone1 > #main_file {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
     </style>
 </th:block>
 <th:block layout:fragment="content">
@@ -104,15 +130,31 @@
                                             <input class="input_130" type="date" name="cs_eventEnd" id="endDate">
                                         </td>
                                     </tr>
-
+                                    <tr>
+                                        <td>메인배너 이미지</td>
+                                        <td>
+                                            <span>* 해당 이미지는 메인 페이지 내 적용되는 배너 이미지입니다.</span>
+                                            <div class="stayThumb">
+                                                <div id="fileDropzone1">
+                                                    <div class="event_write_mainImg">
+                                                        <img id="mainImage" style="display:none">
+                                                    </div>
+                                                    <div id="main_zone" data-placeholder="사진을 첨부하려면  클릭해주세요"></div>
+                                                    <input type="file" name="eventbannerImg[]" id="main_file" accept="image/png, image/jpeg" class="insertFile" required>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>배너 이미지</td>
                                         <td>
+                                            <span>* 해당 이미지는 이벤트 페이지 내 적용되는 배너 이미지입니다.</span>
                                             <div class="stayThumb">
                                                 <div id="fileDropzone">
-                                                    <div class="event_write_img">
-                                                        <img id="image" src="/Lemo/images/admin/eventImgUpload.JPG">
+                                                    <div class="event_write_bannerImg">
+                                                        <img id="image" style="display:none">
                                                     </div>
+                                                    <div id="att_zone" data-placeholder="사진을 첨부하려면  클릭해주세요"></div>
                                                     <input type="file" name="eventbannerImg[]" id="ex_file" accept="image/png, image/jpeg" class="insertFile" required>
                                                 </div>
                                             </div>
@@ -203,7 +245,41 @@
             });
 
             $(document).ready(function() {
-                /** 이미지 미리보기 **/
+                /** 메인이미지 미리보기 **/
+                const mainDOM = document.querySelector('#main_file');
+                const preview = document.querySelectorAll('#mainImage');
+
+
+                mainDOM.addEventListener('change', () => {
+                const reader = new FileReader();
+                reader.onload = ({ target }) => {
+                    preview[0].src = target.result;
+                };
+                reader.readAsDataURL(mainDOM.files[0]);
+                });
+
+                /** img click 보여주기 **/
+                $('div [class="event_write_mainImg"]').click(function(){
+                    $('#mainImage').show();
+                });
+
+                $('div.event_write_mainImg').on('click', function() {
+                  $('input#main_file').click();
+                });
+
+                $('#main_zone').on('click', function() {
+                    var mImg = document.getElementById('mainImage');
+                    var m_zone = document.getElementById('main_zone');
+                    $(mImg).css('display', 'block');
+                    $(m_zone).css('display', 'none');
+                    $('input#main_file').click();
+                });
+
+
+
+
+
+                /** 베너이미지 미리보기 **/
                 const fileDOM = document.querySelector('#ex_file');
                 const previews = document.querySelectorAll('#image');
 
@@ -217,12 +293,20 @@
                 });
 
                 /** img click 보여주기 **/
-                $('div [class="event_write_img"]').click(function(){
+                $('div [class="event_write_bannerImg"]').click(function(){
                     $('#image').show();
                 });
 
-                $('div.event_write_img').on('click', function() {
+                $('div.event_write_bannerImg').on('click', function() {
                   $('input#ex_file').click();
+                });
+
+                $('#att_zone').on('click', function() {
+                    var img = document.getElementById('image');
+                    var att = document.getElementById('att_zone');
+                    $(img).css('display', 'block');
+                    $(att).css('display', 'none');
+                    $('input#ex_file').click();
                 });
 
             // 타이틀 포커스

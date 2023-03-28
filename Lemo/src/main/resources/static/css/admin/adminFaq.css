@@ -341,7 +341,7 @@ main .main_content .btnAdminProd3 > a {
 }
 main .btnAdminProd4 {
     margin: 15px 0;
-    margin-left: 8px;
+    margin-right: 84px;
     box-shadow: inset 0px 1px 0px 0px #ffffff;
     background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
     background-color: #f9f9f9;
@@ -355,7 +355,7 @@ main .btnAdminProd4 {
     padding: 10px 6px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
-    float: left;
+    float: right;
 }
 main .main_content .btnAdminProd4:hover {
     background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
@@ -435,6 +435,22 @@ main .faq_list {
     border-collapse: collapse;
 }
 main .faq_list ul {
+}
+main .faq_list ul:first-child {
+    background: #F7F7F7;
+    list-style: none;
+}
+main .faq_list ul:first-child li {
+    display: inline-block;
+}
+main .faq_list ul:first-child li:nth-of-type(1) {
+    width: 7%;
+}
+main .faq_list ul:first-child li:nth-of-type(2) {
+    width: 76%;
+}
+main .faq_list ul:first-child li:nth-of-type(3) {
+    width: 14%;
 }
 main .faq_list li {
     padding: 0 20px;
