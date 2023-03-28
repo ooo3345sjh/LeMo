@@ -372,8 +372,20 @@
 
 .scroller .getCoupon {
     float: right;
+    right: -100px;
+    width: 93px;
+    height: 35px;
+    border-radius: 6px;
+    background: #ebebeb;
     font-size: 14px;
-    padding: 0 5px;
+    font-weight: bold;
+    border: none;
+    color: rgba(0,0,0,0.56);
+    cursor: pointer;
+}
+
+.scroller .getCoupon.on{
+    background: #FCF951;
 }
 
 .scroller > div {

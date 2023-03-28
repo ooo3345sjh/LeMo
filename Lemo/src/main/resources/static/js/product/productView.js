@@ -144,6 +144,7 @@ $(function(){
         }
 
         ajaxAPI("product/coupon", jsonData, "POST").then((response) => {
+
             if(response.length > 0 ) {
 
                 let htmlAll = "";
@@ -154,14 +155,18 @@ $(function(){
                     if(response[i].cp_group != null){
                         htmlAll += '<li>' + response[i].cp_subject;
                         if(response[i].cp_limitedIssuance - response[i].cp_IssuedCnt > 0){
-                            htmlAll +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">쿠폰발급</button></li>';
+                            htmlAll +='<button class="getCoupon on" data-cpid="'+response[i].cp_id+'">쿠폰발급</button></li>';
+                        }else {
+                            htmlAll +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">발급마감</button></li>';
                         }
 
                     }else {
                         htmlAcc += '<li>' + response[i].cp_subject;
                         if(response[i].cp_limitedIssuance - response[i].cp_IssuedCnt > 0){
-                            htmlAcc +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">쿠폰발급</button></li>';
-                        }
+                            htmlAcc +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">발급마감</button></li>';
+                            }else {
+                                htmlAcc +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">발급마감</button></li>';
+                            }
                     }
                 }
 
@@ -186,7 +191,7 @@ $(function(){
     /** 쿠폰 팝업 해제 */
 
     /* 쿠폰 발급 */
-    $(document).on('click', '.getCoupon', function(){
+    $(document).on('click', '.getCoupon.on', function(){
 
         let cp_id = $(this).attr('data-cpid');
 
