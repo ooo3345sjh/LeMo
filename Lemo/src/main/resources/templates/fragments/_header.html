@@ -18,22 +18,6 @@
                     </th:block>
                     <a th:href="@{/user/login}" sec:authorize="!isAuthenticated()">로그인</a>
                     <a href="#">여행일기</a>
-                    <th:block sec:authorize="isAuthenticated()">
-                        <div class="dropdown_menu" id="dropdown_menu">
-                            <button id="dropdown">마이페이지
-                                <img th:src="@{/images/index/down-arrow.png}">
-                            </button>
-                            <div class="dropdown_content" id="dropdown_content">
-                                <a th:href="@{/my/info}">나의 정보</a>
-                                <a th:href="@{/my/point}">포인트</a>
-                                <a th:href="@{/my/coupon}">쿠폰함</a>
-                                <a th:href="@{/my/reservation}">예약내역</a>
-                                <a th:href="@{/my/pick}">위시리스트</a>
-                                <a th:href="@{/my/diary/list}">나의 여행일기</a>
-                                <a th:href="@{/my/review/list}">나의 리뷰</a>
-                            </div>
-                        </div>
-                    </th:block>
                     <div class="dropdown_menu" id="dropdown_menu2">
                         <button id="dropdown2">고객센터
                             <img th:src="@{/images/index/down-arrow.png}">
@@ -46,6 +30,29 @@
                             <a href="#">여행일기</a>
                         </div>
                     </div>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <div class="dropdown_menu" id="dropdown_menu">
+                            <button id="dropdown">마이페이지
+                                <img th:src="@{/images/index/down-arrow.png}">
+                            </button>
+                            <div class="dropdown_content" id="dropdown_content">
+                                <a id="profileImg" th:href="@{/my/info}">
+                                    <img th:src="@{/img/profile/} + ${#authentication.principal.photo}" alt="프로필 사진" th:if="${#authentication.principal.photo ne null}">
+                                    <img th:src="@{/images/my/profile.png}" alt="프로필 사진" th:if="${#authentication.principal.photo eq null}">
+                                </a>
+                                <a id="profileNick">[[${#authentication.principal.nick}]]</a>
+                                <!--/*
+                                <a th:href="@{/my/info}">나의 정보</a>
+*/-->
+                                <a th:href="@{/my/point}">포인트</a>
+                                <a th:href="@{/my/coupon}">쿠폰함</a>
+                                <a th:href="@{/my/reservation}">예약내역</a>
+                                <a th:href="@{/my/pick}">위시리스트</a>
+                                <a th:href="@{/my/diary/list}">나의 여행일기</a>
+                                <a th:href="@{/my/review/list}">나의 리뷰</a>
+                            </div>
+                        </div>
+                    </th:block>
                 </div>
                 <div class="header_searchBar">
                     <form class="search-container" th:action="@{/product/list}">

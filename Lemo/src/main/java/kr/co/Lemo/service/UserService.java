@@ -312,4 +312,36 @@ public class UserService {
 
         return result;
     }
+
+    // @since 2023/03/28
+    public int usaveHp(String hp, UserVO userVO) throws Exception {
+        log.debug("Myservice usaveHp...");
+
+        int result = userDAO.updateHp(hp, userVO.getUser_id());
+
+        if(result == 1){
+            userVO.setHp(hp);
+            SecurityContextHolder.getContext().setAuthentication(
+                    new UsernamePasswordAuthenticationToken(userVO, null, userVO.getAuthorities())
+            );
+        }
+
+        return result;
+    }
+
+    // @since 2023/03/28
+    public int usaveIsNoticeEnabled(int isNoticeEnabled, UserVO userVO) throws Exception {
+        log.debug("Myservice usaveIsNoticeEnabled...");
+
+        int result = userDAO.updateIsNoticeEnabled(isNoticeEnabled, userVO.getUser_id());
+
+        if(result == 1){
+            userVO.setIsNoticeEnabled(isNoticeEnabled);
+            SecurityContextHolder.getContext().setAuthentication(
+                    new UsernamePasswordAuthenticationToken(userVO, null, userVO.getAuthorities())
+            );
+        }
+
+        return result;
+    }
 }
