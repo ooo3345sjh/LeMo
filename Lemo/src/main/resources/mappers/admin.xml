@@ -51,7 +51,7 @@
         limit #{offset}, 10;
     </select>
 
-    <!-- admin - user - count total users for pagination -->
+    <!-- 관리자 - 회원 목록 페이징 -->
     <select id="countUser" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
         select count(*) from `lemo_member_userinfo`
         where 1=1
@@ -62,20 +62,18 @@
         <!-- <include refid="orderUser"/> -->
     </select>
 
-    <!-- admin - coupon - coupon list -->
+    <!-- 관리자 - 쿠폰 목록 -->
     <select id="selectCoupon" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.CouponVO">
-        select * from `lemo_product_coupon` as a
-        join `lemo_product_accommodation` as b on a.user_id = b.user_id
+        select * from `lemo_product_coupon`
         where 1=1
         <include refid="searchCouponType"/>
         <include refid="searchCouponRole"/>
         order by `cp_id` desc limit #{offset}, 10;
     </select>
 
-    <!-- admin - coupon - count total coupons for pagination -->
+    <!-- 관리자 - 쿠폰 목록 페이징  -->
     <select id="countCoupon" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
-        select count(*) from `lemo_product_coupon` as a
-        join `lemo_product_accommodation` as b on a.user_id = b.user_id
+        select count(*) from `lemo_product_coupon`
         where 1=1
         <include refid="searchCouponType"/>
         <include refid="searchCouponRole"/>
@@ -89,7 +87,7 @@
         group by `acc_name`;
     </select>
 
-    <!-- admin - review - list -->
+    <!-- 관리자 - 리뷰 목록  -->
     <select id="selectReview" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ReviewVO">
         select * from `lemo_product_review` as a
         inner join `lemo_product_reservation` as b on a.res_no=b.res_no
@@ -99,7 +97,7 @@
         order by `revi_rdate` desc limit #{offset}, 10;
     </select>
 
-    <!-- admin - review - count total reviews for pagination -->
+    <!-- 관리자 - 리뷰 목록 페이징 -->
     <select id="countReview" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
         select count(*) from `lemo_product_review` as a
         inner join `lemo_product_reservation` as b on a.res_no=b.res_no
@@ -155,7 +153,7 @@
         update `lemo_product_review` set `revi_reply`=#{revi_reply} where `revi_id`=#{revi_id};
     </update>
 
-    <!-- admin - user - delete coupon -->
+    <!-- 관리자 - 쿠폰 삭제 -->
     <delete id="deleteCoupon">
         delete from `lemo_product_coupon` where `cp_id`=#{cp_id};
     </delete>
@@ -343,14 +341,14 @@
     <sql id="searchReview">
         <if test="searchField != null">
             <choose>
-                <when test="searchField == 'user_id'">
-                    and c.`user_id` like CONCAT ('%', 'hotel', '%')
+                <when test="searchField == 'acc_id'">
+                    and b.`acc_id` like CONCAT ('%', #{searchWord}, '%')
                 </when>
                 <when test="searchField == 'acc_name'">
-                    and `acc_name` like CONCAT ('%', '김해', '%')
+                    and `acc_name` like CONCAT ('%', #{searchWord}, '%')
                 </when>
-                <when test="searchField == 'acc_id'">
-                    and b.`acc_id` like CONCAT ('%', '001', '%')
+                <when test="searchField == 'user_id'">
+                    and c.`user_id` like CONCAT ('%', #{searchWord}, '%')
                 </when>
             </choose>
         </if>

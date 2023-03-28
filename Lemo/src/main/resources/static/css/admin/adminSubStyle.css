@@ -137,7 +137,7 @@ main .searchProd > .search_box {
     top: 0;
     width: 219px;
     padding: 3px 1px 4px 10px;
-    font-size: 16px;
+    font-size: 14px;
     height: 32px;
     border: none;
     background: transparent;
@@ -161,7 +161,13 @@ main .searchProd > .btnSearch > input {
     border: none;
     background: transparent;
 }
-
+main .userId_li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 15% !important;
+    text-align: left !important;
+}
 main .selectProd {
     float: right;
     padding: 10px 10px 20px 0px;
@@ -240,10 +246,13 @@ main .main_content .col2 .board_list li {
     font-size: 14px;
     text-align: center;
     line-height: 32px;
+    vertical-align: middle;
 }
 main .main_content .col2 .board_list .prodName {
     text-align: left;
     padding-left: 13px;
+    width: 25% !important;
+
 }
 main .main_content .col2 .board_list .prodName > a {
     font-size: 14px;
@@ -252,6 +261,21 @@ main .main_content .col2 .board_list .prodName .reviewTitle {
     font-size: 14px;
     margin-left: 4px;
 }
+main .review_li1 {width: 5% !important;}
+main .review_li2 {width: 10% !important;}
+main .review_li3 {
+    width: 10% !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+main .review_li4 {width: 25% !important;}
+main .review_li5 {width: 15% !important;}
+main .review_li6 {width: 10% !important;}
+main .review_li7 {width: 7% !important;}
+main .review_li8 {width: 15% !important;}
+
+
 main .main_content .col2 .board_list li:nth-of-type(1) {width: 5%;}
 main .main_content .col2 .board_list li:nth-of-type(2) {width: 10%;}
 main .main_content .col2 .board_list li:nth-of-type(3) {width: 40%;}
@@ -1166,7 +1190,7 @@ main .col_register1 .search_coupon td > input {
     vertical-align: middle;
     text-decoration: none;
     padding: 0px 5px;
-    font-size: 12px;
+    font-size: 13px;
     height: 30px;
     width: 70%;
 }
