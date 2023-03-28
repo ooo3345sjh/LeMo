@@ -246,6 +246,7 @@
     padding: 26px 24px;
     background: rgb(210 80 80);
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .product_coupon > p {
@@ -469,6 +470,7 @@
     font-weight: normal;
     color: #fff;
     text-align: center;
+    cursor: pointer;
 }
 
 #detail_room .room > button.status {
@@ -671,6 +673,10 @@
     font-size: 16px;
     color: rgba(0,0,0,0.56);
     text-align: left;
+}
+
+#popup_coupon > div > .iscroll_cp section:last-of-type {
+    margin-bottom : 20px;
 }
 
 #popup_room_guide > div > .iscroll_cp section strong {

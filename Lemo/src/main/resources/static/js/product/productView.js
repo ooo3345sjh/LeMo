@@ -71,7 +71,34 @@ function movePage(event,obj,cate){
     });
 }
 
+/* 숙소 예약 */
+function reserv(){
 
+    if(uid == ""){
+       sweetalert("로그인을 하셔야 합니다.", "warning");
+       return;
+    }
+
+    let CI = urlParams.get("checkIn");
+    let CO = urlParams.get("checkOut");
+
+//    jsonData = {
+//        "checkIn" : CI,
+//        "checkOut" : CO
+//    }
+//
+//    ajaxAPI("product/reservation1", jsonData, "POST").then((response) => {
+//        if(response.result == 1 ) {
+//            sweetalert("와!", "success");
+//        }else {
+//
+//        }
+//
+//    }).catch((errorMsg) => {
+//        console.log(errorMsg)
+//    });
+
+}
 
 // 현재 주소의 파라미터
 const urlParams = new URLSearchParams(window.location.search);
@@ -138,6 +165,7 @@ $(function(){
     $(document).on('click', '.product_coupon', function(){
 
         jsonData = {
+            "user_id" : uid,
             "acc_id" : acc_id,
             "province_no" : province_no,
             "accType_no" : accType_no
@@ -152,21 +180,31 @@ $(function(){
 
                 for(let i = 0; i < response.length; i++) {
 
-                    if(response[i].cp_group != null){
+                    console.log(response[i].mcp_id);
+
+                    if(response[i].cp_group != null){ // 전체 발급용 쿠폰
                         htmlAll += '<li>' + response[i].cp_subject;
-                        if(response[i].cp_limitedIssuance - response[i].cp_IssuedCnt > 0){
-                            htmlAll +='<button class="getCoupon on" data-cpid="'+response[i].cp_id+'">쿠폰발급</button></li>';
+                        if(response[i].cp_limitedIssuance - response[i].cp_IssuedCnt > 0){ // 발급 수량이 남아있는 경우
+                            if(response[i].mcp_id > 0){
+                                htmlAll +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">발급완료</button></li>';
+                            }else {
+                                htmlAll +='<button class="getCoupon on" data-cpid="'+response[i].cp_id+'">쿠폰발급</button></li>';
+                            }
                         }else {
                             htmlAll +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">발급마감</button></li>';
                         }
 
-                    }else {
+                    }else { // 개별 숙소에서 발급하는 쿠폰
                         htmlAcc += '<li>' + response[i].cp_subject;
                         if(response[i].cp_limitedIssuance - response[i].cp_IssuedCnt > 0){
-                            htmlAcc +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">발급마감</button></li>';
+                            if(response[i].mcp_id > 0){
+                               htmlAcc +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">발급완료</button></li>';
                             }else {
-                                htmlAcc +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">발급마감</button></li>';
+                               htmlAcc +='<button class="getCoupon on" data-cpid="'+response[i].cp_id+'">쿠폰발급</button></li>';
                             }
+                        }else {
+                            htmlAcc +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">발급마감</button></li>';
+                        }
                     }
                 }
 
@@ -196,7 +234,7 @@ $(function(){
         let cp_id = $(this).attr('data-cpid');
 
         if(uid == ""){
-            Swal.fire("먼저 로그인을 하셔야 합니다.")
+            sweetalert("먼저 로그인을 하셔야 합니다.", "error")
             return false;
         }
 
@@ -207,13 +245,15 @@ $(function(){
 
         ajaxAPI("product/getCoupon", jsonData, "POST").then((response) => {
             if(response.result == 1 ) {
-                Swal.fire("쿠폰 수량이 마감되었습니다.");
+                sweetalert("쿠폰 수량이 마감되었습니다.", "warning");
             }else if(response.result == 2) {
-                Swal.fire("이미 발급받은 쿠폰입니다.");
+                sweetalert("이미 발급받은 쿠폰입니다.", "warning");
             }else if(response.result == 3){
-                Swal.fire("쿠폰이 발급되었습니다.");
+                sweetalert("쿠폰이 발급되었습니다.", "success");
+                $(this).removeClass('on');
+                $(this).text("발급완료");
             }else {
-                Swal.fire("쿠폰 발급에 실패하였습니다.\n잠시 후 다시 시도해주세요.")
+                sweetalert("쿠폰 발급에 실패하였습니다.\n잠시 후 다시 시도해주세요.", "error")
             }
 
         }).catch((errorMsg) => {
@@ -331,7 +371,7 @@ $(function(){
     $(document).on('click', '#pick', function(){
 
         if(uid == "") {
-            Swal.fire("로그인을 하셔야 찜하기가 가능합니다.");
+            sweetalert("로그인을 하셔야 찜하기가 가능합니다.", "error");
             return false;
         }
 
@@ -380,7 +420,7 @@ $(function(){
     $(document).on('click',  '#w_qna', function(){
 
         if(uid == "") {
-            Swal.fire("로그인을 하셔야 문의글 작성이 가능합니다.")
+            sweetalert("로그인을 하셔야 문의글 작성이 가능합니다.", "error")
             return;
         }
         dialog.showModal();
@@ -405,12 +445,12 @@ $(function(){
         }
 
         if(title.trim().length == 0) {
-            Swal.fire("문의 제목을 작성해주세요.");
+            sweetalert("문의 제목을 작성해주세요.", "warning");
             return;
         }
 
         if(content.trim().length == 0) {
-            Swal.fire("문의 내용을 작성해주세요.");
+            sweetalert("문의 제목을 작성해주세요.", "warning");
             return;
         }
 
@@ -433,7 +473,7 @@ $(function(){
                 loadData(cate, acc_id);
             }
             else {
-                Swal.fire("실패");
+                sweetalert("실패", "error");
             }
         }).catch((errorMsg) => {
             console.log(errorMsg)
@@ -447,7 +487,7 @@ $(function(){
         let qnacontent = $('#a' + qna_no);
 
         if($(this).attr('data-locked') == 1) {
-            Swal.fire('비밀글은 작성자만 조회할 수 있습니다.'); return;
+            sweetalert('비밀글은 작성자만 조회할 수 있습니다.', "warning"); return;
         }
 
         let status = $(qnacontent).hasClass('on');
@@ -465,7 +505,7 @@ $(function(){
 
         // 검색어가 없을 경우
         if(keyword.trim().length == 0) {
-            Swal.fire('검색어를 입력해 주세요.');
+            sweetalert('검색어를 입력해 주세요.', "warning");
             return;
         }
 

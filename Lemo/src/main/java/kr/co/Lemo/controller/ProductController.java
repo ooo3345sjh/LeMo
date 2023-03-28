@@ -107,8 +107,9 @@ public class ProductController {
         return "product/view";
     }
 
-    @GetMapping("reservation")
-    public String reservation() throws Exception{
+
+    @PostMapping("reservation")
+    public String reservation() throws Exception {
         return "product/reservation";
     }
 

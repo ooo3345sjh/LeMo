@@ -17,6 +17,15 @@ function scrollToBottom(){
     return false;
 }
 
+/* sweetalert */
+function sweetalert(message, status){
+    Swal.fire({
+        title : message,
+        icon : status,
+        confirmButtonText : '확인'
+    })
+}
+
 $(function(){
     /** 헤더 메뉴 */
     $('#dropdown').mouseover(function(){
