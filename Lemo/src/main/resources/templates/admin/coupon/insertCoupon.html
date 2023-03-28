@@ -42,8 +42,17 @@
         $('.discount, .discountPrice').on('change', function() {
             if ($('.discount').is(':checked')) {
                 $('.insertSaleOption').attr('name', 'cp_rate');
+                $('#cp_maximum').prop('readonly', false);
+                $('#cp_maximum').css('background', '#fff');
+                $('#cp_maximum').css('opacity', '1');
+                $('.msg_condition_price').css('display', 'none');
+
             } else if ($('.discountPrice').is(':checked')) {
                 $('.insertSaleOption').attr('name', 'cp_price');
+                $('#cp_maximum').prop('readonly', true);
+                $('#cp_maximum').css('background', '#e9e9e9');
+                $('#cp_maximum').css('opacity', '50%');
+                $('.msg_condition_price').css('display', 'inline-block');
             }
         });
 
@@ -114,6 +123,21 @@
             });
             input.setAttribute("min", 0);
         });
+
+        const cpMinimumInput = document.querySelector('input[name="cp_minimum"]');
+        const cpMaximumInput = document.querySelector('input[name="cp_maximum"]');
+
+        cpMaximumInput.addEventListener('change', () => {
+            const cpMinimum = parseFloat(cpMinimumInput.value);
+            const cpMaximum = parseFloat(cpMaximumInput.value);
+
+            if (cpMinimum > cpMaximum) {
+                alert('최대주문금액은 최소주문금액보다 큰 수를 입력해 주십시오');
+                cpMaximumInput.value = ''; // Clear the value of cp_maximum input
+                return false;
+            }
+        });
+
 
 
 
@@ -201,7 +225,8 @@
                                         <td>금액 조건</td>
                                         <td>
                                             <input name="cp_minimum" class="input_100" type="number" placeholder="최소주문금액" required onkeydown="javascript: return event.keyCode == 69 ? false : true">/
-                                            <input name="cp_maximum" class="input_100" type="number" placeholder="최대주문금액" required onkeydown="javascript: return event.keyCode == 69 ? false : true">
+                                            <input name="cp_maximum" class="input_100" type="number" placeholder="최대주문금액" required onkeydown="javascript: return event.keyCode == 69 ? false : true" id="cp_maximum">
+                                            <p class="msg_condition_price">할인가(원,₩) 선택 시 최소주문금액만 입력할 수 있습니다.</p>
                                         </td>
                                     </tr>
                                     <tr>

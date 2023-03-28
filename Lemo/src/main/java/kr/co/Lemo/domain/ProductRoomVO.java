@@ -30,4 +30,12 @@ public class ProductRoomVO {
     private String room_checkIn;
     private String room_checkOut;
 
+    // @since 2023/03/28 관리자 - 객실 목록
+    private int rp_id;
+    private int rp_offSeason_weekday;
+    private int rp_offSeason_weekend;
+    private int rp_peakSeason_weekday;
+    private int rp_peakSeason_weekend;
+
+
 }

@@ -249,12 +249,19 @@ public class AdminController {
         return resultMap;
     }
 
+    // 관리자 - 리뷰 목록
     @GetMapping("review/list")
     public String review_list(Model model,
                               @RequestParam Map map,
                               @ModelAttribute SearchCondition sc){
         sc.setMap(map);
         service.findAllReview(model, sc);
+
+        //PageHandler ph = (PageHandler) model.getAttribute("ph");
+        //log.debug("ph : " + ph.getTotalCnt());
+
+
+
         return "admin/review/list";
     }
 
@@ -304,7 +311,31 @@ public class AdminController {
     }
 
 
+    @GetMapping("roomInfo/list")
+    public String roomInfo_list(Model model,
+                                @RequestParam Map map,
+                                @ModelAttribute SearchCondition sc){
 
+        sc.setMap(map);
+        service.findAllRoom(model, sc);
+
+        return "admin/roomInfo/list";
+    }
+
+    @GetMapping("roomInfo/modify")
+    public String roomInfo_modify(){
+       return "admin/roomInfo/modify";
+    }
+
+    @GetMapping("roomInfo/view")
+    public String roomInfo_view(){
+       return "admin/roomInfo/view";
+    }
+
+    @GetMapping("roomInfo/write")
+    public String roomInfo_write(){
+       return "admin/roomInfo/write";
+    }
 
 
 
@@ -640,25 +671,7 @@ public class AdminController {
 
 
 
-    @GetMapping("roomInfo/list")
-    public String roomInfo_list(){
-        return "admin/roomInfo/list";
-    }
 
-    @GetMapping("roomInfo/modify")
-    public String roomInfo_modify(){
-        return "admin/roomInfo/modify";
-    }
-
-    @GetMapping("roomInfo/view")
-    public String roomInfo_view(){
-        return "admin/roomInfo/view";
-    }
-
-    @GetMapping("roomInfo/write")
-    public String roomInfo_write(){
-        return "admin/roomInfo/write";
-    }
 
 
 

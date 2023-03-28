@@ -2,6 +2,7 @@ package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.AdminDAO;
 import kr.co.Lemo.domain.CouponVO;
+import kr.co.Lemo.domain.ProductRoomVO;
 import kr.co.Lemo.domain.ReviewVO;
 import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
@@ -40,8 +41,10 @@ public class AdminService {
 
         List<UserVO> users = dao.selectUser(sc);
 
+
         model.addAttribute("users", users);
         model.addAttribute("ph", pageHandler);
+
 
         return users;
     }
@@ -100,8 +103,11 @@ public class AdminService {
 
         log.warn("Selected reviews: " + reviews.toString());
 
+        log.warn("ph : " + pageHandler.getTotalCnt());
+
         model.addAttribute("reviews", reviews);
         model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalReview", pageHandler.getTotalCnt());
 
         return reviews;
     }
@@ -114,6 +120,31 @@ public class AdminService {
      */
     public ReviewVO findReview(Integer revi_id) throws Exception{
         return dao.viewReview(revi_id);
+    }
+
+    /**
+     * 관리자 객실 - 객실 목록
+     * @since 2023/03/28
+     * @param model
+     * @param sc
+     */
+    public List<ProductRoomVO> findAllRoom(Model model, SearchCondition sc){
+        int totalCnt = dao.countRoom(sc);
+        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<ProductRoomVO> rooms = dao.selectRoom(sc);
+
+        log.warn("Selected rooms: " + rooms.toString());
+        log.warn("ph : " + pageHandler.getTotalCnt());
+
+        model.addAttribute("rooms", rooms);
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalRoom", pageHandler.getTotalCnt());
+
+        return rooms;
     }
 
     /**

@@ -50,6 +50,45 @@ main .rating1 {
     margin: 0 34%;
     width: 33px;
 }
+main .rating5mini {
+    background-image: url(/Lemo/images/admin/rating_star.png);
+    background-repeat: no-repeat;
+    height: 20px;
+    background-size: contain;
+    margin-top: 9px;
+}
+main .rating4mini {
+    background-image: url(/Lemo/images/admin/rating_star.png);
+    background-repeat: no-repeat;
+    height: 20px;
+    background-size: contain;
+    margin-top: 9px;
+    background-position: -24px 0px;
+}
+main .rating3mini {
+    background-image: url(/Lemo/images/admin/rating_star.png);
+    background-repeat: no-repeat;
+    height: 20px;
+    background-size: contain;
+    margin-top: 9px;
+    background-position: -45px 0px;
+}
+main .rating2mini {
+    background-image: url(/Lemo/images/admin/rating_star.png);
+    background-repeat: no-repeat;
+    height: 20px;
+    background-size: contain;
+    margin-top: 9px;
+    background-position: -66px 0px;
+}
+main .rating1mini {
+    background-image: url(/Lemo/images/admin/rating_star.png);
+    background-repeat: no-repeat;
+    height: 20px;
+    background-size: contain;
+    margin-top: 9px;
+    background-position: -88px 0px;
+}
 
 main .main_content .main_content_div {
     justify-content: space-evenly;
@@ -161,13 +200,7 @@ main .searchProd > .btnSearch > input {
     border: none;
     background: transparent;
 }
-main .userId_li {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 15% !important;
-    text-align: left !important;
-}
+
 main .selectProd {
     float: right;
     padding: 10px 10px 20px 0px;
@@ -231,7 +264,7 @@ main .main_content .col2 .board_list {
     border-top: 1px solid #dbdbdb;
     border-collapse: collapse;
     color: #505050;
-    margin-top: 30px;
+    margin-top: 5px;
     margin-bottom: 15px;
 }
 main .main_content .col2 .board_list ul {
@@ -242,17 +275,19 @@ main .main_content .col2 .board_list ul:first-child {
 }
 main .main_content .col2 .board_list li {
     display: inline-block;
-    height: 32px;
+    height: 40px;
     font-size: 14px;
     text-align: center;
-    line-height: 32px;
+    line-height: 40px;
     vertical-align: middle;
 }
 main .main_content .col2 .board_list .prodName {
     text-align: left;
     padding-left: 13px;
     width: 25% !important;
-
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 main .main_content .col2 .board_list .prodName > a {
     font-size: 14px;
@@ -261,20 +296,129 @@ main .main_content .col2 .board_list .prodName .reviewTitle {
     font-size: 14px;
     margin-left: 4px;
 }
-main .review_li1 {width: 5% !important;}
-main .review_li2 {width: 10% !important;}
+main .userId_li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 20% !important;
+}
+main .review_li1 {
+    width: 7% !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+main .review_li1 > a {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+main .review_li2 {
+    width: 15% !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 main .review_li3 {
-    width: 10% !important;
+    width: 20% !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 main .review_li4 {width: 25% !important;}
-main .review_li5 {width: 15% !important;}
+main .review_li5 {width: 10% !important;}
 main .review_li6 {width: 10% !important;}
-main .review_li7 {width: 7% !important;}
-main .review_li8 {width: 15% !important;}
+main .review_li7 {
+    font-family: 'Noto Sans KR';
+    width: 10% !important;
+}
+main .review_li8 {width: 11% !important;}
+main .msg_condition_price {
+    font-size: 13px;
+    color: #9ab227;
+    margin-left: 7px;
+    display: none;
+}
 
+main .search_review_table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #dbdbdb;
+}
+main .search_review_table tr {
+    height: 43px;
+}
+main .search_review_table th {
+    text-align: left;
+    border-bottom: 1px solid #dbdbdb;
+    padding-left: 17px;
+    background: #f0f0f0;
+    width: 20%;
+}
+main .search_review_table th > select {
+    font-size: 13px;
+    width: 200px;
+    height: 28px;
+    border: 1px solid #dbdbdb;
+    padding: 1px 5px;
+}
+main .search_review_table td {
+    font-size: 13px;
+    text-align: left;
+    border-bottom: 1px solid #dbdbdb;
+    border-left: 1px solid #dbdbdb;
+    padding-left: 17px;
+}
+main .search_review_table td > input {
+    font-size: 13px;
+    width: 97%;
+    height: 28px;
+    border: 1px solid #dbdbdb;
+    padding-left: 8px;
+}
+main .totalReviewCnt {
+    width: 100%;
+    display: block;
+    text-align: left;
+    font-size: 14px;
+    color: #555555;
+    margin-top: 30px;
+}
+
+main .btnSearch {
+    margin: 15px 0;
+    margin-left: 8px;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 5px 32px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+main .btnSearch:hover {
+    background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
+    background-color:#e9e9e9;
+}
+main .btnSearch:active {
+    position:relative;
+	top:1px;
+}
+main .search_review_tit {
+    width: 100%;
+    display: block;
+    text-align: left;
+    font-size: 17px;
+    margin: 10px;
+    font-weight: 500;
+}
 
 main .main_content .col2 .board_list li:nth-of-type(1) {width: 5%;}
 main .main_content .col2 .board_list li:nth-of-type(2) {width: 10%;}
@@ -292,11 +436,16 @@ main .main_content .col2 .board_list .prodBtn > span {
     display: inline-block;
     cursor: pointer;
     color: #666666;
-    font-size: 13px;
     padding: 2px 8px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
+    height: 28px;
+    vertical-align: middle;
+    width: 55px;
+    line-height: 24px;
+    font-size: 13px;
 }
+
 main #width50 {
     width: 48% !important;
 }
@@ -489,6 +638,27 @@ main .pagination > a.active {
 main .pagination a:hover:not(.active) {
     background-color: #ddd;
     border-radius: 5px;
+}
+
+main .roomInfo_li1 {width: 5% !important;}
+main .roomInfo_li2 {width: 10% !important;}
+main .roomInfo_li3 {width: 48% !important;}
+main .roomInfo_li4 {width: 5% !important;}
+main .roomInfo_li5 {width: 20% !important;}
+main .roomInfo_li5 i {
+    font-style: normal;
+    font-size: 16px;
+    color: #f2552c;
+    font-weight: 500;
+}
+main .roomInfo_li6 {width: 10% !important;}
+
+main .search_img {
+    position: absolute;
+    top: -13px;
+    right: 6px;
+    border: none;
+    background: transparent;
 }
 
 
