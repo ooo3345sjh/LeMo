@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<!-- admin aside menu fragment -->
+<!-- 관리자 aside -->
 <aside th:fragment="adminFragment">
     <nav class="sidebar">
         <div class="sidebar_logo">
@@ -38,7 +38,7 @@
                         <a href="#">숙박관리</a>
                     </li>
                     <li>
-                        <a href="#">객실관리</a>
+                        <a th:href="@{/admin/roomInfo/list}">객실관리</a>
                     </li>
                     <li>
                         <a th:href="@{/admin/coupon/manageCoupon}">쿠폰관리</a>
@@ -103,7 +103,7 @@
         </ul>
     </nav>
 </aside>
-<!-- business aside menu fragment -->
+<!-- 판매자 aside -->
 <aside th:fragment="businessFragment">
     <nav class="sidebar">
         <div class="sidebar_logo">

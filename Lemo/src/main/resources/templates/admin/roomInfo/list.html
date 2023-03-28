@@ -15,66 +15,54 @@
             <section class="main_content">
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
-                        <div class="col0">
-                            <form action="#">
-                                <div class="searchProd">
-                                    <input type="text" class="search_box" placeholder="검색 키워드 입력">
-                                    <button type="submit" class="btnSearch">
-                                        <input type="image" th:src="@{/images/admin/btn_search.png}">
-                                    </button>
-                                </div>
-                                <div class="selectProd">
-                                    <select>
-                                        <option value="0">회사명</option>
-                                        <option value="1">푸른제주펜션</option>
-                                        <option value="2">보우힐펜션</option>
-                                        <option value="3">파라다이스호텔부산</option>
-                                        <option value="4">프리지아펜션</option>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
                         <div class="col_nav">
                             <span>상품관리 ></span>
                             <span>객실관리</span>
                         </div>
                         <div class="col2">
                             <form action="#">
-                                <div class="board_list">
+                                <span class="search_review_tit">객실검색</span>
+                                <table class="search_review_table">
+                                    <tr>
+                                        <th>
+                                            <select name="searchField">
+                                                <option value="acc_id">숙소번호</option>
+                                                <option value="acc_name">숙소명</option>
+                                                <option value="room_id">객실번호</option>
+                                                <option value="room_name">객실명</option>
+                                            </select>
+                                        </th>
+                                        <td>
+                                            <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요">
+                                        </td>
+                                    </tr>
+                                </table>
+                                <button type="submit" class="btnSearch">검색</button>
+                                <div class="board_list" style="margin-top: 40px;">
                                     <ul>
-                                        <li>#</li>
-                                        <li>객실아이디</li>
-                                        <li style="width: 40%;">객실명</li>
-                                        <li style="width: 10%;">객실수</li>
-                                        <li style="width: 20%;">객실가격(할인가)</li>
-                                        <li>비고</li>
+                                        <li class="roomInfo_li1">#</li>
+                                        <li class="roomInfo_li2">객실아이디</li>
+                                        <li class="roomInfo_li3">객실명</li>
+                                        <li class="roomInfo_li4">객실수</li>
+                                        <li class="roomInfo_li5">객실가격 → 할인가</li>
+                                        <li class="roomInfo_li6">비고</li>
                                     </ul>
-                                    <ul>
-                                        <li>1</li>
-                                        <li>11023</li>
-                                        <li style="width: 40%;" class="prodName">
-                                            <a href="#">킹 프리미엄 룸 (King Premium Room)</a>
-                                        </li>
-                                        <li style="width: 10%;">20</li>
-                                        <li style="width: 20%;">822,224(397,150)</li>
-                                        <li class="prodBtn">
-                                            <span class="btnDelete">삭제</span>
-                                            <span class="btnModify">수정</span>
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li>2</li>
-                                        <li>11023</li>
-                                        <li style="width: 40%;" class="prodName">
-                                            <a href="#">킹 프리미엄 룸 (King Premium Room)</a>
-                                        </li>
-                                        <li style="width: 10%;">20</li>
-                                        <li style="width: 20%;">822,224(397,150)</li>
-                                        <li class="prodBtn">
-                                            <span class="btnDelete">삭제</span>
-                                            <span class="btnModify">수정</span>
-                                        </li>
-                                    </ul>
+                                    <th:block th:if="${#lists.size(rooms) != 0}">
+                                        <ul th:each="room,i:${rooms}">
+                                            <li class="roomInfo_li1">[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
+                                            <li class="roomInfo_li2" th:text="${room.room_id}">11023</li>
+                                            <li class="prodName" style="width: 48% !important;">
+                                                <a href="#">[[${room.room_name}]]</a>
+                                            </li>
+                                            <li class="roomInfo_li4" th:text="${room.room_stock}">20</li>
+                                            <li class="roomInfo_li5">[[${room.room_price}]] → <i>397,150</i></li>
+                                            <li class="prodBtn">
+                                                <span class="btnDelete">삭제</span>
+                                                <span class="btnModify">수정</span>
+                                            </li>
+                                        </ul>
+                                    </th:block>
+
 
                                 </div>
                                 <div class="pagination">
@@ -87,11 +75,11 @@
                                     <a href="#">6</a>
                                     <a href="#">&raquo;</a>
                                 </div>
-                                <div class="btnAdminProd">
+                               <!-- <div class="btnAdminProd">
                                     <a href="#">
                                         숙소등록
                                     </a>
-                                </div>
+                                </div>-->
                             </form>
                         </div>
                     </div>

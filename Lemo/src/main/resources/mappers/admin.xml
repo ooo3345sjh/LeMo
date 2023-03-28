@@ -106,13 +106,32 @@
         <include refid="searchReview"/>
     </select>
 
-    <!-- admin - review - view -->
+    <!-- 관리자 - 리뷰 보기  -->
     <select id="viewReview" resultType="kr.co.Lemo.domain.ReviewVO">
         select * from `lemo_product_review` as a
         inner join `lemo_product_reservation` as b on a.res_no=b.res_no
         inner join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
         inner join `lemo_product_room` as d on b.room_id = d.room_id
         where `revi_id`=#{revi_id};
+    </select>
+
+    <!-- 관리자 - 객실 목록 -->
+    <select id="selectRoom" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductRoomVO">
+        select * from `lemo_product_room` as a
+        inner join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        inner join `lemo_product_ratepolicy` as c on a.acc_id=c.acc_id
+        where 1=1
+        <include refid="searchReview"/>
+        order by `room_id` desc limit #{offset}, 10;
+    </select>
+
+    <!-- 관리자 - 객실 목록 페이징 -->
+    <select id="countRoom" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
+        select count(*) from `lemo_product_room` as a
+        inner join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        inner join `lemo_product_ratepolicy` as c on a.acc_id=c.acc_id
+        where 1=1
+        <include refid="searchReview"/>
     </select>
 
 
@@ -353,5 +372,26 @@
             </choose>
         </if>
     </sql>
+
+    <!-- 객실 검색 -->
+    <sql id="searchRoom">
+        <if test="searchField != null">
+            <choose>
+                <when test='searchField == "acc_id"'>
+                   and `acc_id` like CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test='searchField == "acc_name"'>
+                   and `acc_name` like CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test='searchField == "room_id"'>
+                   and `room_id` like CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test='searchField == "room_name"'>
+                   and `room_name` like CONCAT('%', #{searchWord}, '%')
+                </when>
+            </choose>
+        </if>
+    </sql>
+
 
 </mapper>
