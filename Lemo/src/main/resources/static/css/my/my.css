@@ -854,7 +854,7 @@
    .my_info .login_info .btn_edit.profileBtn.mod.active {background: #bbd444; color:#FFFFFF;}
    .my_info .login_info .btn_edit.profileBtn.del.active {color: #000;}
 
-   .my_info .info_nick section{margin: 24px 0px;}
+   .my_info  #section1, .my_info  #section2 {margin: 24px 0px;}
    .my_info .info_phone > div {overflow:hidden;}
 
    .my_info #section1 input, .my_info #section2 input {

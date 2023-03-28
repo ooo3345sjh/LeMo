@@ -78,6 +78,20 @@
         WHERE `user_id`=#{username};
     </update>
 
+    <update id="updateHp">
+        UPDATE `lemo_member_userinfo` SET
+        `nick`=#{hp},
+        `rdate`=NOW()
+        WHERE `user_id`=#{username};
+    </update>
+
+    <update id="updateIsNoticeEnabled">
+        UPDATE `lemo_member_userinfo` SET
+        `isNoticeEnabled`=#{isNoticeEnabled},
+        `rdate`=NOW()
+        WHERE `user_id`=#{username};
+    </update>
+
     <!-- delete -->
 
     <!-- 공통 키 -->

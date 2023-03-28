@@ -338,7 +338,7 @@ public class MyController {
     }
 
     /**
-     * @since 2023/03/28
+     * @since 2023/03/27
      * @author 서정현
      * @return
      */
@@ -351,7 +351,55 @@ public class MyController {
         log.debug("MyService PATCH updateNick start...");
 
         String nick = (String)map.get("nick");
-        int result = userService.usaveNick(nick, userVO);
+        int result = 0;
+        if(nick != null)
+            result = userService.usaveNick(nick, userVO);
+        map.put("result", result);
+        return map;
+    }
+
+    /**
+     * @since 2023/03/28
+     * @author 서정현
+     * @return
+     */
+    @ResponseBody
+    @PatchMapping("info/hp")
+    public Map updateHp(
+            @AuthenticationPrincipal UserVO userVO,
+            @RequestBody Map map
+    ) throws  Exception {
+        log.debug("MyService PATCH updateHp start...");
+
+        String hp = (String) map.get("hp");
+        int result = 0;
+
+        if(hp != null)
+            result = userService.usaveHp(hp, userVO);
+
+        map.put("result", result);
+        return map;
+    }
+
+    /**
+     * @since 2023/03/28
+     * @author 서정현
+     * @return
+     */
+    @ResponseBody
+    @PatchMapping("info/isNoticeEnabled")
+    public Map updateIsNoticeEnabled(
+            @AuthenticationPrincipal UserVO userVO,
+            @RequestBody Map map
+    ) throws  Exception {
+        log.debug("MyService PATCH isNoticeEnabled start...");
+
+        Integer isNoticeEnabled = (Integer) map.get("isNoticeEnabled");
+        int result = 0;
+
+        if(isNoticeEnabled != null)
+            result = userService.usaveIsNoticeEnabled(isNoticeEnabled, userVO);
+
         map.put("result", result);
         return map;
     }

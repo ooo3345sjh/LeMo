@@ -121,6 +121,9 @@ header > .header_inner .header_service > .dropdown_menu > .dropdown_content {
     z-index: 1;
     display: none;
 }
+
+header > .header_inner .header_service > .dropdown_menu > #dropdown_content {right: -45px;}
+header > .header_inner .header_service > .dropdown_menu > #dropdown_content2 {right: 59px;}
 header > .header_inner .header_service > .dropdown_menu > .dropdown_content.on {
     display: block;
 }
@@ -129,7 +132,7 @@ header > .header_inner .header_service > .dropdown_menu > .dropdown_content > a 
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-    text-align: left;
+    text-align: center;
     font-size: 12px;
 }
 header > .header_inner .header_service > .dropdown_menu > .dropdown_content > a:hover {
@@ -163,6 +166,22 @@ header > .header_inner .header_searchBar .btnSearch {
     margin-left: 5px;
     padding-top: 7px;
     background: transparent;
+}
+
+header  #profileImg {
+    text-align: center;
+}
+header  #profileImg > img {
+    width: 45px;
+    border-radius: 71px;
+}
+header  #profileNick {
+    padding-top: 0;
+    padding-bottom: 0;
+    text-align: center;
+    pointer-events: none;
+    font-weight: 500;
+    font-size: 13px;
 }
 
 /* 우측 미니 사이드바 수정 버전 */

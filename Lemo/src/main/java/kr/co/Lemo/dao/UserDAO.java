@@ -48,6 +48,8 @@ public interface UserDAO {
     // @since 2023/03/27
     int updateProfile(@Param("photo") String photo, @Param("username")String username) throws Exception;
     int updateNick(@Param("nick") String nick, @Param("username")String username) throws Exception;
+    int updateHp(@Param("hp") String hp, @Param("username")String username) throws Exception;
+    int updateIsNoticeEnabled(@Param("isNoticeEnabled") int isNoticeEnabled, @Param("username")String username) throws Exception;
 
     // delete
 
