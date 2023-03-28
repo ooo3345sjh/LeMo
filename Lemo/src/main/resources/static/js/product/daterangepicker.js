@@ -2,8 +2,8 @@
 let month = String(now.getMonth() + 1).padStart(2, '0');
 let day = String(now.getDate()).padStart(2, '0');
 let tommorrow = String(now.getDate() + 1).padStart(2, '0');
-
-let startDate = nowYear + '-' + month + '-' + day;
+let today = nowYear + '-' + month + '-' + day
+let startDate = today;
 let endDate = nowYear + '-' + month + '-' + tommorrow;
 let page = '';
 
@@ -34,9 +34,11 @@ $(function(){
         },
         "startDate": startDate,
         "endDate": endDate,
+        "minDate": today,
         "drops": "down",
         "opens": "center"
     }, function (start, end, label) {
+
         checkIn = start.format('YYYY-MM-DD');
         checkOut = end.format('YYYY-MM-DD');
 
@@ -44,6 +46,9 @@ $(function(){
         if(page == 'view') {
 
             let newUrl = '/Lemo/product/view?acc_id='+acc_id+'&checkIn=' + checkIn + '&checkOut='+checkOut;
+
+            history.pushState({}, '', newUrl); // URL 변경
+
             $('#div-article').load(newUrl + ' #div-article', function() {
                 console.log('load complete!');
             });

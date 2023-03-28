@@ -128,7 +128,10 @@
     </select>
 
     <select id="selectCoupons" resultType="kr.co.Lemo.domain.CouponVO">
-        SELECT * FROM `lemo_product_coupon`
+
+        SELECT a.*, b.mcp_id FROM `lemo_product_coupon` AS a
+        LEFT JOIN (SELECT * FROM `lemo_member_coupon` WHERE `user_id`=#{user_id}) AS b
+        ON a.`cp_id` = b.`cp_id`
         WHERE
         (
         `acc_id`= #{acc_id} OR
@@ -138,6 +141,7 @@
         <![CDATA[
              AND CURDATE() <= `cp_end`
         ]]>
+
     </select>
 
     <select id="getCoupon" resultType="kr.co.Lemo.domain.CouponVO">
