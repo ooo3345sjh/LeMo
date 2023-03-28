@@ -49,4 +49,5 @@ public class CouponVO {
 
     // add
     private String acc_name;
+
 }

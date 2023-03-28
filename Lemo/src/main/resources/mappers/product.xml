@@ -26,6 +26,16 @@
         INSERT INTO `lemo_product_pick` VALUES(#{acc_id}, #{user_id});
     </insert>
 
+    <insert id="insertMemberCoupon">
+        INSERT INTO `lemo_member_coupon`
+        SET
+        `cp_id`= #{cp_id},
+        `user_id`= #{user_id},
+        `mcp_start` = CURDATE(),
+        `mcp_end` = DATE_ADD(CURDATE(), INTERVAL #{daysAvailable} DAY),
+        `mcp_rdate` = NOW();
+    </insert>
+
     <!-- select-->
     <select id="selectAccommodations" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
 
@@ -130,6 +140,13 @@
         ]]>
     </select>
 
+    <select id="getCoupon" resultType="kr.co.Lemo.domain.CouponVO">
+        SELECT a.*, b.mcp_id FROM
+        (SELECT * FROM `lemo_product_coupon` WHERE `cp_id`=#{cp_id}) AS a
+        left JOIN (SELECT * FROM `lemo_member_coupon` WHERE `user_id`=#{user_id}) AS b
+        ON a.`cp_id` = b.`cp_id`
+    </select>
+
     <select id="getTotalProductQna" resultType="int">
         SELECT COUNT(`qna_no`) FROM `lemo_product_qna` WHERE `acc_id` = #{acc_id}
         <if test="searchWord != null and searchWord != ''">
@@ -160,6 +177,12 @@
 
 
     <!-- update -->
+    <update id="updateProductCoupon">
+        UPDATE `lemo_product_coupon`
+        SET `cp_IssuedCnt` = `cp_IssuedCnt`+ 1
+        WHERE `cp_id`=#{cp_id}
+    </update>
+
 
     <!-- delete -->
     <delete id="deleteProductPick">

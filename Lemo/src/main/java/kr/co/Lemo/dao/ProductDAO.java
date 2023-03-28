@@ -27,6 +27,10 @@ public interface ProductDAO {
     // @since 2023/03/24
     public int insertProductPick(Map map);
 
+    // @since 2023/03/24
+    public int insertMemberCoupon(Map map);
+
+
     // select
     public int countTotal(SearchCondition sc);
 
@@ -77,7 +81,14 @@ public interface ProductDAO {
     // @since 2023/03/27
     public List<CouponVO> selectCoupons(Map map);
 
+    // @since 2023/03/28
+    public CouponVO getCoupon(Map map);
+
+
     // update
+
+    // @since 2023/03/28
+    public int updateProductCoupon(Map map);
 
     // delete
 
