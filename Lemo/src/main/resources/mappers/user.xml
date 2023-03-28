@@ -80,7 +80,7 @@
 
     <update id="updateHp">
         UPDATE `lemo_member_userinfo` SET
-        `nick`=#{hp},
+        `hp`=#{hp},
         `rdate`=NOW()
         WHERE `user_id`=#{username};
     </update>
