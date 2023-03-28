@@ -1734,7 +1734,7 @@ main #calendar-container {
 }
 
 /* 관리자 - 고객센터 - 이벤트 목록 */
-#event_li .on{
+#event_li #on{
     background-color: #ffffff;
     border-radius: 5px;
     border: 1px solid #dcdcdc;
