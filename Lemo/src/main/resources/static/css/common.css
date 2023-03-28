@@ -172,8 +172,10 @@ header  #profileImg {
     text-align: center;
 }
 header  #profileImg > img {
-    width: 45px;
-    border-radius: 71px;
+    width: 58px;
+    border-radius: 50%;
+    height: 50px;
+    border: 1px solid #e9e9e9;
 }
 header  #profileNick {
     padding-top: 0;

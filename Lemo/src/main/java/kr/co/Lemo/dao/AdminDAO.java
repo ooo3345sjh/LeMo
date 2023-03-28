@@ -1,6 +1,7 @@
 package kr.co.Lemo.dao;
 
 import kr.co.Lemo.domain.CouponVO;
+import kr.co.Lemo.domain.ProductRoomVO;
 import kr.co.Lemo.domain.ReviewVO;
 import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.utils.SearchCondition;
@@ -40,6 +41,12 @@ public interface AdminDAO {
 
     // @since 2023/03/15
     public ReviewVO viewReview(Integer revi_id);
+
+    // @since 2023/03/28
+    public List<ProductRoomVO> selectRoom(SearchCondition sc);
+
+    // @since 2023/03/28
+    public int countRoom(SearchCondition sc);
 
     // @since 2023/03/11
     public void insertCoupon(CouponVO vo);

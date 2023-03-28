@@ -1,7 +1,6 @@
 
 
 
-
 /* 메인 */
 main {
     min-width: 1200px;
@@ -88,6 +87,7 @@ main .main_slider .bx-wrapper {
     box-shadow: none;
     border: none;
 }
+main .main_slider .bx-wrapper img {}
 /* 메인 바로가기 */
 main .main_shortCut {
     width: 1100px;

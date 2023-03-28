@@ -751,6 +751,7 @@
         width: 100%;
         height: 100%;
         border-radius: 71px;
+        border: 1px solid #e9e9e9;
     }
     .login_info .my_profile_box{
         width: 80px;

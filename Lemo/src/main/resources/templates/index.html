@@ -28,7 +28,7 @@
             <!-- 슬라이더 -->
             <div class="main_slider">
                 <div class="slider">
-                    <div><img th:src="@{/images/index/main_banner1.png}" alt="메인 배너"></div>
+                    <div><img th:src="@{/images/index/main_banner2.png}" alt="메인 배너"></div>
                     <div><img th:src="@{/images/index/main_banner2.png}" alt="메인 배너"></div>
                     <div><img th:src="@{/images/index/main_banner3.png}" alt="메인 배너"></div>
                     <div><img th:src="@{/images/index/main_banner4.png}" alt="메인 배너"></div>
@@ -40,35 +40,35 @@
             <div class="main_shortCut">
                 <ul>
                     <li class="main_shortCut_icon">
-                        <a href="#">
+                        <a th:href="@{/product/list?accTypes=1}">
                             <span><img th:src="@{/images/index/shortcut_motel.png}" alt="shortCut motel" style="width: 59px;"></span>
                         </a>
                     </li>
                     <li class="main_shortCut_icon">
-                        <a href="#">
+                        <a th:href="@{/product/list?accTypes=2}">
                             <span><img th:src="@{/images/index/shortcut_hotel.png}" alt="shortCut motel" style="width: 66px;"></span>
                         </a>
                     </li>
                     <li class="main_shortCut_icon">
-                        <a href="#">
+                        <a th:href="@{/product/list?accTypes=3&keyword=강원도}">
                             <span><img th:src="@{/images/index/shortcut_pension.png}" alt="shortCut motel"
                                        style="width: 55px;"></span>
                         </a>
                     </li>
                     <li class="main_shortCut_icon">
-                        <a href="#">
+                        <a th:href="@{/product/list?accTypes=4&keyword=홍대}">
                             <span><img th:src="@{/images/index/shortcut_dormitory.png}" alt="shortCut motel"
                                        style="width: 59px;"></span>
                         </a>
                     </li>
                     <li class="main_shortCut_icon">
-                        <a href="#">
+                        <a th:href="@{/product/list?accTypes=5&keyword=강원도}">
                             <span><img th:src="@{/images/index/shortcut_camp.png}" alt="shortCut motel" style="width: 60px;"></span>
                         </a>
                     </li>
                     <li class="main_shortCut_icon">
-                        <a href="#">
-                            <span><img th:src="@{/images/index/shortcut_airplane.png}" alt="shortCut motel"
+                        <a th:href="@{/diary/list}">
+                            <span><img th:src="@{/images/index/diary2.png}" alt="shortCut motel"
                                        style="padding-top: 6px;width: 53px;"></span>
                         </a>
                     </li>
@@ -79,7 +79,7 @@
                     <li><p>펜션</p></li>
                     <li><p>게스트하우스</p></li>
                     <li><p>캠핑・글램핑</p></li>
-                    <li><p>해외 여행</p></li>
+                    <li><p>여행일기</p></li>
                 </ul>
             </div>
 
