@@ -17,6 +17,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -227,6 +228,47 @@ public class ProductService {
     // @since 2023/03/27
     public List<CouponVO> findAllCoupons(Map map){
         return dao.selectCoupons(map);
+    }
+
+    // @since 2023/03/27
+    @Transactional
+    public int getCoupon(Map map){
+
+        int result = 0;
+
+        CouponVO cp = dao.getCoupon(map);
+
+        int limitedIssuance = cp.getCp_limitedIssuance();
+        int issuedCnt = cp.getCp_IssuedCnt();
+        int mcp_id = cp.getMcp_id();
+        int daysAvailable = cp.getCp_daysAvailable();
+
+
+        log.info("발급제한수량 + " + limitedIssuance);
+        log.info("총발급갯수 + " + issuedCnt);
+        log.info("mcp_id + " + mcp_id);
+        log.info("이용가능일수 + " + daysAvailable);
+
+        if(limitedIssuance - issuedCnt == 0){ // 쿠폰 수량이 마감일 경우
+            result = 1;
+        }
+
+        if(mcp_id > 0){ // 쿠폰이 이미 발급된 경우
+            result = 2;
+        }
+
+        if(result == 0){
+            map.put("daysAvailable", daysAvailable);
+            // 쿠폰 발급
+            dao.insertMemberCoupon(map);
+            // 쿠폰 사용횟수 +1
+            dao.updateProductCoupon(map);
+            result = 3;
+        }
+
+        log.info("result : " + result);
+
+        return result;
     }
 
     // update

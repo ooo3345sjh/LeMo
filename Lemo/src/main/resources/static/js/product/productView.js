@@ -153,10 +153,15 @@ $(function(){
 
                     if(response[i].cp_group != null){
                         htmlAll += '<li>' + response[i].cp_subject;
-                        htmlAll +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">쿠폰발급</button></li>';
+                        if(response[i].cp_limitedIssuance - response[i].cp_IssuedCnt > 0){
+                            htmlAll +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">쿠폰발급</button></li>';
+                        }
+
                     }else {
                         htmlAcc += '<li>' + response[i].cp_subject;
-                        htmlAcc +='<button class="getCoupon">쿠폰발급</button></li>';
+                        if(response[i].cp_limitedIssuance - response[i].cp_IssuedCnt > 0){
+                            htmlAcc +='<button class="getCoupon" data-cpid="'+response[i].cp_id+'">쿠폰발급</button></li>';
+                        }
                     }
                 }
 
@@ -190,10 +195,27 @@ $(function(){
             return false;
         }
 
-//        let jsonData = {
-//            "cp_id" = cp_id,
-//            "user_id" = uid
-//        }
+        let jsonData = {
+            "cp_id" : cp_id,
+            "user_id" : uid
+        }
+
+        ajaxAPI("product/getCoupon", jsonData, "POST").then((response) => {
+            if(response.result == 1 ) {
+                Swal.fire("쿠폰 수량이 마감되었습니다.");
+            }else if(response.result == 2) {
+                Swal.fire("이미 발급받은 쿠폰입니다.");
+            }else if(response.result == 3){
+                Swal.fire("쿠폰이 발급되었습니다.");
+            }else {
+                Swal.fire("쿠폰 발급에 실패하였습니다.\n잠시 후 다시 시도해주세요.")
+            }
+
+        }).catch((errorMsg) => {
+            console.log(errorMsg)
+        });
+
+
     });
 
     /** 확장 이미지 닫기 버튼 */

@@ -243,6 +243,7 @@ public class ProductController {
         return resultMap;
     }
 
+    // @since 2023/03/27
     @ResponseBody
     @PostMapping("coupon")
     public List<CouponVO> coupon(@RequestBody Map map){
@@ -254,5 +255,25 @@ public class ProductController {
 
         return coupons;
     }
+
+
+    // @since 2023/03/27
+    @ResponseBody
+    @PostMapping("getCoupon")
+    public Map<String, Integer> getCoupon(@RequestBody Map map){
+
+        log.debug("product getCoupon start");
+
+        int result = 0;
+
+        result = service.getCoupon(map);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
+
 
 }
