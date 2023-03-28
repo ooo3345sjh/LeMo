@@ -15,14 +15,15 @@
 
             console.log("checkList : " + checkList);
 
-            const jsonData = {"checkList": checkList};
+            const jsonData = JSON.stringify({"checkList": checkList});
 
             console.log("jsonData : " + jsonData);
+
 
             ajaxAPI("admin/cs/qna/listRemove", jsonData, "delete").then((response) => {
                 if(response.result > 0) {
                     alert("해당 글이 삭제되었습니다.");
-                    location.replace("/Lemo/admin/cs/qna/list");
+                    location.replace("");
                 }else {
                     alert('error');
                 }
