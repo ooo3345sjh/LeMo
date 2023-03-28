@@ -459,8 +459,9 @@ main > #cs {
     display: inline-block;
     position: relative;
     top: 1px;
-    border: 1px solid rgba(0,0,0,0.87);
-    color: rgba(0,0,0,0.87);
+    color: rgb(255 255 255 / 87%);
+    background-color: #bcbcbc;
+
 }
 #qna_tab .reply_complete {
     margin-left: 8px;
@@ -470,7 +471,6 @@ main > #cs {
     display: inline-block;
     position: relative;
     top: 1px;
-    border: 1px solid rgba(0,0,0,0.87);
     color: white;
     background: #bbd444;
 }
