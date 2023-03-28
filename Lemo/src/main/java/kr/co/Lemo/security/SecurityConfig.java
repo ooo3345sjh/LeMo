@@ -51,8 +51,16 @@ public class SecurityConfig implements WebMvcConfigurer {
         http
                 // 인가(접근권한) 설정
                 .authorizeHttpRequests(req -> req
-                        .mvcMatchers("/", "/index").permitAll()
-                        .antMatchers("/my/**").authenticated()
+                                .mvcMatchers("/", "/index").permitAll()
+                                .antMatchers("/my/**").authenticated()
+//                        .mvcMatchers(
+//                                "/user/terms", "/user/login", "/user/error", "/user/join", "/user/hp/auth", "/user/social/**",
+//                                "/user/signup", "/user/pw/reset", "/user/email/send"
+//                        ).hasRole("ANONYMOUS")
+//                        .mvcMatchers("/admin/**").hasRole("ADMIN")
+//                        .mvcMatchers("/business/**").hasRole("BUSINESS")
+//                        .mvcMatchers("/", "/index", "/auth", "/cs/**", "/diary/**", "/user/**", "/product/**").permitAll()
+//                        .anyRequest().authenticated()
                 )
 
                 // 로그인 설정

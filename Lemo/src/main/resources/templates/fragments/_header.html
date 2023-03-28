@@ -17,17 +17,21 @@
                         </form>
                     </th:block>
                     <a th:href="@{/user/login}" sec:authorize="!isAuthenticated()">로그인</a>
-                    <a href="#">여행일기</a>
+                    <a th:href="@{/diary/list}">여행일기</a>
                     <div class="dropdown_menu" id="dropdown_menu2">
                         <button id="dropdown2">고객센터
                             <img th:src="@{/images/index/down-arrow.png}">
                         </button>
-                        <div class="dropdown_content" id="dropdown_content2">
-                            <a href="#">공지사항</a>
-                            <a href="#">이벤트</a>
-                            <a href="#">자주 묻는 질문</a>
-                            <a href="#">1:1 문의</a>
-                            <a href="#">여행일기</a>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <div class="dropdown_content" id="dropdown_content2">
+                        </th:block>
+                        <th:block sec:authorize="!isAuthenticated()">
+                            <div class="dropdown_content" id="dropdown_content2" style="right:-49px;">
+                        </th:block>
+                            <a th:href="@{/cs/notice}">공지사항</a>
+                            <a th:href="@{/cs/event/list}">이벤트</a>
+                            <a th:href="@{/cs/faq/event}">자주 묻는 질문</a>
+                            <a th:href="@{/cs/qna}">1:1 문의</a>
                         </div>
                     </div>
                     <th:block sec:authorize="isAuthenticated()">
@@ -41,9 +45,6 @@
                                     <img th:src="@{/images/my/profile.png}" alt="프로필 사진" th:if="${#authentication.principal.photo eq null}">
                                 </a>
                                 <a id="profileNick">[[${#authentication.principal.nick}]]</a>
-                                <!--/*
-                                <a th:href="@{/my/info}">나의 정보</a>
-*/-->
                                 <a th:href="@{/my/point}">포인트</a>
                                 <a th:href="@{/my/coupon}">쿠폰함</a>
                                 <a th:href="@{/my/reservation}">예약내역</a>
