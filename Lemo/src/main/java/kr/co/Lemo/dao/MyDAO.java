@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @since 2023/03/11
@@ -37,11 +38,17 @@ public interface MyDAO {
     public int selectTotalReservations(SearchCondition sc);
     public List<PointVO> selectPoints(SearchCondition sc);
     public int selectTotalPoints(SearchCondition sc);
-    public List<ReviewVO> selectReviews(String user_id);
+    public List<ReservationVO> selectReviews(SearchCondition sc);
     public int selectTotalPicks(SearchCondition sc);
 
     public int insertCoupon(CouponVO coupon);
     public int updateProductCoupon(CouponVO coupon);
     public int selectProductCouponCnt(CouponVO coupon);
+
+    // @since 2023/03/28
+    public int selectTotalReviews(SearchCondition sc);
+    public ReviewVO selectReview(int res_no);
+    public ReviewVO selectReviewAccommodation(int res_no);
+    public int insertReview(Map<String, Object> param);
 
 }

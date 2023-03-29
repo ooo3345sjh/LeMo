@@ -9,7 +9,6 @@
       layout:decorate="layouts/default-layout">
     <th:block layout:fragment="css-js">
         <link rel="stylesheet" th:href="@{/css/my/my.css}">
-
         <!-- swiperSlider -->
         <link rel="stylesheet" th:href="@{https://unpkg.com/swiper@7/swiper-bundle.min.css}" />
         <script th:src="@{https://unpkg.com/swiper@7/swiper-bundle.min.js}"></script>
@@ -26,7 +25,7 @@
                             </span>
                         </div>
                         <div class="my_review_view">
-                            <div class="my_review_tit">여기만한 곳은 어디에도 없을 거예요</div>
+                            <div class="my_review_tit">[[${review.revi_title}]]</div>
                             <div class="my_review_rating">
                                 <!-- 임시 평점 -->
                                 <div class="star-ratings">
@@ -39,38 +38,26 @@
                                 </div>
                             </div>
                             <div class="my_review_days">
-                                <span>부산 힐튼 호텔 슈페리어 더블</span>
-                                <p>2023-02-13 ~ 2023-02-14</p>
+                                <span>[[${review.acc_name}]]</span>
+                                <p>[[${review.res_checkIn}]] ~ [[${review.res_checkOut}]]</p>
                             </div>
                             <div class="my_review_textbox">
                                 <div class="my_review_text">
-                                    갑자기 지방 출장이 잡혀서 급하게 숙소를 알아봤는데 마침 너무 좋은 위치에 리베
-                                    라호텔이 있더라구요.<br>
-                                    그래서 바로 예약했는데, 급하게 예약을 해서 기대를 안했는데 생각보다 너무 깔끔
-                                    해서 좋았습니다.<br>
-                                    물론, 오래된 호텔이기는 하지만 중후함이라고 해야하나? 클래식하면서 관리가 잘
-                                    된 모습에 기분이 좋아졌습니다.<br>
-                                    외국에서는 이렇게 오래됐지만 관리가 잘 된 호텔이 인기 많다고 하더니 그 이유를
-                                    알겠더라구요.<br>
-                                    인포 직원분들부터 너무 친절하셨고 따뜻하게 안내해주셔서 묶는 내내 기분이 좋았
-                                    습니다.
+                                    [[${review.revi_content}]]
                                 </div>
                             </div>
                             <div class="review_swiper-container">
                                 <!-- swiper Slider -->
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide"><img th:src="@{/images/my/hotel_main.jpg}" alt="#" /></div>
-                                        <div class="swiper-slide"><img th:src="@{/images/my/hotel_main1.jpg}" /></div>
-                                        <div class="swiper-slide"><img th:src="@{/images/my/hotel_main2.jpg}" /></div>
-                                        <div class="swiper-slide"><img th:src="@{/images/my/hotel_main3.png}" /></div>
-                                        <div class="swiper-slide"><img th:src="@{/images/my/hotel_main.jpg}" /></div>
-                                    </div>
-                                    <div class="swiper-button-next"></div>
-                                    <div class="swiper-button-prev"></div>
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide" th:each="image:${review.thumbs}"><img th:src="@{/img/review/__${review.acc_id}__/__${image}__}" alt="#" /></div>
+                                </div>
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
                             </div>
                             <div class="review_comment">
                                 <div class="review_commentarea">
-                                    이용해주셔서 감해주셔서 감사합니다이용해주셔서 감사합니다
+                                    <th:block th:if="${review.revi_reply != null}">[[${review.revi_reply}]]</th:block>
+                                    <th:block th:if="${review.revi_reply == null}">등록된 답글이 없습니다.</th:block>
                                 </div>
                             </div>
                             <div class="blank30"></div>
@@ -79,10 +66,10 @@
                             <a th:href="@{#}">삭제</a>
                         </div>
                         <div class="my_review_v_modify">
-                            <a th:href="@{#}">수정</a>
+                            <a th:href="@{/my/review/modify}">수정</a>
                         </div>
                         <div class="my_review_v_list">
-                            <a th:href="@{#}">목록으로</a>
+                            <a th:href="@{/my/review/list}">목록으로</a>
                         </div>
                     </div>  
                 </section>
@@ -119,9 +106,37 @@
             </main>
             </th:block>
             <th:block layout:fragment="script">
-                <script th:src="@{/js/my/myReviewViewJS.js}"></script>
                 <script>
+                    $(function(){
+                        /** Swiper Slider **/
+                        const swiper = new Swiper('.review_swiper-container', {
+                            //기본 셋팅
+                            //방향 셋팅 vertical 수직, horizontal 수평 설정이 없으면 수평
+                            direction: 'horizontal',
+                            //한번에 보여지는 페이지 숫자
+                            slidesPerView: 1,
+                            //페이지와 페이지 사이의 간격
+                            spaceBetween: 10,
+                            //드레그 기능 true 사용가능 false 사용불가
+                            debugger: true,
+                            //마우스 휠기능 true 사용가능 false 사용불가
+                            mousewheel: false,
+                            //반복 기능 true 사용가능 false 사용불가
+                            loop: true,
+                            //선택된 슬라이드를 중심으로 true 사용가능 false 사용불가 djqt
+                            centeredSlides: false,
+                            // 페이지 전환효과 slidesPerView효과와 같이 사용 불가
+                            // effect: 'fade',
 
+                            //방향표
+                            navigation: {
+                                //다음페이지 설정
+                                nextEl: '.swiper-button-next',
+                                //이전페이지 설정
+                                prevEl: '.swiper-button-prev',
+                            },
+                        });
+                    });
                 </script>
             </th:block>
 </html>

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @since 2023/03/14
  * @author 이원정
@@ -46,5 +48,8 @@ public class ReviewVO {
      */
     private String acc_thumbs;
     private int province_no;
+
+    // @since 2023/03/29
+    private List<String> thumbs;
 
 }

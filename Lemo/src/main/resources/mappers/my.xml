@@ -29,9 +29,6 @@
             `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
             `lemo_product_room`          AS c ON b.`room_id` = c.`room_id`
         WHERE b.`user_id` = #{user_id}
-        <if test="myCate == 'review'">
-            AND b.`res_state` = 2
-        </if>
         LIMIT #{offset}, 10;
     </select>
 
@@ -81,14 +78,62 @@
         WHERE a.`user_id` = #{user_id};
     </select>
 
-    <select id="selectReviews" resultType="kr.co.Lemo.domain.ReviewVO">
-        SELECT
-            a.`province_no`, a.`acc_name`, a.`acc_id`, a.`acc_thumbs`, b.`res_checkIn`, b.`res_checkOut`
+    <select id="selectReviews" resultType="kr.co.Lemo.domain.ReservationVO">
+        (SELECT
+            'review' AS `type`, a.`province_no`, a.`acc_name`, a.`acc_id`, a.`acc_thumbs`, b.`res_checkIn`, b.`res_checkOut`, b.`res_date`, b.`res_no`
         FROM
             `lemo_product_accommodation` AS a LEFT JOIN
             `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
             `lemo_product_review` AS c ON b.`res_no` = c.`res_no`
-        WHERE c.`user_id` = #{user_id};
+        WHERE c.`user_id` = #{user_id} )
+
+        UNION ALL
+
+        (SELECT
+            'reserv' AS `type`, a.`province_no`, a.`acc_name`, a.`acc_id`, a.`acc_thumbs`, b.`res_checkIn`, b.`res_checkOut`, b.`res_date`, b.`res_no`
+        FROM
+            `lemo_product_accommodation` AS a LEFT JOIN
+            `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+            `lemo_product_room`          AS c ON b.`room_id` = c.`room_id`
+        WHERE b.`user_id` = #{user_id} AND b.`res_state` = 2 AND b.`res_no` NOT IN ( SELECT `res_no` FROM `lemo_product_review` WHERE `user_id`= #{user_id} ) )
+        ORDER BY `res_date` ASC
+    </select>
+
+    <select id="selectTotalReviews" resultType="int">
+        SELECT SUM( `total` ) FROM (
+            (SELECT
+                COUNT( b.`res_date`) AS `total`
+            FROM
+                `lemo_product_accommodation` AS a LEFT JOIN
+                `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+                `lemo_product_review` AS c ON b.`res_no` = c.`res_no`
+            WHERE c.`user_id` = #{user_id} )
+
+            UNION ALL
+
+            (SELECT
+                COUNT( b.`res_date`) AS `total`
+            FROM
+                `lemo_product_accommodation` AS a LEFT JOIN
+                `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+                `lemo_product_room`          AS c ON b.`room_id` = c.`room_id`
+            WHERE b.`user_id` = #{user_id} AND b.`res_state` = 2 AND b.`res_no` NOT IN ( SELECT `res_no` FROM `lemo_product_review` WHERE `user_id`= #{user_id} ) )
+        ) a
+    </select>
+
+    <select id="selectReview" resultType="kr.co.Lemo.domain.ReviewVO">
+        SELECT a.`acc_id`, a.`acc_name`, b.`res_checkIn`, b.`res_checkOut`, c.* FROM
+            `lemo_product_accommodation` AS a LEFT JOIN
+            `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+            `lemo_product_review` AS c ON b.`res_no` = c.`res_no`
+        WHERE c.`res_no` = #{res_no};
+    </select>
+
+    <select id="selectReviewAccommodation" resultType="kr.co.Lemo.domain.ReviewVO">
+        SELECT a.`acc_name`, b.`res_checkIn`, b.`res_checkOut` FROM
+            `lemo_product_accommodation` AS a LEFT JOIN
+            `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id`
+        WHERE b.`res_no` = #{res_no};
     </select>
 
     <select id="selectDiaryArticle" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
@@ -148,6 +193,18 @@
         INSERT INTO `lemo_member_coupon` (`cp_id`, `user_id`, `mcp_start`, `mcp_end`, `mcp_rdate`)
         SELECT #{cp_id}, #{user_id}, NOW(), DATE_ADD(NOW(), INTERVAL `cp_daysAvailable` DAY), NOW()
         FROM `lemo_product_coupon` WHERE `cp_id` = #{cp_id};
+    </insert>
+
+    <insert id="insertReview" parameterType="java.util.Map">
+        INSERT INTO `lemo_product_review` SET
+            `res_no`       = #{res_no},
+            `user_id`      = #{user_id},
+            `revi_rate`    = #{revi_rate},
+            `revi_title`   = #{revi_title},
+            `revi_content` = #{revi_content},
+            `revi_regip`   = #{revi_regip},
+            `revi_rdate`   = NOW(),
+            `revi_thumb`   = #{revi_thumb}
     </insert>
 
     <!-- update -->

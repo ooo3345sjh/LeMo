@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -60,7 +61,6 @@ public class MyController {
         String user_id = myUser.getUser_id();
         vo.setUser_id( myUser.getUser_id() );
         vo.setMap(map);
-        vo.setMyCate(myCate);
 
         switch (myCate) {
             case "coupon" :
@@ -134,14 +134,6 @@ public class MyController {
                 //service.findMyArticle(myCate, uid);
 
                 return "my/view";
-
-            case "review" :
-                m.addAttribute("cate", "review");
-                List<ReservationVO> reviews = service.findReservations(vo);
-                m.addAttribute("reviews", reviews);
-                log.debug("reviews : " + reviews.size());
-
-                return "my/review/list";
         }
 
         return "my/info";
@@ -176,20 +168,85 @@ public class MyController {
         String user_id = myUser.getUser_id();
         vo.setMap(map);
         vo.setUser_id(user_id);
-        vo.setMyCate("review");
 
-        List<ReservationVO> reviews = service.findReservations(vo);
+        // 페이징
+        int totalReview = service.findTotalReviews(vo);
+        int totalReviewPage = (int)Math.ceil(totalReview / (double)vo.getPageSize());
+        if(vo.getPage() > totalReviewPage) vo.setPage(totalReviewPage);
+
+        PageHandler ReviewPageHandler = new PageHandler(totalReview, vo);
+
+        List<ReservationVO> reviews = service.findReviews(vo);
         m.addAttribute("reviews", reviews);
-        log.debug("reviews : " + reviews);
+        m.addAttribute("ph", ReviewPageHandler);
 
         return "my/review/list";
+    }
+
+    // @since 2023/03/08
+    @GetMapping("review/view")
+    public String reviewView(
+            @RequestParam int res_no,
+            @AuthenticationPrincipal UserVO myUser,
+            Model m
+    ) {
+        m.addAttribute("title", environment.getProperty(myGroup));
+        m.addAttribute("cate", "review");
+
+        String uid = myUser.getUser_id();
+
+        ReviewVO review = service.findReview(res_no);
+        m.addAttribute("review", review);
+
+        log.debug(""+review.getThumbs());
+
+        return "my/review/view";
+    }
+
+    // @since 2023/03/08
+    @GetMapping("review/write")
+    public String reviewWrite(
+            @RequestParam(defaultValue = "0") int res_no,
+            @RequestParam(defaultValue = "0") int acc_id,
+            @AuthenticationPrincipal UserVO myUser,
+            Model m
+    ) {
+        m.addAttribute("title", environment.getProperty(myGroup));
+        m.addAttribute("cate", "review");
+
+        if(res_no == 0 || acc_id == 0) { return "redirect:/my/review/list"; }
+
+        String uid = myUser.getUser_id();
+
+        ReviewVO review = service.findReviewAccommodation(res_no);
+        m.addAttribute("review", review);
+
+        return  "my/review/write";
+    }
+
+    // @since 2023/03/29
+    @PostMapping("review/write")
+    public void reviewWrite(
+            @RequestParam Map<String, Object> param,
+            MultipartHttpServletRequest request,
+            HttpServletRequest req,
+            @AuthenticationPrincipal UserVO myUser
+    ) {
+        log.debug("param : " + param);
+
+        param.put("user_id", myUser.getUser_id());
+        param.put("revi_regip", req.getRemoteAddr());
+
+        service.rsavsReview(request, param);
+
     }
 
     // @since 2023/03/08
     @GetMapping("review/modify")
     public String reviewModify(
             @AuthenticationPrincipal UserVO myUser,
-            Model m) {
+            Model m
+    ) {
         m.addAttribute("title", environment.getProperty(myGroup));
         m.addAttribute("cate", "review");
 
@@ -199,36 +256,11 @@ public class MyController {
     }
 
     // @since 2023/03/08
-    @GetMapping("review/view")
-    public String reviewView(
-            @AuthenticationPrincipal UserVO myUser,
-            Model m) {
-        m.addAttribute("title", environment.getProperty(myGroup));
-        m.addAttribute("cate", "review");
-
-        String uid = myUser.getUser_id();
-
-        return "my/review/view";
-    }
-
-    // @since 2023/03/08
-    @GetMapping("review/write")
-    public String reviewWrite(
-            @AuthenticationPrincipal UserVO myUser,
-            Model m) {
-        m.addAttribute("title", environment.getProperty(myGroup));
-        m.addAttribute("cate", "review");
-
-        String uid = myUser.getUser_id();
-
-        return  "my/review/write";
-    }
-
-    // @since 2023/03/08
     @GetMapping("diary/list")
     public String diary_list(
             @AuthenticationPrincipal UserVO myUser,
-            Model m) {
+            Model m
+    ) {
         log.debug("GET diary/list start");
         m.addAttribute("title", environment.getProperty(diaryGroup));
         m.addAttribute("cate", "diary");
