@@ -21,7 +21,7 @@
                                 <strong>휴대폰 번호</strong>
                                 <span>개인 정보 보호를 위해 안심번호로 숙소에 전송됩니다.</span>
                                 <div class="phone">
-                                    <input type="text" name="phone" placeholder="체크인시 필요한 정보입니다." th:value="${user.hp}">
+                                    <input type="tel" name="hp" placeholder="체크인시 필요한 정보입니다." maxlength="11" th:value="${user.hp}">
                                     <button type="button">X</button>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                             </div>
                             <div class="discount_container">
                                 <div class="discount_header">
-                                    <button type="button" class="discount_button">사용 가능한 쿠폰 1장</button>
+                                    <button type="button" class="discount_button coupon">사용 가능한 쿠폰 1장</button>
                                     <span>-</span>
                                 </div>
                                 <!--
@@ -60,7 +60,7 @@
                             </div>
                             <div class="discount_container">
                                 <div class="discount_header">
-                                    <button type="button" class="discount_button">포인트 사용 0P</button>
+                                    <button type="button" class="discount_button">포인트 사용 [[${user.point}]]P</button>
                                     <div>
                                         <div>
                                             <input type="text" value="0" class="discount_input">
@@ -132,11 +132,11 @@
                             </p>
                             <p>
                                 <strong>체크인</strong>
-                                [[${map.checkIn.substring(5,10)}]] 월 14:00
+                                [[${map.checkIn.substring(5,10)}]] [[${map.CIday}]] [[${room.checkIn.substring(0,5)}]]
                             </p>
                             <p>
                                 <strong>체크아웃</strong>
-                                [[${map.checkOut.substring(5,10)}]] 화 14:00
+                                [[${map.checkOut.substring(5,10)}]] [[${map.COday}]] [[${room.checkOut.substring(0,5)}]]
                             </p>
                         </div>
                         <div class="total_price">

@@ -274,8 +274,15 @@ public class ProductService {
     // @since 2023/03/28
     public Map findRoomForReservation(Map map){
 
+        log.info("here2...");
+
         ProductAccommodationVO room = dao.selectRoomForReservation(map);
+
+        log.info("room : " + room);
+
         map = (Map) setRoomAvgPrice(map, room);
+
+        log.info("findRoomForReser~ :" + map);
 
         return map;
     }
@@ -369,14 +376,13 @@ public class ProductService {
                 int avg_price = accs.get(i).getAvg_price(); // 숙박기간의 평균 가격
                 int room_price = accs.get(i).getRoom_price();
 
-
-                if (season == 1) { // 성수기일때
+                if (season == 2) { // 성수기일때
                     if (day == 5 || day == 6) { // 주말
                         avg_price += room_price * (100 - accs.get(i).getRp_peakSeason_weekend()) / 100;
                     } else { // 주중
                         avg_price += room_price * (100 - accs.get(i).getRp_peakSeason_weekday()) / 100;
                     }
-                } else if (season == 2) { // 비성수기일때
+                } else if (season == 1) { // 비성수기일때
                     if (day == 5 || day == 6) { // 주말
                         avg_price += room_price * (100 - accs.get(i).getRp_offSeason_weekend()) / 100;
                     } else { // 주중
@@ -403,10 +409,10 @@ public class ProductService {
     // @since 2023/03/28
     public Map setRoomAvgPrice(Map map, ProductAccommodationVO room){
 
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate CI = LocalDate.parse(map.get("checkIn").toString(), formatter);
         LocalDate CO = LocalDate.parse(map.get("checkOut").toString(), formatter);
+
 
         // 몇박인지 구하기
         long days = ChronoUnit.DAYS.between(CI, CO);
@@ -421,7 +427,6 @@ public class ProductService {
             int season = room.getAcc_season(); // 성수기, 비성수기
             int avg_price = room.getAvg_price(); // 숙박기간의 평균 가격
             int room_price = room.getRoom_price();
-
 
             if (season == 1) { // 성수기일때
                 if (day == 5 || day == 6) { // 주말
@@ -441,12 +446,14 @@ public class ProductService {
 
         int avg = room.getAvg_price() / (int) days;
         avg = avg / 10 * 10;
+        room.setAvg_price(avg);
+        
+        // 체크인, 체크아웃 요일 구하기
 
         map.put("days", days);
         map.put("room", room);
-        map.put("CIday", CI.getDayOfWeek().getValue()); // 체크인 요일
-        map.put("COday", CO.getDayOfWeek().getValue()); // 체크아웃 요일
-
+        map.put("CIday", getDay(CI.getDayOfWeek().getValue())); // 체크인 요일
+        map.put("COday", getDay(CO.getDayOfWeek().getValue())); // 체크아웃 요일
 
         return map;
     }
@@ -491,4 +498,33 @@ public class ProductService {
         return reviews;
     }
 
+    public String getDay(int d){
+
+        String day ="";
+        switch(d) {
+            case 1 :
+                day = "월";
+                break;
+            case 2 :
+                day = "화";
+                break;
+            case 3 :
+                day = "수";
+                break;
+            case 4 :
+                day = "목";
+                break;
+            case 5 :
+                day = "금";
+                break;
+            case 6 :
+                day = "토";
+                break;
+            case 7 :
+                day = "일";
+                break;
+        }
+        return day;
+    }
+    
 }

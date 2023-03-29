@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +108,44 @@ public class ProductController {
         return "product/view";
     }
 
+    @ResponseBody
+    @PostMapping("reservation")
+    public Map reservation(@RequestBody Map map, HttpSession session) {
+
+        session.setAttribute("map", map);
+
+        return map;
+    }
+
     // @since 2023/03/28
+    @GetMapping("reservation")
+    public String reservation(Model model,
+                              HttpSession session,
+                              @AuthenticationPrincipal UserVO myUser) throws Exception {
+
+        String user_id = myUser.getUser_id();
+
+        Map map = (Map) session.getAttribute("map");
+
+        log.info("세션에서 받아온 map : " + map);
+
+        // 객실 정보 가져오기
+        map = service.findRoomForReservation(map);
+
+        log.info("here1.....");
+        ProductAccommodationVO room = (ProductAccommodationVO) map.get("room");
+
+        log.info("myUser : " + myUser);
+
+        model.addAttribute("map", map);
+        model.addAttribute("user", myUser);
+        model.addAttribute("room", room);
+
+        return "product/reservation";
+    }
+
+
+    /*
     @PostMapping("reservation")
     public String reservation(Model model,
                               @RequestParam Map map,
@@ -120,13 +158,18 @@ public class ProductController {
         map = service.findRoomForReservation(map);
         room = (ProductAccommodationVO) map.get("room");
 
+        log.info("몇 박 :" + map.get("days"));
+        log.info("가격 :" + room.getAvg_price());
+
 
         model.addAttribute("map", map);
         model.addAttribute("user", myUser);
         model.addAttribute("room", room);
 
         return "product/reservation";
-    }
+    }*/
+
+
 
     @GetMapping("result")
     public String result() throws Exception{
@@ -289,7 +332,5 @@ public class ProductController {
 
         return resultMap;
     }
-
-
 
 }

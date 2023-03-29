@@ -6,7 +6,6 @@ let today = nowYear + '-' + month + '-' + day
 let startDate = today;
 let endDate = nowYear + '-' + month + '-' + tommorrow;
 let page = '';
-
 $(function(){
 
     checkInParam = urlParams.get("checkIn");
@@ -46,6 +45,10 @@ $(function(){
         if(page == 'view') {
 
             let newUrl = '/Lemo/product/view?acc_id='+acc_id+'&checkIn=' + checkIn + '&checkOut='+checkOut;
+
+            // URL 파라미터 값 변경
+            urlParams.set("checkIn", checkIn);
+            urlParams.set("checkOut", checkOut);
 
             history.pushState({}, '', newUrl); // URL 변경
 

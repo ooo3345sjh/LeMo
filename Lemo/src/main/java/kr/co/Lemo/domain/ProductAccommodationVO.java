@@ -65,6 +65,10 @@ public class ProductAccommodationVO {
     private int rp_peakSeason_weekend;
 
     private int avg_price;
+    /* sql에서 가공해서 가져온 room용 checkIn, checkOut */
+    private String checkIn;
+    private String checkOut; 
+
     
     /**
      * @since 2023/03/27
