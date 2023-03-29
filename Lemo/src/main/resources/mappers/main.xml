@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    날짜 : 2023/03/29
+    이름 : 서정현
+    내용 : 메인 mapper
+ -->
+<mapper namespace="kr.co.Lemo.dao.MainDAO">
+
+    <!-- insert -->
+
+    <!-- select -->
+    <select id="selectBestDiary" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
+        SELECT a.*, s.*, i.`nick` as 'user_nick' FROM `lemo_diary_article` a
+        JOIN `lemo_member_userinfo` i ON a.`user_id` = i.`user_id`
+        JOIN (
+            SELECT *, ROW_NUMBER() OVER(PARTITION BY arti_no) 'top'
+            FROM `lemo_diary_spot`
+        ) s ON a.arti_no = s.arti_no
+        WHERE s.top = 1
+        ORDER BY `arti_like` DESC
+        LIMIT 3;
+    </select>
+
+    <select id="selectRevisit" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+        <![CDATA[
+            SELECT a.*
+            FROM(
+                SELECT a.acc_id 'acc_id', a.acc_name, a.province_no, a.accType_no, a.acc_thumbs, a.acc_rate, a.acc_review, a.acc_season, a.acc_state,
+                r.room_price 'room_price', IFNULL(b.empty_room_stock, r.room_stock) as 'empty_room_stock',
+                ROW_NUMBER() OVER(PARTITION BY a.acc_id ORDER BY r.room_price, IFNULL(b.empty_room_stock, r.room_stock) desc) 'top',
+                c.rp_offSeason_weekday, c.rp_offSeason_weekend, c.rp_peakSeason_weekday, c.rp_peakSeason_weekend
+                FROM `lemo_product_accommodation` a
+                JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
+                LEFT JOIN (
+                    SELECT a.acc_id 'acc_id', r.room_id 'room_id',(r.room_stock - COUNT(rero.rero_id)) 'empty_room_stock' FROM `lemo_product_accommodation` a
+                    JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
+                    JOIN    `lemo_product_reserved_room` rero ON r.room_id = rero.room_id AND r.acc_id = rero.acc_id
+                    WHERE rero.rero_checkOut_date > NOW() AND rero.rero_checkIn_date < DATE_ADD(NOW(), INTERVAL 1 DAY )
+                    GROUP BY a.`acc_id`, r.room_id
+                ) b
+                ON a.acc_id = b.acc_id AND r.room_id = b.room_id
+                LEFT JOIN `lemo_product_ratepolicy` c ON a.acc_id = c.acc_id
+            ) a JOIN
+            (
+                SELECT a.`acc_id`, COUNT(*) cnt FROM
+                (
+                    SELECT `acc_id`, `user_id`, COUNT(*) AS cnt
+                    FROM `lemo_product_reservation`
+                    GROUP BY `acc_id`, `user_id`
+                    HAVING COUNT(*) >= 2
+                ) a
+                GROUP BY a.`acc_id`
+            ) b
+            ON a.a.acc_id = b.acc_id
+            WHERE a.empty_room_stock <>0 AND a.top = 1 AND a.acc_state = 1
+            ORDER BY b.cnt DESC
+            LIMIT 5
+        ]]>
+    </select>
+    <select id="selectBest" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+        <![CDATA[
+            (SELECT a.*
+            FROM(
+                SELECT a.acc_id 'acc_id', a.acc_name, a.province_no, a.accType_no, a.acc_thumbs, a.acc_rate, a.acc_review, a.acc_season, a.acc_state,
+                r.room_price 'room_price', IFNULL(b.empty_room_stock, r.room_stock) as 'empty_room_stock',
+                ROW_NUMBER() OVER(PARTITION BY a.acc_id ORDER BY r.room_price, IFNULL(b.empty_room_stock, r.room_stock) desc) 'top',
+                c.rp_offSeason_weekday, c.rp_offSeason_weekend, c.rp_peakSeason_weekday, c.rp_peakSeason_weekend
+                FROM `lemo_product_accommodation` a
+                JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
+                LEFT JOIN (
+                    SELECT a.acc_id 'acc_id', r.room_id 'room_id',(r.room_stock - COUNT(rero.rero_id)) 'empty_room_stock' FROM `lemo_product_accommodation` a
+                    JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
+                    JOIN    `lemo_product_reserved_room` rero ON r.room_id = rero.room_id AND r.acc_id = rero.acc_id
+                    WHERE rero.rero_checkOut_date > NOW() AND rero.rero_checkIn_date < DATE_ADD(NOW(), INTERVAL 1 DAY )
+                    GROUP BY a.`acc_id`, r.room_id
+                    ) b
+                ON a.acc_id = b.acc_id AND r.room_id = b.room_id
+                LEFT JOIN `lemo_product_ratepolicy` c ON a.acc_id = c.acc_id
+            ) a
+            WHERE a.empty_room_stock <>0 AND a.top = 1 AND a.acc_state = 1 AND a.acc_review > 100
+            ORDER BY a.acc_rate DESC
+            LIMIT 5)
+        ]]>
+    </select>
+
+    <!-- update -->
+
+    <!-- delete -->
+
+    <!-- 공통 키 -->
+
+</mapper>

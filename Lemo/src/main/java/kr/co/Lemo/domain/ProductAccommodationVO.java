@@ -71,6 +71,13 @@ public class ProductAccommodationVO {
      * @author 박종협
      */
     private String province_name;
+
+    /**
+     * @since 2023/03/27
+     * @author 서정현
+     * @apiNote 오늘 가격
+     */
+    private int now_price;
             
 
 }

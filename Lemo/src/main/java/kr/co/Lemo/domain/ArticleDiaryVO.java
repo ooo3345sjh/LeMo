@@ -43,4 +43,12 @@ public class ArticleDiaryVO {
     // @since 2023/03/24 @author 이해빈
     private int acc_id;
     private String acc_name;
+
+    /**
+     * @since 2023/03/29
+     * @author 서정현
+     * @apiNote 회원 닉네임, 여행일기 중 하나의 내용
+     */
+    private String user_nick;
+    private String spot_content;
 }

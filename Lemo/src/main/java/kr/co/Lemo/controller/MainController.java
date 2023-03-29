@@ -5,6 +5,7 @@ import kr.co.Lemo.domain.MessageVO;
 import kr.co.Lemo.domain.SmsResponseVO;
 import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.domain.search.SearchconditionTestVO_sjh;
+import kr.co.Lemo.service.MainService;
 import kr.co.Lemo.service.SmsService;
 import kr.co.Lemo.service.UserService;
 import kr.co.Lemo.utils.SearchCondition;
@@ -36,17 +37,24 @@ public class MainController {
 
     private final Environment environment;
     private String group = "title.main";
+    private final MainService mainService;
 
+    // @since 2023/03/05
     @GetMapping(value = {"/", "/index"})
-    public String index(Model m){
+    public String index(Model m, Map map) throws Exception {
+
+        mainService.findMain(map);
         m.addAttribute("title", environment.getProperty(group));
+        m.addAttribute("map", map);
         return "index";
     }
 
+    // @since 2023/03/23
     @GetMapping("/accessDenied")
     public String accessDenied(){
         return "/error/accessDeniedPage";
     }
+
 
     /**
      * @since 2023/03/19
