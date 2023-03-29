@@ -5,6 +5,7 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminSubStyle.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <script th:src="@{/js/common/jquery.highlight-5.js}"></script>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -20,20 +21,20 @@
                             <span>객실관리</span>
                         </div>
                         <div class="col2">
-                            <form action="#">
+                            <form th:action="@{/admin/roomInfo/list}">
                                 <span class="search_review_tit">객실검색</span>
                                 <table class="search_review_table">
                                     <tr>
                                         <th>
                                             <select name="searchField">
-                                                <option value="acc_id">숙소번호</option>
-                                                <option value="acc_name">숙소명</option>
-                                                <option value="room_id">객실번호</option>
-                                                <option value="room_name">객실명</option>
+                                                <option value="acc_id" th:selected="${ph.sc.searchField == 'acc_id'}">숙소번호</option>
+                                                <option value="acc_name" th:selected="${ph.sc.searchField == 'acc_name'}">숙소명</option>
+                                                <option value="room_id" th:selected="${ph.sc.searchField == 'room_id'}">객실아이디</option>
+                                                <option value="room_name" th:selected="${ph.sc.searchField == 'room_name'}">객실명</option>
                                             </select>
                                         </th>
                                         <td>
-                                            <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요">
+                                            <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}">
                                         </td>
                                     </tr>
                                 </table>
@@ -44,36 +45,57 @@
                                         <li class="roomInfo_li2">객실아이디</li>
                                         <li class="roomInfo_li3">객실명</li>
                                         <li class="roomInfo_li4">객실수</li>
-                                        <li class="roomInfo_li5">객실가격 → 할인가</li>
-                                        <li class="roomInfo_li6">비고</li>
+                                        <li class="roomInfo_li5">시즌구분</li>
+                                        <li class="roomInfo_li6">객실가격 → 할인가 (주중/주말)</li>
+                                        <li class="roomInfo_li7">비고</li>
                                     </ul>
                                     <th:block th:if="${#lists.size(rooms) != 0}">
                                         <ul th:each="room,i:${rooms}">
                                             <li class="roomInfo_li1">[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
-                                            <li class="roomInfo_li2" th:text="${room.room_id}">11023</li>
-                                            <li class="prodName" style="width: 48% !important;">
-                                                <a href="#">[[${room.room_name}]]</a>
+                                            <li class="roomInfo_id" th:text="${room.room_id}" >11023</li>
+                                            <li class="roomInfo_name" style="width: 37% !important;">
+                                                <a th:href="@{/admin/roomInfo/view (room_id=${room.room_id})}">[[${room.room_name}]]</a>
                                             </li>
                                             <li class="roomInfo_li4" th:text="${room.room_stock}">20</li>
-                                            <li class="roomInfo_li5">[[${room.room_price}]] → <i>397,150</i></li>
+                                            <li class="roomInfo_li5" th:text="${room.acc_season == 1}? '비성수기':'성수기'">성수기</li>
+                                            <li class="roomInfo_li6">[[${room.room_price}]] →
+                                                <th:block th:if="${room.acc_season == 1}">
+                                                    <span>
+                                                        (<span th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_offSeason_weekday / 100), 0, 'COMMA')}"></span>/
+                                                        <span th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_offSeason_weekend / 100), 0, 'COMMA')}"></span>)
+                                                    </span>
+                                                </th:block>
+                                                <th:block th:if="${room.acc_season == 2}">
+                                                    <span>
+                                                        <span th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_peakSeason_weekend / 100), 0, 'COMMA')}"></span>)
+                                                        (<span th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_peakSeason_weekday / 100), 0, 'COMMA')}"></span>/
+                                                    </span>
+                                                </th:block>
+                                            </li>
                                             <li class="prodBtn">
                                                 <span class="btnDelete">삭제</span>
                                                 <span class="btnModify">수정</span>
                                             </li>
                                         </ul>
                                     </th:block>
+                                    <th:block th:if="${#lists.size(rooms) ==0}">
+                                        <span class="noResult">해당 객실이 없습니다.</span>
+                                    </th:block>
 
 
                                 </div>
-                                <div class="pagination">
-                                    <a href="#">&laquo;</a>
-                                    <a href="#">1</a>
-                                    <a href="#" class="active">2</a>
-                                    <a href="#">3</a>
-                                    <a href="#">4</a>
-                                    <a href="#">5</a>
-                                    <a href="#">6</a>
-                                    <a href="#">&raquo;</a>
+                                <div class="pagination" th:object="${ph}" th:style="${#lists.size(rooms) == 0 ? 'visibility:hidden;':''}">
+                                    <th:block th:if="*{showPrev}">
+                                        <a th:href="@{/admin/roomInfo/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
+                                    </th:block>
+                                    <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                                        <a th:href="@{/admin/roomInfo/list} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                            [[${num}]]
+                                        </a>
+                                    </th:block>
+                                    <th:block th:if="*{showNext}">
+                                        <a th:href="@{/admin/roomInfo/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                    </th:block>
                                 </div>
                                <!-- <div class="btnAdminProd">
                                     <a href="#">
@@ -85,11 +107,67 @@
                     </div>
                     <div class="blank30"></div>
                 </div>
-            <!-- -->
+            </section>
         </div>
     </main>
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+    <script>
+        $(document).ready(function () {
+
+            // 검색 키워드 하이라이트
+            const searchField = document.querySelector('select[name=searchField]');
+
+            function highlightSearchKeyword() {
+              const searchWord = document.querySelector('input[name=searchWord]');
+
+              if (searchField.options[searchField.selectedIndex].value === "room_id") {
+                $('.roomInfo_id').highlight(searchWord.value);
+              } else if (searchField.options[searchField.selectedIndex].value === "room_name") {
+                $('.roomInfo_name').highlight(searchWord.value);
+              }
+            }
+
+            // 페이지 로드 시 함수 호출
+            $(function() {
+              highlightSearchKeyword();
+            });
+
+            // 검색 후 함수 호출
+            $('form[name=userSearchForm]').submit(function(event) {
+              highlightSearchKeyword();
+            });
+
+            // 검색 키워드가 변경 시 함수 호출
+            $('input[name=searchWord]').on('input', function() {
+              highlightSearchKeyword();
+            });
+
+            // URL로부터 parameter 가져오기
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchTerm = urlParams.get('searchWord');
+
+            // 하이라이트
+            if(searchTerm) {
+              if (searchField.options[searchField.selectedIndex].value === "room_id") {
+                $('.roomInfo_id').highlight(searchTerm);
+              } else if (searchField.options[searchField.selectedIndex].value === "room_name") {
+                $('.roomInfo_name').highlight(searchTerm);
+              }
+            }
+
+            // 제출버튼
+            $('form').on('submit', function() {
+              // URL에 검색 쿼리 매개 변수 추가
+              const url = $(this).attr('action') + '?' + $(this).serialize();
+
+              // 검색 후 url로부터 parameter 가져오기
+              window.location.href = url;
+              return false;
+            });
+
+        });
+    </script>
 </th:block>
 </html>

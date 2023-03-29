@@ -157,11 +157,13 @@
     window.onload = function() {
         let select = document.getElementsByClassName("selectAccOwned")[0];
 
-        let jsonData = {"user_id": "3min-ik@hanmail.net"};
+        //let user_id = "${pageContext.principal?.user_id}";
 
-        console.log(jsonData);
+        //let jsonData = {"user_id": user_id};
 
-        ajaxAPI("business/coupon/findAccOwned", jsonData, "GET").then((response)=>{
+        //console.log(jsonData);
+
+        ajaxAPI("business/coupon/findAccOwned", null, "GET").then((response)=>{
             console.log('response:' + response);
             select.innerHTML = "";
             for (let i = 0; i < response.length; i++) {

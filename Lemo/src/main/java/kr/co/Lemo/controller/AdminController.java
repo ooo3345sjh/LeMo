@@ -1,18 +1,16 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.domain.CouponVO;
-import kr.co.Lemo.domain.CsVO;
-import kr.co.Lemo.domain.ReviewVO;
-import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.domain.search.Cs_SearchVO;
-import kr.co.Lemo.repository.AdminRepo;
 import kr.co.Lemo.service.AdminService;
 import kr.co.Lemo.service.CsService;
 import kr.co.Lemo.utils.PageHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,14 +34,16 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
+@PropertySource(value = "classpath:title.properties", encoding = "UTF-8")
 @RequestMapping("admin/")
 public class AdminController {
 
     @Autowired
-    private AdminService service;
+   private Environment environment;
+   private String group = "title.admin";
 
     @Autowired
-    private AdminRepo repo;
+    private AdminService service;
 
     @Autowired
     private CsService csService;
@@ -53,8 +53,6 @@ public class AdminController {
     public String index_admin() {
         return "admin/index";
     }
-
-
 
     @GetMapping("stats")
     public String stats() {
@@ -265,6 +263,7 @@ public class AdminController {
         return "admin/review/list";
     }
 
+    // 관리자 - 리뷰 보기
     @GetMapping("review/view")
     public String review_view(Model model, @RequestParam("revi_id") Integer revi_id) throws Exception{
 
@@ -310,11 +309,11 @@ public class AdminController {
         return resultMap;
     }
 
-
+    // 관리자 - 객실 목록
     @GetMapping("roomInfo/list")
     public String roomInfo_list(Model model,
                                 @RequestParam Map map,
-                                @ModelAttribute SearchCondition sc){
+                                @ModelAttribute Admin_SearchVO sc){
 
         sc.setMap(map);
         service.findAllRoom(model, sc);
@@ -322,20 +321,64 @@ public class AdminController {
         return "admin/roomInfo/list";
     }
 
+    // 관리자 - 객실 보기
+    @GetMapping("roomInfo/view")
+    public String roomInfo_view(Model model,
+                                @RequestParam("room_id") Integer room_id) throws Exception{
+
+        ProductRoomVO room = service.findRoom(room_id);
+
+        log.warn("selected room: " + room);
+
+        model.addAttribute("room", room);
+        model.addAttribute("room_id", room_id);
+
+       return "admin/roomInfo/view";
+    }
+
     @GetMapping("roomInfo/modify")
     public String roomInfo_modify(){
        return "admin/roomInfo/modify";
     }
 
-    @GetMapping("roomInfo/view")
-    public String roomInfo_view(){
-       return "admin/roomInfo/view";
-    }
+
 
     @GetMapping("roomInfo/write")
     public String roomInfo_write(){
        return "admin/roomInfo/write";
     }
+
+    @GetMapping("info/list")
+    public String info_list(){
+        return "admin/info/list";
+    }
+
+    @GetMapping("info/modify")
+    public String info_modify(){
+        return "admin/info/modify";
+    }
+
+    @GetMapping("info/view")
+    public String info_view(){
+        return "admin/info/view";
+    }
+
+    @GetMapping("info/write")
+    public String info_write(){
+        return "admin/info/write";
+    }
+
+
+    @GetMapping("reservation/list")
+    public String reservation_list(){
+        return "admin/reservation/list";
+    }
+
+    @GetMapping("reservation/timeline")
+    public String reservation_timeline(){
+        return "admin/reservation/timeline";
+    }
+
 
 
 
@@ -636,37 +679,6 @@ public class AdminController {
         return "admin/cs/terms/write";
     }
 
-
-    @GetMapping("info/list")
-    public String info_list(){
-        return "admin/info/list";
-    }
-
-    @GetMapping("info/modify")
-    public String info_modify(){
-        return "admin/info/modify";
-    }
-
-    @GetMapping("info/view")
-    public String info_view(){
-        return "admin/info/view";
-    }
-
-    @GetMapping("info/write")
-    public String info_write(){
-        return "admin/info/write";
-    }
-
-
-    @GetMapping("reservation/list")
-    public String reservation_list(){
-        return "admin/reservation/list";
-    }
-
-    @GetMapping("reservation/timeline")
-    public String reservation_timeline(){
-        return "admin/reservation/timeline";
-    }
 
 
 

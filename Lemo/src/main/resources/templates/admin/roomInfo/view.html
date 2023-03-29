@@ -32,40 +32,64 @@
                                 </div>
                                 <table class="input_stayRoomInfo">
                                     <tr>
+                                        <td>객실 아이디</td>
+                                        <td>[[${room.room_id}]]</td>
+                                    </tr>
+                                    <tr>
                                         <td>객실 이름</td>
-                                        <td><input type="text" value="킹 프리미엄 룸 (King Premium Room)" readonly></td>
+                                        <td>[[${room.room_name}]]</td>
                                     </tr>
                                     <tr>
                                         <td>객실 수</td>
-                                        <td><input type="number" value="20" readonly></td>
+                                        <td>[[${room.room_stock}]]</td>
                                     </tr>
                                     <tr>
                                         <td>객실 가격</td>
-                                        <td><input type="number" value="822,224" readonly></td>
+                                        <td th:text="${#numbers.formatInteger(room.room_price, 0, 'COMMA') + '원'}">36,000</td>
                                     </tr>
                                     <tr>
-                                        <td>할인율 (%)</td>
-                                        <td><input type="number" value="52" readonly></td>
+                                        <td>시즌</td>
+                                        <td th:text="${room.acc_season == 1}? '비성수기':'성수기'"></td>
                                     </tr>
                                     <tr>
-                                        <td>할인 가격</td>
-                                        <td><input type="number" value="397,150" readonly></td>
+                                        <td>할인가 (주중/주말)</td>
+                                        <td>
+                                            <th:block th:if="${room.acc_season == 1}">
+                                                <span>
+                                                    <span th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_offSeason_weekday / 100), 0, 'COMMA')}"></span>
+                                                    /<span th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_offSeason_weekend / 100), 0, 'COMMA')}"></span>
+                                                </span>
+                                            </th:block>
+                                            <th:block th:if="${room.acc_season == 2}">
+                                                <span>
+                                                    <span th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_peakSeason_weekend / 100), 0, 'COMMA')}"></span>
+                                                    /<span th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_peakSeason_weekday / 100), 0, 'COMMA')}"></span>
+                                                </span>
+                                            </th:block>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>인원</td>
                                         <td>
-                                            <input class="input_200" type="number" value="2" readonly>/
-                                            <input class="input_200" type="number" value="3" readonly>
+                                            [[${room.room_defNum}]] / [[${room.room_maxNum}]]
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>인원초과가격</td>
-                                        <td><input type="number" value="50000"></td>
+                                        <td th:text="${#numbers.formatInteger(room.room_addPrice, 0, 'COMMA') + '원'}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>체크인</td>
+                                        <td th:text="${#strings.substring(room.room_checkIn, 0, 5)}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>체크아웃</td>
+                                        <td th:text="${#strings.substring(room.room_checkOut, 0, 5)}"></td>
                                     </tr>
                                     <tr>
                                         <td>객실이용안내</td>
                                         <td>
-                                            <textarea></textarea>
+                                            <textarea>[[${room.room_info}]]</textarea>
                                         </td>
                                     </tr>
                                     <tr>
@@ -74,8 +98,9 @@
                                             <div class="stayThumb">
                                                 <div class="st_content">
                                                     <div class="st_img">
-                                                        <img th:src="@{/images/admin/view1.jpeg}">
+                                                        <img th:src="|@{/}img/room/${room.room_id}/${#strings.substringBefore(room.room_thumb, '/')}|" alt="상품 이미지">
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </td>

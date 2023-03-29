@@ -48,6 +48,9 @@ public interface AdminDAO {
     // @since 2023/03/28
     public int countRoom(SearchCondition sc);
 
+    // @since 2023/03/29
+    public ProductRoomVO viewRoom(Integer room_id);
+
     // @since 2023/03/11
     public void insertCoupon(CouponVO vo);
 
