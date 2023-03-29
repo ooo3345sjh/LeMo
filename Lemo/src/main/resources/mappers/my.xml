@@ -23,13 +23,21 @@
 
     <select id="selectReservations" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT
-            b.*, a.`acc_name`, a.`province_no`, a.`acc_thumbs`, c.`room_checkIn`, c.`room_checkOut`, b.`res_checkIn`, b.`res_checkOut`
+            b.*, a.`acc_name`, a.`acc_id`, a.`province_no`, a.`acc_thumbs`, c.`room_checkIn`, c.`room_checkOut`, b.`res_checkIn`, b.`res_checkOut`, b.`res_state`
         FROM
             `lemo_product_accommodation` AS a LEFT JOIN
             `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
             `lemo_product_room`          AS c ON b.`room_id` = c.`room_id`
         WHERE b.`user_id` = #{user_id}
+        ORDER BY b.`res_date` DESC
         LIMIT #{offset}, 10;
+    </select>
+
+    <select id="selectReservation" resultType="kr.co.Lemo.domain.ReservationVO">
+        SELECT * FROM `lemo_product_reservation` AS a LEFT JOIN
+            `lemo_product_room` AS b ON a.`room_id` = b.`room_id` LEFT JOIN
+            `lemo_product_accommodation` AS c ON a.`acc_id` = c.`acc_id`
+        WHERE a.`res_no` = #{res_no};
     </select>
 
     <select id="selectTotalReservations" resultType="int">
@@ -42,23 +50,24 @@
 
     <select id="selectMemberCoupons" resultType="kr.co.Lemo.domain.CouponVO">
         SELECT
-            a.`cp_id`, a.`cp_subject`, a.`cp_rate`, a.`cp_price`, a.`cp_start`, a.`cp_end`, a.`cp_minimum`, a.`cp_disType`, b.`user_id`, b.`mcp_isUsed`
+            a.`cp_id`, a.`cp_subject`, a.`cp_rate`, a.`cp_price`, a.`cp_start`, a.`cp_end`, a.`cp_minimum`, a.`cp_disType`, b.`user_id`, b.`mcp_isUsed`, b.`mcp_end`
         FROM
             `lemo_product_coupon` AS a LEFT JOIN
             `lemo_member_coupon` AS b ON a.`cp_id` = b.`cp_id`
         WHERE ( a.`cp_end` > DATE(NOW()) AND b.`mcp_end` > DATE(NOW()) )
-        AND b.`user_id`=#{user_id} AND a.`cp_IssuedCnt` != 0;
+        AND b.`user_id`=#{user_id};
     </select>
 
     <select id="selectProductCoupons" resultType="kr.co.Lemo.domain.CouponVO">
         SELECT * FROM `lemo_product_coupon`
         WHERE `cp_id` NOT IN( SELECT `cp_id` FROM `lemo_member_coupon` WHERE `user_id` = #{user_id} )
         AND `cp_end` > DATE(NOW())
-        AND `cp_IssuedCnt` != 0;
+        AND `cp_IssuedCnt` != `cp_limitedIssuance`
+        AND `cp_group` = 'ALL';
     </select>
 
-    <select id="selectProductCouponCnt" resultType="int">
-        SELECT `cp_IssuedCnt` FROM `lemo_product_coupon` WHERE `cp_id` = #{cp_id};
+    <select id="selectProductCouponCnt" resultType="kr.co.Lemo.domain.CouponVO">
+        SELECT `cp_limitedIssuance`, `cp_IssuedCnt` FROM `lemo_product_coupon` WHERE `cp_id` = #{cp_id};
     </select>
 
     <select id="selectPicks" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
@@ -212,11 +221,18 @@
 
     <update id="updateProductCoupon">
         UPDATE `lemo_product_coupon` SET
-            `cp_IssuedCnt` = ( `cp_IssuedCnt` - 1 )
+            `cp_IssuedCnt` = ( `cp_IssuedCnt` + 1 )
         WHERE `cp_id` = #{cp_id}
     </update>
 
     <!-- delete -->
+    <delete id="deleteReservation">
+        DELETE FROM a, b
+        USING `lemo_product_reserved_room` a
+        LEFT JOIN `lemo_product_reservation` b
+        ON a.res_no = b.res_no
+        WHERE b.`res_no`= #{res_no};
+    </delete>
 
 
     <!-- 공통 키 -->

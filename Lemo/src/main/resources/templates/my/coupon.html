@@ -22,11 +22,11 @@
                             </span>
                         </div>
                         <div class="my_Coupon">
-                            <div class="keepCoupon">
+                            <div class="keepMemberCoupon">
                             <strong>
                                 <span>보유쿠폰</span>
                             </strong>
-                            <b id="couponTotal">[[${members.size()}]]</b>
+                            <b id="memberTotal">[[${members.size()}]]</b>
                             <b>장</b>
                             </div>
                             <div class="consent" th:if="${members.size() == 0 }">
@@ -42,17 +42,24 @@
                                             <span class="coupon_item_num">[[${member.cp_rate}]]</span>
                                             <span class="coupon_item_unit">%</span>
                                         </th:block>
-                                        <th:block th:if="${member.cp_disType == 0}">
+                                        <th:block th:if="${member.cp_disType == 2}">
                                             <span class="coupon_item_num">[[${#numbers.formatInteger(member.cp_price, 0, 'COMMA')}]]</span>
                                             <span class="coupon_item_unit">원</span>
                                         </th:block>
                                     </div>
                                     <div class="coupon_item_info">
-                                        <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
+                                        <span class="coupon_item_due">∙ [[${member.mcp_end}]]까지</span>
                                         <span class="coupon_item_minimum">∙ [[${#numbers.formatInteger(member.cp_minimum, 3, 'COMMA')}]]원 이상 구매시</span>
                                     </div>
                                     <button class="coupon_btn" type="button">보유</button>
                                 </div>
+                            </div>
+                            <div class="keepProductCoupon">
+                            <strong>
+                                <span>보유쿠폰</span>
+                            </strong>
+                            <b id="productTotal">[[${products.size()}]]</b>
+                            <b>장</b>
                             </div>
                             <div class="un_1" th:if="${products.size() == 0}">
                                 <p>발급중인 쿠폰이 없습니다.</p>
@@ -67,13 +74,13 @@
                                             <span class="coupon_item_num">[[${product.cp_rate}]]</span>
                                             <span class="coupon_item_unit">%</span>
                                         </th:block>
-                                        <th:block th:if="${product.cp_disType == 0}">
+                                        <th:block th:if="${product.cp_disType == 2}">
                                             <span class="coupon_item_num">[[${#numbers.formatInteger(product.cp_price, 0, 'COMMA')}]]</span>
                                             <span class="coupon_item_unit">원</span>
                                         </th:block>
                                     </div>
                                     <div class="coupon_item_info">
-                                        <span class="coupon_item_due">∙ 2023년 5월 10일까지</span>
+                                        <span class="coupon_item_due">∙ [[${product.cp_end}]]까지</span>
                                         <span class="coupon_item_minimum">∙ [[${#numbers.formatInteger(product.cp_minimum, 3, 'COMMA')}]]원 이상 구매시</span>
                                     </div>
                                     <button class="coupon_btn2" type="button" th:onclick="receiveCoupon([[${product.cp_id}]])">받기</button>
@@ -143,7 +150,8 @@
                                 $('#rCoupon'+cp_id).remove();
                                 $('.consent > p').remove();
                                 $('.consent').append(rCoupon);
-                                $('#couponTotal').text( Number( $('#couponTotal').text() ) + 1 );
+                                $('#memberTotal').text( Number( $('#memberTotal').text() ) + 1 );
+                                $('#productTotal').text( Number( $('#productTotal').text() ) - 1 );
 
                                 if( $('.un_1 > .coupon_item').length == 0 ) {
                                     $('.un_1').append('<p>발급중인 쿠폰이 없습니다.</p>');

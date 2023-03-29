@@ -42,6 +42,8 @@ public class ReservationVO {
 
     // @since 2023/03/29
     private String type;
+    private int night;
+    private String room_name;
 
 
 }
