@@ -89,176 +89,43 @@
                 <div class="main_top_tit"># <i>BEST</i></div>
                 <div class="main_top_box">
                     <div class="main_top_table">
-                        <!-- item 1 -->
-                        <div class="main_top_item1">
-                            <a href="#">
-                                <div class="main_top_item1_click">
-                                    <div class="main_top_item1_img">
-                                        <img th:src="@{/images/index/main_item1.jpg}" alt="메인 아이템">
-                                    </div>
-                                    <div class="main_top_item_stayName">
-                                        <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
-                                    </div>
-                                    <div class="main_top_item_rating">
-                                        <!-- 임시 평점 -->
-                                        <div class="star-ratings">
-                                            <div class="star-ratings-fill space-x-2 text-lg"
-                                                 :style="{ width: ratingToPercent + '%' }">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                            <div class="star-ratings-base space-x-2 text-lg">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
+                        <th:block th:each="best:${map.best}">
+                            <div class="main_top_item1">
+                                <a th:href="@{/product/view?acc_id=} + ${best.acc_id}">
+                                    <div class="main_top_item1_click">
+                                        <div class="main_top_item1_img">
+                                            <img th:src="@{/img/product/} + ${best.province_no} + '/' + ${best.acc_id} + '/' + ${best.acc_thumbs.split('/')[0]}" alt="메인 아이템">
                                         </div>
-                                        <div class="main_review_count">
-                                            <span>132</span>
+                                        <div class="main_top_item_stayName">
+                                            <span>[[${best.acc_name}]]</span>
                                         </div>
-                                    </div>
-                                    <div class="main_top_item_day">
-                                        <span>1박 요금</span>
-                                    </div>
-                                    <div class="main_top_item_price">
-                                        <span>KRW <i>102,001</i></span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- item 2 -->
-                        <div class="main_top_item1">
-                            <a href="#">
-                                <div class="main_top_item1_click">
-                                    <div class="main_top_item1_img">
-                                        <img th:src="@{/images/index/main_item2.jpg}" alt="메인 아이템">
-                                    </div>
-                                    <div class="main_top_item_stayName">
-                                        <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
-                                    </div>
-                                    <div class="main_top_item_rating">
-                                        <!-- 임시 평점 -->
-                                        <div class="star-ratings">
-                                            <div class="star-ratings-fill space-x-2 text-lg"
-                                                 :style="{ width: ratingToPercent + '%' }">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        <div class="main_top_item_rating">
+                                            <!-- 임시 평점 -->
+                                            <div class="star-ratings">
+                                                <div class="star-ratings-fill space-x-2 text-lg"
+                                                     :style="{ width: ratingToPercent + '%' }">
+
+                                                        <span th:each="i:${#numbers.sequence(0, best.acc_rate-1)}">★</span>
+
+                                                </div>
+                                                <div class="star-ratings-base space-x-2 text-lg">
+                                                        <span th:each="i:${#numbers.sequence(0, best.acc_rate-1)}">★</span>
+                                                </div>
                                             </div>
-                                            <div class="star-ratings-base space-x-2 text-lg">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                            <div class="main_review_count">
+                                                <span>[[${best.acc_review}]]</span>
                                             </div>
                                         </div>
-                                        <div class="main_review_count">
-                                            <span>132</span>
+                                        <div class="main_top_item_day">
+                                            <span>1박 요금</span>
+                                        </div>
+                                        <div class="main_top_item_price">
+                                            <span>KRW <i>[[${#numbers.formatInteger(best.now_price, 3, 'COMMA')}]]</i></span>
                                         </div>
                                     </div>
-                                    <div class="main_top_item_day">
-                                        <span>1박 요금</span>
-                                    </div>
-                                    <div class="main_top_item_price">
-                                        <span>KRW <i>102,002</i></span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- item 3 -->
-                        <div class="main_top_item1">
-                            <a href="#">
-                                <div class="main_top_item1_click">
-                                    <div class="main_top_item1_img">
-                                        <img th:src="@{/images/index/main_item3.jpg}" alt="메인 아이템">
-                                    </div>
-                                    <div class="main_top_item_stayName">
-                                        <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
-                                    </div>
-                                    <div class="main_top_item_rating">
-                                        <!-- 임시 평점 -->
-                                        <div class="star-ratings">
-                                            <div class="star-ratings-fill space-x-2 text-lg"
-                                                 :style="{ width: ratingToPercent + '%' }">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                            <div class="star-ratings-base space-x-2 text-lg">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                        </div>
-                                        <div class="main_review_count">
-                                            <span>132</span>
-                                        </div>
-                                    </div>
-                                    <div class="main_top_item_day">
-                                        <span>1박 요금</span>
-                                    </div>
-                                    <div class="main_top_item_price">
-                                        <span>KRW <i>102,003</i></span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- item 4 -->
-                        <div class="main_top_item1">
-                            <a href="#">
-                                <div class="main_top_item1_click">
-                                    <div class="main_top_item1_img">
-                                        <img th:src="@{/images/index/main_item4.jpg}" alt="메인 아이템">
-                                    </div>
-                                    <div class="main_top_item_stayName">
-                                        <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
-                                    </div>
-                                    <div class="main_top_item_rating">
-                                        <!-- 임시 평점 -->
-                                        <div class="star-ratings">
-                                            <div class="star-ratings-fill space-x-2 text-lg"
-                                                 :style="{ width: ratingToPercent + '%' }">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                            <div class="star-ratings-base space-x-2 text-lg">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                        </div>
-                                        <div class="main_review_count">
-                                            <span>132</span>
-                                        </div>
-                                    </div>
-                                    <div class="main_top_item_day">
-                                        <span>1박 요금</span>
-                                    </div>
-                                    <div class="main_top_item_price">
-                                        <span>KRW <i>102,004</i></span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- item 5 -->
-                        <div class="main_top_item1">
-                            <a href="#">
-                                <div class="main_top_item1_click">
-                                    <div class="main_top_item1_img">
-                                        <img th:src="@{/images/index/main_item5.jpg}" alt="메인 아이템">
-                                    </div>
-                                    <div class="main_top_item_stayName">
-                                        <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
-                                    </div>
-                                    <div class="main_top_item_rating">
-                                        <!-- 임시 평점 -->
-                                        <div class="star-ratings">
-                                            <div class="star-ratings-fill space-x-2 text-lg"
-                                                 :style="{ width: ratingToPercent + '%' }">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                            <div class="star-ratings-base space-x-2 text-lg">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                        </div>
-                                        <div class="main_review_count">
-                                            <span>132</span>
-                                        </div>
-                                    </div>
-                                    <div class="main_top_item_day">
-                                        <span>1박 요금</span>
-                                    </div>
-                                    <div class="main_top_item_price">
-                                        <span>KRW <i>102,005</i></span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                                </a>
+                            </div>
+                        </th:block>
                     </div>
                 </div>
             </div>
@@ -268,176 +135,43 @@
                 <div class="main_top_tit"># 재방문<i> 100%</i></div>
                 <div class="main_top_box">
                     <div class="main_top_table">
-                        <!-- item 1 -->
-                        <div class="main_top_item1">
-                            <a href="#">
-                                <div class="main_top_item1_click">
-                                    <div class="main_top_item1_img">
-                                        <img th:src="@{/images/index/main_item1.jpg}" alt="메인 아이템">
-                                    </div>
-                                    <div class="main_top_item_stayName">
-                                        <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
-                                    </div>
-                                    <div class="main_top_item_rating">
-                                        <!-- 임시 평점 -->
-                                        <div class="star-ratings">
-                                            <div class="star-ratings-fill space-x-2 text-lg"
-                                                 :style="{ width: ratingToPercent + '%' }">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                            <div class="star-ratings-base space-x-2 text-lg">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
+                        <th:block th:each="re:${map.revisit}">
+                            <div class="main_top_item1">
+                                <a th:href="@{/product/view?acc_id=} + ${re.acc_id}">
+                                    <div class="main_top_item1_click">
+                                        <div class="main_top_item1_img">
+                                            <img th:src="@{/img/product/} + ${re.province_no} + '/' + ${re.acc_id} + '/' + ${re.acc_thumbs.split('/')[0]}" alt="메인 아이템">
                                         </div>
-                                        <div class="main_review_count">
-                                            <span>132</span>
+                                        <div class="main_top_item_stayName">
+                                            <span>[[${re.acc_name}]]</span>
                                         </div>
-                                    </div>
-                                    <div class="main_top_item_day">
-                                        <span>1박 요금</span>
-                                    </div>
-                                    <div class="main_top_item_price">
-                                        <span>KRW <i>102,068</i></span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- item 2 -->
-                        <div class="main_top_item1">
-                            <a href="#">
-                                <div class="main_top_item1_click">
-                                    <div class="main_top_item1_img">
-                                        <img th:src="@{/images/index/main_item2.jpg}" alt="메인 아이템">
-                                    </div>
-                                    <div class="main_top_item_stayName">
-                                        <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
-                                    </div>
-                                    <div class="main_top_item_rating">
-                                        <!-- 임시 평점 -->
-                                        <div class="star-ratings">
-                                            <div class="star-ratings-fill space-x-2 text-lg"
-                                                 :style="{ width: ratingToPercent + '%' }">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        <div class="main_top_item_rating">
+                                            <!-- 임시 평점 -->
+                                            <div class="star-ratings">
+                                                <div class="star-ratings-fill space-x-2 text-lg"
+                                                     :style="{ width: ratingToPercent + '%' }">
+
+                                                    <span th:each="i:${#numbers.sequence(0, re.acc_rate-1)}">★</span>
+
+                                                </div>
+                                                <div class="star-ratings-base space-x-2 text-lg">
+                                                    <span th:each="i:${#numbers.sequence(0, re.acc_rate-1)}">★</span>
+                                                </div>
                                             </div>
-                                            <div class="star-ratings-base space-x-2 text-lg">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                            <div class="main_review_count">
+                                                <span>[[${re.acc_review}]]</span>
                                             </div>
                                         </div>
-                                        <div class="main_review_count">
-                                            <span>132</span>
+                                        <div class="main_top_item_day">
+                                            <span>1박 요금</span>
+                                        </div>
+                                        <div class="main_top_item_price">
+                                            <span>KRW <i>[[${#numbers.formatInteger(re.now_price, 3, 'COMMA')}]]</i></span>
                                         </div>
                                     </div>
-                                    <div class="main_top_item_day">
-                                        <span>1박 요금</span>
-                                    </div>
-                                    <div class="main_top_item_price">
-                                        <span>KRW <i>102,068</i></span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- item 3 -->
-                        <div class="main_top_item1">
-                            <a href="#">
-                                <div class="main_top_item1_click">
-                                    <div class="main_top_item1_img">
-                                        <img th:src="@{/images/index/main_item3.jpg}" alt="메인 아이템">
-                                    </div>
-                                    <div class="main_top_item_stayName">
-                                        <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
-                                    </div>
-                                    <div class="main_top_item_rating">
-                                        <!-- 임시 평점 -->
-                                        <div class="star-ratings">
-                                            <div class="star-ratings-fill space-x-2 text-lg"
-                                                 :style="{ width: ratingToPercent + '%' }">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                            <div class="star-ratings-base space-x-2 text-lg">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                        </div>
-                                        <div class="main_review_count">
-                                            <span>132</span>
-                                        </div>
-                                    </div>
-                                    <div class="main_top_item_day">
-                                        <span>1박 요금</span>
-                                    </div>
-                                    <div class="main_top_item_price">
-                                        <span>KRW <i>102,068</i></span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- item 4 -->
-                        <div class="main_top_item1">
-                            <a href="#">
-                                <div class="main_top_item1_click">
-                                    <div class="main_top_item1_img">
-                                        <img th:src="@{/images/index/main_item4.jpg}" alt="메인 아이템">
-                                    </div>
-                                    <div class="main_top_item_stayName">
-                                        <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
-                                    </div>
-                                    <div class="main_top_item_rating">
-                                        <!-- 임시 평점 -->
-                                        <div class="star-ratings">
-                                            <div class="star-ratings-fill space-x-2 text-lg"
-                                                 :style="{ width: ratingToPercent + '%' }">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                            <div class="star-ratings-base space-x-2 text-lg">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                        </div>
-                                        <div class="main_review_count">
-                                            <span>132</span>
-                                        </div>
-                                    </div>
-                                    <div class="main_top_item_day">
-                                        <span>1박 요금</span>
-                                    </div>
-                                    <div class="main_top_item_price">
-                                        <span>KRW <i>102,068</i></span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- item 5 -->
-                        <div class="main_top_item1">
-                            <a href="#">
-                                <div class="main_top_item1_click">
-                                    <div class="main_top_item1_img">
-                                        <img th:src="@{/images/index/main_item5.jpg}" alt="메인 아이템">
-                                    </div>
-                                    <div class="main_top_item_stayName">
-                                        <span>제주 레모 펜션 (Jeju Lemo Pension)</span>
-                                    </div>
-                                    <div class="main_top_item_rating">
-                                        <!-- 임시 평점 -->
-                                        <div class="star-ratings">
-                                            <div class="star-ratings-fill space-x-2 text-lg"
-                                                 :style="{ width: ratingToPercent + '%' }">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                            <div class="star-ratings-base space-x-2 text-lg">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                        </div>
-                                        <div class="main_review_count">
-                                            <span>132</span>
-                                        </div>
-                                    </div>
-                                    <div class="main_top_item_day">
-                                        <span>1박 요금</span>
-                                    </div>
-                                    <div class="main_top_item_price">
-                                        <span>KRW <i>102,068</i></span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                                </a>
+                            </div>
+                        </th:block>
                     </div>
                 </div>
             </div>
@@ -450,113 +184,40 @@
                 <div class="main_top_box">
                     <div class="main_best_table">
                         <!-- item 1 -->
-                        <div class="main_best_item1">
-                            <a href="#">
-                                <div class="main_best_item1_click">
-                                    <div class="main_best_item1_img">
-                                        <img th:src="@{/images/index/main_item2.png}"></img>
-                                    </div>
-                                    <div class="main_top_item1_writer">
-                                        <div class="item_left">
-                                            <span class="nick">김레모</span>
+                        <th:block th:each="diary : ${map.diary}">
+                            <div class="main_best_item1">
+                                <a th:href="@{diary/view?arti_no=} + ${diary.arti_no}">
+                                    <div class="main_best_item1_click">
+                                        <div class="main_best_item1_img">
+                                            <img th:src="@{/img/diary/} + '/' + ${diary.arti_no} + '/' + ${diary.arti_thumb.split('/')[0]}"/>
                                         </div>
-                                        <div class="item_right">
+                                        <div class="main_top_item1_writer">
+                                            <div class="item_left">
+                                                <span class="nick">[[${diary.user_nick}]]</span>
+                                            </div>
+                                            <div class="item_right">
                                             <span class="heart">
                                                 <img th:src="@{/images/index/full-heart.png}">
-                                                <p>400</p>
+                                                <p>[[${diary.arti_like}]]</p>
                                             </span>
-                                            <span class="date">
-                                                23.02.24
+                                                <span class="date">
+                                                [[${#strings.substring(diary.arti_rdate, 2, 10)}]]
                                             </span>
-                                            <span class="replyCount">
+                                                <span class="replyCount">
                                                 <img th:src="@{/images/index/comment.png}">
-                                                <p>28</p>
+                                                <p>[[${diary.arti_comment}]]</p>
                                             </span>
+                                            </div>
+                                        </div>
+                                        <div class="main_top_item1_review">
+                                            <div class="review_txt">
+                                                [[${diary.spot_content}]]
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="main_top_item1_review">
-                                        <div class="review_txt">
-                                            지난 8월부터 주인이 바뀌고 리모델링 했다고 해서 조금 걱정하며 가봤는데 전의 모습은 볼수 없이 깨끗하고 향긋한 디퓨저까지 있어서
-                                            좋았다.
-                                            침대커버도 올화이트에 도어락이라 프라이빗한 느낌이 제일 만족스러움
-                                            다음에도 계속 이용할 마음 100퍼!!
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- item 2 -->
-                        <div class="main_best_item1">
-                            <a href="#">
-                                <div class="main_best_item1_click">
-                                    <div class="main_best_item1_img">
-                                        <img th:src="@{/images/index/main_item2.png}"></img>
-                                    </div>
-                                    <div class="main_top_item1_writer">
-                                        <div class="item_left">
-                                            <span class="nick">김레모</span>
-                                        </div>
-                                        <div class="item_right">
-                                            <span class="heart">
-                                                <img th:src="@{/images/index/full-heart.png}">
-                                                <p>400</p>
-                                            </span>
-                                            <span class="date">
-                                                23.02.24
-                                            </span>
-                                            <span class="replyCount">
-                                                <img th:src="@{/images/index/comment.png}">
-                                                <p>28</p>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="main_top_item1_review">
-                                        <div class="review_txt">
-                                            지난 8월부터 주인이 바뀌고 리모델링 했다고 해서 조금 걱정하며 가봤는데 전의 모습은 볼수 없이 깨끗하고 향긋한 디퓨저까지 있어서
-                                            좋았다.
-                                            침대커버도 올화이트에 도어락이라 프라이빗한 느낌이 제일 만족스러움
-                                            다음에도 계속 이용할 마음 100퍼!!
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- item 3 -->
-                        <div class="main_best_item1">
-                            <a href="#">
-                                <div class="main_best_item1_click">
-                                    <div class="main_best_item1_img">
-                                        <img th:src="@{/images/index/main_item2.png}"></img>
-                                    </div>
-                                    <div class="main_top_item1_writer">
-                                        <div class="item_left">
-                                            <span class="nick">김레모</span>
-                                        </div>
-                                        <div class="item_right">
-                                            <span class="heart">
-                                                <img th:src="@{/images/index/full-heart.png}">
-                                                <p>400</p>
-                                            </span>
-                                            <span class="date">
-                                                23.02.24
-                                            </span>
-                                            <span class="replyCount">
-                                                <img th:src="@{/images/index/comment.png}">
-                                                <p>28</p>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="main_top_item1_review">
-                                        <div class="review_txt">
-                                            지난 8월부터 주인이 바뀌고 리모델링 했다고 해서 조금 걱정하며 가봤는데 전의 모습은 볼수 없이 깨끗하고 향긋한 디퓨저까지 있어서
-                                            좋았다.
-                                            침대커버도 올화이트에 도어락이라 프라이빗한 느낌이 제일 만족스러움
-                                            다음에도 계속 이용할 마음 100퍼!!
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                                </a>
+                            </div>
+                        </th:block>
                     </div>
                 </div>
             </div>

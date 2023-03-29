@@ -383,6 +383,7 @@ main .main_best_table .main_top_item1_writer .replyCount > p {
     display: inline-block;
 }
 main .main_best_table .main_top_item1_review {
+    width: 98%;
     border: 1px solid #F4F4F4;
     background: #F4F4F4;
     padding: 15px;
