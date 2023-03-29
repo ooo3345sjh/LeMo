@@ -65,7 +65,7 @@ public class ProductAccommodationVO {
     private int rp_peakSeason_weekend;
 
     private int avg_price;
-
+    
     /**
      * @since 2023/03/27
      * @author 박종협

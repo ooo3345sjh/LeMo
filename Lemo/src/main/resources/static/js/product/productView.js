@@ -72,7 +72,7 @@ function movePage(event,obj,cate){
 }
 
 /* 숙소 예약 */
-function reserv(){
+function reserv(obj){
 
     if(uid == ""){
        sweetalert("로그인을 하셔야 합니다.", "warning");
@@ -81,22 +81,13 @@ function reserv(){
 
     let CI = urlParams.get("checkIn");
     let CO = urlParams.get("checkOut");
+    let room_id = $(obj).parent().attr('data-room_id');
 
-//    jsonData = {
-//        "checkIn" : CI,
-//        "checkOut" : CO
-//    }
-//
-//    ajaxAPI("product/reservation1", jsonData, "POST").then((response) => {
-//        if(response.result == 1 ) {
-//            sweetalert("와!", "success");
-//        }else {
-//
-//        }
-//
-//    }).catch((errorMsg) => {
-//        console.log(errorMsg)
-//    });
+    $('input[name=checkIn]').val(CI);
+    $('input[name=checkOut]').val(CO);
+    $('input[name=room_id]').val(room_id);
+
+    $('#detail_room').submit();
 
 }
 
