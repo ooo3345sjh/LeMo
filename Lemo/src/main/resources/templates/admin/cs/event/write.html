@@ -70,7 +70,7 @@
             display: table-cell;
         }
          .event_write_mainImg > #mainImage {
-            height: 181px;
+            height: 440px;
             width: 1100px;
         }
         #fileDropzone1 #main_zone{
@@ -247,65 +247,49 @@
             $(document).ready(function() {
                 /** 메인이미지 미리보기 **/
                 const mainDOM = document.querySelector('#main_file');
-                const preview = document.querySelectorAll('#mainImage');
-
+                const preview = document.querySelector('#mainImage');
 
                 mainDOM.addEventListener('change', () => {
-                const reader = new FileReader();
-                reader.onload = ({ target }) => {
-                    preview[0].src = target.result;
-                };
-                reader.readAsDataURL(mainDOM.files[0]);
+                    const reader = new FileReader();
+                    reader.onload = ({ target }) => {
+                        preview.src = target.result;
+                        preview.style.display = 'block';
+                        document.querySelector('#main_zone').style.display = 'none';
+                    };
+                    reader.readAsDataURL(mainDOM.files[0]);
                 });
 
-                /** img click 보여주기 **/
-                $('div [class="event_write_mainImg"]').click(function(){
-                    $('#mainImage').show();
+                preview.addEventListener('click', () => {
+                    $('input#main_file').click();
                 });
 
-                $('div.event_write_mainImg').on('click', function() {
-                  $('input#main_file').click();
-                });
-
-                $('#main_zone').on('click', function() {
-                    var mImg = document.getElementById('mainImage');
-                    var m_zone = document.getElementById('main_zone');
-                    $(mImg).css('display', 'block');
-                    $(m_zone).css('display', 'none');
+                 $('#main_zone').on('click', function() {
                     $('input#main_file').click();
                 });
 
 
 
 
-
                 /** 베너이미지 미리보기 **/
                 const fileDOM = document.querySelector('#ex_file');
-                const previews = document.querySelectorAll('#image');
+                const previews = document.querySelector('#image');
 
 
                 fileDOM.addEventListener('change', () => {
-                const reader = new FileReader();
-                reader.onload = ({ target }) => {
-                    previews[0].src = target.result;
-                };
-                reader.readAsDataURL(fileDOM.files[0]);
+                    const reader = new FileReader();
+                    reader.onload = ({ target }) => {
+                        previews.src = target.result;
+                        previews.style.display= 'block';
+                        document.querySelector('#att_zone').style.display='none';
+                    };
+                    reader.readAsDataURL(fileDOM.files[0]);
                 });
 
-                /** img click 보여주기 **/
-                $('div [class="event_write_bannerImg"]').click(function(){
-                    $('#image').show();
-                });
-
-                $('div.event_write_bannerImg').on('click', function() {
-                  $('input#ex_file').click();
+                previews.addEventListener('click', () => {
+                    $('input#ex_file').click();
                 });
 
                 $('#att_zone').on('click', function() {
-                    var img = document.getElementById('image');
-                    var att = document.getElementById('att_zone');
-                    $(img).css('display', 'block');
-                    $(att).css('display', 'none');
                     $('input#ex_file').click();
                 });
 

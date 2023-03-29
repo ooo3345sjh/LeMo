@@ -213,6 +213,12 @@ public class CsService {
         return dao.updateEndEvent(cs_no);
     }
 
+    //@since 2023/03/29
+    public int usaveMainBanner(@RequestParam("cs_eventMainBannerState") int cs_eventMainBannerState, @RequestParam("cs_no") int cs_no){
+        return dao.updateMainBanner(cs_eventMainBannerState, cs_no);
+    }
+
+
     /** delete **/
     //@since 2023/03/15
     public int removeAdminArticle(@RequestParam("cs_no") int cs_no) throws IOException {

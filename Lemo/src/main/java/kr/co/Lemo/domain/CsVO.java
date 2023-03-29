@@ -35,7 +35,7 @@ public class CsVO {
     private String cs_eventViewImg;
     private String cs_eventStart;
     private String cs_eventEnd;
-    private int cs_eventState;
+    private int cs_eventBannerState;
 
     /** 추가 **/
     private String nick;
@@ -43,6 +43,7 @@ public class CsVO {
     private String cs_reply_date;
     private List<String> checkList;
     private String cs_eventMainBannerImg;
+    private int cs_eventMainBannerState;
 
     public String getCs_type_ko(){
         String type = null;

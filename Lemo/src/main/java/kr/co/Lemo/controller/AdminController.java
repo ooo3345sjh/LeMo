@@ -607,6 +607,7 @@ public class AdminController {
         }else if("event".equals(cs_cate)){
             log.info("admin/event");
             CsVO eventArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+            log.info("eventArticle viewImg : " + eventArticle.getCs_eventViewImg());
             model.addAttribute("event", eventArticle);
             model.addAttribute("cs_no", cs_no);
             model.addAttribute("cs_cate", cs_cate);
@@ -662,6 +663,28 @@ public class AdminController {
         int cs_no = Integer.parseInt(String.valueOf(map.get("cs_no")));
 
         int result = csService.usaveEndEvent(cs_no);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
+    /**
+     * @return
+     * @author 황원진
+     * @apiNote 관리자 이벤트 메인베너
+     * @since 2023/03/29
+     */
+    @ResponseBody
+    @PostMapping("cs/event/mainBanner")
+    public Map<String, Integer> updateMainBannerState(@RequestBody Map map){
+        log.debug("event update mainBannerState start...");
+
+        int cs_no = Integer.parseInt(String.valueOf(map.get("cs_no")));
+        Integer cs_eventMainBannerState = (Integer) map.get("cs_eventMainBannerState");
+
+        int result = csService.usaveMainBanner(cs_eventMainBannerState, cs_no);
 
         Map<String, Integer> resultMap = new HashMap<>();
         resultMap.put("result", result);

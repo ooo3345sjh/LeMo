@@ -170,14 +170,21 @@
 
     <update id="updateOnEvent">
         update `lemo_cs` set
-            `cs_eventState` = 1
+            `cs_eventBannerState` = 1
             where `cs_no`=#{cs_no};
     </update>
 
     <update id="updateEndEvent">
         update `lemo_cs` set
-            `cs_eventState`=2
+            `cs_eventBannerState`=2
             where `cs_no` =#{cs_no};
+    </update>
+
+    <update id="updateMainBanner">
+        UPDATE `lemo_cs` SET
+        `cs_eventMainBannerState`=#{cs_eventMainBannerState},
+        `cs_rdate`=NOW()
+        WHERE `cs_no`=#{cs_no};
     </update>
 
     <!-- delete -->
