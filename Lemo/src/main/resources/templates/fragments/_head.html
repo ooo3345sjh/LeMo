@@ -6,6 +6,9 @@
         <meta th:name="_csrf" th:content="${_csrf.token}"/>
         <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
         <title>Lemo::[[${title}]]</title>
+        <!-- kakao SDK -->
+        <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+                integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
         <!-- favicon -->
         <link rel="shortcut icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
         <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
@@ -28,6 +31,24 @@
             const contextPath = "[[@{/}]]";
             const token = document.head.querySelector("meta[name='_csrf']").content;
             const header = document.head.querySelector("meta[name='_csrf_header']").content;
+            // SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해야 합니다.
+            Kakao.init('d253dce9587286f1cce73660b6540fba');
+
+            // SDK 초기화 여부를 판단합니다.
+            console.log(Kakao.isInitialized());
+
+            $(function (){
+
+                $('#kakaoChat').click(function (){
+                    Kakao.Channel.chat({
+                        channelPublicId: '_qFjLxj' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
+                    });
+                    // Kakao.Channel.addChannel({
+                    //     channelPublicId: '_ZeUTxl'
+                    // });
+                })
+
+            })
         </script>
     </head>
 </th:block>

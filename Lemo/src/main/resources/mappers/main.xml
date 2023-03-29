@@ -12,6 +12,13 @@
     <!-- insert -->
 
     <!-- select -->
+    <select id="selectNotice" resultType="kr.co.Lemo.domain.CsVO">
+        SELECT * FROM `lemo_cs`
+        WHERE `cs_cate`='notice'
+        ORDER BY `cs_rdate` DESC
+        LIMIT 5;
+    </select>
+
     <select id="selectBestDiary" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
         SELECT a.*, s.*, i.`nick` as 'user_nick' FROM `lemo_diary_article` a
         JOIN `lemo_member_userinfo` i ON a.`user_id` = i.`user_id`

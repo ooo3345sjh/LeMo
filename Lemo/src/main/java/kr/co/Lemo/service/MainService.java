@@ -6,10 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.Lemo.dao.MainDAO;
 import kr.co.Lemo.dao.UserDAO;
-import kr.co.Lemo.domain.ArticleDiaryVO;
-import kr.co.Lemo.domain.BusinessInfoVO;
-import kr.co.Lemo.domain.ProductAccommodationVO;
-import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.domain.*;
 import kr.co.Lemo.entity.BusinessInfoEntity;
 import kr.co.Lemo.entity.SocialEntity;
 import kr.co.Lemo.entity.UserEntity;
@@ -111,15 +108,22 @@ public class MainService {
         }).collect(Collectors.toList());
     }
 
+    // @since 2023/03/29
     public List<ArticleDiaryVO> findBestDiary() throws Exception {
         return mainDAO.selectBestDiary();
     }
 
-    // @since 2023/03/14
+    // @since 2023/03/29
+    public List<CsVO> findNotice() throws Exception {
+        return mainDAO.selectNotice();
+    }
+
+    // @since 2023/03/29
     public void findMain(Map map) throws Exception {
         map.put("revisit", findRevisit());
         map.put("best", findBest());
         map.put("diary", findBestDiary());
+        map.put("notice", findNotice());
     }
 
 
