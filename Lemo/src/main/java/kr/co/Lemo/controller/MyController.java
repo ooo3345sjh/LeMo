@@ -184,6 +184,7 @@ public class MyController {
     public String reviewWrite(
             @RequestParam(defaultValue = "0") int res_no,
             @RequestParam(defaultValue = "0") int acc_id,
+            RedirectAttributes re,
             @AuthenticationPrincipal UserVO myUser,
             Model m
     ) {
@@ -191,6 +192,13 @@ public class MyController {
         m.addAttribute("cate", "review");
 
         if(res_no == 0 || acc_id == 0) { return "redirect:/my/review/list"; }
+
+        int result = service.findCheckReview(res_no);
+
+        if(result == 1) {
+            re.addAttribute("res_no", res_no);
+            return "redirect:/my/review/view";
+        }
 
         String uid = myUser.getUser_id();
 
@@ -260,6 +268,8 @@ public class MyController {
         log.debug("GET diary/write start");
 
         if(res_no == 0 || acc_name == null) { return "redirect:/my/reservation"; }
+
+        //int result = service.findCheckReview(res_no);
 
         m.addAttribute("cate", "diary");
         m.addAttribute("title", environment.getProperty(diaryGroup));

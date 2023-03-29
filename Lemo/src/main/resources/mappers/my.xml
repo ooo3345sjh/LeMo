@@ -145,8 +145,16 @@
         WHERE b.`res_no` = #{res_no};
     </select>
 
+    <select id="selectCheckReview" resultType="int">
+        SELECT COUNT(`revi_id`) FROM `lemo_product_review` WHERE `res_no`=#{res_no};
+    </select>
+
     <select id="selectDiaryArticle" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
         SELECT * FROM `lemo_diary_article` WHERE `user_id`=#{user_id};
+    </select>
+
+    <select id="selectCheckDiary" resultType="int">
+        SELECT COUNT(`arti_no`) FROM `lemo_diary_article` WHERE `res_no`=#{res_no};
     </select>
 
     <select id="selectDiarySpot" resultType="kr.co.Lemo.domain.DiarySpotVO">

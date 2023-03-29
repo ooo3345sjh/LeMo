@@ -54,5 +54,7 @@ public interface MyDAO {
     // @since 2023/03/29
     public ReservationVO selectReservation(int res_no);
     public int deleteReservation(int res_no);
+    public int selectCheckReview(int res_no);
+    public int selectCheckDiary(int res_no);
 
 }

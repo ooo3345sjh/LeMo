@@ -275,6 +275,14 @@ public class MyService {
         return dao.deleteReservation(res_no);
     }
 
+    public int findCheckReview(int res_no) {
+        return dao.selectCheckReview(res_no);
+    }
+
+    public int findCheckDiary(int res_no) {
+        return dao.selectCheckReview(res_no);
+    }
+
     // 기능
 
     // @since 2023/03/12
