@@ -67,28 +67,28 @@
     <update id="updateProfile">
         UPDATE `lemo_member_userinfo` SET
         `photo`=#{photo},
-        `rdate`=NOW()
+        `udate`=NOW()
         WHERE `user_id`=#{username};
     </update>
 
     <update id="updateNick">
         UPDATE `lemo_member_userinfo` SET
         `nick`=#{nick},
-        `rdate`=NOW()
+        `udate`=NOW()
         WHERE `user_id`=#{username};
     </update>
 
     <update id="updateHp">
         UPDATE `lemo_member_userinfo` SET
         `hp`=#{hp},
-        `rdate`=NOW()
+        `udate`=NOW()
         WHERE `user_id`=#{username};
     </update>
 
     <update id="updateIsNoticeEnabled">
         UPDATE `lemo_member_userinfo` SET
         `isNoticeEnabled`=#{isNoticeEnabled},
-        `rdate`=NOW()
+        `udate`=NOW()
         WHERE `user_id`=#{username};
     </update>
 

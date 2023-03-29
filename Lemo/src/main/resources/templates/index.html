@@ -179,7 +179,7 @@
             <!-- Weekly Best Diary -->
             <div class="main_top_container">
                 <div class="main_top_tit">#<i>Weekly</i> Best Diary
-                    <p class="main_top_sub_tit">> 더보기</p>
+                    <a th:href="@{/diary/list}" class="main_top_sub_tit">> 더보기</a>
                 </div>
                 <div class="main_top_box">
                     <div class="main_best_table">
@@ -189,7 +189,7 @@
                                 <a th:href="@{diary/view?arti_no=} + ${diary.arti_no}">
                                     <div class="main_best_item1_click">
                                         <div class="main_best_item1_img">
-                                            <img th:src="@{/img/diary/} + '/' + ${diary.arti_no} + '/' + ${diary.arti_thumb.split('/')[0]}"/>
+                                            <img th:src="@{/img/diary/} + ${diary.arti_no} + '/' + ${diary.arti_thumb.split('/')[0]}"/>
                                         </div>
                                         <div class="main_top_item1_writer">
                                             <div class="item_left">
@@ -225,22 +225,18 @@
             <!-- 공지사항 -->
             <div class="main_top_container">
                 <div class="main_top_tit"># NOTICE
-                    <p class="main_top_sub_tit">> 더보기</p>
+                    <a th:href="@{/cs/notice}" class="main_top_sub_tit">> 더보기</a>
                 </div>
                 <div class="main_notice_board">
                     <ul class="notice_board_inner">
-                        <li class="notice_item1">
-                            <a class="notice_link" href="#">
-                                <span class="text_tit"><i>이벤트 당첨자 안내</i> 2023 2월 이벤트 당첨자 발표</span>
-                                <span class="text_date">23.02.24</span>
-                            </a>
-                        </li>
-                        <li class="notice_item1">
-                            <a class="notice_link" href="#">
-                                <span class="text_tit"><i>이벤트 당첨자 안내</i> 2023 2월 이벤트 당첨자 발표</span>
-                                <span class="text_date">23.02.24</span>
-                            </a>
-                        </li>
+                        <th:block th:each="notice : ${map.notice}">
+                            <li class="notice_item1">
+                                <a class="notice_link" href="#">
+                                    <span class="text_tit"><i>공지사항</i> [[${notice.cs_title}]]</span>
+                                    <span class="text_date">[[${#strings.substring(notice.cs_rdate, 2, 10)}]]</span>
+                                </a>
+                            </li>
+                        </th:block>
                         <li class="notice_item1">
                             <a class="notice_link" href="#">
                                 <span class="text_tit"><i>이벤트 당첨자 안내</i> 2023 2월 이벤트 당첨자 발표</span>

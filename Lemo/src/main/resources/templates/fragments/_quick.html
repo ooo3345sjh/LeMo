@@ -6,17 +6,17 @@
     <div class="btn_quick">
       <ul>
         <li class="btn_wishlist" sec:authorize="isAuthenticated()">
-          <a href="javascript:;">
+          <a th:href="@{/my/pick}">
             <img th:src="@{/images/index/empty-heart.png}">
           </a>
         </li>
         <li>
-          <a href="javascript:;">
+          <a href="#" onclick="window.open('https://talk.naver.com/ct/w40prq', 'talktalk', 'width=471, height=640');return false;" target="_blank" rel="noopener noreferrer" title="새창으로 열기">
             <img th:src="@{/images/index/naver_quick.png}">
           </a>
         </li>
         <li>
-          <a href="javascript:;">
+          <a href="javascript:;" id="kakaoChat">
             <img th:src="@{/images/index/kakao_quick.png}">
           </a>
         </li>

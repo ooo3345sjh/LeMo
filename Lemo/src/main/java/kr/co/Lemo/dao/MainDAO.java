@@ -1,9 +1,6 @@
 package kr.co.Lemo.dao;
 
-import kr.co.Lemo.domain.ArticleDiaryVO;
-import kr.co.Lemo.domain.BusinessInfoVO;
-import kr.co.Lemo.domain.ProductAccommodationVO;
-import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.domain.*;
 import kr.co.Lemo.entity.UserInfoEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -30,6 +27,7 @@ public interface MainDAO {
     List<ProductAccommodationVO> selectRevisit() throws Exception;
     List<ProductAccommodationVO> selectBest() throws Exception;
     List<ArticleDiaryVO> selectBestDiary() throws Exception;
+    List<CsVO> selectNotice() throws Exception;
 
 
 
