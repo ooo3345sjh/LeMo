@@ -141,7 +141,6 @@
         <![CDATA[
              AND CURDATE() <= `cp_end`
         ]]>
-
     </select>
 
     <select id="getCoupon" resultType="kr.co.Lemo.domain.CouponVO">
@@ -177,6 +176,16 @@
 
     <select id="getTotalProductReviewReply" resultType="kr.co.Lemo.domain.ReviewVO">
         <include refid="commonProductReview"/>
+    </select>
+
+    <select id="selectRoomForReservation" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+        SELECT *
+        FROM `lemo_product_room` AS a
+        JOIN `lemo_product_accommodation` AS b
+        ON a.acc_id = b.acc_id
+        JOIN `lemo_product_ratepolicy` AS c
+        ON a.acc_id = c.acc_id
+        WHERE `room_id`= #{room_id}
     </select>
 
 

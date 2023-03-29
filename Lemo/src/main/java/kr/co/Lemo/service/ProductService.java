@@ -271,6 +271,15 @@ public class ProductService {
         return result;
     }
 
+    // @since 2023/03/28
+    public Map findRoomForReservation(Map map){
+
+        ProductAccommodationVO room = dao.selectRoomForReservation(map);
+        map = (Map) setRoomAvgPrice(map, room);
+
+        return map;
+    }
+
     // update
 
     // delete
@@ -386,10 +395,60 @@ public class ProductService {
 
             accs.get(i).setAvg_price(avg);
 
-            log.info("최종 가격 : " + avg);
         }
 
         return accs;
+    }
+
+    // @since 2023/03/28
+    public Map setRoomAvgPrice(Map map, ProductAccommodationVO room){
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate CI = LocalDate.parse(map.get("checkIn").toString(), formatter);
+        LocalDate CO = LocalDate.parse(map.get("checkOut").toString(), formatter);
+
+        // 몇박인지 구하기
+        long days = ChronoUnit.DAYS.between(CI, CO);
+
+        List<LocalDate> dates = CI.datesUntil(CO).collect(Collectors.toList());
+
+        for (LocalDate date : dates) {
+
+            // 요일 구하기
+            int day = date.getDayOfWeek().getValue();
+
+            int season = room.getAcc_season(); // 성수기, 비성수기
+            int avg_price = room.getAvg_price(); // 숙박기간의 평균 가격
+            int room_price = room.getRoom_price();
+
+
+            if (season == 1) { // 성수기일때
+                if (day == 5 || day == 6) { // 주말
+                    avg_price += room_price * (100 - room.getRp_peakSeason_weekend()) / 100;
+                } else { // 주중
+                    avg_price += room_price * (100 - room.getRp_peakSeason_weekday()) / 100;
+                }
+            } else if (season == 2) { // 비성수기일때
+                if (day == 5 || day == 6) { // 주말
+                    avg_price += room_price * (100 - room.getRp_offSeason_weekend()) / 100;
+                } else { // 주중
+                    avg_price += room_price * (100 - room.getRp_offSeason_weekday()) / 100;
+                }
+            }
+            room.setAvg_price(avg_price);
+        }
+
+        int avg = room.getAvg_price() / (int) days;
+        avg = avg / 10 * 10;
+
+        map.put("days", days);
+        map.put("room", room);
+        map.put("CIday", CI.getDayOfWeek().getValue()); // 체크인 요일
+        map.put("COday", CO.getDayOfWeek().getValue()); // 체크아웃 요일
+
+
+        return map;
     }
 
     // @since 2023/03/26

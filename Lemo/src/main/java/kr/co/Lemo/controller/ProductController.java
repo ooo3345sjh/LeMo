@@ -107,9 +107,24 @@ public class ProductController {
         return "product/view";
     }
 
-
+    // @since 2023/03/28
     @PostMapping("reservation")
-    public String reservation() throws Exception {
+    public String reservation(Model model,
+                              @RequestParam Map map,
+                              @AuthenticationPrincipal UserVO myUser) throws Exception {
+
+        String user_id = myUser.getUser_id();
+
+        // 객실 정보 가져오기
+        ProductAccommodationVO room = new ProductAccommodationVO();
+        map = service.findRoomForReservation(map);
+        room = (ProductAccommodationVO) map.get("room");
+
+
+        model.addAttribute("map", map);
+        model.addAttribute("user", myUser);
+        model.addAttribute("room", room);
+
         return "product/reservation";
     }
 

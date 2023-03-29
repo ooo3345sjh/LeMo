@@ -4,6 +4,7 @@
       layout:decorate="layouts/default-layout">
         <th:block layout:fragment="css-js">
             <link rel="stylesheet" th:href="@{/css/product/product.css}">
+            <script th:src="@{/js/product/productReservation.js}"></script>
         </th:block>
         <th:block layout:fragment="content">
             <main id="reserv_reserv">
@@ -15,12 +16,12 @@
                             <p>
                                 <input type="text" name="name" placeholder="체크인시 필요한 정보입니다.">
                             </p>
-                            <p> 한글, 영문, 숫자만 입력 가능.</p>
+                            <!--<p> 한글, 영문, 숫자만 입력 가능.</p>-->
                             <div>
                                 <strong>휴대폰 번호</strong>
                                 <span>개인 정보 보호를 위해 안심번호로 숙소에 전송됩니다.</span>
                                 <div class="phone">
-                                    <input type="text" name="phone" placeholder="체크인시 필요한 정보입니다.">
+                                    <input type="text" name="phone" placeholder="체크인시 필요한 정보입니다." th:value="${user.hp}">
                                     <button type="button">X</button>
                                 </div>
                             </div>
@@ -39,7 +40,7 @@
                             <h3>할인 수단 선택</h3>
                             <div class="product_amount">
                                 <strong>구매총액</strong>
-                                <b>999,999원</b>
+                                <b>[[${#numbers.formatInteger(room.avg_price * map.days,1,'COMMA')}]]원</b>
                             </div>
                             <div class="discount_container">
                                 <div class="discount_header">
@@ -68,12 +69,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--
                             <div class="discount_container">
                                 <div class="discount_header">
                                     <button type="button" class="discount_button">상품권 사용</button>
                                     <span>-</span>
                                 </div>
                             </div>
+                            -->
                         </div>
                         <div id="pay_select">
                             <h3>결제수단 선택</h3>
@@ -121,19 +124,19 @@
                         <div class="info">
                             <p class="info_name">
                                 <strong>숙소이름</strong>
-                                테스트 호텔
+                                [[${room.acc_name}]]
                             </p>
                             <p>
-                                <strong>객실타입/기간</strong>
-                                테스트테스트테스트테스트테스트
+                                <strong>객실타입</strong>
+                                [[${room.room_name}]]
                             </p>
                             <p>
                                 <strong>체크인</strong>
-                                03.03 월 14:00
+                                [[${map.checkIn.substring(5,10)}]] 월 14:00
                             </p>
                             <p>
                                 <strong>체크아웃</strong>
-                                03.06 월 14:00
+                                [[${map.checkOut.substring(5,10)}]] 화 14:00
                             </p>
                         </div>
                         <div class="total_price">
@@ -142,7 +145,7 @@
                                     <b>총 결제 금액</b>
                                     (VAT포함)
                                 </strong>
-                                <span class="in_price">999,999원</span>
+                                <span class="in_price">[[${#numbers.formatInteger(room.avg_price * map.days, 1, 'COMMA')}]]원</span>
                             </p>
                             <ul>
                                 <li>해당 객실가는 세금, 봉사료가 포함된 금액입니다</li>
@@ -189,17 +192,7 @@
         </th:block>
         <th:block layout:fragment="script">
             <script>
-                /** 쿠폰 팝업 해제 */
-                function popdown_coupon(){
-                    $('#popup_coupon').removeClass('on');
-                }
 
-                $(function(){
-                    /** 쿠폰 팝업 */
-                    $('.discount_button').click(function(){
-                        $('#popup_coupon').addClass('on');
-                    });
-                });
             </script>
         </th:block>
 </html>

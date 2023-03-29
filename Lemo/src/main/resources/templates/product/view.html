@@ -95,14 +95,14 @@
                 <button id="showQna">문의하기</button>
             </div>
             <!-- 객실정보 -->
-            <form id="detail_room">
+            <form id="detail_room" th:action="@{/product/reservation}" method="post">
                 <div class="date">
                     체크인 / 체크아웃
                     <input type="text" name="daterange" id="daterange">
                 </div>
                 <div id="div-article">
                     <article class="roominformation" th:each="room,count : ${rooms}">
-                        <div class="room">
+                        <div class="room" th:attr="data-room_id=${room.room_id}">
                             <p class="expansion_Img">
                                 <img th:if="${not #strings.contains(room.room_thumb, '/')} "
                                      th:src="|@{/}img/product/${room.province_no}/${room.acc_id}/${room.room_thumb}|" alt="#">
@@ -118,7 +118,7 @@
                                 <button type="button" th:onclick="'popup_room_guide('+${count.count}+')'">객실 이용 안내</button>
                             </div>
                             <button type="button" class="status" th:if="${room.empty_room_stock == 0}">예약마감</button>
-                            <button type="button" class="status on" th:if="${room.empty_room_stock != 0}" onclick=reserv()>예약</button>
+                            <button type="button" class="status on" th:if="${room.empty_room_stock != 0}" onclick=reserv(this)>예약</button>
                             <div class="expansionImg">
                                 <button type="button">닫기</button>
                                 <div class="view_slider">
@@ -131,6 +131,11 @@
                             </div>
                         </div>
                     </article>
+                </div>
+                <div>
+                    <input type="number" name="room_id"/>
+                    <input type="text" name="checkIn"/>
+                    <input type="text" name="checkOut"/>
                 </div>
             </form>
             <!-- 숙소정보 -->
