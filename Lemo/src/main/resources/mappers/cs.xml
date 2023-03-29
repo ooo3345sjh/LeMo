@@ -85,6 +85,7 @@
             `cs_content`=#{cs_content},
             `cs_regip`=#{cs_regip},
             `cs_rdate`=NOW(),
+            `cs_eventMainBannerImg`=#{cs_eventMainBannerImg},
             `cs_eventbannerImg`=#{cs_eventbannerImg},
             `cs_eventViewImg`=#{cs_eventViewImg},
             `cs_eventStart`=#{cs_eventStart},

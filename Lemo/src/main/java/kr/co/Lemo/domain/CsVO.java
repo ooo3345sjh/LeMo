@@ -42,6 +42,7 @@ public class CsVO {
     private String newName;
     private String cs_reply_date;
     private List<String> checkList;
+    private String cs_eventMainBannerImg;
 
     public String getCs_type_ko(){
         String type = null;

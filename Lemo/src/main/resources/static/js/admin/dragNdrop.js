@@ -33,8 +33,11 @@
             let title = document.querySelector('input[name="cs_title"]');
             let content = document.querySelector('textarea[name="cs_content"]');
             let eventBanner = document.querySelector('input[name="eventbannerImg[]"]');
+            let MainBanner = document.querySelector('input[name="eventMainImg[]"]');
+
 
             let fileInput = $('#ex_file');
+            let mainInput = $('#main_file');
             console.log('file 존재여부 : ' + fileInput[0].files[0]);
             myDropzone.on("sending", function(file, xhr, formData){
                 formData.append("cs_title", $('input[name="cs_title"]').val());
@@ -42,6 +45,7 @@
                 formData.append("cs_eventStart", $('input[name="cs_eventStart"]').val());
                 formData.append("cs_eventEnd", $('input[name="cs_eventEnd"]').val());
                 formData.append("cs_eventBanner", fileInput[0].files[0]);
+                formData.append("cs_eventMainBanner", mainInput[0].files[0]);
             });
 
 
@@ -66,6 +70,12 @@
             if(eventBanner.files.length === 0){
                 alert('베너 이미지를 선택하세요');
                 eventBanner.focus();
+                return;
+            }
+
+            if(MainBanner.files.length === 0){
+                alert('메인 베너 이미지를 선택하세요');
+                MainBanner.focus();
                 return;
             }
 

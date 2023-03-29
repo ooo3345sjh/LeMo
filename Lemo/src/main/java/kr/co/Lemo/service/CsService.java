@@ -147,12 +147,16 @@ public class CsService {
         }
 
         log.info("filemap size : " + fileMap.size());
+        log.info("arrFilesInfo size : " + arrFilesInfo.size());
         log.info("newArrFilesInfo size : " + newArrFilesInfo.size());
 
         String bannerNewName = new String(arrFilesInfo.get(0).getBytes());
+        String mainBannerNewName = new String(arrFilesInfo.get(1).getBytes());
 
         parameter.put("cs_eventbannerImg", bannerNewName);
+        parameter.put("cs_eventMainBannerImg", mainBannerNewName);
 
+        arrFilesInfo.remove(0);
         arrFilesInfo.remove(0);
         log.info("arrFilesInfo size : " + arrFilesInfo.size());
 
