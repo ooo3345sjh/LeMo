@@ -150,15 +150,13 @@ public class BusinessService {
         return dao.selectAccOwnedForInfo(user_id);
     }
 
-
-
     /**
      * 판매자 쿠폰 - 쿠폰 등록
      * @since 2023/03/13
      * @param vo
      * */
-    public void rsaveCupon(CouponVO vo) throws Exception {
-        dao.insertCoupon(vo);
+    public void rsaveCupon(CouponVO vo, String user_id) throws Exception {
+        dao.insertCoupon(vo, user_id);
     }
 
     /**

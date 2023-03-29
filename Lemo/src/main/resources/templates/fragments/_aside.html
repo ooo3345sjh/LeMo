@@ -35,7 +35,7 @@
                 </a>
                 <ul class="sidebar_collapse_menu">
                     <li>
-                        <a href="#">숙박관리</a>
+                        <a th:href="@{/admin/info/list}">숙박관리</a>
                     </li>
                     <li>
                         <a th:href="@{/admin/roomInfo/list}">객실관리</a>
@@ -44,7 +44,7 @@
                         <a th:href="@{/admin/coupon/manageCoupon}">쿠폰관리</a>
                     </li>
                     <li>
-                        <a th:href="@{/admin/review/list}">등록리뷰</a>
+                        <a th:href="@{/admin/review/list}">리뷰관리</a>
                     </li>
                 </ul>
             </li>
@@ -58,16 +58,16 @@
                 </a>
                 <ul class="sidebar_collapse_menu">
                     <li>
-                        <a href="#">예약정보</a>
+                        <a th:href="@{/admin/reservation/list}">예약정보</a>
                     </li>
                     <li>
-                        <a href="#">타임라인</a>
+                        <a th:href="@{/admin/reservation/timeline}">타임라인</a>
                     </li>
                 </ul>
             </li>
             <!-- 사이드 메뉴 item4 -->
             <li>
-                <a class="sidebar_arrow" href="#">
+                <a class="sidebar_arrow" th:href="@{/admin/stats}">
                     <div class="icon_menu">
                         <img th:src="@{/images/admin/line-chart.gif}">
                     </div>

@@ -121,7 +121,7 @@
         inner join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         inner join `lemo_product_ratepolicy` as c on a.acc_id=c.acc_id
         where 1=1
-        <include refid="searchReview"/>
+        <include refid="searchRoom"/>
         order by `room_id` desc limit #{offset}, 10;
     </select>
 
@@ -131,7 +131,15 @@
         inner join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         inner join `lemo_product_ratepolicy` as c on a.acc_id=c.acc_id
         where 1=1
-        <include refid="searchReview"/>
+        <include refid="searchRoom"/>
+    </select>
+
+    <!-- 관리자 - 객실 보기 -->
+    <select id="viewRoom" resultType="kr.co.Lemo.domain.ProductRoomVO">
+        select * from `lemo_product_room` as a
+        inner join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        inner join `lemo_product_ratepolicy` as c on a.acc_id=c.acc_id
+        where `room_id`=#{room_id};
     </select>
 
 

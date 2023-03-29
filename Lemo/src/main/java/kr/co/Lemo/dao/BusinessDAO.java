@@ -57,7 +57,7 @@ public interface BusinessDAO {
    public List<ProductAccommodationVO> selectAccOwnedForInfo(String user_id);
 
     // @since 2023/03/13
-    public void insertCoupon(CouponVO vo);
+    public void insertCoupon(CouponVO vo, String user_id);
 
     // @since 2023/03/20
     public int insertInfo(Map<String, Object> param);

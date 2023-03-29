@@ -98,7 +98,7 @@
     <!-- business - info - select accommodation owned for BUSINESS search -->
     <select id="selectAccOwnedForInfo" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
         select `acc_id`, `acc_name` from `lemo_product_accommodation`
-        where `user_id`='1foodtax@within.co.kr';
+        where `user_id`=#{user_id};
     </select>
 
     <!-- business - user - insert coupon -->
@@ -109,13 +109,13 @@
         `cp_start`, `cp_end`, `cp_daysAvailable`, `cp_limitedIssuance`
         )
         VALUES (
-        '3min-ik@hanmail.net', 'BUSINESS', #{cp_subject}, 'NULL', 'NULL', #{cp_rate},
+        #{user_id}, 'BUSINESS', #{cp_subject}, 'NULL', 'NULL', #{cp_rate},
         CASE
         WHEN #{cp_rate} IS NOT NULL THEN '1'
         WHEN #{cp_price} IS NOT NULL THEN '2'
         ELSE NULL
         END,
-        NULL, #{cp_minimum}, #{cp_maximum}, #{cp_start}, #{cp_end}, #{cp_daysAvailable}, #{cp_limitedIssuance}
+        #{cp_price}, #{cp_minimum}, #{cp_maximum}, #{cp_start}, #{cp_end}, #{cp_daysAvailable}, #{cp_limitedIssuance}
         );
     </insert>
 

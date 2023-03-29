@@ -1,14 +1,14 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.domain.CouponVO;
-import kr.co.Lemo.domain.ProvinceVO;
-import kr.co.Lemo.domain.ReviewVO;
-import kr.co.Lemo.domain.ServiceCateVO;
+import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.service.BusinessService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +29,13 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
+@PropertySource(value = "classpath:title.properties", encoding = "UTF-8")
 @RequestMapping("business/")
 public class BusinessController {
+
+    @Autowired
+    private Environment environment;
+    private String group = "title.admin";
 
     @Autowired
     private BusinessService service;
@@ -60,7 +65,15 @@ public class BusinessController {
 
     // @since 2023/03/13
     @PostMapping("coupon/insertCoupon")
-    public String rsaveCupon(CouponVO vo, RedirectAttributes redirectAttributes) throws Exception {
+    public String rsaveCupon(CouponVO vo,
+                             RedirectAttributes redirectAttributes,
+                             @AuthenticationPrincipal UserVO myUser
+                             ) throws Exception {
+
+        String user_id = myUser.getUser_id();
+
+        log.info("myUser : " + myUser);
+        log.info("user_id : " + user_id);
 
         log.warn("쿠폰명 :" + vo.getCp_subject());
         log.warn("쿠폰적용그룹 :" + vo.getCp_group());
@@ -74,7 +87,8 @@ public class BusinessController {
         log.warn("배포시작일: "+vo.getCp_end());
         log.warn("이용가능일수:" + vo.getCp_daysAvailable());
 
-        service.rsaveCupon(vo);
+
+        service.rsaveCupon(vo, user_id);
         redirectAttributes.addFlashAttribute("successMessage", "쿠폰이 등록되었습니다.");
         return "redirect:/business/coupon/insertCoupon";
     }
@@ -98,12 +112,19 @@ public class BusinessController {
     }
 
     @GetMapping("coupon/findAccOwned")
-    public ResponseEntity<List<String>> findAccOwned(String user_id) {
+    public ResponseEntity<List<String>> findAccOwned(@AuthenticationPrincipal UserVO myUser) {
+
+        String user_id = myUser.getUser_id();
+
+        log.info("myUser2 : " + myUser);
+        log.info("user_id2 : " + user_id);
 
         log.warn("GET findAccOwned in business");
 
         // stream().map().collect(): 이름들만 모아서 새로운 String 리스트를 만들어 낸다
         List<String> accs = service.findAccOwned(user_id).stream().map(CouponVO::getAcc_name).collect(Collectors.toList());
+
+        log.warn("after service : " + accs);
         return ResponseEntity.ok(accs);
     }
 
@@ -148,7 +169,7 @@ public class BusinessController {
         return ResponseEntity.ok(accs);
     }
 
-    // @since 2023/03/16 판매자 쿠폰 답변 작성
+    // @since 2023/03/16 판매자 리뷰 답변 작성
     @ResponseBody
     @PostMapping("usaveReply")
     public Map<String, Integer> usaveReply(@RequestBody Map map) throws Exception {

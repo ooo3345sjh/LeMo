@@ -137,7 +137,7 @@
                                 <table class="input_stayRoomInfo">
                                     <tr>
                                         <td>쿠폰명</td>
-                                        <td><input type="text" name="cp_subject"></td>
+                                        <td><input type="text" name="cp_subject" placeholder="쿠폰명을 입력하세요" autofocus required></td>
                                     </tr>
                                     <tr>
                                         <td>쿠폰적용그룹</td>
@@ -168,7 +168,7 @@
                                     <tr>
                                         <td>발급 수량</td>
                                         <td>
-                                            <input name="cp_limitedIssuance" class="insertSaleCount" type="number" min="0" value="cp_limitedIssuance" placeholder="쿠폰 발급 수량 작성">
+                                            <input name="cp_limitedIssuance" class="insertSaleCount" type="number" min="0" placeholder="쿠폰 발급 수량 작성">
                                             <div class="selectSaleLimit">
                                                 <input type="radio" name="sales_option" value="">수량제한없음
                                             </div>
@@ -177,21 +177,21 @@
                                     <tr>
                                         <td>금액 조건</td>
                                         <td>
-                                            <input name="cp_minimum" class="input_100" type="number" value="cp_minimum" placeholder="최소주문금액">/
-                                            <input name="cp_maximum" class="input_100" type="number" value="cp_maximum" placeholder="최대주문금액">
+                                            <input name="cp_minimum" class="input_100" type="number" placeholder="최소주문금액">/
+                                            <input name="cp_maximum" class="input_100" type="number" placeholder="최대주문금액">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>배포일</td>
                                         <td>
-                                            <input name="cp_start" id="cp_start" class="input_130" type="date" value="cp_start" min="">
+                                            <input name="cp_start" id="cp_start" class="input_130" type="date" min="">
                                             &nbsp;~&nbsp;
-                                            <input name="cp_end" id="cp_end" class="input_130" type="date" value="cp_end" min="">
+                                            <input name="cp_end" id="cp_end" class="input_130" type="date" min="">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>이용가능일수</td>
-                                        <td><input name="cp_daysAvailable" class="input_100" type="number" placeholder="일 단위 입력" value="cp_daysAvailable"></td>
+                                        <td><input name="cp_daysAvailable" class="input_100" type="number" placeholder="일 단위 입력"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -217,11 +217,12 @@
         window.onload = function() {
             let select = document.getElementsByClassName("selectAccOwned")[0];
 
-            let jsonData = {"user_id": "3min-ik@hanmail.net"};
+            //let user_id = "${pageContext.principal?.user_id}";
 
-            console.log(jsonData);
+            //let jsonData = {"user_id": user_id};
+            //console.log(jsonData);
 
-            ajaxAPI("business/coupon/findAccOwned", jsonData, "GET").then((response)=>{
+            ajaxAPI("business/coupon/findAccOwned", null, "GET").then((response)=>{
                 console.log('response:' + response);
                 select.innerHTML = "";
                 for (let i = 0; i < response.length; i++) {

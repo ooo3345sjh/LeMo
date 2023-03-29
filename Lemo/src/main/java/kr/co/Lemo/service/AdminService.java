@@ -148,6 +148,15 @@ public class AdminService {
     }
 
     /**
+     * 관리자 객실 - 객실 보기
+     * @since 2023/03/29
+     * @param room_id
+     */
+    public ProductRoomVO findRoom(Integer room_id) throws Exception {
+        return dao.viewRoom(room_id);
+    }
+
+    /**
      * 관리자 쿠폰 - 쿠폰 등록
      * @since 2023/03/11
      * @param vo
