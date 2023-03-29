@@ -1,9 +1,6 @@
 package kr.co.Lemo.dao;
 
-import kr.co.Lemo.domain.CouponVO;
-import kr.co.Lemo.domain.ProductRoomVO;
-import kr.co.Lemo.domain.ReviewVO;
-import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.domain.*;
 import kr.co.Lemo.utils.SearchCondition;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -50,6 +47,15 @@ public interface AdminDAO {
 
     // @since 2023/03/29
     public ProductRoomVO viewRoom(Integer room_id);
+
+    // @since 2023/03/29
+    public List<ProductAccommodationVO> selectAccs(SearchCondition sc);
+
+    // @since 2023/03/29
+    public int countAccs(SearchCondition sc);
+
+     // @since 2023/03/29
+    public List<ProvinceVO> selectProvince();
 
     // @since 2023/03/11
     public void insertCoupon(CouponVO vo);

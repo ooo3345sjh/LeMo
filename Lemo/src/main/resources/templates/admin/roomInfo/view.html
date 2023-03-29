@@ -56,14 +56,16 @@
                                         <td>
                                             <th:block th:if="${room.acc_season == 1}">
                                                 <span>
-                                                    <span th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_offSeason_weekday / 100), 0, 'COMMA')}"></span>
-                                                    /<span th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_offSeason_weekend / 100), 0, 'COMMA')}"></span>
+                                                    <span class="as_price1" th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_offSeason_weekday / 100), 0, 'COMMA') + '원'}"></span>
+                                                    /
+                                                    <span class="as_price2" th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_offSeason_weekend / 100), 0, 'COMMA') + '원'}"></span>
                                                 </span>
                                             </th:block>
                                             <th:block th:if="${room.acc_season == 2}">
                                                 <span>
-                                                    <span th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_peakSeason_weekend / 100), 0, 'COMMA')}"></span>
-                                                    /<span th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_peakSeason_weekday / 100), 0, 'COMMA')}"></span>
+                                                    <span class="as_price1" th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_peakSeason_weekend / 100), 0, 'COMMA') + '원'}"></span>
+                                                    /
+                                                    <span class="as_price2" th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_peakSeason_weekday / 100), 0, 'COMMA') + '원'}"></span>
                                                 </span>
                                             </th:block>
                                         </td>
@@ -96,27 +98,30 @@
                                         <td>객실 이미지</td>
                                         <td>
                                             <div class="stayThumb">
-                                                <div class="st_content">
-                                                    <div class="st_img">
-                                                        <img th:src="|@{/}img/room/${room.room_id}/${#strings.substringBefore(room.room_thumb, '/')}|" alt="상품 이미지">
+                                                <section class="roomThumb_wrap">
+                                                    <div class="st_content">
+                                                        <input type="hidden" th:value="${room.province_no}">
+                                                        <th:block th:each="img:${#strings.arraySplit(room.room_thumb, '/')}">
+                                                            <img th:src="|@{/}img/product/${room.province_no}/${room.acc_id}/${img}|"/>
+                                                        </th:block>
                                                     </div>
+                                                </section>
 
-                                                </div>
                                             </div>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
                             <div class="btnAdminProd">
-                                <a href="#">
+                                <a href="javascript:history.back();">
                                     객실목록
                                 </a>
                             </div>
-                            <div class="btnAdminProd">
+                            <!--<div class="btnAdminProd">
                                 <a href="#">
                                     객실수정
                                 </a>
-                            </div>
+                            </div>-->
                         </form>
                     </div>
                     <div class="blank30"></div>

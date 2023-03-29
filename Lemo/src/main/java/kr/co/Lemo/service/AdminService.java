@@ -1,10 +1,7 @@
 package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.AdminDAO;
-import kr.co.Lemo.domain.CouponVO;
-import kr.co.Lemo.domain.ProductRoomVO;
-import kr.co.Lemo.domain.ReviewVO;
-import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.repository.AdminRepo;
 import kr.co.Lemo.utils.PageHandler;
@@ -155,6 +152,37 @@ public class AdminService {
     public ProductRoomVO findRoom(Integer room_id) throws Exception {
         return dao.viewRoom(room_id);
     }
+
+    /**
+     * 관리자 숙소 - 숙소 목록
+     * @since 2023/03/29
+     * @param model
+     * @param sc
+     */
+    public List<ProductAccommodationVO> findAllAccs(Model model, SearchCondition sc){
+        int totalCnt = dao.countAccs(sc);
+        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<ProductAccommodationVO> accs = dao.selectAccs(sc);
+
+        log.warn("Selected accs: " + accs.toString());
+        log.warn("ph : " + pageHandler.getTotalCnt());
+
+        model.addAttribute("accs", accs);
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalAccs", pageHandler.getTotalCnt());
+
+        return accs;
+    }
+
+    /**
+    * 판매자 숙소 - 지역 선택
+    * @since 2023/03/20
+    */
+    public List<ProvinceVO> findProvince(){ return dao.selectProvince();}
 
     /**
      * 관리자 쿠폰 - 쿠폰 등록

@@ -641,7 +641,7 @@ main .pagination a:hover:not(.active) {
 }
 main .roomInfo_id {width: 10% !important;}
 main .roomInfo_name {
-    text-align: left;
+    text-align: left !important;
     padding-left: 13px;
     width: 37% !important;
     white-space: nowrap;
@@ -652,27 +652,38 @@ main .roomInfo_name > a {
     font-size: 14px;
 }
 main .roomInfo_li1 {width: 5% !important;}
-main .roomInfo_li2 {width: 10% !important;}
-main .roomInfo_li3 {width: 37% !important;}
-main .roomInfo_li4 {width: 9% !important;}
-main .roomInfo_li5 {width: 5% !important;}
-main .roomInfo_li6 {
-    width: 20% !important;
+main .roomInfo_li2 {width: 12% !important;}
+main .roomInfo_li3 {width: 10% !important;}
+main .roomInfo_li4 {width: 30% !important;}
+main .roomInfo_li5 {width: 9% !important;}
+main .roomInfo_li6 {width: 8% !important;}
+main .roomInfo_li7 {
+    width: 8% !important;
     font-family: sans-serif;
 }
-main .roomInfo_li6 i {
+main .roomInfo_li7 i {
     font-style: normal;
     font-size: 16px;
     color: #f2552c;
     font-weight: 500;
 }
-main .roomInfo_li6 span {
+main .roomInfo_li7 span {
     font-size: 16px;
     color: #f2552c;
     font-family: sans-serif;
 }
-main .roomInfo_li7 {width: 12% !important;}
-
+main .roomInfo_li8 {
+    width: 8% !important;
+    font-family: sans-serif;
+}
+main .roomInfo_li9 {
+    width: 8% !important;
+    font-family: sans-serif;
+}
+main .noResult {
+    padding-top: 50px;
+    font-size: 14px;
+}
 main .search_img {
     position: absolute;
     top: -13px;
@@ -1280,10 +1291,70 @@ main .col_register1 .input_stayRoomInfo .input60 {
     width: 60px;
     text-align: center;
 }
+main .roomThumb_wrap {
+    width: 1000px;
+    height: 400px;
+    overflow: auto;
+    white-space: nowrap;
+}
+main .province_list {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 200px;
+    list-style: none;
+    padding: 0;
+    margin-top: 5px;
+}
+main .province_list li {
+    display: inline-block;
+    vertical-align: top;
+    width: 16%;
+    font-size: 13px;
+    padding: 6px 0;
+    color: #505050;
+    border: 1px solid;
+    border-radius: 26px;
+    margin: 2px 3px;
+    cursor: pointer;
+}
+main .province_list li:hover {
+    background: #f0f0f0;
+    color: #252525;
+}
+main .info_list1 {width: 5% !important;}
+main .info_list2 {width: 10% !important;}
+main .info_list3 {
+    width: 35% !important;
+    padding-left: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+main .info_list4 {
+    width: 28% !important;
+}
+main .info_list5 {width: 10% !important;}
+main .info_list6 {width: 10% !important;}
+
+main .sortAcc_option {
+    text-align: right;
+    color: #505050;
+    margin: 50px 4px 7px 0;
+}
+main .sortAcc_option > div {
+    display: inline-block;
+    font-size: 14px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+main .sortAcc_option > div:hover {
+    text-decoration: underline;
+    color: #252525;
+}
 main .col_register1 .input_stayRoomInfo textarea {
     width: 100%;
     font-size: 13px;
-    height: 50px;
+    height: 300px;
     resize: none;
     overflow-y: auto;
     border: none;
@@ -1314,6 +1385,15 @@ main .insertSaleCount {
 main .insertSaleCount_noLimit {
     display: none;
     width: 180px !important;
+}
+
+main .as_price1 {
+    font-size: 14px;
+    padding-right: 5px;
+}
+main .as_price2 {
+    font-size: 14px;
+    padding-left: 5px;
 }
 
 
