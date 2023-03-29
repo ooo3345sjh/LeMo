@@ -142,6 +142,25 @@
         where `room_id`=#{room_id};
     </select>
 
+    <!-- 관리자 - 숙박 목록 -->
+    <select id="selectAccs" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+        select * from `lemo_product_accommodation` as a
+        where 1=1
+        <include refid="searchAcc"/>
+        order by `acc_rdate` desc limit ${offset}, 10;
+    </select>
+
+     <!-- 관리자 - 숙박 목록 페이징 -->
+    <select id="countAccs" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
+        select count(*) from `lemo_product_accommodation` as a
+        where 1=1
+        <include refid="searchAcc"/>
+    </select>
+
+    <!-- 관리자 - 숙박 지역 목록 -->
+    <select id="selectProvince" resultType="kr.co.Lemo.domain.ProvinceVO">
+        select * from `lemo_product_province`;
+    </select>
 
 
     <!-- 관리자 - 쿠폰 등록  -->
@@ -400,6 +419,42 @@
             </choose>
         </if>
     </sql>
+
+    <!-- 숙박 검색 -->
+    <sql id="searchAcc">
+        <if test="searchField != null">
+            <choose>
+                <when test='searchField == "acc_id"'>
+                   and `acc_id` like CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test='searchField == "acc_name"'>
+                   and `acc_name` like CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test='searchField == "user_id"'>
+                   and `user_id` like CONCAT('%', #{searchWord}, '%')
+                </when>
+            </choose>
+        </if>
+    </sql>
+
+    <!-- 숙박 지역 검색 -->
+    <sql id="searchAccProvince">
+        <if test="searchAccProvince != null">
+            <choose>
+                <when test="searchAccProvince == 1">
+                    and `province_no`='1'
+                </when>
+
+            </choose>
+        </if>
+    </sql>
+
+   <!-- <sql id="searchAccProvince">
+        <if test="searchAccProvince != null">
+            and `province_no`= #{searchAccProvince};
+        </if>
+    </sql>-->
+
 
 
 </mapper>

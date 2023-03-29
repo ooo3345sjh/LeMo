@@ -37,6 +37,7 @@ public class ProductRoomVO {
     private int rp_offSeason_weekend;
     private int rp_peakSeason_weekday;
     private int rp_peakSeason_weekend;
+    private int province_no;
 
 
 }

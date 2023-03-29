@@ -349,8 +349,20 @@ public class AdminController {
     }
 
     @GetMapping("info/list")
-    public String info_list(){
+    public String info_list(Model model,
+                            @RequestParam Map map,
+                            @ModelAttribute Admin_SearchVO sc){
+
+        sc.setMap(map);
+        service.findAllAccs(model, sc);
+
         return "admin/info/list";
+    }
+
+    @GetMapping("info/province")
+    public ResponseEntity<List<ProvinceVO>> findProvince(){
+        List<ProvinceVO> provinces = service.findProvince();
+        return ResponseEntity.ok(provinces);
     }
 
     @GetMapping("info/modify")
