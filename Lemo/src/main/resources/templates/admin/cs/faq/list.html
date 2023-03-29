@@ -5,12 +5,127 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminFaq.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <style>
+    .faq_list .tb_board {
+        /* margin-top: 20px; */
+        table-layout: fixed;
+        width: 100%;
+        border-collapse: collapse;
+        border-top: 1px solid #a4a9b0;
+        border-bottom: 1px solid #ececec;
+    }
+    .tb_board thead {
+        background: #fafafa;
+    }
+    .tb_board thead th{
+        font-size: 14px;
+        padding: 9px 0;
+    }
+    .tb_board thead th:nth-child(1) {
+        width: 12%;
+    }.tb_board thead th:nth-child(2) {
+        width: 68%;
+    }
+    .tb_board thead th:nth-child(3) {
+        width: 20%;
+    }
+
+
+   .tb_board td {
+        padding: 16px 0 16px 0;
+        border-top: 1px solid #ececec;
+        font-size: 17px;
+        line-height: 14px;
+        text-align: center;
+        color: #5e636d;
+        word-wrap: break-word;
+   }
+
+   .tb_board td.end {
+
+   }
+
+    .htit > a .blind.arr {
+
+    }
+
+    .board_dropbox {
+
+    }
+
+
+    .tb_board td:nth-child(2) {text-align : left;}
+
+
+    .htit > a {
+
+    }
+
+    .tb_board .qt_tit a {
+        font-size: 16px;
+        color: #5e636d;
+        cursor: pointer;
+    }
+    .tb_board .qt_tit .ic_lock {
+
+    }
+
+    /* 문의 답변 */
+    .tb_board .answerwrap {
+        display: none;
+        word-break: break-all;
+    }
+
+    .tb_board .answerwrap.on {
+
+    }
+
+    .tb_board.tb_qna tr.answerwrap td {
+        padding: 16px 22px 16px 214px;
+        text-align: left;
+        background: #fafafa;
+        color: #5e636d;
+        font-size: 14px;
+        line-height: 22px;
+        border-top: none;
+    }
+
+    .tb_board .answerwrap .ic_qt, .tb_board .answerwrap .ic_as {
+
+    }
+
+
+
+    .tb_board .answerwrap .qt {
+        display: table-row;
+        position: relative;
+        padding: 0 14px 0 24px;
+        font-size: 14px;
+    }
+
+    .tb_board .answerwrap .as {
+    }
+
+    .tb_board .answerwrap .ic_qt {}
+
+    .tb_board .answerwrap .reginfo {
+
+    }
+
+    .tb_board .answerwrap .reginfo span {
+
+    }
+
+    .board_qna .answerwrap .date {
+
+    }
+
+    .board_qna .answerwrap .date > em {}
+
+
+    </style>
 </th:block>
-<style>
-    .faq_list > ul:first-child {
-        background: violet;
-}
-</style>
+
 <th:block layout:fragment="content">
     <main>
         <div class="main_inner">
@@ -43,37 +158,45 @@
                             <div class="col_nav">
                                 <span>고객센터 ></span>
                                 <span>자주묻는질문</span>
+
                             </div>
                             <div class="col2">
                                 <form action="#">
                                     <div class="faq_list">
-                                        <ul>
-                                            <li>#</li>
-                                            <li>제목</li>
-                                            <li>관리</li>
-                                        </ul>
-                                        <ul>
-                                            <th:block th:each="faq,i:${csArticles}">
-                                            <!-- li 반복 -->
-                                                <li class="faq_tit">
-                                                    <input type="hidden" name="cs_no" th:data-no="${faq.cs_no}">
-                                                    <a href="#" id="faq_tab" class="faq_list_a">
-                                                        <p>[[*{totalCnt-sc.offset} - ${i.index}]]&nbsp;&nbsp;&nbsp;&nbsp; [[${faq.cs_title}]]</p>
+                                        <table class="tb_board tb_qna">
+                                            <thead>
+                                            <tr>
+                                                <th class="hnum">번호</th>
+                                                <th>제목</th>
+                                                <th>관리</th>
+                                            </tr>
+                                            </thead>
+                                            <tr th:if="${csArticles.size() == 0}">
+                                                <td colspan="6">
+                                                    등록된 문의글이 없습니다.
+                                                </td>
+                                            </tr>
+                                            <tbody  th:each="faq,i:${csArticles}">
+                                            <tr>
+                                                <td>[[*{totalCnt-sc.offset} - ${i.index}]]</td>
+                                                <td class="qt_tit">
+                                                    <a class="qt_title" >[[${faq.cs_title}]]
                                                     </a>
-                                                    <span>
-                                                        <a class="btnFaqModify" th:href="@{/admin/cs/faq/modify (cs_no=${faq.cs_no})}">수정</a>
-                                                        <a class="btnFaqDelete">삭제</a>
-                                                    </span>
-
-                                                    <div class="faq_content" id="faq_content">
-                                                        <p>
-                                                            [[${faq.cs_content}]]
-                                                        </p>
-
+                                                </td>
+                                                <td>
+                                                    <a class="btnFaqDelete" th:data-no="${faq.cs_no}">삭제</a>
+                                                    <a th:href="@{/admin/cs/faq/modify (cs_no=${faq.cs_no})}" class="btnFaqModify">수정</a>
+                                                </td>
+                                            </tr>
+                                            <tr class="answerwrap">
+                                                <td colspan="6">
+                                                    <div class="qt">
+                                                        <span class="ic_qt"></span>[[${faq.cs_content}]]
                                                     </div>
-                                                </li>
-                                            </th:block>
-                                        </ul>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
 
 
                                     </div>
@@ -114,10 +237,10 @@
 <th:block layout:fragment="script">
 <script>
     $(document).ready(function() {
-        $('.faq_list_a').click(function(){
-            var content = $(this).next().next();
+        $('.qt_title').click(function(){
+            var content = $(this).closest('tr').next('.answerwrap');
             if (content.css('display') === 'none') {
-                content.css('display', 'block');
+                content.css('display', 'table-row');
             } else {
                 content.css('display', 'none');
             }
@@ -130,7 +253,7 @@
             let isDeleteOK = confirm('해당 글을 삭제하시겠습니까?');
 
             if(isDeleteOK){
-                let cs_no = $(this).parent().parent().children('input').attr('data-no');
+                let cs_no = $(this).attr('data-no');
 
                 console.log('cs_no ajax : ' + cs_no);
 
