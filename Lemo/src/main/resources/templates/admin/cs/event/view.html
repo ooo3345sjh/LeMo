@@ -71,6 +71,11 @@
                                     이벤트수정
                                 </a>
                             </div>
+                            <div class="btnAdminProd">
+                                <a class="btnEventDelete" th:data-no="${event.cs_no}">
+                                    이벤트삭제
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div class="blank30"></div>
@@ -86,6 +91,33 @@
             $('.handle').click(function(){
                 $('.info').slideToggle();
                 $(this).find('img:last-of-type').toggleClass('on');
+            });
+
+
+            // event 삭제
+            $('.btnEventDelete').click(function(e){
+                e.preventDefault();
+
+                let isDeleteOK = confirm('해당 글을 삭제하시겠습니까?');
+
+                if(isDeleteOK){
+                    let cs_no = $(this).attr('data-no');
+
+                    console.log('cs_no ajax : ' + cs_no);
+
+                    const jsonData = {"cs_no": cs_no};
+
+                    ajaxAPI("admin/cs/event/articleRemove", jsonData, "delete").then((response) => {
+                        if(response.result > 0) {
+                            alert("해당 글이 삭제되었습니다.");
+                            location.replace("/Lemo/admin/cs/event/list");
+                        }else {
+                            alert('error');
+                        }
+                    }).catch((errMsg) => {
+                        console.log(errorMsg);
+                    });
+                }
             });
         });
     </script>

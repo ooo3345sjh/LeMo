@@ -5,6 +5,131 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminEvent.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <style>
+        /** 메인 베너 **/
+        .on-off-toggle {
+            width: 56px;
+            height: 24px;
+            position: relative;
+            float: right;
+            margin-right: 73px;
+        }
+        .on-off-toggle__input {
+            position: absolute;
+            opacity: 0;
+        }
+        .on-off-toggle__input + .on-off-toggle__slider {
+            width: 56px;
+            height: 24px;
+            display: block;
+            border-radius: 34px;
+            background-color: #d8d8d8;
+            transition: background-color 0.4s;
+        }
+        .on-off-toggle__input + .on-off-toggle__slider.on {
+            background-color: #bbd444;
+        }
+        .on-off-toggle__input + .on-off-toggle__slider.on:before {
+            transform: translateX(32px);
+        }
+        .on-off-toggle__input + .on-off-toggle__slider.on:after {
+            content: 'on';
+            color: #FFFFFF;
+            padding-left: 8px;
+            padding-right: 19px;
+        }
+
+        .on-off-toggle__slider:after {
+            display: block;
+            line-height: 24px;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: bold;
+            content: 'off';
+            color: #484848;
+            padding-left: 23px;
+            transition: all 0.4s;
+        }
+
+        .on-off-toggle__slider:before {
+            content: '';
+            display: block;
+            background-color: #fff;
+            box-shadow: 0 0 0 1px #949494;
+            bottom: 3px;
+            height: 18px;
+            left: 3px;
+            position: absolute;
+            transition: .4s;
+            width: 18px;
+            z-index: 5;
+            border-radius: 100%;
+        }
+
+
+
+        /** 이벤트 베너 **/
+        .on-off-bannerToggle {
+            width: 56px;
+            height: 24px;
+            position: relative;
+            float: right;
+            margin-right: 73px;
+        }
+        .on-off-bannerToggle__input {
+            position: absolute;
+            opacity: 0;
+        }
+        .on-off-bannerToggle__input + .on-off-bannerToggle__slider {
+            width: 56px;
+            height: 24px;
+            display: block;
+            border-radius: 34px;
+            background-color: #d8d8d8;
+            transition: background-color 0.4s;
+        }
+        .on-off-bannerToggle__input + .on-off-bannerToggle__slider.on {
+            background-color: #bbd444;
+        }
+        .on-off-bannerToggle__input + .on-off-bannerToggle__slider.on:before {
+            transform: translateX(32px);
+        }
+        .on-off-bannerToggle__input + .on-off-bannerToggle__slider.on:after {
+            content: 'on';
+            color: #FFFFFF;
+            padding-left: 8px;
+            padding-right: 19px;
+        }
+
+        .on-off-bannerToggle__slider:after {
+            display: block;
+            line-height: 24px;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: bold;
+            content: 'off';
+            color: #484848;
+            padding-left: 23px;
+            transition: all 0.4s;
+        }
+
+        .on-off-bannerToggle__slider:before {
+            content: '';
+            display: block;
+            background-color: #fff;
+            box-shadow: 0 0 0 1px #949494;
+            bottom: 3px;
+            height: 18px;
+            left: 3px;
+            position: absolute;
+            transition: .4s;
+            width: 18px;
+            z-index: 5;
+            border-radius: 100%;
+        }
+
+
+    </style>
 </th:block>
 <th:block layout:fragment="content">
             <main>
@@ -26,7 +151,8 @@
                                                 <li>#</li>
                                                 <li>제목</li>
                                                 <li>기간</li>
-                                                <li>비고</li>
+                                                <li>메인베너</li>
+                                                <li>이벤트베너</li>
                                             </ul>
                                             <th:block th:each="article,i:${csArticles}">
                                             <ul>
@@ -36,14 +162,16 @@
                                                 </li>
                                                 <li>[[${article.cs_eventStart}]] ~ [[${article.cs_eventEnd}]]</li>
                                                 <li class="prodBtn" id="event_li">
-                                                    <a class="btnEventDelete" th:data-no="${article.cs_no}">삭제</a>
-                                                    <a class="btnModify" th:href="@{/admin/cs/event/modify (cs_no=${article.cs_no})}">수정</a>
-                                                    <th:block th:if="${article.cs_eventState} == 2">
-                                                        <span class="btnAct" id="on" th:data-no="${article.cs_no}">활성화</span>
-                                                    </th:block>
-                                                    <th:block th:if="${article.cs_eventState} == 1">
-                                                        <span class="btnDeAct" th:data-no="${article.cs_no}">비활성화</span>
-                                                    </th:block>
+                                                    <div class="on-off-toggle">
+                                                        <input class="on-off-toggle__input" type="checkbox" id="bopis"/>
+                                                        <label for="bopis" class="on-off-toggle__slider" th:data-no="${article.cs_no}" th:classappend="${article.cs_eventMainBannerState == 1} ? 'on' : ''"></label>
+                                                    </div>
+                                                </li>
+                                                <li class="prodBtn" id="event_lii">
+                                                    <div class="on-off-bannerToggle">
+                                                        <input class="on-off-bannerToggle__input" type="checkbox" id="bannerBopis"/>
+                                                        <label for="bannerBopis" class="on-off-bannerToggle__slider" th:data-no="${article.cs_no}" th:classappend="${article.cs_eventMainBannerState == 1} ? 'on' : ''"></label>
+                                                    </div>
                                                 </li>
                                             </ul>
                                             </th:block>
@@ -172,32 +300,58 @@
 
             });
 
+            /** 메인베너 **/
+           $('.on-off-toggle__slider').click(function(){
+                if($(this).hasClass('on')){
+                    $(this).removeClass('on');
+                } else {
+                    $(this).addClass('on');
+                }
 
-           // event 삭제
-            $('.btnEventDelete').click(function(e){
-                e.preventDefault();
+                const isChecked = $(this).hasClass('on');
+                let cs_eventMainBannerState;
+                let cs_no = $(this).attr('data-no');
 
-                let isDeleteOK = confirm('해당 글을 삭제하시겠습니까?');
+                if(isChecked)
+                    cs_eventMainBannerState = 1;
+                else
+                    cs_eventMainBannerState = 0;
 
-                if(isDeleteOK){
-                    let cs_no = $(this).attr('data-no');
+                const jsonData = {
+                    "cs_eventMainBannerState":cs_eventMainBannerState,
+                    "cs_no":cs_no
+                }
 
-                    console.log('cs_no ajax : ' + cs_no);
+                ajaxAPI("admin/cs/event/mainBanner", jsonData, "post").then((response) => {
+                        let title;
 
-                    const jsonData = {"cs_no": cs_no};
-
-                    ajaxAPI("admin/cs/event/articleRemove", jsonData, "delete").then((response) => {
                         if(response.result > 0) {
-                            alert("해당 글이 삭제되었습니다.");
-                            location.replace("/Lemo/admin/cs/event/list");
+                            if(cs_eventMainBannerState == 1){
+                                title = "메인 베너가 활성화 되었습니다"
+                            }else{
+                                title = "메인베너가 비활성화 되었습니다"
+                            }
+                            Swal.fire({
+                                 title : title,
+                                 icon : 'success',
+                                 confirmButtonText : '확인'
+                             })
                         }else {
                             alert('error');
                         }
                     }).catch((errMsg) => {
                         console.log(errorMsg);
                     });
+           });
+
+            /** 이벤트 베너 **/
+            $('.on-off-bannerToggle__slider').click(function(){
+                if($(this).hasClass('on')){
+                    $(this).removeClass('on');
+                } else {
+                    $(this).addClass('on');
                 }
-            });
+             });
         });
     </script>
 </th:block>
