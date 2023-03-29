@@ -143,6 +143,17 @@
         ]]>
     </select>
 
+    <select id="selectCouponsForReservation" resultType="kr.co.Lemo.domain.CouponVO">
+        SELECT * FROM `lemo_member_coupon` AS a
+        JOIN `lemo_product_coupon` AS b
+        ON a.cp_id = b.cp_id
+        WHERE a.`user_id` = #{user_id}
+        <![CDATA[
+           AND CURDATE() <= `mcp_end`
+        ]]>
+         AND `mcp_isUsed`= 0
+    </select>
+
     <select id="getCoupon" resultType="kr.co.Lemo.domain.CouponVO">
         SELECT a.*, b.mcp_id FROM
         (SELECT * FROM `lemo_product_coupon` WHERE `cp_id`=#{cp_id}) AS a
@@ -179,7 +190,7 @@
     </select>
 
     <select id="selectRoomForReservation" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
-        SELECT *
+        SELECT *, IFNULL(`room_checkIn`, acc_checkIn) AS `checkIn`, IFNULL(`room_checkOut`, acc_checkOut) AS `checkOut`
         FROM `lemo_product_room` AS a
         JOIN `lemo_product_accommodation` AS b
         ON a.acc_id = b.acc_id

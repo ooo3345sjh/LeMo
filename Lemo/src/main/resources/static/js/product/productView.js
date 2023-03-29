@@ -83,11 +83,17 @@ function reserv(obj){
     let CO = urlParams.get("checkOut");
     let room_id = $(obj).parent().attr('data-room_id');
 
-    $('input[name=checkIn]').val(CI);
-    $('input[name=checkOut]').val(CO);
-    $('input[name=room_id]').val(room_id);
-
-    $('#detail_room').submit();
+    jsonData = {
+        "checkIn" : CI,
+        "checkOut" : CO,
+        "room_id" : room_id
+    }
+    // 세션에 정보를 저장후 reservation 페이지로 이동
+    ajaxAPI("product/reservation", jsonData, "POST").then((response) => {
+        location.href="/Lemo/product/reservation";
+    }).catch((errorMsg) => {
+        console.log(errorMsg)
+    });
 
 }
 
