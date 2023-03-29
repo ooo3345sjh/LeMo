@@ -5,8 +5,10 @@ import kr.co.Lemo.domain.*;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
@@ -154,8 +156,8 @@ public class MyService {
     public List<PointVO> findPoints(SearchCondition sc) {
             return dao.selectPoints(sc);
         }
-    public List<ReviewVO> findReviews(String user_id) {
-        return dao.selectReviews(user_id);
+    public List<ReservationVO> findReviews(SearchCondition sc) {
+        return dao.selectReviews(sc);
     }
     public int findTotalReservations(SearchCondition sc) {
             return dao.selectTotalReservations(sc);
@@ -167,20 +169,60 @@ public class MyService {
         return dao.selectTotalPicks(sc);
     }
 
+    // @since 2023/03/28
+    public int findTotalReviews(SearchCondition sc) {
+        return dao.selectTotalReviews(sc);
+    }
+    public ReviewVO findReview(int res_no) {
+        ReviewVO reVO = dao.selectReview(res_no);
+        String acc_thumb = reVO.getRevi_thumb();
+
+        List<String> thumbs = Arrays.asList(acc_thumb.split("/"));
+        reVO.setThumbs(thumbs);
+
+        return dao.selectReview(res_no);
+    }
+    public ReviewVO findReviewAccommodation(int res_no) {
+        return dao.selectReviewAccommodation(res_no);
+    }
+    public void rsavsReview(MultipartHttpServletRequest request, Map<String, Object> param) {
+        Map<String, MultipartFile> fileMap = request.getFileMap();
+
+        List<String> newNames = new ArrayList<>();
+        List<String> oriNames = new ArrayList<>();
+
+        for (MultipartFile multipartFile : fileMap.values()) {
+            //파일 이름 추출 (확장자 제거)
+            String fName = multipartFile.getOriginalFilename();
+            String ext = fName.substring(fName.indexOf("."));
+            String newName = UUID.randomUUID() + ext;
+            newNames.add(newName);
+            oriNames.add(fName);
+        }
+
+        log.debug("newNames : " + newNames);
+        String dbNames = String.join("/", newNames);
+        param.put("revi_thumb", dbNames);
+
+        int insertResult = dao.insertReview(param);
+
+        if(insertResult == 1) {
+            reviewUpload(fileMap, param, newNames);
+        }
+
+    }
+
     // 기능
 
     // @since 2023/03/12
-    //@Value("${spring.servlet.multipart.location}")
-    // private String uploadPath;
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadPath;
 
     // @since 2023/03/12
     public int fileUpload(List<MultipartFile> fileList, List<String> fileRenames, int arti_no) {
 
-        //String path = new File(uploadPath+"diary/"+arti_no).getAbsolutePath();
+        String path = new File(uploadPath+"diary/"+arti_no).getAbsolutePath();
 
-        String path = new File("C:/Users/java2/Desktop/Workspace/LeMo/Lemo/img/diary/" + arti_no).getAbsolutePath();
-
-        log.info(path);
         // 저장 폴더가 없다면 생성
         File checkFolder = new File(path);
         if(!checkFolder.exists()){
@@ -203,6 +245,37 @@ public class MyService {
             }
         }
         return finalResult;
+    }
+
+    public int reviewUpload(Map<String, MultipartFile> fileMap, Map<String, Object> param, List<String> newNames) {
+
+        String path = new File(uploadPath+"review/"+param.get("acc_id")).getAbsolutePath();
+
+        // 저장 폴더가 없다면 생성
+        File checkFolder = new File(path);
+        if(!checkFolder.exists()){
+            try {
+                Files.createDirectories(checkFolder.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int count = 0;
+
+        for (MultipartFile mf : fileMap.values()) {
+            // 파일 저장
+            try {
+                mf.transferTo(new File(path, newNames.get(count)));
+                count ++;
+            } catch (IllegalStateException e) {
+                log.error(e.getMessage());
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
+        }
+
+        return 1;
     }
 
 }

@@ -40,5 +40,8 @@ public class ReservationVO {
     private String room_checkOut;
     private String acc_name;
 
+    // @since 2023/03/29
+    private String type;
+
 
 }
