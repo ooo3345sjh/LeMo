@@ -35,10 +35,10 @@
                             </div>
                             <div class="info_text_box">
                                 <div class="info_day">
-                                    <span class="reserve_day">[[${reserv.res_date.substring(0,10)}]](해야함)</span>
+                                    <span class="reserve_day">[[${reserv.res_date}]]</span>
                                 </div>
                                 <div class="info_more">
-                                    <a th:href="@{#}" class="reserve_more"> 상세보기 ></a>
+                                    <a th:href="@{/my/reservation/view ( res_no=${reserv.res_no} )}" class="reserve_more"> 상세보기 ></a>
                                 </div>
                                 <div class="info_num">
                                     <span class="reserve_num">
@@ -55,28 +55,30 @@
                                     </span>
                                 </div>
                                 <div class="info_days">
-                                    <span class="reserve_days">[[${reserv.res_checkIn}]](해야함) ~ [[${reserv.res_checkOut}]](해야함) | 1박</span>
+                                    <span class="reserve_days">[[${reserv.res_checkIn}]] ~ [[${reserv.res_checkOut}]] | [[${reserv.night}]]박</span>
                                 </div>
                                 <div class="info_check">
                                     <span class="reserve_check">체크인 [[${reserv.room_checkIn.substring(0,5)}]] | 체크아웃 [[${reserv.room_checkOut.substring(0,5)}]]</span>
                                 </div>
-                                <a th:href="@{/my/diary/write ( res_no=${reserv.res_no} )}" class="myDiary">여행일기작성</a>
-                                <a th:href="@{#}" class="my_review_write">리뷰작성</a>
+                                <th:block th:if="${reserv.res_state == 2}">
+                                    <a th:href="@{/my/diary/write ( res_no=${reserv.res_no}, acc_name=${reserv.acc_name} )}" class="myDiary">여행일기작성</a>
+                                    <a th:href="@{/my/review/write ( res_no=${reserv.res_no}, acc_id=${reserv.acc_id} )}" class="my_review_write">리뷰작성</a>
+                                </th:block>
                             </div>
                         </div>
                     </div>
                     <!-- 페이징 -->
                     <div class="paging" th:object="${ph}" th:unless="${reservations.size() == 0}">
                         <span th:if="*{showPrev}">
-                            <a th:href="@{/my/reservation} + ${ph.sc.getQueryString(ph.beginPage-1)}">
+                            <a th:href="@{/my/reservation/list} + ${ph.sc.getQueryString(ph.beginPage-1)}">
                                 <img th:src="@{/images/product/left.png}" alt="previous">
                             </a>
                         </span>
                         <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
-                            <a th:href="@{/my/reservation} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
+                            <a th:href="@{/my/reservation/list} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
                         </span>
                         <span th:if="*{showNext}">
-                            <a th:href="@{/my/reservation} + ${ph.sc.getQueryString(ph.endPage+1)}">
+                            <a th:href="@{/my/reservation/list} + ${ph.sc.getQueryString(ph.endPage+1)}">
                                 <img th:src="@{/images/product/right.png}" alt="next">
                             </a>
                         </span>

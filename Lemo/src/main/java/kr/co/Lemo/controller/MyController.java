@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -73,11 +74,8 @@ public class MyController {
                 m.addAttribute("products", productCoupons);
 
                 return "my/coupon";
-
             case "info" :
                 m.addAttribute("cate", "info");
-
-
                 return "my/info";
 
             case "pick" :
@@ -112,28 +110,6 @@ public class MyController {
                 m.addAttribute("ph", pointPageHandler);
 
                 return "my/point";
-
-            case "reservation" :
-                m.addAttribute("cate", "reservation");
-
-                // 페이징
-                int totalReservation = service.findTotalReservations(vo);
-                int totalReservationPage = (int)Math.ceil(totalReservation / (double)vo.getPageSize());
-                if(vo.getPage() > totalReservationPage) vo.setPage(totalReservationPage);
-
-                PageHandler ReservationPageHandler = new PageHandler(totalReservation, vo);
-
-                List<ReservationVO> reservations = service.findReservations(vo);
-                m.addAttribute("reservations", reservations);
-                m.addAttribute("ph", ReservationPageHandler);
-
-                return "my/reservation";
-
-            case "view" :
-                m.addAttribute("cate", "view");
-                //service.findMyArticle(myCate, uid);
-
-                return "my/view";
         }
 
         return "my/info";
@@ -145,9 +121,9 @@ public class MyController {
     public int rsaveCoupon(@RequestBody CouponVO coupon, @AuthenticationPrincipal UserVO myUser) {
         coupon.setUser_id(myUser.getUser_id());
         log.debug("cp_id"+coupon.getCp_id());
-        int cnt = service.findProductCouponCnt(coupon);
+        CouponVO cnt = service.findProductCouponCnt(coupon);
 
-        if(cnt == 0) { return 101; }
+        if(cnt.getCp_limitedIssuance() == cnt.getCp_IssuedCnt()) { return 101; }
 
         int result = service.rsaveCoupon(coupon);
 
@@ -278,14 +254,16 @@ public class MyController {
     public String diary_write(
             @AuthenticationPrincipal UserVO myUser,
             @RequestParam(value = "res_no", defaultValue = "0") int res_no,
+            @RequestParam(value = "acc_name") String acc_name,
             Model m
     ) {
         log.debug("GET diary/write start");
 
-        if(res_no == 0) { return "redirect:/my/reservation"; }
+        if(res_no == 0 || acc_name == null) { return "redirect:/my/reservation"; }
 
         m.addAttribute("cate", "diary");
         m.addAttribute("title", environment.getProperty(diaryGroup));
+        m.addAttribute("acc_name", acc_name);
 
         String uid = myUser.getUser_id();
 
@@ -332,6 +310,60 @@ public class MyController {
 
 
         return "my/diary/modify";
+    }
+
+    // @since 2023/03/29
+    @GetMapping("reservation/list")
+    public String reservationList(
+            @RequestParam Map map,
+            @AuthenticationPrincipal UserVO myUser,
+            @ModelAttribute My_SearchVO vo,
+            Model m
+    ) {
+        m.addAttribute("cate", "reservation");
+        vo.setMap(map);
+        vo.setUser_id(myUser.getUser_id());
+
+        // 페이징
+        int totalReservation = service.findTotalReservations(vo);
+        int totalReservationPage = (int)Math.ceil(totalReservation / (double)vo.getPageSize());
+        if(vo.getPage() > totalReservationPage) vo.setPage(totalReservationPage);
+
+        PageHandler ReservationPageHandler = new PageHandler(totalReservation, vo);
+
+        List<ReservationVO> reservations = service.findReservations(vo);
+        m.addAttribute("reservations", reservations);
+        m.addAttribute("ph", ReservationPageHandler);
+
+        return "my/reservation/list";
+    }
+
+    @GetMapping("reservation/view")
+    public String reservationView(Model m, @RequestParam(defaultValue = "0") int res_no) {
+
+        if(res_no == 0) { return "redirect:/my/reservation/list"; }
+
+        m.addAttribute("cate", "view");
+        //service.findMyArticle(myCate, uid);
+
+        ReservationVO reservation = service.findReservation(res_no);
+
+        if(reservation == null) { return "redirect:/my/reservation/list"; }
+
+        m.addAttribute("reservation", reservation);
+
+        return "my/reservation/view";
+    }
+
+    @ResponseBody
+    @DeleteMapping("reservation")
+    public int reservationDelete(@RequestBody ReservationVO resVO) {
+
+        log.debug("res_no : " + resVO.getRes_no());
+
+        int result = service.removeReservation( resVO.getRes_no() );
+
+        return result;
     }
 
 

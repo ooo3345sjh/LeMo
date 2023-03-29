@@ -43,12 +43,16 @@ public interface MyDAO {
 
     public int insertCoupon(CouponVO coupon);
     public int updateProductCoupon(CouponVO coupon);
-    public int selectProductCouponCnt(CouponVO coupon);
+    public CouponVO selectProductCouponCnt(CouponVO coupon);
 
     // @since 2023/03/28
     public int selectTotalReviews(SearchCondition sc);
     public ReviewVO selectReview(int res_no);
     public ReviewVO selectReviewAccommodation(int res_no);
     public int insertReview(Map<String, Object> param);
+
+    // @since 2023/03/29
+    public ReservationVO selectReservation(int res_no);
+    public int deleteReservation(int res_no);
 
 }

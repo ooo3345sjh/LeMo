@@ -15,6 +15,13 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -133,24 +140,62 @@ public class MyService {
 
     // @since 2023/03/27
     public List<CouponVO> findMemberCoupons(String user_id) {
+
+        for(CouponVO cpVO : dao.selectMemberCoupons(user_id)) {
+            LocalDate date = LocalDate.parse(cpVO.getMcp_end(), DateTimeFormatter.ISO_DATE);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+            String formatedNow = date.format(formatter);
+            cpVO.setMcp_end(formatedNow);
+        }
+
         return dao.selectMemberCoupons(user_id);
     }
     public List<CouponVO> findProductCoupons(String user_id) {
+
+        for(CouponVO cpVO : dao.selectProductCoupons(user_id)) {
+            LocalDate date = LocalDate.parse(cpVO.getCp_end(), DateTimeFormatter.ISO_DATE);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+            String formatedNow = date.format(formatter);
+            cpVO.setCp_end(formatedNow);
+        }
+
         return dao.selectProductCoupons(user_id);
     }
     public int rsaveCoupon(CouponVO coupon) {
 
         int result = dao.insertCoupon(coupon);
 
-        if(result == 1) { result = dao.updateProductCoupon(coupon); }
+        if(result == 1) {
+            result = dao.updateProductCoupon(coupon);
+        }
 
         return result;
     }
 
-    public int findProductCouponCnt(CouponVO coupon) {
+    public CouponVO findProductCouponCnt(CouponVO coupon) {
         return dao.selectProductCouponCnt(coupon);
     }
     public List<ReservationVO> findReservations(SearchCondition sc) {
+
+        for(ReservationVO resVO : dao.selectReservations(sc)) {
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime date = LocalDateTime.parse(resVO.getRes_date(), formatter);
+            DayOfWeek dayOfWeek = date.getDayOfWeek();
+            resVO.setRes_date(resVO.getRes_date().substring(0,10)+" ("+dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.KOREAN)+")");
+
+            LocalDate checkInDate = LocalDate.parse(resVO.getRes_checkIn(), DateTimeFormatter.ISO_DATE);
+            DayOfWeek checkInWeek = checkInDate.getDayOfWeek();
+            resVO.setRes_checkIn(resVO.getRes_checkIn()+" ("+checkInWeek.getDisplayName(TextStyle.NARROW, Locale.KOREAN)+")");
+
+            LocalDate checkOutDate = LocalDate.parse(resVO.getRes_checkOut(), DateTimeFormatter.ISO_DATE);
+            DayOfWeek checkOutWeek = checkOutDate.getDayOfWeek();
+            resVO.setRes_checkOut(resVO.getRes_checkOut()+" ("+checkOutWeek.getDisplayName(TextStyle.NARROW, Locale.KOREAN)+")");
+
+            Period period = Period.between(checkInDate, checkOutDate);
+            resVO.setNight(period.getDays());
+        }
+
         return dao.selectReservations(sc);
     }
     public List<PointVO> findPoints(SearchCondition sc) {
@@ -210,6 +255,24 @@ public class MyService {
             reviewUpload(fileMap, param, newNames);
         }
 
+    }
+
+    // @since 2023/03/29
+    public ReservationVO findReservation(int res_no) {
+
+        ReservationVO resVO = dao.selectReservation(res_no);
+
+        LocalDate checkInDate  = LocalDate.parse(resVO.getRes_checkIn(), DateTimeFormatter.ISO_DATE);
+        LocalDate checkOutDate = LocalDate.parse(resVO.getRes_checkOut(), DateTimeFormatter.ISO_DATE);
+
+        Period period = Period.between(checkInDate, checkOutDate);
+        resVO.setNight(period.getDays());
+
+        return dao.selectReservation(res_no);
+    }
+
+    public int removeReservation(int res_no) {
+        return dao.deleteReservation(res_no);
     }
 
     // 기능
