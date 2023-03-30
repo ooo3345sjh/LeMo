@@ -92,6 +92,7 @@ public class DiaryController {
         map.put("result", Integer.toString(result));
         map.put("nick", myUser.getNick());
         map.put("com_no", Integer.toString(commentVO.getCom_no()));
+        map.put("photo", myUser.getPhoto());
 
         return ResponseEntity.ok(map);
     }
@@ -122,6 +123,7 @@ public class DiaryController {
             map.put("com_nick", userVO.getNick());
             map.put("result", Integer.toString(result));
             map.put("com_pno", Integer.toString(commentVO.getCom_no()));
+            map.put("photo", myUser.getPhoto());
         }
 
         return ResponseEntity.ok(map);
@@ -195,5 +197,18 @@ public class DiaryController {
         }
 
         return 1;
+    }
+
+    @ResponseBody
+    @DeleteMapping("article")
+    public int removeDiary(
+            @RequestBody ArticleDiaryVO diaryVO,
+            @AuthenticationPrincipal UserVO myUser
+    ) {
+        int arti_no = diaryVO.getArti_no();
+
+        int result = service.removeDiary(arti_no);
+
+        return result;
     }
 }

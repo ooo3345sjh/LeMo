@@ -38,7 +38,7 @@
                                                 <input type="text" name="arti_start" id="daterange">
                                                 <span style="font-size: 12px; color:#a39797;">※여행기간을 선택해주세요</span>
                                             </li>
-                                            <li class="arti_title">[[${acc_name}]]</li>
+                                            <li class="arti_title">[[${accommo.acc_name}]]</li>
                                         </ul>
                                     </div>
                                     <div class="write_search" style="margin-top: 40px; font-size: 13px; color: #342929;">
@@ -65,9 +65,12 @@
         <th:block layout:fragment="script">
                 <!-- kakaoMap -->
                 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712&libraries=services"></script>
-                <script>
+                <script th:inline="javascript">
                     let markerMap = new Map();
                     let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
+                    let accommoLng = [[${accommo.acc_longtitude}]];
+                    let accommoLat = [[${accommo.acc_lattitude}]];
+
                     /**
                         검색된 마크에도 mouseover, mouselevae, click 적용시켰고
                         지도에 클릭해서 생성한 마크에도 적용시킴
@@ -280,8 +283,6 @@
                             // 마커 제거 이후 마커배열에서도 제거
                             markers.splice(count, 1);
 
-                            console.log(marker);
-
                             marker.setMap(null);
                             //overlay.setMap(null);
                             infowindow.close();
@@ -341,13 +342,25 @@
                     var overlay = new kakao.maps.CustomOverlay({zIndex:1});
                     var container = document.getElementById('listMap'); //지도를 담을 영역의 DOM 레퍼런스
                     var options = { //지도를 생성할 때 필요한 기본 옵션
-                        center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+                        center: new kakao.maps.LatLng(accommoLat, accommoLng), //지도의 중심좌표.
                         disableDoubleClickZoom: true,
                         level: 7 //지도의 레벨(확대, 축소 정도)
                     };
 
                     var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
                     map.setZoomable(false); // 최초 지도 생성시 확대기능 off
+
+                    var accommoSrc = '/Lemo/images/diary/hotel.png', // 마커이미지의 주소입니다
+                    accommoSize = new kakao.maps.Size(45, 50), // 마커이미지의 크기입니다
+                    accommoOption = {offset: new kakao.maps.Point(30, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+                    var accommoImage = new kakao.maps.MarkerImage(accommoSrc, accommoSize, accommoOption);
+
+                    var marker = new kakao.maps.Marker({
+                        map : map,
+                        position: new kakao.maps.LatLng(accommoLat, accommoLng),
+                        image: accommoImage
+                    });
 
                     // #2 지도에 표시된 마커 객체를 가지고 있을 배열입니다
                     // markers : 클릭 생성된 마커 저장 배열 | searchMarkers : 검색 생성된 마커 저장 배열
@@ -564,8 +577,16 @@
                             enctype : 'multipart/form-data',
                             success: function(data) {
                                 if(data.result == 1) {
-                                    Swal.fire( '등록되었습니다. 목록으로 이동합니다.' );
-                                    location.href = "/Lemo/my/diary/list";
+                                    Swal.fire({
+                                        title: '등록되었습니다.!',
+                                        icon: 'info',
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: '확인',
+                                        reverseButtons: false,
+                                    }).then(result => {
+                                        location.href = "/Lemo/my/diary/list";
+                                    });
                                 }else if(data.result == 2) {
                                     Swal.fire( '등록에 실패했습니다. 새로고침 후 다시 시도해주세요.' );
                                 }else if(data.result == 3) {

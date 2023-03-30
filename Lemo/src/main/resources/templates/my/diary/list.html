@@ -36,7 +36,7 @@
                             <div class="list-area" th:if="${map.size != 0}">
                                 <ul>
                                     <li th:each="article:${map}">
-                                        <button class="heart"><img th:src="@{/images/diary/heart.png}"></button>
+                                        <!--<button class="heart"><img th:src="@{/images/diary/heart.png}"></button>-->
                                         <button class="marker" th:onclick="sortPosition([[${map.get(article.key).get(0).arti_no}]])"><img th:src="@{/images/diary/marker2.png}" alt="일정마크표시"></button>
                                         <!-- 사진 슬라이드 -->
                                         <div class="img_slider">

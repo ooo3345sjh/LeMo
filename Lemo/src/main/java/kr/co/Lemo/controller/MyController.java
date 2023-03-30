@@ -264,18 +264,17 @@ public class MyController {
     public String diary_write(
             @AuthenticationPrincipal UserVO myUser,
             @RequestParam(value = "res_no", defaultValue = "0") int res_no,
-            @RequestParam(value = "acc_name") String acc_name,
             Model m
     ) {
         log.debug("GET diary/write start");
 
-        if(res_no == 0 || acc_name == null) { return "redirect:/my/reservation"; }
+        if(res_no == 0) { return "redirect:/my/reservation"; }
 
-        //int result = service.findCheckReview(res_no);
+        ProductAccommodationVO accommo = service.findeDiaryXY(res_no);
 
         m.addAttribute("cate", "diary");
         m.addAttribute("title", environment.getProperty(diaryGroup));
-        m.addAttribute("acc_name", acc_name);
+        m.addAttribute("accommo", accommo);
 
         String uid = myUser.getUser_id();
 
@@ -301,10 +300,10 @@ public class MyController {
 
         log.debug("map : " + param);
 
-        //int result = service.diary_rsave(param, fileList, req, user_id);
+        int result = service.diary_rsave(param, fileList, req, user_id);
 
         Map<String, Integer> map = new HashMap<>();
-        map.put("result", 1);
+        map.put("result", result);
 
         return map;
     }
