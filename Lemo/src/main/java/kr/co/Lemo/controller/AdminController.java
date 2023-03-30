@@ -168,6 +168,32 @@ public class AdminController {
         return resultMap;
     }
 
+    // @since 2023/03/30 관리자 숙박 차단
+    @ResponseBody
+    @PostMapping("usaveDropAcc")
+    public Map<String, Integer> usaveDropAcc(@RequestBody Map map) throws Exception {
+        String acc_id = (String) map.get("acc_id");
+        int result = service.usaveDropAcc(acc_id);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
+    // @since 2023/03/30 관리자 숙박 차단 해제
+    @ResponseBody
+    @PostMapping("usaveClearAcc")
+    public Map<String, Integer> usaveClearAcc(@RequestBody Map map) throws Exception {
+         String acc_id = (String) map.get("acc_id");
+        int result = service.usaveClearAcc(acc_id);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
 
     // @since 2023/03/11
     @GetMapping("coupon/insertCoupon")
@@ -377,10 +403,25 @@ public class AdminController {
         return "admin/info/modify";
     }
 
+    // 관리자 - 숙소 보기
     @GetMapping("info/view")
-    public String info_view(){
+    public String info_view(Model model, @RequestParam("acc_id") Integer acc_id) throws Exception {
+
+        ProductAccommodationVO acc = service.findAcc(acc_id);
+
+        List<ServicereginfoVO> servicereginfos = service.findServiceInAcc(acc_id);
+        log.warn("selected acc service: " + servicereginfos);
+
+        //log.warn("selected acc: " + acc);
+
+        model.addAttribute("acc", acc);
+        model.addAttribute("acc_id", acc_id);
+        model.addAttribute("serviceInfo", servicereginfos);
+
         return "admin/info/view";
     }
+
+
 
     @GetMapping("info/write")
     public String info_write(){

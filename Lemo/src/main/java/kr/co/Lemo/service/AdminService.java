@@ -179,10 +179,30 @@ public class AdminService {
     }
 
     /**
-    * 판매자 숙소 - 지역 선택
+    * 관리자 숙소 - 지역 선택
     * @since 2023/03/20
     */
     public List<ProvinceVO> findProvince(){ return dao.selectProvince();}
+
+    /**
+    * 관리자 숙소 - 숙소 보기
+    * @since 2023/03/20
+    * @param acc_id
+    */
+     public ProductAccommodationVO findAcc(Integer acc_id) throws Exception {
+        return dao.viewAcc(acc_id);
+     }
+
+    /**
+     * 관리자 숙소 - 숙소 보기 - 서비스
+     * @param acc_id
+     */
+     public List<ServicereginfoVO> findServiceInAcc(Integer acc_id){
+
+         log.warn("서비스 카테 here2");
+
+         return dao.selectServiceInAcc(acc_id);
+     }
 
     /**
      * 관리자 쿠폰 - 쿠폰 등록
@@ -226,6 +246,21 @@ public class AdminService {
      */
     public int usaveReply(String revi_reply, String revi_id){ return dao.updateReply(revi_reply, revi_id); }
 
+    /**
+     * 관리자 숙박 - 숙박 차단
+     * @param acc_id
+     */
+    public int usaveDropAcc(String acc_id){
+        return dao.updateDropAcc(acc_id);
+    }
+
+    /**
+     * 관리자 숙박 - 숙박 차단 해제
+     * @param acc_id
+     */
+    public int usaveClearAcc(String acc_id){
+        return dao.updateClearAcc(acc_id);
+    }
 
     /**
      * 관리자 쿠폰 - 쿠폰 삭제
