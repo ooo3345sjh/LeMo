@@ -82,8 +82,8 @@ public class DiaryController {
             HttpServletRequest req
     ){
         log.debug("POST oriComment start");
-        commentVO.setUser_id("test@test.com");
-        commentVO.setCom_replyId("test@test.com");
+        commentVO.setUser_id( myUser.getUser_id() );
+        commentVO.setCom_replyId( myUser.getUser_id() );
         commentVO.setCom_regip(req.getRemoteAddr());
 
         int result = service.rsaveOriComment(commentVO);
