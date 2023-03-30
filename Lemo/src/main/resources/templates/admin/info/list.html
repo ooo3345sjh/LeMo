@@ -21,29 +21,29 @@
                         </div>
                         <div class="col2">
                             <form th:action="@{/admin/info/list}">
-                                <span class="search_review_tit">숙박검색</span>
                                 <table class="search_review_table">
                                     <tr>
-                                        <th>
-                                            <select name="searchField">
+                                        <th>지역검색</th>
+                                        <td>
+                                            <select class="province_select" id="province_select" name="searchAccProvince">
+                                                <option value="">지역 선택</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>옵션검색</th>
+                                        <td>
+                                            <select name="searchField" class="accOption_select">
                                                 <option value="acc_id" th:selected="${ph.sc.searchField == 'acc_id'}">숙박번호</option>
                                                 <option value="acc_name" th:selected="${ph.sc.searchField == 'acc_name'}">숙박명</option>
                                                 <option value="user_id" th:selected="${ph.sc.searchField == 'user_id'}">판매자 아이디</option>
                                             </select>
-                                        </th>
-                                        <td>
-                                            <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}">
-                                        </td>
-                                        <td style="width: 12%; border-left: none;">
-                                            <button type="submit" class="btnSearch">검색</button>
+                                            <input type="text" class="accOption_search" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}">
                                         </td>
 
                                     </tr>
                                 </table>
-                                <span class="search_review_tit" style="margin-top: 30px;">지역검색</span>
-                                <ul class="province_list" id="province_list">
-                                    <li>1</li>
-                                </ul>
+                                <button type="submit" class="btnSearch">검색</button>
 
                                 <section class="sortAcc_option">
                                     <div>등록일순</div>
@@ -104,25 +104,35 @@
     <script>
         $(document).ready(function () {
 
-            var province_list = document.getElementById("province_list");
+            var province_select = document.getElementById("province_select");
 
             ajaxAPI("admin/info/province", null, "GET").then((response)=>{
                 //console.log('response1 : %o', response);
 
-                province_list.innerHTML = "";
-
                 for (let i = 0; i < response.length; i++) {
                     console.log("province_name : %s", response[i].province_name);
-                    let li = document.createElement('li');
-                    li.value = response[i].province_no;
-                    li.innerHTML = response[i].province_name;
-                    li.setAttribute('name', 'searchAccProvince');
+                    let option = document.createElement('option');
+                    option.value = response[i].province_no;
+                    option.innerHTML = response[i].province_name;
 
-                    province_list.appendChild(li);
+                    // 옵션값 고정
+                    if (localStorage.getItem('selectedProvince') == response[i].province_no) {
+                        option.setAttribute('selected', 'selected');
+                    }
+
+                    //option.setAttribute('selected', '${ph.sc.searchField == '+response[i].province_no+'}');
+                    //if (typeof ph !== 'undefined' && ph.sc && ph.sc.searchField == response[i].province_no) {
+                    //  option.setAttribute('selected', 'selected');
+                    //}
+
+
+                    province_select.appendChild(option);
                 }
-                if (ph.sc.searchAccProvince === response[i].province_no) {
-                    li.setAttribute('th:selected', ph.sc.searchAccProvince);
-                }
+
+                // 옵션 변경 시에도 옵션 고정
+                province_select.addEventListener('change', function() {
+                    localStorage.setItem('selectedProvince', this.value);
+                });
 
             }).catch((errorMsg)=>{
                 console.log(errorMsg);

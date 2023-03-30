@@ -147,6 +147,7 @@
         select * from `lemo_product_accommodation` as a
         where 1=1
         <include refid="searchAcc"/>
+        <include refid="searchAccProvince"/>
         order by `acc_rdate` desc limit ${offset}, 10;
     </select>
 
@@ -438,22 +439,84 @@
     </sql>
 
     <!-- 숙박 지역 검색 -->
+    <!--
+    <sql id="searchAccProvince">
+        <if test="searchAccProvince != null">
+            <where>
+                <foreach item="province" collection="searchAccProvince" separator=" OR ">
+                    `province_no`=#{province}
+                </foreach>
+            </where>
+        </if>
+    </sql>
+    -->
+
+  <!--
+    <sql id="searchAccProvince">
+        <if test="searchAccProvince != null">
+            and `province_no`= #{searchAccProvince};
+        </if>
+    </sql>-->
+
+
     <sql id="searchAccProvince">
         <if test="searchAccProvince != null">
             <choose>
                 <when test="searchAccProvince == 1">
                     and `province_no`='1'
                 </when>
-
+                <when test="searchAccProvince == 2">
+                    and `province_no`='2'
+                </when>
+                <when test="searchAccProvince == 3">
+                    and `province_no`='3'
+                </when>
+                <when test="searchAccProvince == 4">
+                    and `province_no`='4'
+                </when>
+                <when test="searchAccProvince == 5">
+                    and `province_no`='5'
+                </when>
+                <when test="searchAccProvince == 6">
+                    and `province_no`='6'
+                </when>
+                <when test="searchAccProvince == 7">
+                    and `province_no`='7'
+                </when>
+                <when test="searchAccProvince == 8">
+                    and `province_no`='8'
+                </when>
+                <when test="searchAccProvince == 9">
+                    and `province_no`='9'
+                </when>
+                <when test="searchAccProvince == 10">
+                    and `province_no`='10'
+                </when>
+                <when test="searchAccProvince == 11">
+                    and `province_no`='11'
+                </when>
+                <when test="searchAccProvince == 12">
+                    and `province_no`='12'
+                </when>
+                <when test="searchAccProvince == 13">
+                    and `province_no`='13'
+                </when>
+                <when test="searchAccProvince == 14">
+                    and `province_no`='14'
+                </when>
+                <when test="searchAccProvince == 16">
+                    and `province_no`='15'
+                </when>
+                <when test="searchAccProvince == 17">
+                    and `province_no`='16'
+                </when>
+                <when test="searchAccProvince == 1">
+                    and `province_no`='17'
+                </when>
             </choose>
         </if>
     </sql>
 
-   <!-- <sql id="searchAccProvince">
-        <if test="searchAccProvince != null">
-            and `province_no`= #{searchAccProvince};
-        </if>
-    </sql>-->
 
 
 
