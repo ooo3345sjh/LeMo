@@ -17,6 +17,23 @@
         	`lemo_diary_article` AS a JOIN
         	`lemo_diary_spot`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
         	`lemo_diary_like`    AS c ON a.`arti_no` = c.`arti_no`
+        <choose>
+            <when test="option == 'addr'">
+
+            </when>
+            <when test="option == 'title_content'">
+
+            </when>
+        </choose>
+        <if test="orderByOption == 'recent'">
+            ORDER BY a.`arti_rdate` DESC
+        </if>
+        <if test="orderByOption == 'heart'">
+            ORDER BY a.`arti_like` DESC
+        </if>
+        <if test="orderByOption == 'reply'">
+            ORDER BY a.`arti_comment` DESC;
+        </if>
     </select>
 
     <select id="selectDiarySpot" resultType="kr.co.Lemo.domain.DiarySpotVO">
@@ -91,6 +108,16 @@
             `com_regip`   = #{com_regip},
             `com_udate`   = NOW()
         WHERE `com_no`=#{com_no};
+    </update>
+
+    <update id="updateArticleCommentPlus">
+        UPDATE `lemo_diary_article` SET
+            `arti_comment` = `arti_comment` + 1 WHERE `arti_no` = #{arti_no};
+    </update>
+
+    <update id="updateArticleCommentMinus">
+        UPDATE `lemo_diary_article` SET
+        `arti_comment` = `arti_comment` - 1 WHERE `arti_no` = #{arti_no};
     </update>
 
     <update id="updateOriComment" parameterType="kr.co.Lemo.domain.DiaryCommentVO">

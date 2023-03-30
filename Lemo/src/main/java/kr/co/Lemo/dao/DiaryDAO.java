@@ -9,6 +9,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @since 2023/03/14
@@ -21,7 +22,7 @@ import java.util.List;
 public interface DiaryDAO {
 
     // @since 2023/03/14
-    public List<DiarySpotVO> selectDiaryArticle();
+    public List<DiarySpotVO> selectDiaryArticle(Map options);
 
     // @since 2023/03/15
     public List<DiarySpotVO> selectDiarySpot(int arti_no);
@@ -58,4 +59,8 @@ public interface DiaryDAO {
     public int deleteDiarySpot(int arti_no);
     public int deleteDiaryLikes(int arti_no);
     public int deleteDiaryComments(int arti_no);
+
+    // @since 2023/03/31
+    public int updateArticleCommentPlus(DiaryCommentVO commentVO);
+    public int updateArticleCommentMinus(int arti_no);
 }

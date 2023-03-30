@@ -39,11 +39,11 @@
                                             <div class="my_pick_rating">
                                                 <!-- 임시 평점 -->
                                                 <div class="star-ratings">
-                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: 4 + '%' }">
-                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
+                                                        <span th:each="i:${#numbers.sequence(0, pick.acc_rate-1)}">★</span>
                                                     </div>
                                                     <div class="star-ratings-base space-x-2 text-lg">
-                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                        <span th:each="i:${#numbers.sequence(0, pick.acc_rate-1)}">★</span>
                                                     </div>
                                                 </div>
                                                 <div class="my_pick_review_count">
