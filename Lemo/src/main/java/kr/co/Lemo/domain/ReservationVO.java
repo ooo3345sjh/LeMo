@@ -45,5 +45,9 @@ public class ReservationVO {
     private int night;
     private String room_name;
 
+    // @since 2023/03/30
+    private int diaryStat;
+    private int reviewStat;
+
 
 }

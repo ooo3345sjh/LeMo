@@ -24,7 +24,7 @@
                         </div>
                         <div class="my_Review_List">
                             <div class="selectReview">
-                                <select>
+                                <select name="reviewStat" aria-label="State">
                                     <option value="0">전체보기</option>
                                     <option value="1">작성한 리뷰</option>
                                     <option value="2">작성할 리뷰</option>
@@ -53,8 +53,8 @@
                                             </span>
                                         </div>
                                         <div>
-                                            <a th:href="@{/my/review/write ( res_no = ${review.res_no}, acc_id= ${review.acc_id} )}" class="review_btn"  th:if="${review.type == 'reserv'}">리뷰작성</a>
-                                            <a th:href="@{/my/review/view  ( res_no = ${review.res_no} )}" class="review_btn2" th:if="${review.type == 'review'}">리뷰보기</a>
+                                            <a th:href="@{/my/review/write ( res_no = ${review.res_no}, acc_id= ${review.acc_id} )}" class="review_btn"  th:if="${review.reviewStat == 0}">리뷰작성</a>
+                                            <a th:href="@{/my/review/view  ( res_no = ${review.res_no} )}" class="review_btn2" th:if="${review.reviewStat != 0}">리뷰보기</a>
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +112,19 @@
     </th:block>
     <th:block layout:fragment="script">
         <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const reviewStat = urlParams.get('reviewStat');
 
+            $(function(){
+                $('select[name=reviewStat]').change(function(){
+
+                    let reviewStat = $(this).val();
+
+                    location.href = "/Lemo/my/review/list?reviewStat="+reviewStat;
+                });
+
+                $('option[value='+reviewStat+']').prop('selected', true);
+            });
         </script>
     </th:block>
 </html>

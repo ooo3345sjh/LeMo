@@ -57,4 +57,7 @@ public interface MyDAO {
     public int selectCheckReview(int res_no);
     public int selectCheckDiary(int res_no);
 
+    // @since 2023/03/30
+    public int updateReservationState(int res_no);
+
 }

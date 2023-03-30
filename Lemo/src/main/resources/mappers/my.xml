@@ -23,11 +23,13 @@
 
     <select id="selectReservations" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT
-            b.*, a.`acc_name`, a.`acc_id`, a.`province_no`, a.`acc_thumbs`, c.`room_checkIn`, c.`room_checkOut`, b.`res_checkIn`, b.`res_checkOut`, b.`res_state`
+            b.*, a.`acc_name`, a.`acc_id`, a.`province_no`, a.`acc_thumbs`, c.`room_checkIn`, c.`room_checkOut`, b.`res_checkIn`, b.`res_checkOut`, b.`res_state`, IFNULL(d.`arti_no`, 0) AS diaryStat, IFNULL(e.`res_no`, 0) AS reviewStat
         FROM
             `lemo_product_accommodation` AS a LEFT JOIN
             `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
-            `lemo_product_room`          AS c ON b.`room_id` = c.`room_id`
+            `lemo_product_room`          AS c ON b.`room_id` = c.`room_id` LEFT JOIN
+            `lemo_diary_article`         AS d ON b.`res_no` = d.`res_no` LEFT JOIN
+            `lemo_product_review`        AS e ON b.`res_no` = e.`res_no`
         WHERE b.`user_id` = #{user_id}
         ORDER BY b.`res_date` DESC
         LIMIT #{offset}, 10;
@@ -88,24 +90,17 @@
     </select>
 
     <select id="selectReviews" resultType="kr.co.Lemo.domain.ReservationVO">
-        (SELECT
-            'review' AS `type`, a.`province_no`, a.`acc_name`, a.`acc_id`, a.`acc_thumbs`, b.`res_checkIn`, b.`res_checkOut`, b.`res_date`, b.`res_no`
-        FROM
-            `lemo_product_accommodation` AS a LEFT JOIN
-            `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
-            `lemo_product_review` AS c ON b.`res_no` = c.`res_no`
-        WHERE c.`user_id` = #{user_id} )
-
-        UNION ALL
-
-        (SELECT
-            'reserv' AS `type`, a.`province_no`, a.`acc_name`, a.`acc_id`, a.`acc_thumbs`, b.`res_checkIn`, b.`res_checkOut`, b.`res_date`, b.`res_no`
-        FROM
+        SELECT a.`province_no`, a.`acc_name`, a.`acc_id`, a.`acc_thumbs`,  b.`res_checkIn`, b.`res_checkOut`, b.`res_date`, b.`res_no`, IFNULL(c.`revi_id`, 0) AS reviewStat FROM
             `lemo_product_accommodation` AS a LEFT JOIN
             `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
-            `lemo_product_room`          AS c ON b.`room_id` = c.`room_id`
-        WHERE b.`user_id` = #{user_id} AND b.`res_state` = 2 AND b.`res_no` NOT IN ( SELECT `res_no` FROM `lemo_product_review` WHERE `user_id`= #{user_id} ) )
+            `lemo_product_review`        AS c ON b.`res_no` = c.`res_no`
+        WHERE b.`user_id` = 'lazca7@naver.com' AND b.`res_state` = 2
+        <choose>
+            <when test="reviewStat == 1"> AND c.`revi_id` IS NOT null </when>
+            <when test="reviewStat == 2"> AND c.`revi_id` IS null </when>
+        </choose>
         ORDER BY `res_date` ASC
+        LIMIT #{offset}, 10;
     </select>
 
     <select id="selectTotalReviews" resultType="int">
@@ -233,13 +228,13 @@
         WHERE `cp_id` = #{cp_id}
     </update>
 
+    <update id="updateReservationState">
+        UPDATE `lemo_product_reservation` SET `res_state` = 0 WHERE `res_no` = #{res_no};
+    </update>
+
     <!-- delete -->
     <delete id="deleteReservation">
-        DELETE FROM a, b
-        USING `lemo_product_reserved_room` a
-        LEFT JOIN `lemo_product_reservation` b
-        ON a.res_no = b.res_no
-        WHERE b.`res_no`= #{res_no};
+        DELETE FROM `lemo_product_reserved_room` WHERE `res_no` = #{res_no};
     </delete>
 
 
