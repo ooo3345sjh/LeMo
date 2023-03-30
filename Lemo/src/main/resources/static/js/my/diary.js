@@ -1,3 +1,5 @@
+let fileInputList = [];
+let count = 1;
 $(function(){
     /* 글 토글 */
     $(document).on('click', '.spot', function(e){
@@ -29,6 +31,8 @@ $(function(){
     $(document).on('click', '.ex_file', function(e){
         e.stopPropagation();
 
+        // 서정현 TEST
+        fileInputList.push($(this));
         let inputFile = $(this).parent('.image');
         $(this).change(function(e){
             let preview = $('.inputImage', inputFile);

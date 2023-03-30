@@ -7,6 +7,7 @@ let isSended = false;      // 인증번호 전송 유무
 let isAuth = false;        // 인증번호 인증여부 유무
 let smsAuthCode = -999999; // 인증번호
 let smsAuthCodeCnt = 5;    // 인증번호 입력 제한 5회
+let my_profile = $("#my_profile");
 
 function appendAuthCodeTag(){
     let authCodeTag = "<section id='section3'>"
@@ -313,6 +314,8 @@ $(function(){
  sectionNick.remove();
  sectionHp.remove();
 
+ // file
+ let fileObject;
  function readURL(input) {
      const maxSize = 10 * 1024 * 1024;
 
@@ -321,16 +324,16 @@ $(function(){
      const fileType = fileName.substring(fileDot+1, fileName.length).toLowerCase();
 
      console.log(fileType);
-     if(fileType !== "jpg" && fileType !== "png" && fileType !== "jpeg"){
-         Swal.fire({
-             title : "파일형식은 JPG, PNG, JPEG만\n 가능합니다.",
-             icon : 'warning',
-             confirmButtonText : '확인'
-         })
-         return;
-     }
 
      if (input.files && input.files[0]) {
+         if(fileType !== "jpg" && fileType !== "png" && fileType !== "jpeg"){
+             Swal.fire({
+                 title : "파일형식은 JPG, PNG, JPEG만\n 가능합니다.",
+                 icon : 'warning',
+                 confirmButtonText : '확인'
+             })
+             return;
+         }
 
          if(input.files[0].size > maxSize){
              Swal.fire({
@@ -344,13 +347,17 @@ $(function(){
          profileModBtn.attr("disabled", false);
 
          const reader = new FileReader();
+         reader.readAsDataURL(input.files[0]);
+         fileObject = input.files[0];
          reader.onload = function(e) {
              document.getElementById('my_profile').src = e.target.result;
          };
-         reader.readAsDataURL(input.files[0]);
+
      } else {
-         document.getElementById('my_profile').src = "";
+         document.getElementById('my_profile').src = my_profile.attr("src");
      }
+
+     console.log(fileObject);
  }
 
  function getNick(){
@@ -383,7 +390,8 @@ $(function(){
              cancelButtonText: '취소'
          }).then((result) => {
              if(result.isConfirmed === true){
-                 const formData = new FormData(document.profile);
+                 const formData = new FormData();
+                 formData.append("profileFile", fileObject);
                  $.ajax({
                      type: "PATCH",
                      enctype: 'multipart/form-data',
