@@ -81,11 +81,11 @@
                                                 <div class="repdiv3">
                                                     <div>
                                                         <a href="#" class="showall" th:if="${comment.com_no == comment.com_pno}">댓글 모두보기</a>
-                                                        <a href="#" class="comment">댓글 쓰기</a>
+                                                        <a href="#" class="comment" sec:authorize="isAuthenticated()" th:if=${#authentication.principal.user_id != null}>댓글 쓰기</a>
                                                     </div>
                                                     <div>
-                                                        <a href="#" class="comModify">수정</a>
-                                                        <a href="#" class="comDelete">삭제</a>
+                                                        <a href="#" class="comModify" sec:authorize="isAuthenticated()" th:if=${#authentication.principal.user_id != null}>수정</a>
+                                                        <a href="#" class="comDelete" sec:authorize="isAuthenticated()" th:if=${#authentication.principal.user_id != null}>삭제</a>
                                                     </div>
                                                 </div>
                                                 </th:block>
@@ -96,7 +96,7 @@
                             </div>
                         </div>
                         <!-- 댓글 쓰기 -->
-                        <div class="write_reply">
+                        <div class="write_reply" sec:authorize="isAuthenticated()" th:if=${#authentication.principal.user_id != null}>
                             <form action="#" class="comOriWrite">
                                 <textarea class="comTextarea" onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)"></textarea>
                                 <button>댓글 쓰기</button>
