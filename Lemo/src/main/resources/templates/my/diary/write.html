@@ -29,9 +29,7 @@
                         <h3>#여행일기 작성</h3>
                         <!-- 여행일기 보기 -->
                         <div class="view">
-                            <form th:action="@{/my/diary/rsave}" id="diaryForm" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="spot_lattitude">
-                                <input type="hidden" name="spot_longtitude">
+                            <form id="diaryForm">
                                 <div class="list-area">
                                     <div id="diary_content">
                                         <input type="text" style="border: none; font-size:18px;" name="arti_title" placeholder="제목을 작성해주세요">
@@ -238,7 +236,7 @@
                             addContent +=           '<input type="file" class="ex_file" name="thumb" accept="image/png, image/jpeg" style="display: none;">';
                             addContent +=           '<img class="inputImage" src="/Lemo/images/diary/imgUpload.png">';
                             addContent +=       '</div>';
-                            addContent +=       '<textarea class="content" name="spot_content" placeholder="내용을 입력해주세요."></textarea>';
+                            addContent +=       '<textarea class="contentArea" name="spot_content" placeholder="내용을 입력해주세요." onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)"></textarea>';
                             addContent +=   '</div>';
                             addContent += '</div>';
 
@@ -329,6 +327,11 @@
                         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
                         var results = regex.exec(location.search);
                         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+                    }
+
+                    function resizeHeight(object) {
+                        object.style.height = 'auto';
+                        object.style.height = (20 + object.scrollHeight) + 'px';
                     }
 
                     /** 카카오 맵 */
@@ -464,9 +467,10 @@
                         }
                     });
 
-                    $('#diaryForm').keydown(function() {
+                    $('#searchAddr').keydown(function(e) {
                         if (event.keyCode === 13) {
-                            event.preventDefault();
+                            e.preventDefault();
+                            e.stopPropagation();
                         };
                     });
 
@@ -585,28 +589,6 @@
                         removeAlert(deleteMarker, data_place);
                     });
 
-                    // submit시 lat, lng 가져오기
-
-                    let count = 0;
-
-                    // // #9 임시 마커 선택 Jquery
-                    // $(document).on('click', '#listMap > div:eq(0) > div > div:eq(5) > div', function(){
-                    //     // 임시 기능. marker를 생성할때 div의 특정영역에 생성되고 순차적으로 쌓임 또한 markers의 배열에 입력됨
-                    //     // 따라서 생성된 div가 몇번째 요소인지 알 수 있다면
-                    //     // markers 배열에 입력된 해당하는 marker의 정보를 가져 올 수 있음
-                    //     count = $(this).index();
-
-                    //     alert(markers[count]);
-                    //     console.log(markers[count]);
-
-                    //     // 마커 지우기
-                    //     markers[count].setMap(null);
-
-                    //     // 지움과 동시에 markers 배열에서도 빼줘야함
-                    //     markers.splice(count, 1);
-                    //     console.log(markers);
-                    //     infowindow.close();
-                    // });
                 </script>
         </th:block>
 </html>

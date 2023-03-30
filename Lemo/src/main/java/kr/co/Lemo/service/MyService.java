@@ -276,9 +276,7 @@ public class MyService {
 
         result = dao.deleteReservation(res_no);
 
-        if(result == 1) {
-            result = dao.updateReservationState(res_no);
-        }
+        if(result == 1) { result = dao.updateReservationState(res_no); }
 
         return result;
     }

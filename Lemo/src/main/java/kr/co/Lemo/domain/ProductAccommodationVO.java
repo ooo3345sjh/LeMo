@@ -41,6 +41,7 @@ public class ProductAccommodationVO {
 
     // 추가
     private String acc_rdate;
+    private int acc_state;
 
 
     /* 추가 필드 room 정보 */
@@ -83,5 +84,4 @@ public class ProductAccommodationVO {
      */
     private int now_price;
             
-
 }

@@ -94,7 +94,7 @@
             `lemo_product_accommodation` AS a LEFT JOIN
             `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
             `lemo_product_review`        AS c ON b.`res_no` = c.`res_no`
-        WHERE b.`user_id` = 'lazca7@naver.com' AND b.`res_state` = 2
+        WHERE b.`user_id` = #{user_id} AND b.`res_state` = 2
         <choose>
             <when test="reviewStat == 1"> AND c.`revi_id` IS NOT null </when>
             <when test="reviewStat == 2"> AND c.`revi_id` IS null </when>
@@ -104,25 +104,15 @@
     </select>
 
     <select id="selectTotalReviews" resultType="int">
-        SELECT SUM( `total` ) FROM (
-            (SELECT
-                COUNT( b.`res_date`) AS `total`
-            FROM
-                `lemo_product_accommodation` AS a LEFT JOIN
-                `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
-                `lemo_product_review` AS c ON b.`res_no` = c.`res_no`
-            WHERE c.`user_id` = #{user_id} )
-
-            UNION ALL
-
-            (SELECT
-                COUNT( b.`res_date`) AS `total`
-            FROM
-                `lemo_product_accommodation` AS a LEFT JOIN
-                `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
-                `lemo_product_room`          AS c ON b.`room_id` = c.`room_id`
-            WHERE b.`user_id` = #{user_id} AND b.`res_state` = 2 AND b.`res_no` NOT IN ( SELECT `res_no` FROM `lemo_product_review` WHERE `user_id`= #{user_id} ) )
-        ) a
+        SELECT COUNT( a.`province_no` ) FROM
+            `lemo_product_accommodation` AS a LEFT JOIN
+            `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+            `lemo_product_review`        AS c ON b.`res_no` = c.`res_no`
+        WHERE b.`user_id` = #{user_id} AND b.`res_state` = 2
+        <choose>
+            <when test="reviewStat == 1"> AND c.`revi_id` IS NOT null </when>
+            <when test="reviewStat == 2"> AND c.`revi_id` IS null </when>
+        </choose>
     </select>
 
     <select id="selectReview" resultType="kr.co.Lemo.domain.ReviewVO">

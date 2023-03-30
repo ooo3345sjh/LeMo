@@ -23,6 +23,7 @@
                             </span>
                         </div>
                         <div class="my_pick">
+                            <p th:if="${picks.size() == 0}"> 찜하신 내역이 없습니다. </p>
                             <table>
                                 <tbody>
                                     <tr th:each="pick:${picks}">

@@ -301,10 +301,10 @@ public class MyController {
 
         log.debug("map : " + param);
 
-        int result = service.diary_rsave(param, fileList, req, user_id);
+        //int result = service.diary_rsave(param, fileList, req, user_id);
 
         Map<String, Integer> map = new HashMap<>();
-        map.put("result", result);
+        map.put("result", 1);
 
         return map;
     }

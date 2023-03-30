@@ -21,6 +21,7 @@
                         </div>
                         <div class="col2">
                             <form th:action="@{/admin/info/list}">
+                                 <span class="search_reservation_tit">숙박검색</span>
                                 <table class="search_review_table">
                                     <tr>
                                         <th>지역검색</th>
@@ -64,11 +65,16 @@
                                         <ul th:each="acc,i:${accs}">
                                             <li class="info_list1">[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
                                             <li class="info_list2" th:text="${acc.acc_id}">11243</li>
-                                            <li class="info_list3">[[${acc.acc_name}]]</li>
+                                            <li class="info_list3">
+                                                <a th:href="@{/admin/info/view (acc_id=${acc.acc_id})}">[[${acc.acc_name}]]</a>
+                                            </li>
                                             <li class="info_list4">[[${acc.user_id}]]</li>
                                             <li class="info_list5" th:text="${#strings.substring(acc.acc_rdate, 0, 10)}">23.03.29</li>
                                             <li class="prodBtn">
-                                                <span class="btnDrop">차단</span>
+                                                <button th:class="${acc.acc_state == 1? 'btnDrop' : 'btnDropClear'}" type="button"
+                                                        th:value="${acc.acc_id}"
+                                                        th:text="${acc.acc_state == 1? '차단' : '차단해제'}"
+                                                ></button>
                                             </li>
                                         </ul>
                                     </th:block>
@@ -103,7 +109,7 @@
 <th:block layout:fragment="script">
     <script>
         $(document).ready(function () {
-
+            // 지역 선택 옵션 출력
             var province_select = document.getElementById("province_select");
 
             ajaxAPI("admin/info/province", null, "GET").then((response)=>{
@@ -136,6 +142,49 @@
 
             }).catch((errorMsg)=>{
                 console.log(errorMsg);
+            });
+
+
+            // 숙박 차단
+            $('.btnDrop').on('click', function(e) {
+                e.preventDefault();
+
+                let acc_id = $(this).val();
+                console.log('acc_id : ' + acc_id);
+
+                const jsonData = {"acc_id": acc_id};
+
+                 ajaxAPI("admin/usaveDropAcc", jsonData, "POST").then((response) => {
+                    if(response.result > 0) {
+                        alert('해당 숙소가 차단되었습니다.');
+                        location.reload();
+                    } else {
+                        alert('error');
+                    }
+                }).catch((errorMsg) => {
+                    console.log(errorMsg);
+                });
+            });
+
+            // 숙박 차단 해제
+            $('.btnDropClear').on('click', function(e) {
+                e.preventDefault();
+
+                let acc_id = $(this).val();
+                console.log('acc_id : ' + acc_id);
+
+                const jsonData = {"acc_id": acc_id};
+
+                ajaxAPI("admin/usaveClearAcc", jsonData, "POST").then((response) => {
+                    if(response.result > 0) {
+                        alert('해당 숙소 차단이 해제되었습니다.');
+                        location.reload();
+                    } else {
+                        alert('error');
+                    }
+                }).catch((errorMsg) => {
+                    console.log(errorMsg);
+                });
             });
         });
     </script>

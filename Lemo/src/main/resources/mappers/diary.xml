@@ -11,13 +11,22 @@
 
     <!-- select -->
     <select id="selectDiaryArticle" resultType="kr.co.Lemo.domain.DiarySpotVO">
-        SELECT a.`arti_title`, b.* FROM `lemo_diary_article` AS a JOIN
-        `lemo_diary_spot` AS b ON a.`arti_no` = b.`arti_no`;
+        SELECT
+        	c.`user_id`, a.`arti_title`, b.*
+        FROM
+        	`lemo_diary_article` AS a JOIN
+        	`lemo_diary_spot`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
+        	`lemo_diary_like`    AS c ON a.`arti_no` = c.`arti_no`
     </select>
 
     <select id="selectDiarySpot" resultType="kr.co.Lemo.domain.DiarySpotVO">
-        SELECT * FROM `lemo_diary_article` AS a JOIN
-        `lemo_diary_spot` AS b ON a.`arti_no` = b.`arti_no` WHERE b.`arti_no` = #{arti_no};
+        SELECT d.`acc_name`, e.`nick`,a.*, b.* FROM
+        	`lemo_diary_article`         AS a JOIN
+        	`lemo_diary_spot`            AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
+        	`lemo_product_reservation`   AS c ON a.`res_no` = c.`res_no` LEFT JOIN
+        	`lemo_product_accommodation` AS d ON c.`acc_id` = d.`acc_id` LEFT JOIN
+        	`lemo_member_userinfo`       AS e ON a.`user_id` = e.`user_id`
+        WHERE b.`arti_no` = #{arti_no};
     </select>
     
     <select id="selectDiaryComment" resultType="kr.co.Lemo.domain.DiaryCommentVO">
@@ -45,19 +54,9 @@
         WHERE `com_no`=#{com_no};
     </select>
 
-    <!--테스트용 사용중 아님 추후 삭제-->
-    <resultMap id="DiarySpotVO" type="kr.co.Lemo.domain.DiarySpotVO">
-        <result column="spot_no" property="spot_no"/>
-        <result column="arti_no" property="arti_no"/>
-        <result column="spot_longtitude" property="spot_longtitude"/>
-        <result column="spot_lattitude" property="spot_lattitude"/>
-        <result column="spot_title" property="spot_title"/>
-        <result column="spot_content" property="spot_content"/>
-        <result column="spot_thumb" property="spot_thumb"/>
-        <result column="province_name" property="province_name"/>
-        <result column="spot_addr" property="spot_addr"/>
-    </resultMap>
-
+    <select id="selectDiaryLike" resultType="int">
+        SELECT COUNT(`user_id`) FROM `lemo_diary_like` WHERE `arti_no` = #{arti_no} AND `user_id` = #{user_id};
+    </select>
 
     <!-- insert -->
     <insert id="insertDiaryOriComment" parameterType="kr.co.Lemo.domain.DiaryCommentVO" useGeneratedKeys="true" keyProperty="com_no">
@@ -78,6 +77,13 @@
             `com_regip`   = #{com_regip},
             `com_replyId` = #{com_replyId};
     </insert>
+
+    <insert id="insertDiaryLike">
+        INSERT `lemo_diary_like` SET
+        	`arti_no` = #{arti_no},
+        	`user_id` = #{user_id};
+    </insert>
+
     <!-- update -->
     <update id="updateComment" parameterType="kr.co.Lemo.domain.DiaryCommentVO">
         UPDATE `lemo_diary_comment` SET
@@ -95,9 +101,25 @@
         WHERE `com_no`=#{com_no};
     </update>
 
+    <update id="updateDiaryLikePlus">
+        UPDATE `lemo_diary_article` SET `arti_like` = `arti_like`+1 WHERE `arti_no`=#{arti_no};
+    </update>
+
+    <update id="updateDiaryMinusPlus">
+        UPDATE `lemo_diary_article` SET `arti_like` = `arti_like`-1 WHERE `arti_no`=#{arti_no};
+    </update>
+
+    <update id="updateDiaryHit">
+        UPDATE `lemo_diary_article` SET `arti_hit` = `arti_hit`+1 WHERE `arti_no`=#{arti_no};
+    </update>
+
     <!-- delete -->
     <delete id="deleteComment">
         DELETE FROM `lemo_diary_comment` WHERE `com_no`=#{com_no};
+    </delete>
+
+    <delete id="deleteDiaryLike">
+        DELETE FROM `lemo_diary_like` WHERE `arti_no` = #{arti_no} AND `user_id` = #{user_id};
     </delete>
 
     <!-- 공통 키 -->

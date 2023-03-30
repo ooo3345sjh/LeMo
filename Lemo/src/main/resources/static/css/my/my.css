@@ -137,6 +137,11 @@
         margin-right: 31px;
     }
 
+    .content .my_pick > p {
+        font-size: 20px;
+        margin-top: 20px;
+    }
+
     /* 상단 카테고리 명*/
     .tab {
         height: auto;

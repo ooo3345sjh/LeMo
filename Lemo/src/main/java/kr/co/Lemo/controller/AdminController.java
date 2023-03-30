@@ -6,12 +6,14 @@ import kr.co.Lemo.domain.search.Cs_SearchVO;
 import kr.co.Lemo.service.AdminService;
 import kr.co.Lemo.service.CsService;
 import kr.co.Lemo.utils.PageHandler;
+import kr.co.Lemo.utils.RemoteAddrHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -159,6 +161,32 @@ public class AdminController {
     public Map<String, Integer> usaveClear(@RequestBody Map map) throws Exception {
         String user_id = (String) map.get("user_id");
         int result = service.usaveClear(user_id);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
+    // @since 2023/03/30 관리자 숙박 차단
+    @ResponseBody
+    @PostMapping("usaveDropAcc")
+    public Map<String, Integer> usaveDropAcc(@RequestBody Map map) throws Exception {
+        String acc_id = (String) map.get("acc_id");
+        int result = service.usaveDropAcc(acc_id);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
+    // @since 2023/03/30 관리자 숙박 차단 해제
+    @ResponseBody
+    @PostMapping("usaveClearAcc")
+    public Map<String, Integer> usaveClearAcc(@RequestBody Map map) throws Exception {
+         String acc_id = (String) map.get("acc_id");
+        int result = service.usaveClearAcc(acc_id);
 
         Map<String, Integer> resultMap = new HashMap<>();
         resultMap.put("result", result);
@@ -375,10 +403,25 @@ public class AdminController {
         return "admin/info/modify";
     }
 
+    // 관리자 - 숙소 보기
     @GetMapping("info/view")
-    public String info_view(){
+    public String info_view(Model model, @RequestParam("acc_id") Integer acc_id) throws Exception {
+
+        ProductAccommodationVO acc = service.findAcc(acc_id);
+
+        List<ServicereginfoVO> servicereginfos = service.findServiceInAcc(acc_id);
+        log.warn("selected acc service: " + servicereginfos);
+
+        //log.warn("selected acc: " + acc);
+
+        model.addAttribute("acc", acc);
+        model.addAttribute("acc_id", acc_id);
+        model.addAttribute("serviceInfo", servicereginfos);
+
         return "admin/info/view";
     }
+
+
 
     @GetMapping("info/write")
     public String info_write(){
@@ -560,27 +603,28 @@ public class AdminController {
     @PostMapping("cs/{cs_cate}/write")
     public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate,
                                      CsVO vo,
+                                     @AuthenticationPrincipal UserVO myUser,
                                      @RequestPart(value = "cs_eventBanner", required = false) MultipartFile cs_eventBanner,
                                      @RequestParam Map<String, Object> parameter,
                                      MultipartHttpServletRequest request,
                                      HttpServletRequest req) {
 
         if("notice".equals(cs_cate)){
-            vo.setUser_id("b1848@naver.com");
-            vo.setCs_regip(req.getRemoteAddr());
+            vo.setUser_id(myUser.getUser_id());
+            vo.setCs_regip(RemoteAddrHandler.getRemoteAddr(req));
 
             csService.rsaveNoticeArticle(vo);
             return "redirect:/admin/cs/notice/list";
 
         }else if("faq".equals(cs_cate)){
-            vo.setUser_id("b1848@naver.com");
+            vo.setUser_id(myUser.getUser_id());
             vo.setCs_regip(req.getRemoteAddr());
 
             csService.rsaveFaqArticle(vo);
             return "redirect:/admin/cs/faq/list";
         }else if("event".equals(cs_cate)){
 
-            parameter.put("user_id", "b1848@naver.com");
+            parameter.put("user_id", myUser.getUser_id());
             parameter.put("cs_regip", req.getRemoteAddr());
             parameter.put("cs_cate", "event");
 

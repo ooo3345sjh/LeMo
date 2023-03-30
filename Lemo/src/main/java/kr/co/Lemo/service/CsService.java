@@ -7,6 +7,7 @@ import kr.co.Lemo.utils.PageHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -254,14 +255,16 @@ public class CsService {
     }
 
 
-
+    //@since 2023/03/30
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadPath;
 
     /** 이미지 등록 **/
     public int uploadFile(ArrayList<String> newArrFilesInfo, Map<String, MultipartFile> fileMap, String bannerNewName, MultipartFile cs_eventBanner, String cs_no) {
         log.info("newArrFilesInfo : "+newArrFilesInfo.size());
         log.info("fileMap : "+fileMap.size());
         // 사진 저장
-        String path = new File("C:/Users/hwangwonjin/Desktop/workspace/LeMo/Lemo/img/cs/"+cs_no ).getAbsolutePath();
+        String path = new File(uploadPath+"cs/"+cs_no ).getAbsolutePath();
 
         log.info(path);
         // 폴더 존재 여부 검사

@@ -1,6 +1,7 @@
 package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.CsVO;
+import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.domain.search.Cs_SearchVO;
 import kr.co.Lemo.service.CsService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -81,9 +83,12 @@ public class CsController {
 
     // @since 2023/03/10
     @PostMapping("{cs_cate}")
-    public String rsaveArticleQna(@PathVariable("cs_cate") String cs_cate, CsVO vo, HttpServletRequest req) {
+    public String rsaveArticleQna(@PathVariable("cs_cate") String cs_cate,
+                                  CsVO vo,
+                                  @AuthenticationPrincipal UserVO myUser,
+                                  HttpServletRequest req) {
 
-        vo.setUser_id("b1848@naver.com");
+        vo.setUser_id(myUser.getUser_id());
         vo.setCs_regip(req.getRemoteAddr());
 
 

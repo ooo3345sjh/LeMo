@@ -57,6 +57,12 @@ public interface AdminDAO {
      // @since 2023/03/29
     public List<ProvinceVO> selectProvince();
 
+    // @since 2023/03/30
+    public ProductAccommodationVO viewAcc(Integer acc_id);
+
+    // @since 2023/03/30
+    public List<ServicereginfoVO> selectServiceInAcc(Integer acc_id);
+
     // @since 2023/03/11
     public void insertCoupon(CouponVO vo);
 
@@ -69,10 +75,14 @@ public interface AdminDAO {
     // @since 2023/03/23
     public int updateIsLockedClear(@Param("user_id") String user_id);
 
-
-
     // @since 2023/03/15
     public int updateReply(@Param("revi_reply") String revi_reply, @Param("revi_id") String revi_id);
+
+    // @since 2023/03/30
+    public int updateDropAcc(@Param("acc_id") String acc_id);
+
+    // @since 2023/03/30
+    public int updateClearAcc(@Param("acc_id") String acc_id);
 
     // @since 2023/03/12
     public int deleteCoupon(@Param("cp_id") String cp_id);

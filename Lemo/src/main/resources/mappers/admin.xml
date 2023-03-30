@@ -163,6 +163,20 @@
         select * from `lemo_product_province`;
     </select>
 
+    <!-- 관리자 - 숙박 보기 -->
+    <select id="viewAcc" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+        select * from `lemo_product_accommodation` as a
+        join `lemo_product_ratepolicy` as b on a.acc_id=b.acc_id
+        where a.`acc_id`=#{acc_id};
+    </select>
+
+    <!-- 관리자 - 숙박 보기 - 서비스 카테고리 -->
+    <select id="selectServiceInAcc" resultType="kr.co.Lemo.domain.ServicereginfoVO">
+        select * from `lemo_product_servicereginfo` as a
+        join `lemo_product_servicecate` as b on a.sc_no=b.sc_no
+        where `acc_id`=#{acc_id};
+    </select>
+
 
     <!-- 관리자 - 쿠폰 등록  -->
     <insert id="insertCoupon">
@@ -198,6 +212,16 @@
     <!-- admin - review - reply -->
     <update id="updateReply">
         update `lemo_product_review` set `revi_reply`=#{revi_reply} where `revi_id`=#{revi_id};
+    </update>
+
+    <!-- 관리자 - 숙박 목록 - 차단 -->
+    <update id="updateDropAcc">
+        update `lemo_product_accommodation` set `acc_state`='0' where `acc_id`=#{acc_id};
+    </update>
+
+    <!-- 관리자 - 숙박 목록 - 차단 해제 -->
+    <update id="updateClearAcc">
+        update `lemo_product_accommodation` set `acc_state`='1' where `acc_id`=#{acc_id};
     </update>
 
     <!-- 관리자 - 쿠폰 삭제 -->
