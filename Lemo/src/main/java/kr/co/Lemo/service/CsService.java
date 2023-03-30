@@ -217,6 +217,10 @@ public class CsService {
     public int usaveMainBanner(@RequestParam("cs_eventMainBannerState") int cs_eventMainBannerState, @RequestParam("cs_no") int cs_no){
         return dao.updateMainBanner(cs_eventMainBannerState, cs_no);
     }
+    //@since 2023/03/30
+    public int usaveEventBanner(@RequestParam("cs_eventBannerState") int cs_eventBannerState, @RequestParam("cs_no") int cs_no){
+        return dao.updateEventBanner(cs_eventBannerState, cs_no);
+    }
 
 
     /** delete **/

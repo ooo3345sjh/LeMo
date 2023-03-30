@@ -170,7 +170,7 @@
                                                 <li class="prodBtn" id="event_lii">
                                                     <div class="on-off-bannerToggle">
                                                         <input class="on-off-bannerToggle__input" type="checkbox" id="bannerBopis"/>
-                                                        <label for="bannerBopis" class="on-off-bannerToggle__slider" th:data-no="${article.cs_no}" th:classappend="${article.cs_eventMainBannerState == 1} ? 'on' : ''"></label>
+                                                        <label for="bannerBopis" class="on-off-bannerToggle__slider" th:data-no="${article.cs_no}" th:classappend="${article.cs_eventBannerState == 1} ? 'on' : ''"></label>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -351,6 +351,41 @@
                 } else {
                     $(this).addClass('on');
                 }
+
+                const isClicked = $(this).hasClass('on');
+                let cs_eventBannerState;
+                let cs_no = $(this).attr('data-no');
+
+                if(isClicked)
+                    cs_eventBannerState = 1;
+                else
+                    cs_eventBannerState = 0;
+
+                const jsonData = {
+                    "cs_eventBannerState":cs_eventBannerState,
+                    "cs_no":cs_no
+                }
+
+                ajaxAPI("admin/cs/event/banner", jsonData, "post").then((response) => {
+                        let title;
+
+                        if(response.result > 0) {
+                            if(cs_eventBannerState == 1){
+                                title = "이벤트베너가 활성화 되었습니다"
+                            }else{
+                                title = "이벤트베너가 비활성화 되었습니다"
+                            }
+                            Swal.fire({
+                                 title : title,
+                                 icon : 'success',
+                                 confirmButtonText : '확인'
+                             })
+                        }else {
+                            alert('error');
+                        }
+                    }).catch((errMsg) => {
+                        console.log(errorMsg);
+                    });
              });
         });
     </script>
