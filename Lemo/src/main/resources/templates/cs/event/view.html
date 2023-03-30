@@ -64,7 +64,7 @@
                         </p>
                     </th:bolck>
 
-                    <th:bolck th:if="${eventPrev != null} and ${eventPrev.cs_eventState == 1}">
+                    <th:bolck th:if="${eventPrev != null} and ${eventPrev.cs_eventBannerState == 1}">
                     <p>
                         <a th:href="@{/cs/event/view (cs_cate=${eventPrev.cs_cate}, cs_no=${eventPrev.cs_no})}">
                             <span class="ico_arr_up">이전글</span>
@@ -85,7 +85,7 @@
                         </p>
                     </th:bolck>
 
-                    <th:bolck th:if="${eventNext != null} and ${eventNext.cs_eventState == 1}">
+                    <th:bolck th:if="${eventNext != null} and ${eventNext.cs_eventBannerState == 1}">
                         <p>
                             <a th:href="@{/cs/event/view (cs_cate=${eventNext.cs_cate}, cs_no=${eventNext.cs_no})}">
                                 <span class="ico_arr_down">다음글</span>

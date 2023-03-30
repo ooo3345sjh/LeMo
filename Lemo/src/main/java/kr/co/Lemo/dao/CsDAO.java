@@ -62,6 +62,9 @@ public interface CsDAO {
     public int updateEndEvent(@Param("cs_no") int cs_no);
     //@since 2023/03/29
     public int updateMainBanner(@Param("cs_eventMainBannerState") int cs_eventMainBannerState, @Param("cs_no") int cs_no);
+    //@since 2023/03/30
+    public int updateEventBanner(@Param("cs_eventBannerState") int cs_eventBannerState, @Param("cs_no") int cs_no);
+
 
     /** delete **/
     //@since 2023/03/15

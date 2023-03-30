@@ -187,6 +187,13 @@
         WHERE `cs_no`=#{cs_no};
     </update>
 
+    <update id="updateEventBanner">
+        UPDATE `lemo_cs` SET
+        `cs_eventBannerState`=#{cs_eventBannerState},
+        `cs_rdate`=NOW()
+        WHERE `cs_no`=#{cs_no};
+    </update>
+
     <!-- delete -->
     <delete id="deleteFaqWrite">
         delete from `lemo_cs` where `cs_no` =#{cs_no};

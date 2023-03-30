@@ -683,10 +683,9 @@ public class AdminController {
     }
 
     /**
-     * @return
+     * @since 2023/03/29
      * @author 황원진
      * @apiNote 관리자 이벤트 메인베너
-     * @since 2023/03/29
      */
     @ResponseBody
     @PostMapping("cs/event/mainBanner")
@@ -697,6 +696,27 @@ public class AdminController {
         Integer cs_eventMainBannerState = (Integer) map.get("cs_eventMainBannerState");
 
         int result = csService.usaveMainBanner(cs_eventMainBannerState, cs_no);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
+    /**
+     * @since 2023/03/30
+     * @author 황원진
+     * @apiNote 관리자 이벤트 베너
+     */
+    @ResponseBody
+    @PostMapping("cs/event/banner")
+    public Map<String, Integer> updateBannerState(@RequestBody Map map){
+        log.debug("event update eventBannerState start...");
+
+        int cs_no = Integer.parseInt(String.valueOf(map.get("cs_no")));
+        Integer cs_eventBannerState = (Integer) map.get("cs_eventBannerState");
+
+        int result = csService.usaveEventBanner(cs_eventBannerState, cs_no);
 
         Map<String, Integer> resultMap = new HashMap<>();
         resultMap.put("result", result);
