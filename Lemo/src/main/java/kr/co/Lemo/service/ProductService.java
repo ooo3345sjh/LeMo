@@ -230,6 +230,16 @@ public class ProductService {
         return dao.selectCoupons(map);
     }
 
+    // @since 2023/03/29
+    public List<CouponVO> findAllCouponsForReservation(Map map){
+
+        List<CouponVO> cps = dao.selectCouponsForReservation(map);
+        /* 쿠폰 할인가격 설정 */
+        cps = setCouponDisprice(map, cps);
+        
+        return cps;
+    }
+
     // @since 2023/03/27
     @Transactional
     public int getCoupon(Map map){
@@ -274,15 +284,8 @@ public class ProductService {
     // @since 2023/03/28
     public Map findRoomForReservation(Map map){
 
-        log.info("here2...");
-
         ProductAccommodationVO room = dao.selectRoomForReservation(map);
-
-        log.info("room : " + room);
-
         map = (Map) setRoomAvgPrice(map, room);
-
-        log.info("findRoomForReser~ :" + map);
 
         return map;
     }
@@ -496,6 +499,44 @@ public class ProductService {
         }
 
         return reviews;
+    }
+
+    // @since 2023/03/30
+    public List<CouponVO> setCouponDisprice(Map map, List<CouponVO> cps){
+
+        ProductAccommodationVO room = (ProductAccommodationVO) map.get("room");
+
+        int avg_price = room.getAvg_price();
+        int days = Integer.parseInt(String.valueOf(map.get("days")));
+        int price = avg_price * days;
+
+        for(int i = 0; i < cps.size(); i++){
+
+            int cp_rate = cps.get(i).getCp_rate();
+            int cp_price = cps.get(i).getCp_price();
+            int min = cps.get(i).getCp_minimum();
+            int max = cps.get(i).getCp_maximum();
+            int disprice = 0;
+
+            if(min <= price){ // 숙박금액이 최소주문 금액보다 크면
+
+                if(cp_rate > 0 && cp_price ==0){ // 할인율 쿠폰일때
+
+                    if(max < price) { // 최대주문 금액보다 큰 경우 최대주문금액 기준으로 n%할인
+                        disprice = max * cp_rate / 100;
+                    }else{
+                        disprice = price * cp_rate / 100;
+                    }
+
+                }else if(cp_rate == 0 && cp_price > 0){ // 할인 금액 쿠폰일 때
+                    disprice = cp_price;
+                }
+            }
+
+            cps.get(i).setCp_dis_price(disprice);
+        }
+
+        return cps;
     }
 
     public String getDay(int d){

@@ -25,16 +25,6 @@
                                     <button type="button">X</button>
                                 </div>
                             </div>
-                            <!--
-                            <div class="visit">
-                                <strong>방문 방법</strong>
-                                <div>
-                                    <button type="button"><span>도보</span></button>
-                                    <button type="button"><span>차량</span></button>
-                                </div>
-                                <span>주차장 만차 시 주차가 어려울 수 있어요</span>
-                            </div>
-                            -->
                         </div>
                         <div id="price">
                             <h3>할인 수단 선택</h3>
@@ -47,36 +37,18 @@
                                     <button type="button" class="discount_button coupon">사용 가능한 쿠폰 1장</button>
                                     <span>-</span>
                                 </div>
-                                <!--
-                                <div class="discount_coupons_amount">
-                                    <span>일반쿠폰</span>
-                                    <span>-</span>
-                                </div>
-                                <div class="discount_coupons_amount">
-                                    <span>더하기쿠폰</span>
-                                    <span>-</span>
-                                </div>
-                                -->
                             </div>
                             <div class="discount_container">
                                 <div class="discount_header">
-                                    <button type="button" class="discount_button">포인트 사용 [[${user.point}]]P</button>
+                                    <button type="button" class="discount_button point">포인트 사용 [[${#numbers.formatInteger(user.point,1,'COMMA')}]]P</button>
                                     <div>
                                         <div>
-                                            <input type="text" value="0" class="discount_input">
+                                            <input type="text" name="point" placeholder="0" class="discount_input">
                                             <span>P</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!--
-                            <div class="discount_container">
-                                <div class="discount_header">
-                                    <button type="button" class="discount_button">상품권 사용</button>
-                                    <span>-</span>
-                                </div>
-                            </div>
-                            -->
                         </div>
                         <div id="pay_select">
                             <h3>결제수단 선택</h3>
@@ -127,8 +99,8 @@
                                 [[${room.acc_name}]]
                             </p>
                             <p>
-                                <strong>객실타입</strong>
-                                [[${room.room_name}]]
+                                <strong>객실타입/기간</strong>
+                                [[${room.room_name}]] / [[${map.days}]]박
                             </p>
                             <p>
                                 <strong>체크인</strong>
@@ -162,7 +134,91 @@
                     </div>
                 </div>
             </main>
-            <!-- 쿠폰 팝업 -->
+            <!-- 쿠폰 팝업-->
+            <div id="popup_cp">
+                <div class="popup-Coupon">
+                    <header class="top-nav">
+                        <div class="wrap-title">
+                            쿠폰적용
+                        </div>
+                        <div class="wrap-icon">
+                            <img th:src="@{/images/product/close1.png}" alt="">
+                        </div>
+                    </header>
+                    <div id="contents-box">
+                        <div class="coupon-card">
+                            <div class="coupon-type">
+                                <span>일반쿠폰</span>
+                                <span class="count">[[${cps.size()}]]장</span>
+                            </div>
+                            <div class="coupon-list">
+                                <ul class="wrap-list">
+                                    <li class="coupon-el none">
+                                        <div class="radiobutton-wrap">
+                                            <div>버튼</div>
+                                        </div>
+                                        <div class="coupon-info-and-title">
+                                            <div class="coupon-info">
+                                                적용안함
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="coupon-el" th:each="cp : ${cps}"
+                                        th:if="${cp.cp_minimum <= room.avg_price * map.days}">
+                                        <div class="radiobutton-wrap">
+                                            <div>버튼</div>
+                                        </div>
+                                        <div class="coupon-info-and-title">
+                                            <span class="coupon-amount" th:if="${cp.cp_price > 0}" th:attr="data-price=${cp.cp_dis_price}">
+                                                [[${#numbers.formatInteger(cp.cp_price,1,'COMMA')}]]원
+                                            </span>
+                                            <span class="coupon-amount" th:if="${cp.cp_rate > 0}" th:attr="data-price=${cp.cp_dis_price}">
+                                                [[${cp.cp_rate}]]%
+                                            </span>
+                                            <div class="coupon-info">
+                                                <span>[[${cp.cp_subject}]]</span>
+                                                <span>[[${#numbers.formatInteger(cp.cp_minimum,1,'COMMA')}]]원 이상 사용가능</span>
+                                                <span th:if="${cp.cp_rate > 0}">
+                                                    최대 [[${#numbers.formatInteger((cp.cp_maximum * cp.cp_rate / 100), 1, 'COMMA')}]]원 까지 할인가능
+                                                </span>
+                                                <!--<span>선착순 마감전까지</span>-->
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="coupon-el deact" th:each="cp : ${cps}"
+                                        th:unless="${cp.cp_minimum <= room.avg_price * map.days}">
+                                        <div class="radiobutton-wrap">
+                                            <div>버튼</div>
+                                        </div>
+                                        <div class="coupon-info-and-title">
+                                            <span class="coupon-amount" th:if="${cp.cp_price > 0}">[[${#numbers.formatInteger(cp.cp_price,1,'COMMA')}]]원</span>
+                                            <span class="coupon-amount" th:if="${cp.cp_rate > 0}">[[${cp.cp_rate}]]%</span>
+                                            <div class="coupon-info">
+                                                <span>[[${cp.cp_subject}]]</span>
+                                                <span>[[${#numbers.formatInteger(cp.cp_minimum,1,'COMMA')}]]원 이상 사용가능</span>
+                                                <span th:if="${cp.cp_rate > 0}">
+                                                    최대 [[${#numbers.formatInteger(cp.cp_maximum,1,'COMMA')}]]원의 [[${cp.cp_rate}]]% 까지 할인가능
+                                                </span>
+                                                <!--<span>선착순 마감전까지</span>-->
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="coupon-list">
+                        <span class="empty-state" th:if="${cps.size() == 0}">
+                            사용 가능한 쿠폰이 없습니다.
+                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wrap-btn">
+                        <button class="btn-coupon">5,000원 적용하기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!--
             <div id="popup_coupon" class="popup_coupon">
                 <div>
                     <div class="fix_title">
@@ -188,11 +244,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </th:block>
         <th:block layout:fragment="script">
-            <script>
-
+            <script th:inline="javascript">
+                const userPoint = [[${user.point}]];
+                const price = [[${room.avg_price * map.days}]];
             </script>
         </th:block>
 </html>

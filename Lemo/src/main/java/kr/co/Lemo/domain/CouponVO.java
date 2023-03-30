@@ -23,7 +23,7 @@ public class CouponVO {
     private String cp_subject;
     private String cp_group;
     private String cp_type;
-    private String cp_rate;
+    private int cp_rate;
     private int cp_price;
     private int cp_disType;
     private int cp_minimum;
@@ -49,5 +49,8 @@ public class CouponVO {
 
     // add
     private String acc_name;
+
+    // lemo_product_reservation;
+    private int cp_dis_price;
 
 }

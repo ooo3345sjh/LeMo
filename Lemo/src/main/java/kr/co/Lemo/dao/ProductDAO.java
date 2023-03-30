@@ -84,6 +84,9 @@ public interface ProductDAO {
     // @since 2023/03/28
     public CouponVO getCoupon(Map map);
 
+    // @since 2023/03/29
+    public List<CouponVO> selectCouponsForReservation(Map map);
+
     // @since 2023/03/28
     public ProductAccommodationVO selectRoomForReservation(Map map);
 
