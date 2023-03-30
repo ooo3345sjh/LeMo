@@ -31,8 +31,6 @@ $(function(){
     $(document).on('click', '.ex_file', function(e){
         e.stopPropagation();
 
-        // 서정현 TEST
-        fileInputList.push($(this));
         let inputFile = $(this).parent('.image');
         $(this).change(function(e){
             let preview = $('.inputImage', inputFile);
@@ -40,8 +38,11 @@ $(function(){
             var oFile = $(this)[0].files;
 
             if(oFile.length < 1){
-                preview.attr('src', '/Lemo/images/diary/imgUpload.png');
+                // preview.attr('src', '/Lemo/images/diary/imgUpload.png');
             }else {
+                // 서정현 TEST
+                fileInputList.push($(this));
+
                 reader.readAsDataURL(e.target.files[0]);
                 reader.onload = function(event){
                     preview.attr('src', event.target.result);
