@@ -1,19 +1,19 @@
 /* 태그 */
 .tag {
-    border-radius: 6px;
-    background: #393939;
+    background: #bbd444;
     font-size: 11px;
     color: #fff;
     font-weight: 500;
     padding: 1px 3px;
     border-radius: 11px;
+    margin-left: 2px;
 }
 
 main .waitReply {
     color: #E84545;
 }
 main .completeReply {
-    color: #02797e;
+    color: #00bbfe;
 }
 
 main .rating5 {
@@ -301,18 +301,23 @@ main .userId_li {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 20% !important;
+    font-family: 'Noto Sans KR';
+    text-align: left !important;
+    padding-left: 21px;
 }
 main .review_li1 {
     width: 7% !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: 'Noto Sans KR';
 }
 main .review_li1 > a {
     font-size: 14px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: 'Noto Sans KR';
 }
 main .review_li2 {
     width: 15% !important;
@@ -377,7 +382,7 @@ main .search_review_table td > input {
     border: 1px solid #dbdbdb;
     padding-left: 8px;
 }
-main .totalReviewCnt {
+main .totalCount {
     width: 100%;
     display: block;
     text-align: left;
@@ -408,6 +413,31 @@ main .btnSearch:hover {
     background-color:#e9e9e9;
 }
 main .btnSearch:active {
+    position:relative;
+	top:1px;
+}
+main .resetOption {
+    margin: 15px 0;
+    margin-left: 8px;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 5px 32px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+main .resetOption:hover {
+    background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
+    background-color:#e9e9e9;
+}
+main .resetOption:active {
     position:relative;
 	top:1px;
 }
@@ -647,7 +677,7 @@ main .pagination a:hover:not(.active) {
     background-color: #ddd;
     border-radius: 5px;
 }
-main .roomInfo_id {width: 10% !important;}
+main .roomInfo_id {width: 10% !important; font-family: 'Noto Sans KR';}
 main .roomInfo_name {
     text-align: left !important;
     padding-left: 13px;
@@ -659,15 +689,15 @@ main .roomInfo_name {
 main .roomInfo_name > a {
     font-size: 14px;
 }
-main .roomInfo_li1 {width: 5% !important;}
-main .roomInfo_li2 {width: 12% !important;}
-main .roomInfo_li3 {width: 10% !important;}
+main .roomInfo_li1 {width: 5% !important; font-family: 'Noto Sans KR';}
+main .roomInfo_li2 {width: 12% !important; font-family: 'Noto Sans KR';}
+main .roomInfo_li3 {width: 10% !important; }
 main .roomInfo_li4 {width: 30% !important;}
 main .roomInfo_li5 {width: 9% !important;}
 main .roomInfo_li6 {width: 8% !important;}
 main .roomInfo_li7 {
     width: 8% !important;
-    font-family: sans-serif;
+    font-family: 'Noto Sans KR';
 }
 main .roomInfo_li7 i {
     font-style: normal;
@@ -682,11 +712,11 @@ main .roomInfo_li7 span {
 }
 main .roomInfo_li8 {
     width: 8% !important;
-    font-family: sans-serif;
+    font-family: 'Noto Sans KR';
 }
 main .roomInfo_li9 {
     width: 8% !important;
-    font-family: sans-serif;
+    font-family: 'Noto Sans KR';
 }
 main .noResult {
     padding-top: 50px;
@@ -1367,28 +1397,70 @@ main .province_list li:hover {
     background: #f0f0f0;
     color: #252525;
 }
-main .info_list1 {width: 9% !important;}
-main .info_list2 {width: 10% !important;}
-main .info_list3 {
+main .info_list1 {
+    width: 9% !important;
+    font-family: 'Noto Sans KR';
+}
+main .info_list2 {
+    width: 10% !important;
+    font-family: 'Noto Sans KR';
+}
+main .info_list4 {
     width: 30% !important;
     padding-left: 13px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-main .info_list3 > a {
+main .info_list4 > a {
     font-size: 14px;
     color: #505050 !important;
 }
-main .info_list3 > a:hover {
+main .info_list4 > a:hover {
     color: #252525 !important;
     text-decoration: underline !important;
 }
-main .info_list4 {
+main .info_list3 {
     width: 28% !important;
+    font-family: 'Noto Sans KR';
+    padding-left: 30px;
 }
-main .info_list5 {width: 11% !important;}
+main .info_list5 {
+    width: 11% !important;
+    font-family: 'Noto Sans KR';
+}
 main .info_list6 {width: 10% !important;}
+
+main .res_list1 {width: 5% !important;}
+main .res_list2 {width: 8% !important;}
+main .res_list3 {width: 10% !important;}
+main .res_list4 {width: 17% !important;}
+main .res_list5 {width: 10% !important;}
+main .res_list6 {width: 8% !important;}
+main .res_list7 {width: 10% !important;}
+main .res_list8 {width: 15% !important;}
+main .res_list9 {width: 15% !important;}
+
+main .cancel_res {
+    width: 10% !important;
+    color: #f2552c;
+}
+main .complete_res {
+    width: 10% !important;
+    color: #00bbfe;
+}
+main .complete_acc {
+    width: 10% !important;
+    color: #bbd444;
+}
+main .res_list_no {width: 8% !important;}
+main .res_list_accId {width: 10% !important;}
+main .res_list_accName {width: 17% !important;}
+main .res_list_name {width: 8% !important;}
+
+
+
+
 
 main .sortAcc_option {
     text-align: right;
@@ -1517,7 +1589,7 @@ main .search_review_table th {
     border-bottom: 1px solid #dbdbdb;
     padding-left: 17px;
     background: #f0f0f0;
-    width: 21% !important;
+    width: 17% !important;
     font-size: 13px;
 }
 main .btnDrop {
@@ -1628,23 +1700,7 @@ main .col_register1 #c_role_type {
 main .col_register1 .search_btn {
     text-align: center;
 }
-main .col_register1 .btnSearch {
-    margin: 15px 0;
-    margin-left: 8px;
-    box-shadow: inset 0px 1px 0px 0px #ffffff;
-    background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-    background-color: #f9f9f9;
-    border-radius: 6px;
-    border: 1px solid #dcdcdc;
-    display: inline-block;
-    cursor: pointer;
-    color: #666666;
-    font-size: 15px;
-    font-weight: 500;
-    padding: 10px 32px;
-    text-decoration: none;
-    text-shadow: 0px 1px 0px #ffffff;
-}
+
 main .col_register1 .btnSearch:hover {}
 main .col_register1 .btnSearch:active {}
 main .col_register1 .coupon_list {
@@ -1907,7 +1963,7 @@ dialog {
     border-radius: 5px;
     position: absolute;
     top: 15%;
-    left: 40%;
+    margin: auto;
     width: 35%;
     height: fit-content;
     overflow-y: scroll;
@@ -1921,6 +1977,7 @@ dialog::backdrop {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
+
 main .rr_nav {
     width: 100%;
     height: auto;
@@ -2021,33 +2078,39 @@ main .btnRsubmit {
 /* 모달 (admin - reservation - list) */
 main #btnDetail {
     box-shadow: inset 0px 1px 0px 0px #ffffff;
-    background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-    background-color: #f9f9f9;
-    border-radius: 4px;
+    background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+    background-color: #ffffff;
+    border-radius: 5px;
     border: 1px solid #dcdcdc;
     display: inline-block;
     cursor: pointer;
     color: #666666;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 1px 10px;
+    padding: 2px 8px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
+    height: 28px;
+    vertical-align: middle;
+    width: 80px;
+    line-height: 24px;
+    font-size: 13px;
 }
 main #btnMemo {
     box-shadow: inset 0px 1px 0px 0px #ffffff;
-    background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-    background-color: #f9f9f9;
-    border-radius: 4px;
+    background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+    background-color: #ffffff;
+    border-radius: 5px;
     border: 1px solid #dcdcdc;
     display: inline-block;
     cursor: pointer;
     color: #666666;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 1px 10px;
+    padding: 2px 8px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
+    height: 28px;
+    vertical-align: middle;
+    width: 80px;
+    line-height: 24px;
+    font-size: 13px;
 }
 main #d_Detail > section {
     width: 100%;
@@ -2184,6 +2247,7 @@ main .d_box > textarea {
     margin-bottom: 10px;
     font-size: 15px;
     border: none;
+    resize: none;
 }
 
 /* 타임라인 */

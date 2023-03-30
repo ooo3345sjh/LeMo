@@ -39,14 +39,15 @@
                                         </td>
                                     </tr>
                                 </table>
+                                <button type="button" class="resetOption" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
                                 <button type="submit" class="btnSearch">검색</button>
-                                <span class="totalReviewCnt">리뷰 총 개수 ([[${totalReview}]])</span>
+                                <span class="totalCount">리뷰 총 개수 ([[${totalReview}]])</span>
                                 <div class="board_list">
                                     <ul>
                                         <li class="review_li1">예약번호</li>
-                                        <li class="review_li2">숙소명</li>
                                         <li class="review_li3">아이디</li>
                                         <li class="review_li4">제목</li>
+                                        <li class="review_li2">숙소명</li>
                                         <li class="review_li5">평점</li>
                                         <li class="review_li6">답변상태</li>
                                         <li class="review_li7">등록일</li>
@@ -56,16 +57,17 @@
                                         <li class="review_li1">
                                             <a href="#">[[${review.res_no}]]</a>
                                         </li>
-                                        <li class="review_li2" th:text="${review.acc_name}">숙소명</li>
                                         <li th:text="${review.user_id}" class="userId_li">충치왕김건치</li>
                                         <li class="prodName">
-                                            <span th:if="${review.revi_thumb != null}" class="tag">PHOTO</span>
+
                                             <!--<span class="tag">PHOTO</span>-->
                                             <!--/*<a th:href="@{/admin/review/view} + ${ph.sc.getQueryString(ph.sc.page, review.revi_id)}"
                                                th:text="${review.revi_title}" class="reviewTitle" th:data-no="${review.revi_id}">title</a>*/-->
                                             <a th:href="@{/admin/review/view (revi_id=${review.revi_id})}"
                                                th:text="${review.revi_title}" class="reviewTitle" th:data-no="${review.revi_id}">title</a>
+                                            <span th:if="${review.revi_thumb != null}" class="tag">PHOTO</span>
                                         </li>
+                                        <li class="review_li2" th:text="${review.acc_name}">숙소명</li>
                                         <!-- <li th:text="${#strings.substringBefore(review.user_id, '@') + '**'}">충치왕김건치</li> -->
                                         <!--/*<li><img th:src="@{/images/admin/rating_star.png}" style="width: 80px;"></li>*/-->
                                         <li class="review_li5">
