@@ -271,8 +271,16 @@ public class MyService {
         return dao.selectReservation(res_no);
     }
 
-    public int removeReservation(int res_no) {
-        return dao.deleteReservation(res_no);
+    public int removeUpdateReservation(int res_no) {
+        int result = 0;
+
+        result = dao.deleteReservation(res_no);
+
+        if(result == 1) {
+            result = dao.updateReservationState(res_no);
+        }
+
+        return result;
     }
 
     public int findCheckReview(int res_no) {

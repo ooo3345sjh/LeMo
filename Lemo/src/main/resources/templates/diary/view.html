@@ -76,7 +76,7 @@
                                                     <th:block th:if="${comment.com_no != comment.com_pno}">
                                                         <p class="reply_id">@[[${comment.com_replyId}]]</p>
                                                     </th:block>
-                                                    <textarea readonly>[[${comment.com_comment}]]</textarea>
+                                                    <textarea readonly onchange="resizeHeight()">[[${comment.com_comment}]]</textarea>
                                                 </div>
                                                 <div class="repdiv3">
                                                     <div>
@@ -98,7 +98,7 @@
                         <!-- 댓글 쓰기 -->
                         <div class="write_reply">
                             <form action="#" class="comOriWrite">
-                                <textarea></textarea>
+                                <textarea class="comTextarea" onchange="resizeHeight()"></textarea>
                                 <button>댓글 쓰기</button>
                             </form>
                         </div>
@@ -124,6 +124,18 @@
         let positionMap = [[${article}]];
         let arti_no     = [[${arti_no}]];
         let total       = [[${total}]];
+
+        const comTextarea = document.querySelector('.comTextarea');
+
+        function resizeHeight() {
+            comTextarea.style.height = 'auto';
+            comTextarea.style.height = comTextarea.scrollHeight + 'px';
+        }
+
+        $(function(){
+
+
+        });
     </script>
     <script th:src="@{/js/diary/diaryView.js}"></script>
 </th:block>

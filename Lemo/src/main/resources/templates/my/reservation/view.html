@@ -156,22 +156,26 @@
                                 cancelButtonText: '취소',
                                 reverseButtons: false,
                             }).then(result => {
-                                let jsonData = { "res_no":res_no }
+                                if (result.isConfirmed) {
+                                    let jsonData = { "res_no":res_no }
 
-                                ajaxAPI("my/reservation", jsonData, "DELETE").then((response)=>{
-                                    if(response == 2) {
-                                        Swal.fire({
-                                            title: '예약 취소되었습니다.',
-                                            icon: 'info',
-                                            confirmButtonColor: '#3085d6',
-                                            cancelButtonColor: '#d33',
-                                            confirmButtonText: '확인',
-                                            reverseButtons: false,
-                                        }).then(result => {
-                                            location.href='/Lemo/my/reservation/list';
-                                        });
-                                    }
-                                });
+                                    ajaxAPI("my/reservation", jsonData, "DELETE").then((response)=>{
+                                        if(response == 1) {
+                                            Swal.fire({
+                                                title: '예약 취소되었습니다.',
+                                                icon: 'info',
+                                                confirmButtonColor: '#3085d6',
+                                                cancelButtonColor: '#d33',
+                                                confirmButtonText: '확인',
+                                                reverseButtons: false,
+                                            }).then(result => {
+                                                location.href='/Lemo/my/reservation/list';
+                                            });
+                                        }else {
+                                            Swal.fire( '다시 시도해주세요.' )
+                                        }
+                                    });
+                                }
                             });
                         });
 

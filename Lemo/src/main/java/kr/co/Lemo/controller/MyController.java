@@ -144,6 +144,7 @@ public class MyController {
         String user_id = myUser.getUser_id();
         vo.setMap(map);
         vo.setUser_id(user_id);
+        log.info("reviewStat : " + map.get("reviewStat"));
 
         // 페이징
         int totalReview = service.findTotalReviews(vo);
@@ -153,6 +154,7 @@ public class MyController {
         PageHandler ReviewPageHandler = new PageHandler(totalReview, vo);
 
         List<ReservationVO> reviews = service.findReviews(vo);
+
         m.addAttribute("reviews", reviews);
         m.addAttribute("ph", ReviewPageHandler);
 
@@ -371,7 +373,7 @@ public class MyController {
 
         log.debug("res_no : " + resVO.getRes_no());
 
-        int result = service.removeReservation( resVO.getRes_no() );
+        int result = service.removeUpdateReservation( resVO.getRes_no() );
 
         return result;
     }
