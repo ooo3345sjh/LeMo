@@ -143,6 +143,23 @@ public class AdminController {
         return resultMap;
     }
 
+    // @since 2023/03/30 관리자 예약 - 메모 작성
+    @ResponseBody
+    @PostMapping("usaveMemoInRes")
+    public Map<String, Integer> usaveMemoInRes(@RequestBody Map map) throws Exception {
+        log.warn(map.toString());
+
+        String res_no = (String) map.get("res_no");
+        String res_memo = (String) map.get("res_memo");
+
+        int result = service.usaveMemoInRes(res_memo, res_no);
+
+        Map resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
     // @since 2023/03/10 관리자 회원 - 회원 차단
     @ResponseBody
     @PostMapping("updateIsLocked")
@@ -430,7 +447,13 @@ public class AdminController {
 
 
     @GetMapping("reservation/list")
-    public String reservation_list(){
+    public String reservation_list(Model model,
+                                   @RequestParam Map map,
+                                   @ModelAttribute Admin_SearchVO sc){
+
+        sc.setMap(map);
+        service.findAllReservaitons(model, sc);
+
         return "admin/reservation/list";
     }
 

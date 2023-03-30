@@ -44,20 +44,16 @@
 
                                     </tr>
                                 </table>
+                                <button type="button" class="resetOption" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
                                 <button type="submit" class="btnSearch">검색</button>
 
-                                <section class="sortAcc_option">
-                                    <div>등록일순</div>
-                                    <div>리뷰순</div>
-                                    <div>평점순</div>
-                                </section>
-
+                                <span class="totalCount">숙박 총 개수 ([[${totalAccs}]])</span>
                                 <div class="board_list">
                                     <ul>
                                         <li class="info_list1">#</li>
                                         <li class="info_list2">숙박번호</li>
-                                        <li class="info_list3">숙박명</li>
-                                        <li class="info_list4">판매자 아이디</li>
+                                        <li class="info_list3">판매자 아이디</li>
+                                        <li class="info_list4">숙박명</li>
                                         <li class="info_list5">등록일</li>
                                         <li class="info_list6">비고</li>
                                     </ul>
@@ -65,11 +61,11 @@
                                         <ul th:each="acc,i:${accs}">
                                             <li class="info_list1">[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
                                             <li class="info_list2" th:text="${acc.acc_id}">11243</li>
-                                            <li class="info_list3">
+                                            <li class="info_list3" style="text-align: left !important;">[[${acc.user_id}]]</li>
+                                            <li class="info_list4">
                                                 <a th:href="@{/admin/info/view (acc_id=${acc.acc_id})}">[[${acc.acc_name}]]</a>
                                             </li>
-                                            <li class="info_list4">[[${acc.user_id}]]</li>
-                                            <li class="info_list5" th:text="${#strings.substring(acc.acc_rdate, 0, 10)}">23.03.29</li>
+                                            <li class="info_list5" th:text="${acc.acc_rdate}">23.03.29</li>
                                             <li class="prodBtn">
                                                 <button th:class="${acc.acc_state == 1? 'btnDrop' : 'btnDropClear'}" type="button"
                                                         th:value="${acc.acc_id}"

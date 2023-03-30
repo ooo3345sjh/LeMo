@@ -67,6 +67,7 @@ public class AdminService {
 
         model.addAttribute("coupons", coupons);
         model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalCoupon", pageHandler.getTotalCnt());
 
         return coupons;
     }
@@ -180,13 +181,13 @@ public class AdminService {
 
     /**
     * 관리자 숙소 - 지역 선택
-    * @since 2023/03/20
+    * @since 2023/03/30
     */
     public List<ProvinceVO> findProvince(){ return dao.selectProvince();}
 
     /**
     * 관리자 숙소 - 숙소 보기
-    * @since 2023/03/20
+    * @since 2023/03/30
     * @param acc_id
     */
      public ProductAccommodationVO findAcc(Integer acc_id) throws Exception {
@@ -195,6 +196,7 @@ public class AdminService {
 
     /**
      * 관리자 숙소 - 숙소 보기 - 서비스
+     * @since 2023/03/30
      * @param acc_id
      */
      public List<ServicereginfoVO> findServiceInAcc(Integer acc_id){
@@ -203,6 +205,32 @@ public class AdminService {
 
          return dao.selectServiceInAcc(acc_id);
      }
+
+    /**
+     * 관리자 예약 목록
+     * @since 2023/03/30
+     * @param model
+     * @param sc
+     */
+     public List<ReservationVO> findAllReservaitons(Model model, SearchCondition sc){
+         int totalCnt = dao.countReservations(sc);
+         int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+         if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+         PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+         List<ReservationVO> reservations = dao.selectReservaitons(sc);
+
+         log.warn("Selected reservations: " + reservations.toString());
+         log.warn("ph : " + pageHandler.getTotalCnt());
+
+         model.addAttribute("reservations", reservations);
+         model.addAttribute("ph", pageHandler);
+         model.addAttribute("totalReservations", pageHandler.getTotalCnt());
+
+         return reservations;
+     }
+
 
     /**
      * 관리자 쿠폰 - 쿠폰 등록
@@ -221,6 +249,16 @@ public class AdminService {
      * @param user_id
      */
     public int updateMemo(String memo, String user_id) { return dao.updateMemo(memo, user_id); }
+
+    /**
+     * 관리자 예약 - 메모 입력
+     * @since 2023/03/31
+     * @param res_memo
+     * @param res_no
+     */
+    public int usaveMemoInRes(String res_memo, String res_no){
+        return dao.updateMemoInRes(res_memo, res_no);
+    }
 
     /**
      * 관리자 회원 - 회원 차단
