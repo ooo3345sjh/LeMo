@@ -30,10 +30,10 @@
                                 <!-- 임시 평점 -->
                                 <div class="star-ratings">
                                     <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
-                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        <span th:each="i:${#numbers.sequence(0, review.revi_rate-1)}">★</span>
                                     </div>
                                     <div class="star-ratings-base space-x-2 text-lg">
-                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        <span th:each="i:${#numbers.sequence(0, review.revi_rate-1)}">★</span>
                                     </div>
                                 </div>
                             </div>

@@ -313,6 +313,8 @@ $(function(){
             ajaxAPI("diary/comment", jsonData, "DELETE").then((response)=>{
                 if(response == 1) {
                     Swal.fire(`삭제 되었습니다.!`)
+                    total -= 1
+                    $('#tit').children('b').text(total);
                     $(this).parent().parent().parent().remove();
                 }else {
                     Swal.fire(`다시 시도해주세요.!`)

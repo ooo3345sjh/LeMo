@@ -35,8 +35,8 @@ public class DiaryService {
     private DiaryDAO dao;
 
     // @since 2023/03/14
-    public Map<Integer, List<DiarySpotVO>> findDiaryArticle() {
-        List<DiarySpotVO> spotVO = dao.selectDiaryArticle();
+    public Map<Integer, List<DiarySpotVO>> findDiaryArticle(Map options) {
+        List<DiarySpotVO> spotVO = dao.selectDiaryArticle(options);
 
         Map<Integer, List<DiarySpotVO>> map = spotVO.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
 
@@ -108,14 +108,14 @@ public class DiaryService {
 
     // @since 2023/03/20
     public int rsaveOriComment(DiaryCommentVO commentVO) {
+        dao.updateArticleCommentPlus(commentVO);
         return dao.insertDiaryOriComment(commentVO);
     }
 
     // @since 2023/03/16
     public int rsaveComment(DiaryCommentVO commentVO) {
-
+        dao.updateArticleCommentPlus(commentVO);
         int result = dao.insertDiaryComment(commentVO);
-
         return result;
     }
 
@@ -168,7 +168,7 @@ public class DiaryService {
         dao.deleteDiaryComments(arti_no);
         dao.deleteDiaryLikes(arti_no);
         int result = dao.deleteDiaryArticle(arti_no);
-
+        dao.updateArticleCommentMinus(arti_no);
         return result;
     }
 }

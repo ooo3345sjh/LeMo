@@ -20,19 +20,19 @@
                     <div class="content">
                         <div class="filter">
                             <div  id="filter1">
-                                <select>
+                                <select name="orderByOption">
                                     <option value="recent">최신 순</option>
                                     <option value="heart">좋아요 순</option>
                                     <option value="reply">댓글 순</option>
                                 </select>
                             </div>
                             <div id="filter2">
-                                <select>
+                                <select name="orderBySearchType">
                                     <option value="addr">주소</option>
                                     <option value="title_content">제목/내용</option>
                                 </select>
-                                <input type="text" placeholder="검색 키워드 입력">
-                                <button>검색</button>
+                                <input name="keyword" class="keyword" type="text" placeholder="검색 키워드 입력">
+                                <button class="orderBySearchType">검색</button>
                             </div>
                         </div>
                         <!-- 여행일기 목록 -->
@@ -43,7 +43,9 @@
                                 </div>
                                 <ul th:if="${map.size != 0}">
                                     <li th:each="article:${map}">
-                                        <button th:class="${map.get(article.key).get(0).user_id == #authentication.principal.user_id ? 'heart on' : 'heart'}" th:data-no="${map.get(article.key).get(0).arti_no}"><img th:src="@{/images/diary/heart.png}"></button>
+                                        <button sec:authorize="isAuthenticated()" th:if="${#authentication.principal.user_id != null}" th:class="${map.get(article.key).get(0).user_id == #authentication.principal.user_id ? 'heart on' : 'heart'}" th:data-no="${map.get(article.key).get(0).arti_no}">
+                                            <img th:src="@{/images/diary/heart.png}">
+                                        </button>
                                         <button class="marker" th:onclick="sortPosition([[${map.get(article.key).get(0).arti_no}]])"><img th:src="@{/images/diary/marker2.png}" alt="일정마크표시"></button>
                                         <!-- 사진 슬라이드 -->
                                         <div class="img_slider">
@@ -84,6 +86,11 @@
                 let markerObject = new Map();
                 let overlays = new Map();
                 var markers = [];
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const orderByOption     = urlParams.get('orderByOption');
+                const orderBySearchType = urlParams.get('orderBySearchType');
+                $('option[value='+orderByOption+']').prop('selected', true);
 
                 function sortPosition(arti_no) {
                     // 지도내의 마커들 기본 이미지로 변경
@@ -231,6 +238,20 @@
                             }
                         });
                     }
+                });
+
+                $('select[name=orderByOption]').change(function(){
+                    let option = $(this).val();
+
+                    location.href= "/Lemo/diary/list?orderByOption="+option;
+
+                });
+
+                $('.orderBySearchType').click(function(){
+                    let keyword = $('.keyword').val();
+                    let option  = $('select[name=orderBySearchType]').val();
+
+                    location.href= "/Lemo/diary/list?orderByOption="+orderByOption+"&keyword="+keyword+"&option="+option;
                 });
             </script>
         </th:block>
