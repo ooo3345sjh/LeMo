@@ -314,8 +314,7 @@ main .main_best_table > .main_best_item1 {
 }
 main .main_best_table .main_best_item1_click {
     box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
+
 }
 main .main_best_table .main_best_item1_img {
     position: relative;
