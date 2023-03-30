@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <!-- 관리자 aside -->
 <aside th:fragment="adminFragment">
     <nav class="sidebar">
@@ -22,10 +23,11 @@
                 <ul class="sidebar_collapse_menu">
                     <li>
                         <th:block sec:authorize="isAuthenticated()">
-                        <form th:action="@{/user/logout}" th:method="post">
-                            <input type="submit"  class="logout" value="로그아웃"/>
-                        </form>
-                    </th:block>
+                            <form th:action="@{/user/logout}" th:method="post">
+                                <input type="submit"  class="logout" value="로그아웃"/>
+                            </form>
+                        </th:block>
+
                     </li>
                 </ul>
             </li>
@@ -111,7 +113,7 @@
 <aside th:fragment="businessFragment">
     <nav class="sidebar">
         <div class="sidebar_logo">
-            <a href="#">
+            <a th:href="@{/}">
                 <img th:src="@{/images/admin/lemo_logo-removebg-preview.png}" alt="logo">
                 <div class="logo">LEMO</div>
             </a>
@@ -129,7 +131,11 @@
                 </a>
                 <ul class="sidebar_collapse_menu">
                     <li>
-                        <a href="#">로그아웃</a>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <form th:action="@{/user/logout}" th:method="post">
+                                <input type="submit"  class="logout" value="로그아웃"/>
+                            </form>
+                        </th:block>
                     </li>
                 </ul>
             </li>

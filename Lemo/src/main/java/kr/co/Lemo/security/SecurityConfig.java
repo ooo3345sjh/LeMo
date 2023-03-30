@@ -53,6 +53,8 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests(req -> req
                                 .mvcMatchers("/", "/index").permitAll()
                                 .antMatchers("/my/**").authenticated()
+                                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                                .antMatchers("/business/**").hasAnyRole("BUSINESS")
 //                        .mvcMatchers(
 //                                "/user/terms", "/user/login", "/user/error", "/user/join", "/user/hp/auth", "/user/social/**",
 //                                "/user/signup", "/user/pw/reset", "/user/email/send"

@@ -13,6 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -60,6 +61,15 @@ public class HomeLoginSuccessHandler extends LoginSuccessHandler implements Auth
             log.debug("uri : "+ uri);
             redirectStrategy.sendRedirect(request, response, "/user/login/error?error=PNE");
             return;
+        }
+
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
+        if(savedRequest != null){
+            String uri = isUriManagement(savedRequest.getRedirectUrl(), request, user.getRole());
+            if(uri != null){
+                redirectStrategy.sendRedirect(request, response, uri);
+                return;
+            }
         }
 
         String uri = loginSuccessPage(request, response);

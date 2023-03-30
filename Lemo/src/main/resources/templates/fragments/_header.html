@@ -11,6 +11,12 @@
                     <a th:href="@{/}" class="logo">LEMO</a>
                 </div>
                 <div class="header_service">
+                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a th:href="@{/admin/index}">관리자</a>
+                    </th:block>
+                    <th:block sec:authorize="hasRole('ROLE_BUSINESS')">
+                        <a th:href="@{/business/index}">관리자</a>
+                    </th:block>
                     <th:block sec:authorize="isAuthenticated()">
                         <form th:action="@{/user/logout}" th:method="post">
                             <input type="submit"  class="logout" value="로그아웃"/>

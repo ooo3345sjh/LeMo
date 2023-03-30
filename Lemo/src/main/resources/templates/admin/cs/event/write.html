@@ -301,26 +301,24 @@
             });
 
             function readURL(input) {
+                console.log('start');
                 console.log(input.files[0]);
 
-              var reader = new FileReader();
-              reader.onload = function(e) {
-                var image = new Image();
-                image.src = e.target.result;
-                image.onload = function() {
-                  if (image.width < 1000 || image.height > 300 || image.height < 200) {
-                    alert("이미지 크기가 올바르지 않습니다. (가로는 1000px 이상, 세로는 200px 이상, 300px 이하)");
-                    return;
-                  }
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var image = new Image();
+                    image.src = e.target.result;
+                    image.onload = function() {
+                        if (image.width < 1000 || image.height > 300 || image.height < 200) {
+                            alert("이미지 크기가 올바르지 않습니다. (가로는 1000px 이상, 세로는 200px 이상, 300px 이하)");
+                            return;
+                        }
 
-                  // 조건에 맞는 경우에 대한 처리
-                  // ...
-
+                    };
                 };
-              };
-              if(false){
-                                 reader.readAsDataURL(input.files[0]);
-              }
+                if(false){
+                    reader.readAsDataURL(input.files[0]);
+                }
 
 
             }
