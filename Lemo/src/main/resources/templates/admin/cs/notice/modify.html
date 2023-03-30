@@ -49,7 +49,7 @@
                         </div>
 
                         <!-- 공지 보기 폼 -->
-                        <form class="col_register_form" id="modifyNotice" th:action="@{/admin/cs/notice/modify}" method="post">
+                        <form class="col_register_form" id="modifyNotice" th:action="@{/admin/cs/notice/modify}" method="post" onsubmit="return modifyCheck();">
                             <input type="hidden" name="cs_no" th:value="${cs_no}">
                             <!-- 공지제목 등록 -->
                             <div class="col_register1">
@@ -77,8 +77,13 @@
 
                             <!-- 버튼 -->
                             <div class="btnAdminProd">
-                                <a type="submit" onclick="document.getElementById('modifyNotice').submit();">
+                                <a id="modifyComplete" type="submit" onclick="document.getElementById('modifyNotice').submit();">
                                     수정완료
+                                </a>
+                            </div>
+                            <div class="btnAdminProd">
+                                <a href="javascript:history.back();">
+                                    목록으로
                                 </a>
                             </div>
                         </form>
@@ -93,10 +98,19 @@
 <th:block layout:fragment="script">
     <script>
        $(document).ready(function() {
-             // 타이틀 포커스
+            // 타이틀 포커스
             const cs_title = document.getElementById('cs_title');
             cs_title.focus();
-            });
+
+            // 수정완료클릭시 확인
+            function modifyCheck(){
+
+                let modifyComplete = document.getElementById('modifyComplete');
+                 $('modifyComplete').click(function(){
+                    confirm('정말 수정하시겠습니까?');
+                 });
+
+       });
     </script>
 </th:block>
 </html>
