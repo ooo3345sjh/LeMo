@@ -165,6 +165,13 @@
         WHERE a.`res_no` = #{res_no};
     </select>
 
+    <select id="selectDiaryXY" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+        SELECT b.`acc_name`, b.`acc_longtitude`, b.`acc_lattitude` FROM
+            `lemo_product_reservation` AS a LEFT JOIN
+            `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
+        WHERE a.`res_no` = #{res_no};
+    </select>
+
     <!-- insert -->
     <insert id="insertDiaryArticle" parameterType="kr.co.Lemo.domain.ArticleDiaryVO" useGeneratedKeys="true" keyProperty="arti_no">
         INSERT INTO `lemo_diary_article` SET

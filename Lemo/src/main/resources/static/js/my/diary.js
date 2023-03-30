@@ -1,13 +1,14 @@
 $(function(){
     /* 글 토글 */
-    $(document).on('click', '.place', function(){
+    $(document).on('click', '.spot', function(e){
+        e.stopPropagation();
 
-        $(this).find('.toggle').slideToggle();
+        $(this).parent().find('.toggle').slideToggle(600);
 
         let currentPosition = parseInt($('#listMap').css('top'));
 
         /** 토글 + 화살표 변경 */
-        const arrow = $(this).find('.toggle').prev();
+        const arrow = $(this).parent().find('.arrow');
         if(arrow.attr('class') == 'arrow'){
             arrow.addClass('on');
         }else if(arrow.attr('class') == 'arrow on'){

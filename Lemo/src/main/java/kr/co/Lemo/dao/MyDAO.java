@@ -60,4 +60,7 @@ public interface MyDAO {
     // @since 2023/03/30
     public int updateReservationState(int res_no);
 
+    // @since 2023/03/31
+    public ProductAccommodationVO selectDiaryXY(int res_no);
+
 }

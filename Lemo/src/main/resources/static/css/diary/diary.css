@@ -350,6 +350,9 @@ h3 {
     border-bottom: 1px solid #ddd;
     font-size: 15px;
     font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .diary_spot_content {
@@ -358,6 +361,9 @@ h3 {
     background: #fff;
     border-bottom: 1px solid #ddd;
     font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .diary_spot_close {
@@ -482,6 +488,35 @@ button {cursor: pointer;}
     overflow: hidden;
 }
 
+.diaryList {
+    float: right;
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 17px;
+    color : white;
+    margin-top: 20px;
+    margin-left: 15px;
+    background-color: #297a98;
+    cursor:pointer;
+}
+
+.diaryDelete {
+    float: right;
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color : white;
+    font-size: 17px;
+    margin-top: 20px;
+    margin-left: 15px;
+    background-color: #297a98;
+    cursor:pointer;
+}
 
 #diary_content {
     background-color: #ffffff;
@@ -541,6 +576,10 @@ button {cursor: pointer;}
 
 .place:hover {
     box-shadow: 0 14px 28px rgb(0 0 0 / 15%), 0 10px 10px rgb(0 0 0 / 15%);
+}
+
+.place .spot {
+    cursor:pointer;
 }
 
 
@@ -615,7 +654,11 @@ button {cursor: pointer;}
 }
 
 .toggle > .text {
-    margin-bottom: 30px;
+    font-size: 14px;
+    width: 100%;
+    border: 0px solid #ddd;
+    resize: none;
+    height: 56px;
 }
 
 /* 여행일기 댓글 */

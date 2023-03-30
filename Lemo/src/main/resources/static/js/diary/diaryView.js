@@ -97,10 +97,12 @@ $(function(){
 
 
     /* 글 토글 */
-    $('.place').click(function(e){
+    $('.spot').click(function(e){
         e.preventDefault();
-        $(this).find('.toggle').slideToggle();
-        $(this).find('.toggle').prev().toggleClass('on');
+        let articleTextarea = $(this).parent().find('.toggle').children('textarea');
+        $(this).parent().find('.toggle').slideToggle(600);
+        articleTextarea.css('height', ( 15 + articleTextarea.prop('scrollHeight') ) + 'px');
+        $(this).parent().find('.toggle').prev().toggleClass('on');
     });
 
     /* 답 댓글쓰기 팝업 */
@@ -151,7 +153,11 @@ $(function(){
 
                 let content = '<li data-no="'+response["com_no"]+'" data-pno="'+response["com_no"]+'" class="oriCom'+response["com_no"]+'">';
                    content += '<div class="repdiv1">';
-                   content += '<img src="/Lemo/images/admin/user_default.png" alt="프사">';
+                   if(response["photo"] == null ) {
+                    content += '<img src="/Lemo/images/my/profile.png" alt="프사">';
+                   }else {
+                    content += '<img src="/Lemo/img/profile/'+response["photo"]+'" alt="프사">';
+                   }
                    content += '<div>';
                    content += '<strong>'+response["nick"]+'</strong><span style="margin-left: 10px;">방금 전</span>';
                    content += '</div>';
@@ -201,7 +207,11 @@ $(function(){
 
             let content = '<li class="re_reply com'+com_pno+'" style="display:block;" data-no="'+com_no+'" data-pno="'+response["com_pno"]+'">';
                content += '<div class="repdiv1">';
-               content += '<img src="/Lemo/images/admin/user_default.png" alt="프사">';
+               if(response["photo"] == null ) {
+                content += '<img src="/Lemo/images/my/profile.png" alt="프사">';
+               }else {
+                content += '<img src="/Lemo/img/profile/'+response["photo"]+'" alt="프사">';
+               }
                content += '<div>';
                content += '<strong>'+response["nick"]+'</strong><span style="margin-left: 10px;">방금 전</span>';
                content += '</div>';
@@ -374,6 +384,30 @@ $(function(){
                 }
             }else {
                 Swal.fire(`다시 시도해주세요.`)
+            }
+        });
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const arti_no = urlParams.get('arti_no');
+    /* 여행일기 삭제 */
+    $('.diaryDelete').click(function(){
+        let jsonData = { "arti_no":arti_no }
+
+        ajaxAPI("diary/article", jsonData, "DELETE").then((response)=>{
+            if(response == 1) {
+                Swal.fire({
+                    title: '삭제 되었습니다.',
+                    icon: 'info',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '확인',
+                    reverseButtons: false,
+                }).then(result => {
+                    location.href='/Lemo/my/diary/list';
+                });
+            }else {
+                Swal.fire( '다시 시도해주세요.' )
             }
         });
     });

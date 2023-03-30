@@ -162,4 +162,13 @@ public class DiaryService {
 
         return result;
     }
+
+    public int removeDiary(int arti_no) {
+        dao.deleteDiarySpot(arti_no);
+        dao.deleteDiaryComments(arti_no);
+        dao.deleteDiaryLikes(arti_no);
+        int result = dao.deleteDiaryArticle(arti_no);
+
+        return result;
+    }
 }

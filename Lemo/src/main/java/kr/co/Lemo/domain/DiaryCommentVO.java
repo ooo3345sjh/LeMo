@@ -34,5 +34,7 @@ public class DiaryCommentVO {
     private int com_state;
     // @since 2023/03/23
     private String before24H;
+    // @since 2023/03/30
+    private String photo;
 
 }

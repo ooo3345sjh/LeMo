@@ -54,5 +54,8 @@ public interface DiaryDAO {
     public int selectDiaryLike(@Param("arti_no") int arti_no, @Param("user_id") String user_id);
     public int deleteDiaryLike(@Param("arti_no") int arti_no, @Param("user_id") String user_id);
     public int updateDiaryHit(int arti_no);
-
+    public int deleteDiaryArticle(int arti_no);
+    public int deleteDiarySpot(int arti_no);
+    public int deleteDiaryLikes(int arti_no);
+    public int deleteDiaryComments(int arti_no);
 }
