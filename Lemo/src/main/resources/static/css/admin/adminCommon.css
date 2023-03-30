@@ -28,6 +28,7 @@
 }
 
 
+
 #wrapper {
   /* overflow: hidden; */
   min-width: 1200px;
@@ -63,6 +64,17 @@ main {
 }
 main .main_inner {
     margin: 0;
+}
+main .logout {
+    font-size: 14px;
+    font-weight: 300;
+    white-space: nowrap;
+    padding: 10px 0 10px 8px;
+    margin-top: 0;
+    margin-left: 0;
+    cursor: pointer;
+    background: transparent;
+    border: none;
 }
 main .sidebar {
     width: 270px;

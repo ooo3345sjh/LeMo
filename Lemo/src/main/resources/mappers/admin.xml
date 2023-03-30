@@ -177,6 +177,25 @@
         where `acc_id`=#{acc_id};
     </select>
 
+    <!-- 관리자 - 예약정보 목록 -->
+    <select id="selectReservaitons" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ReservationVO">
+        select * from `lemo_product_reservation` as a
+        inner join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        join `lemo_product_room` as c on a.acc_id=c.acc_id
+        where 1=1
+        <include refid="searchAccInRes"/>
+        order by `res_state` asc limit ${offset}, 10;
+    </select>
+
+    <!-- 관리자 - 예약정보 목록 페이징 -->
+    <select id="countReservations" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
+        select count(*) from `lemo_product_reservation` as a
+        inner join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        join `lemo_product_room` as c on a.acc_id=c.acc_id
+        where 1=1
+        <include refid="searchAccInRes"/>
+    </select>
+
 
     <!-- 관리자 - 쿠폰 등록  -->
     <insert id="insertCoupon">
@@ -196,15 +215,22 @@
         );
     </insert>
 
-
+    <!-- 관리자 - 회원 - 메모 입력 -->
     <update id="updateMemo">
         update `lemo_member_userinfo` set `memo`=#{memo} where `user_id`=#{user_id};
     </update>
 
+    <!-- 관리자 - 예약 - 메모 입력 -->
+    <update id="updateMemoInRes">
+        update `lemo_product_reservation` set `res_memo`=#{res_memo} where `res_no`=#{res_no};
+    </update>
+
+    <!-- 관리자 - 회원 - 차단 -->
     <update id="updateIsLocked">
         update `lemo_member_userinfo` set `isLocked`=0 where `user_id`=#{user_id};
     </update>
 
+    <!-- 관리자 - 회원 - 차단 해제 -->
     <update id="updateIsLockedClear">
         update `lemo_member_userinfo` set `isLocked`=1 where `user_id`=#{user_id};
     </update>
@@ -213,6 +239,9 @@
     <update id="updateReply">
         update `lemo_product_review` set `revi_reply`=#{revi_reply} where `revi_id`=#{revi_id};
     </update>
+
+
+
 
     <!-- 관리자 - 숙박 목록 - 차단 -->
     <update id="updateDropAcc">
@@ -541,6 +570,25 @@
         </if>
     </sql>
 
+    <!-- 관리자 - 예약 검색 (숙박 검색) -->
+    <sql id="searchAccInRes">
+        <if test="searchField != null">
+            <choose>
+                <when test='searchField == "acc_id"'>
+                    and a.`acc_id` like CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test='searchField == "acc_name"'>
+                    and `acc_name` like CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test='searchField == "res_no"'>
+                    and `res_no` like CONCAT('%', #{searchWord}, '%')
+                </when>
+                <when test='searchField == "res_name"'>
+                    and `res_name` like CONCAT('%', #{searchWord}, '%')
+                </when>
+            </choose>
+        </if>
+    </sql>
 
 
 
