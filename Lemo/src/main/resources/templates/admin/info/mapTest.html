@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin-layout}">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/admin/adminSubStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712"></script>
+    <style>
+
+      </style>
+</th:block>
+<th:block layout:fragment="content">
+    <main>
+        <div class="main_inner">
+            <!-- 죄측 사이드바 -->
+            <th:block th:replace="~{fragments/_aside::adminFragment}"></th:block>
+            <!-- 우측 메인 컨테이너 -->
+            <section class="main_content">
+                <div class="main_cotent_inner">
+                    <div class="main_content_div">
+
+                      <div id="map" style="width:100%;height:350px;"></div>
+                      <p id="result"></p>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
+</th:block>
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+    mapOption = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 2 // 지도의 확대 레벨
+    };
+
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+    // 다각형을 구성하는 좌표 배열입니다. 이 좌표들을 이어서 다각형을 표시합니다
+    var polygonPath = [
+             new kakao.maps.LatLng(35.257970, 129.024000),
+              new kakao.maps.LatLng(35.260325, 129.020144),
+              new kakao.maps.LatLng(35.262374, 129.014806),
+              new kakao.maps.LatLng(35.246804, 128.987286),
+              new kakao.maps.LatLng(35.243145, 128.980414),
+              new kakao.maps.LatLng(35.228866, 128.968636),
+              new kakao.maps.LatLng(35.219623, 128.957831),
+              new kakao.maps.LatLng(35.202200, 128.942214),
+              new kakao.maps.LatLng(35.191529, 128.936123),
+              new kakao.maps.LatLng(35.177238, 128.928034),
+              new kakao.maps.LatLng(35.171161, 128.932239),
+              new kakao.maps.LatLng(35.166235, 128.935537),
+              new kakao.maps.LatLng(35.165540, 128.938050),
+              new kakao.maps.LatLng(35.165211, 128.940459),
+              new kakao.maps.LatLng(35.164361, 128.944664),
+              new kakao.maps.LatLng(35.163020, 128.950470),
+              new kakao.maps.LatLng(35.160665, 128.960029),
+              new kakao.maps.LatLng(35.156738, 128.970989),
+              new kakao.maps.LatLng(35.153089, 128.983151),
+              new kakao.maps.LatLng(35.151747, 128.994725),
+              new kakao.maps.LatLng(35.151747, 129.007270),
+              new kakao.maps.LatLng(35.154103, 129.016529),
+              new kakao.maps.LatLng(35.158691, 129.024004),
+              new kakao.maps.LatLng(35.167313, 129.036034),
+              new kakao.maps.LatLng(35.181286, 129.051651),
+              new kakao.maps.LatLng(35.185871, 129.055542),
+              new kakao.maps.LatLng(35.190131, 129.056666),
+              new kakao.maps.LatLng(35.194222, 129.057159),
+              new kakao.maps.LatLng(35.200615, 129.055199),
+              new kakao.maps.LatLng(35.207009, 129.053583),
+              new kakao.maps.LatLng(35.212717, 129.053411),
+              new kakao.maps.LatLng(35.220014, 129.055371),
+              new kakao.maps.LatLng(35.226579, 129.057503),
+              new kakao.maps.LatLng(35.233474, 129.056993),
+              new kakao.maps.LatLng(35.239269, 129.052288),
+              new kakao.maps.LatLng(35.248542, 129.041328),
+              new kakao.maps.LatLng(35.251909, 129.033510),
+              new kakao.maps.LatLng(35.254424, 129.027248)
+    ];
+
+    // 지도에 표시할 다각형을 생성합니다
+    var polygon = new kakao.maps.Polygon({
+        path:polygonPath, // 그려질 다각형의 좌표 배열입니다
+        strokeWeight: 3, // 선의 두께입니다
+        strokeColor: '#39DE2A', // 선의 색깔입니다
+        strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+        strokeStyle: 'solid', // 선의 스타일입니다
+        fillColor: '#A2FF99', // 채우기 색깔입니다
+        fillOpacity: 0.7 // 채우기 불투명도 입니다
+    });
+
+    // 지도에 다각형을 표시합니다
+    polygon.setMap(map);
+
+    // 다각형에 마우스오버 이벤트가 발생했을 때 변경할 채우기 옵션입니다
+    var mouseoverOption = {
+        fillColor: '#EFFFED', // 채우기 색깔입니다
+        fillOpacity: 0.8 // 채우기 불투명도 입니다
+    };
+
+    // 다각형에 마우스아웃 이벤트가 발생했을 때 변경할 채우기 옵션입니다
+    var mouseoutOption = {
+        fillColor: '#A2FF99', // 채우기 색깔입니다
+        fillOpacity: 0.7 // 채우기 불투명도 입니다
+    };
+
+    // 다각형에 마우스오버 이벤트를 등록합니다
+    kakao.maps.event.addListener(polygon, 'mouseover', function() {
+
+        // 다각형의 채우기 옵션을 변경합니다
+        polygon.setOptions(mouseoverOption);
+
+    });
+
+    kakao.maps.event.addListener(polygon, 'mouseout', function() {
+
+        // 다각형의 채우기 옵션을 변경합니다
+        polygon.setOptions(mouseoutOption);
+
+    });
+
+    // 다각형에 마우스다운 이벤트를 등록합니다
+    var downCount = 0;
+    kakao.maps.event.addListener(polygon, 'mousedown', function() {
+        console.log(event);
+        var resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = '다각형에 mousedown 이벤트가 발생했습니다!' + (++downCount);
+    });
+    </script>
+</th:block>
+</html>

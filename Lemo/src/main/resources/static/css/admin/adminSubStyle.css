@@ -1413,6 +1413,39 @@ main .selectSaleLimit > label {
     font-size: 13px;
     font-weight: 300;
 }
+main .province_select {
+    font-size: 13px;
+    width: 200px;
+    height: 28px;
+    border: 1px solid #dbdbdb;
+    padding: 1px 5px;
+}
+main .accOption_select {
+    font-size: 13px;
+    width: 200px;
+    height: 28px;
+    border: 1px solid #dbdbdb;
+    padding: 1px 5px;
+    display: inline-block;
+}
+main .accOption_search {
+    font-size: 13px;
+    width: 40% !important;
+    height: 28px;
+    border: 1px solid #dbdbdb;
+    padding-left: 8px;
+    display: inline-block;
+}
+main .search_review_table th {
+    text-align: left;
+    border-bottom: 1px solid #dbdbdb;
+    padding-left: 17px;
+    background: #f0f0f0;
+    width: 13% !important;
+    font-size: 13px;
+}
+
+
 
 /* 쿠폰 */
 main .col_register1 .coupon_top {

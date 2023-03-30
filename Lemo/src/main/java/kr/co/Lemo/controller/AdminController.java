@@ -359,6 +359,11 @@ public class AdminController {
         return "admin/info/list";
     }
 
+    @GetMapping("info/mapTest")
+    public String mapTest(){
+        return "admin/info/mapTest";
+    }
+
     @GetMapping("info/province")
     public ResponseEntity<List<ProvinceVO>> findProvince(){
         List<ProvinceVO> provinces = service.findProvince();
@@ -390,6 +395,8 @@ public class AdminController {
     public String reservation_timeline(){
         return "admin/reservation/timeline";
     }
+
+
 
 
 

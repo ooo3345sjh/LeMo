@@ -30,7 +30,8 @@ public class Admin_SearchVO extends SearchCondition {
     private Integer acc_id;
     private String searchAccType;
     private String searchIsNoticeEnabled;   // 회원 검색 - 알림동의여부
-    private String searchAccProvince;       // 숙소 검색
+    private String searchAccProvince;       // 숙소 검색 (지역)
+    private Integer province_no;
 
 
 }
