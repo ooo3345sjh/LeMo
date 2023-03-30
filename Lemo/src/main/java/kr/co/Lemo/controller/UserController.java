@@ -459,10 +459,10 @@ public class UserController {
         log.debug(messageVO.toString());
         Map map = new HashMap();
         try {
-//            SmsResponseVO response = smsService.sendSms(messageVO);
-            SmsResponseVO response = SmsResponseVO.builder()
-                                                .code(123123)
-                                                .build();
+            SmsResponseVO response = smsService.sendSms(messageVO);
+//            SmsResponseVO response = SmsResponseVO.builder()
+//                                                .code(123123)
+//                                                .build();
 
             HttpSession session = req.getSession();
             session.setAttribute("authCode", response.getCode());
@@ -495,7 +495,7 @@ public class UserController {
             map.put("code", 123123);
             req.getSession().setAttribute("authEmailCode", map.get("code"));
             log.debug("email is not null");
-            //emailService.emailAuth(map);
+            emailService.emailAuth(map);
         }
 
         else

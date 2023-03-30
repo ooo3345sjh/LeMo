@@ -49,6 +49,9 @@
                     <button type="button" class="btn_link" id="signup_btn" disabled="disabled">
                         <span>확인</span>
                     </button>
+                    <div class="spinner-border" role="status" id="roadingStatus">
+                        <span class="sr-only">Loading...</span>
+                    </div>
                 </div>
 
             </form>
@@ -86,6 +89,31 @@
         const rePass = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
         const reEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
         const regCode = /^[0-9]+$/;
+
+        function showLoading() {
+            //화면의 높이와 너비를 구합니다.
+            var maskHeight = $(document).height();
+            var maskWidth = window.document.body.clientWidth;
+
+            //화면에 출력할 마스크를 설정해줍니다.
+            var mask = "<div id='mask' style='position:absolute; z-index:1000; background-color:#000000; left:0; top:0;'></div>";
+
+            //화면에 레이어 추가
+            $('body').append(mask)
+
+            //마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채웁니다.
+            $('#mask').css({
+                'width': maskWidth
+                , 'height': maskHeight
+                , 'opacity': '0.1'
+            });
+
+            $("#roadingStatus").show();
+        }
+        function hideLoading(){
+            $("#mask").remove();
+            $("#roadingStatus").hide();
+        }
 
         function getAuthCodeTag(){
             let authCodeTag = "<div id='authCodeDiv'>"
@@ -217,32 +245,44 @@
                     "email":email
                 };
 
+                authEmail = email;
+                isSended = true;
+                emailSendBtn.text("재전송");
+                emailSendBtn.removeClass("active");
+
+                $('#section1').append(getAuthCodeTag());
+                TIMER();
+                saveCodeAuth();
+
+                Swal.fire({
+                    html: '<p style="font-size:18px; font-weight:bold;">인증번호를 발송했습니다.<br>인증번호가 오지 않으면 입력하신 정보가 회원정보와 일치하는지 확인해 주세요.</p>',
+                    icon : 'success',
+                    confirmButtonText : '확인'
+                })
+
                 ajaxAPI("user/email/send", jsonData, "POST").then((response) => {
                     if(response.result === 0){
                         $('#email_msg').text('존재하지않는 회원입니다.');
                     }
                     else if(response.status === 0) {
-                        Swal.fire({
-                            title : "이메일 전송에 실패 했습니다.\n 다시 시동해주세요.",
-                            icon : 'error',
-                            confirmButtonText : '확인'
-                        })
                         isSended = false;
                     }
 
                     else {
-                        authEmail = email;
-                        isSended = true;
+                     //   authEmail = email;
+                     //    isSended = true;
                         authCode = response.code;
-                        emailSendBtn.text("재전송");
-                        emailSendBtn.removeClass("active");
-
-                        $('#section1').append(getAuthCodeTag());
-                        TIMER();
-                        saveCodeAuth();
+                        // emailSendBtn.text("재전송");
+                        // emailSendBtn.removeClass("active");
+                        //
+                        // $('#section1').append(getAuthCodeTag());
+                        // TIMER();
+                        // saveCodeAuth();
                     }
+
                 }).catch((errorMsg) => {
                     console.log(errorMsg)
+                    isSended = false;
                 });
             });
 

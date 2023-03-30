@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -88,6 +89,15 @@ public class SocialLoginSuccessHandler extends LoginSuccessHandler implements Au
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(userVO, null, userVO.getAuthorities())
         );
+
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
+        if(savedRequest != null){
+            String uri = isUriManagement(savedRequest.getRedirectUrl(), request, user.getUserInfoEntity().getRole());
+            if(uri != null){
+                redirectStrategy.sendRedirect(request, response, uri);
+                return;
+            }
+        }
 
         String uri = loginSuccessPage(request, response);
         redirectStrategy.sendRedirect(request, response, uri);

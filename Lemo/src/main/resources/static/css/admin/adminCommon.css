@@ -181,6 +181,14 @@ main .sidebar > .sidebar_menu .sidebar_collapse_menu a {
 main .sidebar > .sidebar_menu .sidebar_collapse_menu a:hover {
     font-weight: 400;
 }
+main .sidebar > .sidebar_menu .sidebar_collapse_menu .logout {
+    font-size: 14px;
+    font-weight: 300;
+    padding: 10px 0 10px 8px;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
 /* 우측 메인 컨테이너 */
 main .main_content {
     padding-left: 270px;

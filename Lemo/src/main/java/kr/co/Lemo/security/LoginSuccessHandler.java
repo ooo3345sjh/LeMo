@@ -98,4 +98,29 @@ public class LoginSuccessHandler {
             session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
         }
     }
+
+    /**
+     * @since 2023/03/31
+     * @param reirectUrl 리다이렉트할 uri
+     * @param request contextPath를 가져올 용도
+     * @param role 회원의 역할 확인
+     * @return 리다이렉트할 주소 반환
+     * @apiNote 관리자 페이지에 권한이 없는 회원이 방문하게 될시 권한에 맞는 페이지로 반환하기 위한 메서드
+     */
+    protected String isUriManagement(String reirectUrl, HttpServletRequest request, String role){
+        String uri = null;
+        if("BUSINESS".equals(role) && reirectUrl.contains(request.getContextPath() + "/admin/")){
+            uri = "/business/index";
+        }
+
+        else if("ADMIN".equals(role) && reirectUrl.contains(request.getContextPath() + "/business/")){
+            uri = "/admin/index";
+        }
+
+        else if("USER".equals(role) && (reirectUrl.contains(request.getContextPath() + "/business/")
+                || reirectUrl.contains(request.getContextPath() + "/admin/"))){
+            uri = "/index";
+        }
+        return uri;
+    }
 }
