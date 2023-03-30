@@ -19,8 +19,8 @@
                             <span>[[${article.get(0).getArti_title}]]</span>
                             <ul>
                                 <li>[[${article.get(0).getArti_start}]] ~ [[${article.get(0).getArti_end}]]</li>
-                                <li>스카이베이호텔 경포</li>
-                                <li>홍길동&nbsp;&nbsp;[[${article.get(0).getArti_rdate.substring(0,10)}]]</li>
+                                <li>[[${article.get(0).getAcc_name}]]</li>
+                                <li>[[${article.get(0).getNick}]]&nbsp;&nbsp;[[${article.get(0).getArti_rdate.substring(0,10)}]]</li>
                                 <li>[[${article.get(0).getArti_like}]]</li>
                             </ul>
                         </div>
@@ -76,7 +76,7 @@
                                                     <th:block th:if="${comment.com_no != comment.com_pno}">
                                                         <p class="reply_id">@[[${comment.com_replyId}]]</p>
                                                     </th:block>
-                                                    <textarea readonly onchange="resizeHeight()">[[${comment.com_comment}]]</textarea>
+                                                    <textarea readonly class="comTextarea" onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)">[[${comment.com_comment}]]</textarea>
                                                 </div>
                                                 <div class="repdiv3">
                                                     <div>
@@ -98,7 +98,7 @@
                         <!-- 댓글 쓰기 -->
                         <div class="write_reply">
                             <form action="#" class="comOriWrite">
-                                <textarea class="comTextarea" onchange="resizeHeight()"></textarea>
+                                <textarea class="comTextarea" onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)"></textarea>
                                 <button>댓글 쓰기</button>
                             </form>
                         </div>
@@ -125,17 +125,17 @@
         let arti_no     = [[${arti_no}]];
         let total       = [[${total}]];
 
-        const comTextarea = document.querySelector('.comTextarea');
+        const comTextarea = document.querySelectorAll('.comTextarea');
 
-        function resizeHeight() {
-            comTextarea.style.height = 'auto';
-            comTextarea.style.height = comTextarea.scrollHeight + 'px';
-        }
-
-        $(function(){
-
-
+        comTextarea.forEach(function(textarea){
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 15 +'px';
         });
+
+        function resizeHeight(object) {
+            object.style.height = 'auto';
+            object.style.height = (15 + object.scrollHeight) + 'px';
+        }
     </script>
     <script th:src="@{/js/diary/diaryView.js}"></script>
 </th:block>

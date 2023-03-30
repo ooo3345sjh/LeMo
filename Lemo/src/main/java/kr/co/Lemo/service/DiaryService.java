@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@Transactional
 public class DiaryService {
 
     // @since 2023/03/14
@@ -45,6 +47,7 @@ public class DiaryService {
     public List<DiarySpotVO> findDiarySpot(int arti_no) {
 
         List<DiarySpotVO> spotVO = dao.selectDiarySpot(arti_no);
+        dao.updateDiaryHit(arti_no);
 
         return spotVO;
     }
@@ -64,9 +67,6 @@ public class DiaryService {
         Date d2 = null;
 
         for(DiaryCommentVO vo : commentVO) {
-            log.debug("nowDate : " + nowDate);
-            log.debug("commentDate : " + vo.getCom_rdate());
-
             try {
                 d1 = format.parse(nowDate);
                 d2 = format.parse(vo.getCom_rdate());
@@ -137,5 +137,29 @@ public class DiaryService {
     // @since 2023/03/22
     public int usaveOriComment(DiaryCommentVO commentVO) {
         return dao.updateOriComment(commentVO);
+    }
+
+    // @since 2023/03/30
+    public int rsaveUsaveDiary(int arti_no, String user_id) {
+        int result = 0;
+
+        result = dao.insertDiaryLike(arti_no, user_id);
+
+        if(result == 1) { result = dao.updateDiaryLikePlus(arti_no); }
+
+        return result;
+    }
+    public int findDiaryLike(int arti_no, String user_id) {
+        return dao.selectDiaryLike(arti_no, user_id);
+    }
+
+    public int usaveRemoveDiary(int arti_no, String user_id) {
+        int result = 0;
+
+        result = dao.deleteDiaryLike(arti_no, user_id);
+
+        if(result == 1) { dao.updateDiaryMinusPlus(arti_no); }
+
+        return result;
     }
 }

@@ -40,7 +40,11 @@ public class DiarySpotVO {
     // @since 2023/03/15
     private String arti_rdate;
     private int arti_like;
-
     private List<MultipartFile> spot_files;
+
+    // @since 2023/03/30
+    private String acc_name;
+    private String user_id;
+    private String nick;
 
 }

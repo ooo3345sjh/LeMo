@@ -120,7 +120,7 @@ $(function(){
 
         let content = '<div class="write_reReply re'+com_pno+'">';
            content += '<form action="#" class="comWrite">';
-           content += '<textarea></textarea>';
+           content += '<textarea class="comTextarea" onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)"></textarea>';
            content += '<button data-pno='+com_no+' data-no='+com_pno+'>댓글 작성</button>';
            content += '</form>';
            content += '</div>';
@@ -153,11 +153,11 @@ $(function(){
                    content += '<div class="repdiv1">';
                    content += '<img src="/Lemo/images/admin/user_default.png" alt="프사">';
                    content += '<div>';
-                   content += '<strong>'+response["nick"]+'</strong><span>방금 전</span>';
+                   content += '<strong>'+response["nick"]+'</strong><span style="margin-left: 10px;">방금 전</span>';
                    content += '</div>';
                    content += '</div>';
                    content += '<div class="repdiv2">';
-                   content += '<textarea readonly>'+comment+'</textarea>';
+                   content += '<textarea readonly class="comTextarea" onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)">'+comment+'</textarea>';
                    content += '</div>';
                    content += '<div class="repdiv3">';
                    content += '<div>';
@@ -176,8 +176,11 @@ $(function(){
                 total += 1
                 $('#tit').children('b').text(total);
                 $(this).parent().parent().find('#rep').children().append(content);
+                let com_pno_textarea = $('.oriCom'+response["com_no"]+' .comTextarea');
+                com_pno_textarea.each(function(index, height){ resizeHeight(height); });
 
                 $(this).children('textarea').val('');
+                $(this).children('textarea').css('height', '76px');
 
             }
         });
@@ -200,12 +203,12 @@ $(function(){
                content += '<div class="repdiv1">';
                content += '<img src="/Lemo/images/admin/user_default.png" alt="프사">';
                content += '<div>';
-               content += '<strong>'+response["nick"]+'</strong><span>방금 전</span>';
+               content += '<strong>'+response["nick"]+'</strong><span style="margin-left: 10px;">방금 전</span>';
                content += '</div>';
                content += '</div>';
                content += '<div class="repdiv2">';
                content += '<p class="reply_id">@'+response["com_nick"]+'</p>'
-               content += '<textarea readonly>'+comment+'</textarea>';
+               content += '<textarea readonly class="comTextarea" onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)">'+comment+'</textarea>';
                content += '</div>';
                content += '<div class="repdiv3">';
                content += '<div><a href="#" class="comment">댓글 쓰기</a></div>';
@@ -221,6 +224,8 @@ $(function(){
 
             $('.com'+com_no).attr('style', "display:block;");
             $(this).parent().prev().after(content);
+            let com_pno_textarea = $('.com'+com_no+' .comTextarea');
+            com_pno_textarea.each(function(index, height){ resizeHeight(height); });
             $(this).parent().parent().find('.emptyCom'+com_pno).remove();
             commentWrite.removeClass('open');
             commentWrite.text('댓글 쓰기');
@@ -254,13 +259,16 @@ $(function(){
         if(status) {
             $(this).text('댓글 모두보기');
             $(this).removeClass('open');
-            $(this).parent().parent().find('.re_reply').removeClass('open');
             $('.com'+com_pno).attr('style', "display:none;");
         }else {
             $(this).text('댓글 숨기기');
             $(this).addClass('open');
-            $(this).parent().parent().find('.re_reply').addClass('open'); // 답댓글 보기
             $('.com'+com_pno).attr('style', "display:block;");
+
+            let com_pno_textarea = $('.com'+com_pno+' .comTextarea');
+
+            com_pno_textarea.each(function(index, height){ resizeHeight(height); });
+
         }
     });
 
@@ -311,9 +319,9 @@ $(function(){
         let textarea = $(this).parent().parent().prev().children('textarea');
         oriContent = textarea.val();
         textarea.removeAttr('readonly');
-        textarea.css("height", "80px");
-        textarea.css("background", "#f9f8e0");
-        textarea.css("padding", "5px");
+        textarea.css('background', '#f9f8e0');
+        textarea.css('padding', '5px');
+        textarea.css('height', ( 15 + textarea.attr('scrollHeight') ) + 'px')
         $(this).text("취소");
         $(this).attr("class","comCancel");
         $(this).next().text("수정");
@@ -325,9 +333,9 @@ $(function(){
         e.preventDefault();
         let textarea = $(this).parent().parent().prev().children('textarea');
         textarea.attr('readonly', true);
-        textarea.css("height", "");
         textarea.css("background", "");
         textarea.css("padding", "");
+        textarea.css("height", ( 15 + textarea.attr('scrollHeight') ) + 'px')
         $(this).text("수정");
         $(this).attr("class","comModify");
         $(this).next().text("삭제");
@@ -351,7 +359,7 @@ $(function(){
                 Swal.fire(`수정 되었습니다.`)
 
                 textarea.attr('readonly', true);
-                textarea.css("height", "");
+                textarea.css('height', ( 15 + textarea.attr('scrollHeight') ) + 'px')
                 textarea.css("background", "");
                 textarea.css("padding", "");
                 $(this).text("삭제");
@@ -360,10 +368,10 @@ $(function(){
                 $(this).prev().attr("class","comModify");
                 textarea.val(com_comment);
 
-                let content = "<span class='comModified'>수정됨</span>";
-
-                modified.append(content);
-
+                if (modified.find('.comModified').length == 0 ) {
+                    let content = "<span class='comModified'>&nbsp;수정됨&nbsp;</span>";
+                    modified.children('div').append(content);
+                }
             }else {
                 Swal.fire(`다시 시도해주세요.`)
             }

@@ -1,25 +1,21 @@
 package kr.co.Lemo.controller;
 
+import kr.co.Lemo.domain.ArticleDiaryVO;
 import kr.co.Lemo.domain.DiaryCommentVO;
 import kr.co.Lemo.domain.DiarySpotVO;
 import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.service.DiaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -82,6 +78,7 @@ public class DiaryController {
     @PostMapping("oriComment")
     public ResponseEntity<Map<String, String>> rsaveOriComment(
             @RequestBody DiaryCommentVO commentVO,
+            @AuthenticationPrincipal UserVO myUser,
             HttpServletRequest req
     ){
         log.debug("POST oriComment start");
@@ -93,7 +90,7 @@ public class DiaryController {
 
         Map<String, String> map = new HashMap<>();
         map.put("result", Integer.toString(result));
-        map.put("nick", "유연한뚱이210001");
+        map.put("nick", myUser.getNick());
         map.put("com_no", Integer.toString(commentVO.getCom_no()));
 
         return ResponseEntity.ok(map);
@@ -104,11 +101,12 @@ public class DiaryController {
     @PostMapping("comment")
     public ResponseEntity<Map<String, String>> rsaveComment(
             @RequestBody DiaryCommentVO commentVO,
+            @AuthenticationPrincipal UserVO myUser,
             HttpServletRequest req
     ) {
         log.debug("POST comment start");
 
-        commentVO.setUser_id("test@test.com");
+        commentVO.setUser_id(myUser.getUser_id());
         commentVO.setCom_regip(req.getRemoteAddr());
 
         Map<String, String> map = new HashMap<>();
@@ -119,8 +117,8 @@ public class DiaryController {
 
             int result = service.rsaveComment(commentVO);
 
-            map.put("user_id", "test@test.com");
-            map.put("nick", "유연한뚱이210001");
+            map.put("user_id", myUser.getUser_id());
+            map.put("nick", myUser.getNick());
             map.put("com_nick", userVO.getNick());
             map.put("result", Integer.toString(result));
             map.put("com_pno", Integer.toString(commentVO.getCom_no()));
@@ -163,5 +161,39 @@ public class DiaryController {
         int result = service.usaveOriComment(commentVO);
 
         return ResponseEntity.ok(result);
+    }
+
+    // @since 2023/03/30
+    @ResponseBody
+    @PatchMapping("like")
+    public int usaveDiaryPick(
+            @RequestBody ArticleDiaryVO diaryVO,
+            @AuthenticationPrincipal UserVO myUser
+    ) {
+        log.debug("arti_no"+diaryVO.getArti_no());
+        int arti_no = diaryVO.getArti_no();
+        Boolean status = diaryVO.getStatus();
+        String user_id = myUser.getUser_id();
+
+        if(status) {
+            int total = service.findDiaryLike(arti_no, user_id);
+
+            if(total > 0) {
+                service.usaveRemoveDiary(arti_no, user_id);
+                return 1;
+            }
+
+        }else {
+            int total = service.findDiaryLike(arti_no, user_id);
+
+            if(total == 0) {
+                service.rsaveUsaveDiary(arti_no, user_id);
+                return 1;
+            }else {
+                return 0;
+            }
+        }
+
+        return 1;
     }
 }
