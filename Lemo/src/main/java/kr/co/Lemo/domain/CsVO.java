@@ -78,6 +78,12 @@ public class CsVO {
             case "other" :
                 type = "기타";
                 break;
+            case "notice" :
+                type = "공지사항";
+                break;
+            case "win" :
+                type = "이벤트 당첨자 안내";
+                break;
         }
         return type;
     };

@@ -35,16 +35,17 @@
         .event_write_bannerImg > #image {
             height: 181px;
             width: 1100px;
+            margin: auto;
         }
         #fileDropzone > #ex_file {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0,0,0,0);
-            border: 0;
+<!--            position: absolute;-->
+<!--            width: 1px;-->
+<!--            height: 1px;-->
+<!--            padding: 0;-->
+<!--            margin: -1px;-->
+<!--            overflow: hidden;-->
+<!--            clip: rect(0,0,0,0);-->
+<!--            border: 0;-->
         }
         #fileDropzone #att_zone{
             padding-top: 25px;
@@ -72,6 +73,7 @@
          .event_write_mainImg > #mainImage {
             height: 440px;
             width: 1100px;
+            margin: auto;
         }
         #fileDropzone1 #main_zone{
             padding-top: 25px;
@@ -82,14 +84,14 @@
             font-size: 26px;
         }
         #fileDropzone1 > #main_file {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0,0,0,0);
-            border: 0;
+<!--            position: absolute;-->
+<!--            width: 1px;-->
+<!--            height: 1px;-->
+<!--            padding: 0;-->
+<!--            margin: -1px;-->
+<!--            overflow: hidden;-->
+<!--            clip: rect(0,0,0,0);-->
+<!--            border: 0;-->
         }
     </style>
 </th:block>
@@ -133,14 +135,14 @@
                                     <tr>
                                         <td>메인배너 이미지</td>
                                         <td>
-                                            <span>* 해당 이미지는 메인 페이지 내 적용되는 배너 이미지입니다.</span>
+                                            <span>* 해당 이미지는 메인 페이지 내 적용되는 배너 이미지입니다. 이미지 크기는 가로 1100px 세로 440px입니다</span>
                                             <div class="stayThumb">
                                                 <div id="fileDropzone1">
                                                     <div class="event_write_mainImg">
                                                         <img id="mainImage" style="display:none">
                                                     </div>
                                                     <div id="main_zone" data-placeholder="사진을 첨부하려면  클릭해주세요"></div>
-                                                    <input type="file" name="eventMainImg[]" id="main_file" accept="image/png, image/jpeg" class="insertFile" required>
+                                                    <input type="file" name="eventMainImg[]" id="main_file" accept="image/png, image/jpeg" class="insertFile" required onchange="readURL(this);"/>
                                                 </div>
                                             </div>
                                         </td>
@@ -148,14 +150,14 @@
                                     <tr>
                                         <td>배너 이미지</td>
                                         <td>
-                                            <span>* 해당 이미지는 이벤트 페이지 내 적용되는 배너 이미지입니다.</span>
+                                            <span>* 해당 이미지는 이벤트 페이지 내 적용되는 배너 이미지입니다. 이미지 크기는 가로 1100px 세로 200px 이하 입니다</span>
                                             <div class="stayThumb">
                                                 <div id="fileDropzone">
                                                     <div class="event_write_bannerImg">
                                                         <img id="image" style="display:none">
                                                     </div>
                                                     <div id="att_zone" data-placeholder="사진을 첨부하려면  클릭해주세요"></div>
-                                                    <input type="file" name="eventbannerImg[]" id="ex_file" accept="image/png, image/jpeg" class="insertFile" required>
+                                                    <input type="file" name="eventbannerImg[]" id="ex_file" accept="image/png, image/jpeg" class="insertFile" required/>
                                                 </div>
                                             </div>
                                         </td>
@@ -199,7 +201,6 @@
 </th:block>
 <th:block layout:fragment="script">
     <script th:src="@{/js/admin/dragNdrop.js}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
     <script>
 
         $(document).ready(function() {
@@ -248,7 +249,7 @@
                 /** 메인이미지 미리보기 **/
                 const mainDOM = document.querySelector('#main_file');
                 const preview = document.querySelector('#mainImage');
-
+/*
                 mainDOM.addEventListener('change', () => {
                     const reader = new FileReader();
                     reader.onload = ({ target }) => {
@@ -258,7 +259,7 @@
                     };
                     reader.readAsDataURL(mainDOM.files[0]);
                 });
-
+*/
                 preview.addEventListener('click', () => {
                     $('input#main_file').click();
                 });
@@ -299,14 +300,35 @@
 
             });
 
-            $('#ex_file').change(function(){
+            function readURL(input) {
+                console.log(input.files[0]);
 
-            });
+              var reader = new FileReader();
+              reader.onload = function(e) {
+                var image = new Image();
+                image.src = e.target.result;
+                image.onload = function() {
+                  if (image.width < 1000 || image.height > 300 || image.height < 200) {
+                    alert("이미지 크기가 올바르지 않습니다. (가로는 1000px 이상, 세로는 200px 이상, 300px 이하)");
+                    return;
+                  }
+
+                  // 조건에 맞는 경우에 대한 처리
+                  // ...
+
+                };
+              };
+              if(false){
+                                 reader.readAsDataURL(input.files[0]);
+              }
+
+
+            }
+
+
+
         </script>
-    <script>
-
-
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
 </th:block>
 
 
