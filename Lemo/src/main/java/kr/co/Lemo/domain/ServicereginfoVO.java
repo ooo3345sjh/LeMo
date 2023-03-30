@@ -21,4 +21,7 @@ public class ServicereginfoVO {
     private int sc_no;
     private int acc_id;
 
+    // 추가
+    private String sc_name;
+
 }

@@ -23,26 +23,23 @@
                                 <div class="col2_r_slider">
                                     <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
                                         <div class="swiper-wrapper">
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4bda9d9a-c1c3-11ed-a377-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c0b577c-c1c3-11ed-969a-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c3fc302-c1c3-11ed-8f72-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c85294a-c1c3-11ed-b077-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4cb6946b-c1c3-11ed-a013-00e04c239987.jpg}"/></div>
+                                            <th:block th:each="img:${#strings.arraySplit(review.revi_thumb, '/')}">
+                                                <div class="swiper-slide"><img th:src="|@{/}img/review/${review.acc_id}/${img}|"/></div>
+                                            </th:block>
                                         </div>
                                         <div class="swiper-button-next"></div>
                                         <div class="swiper-button-prev"></div>
                                     </div>
                                     <div thumbsSlider="" class="swiper mySwiper">
                                         <div class="swiper-wrapper">
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4bda9d9a-c1c3-11ed-a377-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c0b577c-c1c3-11ed-969a-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c3fc302-c1c3-11ed-8f72-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c85294a-c1c3-11ed-b077-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4cb6946b-c1c3-11ed-a013-00e04c239987.jpg}"/></div>
+                                            <th:block th:each="img:${#strings.arraySplit(review.revi_thumb, '/')}">
+                                                <div class="swiper-slide"><img th:src="|@{/}img/review/${review.acc_id}/${img}|"/></div>
+                                            </th:block>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col2_r_box">
+                                    <input type="hidden" th:value="${review.acc_id}">
                                     <input type="hidden" class="r_revi_id" th:value="${review.revi_id}"></input>
                                     <div class="r_nick">
                                         [[${#strings.substringBefore(review.user_id, '@') + '**'}]] <i>님의 후기</i>
@@ -88,7 +85,7 @@
 
 
                     <!-- 모달 팝업 -->
-                    <button class="btn_R_answer">리뷰답변</button>
+                    <!--  <button class="btn_R_answer">리뷰답변</button>-->
                     <dialog id="d_review">
                         <form method="dialog">
                             <nav class="rr_nav">
@@ -125,11 +122,11 @@
                             리뷰목록
                         </a>
                     </div>
-                    <div class="btnAdminProd">
+                    <!--<div class="btnAdminProd">
                         <a href="#" id="removeReviewBtn">
                             리뷰삭제
                         </a>
-                    </div>
+                    </div>-->
                     <div class="blank30"></div>
 
                 </div>
