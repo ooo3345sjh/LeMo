@@ -491,7 +491,6 @@
 
                         // 서정현 TEST
                         console.log(fileInputList);
-                        console.log(fileInputList.sort());
 
                         //FormData 새로운 객체 생성
                         let formData = new FormData();
@@ -608,6 +607,7 @@
                         no = $(this).parent().find('input[type=file]').data('no');
                         console.log(fileInputList);
                         let filtered = fileInputList.filter((element) => element.data('no') !== no);
+                        fileInputList = filtered;
                         console.log(filtered);
 
                         let data_place = $(this).attr('data-place');
