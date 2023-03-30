@@ -125,24 +125,34 @@ public class ProductController {
 
         String user_id = myUser.getUser_id();
 
+        log.info("user_id" + user_id);
+
         Map map = (Map) session.getAttribute("map");
+
+        log.info("here1...");
+
+        map.put("user_id", user_id);
+
+        log.info("here2...");
 
         log.info("세션에서 받아온 map : " + map);
 
         // 객실 정보 가져오기
         map = service.findRoomForReservation(map);
 
-        log.info("here1.....");
-        ProductAccommodationVO room = (ProductAccommodationVO) map.get("room");
+        // 쿠폰 가져오기
+        List<CouponVO> cps = service.findAllCouponsForReservation(map);
 
-        log.info("myUser : " + myUser);
+        ProductAccommodationVO room = (ProductAccommodationVO) map.get("room");
 
         model.addAttribute("map", map);
         model.addAttribute("user", myUser);
         model.addAttribute("room", room);
+        model.addAttribute("cps", cps);
 
         return "product/reservation";
     }
+
 
 
     /*
