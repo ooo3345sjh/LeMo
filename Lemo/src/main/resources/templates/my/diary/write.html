@@ -236,7 +236,7 @@
                             addContent +=   '<button class="delete_diary" data-place="'+withoutSpace+'">삭제</button>';
                             addContent +=   '<div class="toggle">';
                             addContent +=       '<div class="image">';
-                            addContent +=           '<input type="file" class="ex_file" name="thumb" accept="image/png, image/jpeg" style="display: none;">';
+                            addContent +=           `<input type="file" class="ex_file" data-no="${count++}" name="thumb" accept="image/png, image/jpeg" style="display: none;">`;
                             addContent +=           '<img class="inputImage" src="/Lemo/images/diary/imgUpload.png">';
                             addContent +=       '</div>';
                             addContent +=       '<textarea class="contentArea" name="spot_content" placeholder="내용을 입력해주세요." onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)"></textarea>';
@@ -489,6 +489,11 @@
                     $('#diaryForm').submit(function(e){
                         e.preventDefault();
 
+                        // 서정현 TEST
+                        console.log(fileInputList);
+                        console.log(fileInputList.sort());
+
+                        return;
                         //FormData 새로운 객체 생성
                         let formData = new FormData();
 
@@ -599,6 +604,12 @@
                     $(document).on('click', '.delete_diary', function(e){
                         e.stopPropagation();
                         e.preventDefault();
+
+                        // 서정현 TEST
+                        no = $(this).parent().find('input[type=file]').data('no');
+                        console.log(fileInputList);
+                        let filtered = fileInputList.filter((element) => element.data('no') !== no);
+                        console.log(filtered);
 
                         let data_place = $(this).attr('data-place');
                         console.log(data_place);

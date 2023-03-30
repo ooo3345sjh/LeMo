@@ -24,6 +24,7 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
@@ -503,6 +504,13 @@ public class UserController {
 
 
         return map;
+    }
+
+    @ResponseBody
+    @PostMapping("test")
+    public String test(@RequestPart(value = "profileFile") MultipartFile photo){
+        log.debug(photo.getName() + "sss");
+        return "1";
     }
 
     /**

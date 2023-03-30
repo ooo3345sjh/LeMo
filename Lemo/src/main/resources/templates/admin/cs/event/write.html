@@ -277,6 +277,7 @@
 
 
                 fileDOM.addEventListener('change', () => {
+
                     const reader = new FileReader();
                     reader.onload = ({ target }) => {
                         previews.src = target.result;
@@ -316,10 +317,7 @@
 
                     };
                 };
-                if(false){
-                    reader.readAsDataURL(input.files[0]);
-                }
-
+                reader.readAsDataURL(input.files[0]);
 
             }
 
