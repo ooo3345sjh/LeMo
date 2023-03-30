@@ -33,7 +33,15 @@ h3 {
     width: 100%;
     border: 0px solid #ddd;
     resize: none;
-    min-height: 150px;
+    height: 190px;
+}
+
+.place .contentArea {
+    font-size: 14px;
+    width: 100%;
+    border: 0px solid #ddd;
+    resize: none;
+    height: 56px;
 }
 .toggle > .image {
     width: 470px;
@@ -749,7 +757,7 @@ button {cursor: pointer;}
     border: 1px solid #cbcbcb;
     border-radius: 5px;
     width: 94%;
-    height: 95px;
+    height: 76px;
     overflow: hidden;
     resize: none;
     padding: 15px;
@@ -808,7 +816,6 @@ button {cursor: pointer;}
     margin-top: 10px;
     border-radius: 5px;
     background-color: #fafafa;
-    height: 150px;
 }
 
 .write_reReply textarea {
@@ -818,7 +825,7 @@ button {cursor: pointer;}
     border: 1px solid #cbcbcb;
     border-radius: 5px;
     width: 94%;
-    height: 95px;
+    height: 76px;
     overflow: hidden;
     resize: none;
     padding: 15px;

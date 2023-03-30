@@ -16,7 +16,7 @@ $(function(){
     });
 
     /* 내용 input */
-    $(document).on('click', '.place > .toggle > .content', function(e){
+    $(document).on('click', '.place > .toggle > .contentArea', function(e){
         e.preventDefault();
         e.stopPropagation();
     });
@@ -32,11 +32,16 @@ $(function(){
         $(this).change(function(e){
             let preview = $('.inputImage', inputFile);
             const reader = new FileReader();
-            reader.onload = function(event){
-                preview.attr("src", event.target.result);
-            };
-            reader.readAsDataURL(e.target.files[0]);
+            var oFile = $(this)[0].files;
 
+            if(oFile.length < 1){
+                preview.attr('src', '/Lemo/images/diary/imgUpload.png');
+            }else {
+                reader.readAsDataURL(e.target.files[0]);
+                reader.onload = function(event){
+                    preview.attr('src', event.target.result);
+                };
+            }
         });
     })
 

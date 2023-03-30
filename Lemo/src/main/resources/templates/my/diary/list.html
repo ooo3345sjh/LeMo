@@ -29,8 +29,8 @@
                         <div class="my_diary_list">
                             <div class="list-area" th:if="${map.size == 0}">
                                 <div class="emptyDiary">
-                                    <p>등록된 게시글이 없습니다.</p>
-                                    <a th:href="@{/my/diary/write}">작성하러 가기</a>
+                                    <p style="font-size:20px; margin-bottom:15px;">등록된 게시글이 없습니다.</p>
+                                    <p>예약내역을 통해 작성하세요.</p>
                                 </div>
                             </div>
                             <div class="list-area" th:if="${map.size != 0}">

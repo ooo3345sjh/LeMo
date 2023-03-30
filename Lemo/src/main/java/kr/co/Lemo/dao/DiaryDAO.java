@@ -4,6 +4,8 @@ import kr.co.Lemo.domain.DiaryCommentVO;
 import kr.co.Lemo.domain.DiarySpotVO;
 import kr.co.Lemo.domain.UserVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -44,5 +46,13 @@ public interface DiaryDAO {
 
     // @since 2023/03/22
     public int updateOriComment(DiaryCommentVO commentVO);
+
+    // @since 2023/03/30
+    public int insertDiaryLike(@Param("arti_no") int arti_no, @Param("user_id") String user_id);
+    public int updateDiaryLikePlus(int arti_no);
+    public int updateDiaryMinusPlus(int arti_no);
+    public int selectDiaryLike(@Param("arti_no") int arti_no, @Param("user_id") String user_id);
+    public int deleteDiaryLike(@Param("arti_no") int arti_no, @Param("user_id") String user_id);
+    public int updateDiaryHit(int arti_no);
 
 }
