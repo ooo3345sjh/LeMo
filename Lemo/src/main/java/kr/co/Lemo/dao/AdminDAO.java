@@ -63,11 +63,20 @@ public interface AdminDAO {
     // @since 2023/03/30
     public List<ServicereginfoVO> selectServiceInAcc(Integer acc_id);
 
+    // @since 2023/03/30
+    public List<ReservationVO> selectReservaitons(SearchCondition sc);
+
+    // @since 2023/03/30
+    public int countReservations(SearchCondition sc);
+
     // @since 2023/03/11
     public void insertCoupon(CouponVO vo);
 
     // @since 2023/03/10
     public int updateMemo(@Param("memo") String memo, @Param("user_id") String user_id);
+
+    // @since 2023/03/31
+    public int updateMemoInRes(@Param("res_memo") String res_memo, @Param("res_no") String res_no);
 
     // @since 2023/03/10
     public int updateIsLocked(@Param("user_id") String user_id);

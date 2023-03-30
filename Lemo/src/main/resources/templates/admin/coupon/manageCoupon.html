@@ -61,9 +61,11 @@
                                         </tr>
                                     </table>
                                     <div class="search_btn">
-                                        <button type="submit" class="btnAdminProd3">검색</button>
+                                        <button type="button" class="resetOption" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
+                                        <button type="submit" class="btnSearch">검색</button>
                                     </div>
                                 </div>
+                                <span class="totalCount" style="margin-bottom: 5px;">쿠폰 총 개수 ([[${totalCoupon}]])</span>
 
                                 <!-- 쿠폰 목록 -->
                                 <div class="coupon_list">

@@ -38,8 +38,11 @@
                                         </td>
                                     </tr>
                                 </table>
+                                <button type="button" class="resetOption" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
+
                                 <button type="submit" class="btnSearch">검색</button>
-                                <div class="board_list" style="margin-top: 40px;">
+                                <span class="totalCount">객실 총 개수 ([[${totalRoom}]])</span>
+                                <div class="board_list">
                                     <ul>
                                         <li class="roomInfo_li1">#</li>
                                         <li class="roomInfo_li2">숙소번호</li>

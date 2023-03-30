@@ -55,6 +55,7 @@
                                     </tr>
                                 </table>
                                 </div>
+                                <button type="button" class="resetOption" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
                                 <button type="submit" class="btnSearch">검색</button>
                                 <!-- 목록 -->
                                 <div class="board_list" id="userList">
@@ -78,7 +79,7 @@
                                     </ul>
                                     <th:block th:if="${#lists.size(users) !=0}">
                                         <ul th:each="user,i:${users}" id="userTable">
-                                            <li>[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
+                                            <li class="list_number">[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
                                             <li class="user_id" th:text="${user.user_id}">mango@gmail.com</li>
                                             <li class="user_nick" th:text="${user.nick}">고민중인흰둥이</li>
                                             <li th:text="${user.isEnabled == 0 ? '탈퇴' : (user.isLocked == 0 ? '차단' : '정상')}" th:class="${user.isEnabled == 0 ? 'drop' : (user.isLocked == 0 ? 'block' : 'normal')}"></li>
@@ -321,9 +322,15 @@
         if(value == 1){
             $(this).val(2);
             $('#sortIsEnabled_img').attr("src", "/Lemo/images/admin/arrow-up.png");
+            $('#sortLevel_img').attr("src", "/Lemo/images/admin/sort.png");
+            $('#sortType_img').attr("src", "/Lemo/images/admin/sort.png");
+            $('#sortRdate_img').attr("src", "/Lemo/images/admin/sort.png");
         }else if(value == 2){
             $(this).val(3);
             $('#sortIsEnabled_img').attr("src", "/Lemo/images/admin/arrow-down.png");
+            $('#sortLevel_img').attr("src", "/Lemo/images/admin/sort.png");
+            $('#sortType_img').attr("src", "/Lemo/images/admin/sort.png");
+            $('#sortRdate_img').attr("src", "/Lemo/images/admin/sort.png");
         }else if(value == 3) {
             $(this).val(1);
             $('#sortIsEnabled_img').attr("src", "/Lemo/images/admin/sort.png");
@@ -363,7 +370,7 @@
 
             // 이전 페이지
             if(showPrev == true){
-                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ (beginPage - 1) +')"></a>').html("<").addClass("prev").appendTo('.pagination');
+                $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ (beginPage - 10) +')"></a>').html("<").addClass("prev").appendTo('.pagination');
 
             }
 
@@ -394,9 +401,15 @@
          if(value == 4){
              $(this).val(5);
              $('#sortLevel_img').attr("src", "/Lemo/images/admin/arrow-up.png");
+             $('#sortIsEnabled_img').attr("src", "/Lemo/images/admin/sort.png");
+             $('#sortType_img').attr("src", "/Lemo/images/admin/sort.png");
+             $('#sortRdate_img').attr("src", "/Lemo/images/admin/sort.png");
          }else if(value == 5){
              $(this).val(6);
              $('#sortLevel_img').attr("src", "/Lemo/images/admin/arrow-down.png");
+             $('#sortIsEnabled_img').attr("src", "/Lemo/images/admin/sort.png");
+             $('#sortType_img').attr("src", "/Lemo/images/admin/sort.png");
+             $('#sortRdate_img').attr("src", "/Lemo/images/admin/sort.png");
          }else if(value == 6) {
              $(this).val(4);
              $('#sortLevel_img').attr("src", "/Lemo/images/admin/sort.png");
@@ -461,9 +474,15 @@
         if(value == 7){
             $(this).val(8);
             $('#sortType_img').attr("src", "/Lemo/images/admin/arrow-up.png");
+            $('#sortIsEnabled_img').attr("src", "/Lemo/images/admin/sort.png");
+            $('#sortLevel_img').attr("src", "/Lemo/images/admin/sort.png");
+            $('#sortRdate_img').attr("src", "/Lemo/images/admin/sort.png");
         }else if(value == 8){
             $(this).val(9);
             $('#sortType_img').attr("src", "/Lemo/images/admin/arrow-down.png");
+            $('#sortIsEnabled_img').attr("src", "/Lemo/images/admin/sort.png");
+            $('#sortLevel_img').attr("src", "/Lemo/images/admin/sort.png");
+            $('#sortRdate_img').attr("src", "/Lemo/images/admin/sort.png");
         }else if(value == 9) {
             $(this).val(7);
             $('#sortType_img').attr("src", "/Lemo/images/admin/sort.png");
@@ -528,9 +547,15 @@
         if(value == 10){
             $(this).val(11);
             $('#sortRdate_img').attr("src", "/Lemo/images/admin/arrow-up.png");
+            $('#sortIsEnabled_img').attr("src", "/Lemo/images/admin/sort.png");
+            $('#sortLevel_img').attr("src", "/Lemo/images/admin/sort.png");
+            $('#sortType_img').attr("src", "/Lemo/images/admin/sort.png");
         }else if(value == 11){
             $(this).val(12);
             $('#sortRdate_img').attr("src", "/Lemo/images/admin/arrow-down.png");
+            $('#sortIsEnabled_img').attr("src", "/Lemo/images/admin/sort.png");
+            $('#sortLevel_img').attr("src", "/Lemo/images/admin/sort.png");
+            $('#sortType_img').attr("src", "/Lemo/images/admin/sort.png");
         }else if(value == 12) {
             $(this).val(10);
             $('#sortRdate_img').attr("src", "/Lemo/images/admin/sort.png");
@@ -626,7 +651,7 @@
             }
 
             // 현재 페이지
-            for(i=beginPage; i<endPage; i++){
+            for(i=beginPage; i<=endPage; i++){
                 $('<a href="javascript:void(0)" onclick="pagingTags('+value+', '+ i +')" class="' + (i == page ? 'current' : '') + '"></a>').attr('rel', i).html(i).appendTo('.pagination');
             }
 
@@ -705,7 +730,7 @@
 
         if (searchIsNoticeEnabled == '1') {
             $('#rdPer').prop('checked', true);
-        } else if (searchIsNoticeEnabled == '2') {
+        } else if (searchIsNoticeEnabled == '0') {
             $('#rdDec').prop('checked', true);
         }
 
