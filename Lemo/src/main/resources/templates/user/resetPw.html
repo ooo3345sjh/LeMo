@@ -245,45 +245,64 @@
                     "email":email
                 };
 
-                authEmail = email;
-                isSended = true;
-                emailSendBtn.text("재전송");
-                emailSendBtn.removeClass("active");
-
-                $('#section1').append(getAuthCodeTag());
-                TIMER();
-                saveCodeAuth();
-
-                Swal.fire({
-                    html: '<p style="font-size:18px; font-weight:bold;">인증번호를 발송했습니다.<br>인증번호가 오지 않으면 입력하신 정보가 회원정보와 일치하는지 확인해 주세요.</p>',
-                    icon : 'success',
-                    confirmButtonText : '확인'
-                })
-
-                ajaxAPI("user/email/send", jsonData, "POST").then((response) => {
+                ajaxAPI("user/email/duplicate", jsonData, "POST").then((response) => {
                     if(response.result === 0){
                         $('#email_msg').text('존재하지않는 회원입니다.');
-                    }
-                    else if(response.status === 0) {
-                        isSended = false;
-                    }
+                    } else {
+                        authEmail = email;
+                        isSended = true;
+                        emailSendBtn.text("재전송");
+                        emailSendBtn.removeClass("active");
 
-                    else {
-                     //   authEmail = email;
-                     //    isSended = true;
-                        authCode = response.code;
-                        // emailSendBtn.text("재전송");
-                        // emailSendBtn.removeClass("active");
-                        //
-                        // $('#section1').append(getAuthCodeTag());
-                        // TIMER();
-                        // saveCodeAuth();
-                    }
+                        $('#section1').append(getAuthCodeTag());
+                        TIMER();
+                        saveCodeAuth();
 
+                        Swal.fire({
+                            html: '<p style="font-size:18px; font-weight:bold;">인증번호를 발송했습니다.<br>인증번호가 오지 않으면 입력하신 정보가 회원정보와 일치하는지 확인해 주세요.</p>',
+                            icon : 'success',
+                            confirmButtonText : '확인'
+                        })
+
+                        ajaxAPI("user/email/send", jsonData, "POST").then((response) => {
+                            if(response.status === 0) {
+                                $('#authCodeDiv').remove();
+                                isSended = false;
+                                Swal.fire({
+                                    html: '<p style="font-size:18px; font-weight:bold;">인증번호 전송 중 에러가 발생했습니다.<br>다시 시도해주세요.</p>',
+                                    icon : 'error',
+                                    confirmButtonText : '확인'
+                                })
+                            }
+
+                            else {
+                             //   authEmail = email;
+                             //    isSended = true;
+                                authCode = response.code;
+                                // emailSendBtn.text("재전송");
+                                // emailSendBtn.removeClass("active");
+                                //
+                                // $('#section1').append(getAuthCodeTag());
+                                // TIMER();
+                                // saveCodeAuth();
+                            }
+
+                        }).catch((errorMsg) => {
+                            Swal.fire({
+                                html: '<p style="font-size:18px; font-weight:bold;">인증번호 전송 중 에러가 발생했습니다.<br>다시 시도해주세요.</p>',
+                                icon : 'error',
+                                confirmButtonText : '확인'
+                            })
+                            console.log(errorMsg)
+                            $('#authCodeDiv').remove();
+                            isSended = false;
+                        });
+                    }
                 }).catch((errorMsg) => {
                     console.log(errorMsg)
                     isSended = false;
                 });
+
             });
 
             $(document).on("keyup focusout", 'input[name="authcode"]', function (){
