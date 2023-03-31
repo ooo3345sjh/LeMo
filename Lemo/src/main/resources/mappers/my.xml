@@ -36,10 +36,13 @@
     </select>
 
     <select id="selectReservation" resultType="kr.co.Lemo.domain.ReservationVO">
-        SELECT * FROM `lemo_product_reservation` AS a LEFT JOIN
-            `lemo_product_room` AS b ON a.`room_id` = b.`room_id` LEFT JOIN
-            `lemo_product_accommodation` AS c ON a.`acc_id` = c.`acc_id`
-        WHERE a.`res_no` = #{res_no};
+        SELECT * FROM
+            `lemo_product_reservation`   AS a LEFT JOIN
+            `lemo_product_room`          AS b ON a.`room_id` = b.`room_id` LEFT JOIN
+            `lemo_product_accommodation` AS c ON a.`acc_id`  = c.`acc_id` LEFT JOIN
+            `lemo_member_coupon_log`     AS d ON a.`res_no`  = d.`res_no` LEFT JOIN
+            `lemo_member_point_log`      AS e ON a.`res_no`  = e.`res_no`
+        WHERE a.`res_no` = #{res_no} AND a.`user_id` = #{user_id};
     </select>
 
     <select id="selectTotalReservations" resultType="int">
@@ -56,14 +59,14 @@
         FROM
             `lemo_product_coupon` AS a LEFT JOIN
             `lemo_member_coupon` AS b ON a.`cp_id` = b.`cp_id`
-        WHERE ( a.`cp_end` > DATE(NOW()) AND b.`mcp_end` > DATE(NOW()) )
+        WHERE ( a.`cp_end` >= DATE(NOW()) AND b.`mcp_end` >= DATE(NOW()) AND b.`mcp_isUsed` = 0 )
         AND b.`user_id`=#{user_id};
     </select>
 
     <select id="selectProductCoupons" resultType="kr.co.Lemo.domain.CouponVO">
         SELECT * FROM `lemo_product_coupon`
         WHERE `cp_id` NOT IN( SELECT `cp_id` FROM `lemo_member_coupon` WHERE `user_id` = #{user_id} )
-        AND `cp_end` > DATE(NOW())
+        AND `cp_end` >= DATE(NOW())
         AND `cp_IssuedCnt` != `cp_limitedIssuance`
         AND `cp_group` = 'ALL';
     </select>
@@ -120,14 +123,18 @@
             `lemo_product_accommodation` AS a LEFT JOIN
             `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
             `lemo_product_review` AS c ON b.`res_no` = c.`res_no`
-        WHERE c.`res_no` = #{res_no};
+        WHERE c.`res_no` = #{res_no} AND c.`user_id` = #{user_id};
+    </select>
+    
+    <select id="selectReservationImpUid" resultType="String">
+        SELECT `imp_uid` FROM `lemo_product_reservation` WHERE `res_no`=#{res_no}
     </select>
 
     <select id="selectReviewAccommodation" resultType="kr.co.Lemo.domain.ReviewVO">
         SELECT a.`acc_name`, b.`res_checkIn`, b.`res_checkOut` FROM
             `lemo_product_accommodation` AS a LEFT JOIN
             `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id`
-        WHERE b.`res_no` = #{res_no};
+        WHERE b.`res_no` = #{res_no} AND b.`user_id` = #{user_id};
     </select>
 
     <select id="selectCheckReview" resultType="int">
@@ -166,7 +173,7 @@
     </select>
 
     <select id="selectDiaryXY" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
-        SELECT b.`acc_name`, b.`acc_longtitude`, b.`acc_lattitude` FROM
+        SELECT b.`acc_name`, b.`acc_longtitude`, b.`acc_lattitude`, a.`user_id`, a.`res_state` FROM
             `lemo_product_reservation` AS a LEFT JOIN
             `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
         WHERE a.`res_no` = #{res_no};

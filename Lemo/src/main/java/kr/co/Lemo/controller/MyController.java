@@ -5,11 +5,13 @@ import kr.co.Lemo.domain.search.My_SearchVO;
 import kr.co.Lemo.domain.search.ProductDetail_SearchVO;
 import kr.co.Lemo.service.MyService;
 
+import kr.co.Lemo.service.PaymentService;
 import kr.co.Lemo.utils.PageHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import kr.co.Lemo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +47,10 @@ public class MyController {
     private String myGroup = "title.my";
     private String diaryGroup = "title.diary";
     private final MyService service;
+
+    // @since 2023/03/31
+    @Autowired
+    private PaymentService paymentservice;
 
     // 서정현
     private final UserService userService;
@@ -173,7 +180,10 @@ public class MyController {
 
         String uid = myUser.getUser_id();
 
-        ReviewVO review = service.findReview(res_no);
+        ReviewVO review = service.findReview(res_no, myUser.getUser_id());
+
+        if(review == null) { return "redirect:/my/review/list"; }
+
         m.addAttribute("review", review);
 
         log.debug(""+review.getThumbs());
@@ -204,7 +214,10 @@ public class MyController {
 
         String uid = myUser.getUser_id();
 
-        ReviewVO review = service.findReviewAccommodation(res_no);
+        ReviewVO review = service.findReviewAccommodation(res_no, myUser.getUser_id());
+
+        if(review == null) { return "redirect:/my/review/list"; }
+
         m.addAttribute("review", review);
 
         return  "my/review/write";
@@ -268,9 +281,12 @@ public class MyController {
     ) {
         log.debug("GET diary/write start");
 
-        if(res_no == 0) { return "redirect:/my/reservation"; }
+        if(res_no == 0) { return "redirect:/my/reservation/list"; }
 
         ProductAccommodationVO accommo = service.findeDiaryXY(res_no);
+
+        if(accommo.getRes_state() != 2) { return "redirect:/my/reservation/list"; }
+        if(!accommo.getUser_id().equals(myUser.getUser_id())) { return "redirect:/my/reservation/list"; }
 
         m.addAttribute("cate", "diary");
         m.addAttribute("title", environment.getProperty(diaryGroup));
@@ -350,14 +366,18 @@ public class MyController {
     }
 
     @GetMapping("reservation/view")
-    public String reservationView(Model m, @RequestParam(defaultValue = "0") int res_no) {
+    public String reservationView(
+            Model m,
+            @RequestParam(defaultValue = "0") int res_no,
+            @AuthenticationPrincipal UserVO myUser
+    ) {
 
         if(res_no == 0) { return "redirect:/my/reservation/list"; }
 
         m.addAttribute("cate", "view");
         //service.findMyArticle(myCate, uid);
 
-        ReservationVO reservation = service.findReservation(res_no);
+        ReservationVO reservation = service.findReservation(res_no, myUser.getUser_id());
 
         if(reservation == null) { return "redirect:/my/reservation/list"; }
 
@@ -367,11 +387,9 @@ public class MyController {
     }
 
     @ResponseBody
+    @Transactional
     @DeleteMapping("reservation")
-    public int reservationDelete(@RequestBody ReservationVO resVO) {
-
-        log.debug("res_no : " + resVO.getRes_no());
-
+    public int reservationDelete(@RequestBody ReservationVO resVO) throws Exception {
         int result = service.removeUpdateReservation( resVO.getRes_no() );
 
         return result;
