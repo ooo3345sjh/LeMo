@@ -31,8 +31,8 @@
                                 </div>
                                 <div class="event_view">
                                     <div class="event_content">
-                                        <p th:each="image : ${event.cs_eventViewImg.split('/')}">
-                                            <img th:src="@{/img/cs/{csNo}/{imageName}(csNo=${event.cs_no}, imageName=${image})}" />
+                                        <p th:each="img, i : ${#strings.arraySplit(event.cs_eventViewImg, '/')}">
+                                            <img th:src="@{/img/cs/{csNo}/{imageName}(csNo=${event.cs_no}, imageName=${img})}" />
                                         </p>
                                         <!-- 이벤트 링크
                                         <div class="evt-link">

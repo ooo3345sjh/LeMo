@@ -169,11 +169,14 @@ main .main_content .col2 {
     text-align: center;
 }
 main .main_content .col2 .board_list {
-    border-top: 1px solid #bbb;
+    border-top: 1px solid #dbdbdb;
     border-collapse: collapse;
+    color: #505050;
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
 main .main_content .col2 .board_list ul {
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #dbdbdb;
 }
 main .main_content .col2 .board_list ul:first-child {
     background: #F7F7F7;
@@ -184,6 +187,9 @@ main .main_content .col2 .board_list li {
     font-size: 14px;
     padding-top: 7px;
     padding-bottom: 28px;
+    text-align: center;
+    height: 40px;
+    font-size: 14px;
     text-align: center;
 }
 
@@ -196,9 +202,10 @@ main .main_content .col2 .board_list .title > a {
     font-size: 14px;
 }
 main .main_content .col2 .board_list li:nth-of-type(1) {width: 5%;}
-main .main_content .col2 .board_list li:nth-of-type(2) {width: 60%;}
-main .main_content .col2 .board_list li:nth-of-type(3) {width: 20%;}
+main .main_content .col2 .board_list li:nth-of-type(2) {width: 10%;}
+main .main_content .col2 .board_list li:nth-of-type(3) {width: 50%;}
 main .main_content .col2 .board_list li:nth-of-type(4) {width: 14%;}
+main .main_content .col2 .board_list li:nth-of-type(5) {width: 14%;}
 
 main .main_content .col2 .board_list .prodBtn > a {
         display: inline-block;
@@ -254,7 +261,7 @@ main .main_content .btnAdminProd {
     color: #666666;
     font-size: 15px;
     font-weight: 500;
-    padding: 12px 5px;
+    padding: 11px 5px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
     float: right;
@@ -268,7 +275,7 @@ main .main_content .btnAdminProd:active {
 	top:1px;
 }
 main .main_content .btnAdminProd > a {
-    font-size: 13px;
+    font-size: 14px;
     color: #666666;
     text-decoration: none;
     font-weight: 500;
