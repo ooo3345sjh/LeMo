@@ -127,7 +127,6 @@ public class MyController {
     @PostMapping("coupon")
     public int rsaveCoupon(@RequestBody CouponVO coupon, @AuthenticationPrincipal UserVO myUser) {
         coupon.setUser_id(myUser.getUser_id());
-        log.debug("cp_id"+coupon.getCp_id());
         CouponVO cnt = service.findProductCouponCnt(coupon);
 
         if(cnt.getCp_limitedIssuance() == cnt.getCp_IssuedCnt()) { return 101; }
@@ -151,7 +150,6 @@ public class MyController {
         String user_id = myUser.getUser_id();
         vo.setMap(map);
         vo.setUser_id(user_id);
-        log.info("reviewStat : " + map.get("reviewStat"));
 
         // 페이징
         int totalReview = service.findTotalReviews(vo);
@@ -185,8 +183,6 @@ public class MyController {
         if(review == null) { return "redirect:/my/review/list"; }
 
         m.addAttribute("review", review);
-
-        log.debug(""+review.getThumbs());
 
         return "my/review/view";
     }
@@ -231,8 +227,6 @@ public class MyController {
             HttpServletRequest req,
             @AuthenticationPrincipal UserVO myUser
     ) {
-        log.debug("param : " + param);
-
         param.put("user_id", myUser.getUser_id());
         param.put("revi_regip", req.getRemoteAddr());
 
@@ -313,8 +307,6 @@ public class MyController {
         
         // 이후에 principal로 대체
         String user_id = myUser.getUser_id();
-
-        log.debug("map : " + param);
 
         int result = service.diary_rsave(param, fileList, req, user_id);
 
@@ -409,7 +401,6 @@ public class MyController {
             @AuthenticationPrincipal UserVO userVO
     ) throws  Exception {
         log.debug("MyService PATCH uploadProfile start...");
-        log.debug(""+photo.toString());
         int result = userService.usaveProfile(photo, userVO);
         return result+"";
     }

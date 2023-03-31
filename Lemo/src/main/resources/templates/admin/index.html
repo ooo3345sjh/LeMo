@@ -141,7 +141,12 @@
 <th:block layout:fragment="script">
     <!-- 구글 차트 -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+    <script th:inline="javascript">
+            const totalSales = [[${sales}]];
+
+            console.log(totalSales);
+            console.log(totalSales['2023-03-31']);
+
             // 구글 열 차트를 로드
             google.charts.load('current', {'packages':['corechart']});
             // callback 정의 : drawVisualization
@@ -149,36 +154,49 @@
 
             // 오늘 날짜
             let today = new Date();
+            // 오늘 연도
+            let fullYear = today.getFullYear();
             // 오늘 날짜 (월)
             let newMonth = today.getMonth() + 1;
             // 오늘 날짜 (일)
             let newDate = today.getDate();
             // 출력 날짜 형태 지정
             let date2 = newMonth + '/' + newDate;
+            let date3 = fullYear + '-' + ('0' + newMonth.toString().slice(-2)) + '-' + newDate
 
-            console.log(date2);
+            console.log(date3);
+            console.log(totalSales[date3])
+
 
             // 이전 날짜
             // before[1] = 1일전 , before[2] = 2일전
             let before = new Array();
             for (let i=1; i<7; i++){
                 before[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
-                before[i] = before[i].getMonth() + '/' + before[i].getDate();
+                before[i] = (before[i].getFullYear()) + '-'
+                          + ('0' + (before[i].getMonth() + 1).toString().slice(-2) ) + '-'
+                          + before[i].getDate();
+                if(totalSales[before[i]] == undefined) {
+                     totalSales[before[i]] = 0;
+                }
             }
-            console.log( before[1] );
+
+            console.log(totalSales);
 
             function drawVisualization() {
+
+                let totalGraph;
 
                 // 그래프 내용 : drawVisualization 구현
                 var data = google.visualization.arrayToDataTable([
                     ['날짜', '일별매출', '누적매출'],
-                    [before[6],  444, 444],
-                    [before[5],  408, 852],
-                    [before[4],  164, 1016],
-                    [before[3],  239, 1255],
-                    [before[2],  60, 1315],
-                    [before[1],  380, 1695],
-                    [date2,  80, 1775]
+                    [before[6].substring(5,10),  totalSales[before[6]], totalSales[before[6]] ],
+                    [before[5].substring(5,10),  totalSales[before[5]], totalSales[before[6]] + totalSales[before[5]] ],
+                    [before[4].substring(5,10),  totalSales[before[4]], totalSales[before[6]] + totalSales[before[5]] + totalSales[before[4]] ],
+                    [before[3].substring(5,10),  totalSales[before[3]], totalSales[before[6]] + totalSales[before[5]] + totalSales[before[4]] + totalSales[before[3]] ],
+                    [before[2].substring(5,10),  totalSales[before[2]], totalSales[before[6]] + totalSales[before[5]] + totalSales[before[4]] + totalSales[before[3]] + totalSales[before[2]] ],
+                    [before[1].substring(5,10),  totalSales[before[1]], totalSales[before[6]] + totalSales[before[5]] + totalSales[before[4]] + totalSales[before[3]] + totalSales[before[2]] + totalSales[before[1]] ],
+                    [date2, totalSales[date3], totalSales[before[6]] + totalSales[before[5]] + totalSales[before[4]] + totalSales[before[3]] + totalSales[before[2]] + totalSales[before[1]] + totalSales[date3] ]
                 ]);
 
                 // 그래프 주석 표기

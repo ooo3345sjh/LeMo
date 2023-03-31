@@ -23,7 +23,8 @@
 
     <select id="selectReservations" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT
-            b.*, a.`acc_name`, a.`acc_id`, a.`province_no`, a.`acc_thumbs`, c.`room_checkIn`, c.`room_checkOut`, b.`res_checkIn`, b.`res_checkOut`, b.`res_state`, IFNULL(d.`arti_no`, 0) AS diaryStat, IFNULL(e.`res_no`, 0) AS reviewStat
+            b.*, a.`acc_name`, a.`acc_id`, a.`acc_state`, a.`province_no`, a.`acc_thumbs`, c.`room_checkIn`, c.`room_checkOut`, b.`res_checkIn`,
+            b.`res_checkOut`, b.`res_state`, IFNULL(d.`arti_no`, 0) AS diaryStat, IFNULL(e.`res_no`, 0) AS reviewStat
         FROM
             `lemo_product_accommodation` AS a LEFT JOIN
             `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN

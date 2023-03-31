@@ -175,7 +175,6 @@ public class DiaryController {
             @RequestBody ArticleDiaryVO diaryVO,
             @AuthenticationPrincipal UserVO myUser
     ) {
-        log.debug("arti_no"+diaryVO.getArti_no());
         int arti_no = diaryVO.getArti_no();
         Boolean status = diaryVO.getStatus();
         String user_id = myUser.getUser_id();
@@ -219,13 +218,7 @@ public class DiaryController {
     @ResponseBody
     @PostMapping("search")
     public void searchDiary(@RequestBody Map options) {
-        log.debug("options : " + options);
-        log.debug("keyword : " + options.get("keyword"));
-        log.debug("orderBySearchType : " + options.get("orderBySearchType"));
-        log.debug("orderByOption : " + options.get("orderByOption"));
-
         Map<Integer, List<DiarySpotVO>> map = service.findDiaryArticle(options);
-        log.debug("map : " + map);
 
     }
 }

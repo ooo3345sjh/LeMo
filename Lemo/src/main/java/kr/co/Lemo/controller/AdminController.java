@@ -52,7 +52,38 @@ public class AdminController {
 
 
     @GetMapping("index")
-    public String index_admin() {
+    public String index_admin(
+            Model model,
+            Map map
+    ) {
+        List<ReservationVO> vo = service.findSales(map);
+
+        Map<String, List<ReservationVO>> sales = vo.stream().collect(Collectors.groupingBy(ReservationVO::getRes_checkIn));
+
+        Map<String, Integer> totals = new HashMap<>();
+
+        int count = 0;
+        for( String key : sales.keySet() ) {
+            List<ReservationVO> test = sales.get(key);
+            int totalSales = 0;
+            for(ReservationVO sale : test) {
+                totalSales += sale.getSales();
+            }
+            totals.put(key, totalSales);
+        }
+
+        model.addAttribute("sales", totals);
+
+        log.debug("totals : " + totals);
+        log.debug("2023-03-24 : " + totals.get("2023-03-24"));
+        log.debug("2023-03-25 : " + totals.get("2023-03-25"));
+        log.debug("2023-03-26 : " + totals.get("2023-03-26"));
+        log.debug("2023-03-27 : " + totals.get("2023-03-27"));
+        log.debug("2023-03-28 : " + totals.get("2023-03-28"));
+        log.debug("2023-03-29 : " + totals.get("2023-03-29"));
+        log.debug("2023-03-30 : " + totals.get("2023-03-30"));
+        log.debug("2023-03-31 : " + totals.get("2023-03-31"));
+
         return "admin/index";
     }
 

@@ -196,6 +196,20 @@
         <include refid="searchAccInRes"/>
     </select>
 
+    <select id="selectSales" resultType="kr.co.Lemo.domain.ReservationVO">
+        SELECT
+            (`res_price`-`res_disPrice`) AS `sales`, `res_checkIn`, `res_state`
+        FROM
+        	`lemo_product_reservation`   AS a LEFT JOIN
+        	`lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
+        WHERE
+        	( `res_checkIn` BETWEEN DATE( date_add(now(), INTERVAL -6 DAY) ) AND DATE( NOW() ) )
+        	AND `res_state` NOT IN ( 0 )
+        <if test="user_id != null">
+            AND a.`user_id` = #{user_id};
+        </if>
+    </select>
+
 
     <!-- 관리자 - 쿠폰 등록  -->
     <insert id="insertCoupon">

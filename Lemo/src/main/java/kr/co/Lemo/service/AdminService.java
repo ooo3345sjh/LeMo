@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -319,8 +320,14 @@ public class AdminService {
         return dao.deleteReview(revi_id);
     }
 
-
-
+    /**
+     * @since 2023/03/31
+     * @author 박종협
+     * @apiNote 매출 차트 테스트
+     */
+    public List<ReservationVO> findSales(Map map) {
+        return dao.selectSales(map);
+    }
 
 
 
