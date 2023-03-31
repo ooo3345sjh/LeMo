@@ -396,8 +396,5 @@ public class ProductController {
 
             return new ResponseEntity<>("주문이 완료되었습니다", HttpStatus.OK);
         }
-
     }
-
-
 }

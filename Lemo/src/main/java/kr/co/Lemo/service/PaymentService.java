@@ -87,6 +87,7 @@ public class PaymentService {
                 .fromUriString(apiURL)
                 .queryParam("_token", token)
                 .build(true)
+
                 .toUri();
 
 
