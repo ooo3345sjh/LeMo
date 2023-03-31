@@ -1431,14 +1431,14 @@ main .info_list5 {
 }
 main .info_list6 {width: 10% !important;}
 
-main .res_list1 {width: 5% !important;}
+main .res_list1 {width: 5% !important; font-family: 'Noto Sans KR';}
 main .res_list2 {width: 8% !important;}
-main .res_list3 {width: 10% !important;}
+main .res_list3 {width: 10% !important; }
 main .res_list4 {width: 17% !important;}
-main .res_list5 {width: 10% !important;}
+main .res_list5 {width: 10% !important; font-family: 'Noto Sans KR';}
 main .res_list6 {width: 8% !important;}
 main .res_list7 {width: 10% !important;}
-main .res_list8 {width: 15% !important;}
+main .res_list8 {width: 15% !important; font-family: 'Noto Sans KR';}
 main .res_list9 {width: 15% !important;}
 
 main .cancel_res {
@@ -1453,8 +1453,8 @@ main .complete_acc {
     width: 10% !important;
     color: #bbd444;
 }
-main .res_list_no {width: 8% !important;}
-main .res_list_accId {width: 10% !important;}
+main .res_list_no {width: 8% !important; font-family: 'Noto Sans KR';}
+main .res_list_accId {width: 10% !important; font-family: 'Noto Sans KR';}
 main .res_list_accName {width: 17% !important;}
 main .res_list_name {width: 8% !important;}
 
@@ -1764,6 +1764,7 @@ main .col_register1 .c_list td {
     vertical-align: middle;
     height: 32px;
     font-size: 13px;
+    font-family: 'Noto Sans KR';
 }
 main .removeCoupon {
     border: none;

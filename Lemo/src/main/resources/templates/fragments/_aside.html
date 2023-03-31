@@ -157,7 +157,7 @@
                         <a th:href="@{/business/info/list}">숙박관리</a>
                     </li>
                     <li>
-                        <a href="#">객실관리</a>
+                        <a th:href="@{/business/roomInfo/list}">객실관리</a>
                     </li>
                     <li>
                         <a th:href="@{/business/coupon/manageCoupon}">쿠폰관리</a>
@@ -177,39 +177,23 @@
                 </a>
                 <ul class="sidebar_collapse_menu">
                     <li>
-                        <a href="#">예약정보</a>
+                        <a th:href="@{/business/reservation/list}">예약정보</a>
                     </li>
                     <li>
-                        <a href="#">타임라인</a>
+                        <a th:href="@{/business/reservation/timeline}">타임라인</a>
                     </li>
                 </ul>
             </li>
             <!-- 사이드 메뉴 item4 -->
             <li>
-                <a class="sidebar_arrow" href="#">
+                <a class="sidebar_arrow" th:href="@{/business/stats}">
                     <div class="icon_menu">
                         <img th:src="@{/images/admin/line-chart.gif}">
                     </div>
                     <span>통계관리</span>
                 </a>
             </li>
-            <!-- 사이드 메뉴 item5 -->
-            <li>
-                <a class="sidebar_arrow" href="#">
-                    <div class="icon_menu">
-                        <img th:src="@{/images/admin/happy.gif}">
-                    </div>
-                    <span>고객센터</span>
-                </a>
-                <ul class="sidebar_collapse_menu">
-                    <li>
-                        <a th:href="@{/admin/cs/notice/list}">공지사항</a>
-                    </li>
-                    <li>
-                        <a th:href="@{/admin/cs/faq/list}">문의사항</a>
-                    </li>
-                </ul>
-            </li>
+
         </ul>
     </nav>
 </aside>

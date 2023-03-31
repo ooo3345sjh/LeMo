@@ -80,19 +80,19 @@
         select * from `lemo_product_province`;
     </select>
 
-    <!-- business -info - acc -->
+    <!-- 판매자 숙박 목록 -->
     <select id="selectAccForInfo" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
         select * from `lemo_product_accommodation`
-        where `user_id`='1foodtax@within.co.kr'
-        <include refid="searchAccType"/>
+        where `user_id`=#{user_id}
+        <include refid="searchAcc"/>
         order by `acc_id` desc limit #{offset}, 10;
     </select>
 
-    <!-- business -info - acc - count total accs for pagination -->
+    <!-- 판매자 숙박 목록 페이징 -->
     <select id="countAcc" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
         select count(*) from `lemo_product_accommodation`
-        where `user_id`='1foodtax@within.co.kr'
-        <include refid="searchAccType"/>
+        where `user_id`=#{user_id}
+        <include refid="searchAcc"/>
     </select>
 
     <!-- business - info - select accommodation owned for BUSINESS search -->
@@ -204,14 +204,15 @@
         </if>
     </sql>
 
-    <sql id="searchAccType">
+    <!-- 숙박 검색 -->
+    <sql id="searchAcc">
         <if test="searchField != null">
             <choose>
                 <when test='searchField == "acc_id"'>
-                    and `acc_id` like CONCAT('%', #{searchWord}, '%')
+                   and `acc_id` like CONCAT('%', #{searchWord}, '%')
                 </when>
                 <when test='searchField == "acc_name"'>
-                    and `acc_name` like CONCAT('%', #{searchWord}, '%')
+                   and `acc_name` like CONCAT('%', #{searchWord}, '%')
                 </when>
             </choose>
         </if>
