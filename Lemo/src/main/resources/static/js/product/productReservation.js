@@ -53,6 +53,41 @@ function createMerchantUid(){
 }
 
 // 카드 결제
+/*
+function paymentCard(data) {
+
+    var IMP = window.IMP;
+    IMP.init("imp46647544");
+
+	IMP.request_pay({ // param
+        pg : 'html5_inicis.INIpayTest',
+        pay_method : 'card',
+        merchant_uid: data.merchant_uid,
+        name : room_name,
+        amount : data.totalPrice,
+        buyer_name : data.name,
+        buyer_email : user_email,
+        buyer_tel : user_hp,
+        display: {
+            card_quota: [3]  // 할부개월 3개월까지 활성화
+        }
+  	},
+	function (rsp) { // callback
+		if (rsp.success) {
+            console.log(rsp);
+            data.imp_uid = rsp.imp_uid;
+
+            completePayment(data);
+
+		} else {
+          // 결제 실패 시 로직
+          console.log(rsp);
+		}
+	});
+
+}*/
+
+// 카드 결제
 function paymentCard(data) {
 
     var IMP = window.IMP;
