@@ -47,7 +47,7 @@
         `res_name`= #{name},
         `res_hp` = #{hp},
         `res_payment` = #{payment},
-        `res_date` = CURDATE(),
+        `res_date` = NOW(),
         `res_checkIn` = #{checkIn},
         `res_checkOut` = #{checkOut},
         `res_state` = 1,

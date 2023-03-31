@@ -69,16 +69,28 @@
                                 <span th:if="${reservation.res_payment == 5}">카카오페이</span>
                             </div>
                             <div>
+                                <p>객실 가격</p>
+                                <span>[[${#numbers.formatInteger(reservation.room_price, 3, 'COMMA')}]]원</span>
+                            </div>
+                            <div>
+                                <p>포인트 사용</p>
+                                <span>- [[${#numbers.formatInteger(reservation.poi_point, 3, 'COMMA')}]]P</span>
+                            </div>
+                            <div>
+                                <p>쿠폰 할인</p>
+                                <span>- [[${#numbers.formatInteger(reservation.dis_price, 3, 'COMMA')}]]원</span>
+                            </div>
+                            <div>
                                 <span><i>최종 결제 금액</i>(VAT포함)</span>
                             </div>
                             <div>
-                                <p>[[${#numbers.formatInteger(reservation.res_price - reservation.res_disPrice, 3, 'COMMA')}]]원</p>
+                                <p>[[${#numbers.formatInteger(reservation.res_price, 3, 'COMMA')}]]원</p>
                             </div>
                         </div>
                         </div>
                         <div class="btnReserveView">
                             <a href="#" class="reservePrint" onclick="reservPrint()">예약 내역 인쇄</a>
-                            <a th:href="@{/my/reservation/delete ( res_no=${reservation.res_no} )}" class="reserveCancel" id="reserveCancel" th:if="${reservation.res_state != 2}">예약 취소</a>
+                            <a th:href="@{/my/reservation/delete ( res_no=${reservation.res_no} )}" class="reserveCancel" id="reserveCancel" th:if="${reservation.res_state != 2 && reservation.res_state != 0}">예약 취소</a>
                         </div>
                     </div>  
                 </section>

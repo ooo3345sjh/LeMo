@@ -39,6 +39,9 @@ public class MyService {
     @Autowired
     private MyDAO dao;
 
+    @Autowired
+    private PaymentService paymentservice;
+
     // @since 2023/03/13
     public Map<Integer, List<DiarySpotVO>> findDiaryArticle(String user_id) {
 
@@ -218,17 +221,20 @@ public class MyService {
     public int findTotalReviews(SearchCondition sc) {
         return dao.selectTotalReviews(sc);
     }
-    public ReviewVO findReview(int res_no) {
-        ReviewVO reVO = dao.selectReview(res_no);
-        String acc_thumb = reVO.getRevi_thumb();
+    public ReviewVO findReview(int res_no, String user_id) {
+        ReviewVO reVO = dao.selectReview(res_no, user_id);
 
-        List<String> thumbs = Arrays.asList(acc_thumb.split("/"));
-        reVO.setThumbs(thumbs);
+        if(reVO != null) {
+            String acc_thumb = reVO.getRevi_thumb();
 
-        return dao.selectReview(res_no);
+            List<String> thumbs = Arrays.asList(acc_thumb.split("/"));
+            reVO.setThumbs(thumbs);
+        }
+
+        return reVO;
     }
-    public ReviewVO findReviewAccommodation(int res_no) {
-        return dao.selectReviewAccommodation(res_no);
+    public ReviewVO findReviewAccommodation(int res_no, String user_id) {
+        return dao.selectReviewAccommodation(res_no, user_id);
     }
     public void rsavsReview(MultipartHttpServletRequest request, Map<String, Object> param) {
         Map<String, MultipartFile> fileMap = request.getFileMap();
@@ -258,21 +264,30 @@ public class MyService {
     }
 
     // @since 2023/03/29
-    public ReservationVO findReservation(int res_no) {
+    public ReservationVO findReservation(int res_no, String user_id) {
 
-        ReservationVO resVO = dao.selectReservation(res_no);
+        ReservationVO resVO = dao.selectReservation(res_no, user_id);
 
-        LocalDate checkInDate  = LocalDate.parse(resVO.getRes_checkIn(), DateTimeFormatter.ISO_DATE);
-        LocalDate checkOutDate = LocalDate.parse(resVO.getRes_checkOut(), DateTimeFormatter.ISO_DATE);
+        if(resVO != null) {
+            LocalDate checkInDate  = LocalDate.parse(resVO.getRes_checkIn(), DateTimeFormatter.ISO_DATE);
+            LocalDate checkOutDate = LocalDate.parse(resVO.getRes_checkOut(), DateTimeFormatter.ISO_DATE);
 
-        Period period = Period.between(checkInDate, checkOutDate);
-        resVO.setNight(period.getDays());
-
-        return dao.selectReservation(res_no);
+            Period period = Period.between(checkInDate, checkOutDate);
+            resVO.setNight(period.getDays());
+        }
+        return resVO;
     }
 
-    public int removeUpdateReservation(int res_no) {
+    public int removeUpdateReservation(int res_no) throws Exception {
         int result = 0;
+
+        /* 토큰 발행 */
+        String token = paymentservice.getToken();
+        String imp_uid = dao.selectReservationImpUid(res_no);
+        log.debug(imp_uid);
+
+        /* 결제 취소 */
+        paymentservice.paymentCancel(token, imp_uid);
 
         result = dao.deleteReservation(res_no);
 

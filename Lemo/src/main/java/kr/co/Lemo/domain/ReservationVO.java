@@ -49,5 +49,10 @@ public class ReservationVO {
     private int diaryStat;
     private int reviewStat;
 
+    // @since 2023/03/31
+    private int room_price;
+    private int poi_point;
+    private int dis_price;
+
 
 }

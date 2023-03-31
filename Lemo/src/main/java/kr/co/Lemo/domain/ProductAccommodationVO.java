@@ -83,5 +83,12 @@ public class ProductAccommodationVO {
      * @apiNote 오늘 가격
      */
     private int now_price;
+
+    /**
+     * @since 2023/03/31
+     * @author 박종협
+     * @apiNote 검증시 필요함
+     */
+    private int res_state;
             
 }

@@ -47,12 +47,12 @@ public interface MyDAO {
 
     // @since 2023/03/28
     public int selectTotalReviews(SearchCondition sc);
-    public ReviewVO selectReview(int res_no);
-    public ReviewVO selectReviewAccommodation(int res_no);
+    public ReviewVO selectReview(@Param("res_no") int res_no, @Param("user_id") String user_id);
+    public ReviewVO selectReviewAccommodation(@Param("res_no") int res_no, @Param("user_id") String user_id);
     public int insertReview(Map<String, Object> param);
 
     // @since 2023/03/29
-    public ReservationVO selectReservation(int res_no);
+    public ReservationVO selectReservation(@Param("res_no") int res_no, @Param("user_id") String user_id);
     public int deleteReservation(int res_no);
     public int selectCheckReview(int res_no);
     public int selectCheckDiary(int res_no);
@@ -62,5 +62,6 @@ public interface MyDAO {
 
     // @since 2023/03/31
     public ProductAccommodationVO selectDiaryXY(int res_no);
+    public String selectReservationImpUid(int res_no);
 
 }
