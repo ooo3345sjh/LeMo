@@ -142,7 +142,7 @@
                                                         <img id="mainImage" style="display:none">
                                                     </div>
                                                     <div id="main_zone" data-placeholder="사진을 첨부하려면  클릭해주세요"></div>
-                                                    <input type="file" name="eventMainImg[]" id="main_file" accept="image/png, image/jpeg" class="insertFile" required onchange="readURL(this);"/>
+                                                    <input type="file" name="eventMainImg[]" id="main_file" accept="image/png, image/jpeg" class="insertFile" required/>
                                                 </div>
                                             </div>
                                         </td>
@@ -202,6 +202,8 @@
 <th:block layout:fragment="script">
     <script th:src="@{/js/admin/dragNdrop.js}"></script>
     <script>
+        let mainBannerFile; // 메인베너 파일
+        const mainBannerImg = $('#mainImage'); // 메인베너 이미지
 
         $(document).ready(function() {
                 $('#summernote').summernote({
@@ -250,14 +252,34 @@
                 const mainDOM = document.querySelector('#main_file');
                 const preview = document.querySelector('#mainImage');
 
-                mainDOM.addEventListener('change', () => {
-                    const reader = new FileReader();
-                    reader.onload = ({ target }) => {
-                        preview.src = target.result;
-                        preview.style.display = 'block';
-                        document.querySelector('#main_zone').style.display = 'none';
-                    };
-                    reader.readAsDataURL(mainDOM.files[0]);
+                $(document).on('click', '#main_file', function(e){
+                    let isMainOk=true;
+                    $(this).change(function(e){
+                        const reader = new FileReader();
+                        if($(this).files && $(this).files[0]){
+                            reader.onload = ({ target }) => {
+                                var image = new Image();
+                                image.src = target.result;
+                                image.onload = function() {
+                                    if (image.width < 1000 || image.height > 300 || image.height < 200) {
+                                        alert("이미지 크기가 올바르지 않습니다. (가로는 1000px 이상, 세로는 200px 이상, 300px 이하)");
+                                        isMainOk = false;
+                                        return;
+                                    }
+                                };
+                                if(isMainOk){
+                                    mainBannerImg.src = target.result;
+                                    mainBannerImg.style.display = 'block';
+                                    document.querySelector('#main_zone').style.display = 'none';
+                                }
+                            };
+                            if(isMainOk){
+                                reader.readAsDataURL(mainDOM.files[0]);
+                                mainBannerFile = $(this).files[0];
+                            }
+                        };
+                        console.log(mainBannerFile);
+                    });
                 });
 
                 preview.addEventListener('click', () => {
@@ -307,15 +329,7 @@
 
                 var reader = new FileReader();
                 reader.onload = function(e) {
-                    var image = new Image();
-                    image.src = e.target.result;
-                    image.onload = function() {
-                        if (image.width < 1000 || image.height > 300 || image.height < 200) {
-                            alert("이미지 크기가 올바르지 않습니다. (가로는 1000px 이상, 세로는 200px 이상, 300px 이하)");
-                            return;
-                        }
 
-                    };
                 };
                 reader.readAsDataURL(input.files[0]);
 
