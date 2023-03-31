@@ -56,6 +56,12 @@ public interface BusinessDAO {
     // @since 2023/03/23
    public List<ProductAccommodationVO> selectAccOwnedForInfo(String user_id);
 
+   // @since 2023/03/31
+    public ProductAccommodationVO viewAcc(Integer acc_id);
+
+    // @since 2023/03/31
+    public List<ServicereginfoVO> selectServiceInAcc(Integer acc_id);
+
     // @since 2023/03/13
     public void insertCoupon(CouponVO vo, String user_id);
 

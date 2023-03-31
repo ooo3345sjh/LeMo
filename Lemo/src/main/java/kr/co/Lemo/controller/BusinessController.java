@@ -242,12 +242,32 @@ public class BusinessController {
     }
 
     @GetMapping("info/modify")
-    public String info_modify(){
+    public String info_modify(Model model, @RequestParam("acc_id") Integer acc_id) throws Exception{
+
+        ProductAccommodationVO acc = service.fincAcc(acc_id);
+
+        List<ServicereginfoVO> servicereginfos = service.findServiceInAcc(acc_id);
+        log.warn("selected acc: " + acc);
+
+        model.addAttribute("acc", acc);
+        model.addAttribute("acc_id", acc_id);
+        model.addAttribute("serviceInfo", servicereginfos);
+
         return "business/info/modify";
     }
 
     @GetMapping("info/view")
-    public String info_view(){
+    public String info_view(Model model, @RequestParam("acc_id") Integer acc_id) throws Exception{
+
+        ProductAccommodationVO acc = service.fincAcc(acc_id);
+
+        List<ServicereginfoVO> servicereginfos = service.findServiceInAcc(acc_id);
+        log.warn("selected acc: " + acc);
+
+        model.addAttribute("acc", acc);
+        model.addAttribute("acc_id", acc_id);
+        model.addAttribute("serviceInfo", servicereginfos);
+
         return "business/info/view";
     }
 

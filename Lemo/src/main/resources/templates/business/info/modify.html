@@ -8,41 +8,90 @@
     <!-- 드래그앤드롭 파일 업로드 -->
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-    <script th:src="@{/js/admin/dragNdrop.js}"></script>
+    <script th:src="@{/js/admin/dragNdropMulti.js}"></script>
     <!-- 다음 주소 API -->
-    <script th:src="@{/js/common/zipCode.js}"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=219050d1872ccb773b543fa419402493&libraries=services"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <!-- 할인율 적용 -->
-    <script th:src="@{/js/admin/salePercent.js}"></script>
+    <script th:src="@{/js/common/zipCode.js}"></script>
     <!-- summernote -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- include summernote css/js -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-    <script th:src="@{/js/admin/summernote-ko-KR.js}"></script>
-    <script>
-            $(document).ready(function() {
-                $('#summernote').summernote({
-                    height: 450,
-                    focus: true,
-                    lang : 'ko-KR',
-                    spellCheck: false,
-                    toolbar: [
-                        // [groupName, [list of button]]
-                        ['style', ['bold', 'italic', 'underline', 'clear']],
-                        ['font', ['strikethrough']],
-                        ['fontsize', ['fontsize']],
-                        ['color', ['color']],
-                        ['para', ['ul', 'ol', 'paragraph']],
-                        ['insert', ['table','hr']]
-                    ]
-                });
-                $('#summernote').summernote('fontSize', 14);
-            });
-    </script>
+    <!-- 할인율 적용 -->
+    <script th:src="@{/js/admin/salePercent.js}"></script>
+    <style>
+        #autoMaker{
+           position: absolute;
+           width: 200px;
+           height: auto;
+           background: white;
+           cursor:pointer;
+        }
+        #autoMaker > div{
+            border: 1px solid #e6e6e6;
+            margin-top: 3px;
+            font-size: 12px;
+            padding: 5px 6px;
+            background: #fafafa;
+            z-index: 9999;
+            position: sticky;
+        }
+        #autoMaker > div:hover{
+           background : #e6d1ff;
+        }
 
+        .wrap {
+           display: inline-block;
+           margin-right: 11px;
+           margin-bottom: 6px;
+        }
+        .preview {
+           width: 100px;
+           height: 100px;
+           background-size: cover;
+           background-repeat: no-repeat;
+           z-index: 999;
+           background-position: center;
+           pointer-events: none;
+           background-image: url(https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg);
+        }
+
+        #wrap-container {
+           overflow: auto;
+           white-space: nowrap;
+           overflow-y: hidden;
+           margin-bottom: 7px;
+        }
+        #wrap-container::-webkit-scrollbar {
+            height: 10px;
+        }
+        #wrap-container::-webkit-scrollbar-thumb {
+            background: #bbd444;
+            border-radius: 10px;
+            box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+        }
+        #wrap-container::-webkit-scrollbar-track {
+            background-color: #e4e4e4;
+        }
+
+        #fileDropzone .dz-image{
+        }
+        .dropzone .dz-preview .dz-remove {
+            background-image: url('/Lemo/images/admin/x-button.png');
+            background-repeat:no-repeat;
+            background-size: 20px 20px;
+            opacity: 70%;
+            position: absolute;
+            top: -5px;
+            z-index: 999;
+            right: -7px;
+        }
+        .dropzone .dz-preview .dz-remove:hover {
+            opacity: 1;
+        }
+   </style>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -55,11 +104,26 @@
                     <div class="main_content_div">
                         <div class="col_nav">
                             <span>상품관리 ></span>
-                            <span>숙소등록</span>
+                            <span>숙소수정</span>
                         </div>
 
                         <!-- 숙소 등록 폼 -->
-                        <form class="col_register_form" action="#">
+                        <form class="col_register_form" >
+                            <input type="text" name="province_no">
+                            <input type="text" name="acc_city">
+                            <input type="text" name="acc_longtitude">
+                            <input type="text" name="acc_lattitude">
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>숙소아이디</span>
+                                    </div>
+                                </div>
+                                <input class="input_stayName" id="result_acc_id" type="text" th:value="${acc.acc_id}" readonly>
+                                <span class="result_stayName">
+                                    💡 숙소 아이디는 수정 불가능합니다.
+                                </span>
+                            </div>
                             <!-- 숙소명 등록 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -67,10 +131,27 @@
                                         <span>숙소명</span>
                                     </div>
                                 </div>
-                                <input class="input_stayName" type="text" placeholder="숙소명을 입력하세요.">
-                                <span class="result_stayName">
+                                <input class="input_stayName" type="text" th:value="${acc.acc_name}">
+                                <!--<span class="result_stayName">
                                     💡 숙소명은 추후 수정가능합니다
-                                </span>
+                                </span>-->
+                            </div>
+                            <!-- 숙소 타입 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>숙소타입</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <select name="accType_no" class="accType">
+                                        <option value="1" th:selected="${acc.accType_no} == '1'">모텔</option>
+                                        <option value="2" th:selected="${acc.accType_no} == '2'">호텔</option>
+                                        <option value="3" th:selected="${acc.accType_no} == '3'">펜션</option>
+                                        <option value="4" th:selected="${acc.accType_no} == '4'">게스트하우스</option>
+                                        <option value="5" th:selected="${acc.accType_no} == '5'">캠핑·글램핑</option>
+                                    </select>
+                                </div>
                             </div>
                             <!-- 주소등록 -->
                             <div class="col_register1">
@@ -81,14 +162,18 @@
                                 </div>
                                 <div class="stayZip">
                                     <button type="button" onclick="postcode()">주소찾기</button>
-                                    <input type="text" id="zip" readonly>
+                                    <input type="text" id="zip" th:value="${acc.acc_zip}" readonly>
                                 </div>
                                 <div class="stayAddr1">
-                                    <input type="text" id="addr" readonly>
+                                    <input type="text" id="addr" th:value="${acc.acc_addr}" readonly>
                                 </div>
                                 <div class="stayAddr2">
-                                    <input type="text" id="addrDetail" placeholder="상세주소 입력">
+                                    <input type="text" id="addrDetail" name="acc_addrDetail" th:value="${acc.acc_addrDetail}" placeholder="상세주소 입력">
+                                    <div>
+                                        <input type="button" id="BtnButton" value="주소입력">
+                                    </div>
                                 </div>
+                                <div id="map"></div>
                             </div>
 
                             <!-- 편의시설 및 서비스 체크박스 등록 -->
@@ -99,147 +184,24 @@
                                     </div>
                                 </div>
                                 <div class="cs_checkbox">
-                                    <table style="width: 100%;">
-                                        <tr>
-                                            <td>
-                                                <label class="c_container">피트니스
-                                                    <input type="checkbox" checked="checked">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">와이파이
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">레스토랑
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">TV
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">에어컨
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">냉장고
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <label class="c_container">드라이기
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">장애인편의시설
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">주차장
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">무료주차
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">금연
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">카페
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <label class="c_container">수영장
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">욕조
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">스파
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">엘리베이터
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">욕실용품
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">사우나
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <label class="c_container">짐보관
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">세탁기
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <label class="c_container">건조기
-                                                    <input type="checkbox">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                    <span id="help_cs">
+                                        💡 전체 서비스 참고
+                                    </span>
+                                    <div id="result_help_cs" style="display: none;">
+                                        <ul id="result_td"></ul>
+                                    </div>
+                                    <input type="text" id="insert_target" style="display: none;">
+                                    <input type="text" id="search_area" placeholder="검색어를 입력하세요." autocomplete="off">
+                                    <div id="autoMaker"></div>
+                                    <ul id="service_List">
+                                        <li th:each="info:${serviceInfo}">
+                                            <img th:src="@{/images/admin/hashtag.png}">
+                                            [[${info.sc_name}]]
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div id="tag_area" style="width: 100%; margin-top: 44px;">
+                                    <img th:src="@{/images/admin/label.png}" width="15px;">&nbsp;TAG
                                 </div>
                             </div>
 
@@ -247,11 +209,11 @@
                             <div class="col_register1">
                                 <div class="stayName" >
                                     <div>
-                                        <span>숙소 이미지</span>
+                                        <span id="btnTest">숙소 이미지</span>
                                     </div>
                                 </div>
-                                <div class="stayThumb" style="justify-content: center;">
-                                    <div class="dropzone" id="fileDropzone">
+                                <div class="stayThumb">
+                                    <div class="dropzone" name="files" id="fileDropzone">
                                         <div>
                                             <button class="dz-default dz-message" type="button">
                                                 사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
@@ -347,10 +309,8 @@
                             </div>
 
 
-                            <div class="btnAdminProd"  id="btnUpload">
-                                <a href="#">
-                                    숙소등록
-                                </a>
+                            <div class="btnAdminProd" id="btnUpload">
+                                <button type="submit" id="btnSubmit">숙소등록</button>
                             </div>
                         </form>
                     </div>
@@ -362,5 +322,238 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+<script th:src="@{/js/admin/summernote-ko-KR.js}"></script>
+<script>
+
+$(document).ready(function() {
+
+    // 써머노트
+    $('#summernote').summernote({
+        height: 450,
+        lang : 'ko-KR',
+        spellCheck: false,
+        toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['table', ['table', 'hr']],
+            ['para', ['ul', 'ol', 'paragraph']]
+        ]
+    });
+
+    // input 엔터키 submit 막기
+    $('input[type="text"]').keydown(function() {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+        };
+    });
+
+});
+
+
+    // 다음 주소 API 입력 주소 -> 위도, 경도 변환
+    const btnButton = document.getElementById("BtnButton");
+    const addrInput = document.getElementById("addr");
+    let province_ref = [];
+
+    btnButton.addEventListener("click", function() {
+        console.log(addrInput.value);   // 경남 진주시 가좌길 11 (가좌동)
+        let acc_city = addrInput.value.split(' ')[1];   // 진주시
+
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder();
+
+       // 주소로 좌표를 검색합니다
+        geocoder.addressSearch(addrInput.value, function(result, status) {
+
+            // 정상적으로 검색이 완료됐으면
+             if (status === kakao.maps.services.Status.OK) {
+
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                console.log("coords: " + coords);
+                console.log(result[0].y);   // 위도 (acc_lattitude)
+                console.log(result[0].x);   // 경도 (acc_longtitude)
+
+                $('input[name=acc_lattitude]').attr("value", result[0].y);
+                $('input[name=acc_longtitude]').attr("value", result[0].x);
+
+                // 지역 비교
+                ajaxAPI("business/info/province", null, "GET").then((response)=>{
+                    var province_txt = $('#addr').val();
+
+                    console.log('response province : %o', response);
+                    console.log('province_txt: ' + province_txt);
+                    province_ref = response;
+
+                    for (let i = 0; i < response.length; i++) {
+                        console.log("province_no : %d, province_name : %s", response[i].province_no, response[i].province_name);
+                    }
+
+                    province_ref.forEach(function(arg){
+
+                        let name1 = arg.province_name;                         // 부산광역시, 경상남도
+                        let name2 = arg.province_name.substring(0,2);          // 부산
+                        let name3 = arg.province_name.substring(0,1) + arg.province_name.substring(2,3); // 경남
+
+                        console.log(name1, name2, name3);
+
+                        if (province_txt.includes(name1) || province_txt.includes(name2) || province_txt.includes(name3)) {
+                            console.log("here : " +  name1, arg.province_no);
+
+                            $('input[name=province_no]').attr("value", arg.province_no);
+                            $('input[name=acc_city]').attr("value",acc_city);
+
+
+                        }
+
+
+                    });
+
+                }).catch((errorMsg)=>{
+                    console.log(errorMsg);
+                });
+
+            }
+        });
+        alert('주소가 입력되었습니다.');
+
+   });
+
+
+
+
+
+   // 편의시설 카테고리 전체보기
+   var help = document.getElementById("help_cs");
+   var result_help = document.getElementById("result_help_cs");
+   var result_td = document.getElementById("result_td");
+
+   help.addEventListener("click", function(){
+
+        if(result_help.style.display === 'none'){
+            result_help.style.display = 'block';
+
+            ajaxAPI("business/info/findService", null, "GET").then((response)=>{
+                //console.log('response1 : %o', response);
+
+                result_td.innerHTML = "";
+
+                for (let i = 0; i < response.length; i++) {
+                    //console.log("sc_name1 : %s", response[i].sc_name);
+                    let li = document.createElement('li');
+                    li.innerHTML = response[i].sc_name;
+                    result_td.appendChild(li);
+                }
+
+            }).catch((errorMsg)=>{
+                console.log(errorMsg);
+            });
+        }else if(result_help.style.display === 'block'){
+           result_help.style.display = 'none'
+        }
+
+
+   });
+
+    // 편의시설 자동완성
+    const search_area = document.getElementById("search_area");
+    let ref = [];
+    let submitRef = [];
+    let isComplete = false; // autoMaker 자식이 선택되었는지 여부
+
+    search_area.addEventListener("click", function(){
+
+        ajaxAPI("business/info/findService", null, "GET").then((response)=>{
+            //console.log('response : %o', response);
+            ref = response;
+            //console.log("ref:  %o", ref);
+
+            for (let i = 0; i < response.length; i++) {
+                //console.log("sc_no : %d, sc_name : %s", response[i].sc_no, response[i].sc_name);
+            }
+
+            $('#search_area').keyup(function(e){
+                keyUP();
+            });
+            $('#search_area').keydown(function(e){
+                keyDOWN();
+            });
+
+        }).catch((errorMsg)=>{
+            console.log(errorMsg);
+        });
+    });
+
+    function keyUP(){
+        let txt = $('#search_area').val();
+        if(txt != ''){
+            $('#autoMaker').children().remove();
+
+            ref.forEach(function(arg){
+                if(arg.sc_name.indexOf(txt) > -1 ){
+                    $('#autoMaker').append(
+                        $('<div>').text(arg.sc_name).attr({'sc_no':arg.sc_no})
+                    );
+                }
+            });
+            $('#autoMaker').children().each(function(){
+                $(this).click(function(){
+
+                    let check = submitRef.includes( $(this).attr('sc_no') );
+
+                    if( check ) {
+                        alert('이미 등록하신 서비스입니다.');
+                        return;
+                    }
+
+                    $('#search_area').val($(this).text());
+                    $('#insert_target').val("sc_no : "+$(this).attr('sc_no')+ ", sc_name : " + $(this).text());
+
+                    let temp = '<div class="checkNo'+ $(this).attr('sc_no') +'">';
+                       //temp += '<input type="hidden" name="sc_no" class="checkNo'+ $(this).attr('sc_no') +'" data-value="'+$(this).attr('sc_no')+'">#'+$(this).text()+'</>';
+                       temp += '<input type="hidden" name="sc_no" class="checkNo'
+                                       + $(this).attr('sc_no')
+                                       +'" data-value="'
+                                       +$(this).attr('sc_no')
+                                       +'"value="'
+                                       +$(this).attr('sc_no')
+                                       +'">#'+$(this).text()+'</>';
+                       temp += '<span><img class="tag_delete" src="/Lemo/images/admin/x-button.png" width="15px;" onclick="tag_delete('+ $(this).attr('sc_no') +')"></span>';
+                       temp += '</div>'
+                    submitRef.push($(this).attr('sc_no'));
+                    $('#tag_area').append(temp);
+
+                    $('#autoMaker').children().remove();
+                    isComplete = true; // 자식 선택 완료
+
+                    console.log(submitRef);
+                });
+            });
+
+        }else {
+            $('#autoMaker').children().remove();
+        }
+    }
+
+
+    function keyDOWN(){
+        if(isComplete) {  //autoMaker 자식이 선택 되었으면 초기화
+            $('#insert_target').val('')
+        }
+    }
+
+    function tag_delete(tag_value){
+        console.log("delete tag selected: " + tag_value);
+        $('.checkNo'+tag_value).remove();
+        console.log(ref);
+
+        submitRef = submitRef.filter(item => item != tag_value);
+    }
+
+
+</script>
 </th:block>
 </html>
