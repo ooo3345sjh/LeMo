@@ -149,7 +149,7 @@
                     if( cs_type == '0'){
                             Swal.fire({
                                  title : '유형을 선택해주세요',
-                                 icon : 'success',
+                                 icon : 'error',
                                  confirmButtonText : '확인'
                              })
                             e.preventDefault();
@@ -164,13 +164,46 @@
                     if( cs_type == '0'){
                             Swal.fire({
                                  title : '유형을 선택해주세요',
-                                 icon : 'success',
+                                 icon : 'error',
                                  confirmButtonText : '확인'
                              })
                             e.preventDefault();
                         }
                     });
               });
+        });
+
+        // 유효성 검사
+        $(document).ready(function(){
+            let cs_title = document.querySelector('input[name="cs_title"]');
+
+            // 제목 유효성 검사
+            $('#cs_typeForm').submit(function(e){
+                if( cs_title.value.trim() == ''){
+                    Swal.fire({
+                         title : '제목을 입력해 주세요',
+                         icon : 'error',
+                         confirmButtonText : '확인'
+                     })
+                    e.preventDefault();
+                }
+            });
+        });
+
+        $(document).ready(function(){
+            let cs_content = document.querySelector('textarea[name="cs_content"]').val;
+
+            // 내용 유효성 검사
+            $('#cs_typeForm').submit(function(e){
+                if( cs_content.value.trim() == ''){
+                    Swal.fire({
+                         title : '내용을 입력해 주세요',
+                         icon : 'error',
+                         confirmButtonText : '확인'
+                     })
+                    e.preventDefault();
+                }
+            });
         });
         </script>
     </th:block>

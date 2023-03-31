@@ -102,7 +102,7 @@
                         if (image.width < 1000 || image.height > 300 || image.height < 200) {
                             console.log("width2 : " + image.width);
                             console.log("height2 : " + image.height);
-                            alert("베너이미지 크기(가로 1000px이상 세로 200px 이하)에 맞춰서 올려주세요.");
+                            alert("베너이미지 크기(가로 1000px이상 세로 200px 이상 300px 이하)에 맞춰서 올려주세요.");
                             return;
                         }else{
                             img.src = reader.result;

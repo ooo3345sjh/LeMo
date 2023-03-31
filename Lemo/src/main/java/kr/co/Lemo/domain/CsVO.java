@@ -84,9 +84,6 @@ public class CsVO {
             case "win" :
                 type = "이벤트 당첨자 안내";
                 break;
-            default: // 해당되는 케이스가 없으면 디폴트 값으로 설정
-                type = "예외";
-                break;
         }
         return type;
     };
