@@ -142,8 +142,9 @@
                                                         <img id="mainImage" style="display:none">
                                                     </div>
                                                     <div id="main_zone" data-placeholder="사진을 첨부하려면  클릭해주세요"></div>
-                                                    <input type="file" name="eventMainImg[]" id="main_file" accept="image/png, image/jpeg" class="insertFile" required/>
+                                                    <input type="file" name="eventMainImg[]" id="main_file" accept="image/png, image/jpeg" class="insertFile" onchange="readURL(this);" required/>
                                                 </div>
+                                                <button id="checking">mainBannerFile값 확인</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -252,39 +253,35 @@
                 const mainDOM = document.querySelector('#main_file');
                 const preview = document.querySelector('#mainImage');
 
-                $(document).on('click', '#main_file', function(e){
-                    e.stopPropagation();
-                    let isMainOk=true;
-                    console.log($(this));
-                    $(this).change(function(file){
-                        const reader = new FileReader();
-                        console.log($(this)[0].files);
-                        if($(this)[0].files){
-                            reader.onload = ({ target }) => {
-                                var image = new Image();
-                                console.log("ㅎㅎ"+target.result);
-                                image.src = target.result;
-                                image.onload = function() {
-                                    if (image.width < 1000 || image.height > 300 || image.height < 200) {
-                                        alert("이미지 크기가 올바르지 않습니다. (가로는 1000px 이상, 세로는 200px 이상, 300px 이하)");
-                                        isMainOk = false;
-                                        return;
-                                    }
-                                };
-                                if(isMainOk){
-                                    mainBannerImg.src = target.result;
-                                    mainBannerImg.style.display = 'block';
-                                    document.querySelector('#main_zone').style.display = 'none';
-                                }
-                            };
-                            if(isMainOk){
-                                reader.readAsDataURL(mainDOM.files[0]);
-                                mainBannerFile = $(this).files[0];
-                            }
-                        };
-                        console.log(mainBannerFile);
-                    });
-                });
+                // 이 주석은 삭제 예정
+                // $(document).on('click', '#main_file', function(e){
+                //     e.stopPropagation();
+                //
+                //     $(this).change(function(file){
+                //         const reader = new FileReader();
+                //
+                //         console.log($(this)[0].files);
+                //         if($(this)[0].files){
+                //             reader.readAsDataURL(mainDOM.files[0]);
+                //             reader.onload = ({ target }) => {
+                //                 var image = new Image();
+                //                 image.src = target.result;
+                //                 image.onload = function() {
+                //                     if (image.width < 1000 || image.height > 300 || image.height < 200) {
+                //                         alert("이미지 크기가 올바르지 않습니다. (가로는 1000px 이상, 세로는 200px 이상, 300px 이하)");
+                //                     }
+                //                     else {
+                //                         console.log("3");
+                //                         mainBannerImg.attr('src', target.result);
+                //                         mainBannerImg.show();
+                //                         document.querySelector('#main_zone').style.display = 'none';
+                //                         mainBannerFile = $(this)[0].files;
+                //                    }
+                //                 };
+                //             };
+                //         };
+                //     });
+                // });
 
                 preview.addEventListener('click', () => {
                     $('input#main_file').click();
@@ -321,24 +318,59 @@
                     $('input#ex_file').click();
                 });
 
-            // 타이틀 포커스
-            const cs_title = document.getElementById('cs_title');
-            cs_title.focus();
+                // 타이틀 포커스
+                const cs_title = document.getElementById('cs_title');
+                cs_title.focus();
+
+
+                // 서정현
+                // mainBannerFile 변수에 들어있는 값 확인 버튼
+                $('#checking').on('click', function (){
+                    console.log(mainBannerFile);
+                });
 
             });
-/*
+
+            // 서정현
             function readURL(input) {
-                console.log('start');
-                console.log(input.files[0]);
 
-                var reader = new FileReader();
-                reader.onload = function(e) {
+                const fileName = input.value;
+                const fileDot = fileName.lastIndexOf(".");
+                const fileType = fileName.substring(fileDot+1, fileName.length).toLowerCase();
 
-                };
-                reader.readAsDataURL(input.files[0]);
+                if (input.files && input.files[0]) {
+                    if(fileType !== "jpg" && fileType !== "png" && fileType !== "jpeg"){
+                        Swal.fire({
+                            title : "파일형식은 JPG, PNG, JPEG만\n 가능합니다.",
+                            icon : 'warning',
+                            confirmButtonText : '확인'
+                        })
+                        return;
+                    }
 
+                    const reader = new FileReader();
+                    reader.readAsDataURL(input.files[0]);
+                    reader.onload = function(e) {
+                        const image = new Image();
+                        image.src = e.target.result;
+                        image.onload = function() {
+                            if (image.width < 1000 || image.height > 300 || image.height < 200) {
+                                alert("이미지 크기가 올바르지 않습니다. (가로는 1000px 이상, 세로는 200px 이상, 300px 이하)");
+                            } else {
+                                console.log("start...");
+                                mainBannerImg.attr('src', e.target.result);
+                                mainBannerImg.show();
+                                $('#main_zone').hide();
+                                mainBannerFile = input.files[0];
+                            }
+                        }
+                    };
+
+                }
             }
-*/
+
+
+
 
         </script>
     <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>

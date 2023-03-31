@@ -54,7 +54,7 @@ public class HomeLoginSuccessHandler extends LoginSuccessHandler implements Auth
         passExpiredTime.add(Calendar.MONTH, 3);       // 3개월 후 날짜
 
         // 비밀번호 설정 후 3개월이 지났을 때 재설정 안내
-        if(passExpiredTime.getTimeInMillis() > System.currentTimeMillis()){
+        if(passExpiredTime.getTimeInMillis() < System.currentTimeMillis()){
             String uri = loginSuccessPage(request, response);
             HttpSession session = request.getSession();
             session.setAttribute("toUri", uri);

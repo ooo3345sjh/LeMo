@@ -432,6 +432,7 @@ public class UserController {
     @PatchMapping("pw/reset")
     public Map resetPw(@RequestBody Map map, HttpServletRequest req) throws Exception {
         log.debug("PATCH resetPw start...");
+        log.debug(map.toString());
         Object email = map.get("email");
         Object code = map.get("code");
         Object authCode = req.getSession().getAttribute("authEmailCode");
@@ -485,23 +486,23 @@ public class UserController {
 
     // @since 2023/03/25
     @ResponseBody
+    @PostMapping("email/duplicate")
+    public Map isDuplicatedEmail(@RequestBody Map map, HttpServletRequest req) throws Exception {
+        log.debug("POST isDuplicatedEmail start...");
+
+        int result = userService.countByEmail((String)map.get("email"));
+        map.put("result", result);
+        return map;
+    }
+
+    // @since 2023/03/25
+    @ResponseBody
     @PostMapping("email/send")
     public Map sendEmail(@RequestBody Map map, HttpServletRequest req) throws Exception {
         log.debug("POST sendEmail start...");
-
-        int result = userService.countByEmail((String)map.get("email"));
-
-        map.put("result", result);
-        log.debug(result+"");
-        if(result == 0)
-            return map;
-
         if(map.get("email") != null){
-            map.put("status", 1);
-            map.put("code", 123123);
-            req.getSession().setAttribute("authEmailCode", map.get("code"));
-            log.debug("email is not null");
             emailService.emailAuth(map);
+            req.getSession().setAttribute("authEmailCode", map.get("code"));
         }
 
         else
@@ -509,13 +510,6 @@ public class UserController {
 
 
         return map;
-    }
-
-    @ResponseBody
-    @PostMapping("test")
-    public String test(@RequestPart(value = "profileFile") MultipartFile photo){
-        log.debug(photo.getName() + "sss");
-        return "1";
     }
 
     /**
