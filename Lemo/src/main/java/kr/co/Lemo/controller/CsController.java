@@ -40,6 +40,7 @@ public class CsController {
     // @since 2023/03/09
     @GetMapping("{cs_cate}")
     public String findAllCsArticles(@PathVariable("cs_cate") String cs_cate,
+                                    @AuthenticationPrincipal UserVO myUser,
                                     Model model,
                                     CsVO vo,
                                     @RequestParam Map map,
@@ -52,9 +53,12 @@ public class CsController {
 
             return "cs/notice";
         }else if("qna".equals(cs_cate)) {
-
+            if (myUser == null || myUser.getUser_id() == null) {
+                return "redirect:/user/login";
+            }
             model.addAttribute("title", environment.getProperty(group));
-            service.findAllQnaArticles(vo, model);
+            service.findAllQnaArticles(vo, myUser, model);
+
             return "cs/qna";
         }else if("faq".equals(cs_cate)){
 

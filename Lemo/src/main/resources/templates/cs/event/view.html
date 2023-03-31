@@ -24,14 +24,9 @@
                 <div class="event_view">
                     <span>[[${eventArticle.cs_title}]]</span>
                     <div class="event_content">
-                        <p th:each="img, i : ${#strings.arraySplit(event.cs_eventViewImg, '/')}">
+                        <p th:each="img, i : ${#strings.arraySplit(eventArticle.cs_eventViewImg, '/')}">
                             <img th:src="@{/img/cs/{csNo}/{imageName}(csNo=${eventArticle.cs_no}, imageName=${img})}" />
                         </p>
-                        <!-- 이벤트 링크
-                        <div class="evt-link">
-                            <img src="../../img/csImg/event_link.png" alt="">
-                            <a href="#"></a>
-                        </div>-->
                     </div>
                     <div class="precautions">
                         <div class="handle">
