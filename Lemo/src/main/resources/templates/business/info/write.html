@@ -112,10 +112,10 @@
 
                         <!-- 숙소 등록 폼 -->
                         <form name="form" class="col_register_form" th:action="@{/business/info/rsave}" method="post" enctype="multipart/form-data">
-                            <input type="text" name="province_no">
-                            <input type="text" name="acc_city">
-                            <input type="text" name="acc_longtitude">
-                            <input type="text" name="acc_lattitude">
+                            <input type="hidden" name="province_no">
+                            <input type="hidden" name="acc_city">
+                            <input type="hidden" name="acc_longtitude">
+                            <input type="hidden" name="acc_lattitude">
                             <!-- 숙소명 등록 -->
                             <div class="col_register1">
                                 <div class="stayName">

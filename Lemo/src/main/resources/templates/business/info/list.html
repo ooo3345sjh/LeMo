@@ -16,23 +16,6 @@
             <section class="main_content">
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
-                        <div class="col0">
-                            <form th:action="@{/business/info/list}" method="GET">
-                                <div class="searchProd">
-                                    <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}">
-                                    <button type="submit" class="btnSearch">
-                                        <img th:src="@{/images/admin/btn_search.png}">
-                                    </button>
-                                </div>
-                                <div class="selectProd">
-                                    <select class="selectAccOwned" name="searchField" id="companySelect">
-                                        <option value="">검색유형선택</option>
-                                        <option value="acc_id" th:selected="${ph.sc.searchField == 'acc_id'}">숙소아이디</option>
-                                        <option value="acc_name" th:selected="${ph.sc.searchField == 'acc_name'}">숙소명</option>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
                         <div class="col_nav">
                             <span>상품관리 ></span>
                             <span>숙박관리</span>
@@ -41,14 +24,6 @@
                             <form th:action="@{/business/info/list}">
                                 <span class="search_reservation_tit">숙박검색</span>
                                 <table class="search_review_table">
-                                    <tr>
-                                        <th>지역검색</th>
-                                        <td>
-                                            <select class="province_select" id="province_select" name="searchAccProvince">
-                                                <option value="">지역 선택</option>
-                                            </select>
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <th>옵션검색</th>
                                         <td>
@@ -63,29 +38,54 @@
                                 </table>
                                 <button type="button" class="resetOption" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
                                 <button type="submit" class="btnSearch">검색</button>
+                                <span class="totalCount">숙박 총 개수 ([[${totalAccs}]])</span>
                                 <div class="board_list">
                                     <ul>
-                                        <li>#</li>
-                                        <li>숙소번호</li>
-                                        <li id="width50">회사명</li>
-                                        <li id="width14">아이디</li>
-                                        <li>등록일</li>
-                                        <li>비고</li>
+                                        <li class="accList1">#</li>
+                                        <li class="accList2">숙박번호</li>
+                                        <li class="accList3">숙박명</li>
+                                        <li class="accList4">평점</li>
+                                        <li class="accList5">등록일</li>
+                                        <li class="accList6">비고</li>
                                     </ul>
-                                    <ul th:each="acc,i:${accs}">
-                                        <li>[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
-                                        <li th:text="${acc.acc_id}" class="acc_id">11023</li>
-                                        <li class="prodName" id="width50">
-                                            <a href="@{/business/info/view (acc_id=${acc.acc_id})}"
-                                               th:text="${acc.acc_name}" th:data-no="${acc.acc_id}"></a>
-                                        </li>
-                                        <li th:text="${acc.user_id}" id="width14">hilton@gmail.com</li>
-                                        <li th:text="${acc.acc_rdate}">2023-02-26</li>
-                                        <li class="prodBtn">
-                                            <span class="btnDelete" th:data-no="${acc.acc_id}">삭제</span>
-                                            <span class="btnModify">수정</span>
-                                        </li>
-                                    </ul>
+                                    <th:block th:if="${#lists.size(accs) != 0}">
+                                        <ul th:each="acc,i:${accs}">
+                                            <li class="accList1">[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
+                                            <li class="accList2" th:text="${acc.acc_id}">11023</li>
+                                            <li class="accList3">
+                                                <a href="@{/business/info/view (acc_id=${acc.acc_id})}"
+                                                   th:text="${acc.acc_name}" th:data-no="${acc.acc_id}"></a>
+                                            </li>
+                                            <li class="accList4">
+                                                <div class="r_rating">
+                                                    <th:block th:if="${acc.acc_rate == 5}">
+                                                        <h6 class="rating5mini">&nbsp;</h6>
+                                                    </th:block>
+                                                    <th:block th:if="${acc.acc_rate == 4}">
+                                                        <h6 class="rating4mini">&nbsp;</h6>
+                                                    </th:block>
+                                                    <th:block th:if="${acc.acc_rate == 3}">
+                                                        <h6 class="rating3mini">&nbsp;</h6>
+                                                    </th:block>
+                                                    <th:block th:if="${acc.acc_rate == 2}">
+                                                        <h6 class="rating2mini">&nbsp;</h6>
+                                                    </th:block>
+                                                    <th:block th:if="${acc.acc_rate == 1}">
+                                                        <h6 class="rating1mini">&nbsp;</h6>
+                                                    </th:block>
+                                                </div>
+                                            </li>
+                                            <li  class="accList5" th:text="${acc.acc_rdate}">2023-02-26</li>
+                                            <!-- th:text="${#strings.substring(acc.acc_rdate, 0, 10)}" -->
+                                            <li  class="accList6">
+                                                <button type="button" class="btnDelete" th:data-no="${acc.acc_id}">삭제</button>
+                                                <button type="button" class="btnModify" th:data-no="${acc.acc_id}">수정</button>
+                                            </li>
+                                        </ul>
+                                    </th:block>
+                                    <th:block th:if="${#lists.size(accs) ==0}">
+                                        <div class="noResult">해당 숙박이 없습니다.</div>
+                                    </th:block>
                                 </div>
                                 <div class="pagination" th:object="${ph}" th:style="${#lists.size(accs) == 0 ? 'visibility:hidden;':''}">
 
@@ -138,7 +138,7 @@
     $('.btnDelete').click(function(e){
         e.preventDefault();
 
-        let isDeleteOK = confirm('숙소를 정말 삭제하시겠습니까? (확인 버튼 삭제 취소가 불가능합니다.)');
+        let isDeleteOK = confirm('숙소를 정말 삭제하시겠습니까? (확인 버튼 클릭 시 삭제 취소가 불가능합니다.)');
 
         if(isDeleteOK){
             let acc_id = $(this).attr('data-no');
@@ -147,14 +147,17 @@
             ajaxAPI("business/info/removeAcc", jsonData, "POST").then((response) => {
                 if(response.result > 0) {
                     alert("해당 숙소가 삭제되었습니다.");
-                    location.replace("/Lemo/business/info/list");
+                    location.reload();
                 } else {
                     alert('error');
                 }
             }).catch((errorMsg) => {
             console.log(errorMsg);
             });
+        }else {
+            alert("숙소 삭제가 취소되었습니다.");
         }
+
     })
 </script>
 </th:block>

@@ -178,7 +178,9 @@
 
     <!-- business - info - delete acc -->
     <delete id="deleteAcc">
-        delete from `lemo_product_accommodation` where `acc_id`=#{acc_id};
+        delete from `lemo_product_accommodation` as a
+        join `lemo_product_ratepolicy` as b on a.acc_id = b.acc_id
+        where a.`acc_id`=#{acc_id};
     </delete>
 
     <!-- 공통 키 -->

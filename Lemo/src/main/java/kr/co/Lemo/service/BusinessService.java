@@ -122,6 +122,7 @@ public class BusinessService {
 
     /**
      * 판매자 숙소 - 목록
+     * @since 2023/03/31
      * @param sc
      */
     public List<ProductAccommodationVO> findAllAccForInfo(Admin_SearchVO sc){
@@ -132,6 +133,11 @@ public class BusinessService {
         return dao.selectAccForInfo(sc);
     }
 
+    /**
+     * 판매자 숙소 - 목록 페이징
+     * @since 2023/03/31
+     * @param sc
+     */
      public int countAcc(SearchCondition sc){
         return dao.countAcc(sc);
      }
