@@ -655,8 +655,13 @@ public class ProductService {
         // 결제 정보 vo에 저장
         vo.setAcc_id(room.getAcc_id());
         vo.setRoom_id((room.getRoom_id()));
+        vo.setRoom_name((room.getRoom_name()));
+        vo.setAcc_name((room.getAcc_name()));
+        vo.setDays(days);
         vo.setCheckIn((String) map.get("checkIn"));
         vo.setCheckOut((String) map.get("checkOut"));
+        vo.setCheckInTime(room.getCheckInTime());
+        vo.setCheckOutTime(room.getCheckOutTime());
         vo.setCp_disprice(cp_disprice);
         vo.setDisprice(disprice);
         vo.setStatus(1);

@@ -67,8 +67,8 @@ public class ProductAccommodationVO {
 
     private int avg_price;
     /* sql에서 가공해서 가져온 room용 checkIn, checkOut */
-    private String checkIn;
-    private String checkOut; 
+    private String checkInTime;
+    private String checkOutTime;
 
     
     /**

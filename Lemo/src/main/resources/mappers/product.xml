@@ -240,7 +240,7 @@
     </select>
 
     <select id="selectRoomForReservation" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
-        SELECT *, IFNULL(`room_checkIn`, acc_checkIn) AS `checkIn`, IFNULL(`room_checkOut`, acc_checkOut) AS `checkOut`
+        SELECT *, IFNULL(`room_checkIn`, acc_checkIn) AS `checkInTime`, IFNULL(`room_checkOut`, acc_checkOut) AS `checkOutTime`
         FROM `lemo_product_room` AS a
         JOIN `lemo_product_accommodation` AS b
         ON a.acc_id = b.acc_id

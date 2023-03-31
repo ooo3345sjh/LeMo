@@ -100,6 +100,8 @@ let isAgreeOk = false; // 필수 동의항목
 
 // 최종 주문금액
 let totalPrice = 0;
+// 적용한 쿠폰 id
+let cp_id = "";
 
 $(function(){
     /** 쿠폰 팝업 */
@@ -197,8 +199,6 @@ $(function(){
         displayPrice();
     });
 
-
-    let cp_id = "";
 
     // 결제하기 버튼 클릭
     $(document).on('click', '.btn_pay', function(){

@@ -159,7 +159,35 @@ public class ProductController {
 
 
     @GetMapping("result")
-    public String result() throws Exception{
+    public String result(HttpSession session, Model model) throws Exception{
+
+        // 세션에서 주문정보 가져온 후 정보 지우기
+        OrderInfoVO vo = (OrderInfoVO) session.getAttribute("orderinfo");
+        session.removeAttribute("orderinfo");
+
+        String payment = vo.getPayment();
+
+        switch(payment) {
+            case "1" :
+                payment = "신용/카드결제";
+                break;
+            case "2" :
+                payment = "간편 계좌이체";
+                break;
+            case "3" :
+                payment = "휴대폰결제";
+                break;
+            case "4":
+                payment = "네이버페이";
+                break;
+            case "5":
+                payment = "카카오페이";
+                break;
+        }
+
+        vo.setPayment(payment);
+        model.addAttribute("orderinfo", vo);
+
         return "product/result";
     }
 
@@ -333,13 +361,17 @@ public class ProductController {
         String user_id = myUser.getUser_id();
         vo.setUser_id(user_id);
         String imp_uid = vo.getImp_uid(); // 결제 고유 uid
+        
+        /* 결제 테스트 중지할때 사용
+        imp_uid = "imp_00000000";
+        vo.setImp_uid(imp_uid);
+        int amount = 30000;*/
 
         /* 토큰 발행 */
         String token = paymentservice.getToken();
 
         /* 결제 정보 */
         int amount = paymentservice.paymentInfo(token, imp_uid);
-        //int amount = 30000;
         vo.setAmount(amount);
 
         // 데이터 검증
@@ -356,6 +388,9 @@ public class ProductController {
         }else { // 결제 성공
             log.info( "최종 결제 정보 vo : " + vo);
             
+            // 세션에 주문 정보 저장
+            session.setAttribute("orderinfo", vo);
+
             /* 예약 진행 */
             service.reservation(vo);
 

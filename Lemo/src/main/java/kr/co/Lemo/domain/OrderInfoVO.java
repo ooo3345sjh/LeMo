@@ -28,12 +28,19 @@ public class OrderInfoVO {
     private int cp_disprice; // 쿠폰 할인가격
     private String checkIn; // 체크인 날짜
     private String checkOut; // 체크아웃 날짜
+    private String checkInTime;
+    private String checkOutTime;
     private String user_id; // 유저 아이디
     private int acc_id; // 숙소 아이디
     private int room_id; // 객실 아이디
     private int status; // 결제 상태
 
-    private int res_no;
+    private int days; // 묵은 날짜
+    private String acc_name; // 숙소이름
+
+    private String room_name;
+
+    private int res_no; // 예약 번호
     private int mcp_id;
 
 
