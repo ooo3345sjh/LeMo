@@ -1,10 +1,21 @@
 /* 날짜 */
-let month = String(now.getMonth() + 1).padStart(2, '0');
-let day = String(now.getDate()).padStart(2, '0');
-let tommorrow = String(now.getDate() + 1).padStart(2, '0');
+
+let tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+let tYear    = tomorrow.getFullYear();
+let tMonth   = tomorrow.getMonth() + 1;
+let tDate    = tomorrow.getDate();
+let tdate       = tYear + '-' + tMonth + '-' + tDate;
+
+let month = String(nowMonth).padStart(2, '0');
+let day = String(nowDate).padStart(2, '0');
 let today = nowYear + '-' + month + '-' + day
+
 let startDate = today;
-let endDate = nowYear + '-' + month + '-' + tommorrow;
+let endDate = tYear + '-' + String(tMonth).padStart(2, '0') + '-' + String(tDate).padStart(2, '0');
+
+
 let page = '';
 $(function(){
 

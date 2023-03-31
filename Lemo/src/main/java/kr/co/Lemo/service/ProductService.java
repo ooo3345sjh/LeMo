@@ -653,6 +653,7 @@ public class ProductService {
         }
 
         // 결제 정보 vo에 저장
+        vo.setPrice(price);
         vo.setAcc_id(room.getAcc_id());
         vo.setRoom_id((room.getRoom_id()));
         vo.setRoom_name((room.getRoom_name()));

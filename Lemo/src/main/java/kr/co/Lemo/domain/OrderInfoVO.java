@@ -37,7 +37,7 @@ public class OrderInfoVO {
 
     private int days; // 묵은 날짜
     private String acc_name; // 숙소이름
-
+    private int price; // 판매가격
     private String room_name;
 
     private int res_no; // 예약 번호
