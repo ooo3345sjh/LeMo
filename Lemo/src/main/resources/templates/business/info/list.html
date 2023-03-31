@@ -38,7 +38,31 @@
                             <span>숙박관리</span>
                         </div>
                         <div class="col2">
-                            <form action="#">
+                            <form th:action="@{/business/info/list}">
+                                <span class="search_reservation_tit">숙박검색</span>
+                                <table class="search_review_table">
+                                    <tr>
+                                        <th>지역검색</th>
+                                        <td>
+                                            <select class="province_select" id="province_select" name="searchAccProvince">
+                                                <option value="">지역 선택</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>옵션검색</th>
+                                        <td>
+                                            <select name="searchField" class="accOption_select">
+                                                <option value="acc_id" th:selected="${ph.sc.searchField == 'acc_id'}">숙박번호</option>
+                                                <option value="acc_name" th:selected="${ph.sc.searchField == 'acc_name'}">숙박명</option>
+                                            </select>
+                                            <input type="text" class="accOption_search" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}">
+                                        </td>
+
+                                    </tr>
+                                </table>
+                                <button type="button" class="resetOption" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
+                                <button type="submit" class="btnSearch">검색</button>
                                 <div class="board_list">
                                     <ul>
                                         <li>#</li>

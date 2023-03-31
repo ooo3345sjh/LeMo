@@ -4,6 +4,7 @@ import kr.co.Lemo.dao.BusinessDAO;
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.utils.PageHandler;
+import kr.co.Lemo.utils.SearchCondition;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -121,25 +122,19 @@ public class BusinessService {
 
     /**
      * 판매자 숙소 - 목록
-     * @param model
      * @param sc
      */
-    public List<ProductAccommodationVO> findAllAccForInfo(Model model, Admin_SearchVO sc){
-        int totalCnt = dao.countAcc(sc);
-        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
-        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+    public List<ProductAccommodationVO> findAllAccForInfo(Admin_SearchVO sc){
 
-        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+        log.warn("service findAllAccForInfo: " + sc.toString());
+        log.warn("user_id: " + sc.getUser_id());
 
-        List<ProductAccommodationVO> accs = dao.selectAccForInfo(sc);
-
-        log.warn("Selected accs in business: " + accs.toString());
-
-        model.addAttribute("accs", accs);
-        model.addAttribute("ph", pageHandler);
-
-        return accs;
+        return dao.selectAccForInfo(sc);
     }
+
+     public int countAcc(SearchCondition sc){
+        return dao.countAcc(sc);
+     }
 
     /**
      * 판매자 숙소 - 숙소 목록 소유 숙소 선택

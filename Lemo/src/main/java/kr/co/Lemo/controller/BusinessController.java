@@ -3,6 +3,7 @@ package kr.co.Lemo.controller;
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.service.BusinessService;
+import kr.co.Lemo.utils.PageHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -203,13 +204,42 @@ public class BusinessController {
 
     // @since 2023/03/23 판매자 숙소 목록
     @GetMapping("info/list")
-    public String info_list(Model model,
-                            @ModelAttribute Admin_SearchVO sc){
+    public String info_list(@RequestParam Map map,
+                            @AuthenticationPrincipal UserVO myUser,
+                            @ModelAttribute Admin_SearchVO sc,
+                            Model model
+                            ){
 
+        model.addAttribute("title", environment.getProperty(group));
+
+        /*
+        String user_id = "";
+        if(myUser != null) {
+            user_id = myUser.getUser_id();
+        }
+        */
 
         String user_id = "1foodtax@within.co.kr";
 
-        service.findAllAccForInfo(model,sc);
+        sc.setMap(map);
+        sc.setUser_id(user_id);
+
+        //log.warn("myUser : " + myUser.getUser_id());
+        //log.warn("controller user_id : " + user_id);
+
+        // 페이징
+        int totalCnt = service.countAcc(sc);
+        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<ProductAccommodationVO> accs = service.findAllAccForInfo(sc);
+
+        model.addAttribute("accs", accs);
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalAccs", pageHandler.getTotalCnt());
+
 
         return "business/info/list";
     }
