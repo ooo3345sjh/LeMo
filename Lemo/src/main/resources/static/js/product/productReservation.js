@@ -20,6 +20,17 @@ function displayPrice(){
     totPrice -= disprice;
     totalPrice = totPrice;
 
+
+    if(totPrice < 0){ // 전체 금액이 - 일 때
+        sweetalert("주문금액은 0원 이상이어야합니다.", "warning");
+        $('input[name=point]').val("");
+        $('.coupon-el.on').removeClass('on');
+        totPrice = price;
+        $('.in_price').text(totPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원');
+        $('.product_amount > b').text(totPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원');
+        return false;
+    }
+
     $('.in_price').text(totPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원');
     $('.product_amount > b').text(totPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원');
 
