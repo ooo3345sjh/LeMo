@@ -101,6 +101,20 @@
         where `user_id`=#{user_id};
     </select>
 
+    <!-- 판매자 숙박 보기 -->
+    <select id="viewAcc" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+        select * from `lemo_product_accommodation` as a
+        join `lemo_product_ratepolicy` as b on a.acc_id=b.acc_id
+        where a.`acc_id`=#{acc_id};
+    </select>
+
+    <!-- 판매자 숙박 보기 - 서비스 카테고리 -->
+    <select id="selectServiceInAcc" resultType="kr.co.Lemo.domain.ServicereginfoVO">
+        select * from `lemo_product_servicereginfo` as a
+        join `lemo_product_servicecate` as b on a.sc_no=b.sc_no
+        where `acc_id`=#{acc_id};
+    </select>
+
     <!-- business - user - insert coupon -->
     <insert id="insertCoupon">
         INSERT INTO `lemo_product_coupon` (

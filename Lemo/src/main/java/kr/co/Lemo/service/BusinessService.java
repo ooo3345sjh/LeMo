@@ -145,11 +145,32 @@ public class BusinessService {
     /**
      * 판매자 숙소 - 숙소 목록 소유 숙소 선택
      * @param user_id
-     * @return
      */
     public List<ProductAccommodationVO> findAccOwnedForInfo(String user_id){
         return dao.selectAccOwnedForInfo(user_id);
     }
+
+    /**
+     * 판매자 - 숙소 보기
+     * @since 2023/03/31
+     * @param acc_id
+     */
+    public ProductAccommodationVO fincAcc(Integer acc_id) throws Exception{
+        return dao.viewAcc(acc_id);
+    }
+
+    /**
+     * 판매자 - 숙소 보기 - 서비스 카테고리
+     * @since 2023/03/31
+     * @param acc_id
+     */
+    public List<ServicereginfoVO> findServiceInAcc(Integer acc_id){
+
+         log.warn("서비스 카테 here2");
+
+         return dao.selectServiceInAcc(acc_id);
+     }
+
 
     /**
      * 판매자 쿠폰 - 쿠폰 등록

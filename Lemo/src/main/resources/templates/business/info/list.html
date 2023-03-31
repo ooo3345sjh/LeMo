@@ -53,8 +53,7 @@
                                             <li class="accList1">[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
                                             <li class="accList2" th:text="${acc.acc_id}">11023</li>
                                             <li class="accList3">
-                                                <a href="@{/business/info/view (acc_id=${acc.acc_id})}"
-                                                   th:text="${acc.acc_name}" th:data-no="${acc.acc_id}"></a>
+                                                <a th:href="@{/business/info/view (acc_id=${acc.acc_id})}">[[${acc.acc_name}]]</a>
                                             </li>
                                             <li class="accList4">
                                                 <div class="r_rating">
