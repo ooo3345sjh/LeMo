@@ -53,6 +53,8 @@ public class ReservationVO {
     private int room_price;
     private int poi_point;
     private int dis_price;
+    private int sales;
+    private int acc_state;
 
 
 }

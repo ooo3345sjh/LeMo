@@ -29,7 +29,7 @@
                     <div class="reserve_history" th:if="${reservations.size() != 0}">
                         <div class="reserve_info" th:each="reserv:${reservations}">
                             <div class="reserve_img">
-                                <a th:href="@{#}" class="thumb">
+                                <a th:href="@{/product/view ( acc_id=${reserv.acc_id} )}" class="thumb">
                                     <img th:src="|@{/}img/product/${reserv.province_no}/${reserv.acc_id}/${#strings.substringBefore(reserv.acc_thumbs, '/')}|" alt="장소 이미지">
                                 </a>
                             </div>

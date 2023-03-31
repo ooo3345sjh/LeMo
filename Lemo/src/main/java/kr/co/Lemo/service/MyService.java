@@ -251,7 +251,6 @@ public class MyService {
             oriNames.add(fName);
         }
 
-        log.debug("newNames : " + newNames);
         String dbNames = String.join("/", newNames);
         param.put("revi_thumb", dbNames);
 
@@ -284,7 +283,6 @@ public class MyService {
         /* 토큰 발행 */
         String token = paymentservice.getToken();
         String imp_uid = dao.selectReservationImpUid(res_no);
-        log.debug(imp_uid);
 
         /* 결제 취소 */
         paymentservice.paymentCancel(token, imp_uid);

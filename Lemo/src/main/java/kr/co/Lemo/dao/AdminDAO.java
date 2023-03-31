@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
+
 /*
     날짜 : 2023/03/08
     이름 : 이원정
@@ -98,5 +100,12 @@ public interface AdminDAO {
 
     // @since 2023/03/15
     public int deleteReview(@Param("revi_id") String revi_id);
+
+    /**
+     * @since 2023/03/31
+     * @author 박종협
+     * @apiNote 매출 차트 테스트
+     */
+    public List<ReservationVO> selectSales(Map map);
 
 }
