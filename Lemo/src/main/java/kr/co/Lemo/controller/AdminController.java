@@ -483,10 +483,6 @@ public class AdminController {
 
 
 
-
-
-
-
     /**
      * @since 2023/03/16
      * @author 황원진
@@ -604,9 +600,6 @@ public class AdminController {
     public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate,
                                      CsVO vo,
                                      @AuthenticationPrincipal UserVO myUser,
-                                     @RequestPart(value = "cs_eventBanner", required = false) MultipartFile cs_eventBanner,
-                                     @RequestParam Map<String, Object> parameter,
-                                     MultipartHttpServletRequest request,
                                      HttpServletRequest req) {
 
         if("notice".equals(cs_cate)){
@@ -621,13 +614,29 @@ public class AdminController {
             vo.setCs_regip(req.getRemoteAddr());
 
             csService.rsaveFaqArticle(vo);
-            return "redirect:/admin/cs/faq/list";
-        }else if("event".equals(cs_cate)){
+
+        }
+        return "redirect:/admin/cs/faq/list";
+    }
+
+    /**
+     * @since 2023/03/10
+     * @author 황원진
+     * @apiNote event/write 분리 (multipart 문제)
+     */
+
+    @PostMapping("cs/event/write")
+    public String rsaveEventArticle(
+                                     CsVO vo,
+                                     @AuthenticationPrincipal UserVO myUser,
+                                     @RequestPart(value = "cs_eventBanner", required = false) MultipartFile cs_eventBanner,
+                                     @RequestParam Map<String, Object> parameter,
+                                     MultipartHttpServletRequest request,
+                                     HttpServletRequest req) {
 
             parameter.put("user_id", myUser.getUser_id());
             parameter.put("cs_regip", req.getRemoteAddr());
             parameter.put("cs_cate", "event");
-
 
             log.info("param : " + parameter);
             log.info("cs_eventBanner : " + cs_eventBanner);
@@ -638,9 +647,15 @@ public class AdminController {
             }
 
             int result = csService.rsaveEventArticle(request, parameter, cs_eventBanner);
-        }
+
         return "redirect:/admin/cs/event/list";
     }
+
+
+
+
+
+
 
 
     /**

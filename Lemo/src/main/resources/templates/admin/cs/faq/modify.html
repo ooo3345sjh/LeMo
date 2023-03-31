@@ -20,7 +20,7 @@
                             <span>자주 묻는 질문 수정</span>
                         </div>
                         <div class="col2">
-                            <form th:action="@{/admin/cs/faq/modify}" method="post" id="cs_typeForm">
+                            <form th:action="@{/admin/cs/faq/modify}" method="post" id="cs_typeForm" onsubmit="modifyCheck(event);">
                                 <input type="hidden" name="cs_no" th:value="${cs_no}">
                                 <div class="board_view">
                                     <div class="view_box">
@@ -79,6 +79,7 @@
 <th:block layout:fragment="script">
     <script th:src="@{/js/cs/cs_type-form.js}"></script>
     <script>
+        // 로드시 셀렉트박스 옵션선택
         document.addEventListener("DOMContentLoaded", function() {
           var mFaq = "[[${mFaq.cs_type}]]";
           console.log("cs_cate : " + mFaq);
@@ -91,8 +92,29 @@
           }
         });
 
+        // input focus
         const cs_title = document.getElementById('cs_title');
         cs_title.focus();
+
+        // 수정완료클릭시 확인
+        function modifyCheck(e) {
+          e.preventDefault(); // form submit 막음
+          console.log("1");
+          Swal.fire({
+            title: '정말 수정하시겠습니까?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '승인',
+            cancelButtonText: '취소',
+            reverseButtons: false,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              e.target.submit(); // form submit 실행
+            }
+          });
+        }
 
     </script>
 </th:block>

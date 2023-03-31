@@ -180,11 +180,14 @@ main .main_content .col2 {
     text-align: center;
 }
 main .main_content .col2 .board_list {
-    border-top: 1px solid #bbb;
+    border-top: 1px solid #dbdbdb;
     border-collapse: collapse;
+    color: #505050;
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
 main .main_content .col2 .board_list ul {
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #dbdbdb;
 }
 main .main_content .col2 .board_list ul:first-child {
     background: #F7F7F7;
@@ -194,6 +197,10 @@ main .main_content .col2 .board_list li {
     height: 32px;
     font-size: 14px;
     padding-top: 7px;
+    padding-bottom: 28px;
+    text-align: center;
+    height: 30px;
+    font-size: 14px;
     text-align: center;
 }
 main .re_off {}

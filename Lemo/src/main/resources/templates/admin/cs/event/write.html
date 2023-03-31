@@ -249,7 +249,7 @@
                 /** 메인이미지 미리보기 **/
                 const mainDOM = document.querySelector('#main_file');
                 const preview = document.querySelector('#mainImage');
-/*
+
                 mainDOM.addEventListener('change', () => {
                     const reader = new FileReader();
                     reader.onload = ({ target }) => {
@@ -259,7 +259,7 @@
                     };
                     reader.readAsDataURL(mainDOM.files[0]);
                 });
-*/
+
                 preview.addEventListener('click', () => {
                     $('input#main_file').click();
                 });
@@ -299,7 +299,7 @@
             cs_title.focus();
 
             });
-
+/*
             function readURL(input) {
                 console.log(input.files[0]);
 
@@ -324,8 +324,7 @@
 
 
             }
-
-
+*/
 
         </script>
     <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>

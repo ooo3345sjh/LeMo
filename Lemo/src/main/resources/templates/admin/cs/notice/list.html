@@ -25,6 +25,7 @@
                                 <div class="board_list">
                                     <ul>
                                         <li>#</li>
+                                        <li>유형</li>
                                         <li>제목</li>
                                         <li>작성일</li>
                                         <li>비고</li>
@@ -32,6 +33,7 @@
                                     <th:block th:each="notice,i:${csArticles}">
                                         <ul>
                                             <li>[[*{totalCnt-sc.offset} - ${i.index}]]</li>
+                                            <li>[[${notice.cs_type_ko}]]</li>
                                             <li class="title">
                                                 <a th:href="@{/admin/cs/notice/view (cs_no=${notice.cs_no})}">[[${notice.cs_title}]]</a>
                                             </li>
