@@ -6,7 +6,11 @@ $(document).ready(function(){
               $('#cs_typeForm').submit(function(e){
 
                     if( cs_type == '0'){
-                            alert('유형을 선택해주세요');
+                            Swal.fire({
+                                title : '답변내용을 입력해 주세요',
+                                icon : 'error',
+                                confirmButtonText : '확인'
+                            })
                             e.preventDefault();
                         }
                     });
@@ -17,7 +21,11 @@ $(document).ready(function(){
                     $('#cs_typeForm').submit(function(e){
 
                     if( cs_type == '0'){
-                            alert('유형을 선택해주세요');
+                            Swal.fire({
+                                title : '답변내용을 입력해 주세요',
+                                icon : 'error',
+                                confirmButtonText : '확인'
+                            })
                             e.preventDefault();
                         }
                     });

@@ -56,25 +56,41 @@
             console.log("업로드1", myDropzone.files);
 
             if(title.value.trim() === ''){
-                alert('이벤트 이름을 입력하세요');
+                Swal.fire({
+                    title : '제목을 입력해주세요',
+                    icon : 'error',
+                    confirmButtonText : '확인'
+                })
                 title.focus();
                 return;
             }
 
             if(content.value.trim() === ''){
-                alert('이벤트 내용을 입력하세요');
+                Swal.fire({
+                    title : '내용을 입력해주세요',
+                    icon : 'error',
+                    confirmButtonText : '확인'
+                })
                 content.focus();
                 return;
             }
 
             if(eventBanner.files.length === 0){
-                alert('베너 이미지를 선택하세요');
+                Swal.fire({
+                    title : '이벤트 배너 이미지를 선택해주세요',
+                    icon : 'error',
+                    confirmButtonText : '확인'
+                })
                 eventBanner.focus();
                 return;
             }
 
             if(MainBanner.files.length === 0){
-                alert('메인 베너 이미지를 선택하세요');
+                Swal.fire({
+                    title : '메인 배너 이미지를 선택해주세요',
+                    icon : 'error',
+                    confirmButtonText : '확인'
+                })
                 MainBanner.focus();
                 return;
             }

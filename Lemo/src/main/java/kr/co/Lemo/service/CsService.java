@@ -2,12 +2,14 @@ package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.CsDAO;
 import kr.co.Lemo.domain.CsVO;
+import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.domain.search.Cs_SearchVO;
 import kr.co.Lemo.utils.PageHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,8 +66,11 @@ public class CsService {
     public CsVO findEventPrev(@RequestParam("cs_cate") String cs_cate, @RequestParam("cs_no") int cs_no) {return dao.selectEventPrev(cs_cate, cs_no);}
     public CsVO findEventNext(@RequestParam("cs_cate") String cs_cate, @RequestParam("cs_no") int cs_no) {return  dao.selectEventNext(cs_cate, cs_no);}
 
-    public List<CsVO> findAllQnaArticles(CsVO vo, Model model) {
-        vo.setUser_id("b1848@naver.com");
+    public List<CsVO> findAllQnaArticles(
+                                        CsVO vo,
+                                        @AuthenticationPrincipal UserVO myUser,
+                                        Model model) {
+        vo.setUser_id(myUser.getUser_id());
        List<CsVO> qnaArticles = dao.selectQnaArticles(vo);
         log.info("qnaSize : " + qnaArticles.size());
        model.addAttribute("qnaArticles", qnaArticles);

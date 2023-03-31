@@ -5,6 +5,19 @@
       layout:decorate="layouts/default-layout">
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/cs/cs.css}">
+    <style>
+        .show_list li #nonData {
+            overflow: visible;
+            white-space: normal;
+            text-overflow: initial;
+            line-height: normal;
+            word-wrap: break-word;
+            font-size: 20px;
+            width: 100%;
+            padding: 14px 0;
+            text-align: center;
+        }
+    </style>
 </th:block>
 <th:block layout:fragment="content">
     <!-- 메인 -->
@@ -35,6 +48,11 @@
                 <!-- 자주묻는 질문 목록 -->
                 <div class="tab_each" id="faq_list">
                     <ul id="faqs" class="show_list open_list">
+                        <li th:if="${csArticles.size() == 0}">
+                            <p colspan="6" id="nonData">
+                                등록된 자주묻는 질문이 없습니다.
+                            </p>
+                        </li>
                         <th:block th:each="faq:${csArticles}">
                             <li>
                                 <a href="#" class="list_n">

@@ -80,8 +80,8 @@
             $('#qna_update').submit(function(e){
                 if( cs_reply.value.trim() == ''){
                     Swal.fire({
-                         title : '수정내용을 입력해 주세요',
-                         icon : 'success',
+                         title : '답변내용을 입력해 주세요',
+                         icon : 'error',
                          confirmButtonText : '확인'
                      })
                     e.preventDefault();
@@ -93,7 +93,7 @@
           e.preventDefault(); // form submit 막음
           console.log("1");
           Swal.fire({
-            title: '정말 수정하시겠습니까?',
+            title: '입력하시겠습니까?',
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
