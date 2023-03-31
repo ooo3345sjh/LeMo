@@ -543,6 +543,7 @@ main .main_content .btnAdminProd {
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
     float: right;
+    margin-right: 15px;
 }
 main .main_content .btnAdminProd > button {
     border: none;
@@ -1458,6 +1459,17 @@ main .res_list_accId {width: 10% !important; font-family: 'Noto Sans KR';}
 main .res_list_accName {width: 17% !important;}
 main .res_list_name {width: 8% !important;}
 
+main .accList1 {width: 5% !important; font-family: 'Noto Sans KR';}
+main .accList2 {width: 10% !important; font-family: 'Noto Sans KR';}
+main .accList3 {width: 30% !important; }
+main .accList3 > a {
+    font-size: 14px;
+    color: #505050 !important;
+}
+main .accList4 {width: 15% !important;}
+main .accList5 {width: 18% !important; font-family: 'Noto Sans KR';}
+main .accList6 {width: 20% !important;}
+
 
 
 
@@ -1626,7 +1638,42 @@ main .btnDropClear {
     line-height: 24px;
     font-size: 13px;
 }
-
+main .btnDelete {
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+    background-color: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    padding: 2px 8px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+    height: 28px;
+    vertical-align: middle;
+    width: 80px;
+    line-height: 24px;
+    font-size: 13px;
+}
+main .btnModify {
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+    background-color: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    padding: 2px 8px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+    height: 28px;
+    vertical-align: middle;
+    width: 80px;
+    line-height: 24px;
+    font-size: 13px;
+}
 
 /* 쿠폰 */
 main .col_register1 .coupon_top {

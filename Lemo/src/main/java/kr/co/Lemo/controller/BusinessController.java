@@ -212,20 +212,15 @@ public class BusinessController {
 
         model.addAttribute("title", environment.getProperty(group));
 
-        /*
+
         String user_id = "";
         if(myUser != null) {
             user_id = myUser.getUser_id();
         }
-        */
-
-        String user_id = "1foodtax@within.co.kr";
+        //String user_id = "1foodtax@within.co.kr";
 
         sc.setMap(map);
         sc.setUser_id(user_id);
-
-        //log.warn("myUser : " + myUser.getUser_id());
-        //log.warn("controller user_id : " + user_id);
 
         // 페이징
         int totalCnt = service.countAcc(sc);
@@ -235,6 +230,8 @@ public class BusinessController {
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
 
         List<ProductAccommodationVO> accs = service.findAllAccForInfo(sc);
+
+         log.warn("accs: " + accs.toString());
 
         model.addAttribute("accs", accs);
         model.addAttribute("ph", pageHandler);
@@ -345,6 +342,10 @@ public class BusinessController {
         return "business/dragNdropTest";
     }
 
+    @GetMapping("roomInfo/list")
+    public String roonInfo_list(){
+        return "business/roomInfo/list";
+    }
 
 
 

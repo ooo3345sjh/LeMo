@@ -87,7 +87,6 @@ $(document).ready(function(){
 
 
             myDropzone.on("success", function(file, response) {
-              alert("업로드 완료!");
             });
 
         },
