@@ -253,12 +253,16 @@
                 const preview = document.querySelector('#mainImage');
 
                 $(document).on('click', '#main_file', function(e){
+                    e.stopPropagation();
                     let isMainOk=true;
-                    $(this).change(function(e){
+                    console.log($(this));
+                    $(this).change(function(file){
                         const reader = new FileReader();
-                        if($(this).files && $(this).files[0]){
+                        console.log($(this)[0].files);
+                        if($(this)[0].files){
                             reader.onload = ({ target }) => {
                                 var image = new Image();
+                                console.log("ㅎㅎ"+target.result);
                                 image.src = target.result;
                                 image.onload = function() {
                                     if (image.width < 1000 || image.height > 300 || image.height < 200) {
