@@ -17,50 +17,50 @@
                         </div>
                         <div>
                             <p>예약자 정보</p>
-                            <span>홍길동</span>
+                            <span>[[${orderinfo.name}]]</span>
                         </div>
                         <div>
                             <p>휴대폰번호</p>
-                            <span>010-1234-1234</span>
+                            <span>[[${orderinfo.hp}]]</span>
                         </div>
                         <div class="sub_tit">
                             숙소정보
                         </div>
                         <div>
                             <p>숙소 정보</p>
-                            <span>이비스 앱버서더 부산 해운대<br>
-                                [레이트버드-18시 체크인] 스탠다드 더블 / 1박
+                            <span>[[${orderinfo.acc_name}]]<br>
+                                [[${orderinfo.room_name}]] / [[${orderinfo.days}]]박
                             </span>
                         </div>
                         <div>
                             <p>체크인</p>
-                            <span>2023.02.16 15:00</span>
+                            <span>[[${orderinfo.checkIn}]] [[${orderinfo.checkInTime.substring(0,5)}]]</span>
                         </div>
                         <div>
                             <p>체크아웃</p>
-                            <span>2023.02.17 12:00</span>
+                            <span>[[${orderinfo.checkOut}]] [[${orderinfo.checkOutTime.substring(0,5)}]]</span>
                         </div>
                         <div class="sub_tit">
                             결제정보
                         </div>
                         <div>
                             <p>예약번호</p>
-                            <span>10002132</span>
+                            <span>[[${orderinfo.res_no}]]</span>
                         </div>
                         <div>
                             <p>결제 방법</p>
-                            <span>신용/체크카드</span>
+                            <span>[[${orderinfo.payment}]]</span>
                         </div>
                         <div>
                             <span><i>최종 결제 금액</i>(VAT포함)</span>
                         </div>
                         <div>
-                            <p>52,800원</p>
+                            <p>[[${#numbers.formatInteger(orderinfo.amount, 1, 'COMMA')}]]원</p>
                         </div>
                     </div>
                     <div class="btn_button">
-                        <a href="#" class="reserveHome">홈으로</a>
-                        <a href="#" class="reserveReservation" id="reserveCancel">예약 내역</a>
+                        <a th:href="@{/}" class="reserveHome">홈으로</a>
+                        <a th:href="@{/my/reservation/list}" class="reserveReservation" id="reserveCancel">예약 내역</a>
                     </div>
                 </div>
             </main>

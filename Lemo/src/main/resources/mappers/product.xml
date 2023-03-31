@@ -36,6 +36,56 @@
         `mcp_rdate` = NOW();
     </insert>
 
+    <insert id="insertProductReservation" parameterType="kr.co.Lemo.domain.OrderInfoVO" keyProperty="res_no" useGeneratedKeys="true">
+        INSERT INTO `lemo_product_reservation`
+        SET
+        `acc_id` = #{acc_id},
+        `room_id` = #{room_id},
+        `user_id` = #{user_id},
+        `res_price` = #{amount},
+        `res_disPrice` = #{disprice},
+        `res_name`= #{name},
+        `res_hp` = #{hp},
+        `res_payment` = #{payment},
+        `res_date` = CURDATE(),
+        `res_checkIn` = #{checkIn},
+        `res_checkOut` = #{checkOut},
+        `res_state` = 1,
+        `imp_uid` = #{imp_uid}
+    </insert>
+
+    <insert id="insetProductReservedRoom" parameterType="kr.co.Lemo.domain.OrderInfoVO">
+        INSERT INTO `lemo_product_reserved_room`
+        SET
+        `res_no` = #{res_no},
+        `acc_id` = #{acc_id},
+        `room_id` = #{room_id},
+        `rero_checkIn_date` = #{checkIn},
+        `rero_checkOut_date` = #{checkOut}
+    </insert>
+
+    <insert id="insertMemberCouponLog" parameterType="kr.co.Lemo.domain.OrderInfoVO">
+        INSERT INTO `lemo_member_coupon_log`
+        SET
+        `mcp_id` = #{mcp_id},
+        `user_id` = #{user_id},
+        `res_no` = #{res_no},
+        `dis_price` = #{cp_disprice},
+        `cl_datetime` = NOW()
+    </insert>
+
+    <insert id="insertMemberPointLog" parameterType="kr.co.Lemo.domain.OrderInfoVO">
+        INSERT INTO `lemo_member_point_log`
+        SET
+        `user_id` = #{user_id},
+        `res_no` = #{res_no},
+        `poi_content` = '포인트 사용',
+        `poi_point` = #{point},
+        `poi_maximum` = DATE_ADD(CURDATE(), INTERVAL 1 MONTH),
+        `poi_state` = 2,
+        `poi_rdate` = NOW()
+    </insert>
+
     <!-- select-->
     <select id="selectAccommodations" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
 
@@ -190,7 +240,7 @@
     </select>
 
     <select id="selectRoomForReservation" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
-        SELECT *, IFNULL(`room_checkIn`, acc_checkIn) AS `checkIn`, IFNULL(`room_checkOut`, acc_checkOut) AS `checkOut`
+        SELECT *, IFNULL(`room_checkIn`, acc_checkIn) AS `checkInTime`, IFNULL(`room_checkOut`, acc_checkOut) AS `checkOutTime`
         FROM `lemo_product_room` AS a
         JOIN `lemo_product_accommodation` AS b
         ON a.acc_id = b.acc_id
@@ -207,6 +257,18 @@
         WHERE `cp_id`=#{cp_id}
     </update>
 
+    <update id="updateMemberCoupon" parameterType="kr.co.Lemo.domain.OrderInfoVO">
+        UPDATE `lemo_member_coupon`
+        SET `mcp_isUsed` = 1
+        WHERE `user_id`=#{user_id} AND `cp_id`=#{cp_id}
+    </update>
+
+    <update id="updateMemberUserInfo" parameterType="kr.co.Lemo.domain.OrderInfoVO">
+        UPDATE `lemo_member_userinfo`
+        SET
+        `point` = `point` - #{point}
+        WHERE `user_id` = #{user_id}
+    </update>
 
     <!-- delete -->
     <delete id="deleteProductPick">
@@ -215,7 +277,6 @@
 
 
     <!-- 공통 키 -->
-
     <sql id="latlng">
         <if test="b == null">
             <![CDATA[

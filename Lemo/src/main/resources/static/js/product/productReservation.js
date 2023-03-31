@@ -18,11 +18,73 @@ function displayPrice(){
 
     totPrice -= inputpoint;
     totPrice -= disprice;
+    totalPrice = totPrice;
 
-    console.log(totPrice);
     $('.in_price').text(totPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원');
     $('.product_amount > b').text(totPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원');
 
+
+}
+
+/* 주문 번호 만들기 */
+function createMerchantUid(){
+    let Year    = now.getFullYear();
+    let Month   = ('0' + (now.getMonth() + 1)).slice(-2);
+    let Date    = ('0' + now.getDate()).slice(-2);
+    let Hours   = ('0' + now.getHours()).slice(-2);
+    let Minutes = ('0' + now.getMinutes()).slice(-2);
+    let Seconds = ('0' + now.getSeconds()).slice(-2);
+    let Milliseconds = ('00' + now.getMilliseconds()).slice(-3);
+
+    var merchantUid = Year + Month + Date + Hours + Minutes + Seconds + Milliseconds;
+
+    return merchantUid;
+}
+
+// 카드 결제
+function paymentCard(data) {
+
+    var IMP = window.IMP;
+    IMP.init("imp46647544");
+
+	IMP.request_pay({ // param
+        pg : 'html5_inicis.INIpayTest',
+        pay_method : 'card',
+        merchant_uid: data.merchant_uid,
+        name : room_name,
+        amount : data.totalPrice,
+        buyer_name : data.name,
+        buyer_email : user_email,
+        buyer_tel : user_hp,
+        display: {
+            card_quota: [3]  // 할부개월 3개월까지 활성화
+        }
+  	},
+	function (rsp) { // callback
+		if (rsp.success) {
+            console.log(rsp);
+            data.imp_uid = rsp.imp_uid;
+
+            completePayment(data);
+
+		} else {
+          // 결제 실패 시 로직
+          console.log(rsp);
+		}
+	});
+
+}
+
+// 결제 완료
+function completePayment(data){
+
+    ajaxAPI("product/paymentComplete", data, "POST").then((response) => {
+        location.href="/Lemo/product/result"
+
+    }).catch((errorMsg) => {
+        sweetalert("결제를 실패하였습니다.", "error");
+        console.log(errorMsg)
+    });
 
 }
 
@@ -35,6 +97,11 @@ const regPoint = /^[0-9]+$/; // 포인트
 let isHpOk = false; // 휴대폰
 let isNameOk = false; // 이름
 let isAgreeOk = false; // 필수 동의항목
+
+// 최종 주문금액
+let totalPrice = 0;
+// 적용한 쿠폰 id
+let cp_id = "";
 
 $(function(){
     /** 쿠폰 팝업 */
@@ -49,6 +116,7 @@ $(function(){
     $(document).on('click', '.coupon-el', function(){
         $('.coupon-el').removeClass('on');
         $(this).addClass('on');
+        cp_id = $(this).attr("id");
 
         let disprice = 0;
 
@@ -131,11 +199,14 @@ $(function(){
         displayPrice();
     });
 
+
     // 결제하기 버튼 클릭
     $(document).on('click', '.btn_pay', function(){
 
         let name = $('input[name=name]').val();
         let hp = $('input[name=hp]').val();
+        let point = $('.discount_input').val();
+        let payment = $('#payment_select').val();
 
         if(name.trim() == ""){
             sweetalert("예약자 이름을 입력하세요.", "warning");
@@ -164,6 +235,21 @@ $(function(){
             }
         }
 
+        jsonData = {
+            "point" : point,
+            "cp_id" : cp_id,
+            "name" : name,
+            "hp" : hp,
+            "merchant_uid" : createMerchantUid(),
+            "payment" : payment,
+            "totalPrice" : totalPrice
+        }
+
+        console.log(jsonData);
+
+        //completePayment(jsonData);
+
+        paymentCard(jsonData);
 
     });
 

@@ -5,6 +5,8 @@
         <th:block layout:fragment="css-js">
             <link rel="stylesheet" th:href="@{/css/product/product.css}">
             <script th:src="@{/js/product/productReservation.js}"></script>
+            <!-- 아임포트 결제 테스트 -->
+            <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
         </th:block>
         <th:block layout:fragment="content">
             <main id="reserv_reserv">
@@ -34,7 +36,7 @@
                             </div>
                             <div class="discount_container">
                                 <div class="discount_header">
-                                    <button type="button" class="discount_button coupon">사용 가능한 쿠폰 1장</button>
+                                    <button type="button" class="discount_button coupon">사용 가능한 쿠폰 [[${cps.size()}]]장</button>
                                     <span>-</span>
                                 </div>
                             </div>
@@ -53,13 +55,13 @@
                         <div id="pay_select">
                             <h3>결제수단 선택</h3>
                             <select id="payment_select">
-                                <option value="TOSS">토스페이</option>
-                                <option value="CARD">신용/체크카드</option>
-                                <option value="AT_QUICK">간편계좌이체</option>
-                                <option value="NAVER">네이버페이</option>
-                                <option value="PAYCO">PAYCO</option>
-                                <option value="CARD_BIZ">법인카드</option>
-                                <option value="CELLPHONE">휴대폰결제</option>
+                                <option value="1">신용/체크카드</option>
+<!--                                <option value="TOSS">토스페이</option>-->
+<!--                                <option value="AT_QUICK">간편계좌이체</option>-->
+<!--                                <option value="NAVER">네이버페이</option>-->
+<!--                                <option value="PAYCO">PAYCO</option>-->
+<!--                                <option value="CARD_BIZ">법인카드</option>-->
+<!--                                <option value="CELLPHONE">휴대폰결제</option>-->
                             </select>
                         </div>
                         <div id="agree">
@@ -104,11 +106,11 @@
                             </p>
                             <p>
                                 <strong>체크인</strong>
-                                [[${map.checkIn.substring(5,10)}]] [[${map.CIday}]] [[${room.checkIn.substring(0,5)}]]
+                                [[${map.checkIn.substring(5,10)}]] [[${map.CIday}]] [[${room.checkInTime.substring(0,5)}]]
                             </p>
                             <p>
                                 <strong>체크아웃</strong>
-                                [[${map.checkOut.substring(5,10)}]] [[${map.COday}]] [[${room.checkOut.substring(0,5)}]]
+                                [[${map.checkOut.substring(5,10)}]] [[${map.COday}]] [[${room.checkOutTime.substring(0,5)}]]
                             </p>
                         </div>
                         <div class="total_price">
@@ -164,15 +166,17 @@
                                         </div>
                                     </li>
                                     <li class="coupon-el" th:each="cp : ${cps}"
-                                        th:if="${cp.cp_minimum <= room.avg_price * map.days}">
+                                        th:if="${cp.cp_minimum <= room.avg_price * map.days}" th:id="${cp.cp_id}">
                                         <div class="radiobutton-wrap">
                                             <div>버튼</div>
                                         </div>
                                         <div class="coupon-info-and-title">
-                                            <span class="coupon-amount" th:if="${cp.cp_price > 0}" th:attr="data-price=${cp.cp_dis_price}">
+                                            <span class="coupon-amount" th:if="${cp.cp_price > 0}"
+                                                  th:attr="data-price=${cp.cp_dis_price}" th:id="${cp.cp_id}">
                                                 [[${#numbers.formatInteger(cp.cp_price,1,'COMMA')}]]원
                                             </span>
-                                            <span class="coupon-amount" th:if="${cp.cp_rate > 0}" th:attr="data-price=${cp.cp_dis_price}">
+                                            <span class="coupon-amount" th:if="${cp.cp_rate > 0}"
+                                                  th:attr="data-price=${cp.cp_dis_price}" th:id="${cp.cp_id}">
                                                 [[${cp.cp_rate}]]%
                                             </span>
                                             <div class="coupon-info">
@@ -186,7 +190,7 @@
                                         </div>
                                     </li>
                                     <li class="coupon-el deact" th:each="cp : ${cps}"
-                                        th:unless="${cp.cp_minimum <= room.avg_price * map.days}">
+                                        th:unless="${cp.cp_minimum <= room.avg_price * map.days}" th:id="${cp.cp_id}">
                                         <div class="radiobutton-wrap">
                                             <div>버튼</div>
                                         </div>
@@ -213,7 +217,7 @@
                         </div>
                     </div>
                     <div class="wrap-btn">
-                        <button class="btn-coupon">5,000원 적용하기</button>
+                        <button class="btn-coupon">0원 적용하기</button>
                     </div>
                 </div>
             </div>
@@ -250,6 +254,11 @@
             <script th:inline="javascript">
                 const userPoint = [[${user.point}]];
                 const price = [[${room.avg_price * map.days}]];
+                const bisinfo = [[${bv}]];
+                const acc_name = [[${room.acc_name}]]
+                const room_name = [[${room.room_name}]]
+                const user_email = [[${user.user_id}]];
+                const user_hp = [[${user.hp}]];
             </script>
         </th:block>
 </html>

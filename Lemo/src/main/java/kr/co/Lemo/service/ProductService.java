@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpSession;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.time.Duration;
@@ -154,7 +155,22 @@ public class ProductService {
 
     // @since 2023/03/19
     public BusinessInfoVO findBusinessInfo(String user_id){
-        return dao.selectBusinessInfo(user_id);
+
+        BusinessInfoVO vo = dao.selectBusinessInfo(user_id);
+
+        String acc_address = "";
+        String addr_detail = vo.getBis_addrDetail();
+        
+        // 상세주소가 있는경우 acc_address 에 상세주소까지 포함
+        if(addr_detail != null && !addr_detail.equals("") && !addr_detail.equals("None")){
+            acc_address = vo.getBis_addr() + " " + addr_detail;
+        } else {
+            acc_address = vo.getBis_addr();
+        }
+
+        vo.setBis_address(acc_address);
+
+        return vo;
     }
 
     // @since 2023/03/20
@@ -567,5 +583,122 @@ public class ProductService {
         }
         return day;
     }
-    
+
+    // @since 2023/03/31
+    public OrderInfoVO dataValidation(OrderInfoVO vo, HttpSession session){
+
+        int price = 0; // 할인 전 가격
+        int status = 0; // 데이터 검증 상태변수
+        int point = 0; // 결제 때 사용한 포인트
+        int user_point = vo.getUser_point(); // 유저가 실제로 보유한 포인트
+        int cp_disprice = 0; // 쿠폰으로 할인받은 금액
+        int po_disprice = 0; // 포인트로 할인받은 금액
+        int disprice = 0; // 총 할인받은 금액
+        int amount = vo.getAmount(); // 실제 결제한 금액
+        String cp_id = vo.getCp_id(); // 사용한 쿠폰 아이디
+
+        /* 결제한 숙박 관련한 map */
+        Map map = (Map) session.getAttribute("resultmap");
+        
+        
+        /* 쿠폰 검증 */
+        List<CouponVO> cps = (List<CouponVO>) map.get("cps");
+        log.info("cps" + cps);
+        
+        if(cp_id != null && cp_id !=""){ // 쿠폰 사용내역이 있으면
+
+            int stat = 0;
+
+            for(int i = 0; i < cps.size(); i++){
+                if(cps.get(i).getCp_id() == Integer.parseInt(cp_id)){ // 내가 보유한 쿠폰 아이디와 결제로 넘어온 쿠폰 아이디 비교
+                    vo.setMcp_id(cps.get(i).getMcp_id()); // 멤버 쿠폰 id 값 저장
+                    cp_disprice = cps.get(i).getCp_dis_price(); // 쿠폰 할인 가격
+                    stat = 1;
+                }
+            }
+
+            if(stat == 0){ // 쿠폰 아이디가 존재하지 않으면
+                log.info("여기 2...");
+                vo.setStatus(0);
+                return vo;
+            }
+        }
+
+        /* 포인트 검증 */
+        if(vo.getPoint() != null && vo.getPoint() !=""){ // 포인트 사용내역이 있으면
+            point = Integer.parseInt(vo.getPoint());
+            
+            if(user_point < point){ // 유저가 실제 보유한 포인트보다 사용한 포인트가 많을 경우
+                log.info("여기 3...");
+                vo.setStatus(0);
+                return vo;
+            }else {
+                log.info("여기 4...");
+                po_disprice = point;
+            }
+        }
+
+        /* 가격 검증 */
+        ProductAccommodationVO room = (ProductAccommodationVO) map.get("room");
+
+        int avg_price = room.getAvg_price();
+        int days = Integer.parseInt(String.valueOf(map.get("days")));
+        price = avg_price * days;
+        disprice = cp_disprice + po_disprice;
+
+        if(amount != price - disprice) { // 주문금액과 실제 금액이 일치하지 않는 경우
+            log.info("여기 5...");
+            vo.setStatus(0);
+            return vo;
+        }
+
+        // 결제 정보 vo에 저장
+        vo.setAcc_id(room.getAcc_id());
+        vo.setRoom_id((room.getRoom_id()));
+        vo.setRoom_name((room.getRoom_name()));
+        vo.setAcc_name((room.getAcc_name()));
+        vo.setDays(days);
+        vo.setCheckIn((String) map.get("checkIn"));
+        vo.setCheckOut((String) map.get("checkOut"));
+        vo.setCheckInTime(room.getCheckInTime());
+        vo.setCheckOutTime(room.getCheckOutTime());
+        vo.setCp_disprice(cp_disprice);
+        vo.setDisprice(disprice);
+        vo.setStatus(1);
+
+        return vo;
+    }
+
+    // @since 2023/03/31
+    @Transactional
+    public void reservation(OrderInfoVO vo) throws Exception {
+
+        // 예약 내역 등록
+        dao.insertProductReservation(vo);
+
+        // 예약 객실 등록
+        dao.insetProductReservedRoom(vo);
+        
+        
+        // 쿠폰 사용내역이 있으면
+        if(vo.getCp_id() != null && vo.getCp_id() != ""){
+            // 쿠폰 업데이트
+            dao.updateMemberCoupon(vo);
+            
+            // 쿠폰 로그 등록
+            dao.insertMemberCouponLog(vo);
+        }
+        
+
+        // 포인트 사용내역이 있으면
+        if(Integer.parseInt(vo.getPoint()) > 0){
+            // 포인트 로그 등록
+            dao.insertMemberPointLog(vo);
+            // 유저 정보에 포인트 업데이트
+            dao.updateMemberUserInfo(vo);
+        }
+
+
+
+    }
 }

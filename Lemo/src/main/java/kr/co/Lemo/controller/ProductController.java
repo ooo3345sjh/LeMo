@@ -3,12 +3,15 @@ package kr.co.Lemo.controller;
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.ProductDetail_SearchVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
+import kr.co.Lemo.service.PaymentService;
 import kr.co.Lemo.service.ProductService;
 import kr.co.Lemo.utils.PageHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,6 +41,8 @@ public class ProductController {
 
     @Autowired
     private ProductService service;
+    @Autowired
+    private PaymentService paymentservice;
 
     /**
      * @since 2023/03/08
@@ -125,64 +130,64 @@ public class ProductController {
 
         String user_id = myUser.getUser_id();
 
-        log.info("user_id" + user_id);
-
         Map map = (Map) session.getAttribute("map");
-
-        log.info("here1...");
-
         map.put("user_id", user_id);
-
-        log.info("here2...");
-
-        log.info("세션에서 받아온 map : " + map);
 
         // 객실 정보 가져오기
         map = service.findRoomForReservation(map);
+        ProductAccommodationVO room = (ProductAccommodationVO) map.get("room");
 
         // 쿠폰 가져오기
         List<CouponVO> cps = service.findAllCouponsForReservation(map);
+        map.put("cps", cps);
 
-        ProductAccommodationVO room = (ProductAccommodationVO) map.get("room");
+        // 판매자 정보 가져오기
+        String bis_uid = room.getUser_id();
+        BusinessInfoVO bv = service.findBusinessInfo(bis_uid);
+
+        // 추후 결제 데이터 정보와 비교하기 위해 세션에 다시 저장
+        session.setAttribute("resultmap", map);
 
         model.addAttribute("map", map);
         model.addAttribute("user", myUser);
         model.addAttribute("room", room);
         model.addAttribute("cps", cps);
+        model.addAttribute("bv",bv);
 
         return "product/reservation";
     }
 
 
-
-    /*
-    @PostMapping("reservation")
-    public String reservation(Model model,
-                              @RequestParam Map map,
-                              @AuthenticationPrincipal UserVO myUser) throws Exception {
-
-        String user_id = myUser.getUser_id();
-
-        // 객실 정보 가져오기
-        ProductAccommodationVO room = new ProductAccommodationVO();
-        map = service.findRoomForReservation(map);
-        room = (ProductAccommodationVO) map.get("room");
-
-        log.info("몇 박 :" + map.get("days"));
-        log.info("가격 :" + room.getAvg_price());
-
-
-        model.addAttribute("map", map);
-        model.addAttribute("user", myUser);
-        model.addAttribute("room", room);
-
-        return "product/reservation";
-    }*/
-
-
-
     @GetMapping("result")
-    public String result() throws Exception{
+    public String result(HttpSession session, Model model) throws Exception{
+
+        // 세션에서 주문정보 가져온 후 정보 지우기
+        OrderInfoVO vo = (OrderInfoVO) session.getAttribute("orderinfo");
+        session.removeAttribute("orderinfo");
+
+        String payment = vo.getPayment();
+
+        switch(payment) {
+            case "1" :
+                payment = "신용/카드결제";
+                break;
+            case "2" :
+                payment = "간편 계좌이체";
+                break;
+            case "3" :
+                payment = "휴대폰결제";
+                break;
+            case "4":
+                payment = "네이버페이";
+                break;
+            case "5":
+                payment = "카카오페이";
+                break;
+        }
+
+        vo.setPayment(payment);
+        model.addAttribute("orderinfo", vo);
+
         return "product/result";
     }
 
@@ -342,5 +347,57 @@ public class ProductController {
 
         return resultMap;
     }
+
+    // @since 2023/03/31
+    @ResponseBody
+    @PostMapping("paymentComplete")
+    public ResponseEntity<String> paymentComplete(HttpSession session,
+                                                  @RequestBody OrderInfoVO vo,
+                                                  @AuthenticationPrincipal UserVO myUser) throws Exception {
+
+        log.info("here...");
+        log.info("vo : " + vo);
+
+        String user_id = myUser.getUser_id();
+        vo.setUser_id(user_id);
+        String imp_uid = vo.getImp_uid(); // 결제 고유 uid
+        
+        /* 결제 테스트 중지할때 사용
+        imp_uid = "imp_00000000";
+        vo.setImp_uid(imp_uid);
+        int amount = 30000;*/
+
+        /* 토큰 발행 */
+        String token = paymentservice.getToken();
+
+        /* 결제 정보 */
+        int amount = paymentservice.paymentInfo(token, imp_uid);
+        vo.setAmount(amount);
+
+        // 데이터 검증
+        vo.setUser_point(myUser.getPoint()); // 실제 유저가 가지고 있는 포인트
+        vo = service.dataValidation(vo, session);
+
+        int status = vo.getStatus();
+
+        if(status == 0){ // 데이터 검증 실패시 결제 취소
+            /* 결제 취소 */
+            int code = paymentservice.paymentCancel(token, imp_uid);
+            return new ResponseEntity<String>("결제 에러가 발생했습니다.", HttpStatus.BAD_GATEWAY);
+
+        }else { // 결제 성공
+            log.info( "최종 결제 정보 vo : " + vo);
+            
+            // 세션에 주문 정보 저장
+            session.setAttribute("orderinfo", vo);
+
+            /* 예약 진행 */
+            service.reservation(vo);
+
+            return new ResponseEntity<>("주문이 완료되었습니다", HttpStatus.OK);
+        }
+
+    }
+
 
 }

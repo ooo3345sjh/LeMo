@@ -24,4 +24,7 @@ public class BusinessInfoVO {
     private String bis_zip;
     private String bis_addr;
     private String bis_addrDetail;
+
+    /* 추가필드 */
+    private String bis_address;
 }

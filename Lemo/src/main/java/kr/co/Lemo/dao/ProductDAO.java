@@ -30,6 +30,18 @@ public interface ProductDAO {
     // @since 2023/03/24
     public int insertMemberCoupon(Map map);
 
+    // @since 2023/03/31
+    public int insertProductReservation(OrderInfoVO vo);
+
+    // @since 2023/03/31
+    public int insetProductReservedRoom(OrderInfoVO vo);
+
+    // @since 2023/03/31
+    public int insertMemberCouponLog(OrderInfoVO vo);
+
+    //@since 2023/03/31
+    public int insertMemberPointLog(OrderInfoVO vo);
+
 
     // select
     public int countTotal(SearchCondition sc);
@@ -94,6 +106,12 @@ public interface ProductDAO {
 
     // @since 2023/03/28
     public int updateProductCoupon(Map map);
+
+    // @since 2023/03/31
+    public int updateMemberCoupon(OrderInfoVO vo);
+
+    //@since 2023/03/31
+    public int updateMemberUserInfo(OrderInfoVO vo);
 
     // delete
 
