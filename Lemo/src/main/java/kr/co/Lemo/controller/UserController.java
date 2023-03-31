@@ -74,6 +74,11 @@ public class UserController {
         return "user/login";
     }
 
+    @PostMapping("login")
+    public void login() {
+        log.debug("POST login start...");
+    }
+
     /**
      * @since 2023/03/23
      * @param error error 파라미터 값 L:차단된 회원, W:탈퇴한 회원
