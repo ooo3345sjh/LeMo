@@ -20,7 +20,7 @@
                             <span>문의사항</span>
                         </div>
                         <div class="col2">
-                            <form id="qna_update" th:action="@{/admin/cs/qna/view}" method="post">
+                            <form id="qna_update" th:action="@{/admin/cs/qna/view}" method="post" onsubmit="modifyCheck(event);">
                                 <input type="hidden" name="cs_no" th:value="${cs_no}">
                                 <div class="board_view">
                                     <div class="view_box">
@@ -72,5 +72,44 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+    <script>
+
+        // cs_type 선택
+        $(document).ready(function(){
+              let title = document.querySelector('input[name="cs_title"]');
+
+
+            $('#qna_update').submit(function(e){
+                if( title.value.trim() == ''){
+                        Swal.fire({
+                             title : '수정내용을 입력해 주세요',
+                             icon : 'success',
+                             confirmButtonText : '확인'
+                         })
+                        e.preventDefault();
+                    }
+              });
+        });
+
+        function modifyCheck(e) {
+          e.preventDefault(); // form submit 막음
+          console.log("1");
+          Swal.fire({
+            title: '정말 수정하시겠습니까?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '승인',
+            cancelButtonText: '취소',
+            reverseButtons: false,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              e.target.submit(); // form submit 실행
+            }
+          });
+        }
+
+    </script>
 </th:block>
 </html>
