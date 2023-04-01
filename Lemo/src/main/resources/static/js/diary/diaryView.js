@@ -395,22 +395,33 @@ $(function(){
     /* 여행일기 삭제 */
     $('.diaryDelete').click(function(){
         let jsonData = { "arti_no":arti_no }
-
-        ajaxAPI("diary/article", jsonData, "DELETE").then((response)=>{
-            if(response == 1) {
-                Swal.fire({
-                    title: '삭제 되었습니다.',
-                    icon: 'info',
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: '확인',
-                    reverseButtons: false,
-                }).then(result => {
-                    location.href='/Lemo/my/diary/list';
+        Swal.fire({
+            html: '<p style="font-size:18px; font-weight:bold;">정말 삭제하시겠습니까?</p>',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '삭제',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if(result.isConfirmed === true){
+                ajaxAPI("diary/article", jsonData, "DELETE").then((response)=>{
+                    if(response == 1) {
+                        Swal.fire({
+                            title: '삭제 되었습니다.',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: '확인',
+                            reverseButtons: false,
+                        }).then(result => {
+                            location.href='/Lemo/my/diary/list';
+                        });
+                    }else {
+                        Swal.fire( '다시 시도해주세요.' )
+                    }
                 });
-            }else {
-                Swal.fire( '다시 시도해주세요.' )
             }
-        });
+        })
     });
 });

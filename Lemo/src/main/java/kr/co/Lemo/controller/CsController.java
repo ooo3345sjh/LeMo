@@ -32,7 +32,7 @@ import java.util.Map;
 public class CsController {
 
     private final Environment environment;
-    private String group = "cs";
+    private String group = "title.cs";
 
     @Autowired
     private CsService service;
@@ -102,7 +102,8 @@ public class CsController {
     }
 
     @GetMapping("terms")
-    public String terms(){
+    public String terms(Model model){
+        model.addAttribute("title", environment.getProperty(group));
         return "cs/terms";
     }
 

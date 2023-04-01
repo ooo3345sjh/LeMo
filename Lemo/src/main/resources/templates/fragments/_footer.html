@@ -16,7 +16,7 @@
                 <div class="footer_block_left">
                     <div class="footer_block_row">
                         <!-- 로고 클릭 시 메인으로 이동 -->
-                        <div class="row_col_1"><a href="#">LEMO</a></div>
+                        <div class="row_col_1"><a th:href="@{/}">LEMO</a></div>
                         <div class="row_col_2">LETTUCE MEMORIES</div>
                         <div class="row_col_3">
                             주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시 수영구 299 루미너스 빌딩 10층 <br>
@@ -28,7 +28,7 @@
                 <div class="footer_block_right">
                     <div class="footer_block_row">
                         <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
-                        <div class="row_col_4"><a href="#">고객센터</a></div>
+                        <div class="row_col_4"><a th:href="@{/cs/notice}">고객센터</a></div>
                         <div class="row_col_5">
                             070-2023-0223 <br>
                             MON - FRI AM 09:00 - PM 17:00 <br>
@@ -40,9 +40,9 @@
             </div>
             <div class="footer_terms">
                 <div class="footer_block_row2">
-                    <a href="#">이용약관</a>
+                    <a th:href="@{/cs/terms}">이용약관</a>
                     <span>&nbsp;|&nbsp;</span>
-                    <a>개인정보처리방침</a>
+                    <a th:href="@{/cs/terms?privacy=true}">개인정보처리방침</a>
                 </div>
             </div>
             <div class="footer_copyright">

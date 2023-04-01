@@ -19,11 +19,11 @@
             <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
             <link rel="stylesheet" th:href="@{/css/diary/diary.css}">
             <script th:src="@{/js/common/daterangepicker.js}"></script>
-<!--            <script th:src="@{/js/common/kakaomap-scroll.js}"></script>-->
+            <script th:src="@{/js/common/kakaomap-scroll.js}"></script>
             <script th:src="@{/js/my/diary.js}"></script>
         </th:block>
         <th:block layout:fragment="content">
-            <main id="diary" class="diary_write">
+            <main id="diary">
                 <div id="result">
                     <div class="content">
                         <h3>#여행일기 작성</h3>
@@ -226,7 +226,7 @@
                     function addDiary(place, Lat, Lng){
                         let withoutSpace = place.replace(reg, "");
 
-                        let addContent  = `<div class="place place_D${withoutSpace}">`;
+                        let addContent  = `<div class="place place_D${withoutSpace}" data-no="${count}">`;
                             addContent +=   '<div class="spot">';
                             addContent +=       '<img src="/Lemo/images/diary/marker7.png" width="30px" height="40px">';
                             addContent +=       '<span>'+ place +'</span>';
@@ -312,7 +312,7 @@
                         let content = '<div class="diary_spot_wrap">';
                            content +=   '<div class="diary_spot_title">';
                            content +=       spot_title
-                          // content +=       '<div class="diary_spot_close" title="닫기"></div>'
+                           content +=       '<div class="diary_spot_close" title="닫기"></div>'
                            content +=   '</div>';
                            content +=   '<div class="diary_spot_content">';
                            content +=       arti_title
@@ -350,7 +350,7 @@
                     map.setZoomable(false); // 최초 지도 생성시 확대기능 off
 
                     var accommoSrc = '/Lemo/images/diary/hotel.png', // 마커이미지의 주소입니다
-                    accommoSize = new kakao.maps.Size(35, 40), // 마커이미지의 크기입니다
+                    accommoSize = new kakao.maps.Size(45, 50), // 마커이미지의 크기입니다
                     accommoOption = {offset: new kakao.maps.Point(30, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
                     var accommoImage = new kakao.maps.MarkerImage(accommoSrc, accommoSize, accommoOption);
@@ -455,7 +455,7 @@
                     });
 
                     // #5 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록합니다
-                    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+                    kakao.maps.event.addListener(map, 'dblclick', function(mouseEvent) {
 
                         if(markers.length >= 10){
                             Swal.fire( '더 이상 등록하실 수 없습니다.' )
@@ -488,13 +488,26 @@
                     $('#diaryForm').submit(function(e){
                         e.preventDefault();
 
+                        // 서정현 TEST
+                        console.log(fileInputList);
+
+                        return;
                         //FormData 새로운 객체 생성
                         let formData = new FormData();
 
                         // file 가져오기
-                        $.each(fileInputList, function (index, el){
-                            formData.append('file', el[0].files[0]);
-                        })
+                        let fileInput = $('.ex_file');
+                        let fileCount = 0;
+                        // fileInput 개수를 구한다.
+                        for (var i = 0; i < fileInput.length; i++) {
+                            if (fileInput[i].files.length > 0) {
+                                for (var j = 0; j < fileInput[i].files.length; j++) {
+                                    // formData에 'file'이라는 키값으로 fileInput 값을 append 시킨다.
+                                    formData.append('file', fileInput[i].files[j]);
+                                    fileCount += 1;
+                                }
+                            }
+                        }
 
                         let submitSpotTitle = [];
                         let submitSpotContent = [];
@@ -548,7 +561,7 @@
                         }else if(markers.length != submitSpotContent.length) {
                             sweetAlert('안내', '내용을 입력하지 않으신 <br>여행일기가 있습니다.!');
                             return;
-                        }else if(markers.length != fileInputList.length) {
+                        }else if(markers.length != fileCount) {
                             sweetAlert('안내', '사진을 입력하지 않으신 <br>여행일기가 있습니다.!');
                             return;
                         }
@@ -592,12 +605,10 @@
 
                         // 서정현 TEST
                         no = $(this).parent().find('input[type=file]').data('no');
-                        console.log("수정전 : ");
                         console.log(fileInputList);
                         let filtered = fileInputList.filter((element) => element.data('no') !== no);
                         fileInputList = filtered;
-                        console.log("수정후 : ");
-                        console.log(fileInputList);
+                        console.log(filtered);
 
                         let data_place = $(this).attr('data-place');
                         console.log(data_place);
