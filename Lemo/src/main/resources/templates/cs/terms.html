@@ -305,8 +305,8 @@
     <script th:src="@{/js/cs/toggle.js}"></script>
     <script th:src="@{/js/cs/terms.js}"></script>
     <script>
-
-
+        if([[${param.privacy}]])
+            onPrivacy();
     </script>
 </th:block>
 </html>

@@ -66,8 +66,11 @@
         min-height: 400px;
         margin: 0 auto;
         padding-top: 30px;
-        margin-bottom: 100px;
-        overflow: hidden;
+
+        /* 2023/04/02 서정현*/
+        /*margin-bottom: 100px;*/
+        display: inline-block;
+        /*overflow: hidden;*/
     }
 
     /* 사이드 바 */
@@ -1931,6 +1934,7 @@
         float: left;
         width: 172px;
         padding-left: 20px;
+
     }
 
     .my_diary_category > span {
@@ -1940,7 +1944,7 @@
         margin-bottom: 30px;
     }
     .my_diary_category > ul > li {
-        margin-bottom: 26px;
+        margin-bottom: 20px;
     }
 
     .my_diary_category > ul > li > a {
@@ -1965,7 +1969,7 @@
         /* 여행일기 목록 */
     .my_diary_list {
         float: left;
-        width: 610px; 
+        width: 573px;
         height: auto;
 
     }
@@ -1990,18 +1994,23 @@
     }
 
     .my_diary_list {
-        margin-top: 100px;
+        /* 2023/04/02 서정현*/
+        margin-top: 40px;
+        /*margin-top: 100px;*/
     }
 
     .my_diary_list > .list-area > ul > li {
         display: inline-block;
         width: 270px;
         height: 270px;
-        margin-right: 30px;
+        /*margin-right: 30px;*/
         margin-bottom: 30px;
         overflow: hidden;
         border-radius: 15px;
     }
+   .my_diary_list > .list-area > ul > li:nth-of-type(2n+1) {
+       margin-right: 30px;
+   }
 
     .diary_map{
         float: right;
@@ -2012,9 +2021,17 @@
     .diary_map > button > input{}
 
     #my_diary_listMap{
-        float: left;
-        width: 280px; height: 700px;
-        margin-top: 99px;
+        /* 2023/04/02 서정현*/
+        /*float: left;*/
+        /*width: 280px;*/
+        position: sticky;
+        top: 0;
+        margin-bottom: 31px;
+
+        float: right;
+        width: 315px;
+        height: 700px;
+        margin-top: 40px;
         box-shadow: 0 10px 10px 0 rgb(0 0 0 / 15%);
         border-radius: 20px;
     }

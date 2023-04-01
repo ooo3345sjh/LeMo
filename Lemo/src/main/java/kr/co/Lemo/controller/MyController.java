@@ -45,7 +45,7 @@ public class MyController {
     private final Environment environment;
     // 박종협
     private String myGroup = "title.my";
-    private String diaryGroup = "title.diary";
+    private String diaryGroup = "title.my.diary";
     private final MyService service;
 
     // @since 2023/03/31
@@ -304,7 +304,8 @@ public class MyController {
             HttpServletRequest req
     ) throws Exception {
         log.debug("POST diary/rsave start");
-        
+        log.debug(param.toString());
+        log.debug(fileList.toString());
         // 이후에 principal로 대체
         String user_id = myUser.getUser_id();
 

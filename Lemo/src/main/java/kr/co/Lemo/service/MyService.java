@@ -2,6 +2,7 @@ package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.MyDAO;
 import kr.co.Lemo.domain.*;
+import kr.co.Lemo.utils.RemoteAddrHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +99,7 @@ public class MyService {
                                 .user_id(user_id)
                                 .arti_title((String) param.get("diaryTitle"))
                                 .arti_thumb(newName)
-                                .arti_regip(req.getRemoteAddr())
+                                .arti_regip(RemoteAddrHandler.getRemoteAddr(req))
                                 .arti_start((String) param.get("diaryStart"))
                                 .arti_end((String) param.get("diaryEnd"))
                                 .build();
