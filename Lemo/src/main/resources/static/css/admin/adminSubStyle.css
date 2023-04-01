@@ -1599,7 +1599,8 @@ main .accOption_search {
 main .search_review_table th {
     text-align: left;
     border-bottom: 1px solid #dbdbdb;
-    padding-left: 17px;
+    padding-left: 0px;
+    padding: 0 10px;
     background: #f0f0f0;
     width: 17% !important;
     font-size: 13px;
