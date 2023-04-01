@@ -133,7 +133,7 @@
         );
     </insert>
 
-    <!-- business - info - write (Accommodation registration) -->
+    <!-- 판매자 - 숙소 등록 -->
     <insert id="insertInfo" parameterType="hashMap" useGeneratedKeys="true" keyProperty="acc_id">
         insert into `lemo_product_accommodation` set
         `user_id`=#{user_id},
@@ -157,7 +157,7 @@
         `acc_rdate`=NOW();
     </insert>
 
-    <!-- business - info - write (Accommodation registration::rate policy) -->
+    <!-- 판매자 - 숙소 등록 (할인율) -->
     <insert id="insertRatePolicy" parameterType="hashMap">
         insert into `lemo_product_ratepolicy` set
         `acc_id`=#{acc_id},
@@ -167,18 +167,64 @@
         `rp_peakSeason_weekend`=#{rp_peakSeason_weekend}
     </insert>
 
-    <!-- business - info - write (Accommodation registration::Convenience facility) -->
+    <!-- 판매자 - 숙소 등록 (서비스) -->
     <insert id="insertServiceRegInfo" parameterType="hashMap">
         insert into `lemo_product_servicereginfo` set
         `acc_id`=#{acc_id},
         `sc_no`=#{sc_no}
     </insert>
 
+    <!-- 판매자 - 숙소 수정 -->
+    <update id="updateInfo" parameterType="hashMap" useGeneratedKeys="true" keyProperty="acc_id">
+        update `lemo_product_accommodation` set
+        `acc_name`=#{acc_name},
+        `accType_no`=#{accType_no},
+        `province_no`=#{province_no},
+        `acc_city`=#{acc_city},
+        `acc_zip`=#{acc_zip},
+        `acc_addr`=#{acc_addr},
+        `acc_addrDetail`=#{acc_addrDetail},
+        `acc_longtitude`=#{acc_longtitude},
+        `acc_lattitude`=#{acc_lattitude},
+        `acc_xy` = ST_GeomFromText(CONCAT('POINT(', #{acc_longtitude}, ' ', #{acc_lattitude}, ')')),
+        `acc_mainInfo`=#{acc_mainInfo},
+        `acc_info`=#{acc_info},
+        `acc_comment`=#{acc_comment},
+        `acc_thumbs`=#{acc_thumbs},
+        `acc_checkIn`=#{acc_checkIn},
+        `acc_checkOut`=#{acc_checkOut},
+        `acc_season`=#{acc_season}
+         where `acc_id`=#{acc_id};
+    </update>
+
+    <!-- 판매자 - 숙소 수정 (할인율) -->
+    <update id="updateRatePolicy" parameterType="hashMap">
+        update `lemo_product_ratepolicy` set
+        `rp_offSeason_weekday`=#{rp_offSeason_weekday},
+        `rp_offSeason_weekend`=#{rp_offSeason_weekend},
+        `rp_peakSeason_weekday`=#{rp_peakSeason_weekday},
+        `rp_peakSeason_weekend`=#{rp_peakSeason_weekend}
+        where `acc_id`=#{acc_id};
+    </update>
+
+    <!-- 판매자 - 숙소 수정 (서비스) -->
+    <update id="updateServiceRegInfo"  parameterType="hashMap">
+        update `lemo_product_servicereginfo` set
+        `sc_no`=#{sc_no}
+        where `acc_id`=#{acc_id};
+    </update>
+
 
     <!-- business - review - reply -->
     <update id="updateReply">
         update `lemo_product_review` set `revi_reply`=#{revi_reply} where `revi_id`=#{revi_id};
     </update>
+
+    <!-- 판매자 - 숙소 수정 (기존 서비스 삭제) -->
+    <delete id="deleteServiceRegInfo" parameterType="hashMap">
+        delete from `lemo_product_servicereginfo`
+        where `acc_id`=#{acc_id};
+    </delete>
 
     <!-- business - user - delete coupon -->
     <delete id="deleteCoupon">

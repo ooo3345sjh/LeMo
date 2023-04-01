@@ -65,17 +65,29 @@ public interface BusinessDAO {
     // @since 2023/03/13
     public void insertCoupon(CouponVO vo, String user_id);
 
-    // @since 2023/03/20
+    // @since 2023/03/20 판매자 숙소 등록
     public int insertInfo(Map<String, Object> param);
 
-    // @since 2023/03/20
+    // @since 2023/03/20 판매자 숙소 등록 (할인율)
     public int insertRatePolicy(Map<String, Object> param);
 
-    // @since 2023/03/20
+    // @since 2023/03/20 판매자 숙소 등록 (서비스)
     public int insertServiceRegInfo(Map<String, Object> param);
+
+    // @since 2023/04/01 판매자 숙소 수정
+    public int updateInfo(Map<String, Object> param);
+
+    // @since 2023/04/01 판매자 숙소 수정 (할인율)
+    public int updateRatePolicy(Map<String, Object> param);
+
+    // @since 2023/04/01 판매자 숙소 수정 (서비스)
+    public int updateServiceRegInfo(Map<String, Object> param);
 
     // @since 2023/03/16
     public int updateReply(@Param("revi_reply") String revi_reply, @Param("revi_id") String revi_id);
+
+    // @since 2023/04/01
+    public int deleteServiceRegInfo(Map<String, Object> param);
 
     // @since 2023/03/13
     public int deleteCoupon(@Param("cp_id") String cp_id);

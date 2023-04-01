@@ -112,10 +112,10 @@
 
                         <!-- 숙소 등록 폼 -->
                         <form name="form" class="col_register_form" th:action="@{/business/info/rsave}" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="province_no">
-                            <input type="hidden" name="acc_city">
-                            <input type="hidden" name="acc_longtitude">
-                            <input type="hidden" name="acc_lattitude">
+                            <input type="text" name="province_no">
+                            <input type="text" name="acc_city">
+                            <input type="text" name="acc_longtitude">
+                            <input type="text" name="acc_lattitude">
                             <!-- 숙소명 등록 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -245,23 +245,7 @@
                                     </div>
                                 </div>
                                 <div class="stayInfoContent">
-                                    <textarea class="notice_text" id="summernote" name="acc_info">
-                                        <p style="font-size: 15px; font-weight:500">주변정보</p>
-                                        <ul>
-                                            <li style="font-size: 13px;">주변 정보를 입력해 주십시오.</li>
-                                        </ul>
-                                        <hr>
-                                        <p style="font-size: 15px; font-weight:500">기본정보</p>
-                                        <ul>
-                                            <li style="font-size: 13px;">체크인 :</li>
-                                            <li style="font-size: 13px;">체크아웃 :</li>
-                                        </ul>
-
-                                        <p style="font-size: 13px;">그 외 기본 정보를 입력해 주십시오.</p>
-                                        <hr>
-                                        <p style="font-size: 15px; font-weight:500">인원추가정보</p>
-                                        <p style="font-size: 13px;">기준 인원 외 추가 인원 발생 시 요금 정보를 입력해 주십시오.</p>
-                                    </textarea>
+                                    <textarea class="notice_text" id="summernote" name="acc_info"></textarea>
                                 </div>
                             </div>
 
@@ -473,7 +457,7 @@
 
             }
         });
-        alert('주소가 입력되었습니다.');
+        sweetalert("주소가 입력되었습니다.", "success");
 
    });
 
@@ -560,7 +544,8 @@
                     let check = submitRef.includes( $(this).attr('sc_no') );
 
                     if( check ) {
-                        alert('이미 등록하신 서비스입니다.');
+                        sweetalert("이미 등록하신 서비스입니다", "warning");
+
                         return;
                     }
 

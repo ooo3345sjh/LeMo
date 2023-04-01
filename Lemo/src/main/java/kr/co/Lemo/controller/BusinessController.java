@@ -247,7 +247,9 @@ public class BusinessController {
         ProductAccommodationVO acc = service.fincAcc(acc_id);
 
         List<ServicereginfoVO> servicereginfos = service.findServiceInAcc(acc_id);
+
         log.warn("selected acc: " + acc);
+        log.warn("serviceInfo: " + servicereginfos);
 
         model.addAttribute("acc", acc);
         model.addAttribute("acc_id", acc_id);
@@ -262,7 +264,9 @@ public class BusinessController {
         ProductAccommodationVO acc = service.fincAcc(acc_id);
 
         List<ServicereginfoVO> servicereginfos = service.findServiceInAcc(acc_id);
+
         log.warn("selected acc: " + acc);
+        log.warn("serviceInfo: " + servicereginfos);
 
         model.addAttribute("acc", acc);
         model.addAttribute("acc_id", acc_id);
@@ -279,11 +283,18 @@ public class BusinessController {
     @ResponseBody
     @PostMapping("info/rsave")
     public String info_rsave(@RequestParam Map<String,Object> param,
-                             MultipartHttpServletRequest request) throws Exception
-    {
-        String uid = "1foodtax@within.co.kr";
+                             @AuthenticationPrincipal UserVO myUser,
+                             MultipartHttpServletRequest request,
+                             Model model) throws Exception {
 
-        log.warn("here1");
+        model.addAttribute("title", environment.getProperty(group));
+
+        String uid = "";
+        if(myUser!= null) {
+            uid = myUser.getUser_id();
+        }
+
+        log.warn("here1: " + uid);
         log.info("request.getFileMap: "+ request.getFileMap());
 
         Map<String, MultipartFile> fileMap = request.getFileMap();
@@ -317,7 +328,55 @@ public class BusinessController {
 
         }
 
-        return "/business/info/list";
+
+        return "redirect:/business/info/list";
+    }
+
+    @ResponseBody
+    @PostMapping("info/usave")
+    public String info_usave(@RequestParam Map<String,Object> param,
+                             MultipartHttpServletRequest request,
+                             Model model) throws Exception {
+
+        model.addAttribute("title", environment.getProperty(group));
+
+        log.info("here1 "+ request.getFileMap());
+        log.info("param1 : " + param);
+        log.warn("here: " + param.get("acc_id"));
+        log.warn("param-acc_info :" + param.get("acc_info"));
+
+        Map<String, MultipartFile> fileMap = request.getFileMap();
+
+
+        log.warn("here3 : " + fileMap);
+
+        if(fileMap != null) {
+
+            log.info("fileMap : " + fileMap);
+            log.info("fileMap values : " + fileMap.values());
+            log.info("fileMap size : " + fileMap.size());
+
+            int count = 1;
+
+            for (MultipartFile mf : fileMap.values()) {
+
+                log.warn("count : " + count);
+                log.info("mf.getOriginalFilename() : " + mf.getOriginalFilename());
+                log.info("mf.getSize() : " + mf.getSize());
+                log.info("mf.getContentType() : " + mf.getContentType());
+                count++;
+
+            }
+
+            log.info("param2 : " + param);
+
+            service.info_usave(param, request);
+
+        }
+
+
+
+        return "redirect:/business/info/list";
     }
 
 
