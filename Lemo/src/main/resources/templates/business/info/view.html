@@ -60,22 +60,36 @@
                             </div>
                             <!-- 주소 -->
                             <div class="col_register1">
-                                <div class="col_register1">
-                                    <div class="stayName">
-                                        <div>
-                                            <span>주소</span>
-                                        </div>
+                                <div class="stayName">
+                                    <div>
+                                        <span>주소</span>
                                     </div>
-                                    <div class="stayZip">
-                                        <!-- <button type="button">주소찾기</button> -->
-                                        <input type="text" id="zip" th:value="${acc.acc_zip}" readonly>
+                                </div>
+                                <div class="stayZip">
+                                    <!-- <button type="button">주소찾기</button> -->
+                                    <input type="text" id="zip" th:value="${acc.acc_zip}" readonly>
+                                </div>
+                                <div class="stayAddr1">
+                                    <input type="text" id="addr" th:value="${acc.acc_addr}" readonly>
+                                </div>
+                                <div class="stayAddr2">
+                                    <input type="text" id="addrDetail" th:value="${acc.acc_addrDetail}" readonly>
+                                </div>
+                            </div>
+                            <!-- 체크인 체크아웃 기본 시간 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>기본 체크인/체크아웃 시간</span>
                                     </div>
-                                    <div class="stayAddr1">
-                                        <input type="text" id="addr" th:value="${acc.acc_addr}" readonly>
-                                    </div>
-                                    <div class="stayAddr2">
-                                        <input type="text" id="addrDetail" th:value="${acc.acc_addrDetail}" readonly>
-                                    </div>
+                                </div>
+                                <div class="acc_checkTime_div">
+                                    <span class="acc_checkTime_tit">체크인:</span>
+                                    <input type="time" name="acc_checkIn" class="acc_checkTime" th:value="${acc.acc_checkIn}">
+                                </div>
+                                <div class="acc_checkTime_div">
+                                    <span class="acc_checkTime_tit">체크아웃:</span>
+                                    <input type="time" name="acc_checkOut" class="acc_checkTime" th:value="${acc.acc_checkOut}">
                                 </div>
                             </div>
                             <!-- 편의시설 및 서비스 체크박스 등록 -->
@@ -134,7 +148,7 @@
                                     </div>
                                 </div>
                                 <div class="stayInfoContent">
-                                    <textarea style="height: 300px;" readonly>[[${acc.acc_info}]]</textarea>
+                                    <textarea style="height: 300px;" id="acc_info" readonly>[[${acc.acc_info}]]</textarea>
                                 </div>
                             </div>
 
@@ -161,26 +175,6 @@
                                         <option value="2" th:selected="${acc.acc_season} == '2'" th:disabled="disabled">성수기</option>
                                     </select>
                                 </div>
-                            </div>
-
-                            <!-- 할인율 전체 적용 -->
-                            <div class="col_register1">
-                                <div class="stayName">
-                                    <div>
-                                        <span>전체 할인율 적용</span>
-                                    </div>
-                                </div>
-                                <div class="checkContainer">
-                                    <label class="c_container" style="padding-right: 4px;">
-                                        <input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <input class="input_salePercent" type="text" value="0">
-                                    <p>%</p>
-                                </div>
-                                <span class="result_stayName">
-                                    💡 체크 시 전체 상품에 할인율이 적용됩니다 (개별 할인은 객실 관리에서 적용할 수 있습니다)
-                                </span>
                             </div>
 
                             <!-- 할인율 적용 -->
@@ -245,5 +239,18 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+    <script>
+       // textarea tag 숨긴 채 출력
+       $(document).ready(function() {
+            const accInfo = $('#acc_info').text();
+
+            const tempEl = document.createElement('div');
+            tempEl.innerHTML = accInfo;
+            const plainText = tempEl.innerText;
+
+            console.log(plainText);
+            $('#acc_info').val(plainText);
+        });
+    </script>
 </th:block>
 </html>

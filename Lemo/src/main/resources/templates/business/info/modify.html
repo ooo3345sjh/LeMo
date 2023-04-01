@@ -8,7 +8,7 @@
     <!-- 드래그앤드롭 파일 업로드 -->
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-    <script th:src="@{/js/admin/dragNdropMulti.js}"></script>
+    <script th:src="@{/js/admin/dragNdropModify.js}"></script>
     <!-- 다음 주소 API -->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=219050d1872ccb773b543fa419402493&libraries=services"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -21,6 +21,8 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <!-- 할인율 적용 -->
     <script th:src="@{/js/admin/salePercent.js}"></script>
+    <!-- 유효성 검사 -->
+    <script th:src="@{/js/admin/accValidation.js}"></script>
     <style>
         #autoMaker{
            position: absolute;
@@ -77,6 +79,8 @@
         }
 
         #fileDropzone .dz-image{
+            width: 90px !important;
+            height: 90px !important;
         }
         .dropzone .dz-preview .dz-remove {
             background-image: url('/Lemo/images/admin/x-button.png');
@@ -90,6 +94,17 @@
         }
         .dropzone .dz-preview .dz-remove:hover {
             opacity: 1;
+        }
+        .dropzone .dz-preview .dz-image img {
+            display: block;
+            width: 90px;
+            height: 90px;
+        }
+        #fileDropzone {
+            height: 160px;
+            white-space: nowrap;
+            overflow-x: scroll;
+            overflow-y: hidden;
         }
    </style>
 </th:block>
@@ -108,11 +123,14 @@
                         </div>
 
                         <!-- 숙소 등록 폼 -->
-                        <form class="col_register_form" >
-                            <input type="text" name="province_no">
-                            <input type="text" name="acc_city">
-                            <input type="text" name="acc_longtitude">
-                            <input type="text" name="acc_lattitude">
+                        <form class="col_register_form" th:action="@{/business/info/usave}" method="post" enctype="multipart/form-data">
+                            <input type="text" name="province_no" th:value="${acc.province_no}">
+                            <input type="text" name="acc_city" th:value="${acc.acc_city}">
+                            <input type="text" name="acc_longtitude" th:value="${acc.acc_longtitude}">
+                            <input type="text" name="acc_lattitude" th:value="${acc.acc_lattitude}">
+                            <input type="text" name="acc_id" th:value="${acc.acc_id}">
+                            <input type="text" name="acc_zip" th:value="${acc.acc_zip}">
+                            <input type="text" name="acc_addr" th:value="${acc.acc_addr}">
                             <div class="col_register1">
                                 <div class="stayName">
                                     <div>
@@ -131,7 +149,7 @@
                                         <span>숙소명</span>
                                     </div>
                                 </div>
-                                <input class="input_stayName" type="text" th:value="${acc.acc_name}">
+                                <input class="input_stayName" name="acc_name" type="text" th:value="${acc.acc_name}">
                                 <!--<span class="result_stayName">
                                     💡 숙소명은 추후 수정가능합니다
                                 </span>-->
@@ -175,7 +193,22 @@
                                 </div>
                                 <div id="map"></div>
                             </div>
-
+                             <!-- 체크인 체크아웃 기본 시간 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>기본 체크인/체크아웃 시간</span>
+                                    </div>
+                                </div>
+                                <div class="acc_checkTime_div">
+                                    <span class="acc_checkTime_tit">체크인:</span>
+                                    <input type="time" name="acc_checkIn" class="acc_checkTime" th:value="${acc.acc_checkIn}">
+                                </div>
+                                <div class="acc_checkTime_div">
+                                    <span class="acc_checkTime_tit">체크아웃:</span>
+                                    <input type="time" name="acc_checkOut" class="acc_checkTime" th:value="${acc.acc_checkOut}">
+                                </div>
+                            </div>
                             <!-- 편의시설 및 서비스 체크박스 등록 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -193,15 +226,20 @@
                                     <input type="text" id="insert_target" style="display: none;">
                                     <input type="text" id="search_area" placeholder="검색어를 입력하세요." autocomplete="off">
                                     <div id="autoMaker"></div>
-                                    <ul id="service_List">
-                                        <li th:each="info:${serviceInfo}">
-                                            <img th:src="@{/images/admin/hashtag.png}">
-                                            [[${info.sc_name}]]
-                                        </li>
-                                    </ul>
                                 </div>
                                 <div id="tag_area" style="width: 100%; margin-top: 44px;">
                                     <img th:src="@{/images/admin/label.png}" width="15px;">&nbsp;TAG
+
+                                    <th:block th:each="service:${serviceInfo}">
+                                        <div th:class="'checkNo' + ${service.sc_no}">
+                                            <input type="hidden" name="sc_no" th:class="'checkNo' + ${service.sc_no}" th:data-value="${service.sc_no}" th:value="${service.sc_no}">
+                                            #[[${service.sc_name}]]
+                                            <span>
+                                                <img class="tag_delete" th:src="@{/images/admin/x-button.png}" width="15px;" th:onclick="'tag_delete(' + ${service.sc_no} + ')'">
+                                            </span>
+                                        </div>
+                                    </th:block>
+
                                 </div>
                             </div>
 
@@ -213,6 +251,27 @@
                                     </div>
                                 </div>
                                 <div class="stayThumb">
+                                    <div class="st_inner">
+                                        <div class="st_content2"  id="thumb_temp" style="display: none;">
+                                            <input type="hidden" th:value="${acc.province_no}">
+                                            <input type="hidden" th:value="${acc.acc_id}">
+
+                                            <th:block th:with="accThumbs=${#strings.arraySplit(acc.acc_thumbs, '/')}">
+                                               <th:block th:with="accThumbsLength=${#lists.size(accThumbs)}">
+                                                   <p id="Count" th:text="${accThumbsLength}"></p>
+                                                   <p id="provinceNo" th:text="${acc.province_no}"></p>
+                                                   <p id="accId" th:text="${acc.acc_id}"></p>
+
+                                               </th:block>
+                                               <th:block th:each="img: ${accThumbs}">
+                                                   <img th:src="|@{/}img/product/${acc.province_no}/${acc.acc_id}/${img}|" th:id="${img}"/>
+                                                   <p id="img" th:text="${img}"></p>
+                                               </th:block>
+                                            </th:block>
+
+
+                                        </div>
+                                    </div>
                                     <div class="dropzone" name="files" id="fileDropzone">
                                         <div>
                                             <button class="dz-default dz-message" type="button">
@@ -223,7 +282,17 @@
                                 </div>
                             </div>
 
-                            <!-- 숙서 정보 입력 -->
+                            <!-- 메인 정보 입력 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>메인 정보</span>
+                                    </div>
+                                </div>
+                                <input class="input_stayMention" type="text" name="acc_mainInfo" th:value="${acc.acc_mainInfo}">
+                            </div>
+
+                            <!-- 숙소 정보 입력 -->
                             <div class="col_register1">
                                 <div class="stayName">
                                     <div>
@@ -231,7 +300,7 @@
                                     </div>
                                 </div>
                                 <div class="stayInfoContent">
-                                    <textarea class="notice_text" id="summernote"></textarea>
+                                    <textarea class="notice_text" name="acc_info" id="summernote" th:value="${acc.acc_info}" th:text="${acc.acc_info}"></textarea>
                                 </div>
                             </div>
 
@@ -242,7 +311,22 @@
                                         <span>사장님 한마디</span>
                                     </div>
                                 </div>
-                                <input class="input_stayMention" type="text" placeholder="내용을 입력해 주세요.">
+                                <input class="input_stayMention" type="text" name="acc_comment" th:value="${acc.acc_comment}">
+                            </div>
+
+                            <!-- 성수기/비성수기 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>성수기/비성수기</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <select name="acc_season" class="acc_season">
+                                        <option value="1" th:selected="${acc.acc_season} == '1'">비성수기</option>
+                                        <option value="2" th:selected="${acc.acc_season} == '2'">성수기</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <!-- 할인율 적용 -->
@@ -263,55 +347,70 @@
                                         <tr>
                                             <td>성수기 주중</td>
                                             <td>
-                                                <input type="number" id="insertPrice" placeholder="기준가 입력(원)">
+                                                <input type="number" id="input1" placeholder="기준가 입력(원)">
                                             </td>
                                             <td>
-                                                <input type="number" id="insertSalePercent" placeholder="할인율 입력(%)">
+                                                <input type="number" id="input2" th:value="${acc.rp_peakSeason_weekday}" placeholder="할인율 입력(%)" name="rp_peakSeason_weekday">
                                             </td>
-                                            <td id="priceResult"></td>
+                                            <td>
+                                                <input type="number" id="result" readonly>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>성수기 주말</td>
                                             <td>
-                                                <input type="number" id="insertPrice" placeholder="기준가 입력(원)">
+                                                <input type="number" id="input1" placeholder="기준가 입력(원)">
                                             </td>
                                             <td>
-                                                <input type="number" id="insertSalePercent" oninput="insertSalePercent(this)" placeholder="할인율 입력(%)">
+                                                <input type="number" id="input2" th:value="${acc.rp_peakSeason_weekend}" placeholder="할인율 입력(%)" name="rp_peakSeason_weekend">
                                             </td>
-                                            <td id="priceResult"></td>
+                                            <td>
+                                                <input type="number" id="result" readonly>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>비성수기 주중</td>
                                             <td>
-                                                <input type="number" id="insertPrice" placeholder="기준가 입력(원)">
+                                                <input type="number" id="input1" placeholder="기준가 입력(원)">
                                             </td>
                                             <td>
-                                                <input type="number" id="insertSalePercent" placeholder="할인율 입력(%)">
+                                                <input type="number" id="input2" th:value="${acc.rp_offSeason_weekday}" placeholder="할인율 입력(%)" name="rp_offSeason_weekday">
                                             </td>
-                                            <td id="priceResult"></td>
+                                            <td>
+                                                <input type="number" id="result" readonly>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>비성수기 주말</td>
                                             <td>
-                                                <input type="number" id="insertPrice" placeholder="기준가 입력(원)">
+                                                <input type="number" id="input1" placeholder="기준가 입력(원)">
                                             </td>
                                             <td>
-                                                <input type="number" id="insertSalePercent" placeholder="할인율 입력(%)">
+                                                <input type="number" id="input2" th:value="${acc.rp_offSeason_weekend}" placeholder="할인율 입력(%)" name="rp_offSeason_weekend">
                                             </td>
-                                            <td id="priceResult"></td>
+                                            <td>
+                                                <input type="number" id="result" readonly>
+                                            </td>
                                         </tr>
                                     </table>
 
                                 </div>
                                 <span class="result_stayName">
-                                    💡 해당 기준가와 할인가는 예시일뿐 실제 할인율 값이 적용됩니다
+                                    💡 해당 기준가와 할인가는 예시일뿐 <i class="result_highlight">할인율 값만 적용</i>됩니다
                                 </span>
                             </div>
 
 
-                            <div class="btnAdminProd" id="btnUpload">
-                                <button type="submit" id="btnSubmit">숙소등록</button>
+
+                            <div class="btnAdminProd" id="btnModifyAcc">
+                                <button type="submit" id="btnSubmit" class="btnModifyAcc">숙소수정</button>
                             </div>
+                            <div class="btnAdminProd" id="btnUpload">
+                                <a href="javascript:history.back();">
+                                    수정취소
+                                </a>
+                            </div>
+                            <button type="button" id="testButton">테스트버튼</button>
                         </form>
                     </div>
                     <div class="blank30"></div>
@@ -340,8 +439,14 @@ $(document).ready(function() {
             ['color', ['color']],
             ['table', ['table', 'hr']],
             ['para', ['ul', 'ol', 'paragraph']]
-        ]
+        ],
+        callbacks: {
+            onBlur: function() {
+                console.log('focus out');
+            }
+        }
     });
+
 
     // input 엔터키 submit 막기
     $('input[type="text"]').keydown(function() {
@@ -349,6 +454,10 @@ $(document).ready(function() {
             event.preventDefault();
         };
     });
+
+
+
+
 
 });
 
@@ -425,7 +534,6 @@ $(document).ready(function() {
 
 
 
-
    // 편의시설 카테고리 전체보기
    var help = document.getElementById("help_cs");
    var result_help = document.getElementById("result_help_cs");
@@ -460,8 +568,27 @@ $(document).ready(function() {
 
     // 편의시설 자동완성
     const search_area = document.getElementById("search_area");
+
+    var service_no = $('input[name=sc_no]').length;
+    console.log('service_no is here: '+ service_no);
+
     let ref = [];
-    let submitRef = [];
+    var submitRef = [];
+
+    if(service_no == 0){
+        submitRef = [];
+    }else if(service_no > 0){
+
+        submitRef = [];
+
+        for(var i=0; i<service_no; i++){
+            console.log('service_no : ' +  $('input[name=sc_no]').eq(i).val());
+            submitRef.push($('input[name=sc_no]').eq(i).val());
+        }
+        console.log('submitRef1: '+ submitRef);
+
+    }
+
     let isComplete = false; // autoMaker 자식이 선택되었는지 여부
 
     search_area.addEventListener("click", function(){
@@ -529,7 +656,8 @@ $(document).ready(function() {
                     $('#autoMaker').children().remove();
                     isComplete = true; // 자식 선택 완료
 
-                    console.log(submitRef);
+                    console.log('submitRef2 : ' + submitRef);
+                    console.log('submitRef3 : ' + submitRef.join(','));
                 });
             });
 

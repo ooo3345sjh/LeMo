@@ -27,6 +27,11 @@
     font-size: 14px;
 }
 
+.swal2-title {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    padding: 15px 0 8px 0 !important;
+}
 
 
 #wrapper {
