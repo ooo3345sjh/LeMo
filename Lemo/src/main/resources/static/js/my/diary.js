@@ -40,7 +40,6 @@ $(function(){
             if(oFile.length < 1){
                 // preview.attr('src', '/Lemo/images/diary/imgUpload.png');
             }else {
-                console.log('왔다...');
                 // 서정현 TEST
                 fileInputList.push($(this).clone());
 

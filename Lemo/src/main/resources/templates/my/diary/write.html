@@ -208,7 +208,9 @@
                                     removeAlert(marker, place);
                                 });
 
-                                markerMap.set(place.replace(reg, ""), marker);
+                                // markerMap.set(place.replace(reg, ""), marker);
+                                markerMap.set(count++, marker);
+                                console.log(markerMap);
 
                                 Swal.fire({
                                     title: '생성완료!',
@@ -226,16 +228,16 @@
                     function addDiary(place, Lat, Lng){
                         let withoutSpace = place.replace(reg, "");
 
-                        let addContent  = `<div class="place place_D${withoutSpace}">`;
+                        let addContent  = `<div class="place place_D${withoutSpace}" data-no="${count}">`;
                             addContent +=   '<div class="spot">';
                             addContent +=       '<img src="/Lemo/images/diary/marker7.png" width="30px" height="40px">';
                             addContent +=       '<span>'+ place +'</span>';
                             addContent +=   '</div>';
                             addContent +=   '<img src="/Lemo/images/cs/arr_down.png" class="arrow">';
-                            addContent +=   '<button class="delete_diary" data-place="'+withoutSpace+'">삭제</button>';
+                            addContent +=   `<button class="delete_diary" data-place="${withoutSpace}" data-no="${count}">삭제</button>`;
                             addContent +=   '<div class="toggle">';
                             addContent +=       '<div class="image">';
-                            addContent +=           `<input type="file" class="ex_file" data-no="${count++}" name="thumb" accept="image/png, image/jpeg" style="display: none;">`;
+                            addContent +=           `<input type="file" class="ex_file" data-no="${count}" name="thumb" accept="image/png, image/jpeg" style="display: none;">`;
                             addContent +=           '<img class="inputImage" src="/Lemo/images/diary/imgUpload.png">';
                             addContent +=       '</div>';
                             addContent +=       '<textarea class="contentArea" name="spot_content" placeholder="내용을 입력해주세요." onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)"></textarea>';
@@ -262,7 +264,7 @@
                     }
 
                     // #F7 : 마커를 지울때 발생하는 경고 함수
-                    function removeAlert(marker, place) {
+                    function removeAlert(marker, place, no) {
                         Swal.fire({
                           html: '<p style="font-size:20px; font-weight:bold;">지도에서 지우시면 <br>작성 하시던 일기도 지워집니다. <br>지우시겠습니까?</p>',
                           icon: 'warning',
@@ -288,7 +290,12 @@
 
                             place = place.replace(reg, "");
 
-                            $('.place_D'+place).remove();
+                            // $('.place_D'+place).remove();
+                            $('.place_D'+place).each(function (){
+                                if($(this).attr('data-no') == no){
+                                    $(this).remove();
+                                }
+                            });
 
                           }else {
                             overlay.setMap(null);
@@ -600,12 +607,15 @@
                         console.log(fileInputList);
 
                         let data_place = $(this).attr('data-place');
+                        let data_no = $(this).data('no');
+                        console.log(data_place);
+                        console.log(data_no);
+
+                        let deleteMarker = markerMap.get(data_no);
+                        console.log(deleteMarker);
                         console.log(data_place);
 
-                        let deleteMarker = markerMap.get(data_place);
-                        console.log(deleteMarker);
-
-                        removeAlert(deleteMarker, data_place);
+                        removeAlert(deleteMarker, data_place, data_no);
                     });
                 </script>
         </th:block>
