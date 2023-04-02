@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin-layout}">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/admin/adminSubStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <script th:src="@{/js/common/jquery.highlight-5.js}"></script>
+</th:block>
+<th:block layout:fragment="content">
+    <main>
+        <div class="main_inner">
+            <!-- 죄측 사이드바 -->
+            <th:block th:replace="~{fragments/_aside::adminFragment}"></th:block>
+            <!-- 우측 메인 컨테이너 -->
+            <section class="main_content">
+                <div class="main_cotent_inner">
+                    <div class="main_content_div">
+                        <div class="col_nav">
+                            <span>상품관리 ></span>
+                            <span>객실관리</span>
+                        </div>
+                        <div class="col2">
+                            <form th:action="@{/business/roomInfo/list}">
+                                <span class="search_review_tit">객실검색</span>
+                                <table class="search_review_table">
+                                    <tr>
+                                        <th>
+                                            <select name="searchField">
+                                                <option value="acc_id" th:selected="${ph.sc.searchField == 'acc_id'}">숙소번호</option>
+                                                <option value="acc_name" th:selected="${ph.sc.searchField == 'acc_name'}">숙소명</option>
+                                                <option value="room_id" th:selected="${ph.sc.searchField == 'room_id'}">객실아이디</option>
+                                                <option value="room_name" th:selected="${ph.sc.searchField == 'room_name'}">객실명</option>
+                                            </select>
+                                        </th>
+                                        <td>
+                                            <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}">
+                                        </td>
+                                    </tr>
+                                </table>
+                                <button type="button" class="resetOption" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
+
+                                <button type="submit" class="btnSearch">검색</button>
+                                <span class="totalCount">객실 총 개수 ([[${totalRoom}]])</span>
+                                <div class="board_list">
+                                    <ul>
+                                        <li class="roomInfo_li1">#</li>
+                                        <li class="roomInfo_li2">숙소번호</li>
+                                        <li class="roomInfo_li3">객실아이디</li>
+                                        <li class="roomInfo_li4">객실명</li>
+                                        <li class="roomInfo_li5">객실수</li>
+                                        <li class="roomInfo_li6">시즌구분</li>
+                                        <li class="roomInfo_li7">객실가격</li>
+                                        <li class="roomInfo_li8">할인가(주중)</li>
+                                        <li class="roomInfo_li9">할인가(주말)</li>
+
+                                    </ul>
+                                    <th:block th:if="${#lists.size(rooms) != 0}">
+                                        <ul th:each="room,i:${rooms}">
+                                            <li class="roomInfo_li1">[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
+                                            <li class="roomInfo_li2" th:text="${room.acc_id}"></li>
+                                            <li class="roomInfo_id" th:text="${room.room_id}" >11023</li>
+                                            <li class="roomInfo_name" style="width: 30% !important;">
+                                                <a th:href="@{/admin/roomInfo/view (room_id=${room.room_id})}">[[${room.room_name}]]</a>
+                                            </li>
+                                            <li class="roomInfo_li5" th:text="${room.room_stock}">20</li>
+                                            <li class="roomInfo_li6" th:text="${room.acc_season == 1}? '비성수기':'성수기'">성수기</li>
+                                            <li class="roomInfo_li7" th:text="${#numbers.formatInteger(room.room_price, 0, 'COMMA')}">[[${room.room_price}]]</li>
+                                            <th:block th:if="${room.acc_season == 1}">
+                                                <li class="roomInfo_li8" th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_offSeason_weekday / 100), 0, 'COMMA')}">할인가(주중)</li>
+                                                <li class="roomInfo_li9" th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_offSeason_weekend / 100), 0, 'COMMA')}">할인가(주말)</li>
+                                            </th:block>
+                                            <th:block th:if="${room.acc_season == 2}">
+                                                <li class="roomInfo_li8" th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_peakSeason_weekend / 100), 0, 'COMMA')}">할인가(주중)</li>
+                                                <li class="roomInfo_li9" th:text="${#numbers.formatInteger(room.room_price - (room.room_price * room.rp_peakSeason_weekday / 100), 0, 'COMMA')}">할인가(주말)</li>
+                                            </th:block>
+                                        </ul>
+                                    </th:block>
+                                    <th:block th:if="${#lists.size(rooms) ==0}">
+                                        <div class="noResult">해당 객실이 없습니다.</div>
+                                    </th:block>
+
+
+                                </div>
+                                <div class="pagination" th:object="${ph}" th:style="${#lists.size(rooms) == 0 ? 'visibility:hidden;':''}">
+                                    <th:block th:if="*{showPrev}">
+                                        <a th:href="@{/admin/roomInfo/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
+                                    </th:block>
+                                    <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
+                                        <a th:href="@{/admin/roomInfo/list} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                            [[${num}]]
+                                        </a>
+                                    </th:block>
+                                    <th:block th:if="*{showNext}">
+                                        <a th:href="@{/admin/roomInfo/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                    </th:block>
+                                </div>
+                                <div class="btnAdminProd">
+                                    <a th:href="@{/business/roomInfo/write}">
+                                        객실등록
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="blank30"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
+</th:block>
+<th:block layout:fragment="script">
+    <script>
+        $(document).ready(function () {
+
+            // 검색 키워드 하이라이트
+            const searchField = document.querySelector('select[name=searchField]');
+
+            function highlightSearchKeyword() {
+              const searchWord = document.querySelector('input[name=searchWord]');
+
+              if (searchField.options[searchField.selectedIndex].value === "room_id") {
+                $('.roomInfo_id').highlight(searchWord.value);
+              } else if (searchField.options[searchField.selectedIndex].value === "room_name") {
+                $('.roomInfo_name').highlight(searchWord.value);
+              }
+            }
+
+            // 페이지 로드 시 함수 호출
+            $(function() {
+              highlightSearchKeyword();
+            });
+
+            // 검색 후 함수 호출
+            $('form[name=userSearchForm]').submit(function(event) {
+              highlightSearchKeyword();
+            });
+
+            // 검색 키워드가 변경 시 함수 호출
+            $('input[name=searchWord]').on('input', function() {
+              highlightSearchKeyword();
+            });
+
+            // URL로부터 parameter 가져오기
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchTerm = urlParams.get('searchWord');
+
+            // 하이라이트
+            if(searchTerm) {
+              if (searchField.options[searchField.selectedIndex].value === "room_id") {
+                $('.roomInfo_id').highlight(searchTerm);
+              } else if (searchField.options[searchField.selectedIndex].value === "room_name") {
+                $('.roomInfo_name').highlight(searchTerm);
+              }
+            }
+
+            // 제출버튼
+            $('form').on('submit', function() {
+              // URL에 검색 쿼리 매개 변수 추가
+              const url = $(this).attr('action') + '?' + $(this).serialize();
+
+              // 검색 후 url로부터 parameter 가져오기
+              window.location.href = url;
+              return false;
+            });
+
+        });
+    </script>
+</th:block>
+</html>

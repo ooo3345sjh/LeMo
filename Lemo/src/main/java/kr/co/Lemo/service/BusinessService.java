@@ -172,6 +172,41 @@ public class BusinessService {
          return dao.selectServiceInAcc(acc_id);
      }
 
+     /**
+     * 판매자 객실 - 객실 목록
+     * @since 2023/04/02
+     * @param model
+     * @param sc
+     */
+     public List<ProductRoomVO> findAllRoom(Model model, SearchCondition sc){
+        int totalCnt = dao.countRoom(sc);
+        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<ProductRoomVO> rooms = dao.selectRoom(sc);
+
+        log.warn("Selected rooms: " + rooms.toString());
+        log.warn("ph : " + pageHandler.getTotalCnt());
+
+        model.addAttribute("rooms", rooms);
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalRoom", pageHandler.getTotalCnt());
+
+        return rooms;
+     }
+
+    /**
+     * 판매자 소유 숙박 목록
+     * @since 2023/04/02
+     * @param user_id
+     */
+     public List<ProductAccommodationVO> finaAllAccOwnedForInfo(String user_id){
+        return dao.selectAccOwnedForInfo(user_id);
+     }
+
+
 
     /**
      * 판매자 쿠폰 - 쿠폰 등록
@@ -278,6 +313,39 @@ public class BusinessService {
             log.warn("here9 service: " + service[i]);
         }
 
+    }
+
+    /**
+     * 판매자 쿠폰 - 객실 등록
+     * @since 2023/04/02
+    * */
+    public int rsaveRoom(Map<String, Object> param,
+                         MultipartHttpServletRequest request) throws Exception{
+
+        log.warn("here2 param: " + param.toString());
+
+        // 업로드 파일 가져오기
+        Map<String,MultipartFile> fileMap = request.getFileMap();
+        log.warn("here3 fileMap: " + fileMap.toString());
+
+        // 파일명 변경
+        List<String> fileRenames = new ArrayList<>();
+
+        for(MultipartFile mf : fileMap.values()) {
+            String oriName = mf.getOriginalFilename();
+            String ext = oriName.substring(oriName.indexOf("."));
+            String newName = UUID.randomUUID().toString() + ext;
+            fileRenames.add(newName);
+        }
+        log.warn("here4 fileRenames: " + fileRenames.toString());
+
+        // 파일 / join
+        String newName = String.join("/", fileRenames);
+        log.warn("here5 newName: " + newName);
+
+        param.put("acc_thumbs", newName);
+
+        return dao.insertRoom(param);
     }
 
     /**

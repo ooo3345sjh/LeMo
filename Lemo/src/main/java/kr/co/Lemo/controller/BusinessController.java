@@ -275,11 +275,13 @@ public class BusinessController {
         return "business/info/view";
     }
 
+    // 판매자 숙소 등록
     @GetMapping("info/write")
     public String info_write(){
         return "business/info/write";
     }
 
+    // 판매자 숙소 등록
     @ResponseBody
     @PostMapping("info/rsave")
     public String info_rsave(@RequestParam Map<String,Object> param,
@@ -421,12 +423,76 @@ public class BusinessController {
         return "business/dragNdropTest";
     }
 
+    // @since 2023/04/02 판매자 객실 목록
     @GetMapping("roomInfo/list")
-    public String roonInfo_list(){
+    public String roonInfo_list(Model model,
+                                @RequestParam Map map,
+                                @ModelAttribute Admin_SearchVO sc){
+
+        sc.setMap(map);
+        service.findAllRoom(model, sc);
+
         return "business/roomInfo/list";
     }
 
+    // @since 2023/04/02 판매자 소유 숙박 목록
+    @GetMapping("finaAllAccOwnedForInfo")
+    public ResponseEntity<List<ProductAccommodationVO>> finaAllAccOwnedForInfo(@AuthenticationPrincipal UserVO myUser){
 
+         log.warn("GET findAccOwned...");
 
+         String user_id = myUser.getUser_id();
+
+         log.warn("user_id = " + user_id);
+
+        //List<String> accs = service.finaAllAccOwnedForInfo(user_id).stream().map(ProductAccommodationVO::getAcc_name).collect(Collectors.toList());
+        List<ProductAccommodationVO> accs = service.finaAllAccOwnedForInfo(user_id);
+        return ResponseEntity.ok(accs);
+    }
+
+    // @since 2023/04/02 판매자 객실 등록
+    @GetMapping("roomInfo/write")
+    public String roomInfo_write(){
+       return "business/roomInfo/write";
+    }
+
+    // @since 2023/04/02 판매자 객실 등록
+    @PostMapping("roomInfo/rsave")
+    public String rsaveRoom(@RequestParam Map<String, Object> param,
+                            MultipartHttpServletRequest request,
+                            Model model) throws Exception{
+
+        log.warn("POST rsaveRoom...");
+        model.addAttribute("title", environment.getProperty(group));
+
+        Map<String, MultipartFile> fileMap = request.getFileMap();
+
+        log.warn("here1 : " + fileMap);
+
+        if(fileMap != null) {
+
+            log.info("fileMap : " + fileMap);
+            log.info("fileMap values : " + fileMap.values());
+            log.info("fileMap size : " + fileMap.size());
+
+            int count = 1;
+
+            for (MultipartFile mf : fileMap.values()) {
+
+                log.warn("count : " + count);
+                log.info("mf.getOriginalFilename() : " + mf.getOriginalFilename());
+                log.info("mf.getSize() : " + mf.getSize());
+                log.info("mf.getContentType() : " + mf.getContentType());
+                count++;
+
+            }
+
+            log.info("param : " + param);
+
+            //service.rsaveRoom(param, request);
+        }
+        return "redirect:/business/roomInfo/write";
+
+    }
 
 }
