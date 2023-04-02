@@ -34,7 +34,7 @@
                                         </td>
                                         <td>
                                             <div class="my_pick_Name">
-                                                <span class="pickName">[[${pick.acc_name}]]</span>
+                                                <a th:href="@{/product/view ( acc_id=${pick.acc_id} )}" class="pickName">[[${pick.acc_name}]]</a>
                                             </div>
                                             <div class="my_pick_rating">
                                                 <!-- 임시 평점 -->

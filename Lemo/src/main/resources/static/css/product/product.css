@@ -445,6 +445,7 @@
     font-size: 15px;
     text-align: center;
     border: none;
+    cursor: pointer;
 }
 
 #detail_room .room {
@@ -1563,7 +1564,7 @@ margin-left: 25px;
 .list > .list-area > ul > li > .stage {
     position: relative;
     float: left;
-    width: 340px; height: 235px;
+    width: 67%; height: 235px;
     margin-left: 20px;
 }
 

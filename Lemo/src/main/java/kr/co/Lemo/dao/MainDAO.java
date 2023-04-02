@@ -28,6 +28,7 @@ public interface MainDAO {
     List<ProductAccommodationVO> selectBest() throws Exception;
     List<ArticleDiaryVO> selectBestDiary() throws Exception;
     List<CsVO> selectNotice() throws Exception;
+    List<CsVO> selectEvent() throws Exception;
 
 
 

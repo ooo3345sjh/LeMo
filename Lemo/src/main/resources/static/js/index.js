@@ -8,7 +8,8 @@ $(document).ready(function(){
         maxSlides: 5,       // 최대 노출 개수
         slideWidth: 1100,   // 슬라이드 너비
         pager: false,       // 현재 위치 페이징 표시 여부 설정
-        controls: false     // 이전 다음 버튼 노출 여부
+        controls: false,     // 이전 다음 버튼 노출 여부
+        touchEnabled : (navigator.maxTouchPoints > 0)
     } );
 
     $( document ).ready( function() {
@@ -19,5 +20,6 @@ $(document).ready(function(){
             autoplaySpeed: 2000,
         } );
     } );
+
 
 });
