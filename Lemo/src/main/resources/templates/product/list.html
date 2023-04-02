@@ -11,7 +11,7 @@
             <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
             <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
             <script th:src="@{/js/product/daterangepicker.js}"></script>
-            <script th:src="@{/js/common/kakaomap-scroll.js}"></script>
+<!--            <script th:src="@{/js/common/kakaomap-scroll.js}"></script>-->
             <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
             <link rel="stylesheet" th:href="@{/css/product/product.css}">
         </th:block>
@@ -20,7 +20,7 @@
                 <div id="result">
                     <div class="listSearch">
                         <div id="filter">
-                            <a href="#" onclick="return false"></a>
+                            <a href="#" onclick="return false" class="popup_area"></a>
                             <select name="sort">
                                 <option value="review" th:selected="${ph.sc.sort == 'review'}">후기 많은 순</option>
                                 <option value="score" th:selected="${ph.sc.sort == 'score'}">평점 높은 순</option>
@@ -29,7 +29,7 @@
                                 <!--<option value="revisit">재방문율 높은 순</option>-->
                             </select>
                             <!-- 팝업 메뉴 -->
-                            <div id="popupFilter" class="popup">
+                            <div id="popupFilter" class="popup popup_area">
                                 <form id="popupForm" onsubmit="clearForm(); return false;">
                                     <h3>필터를 골라주세요</h3>
                                     <article>

@@ -1258,7 +1258,7 @@
 /** 검색 */
 .listSearch {
     position: relative;
-    width: 1000px; height: 100px;
+    width: 1200px; height: 100px;
     margin: 50px auto 20px auto;
     box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
     border-radius: 20px;
@@ -1301,7 +1301,7 @@ margin-left: 25px;
 /*
 .listSearch > form > table tr > td:nth-child(1) > input { width: 150px; height: 35px; }*/
 
-.listSearch > form > table tr > td:nth-child(1) > input { width: 180px; height: 35px; }
+.listSearch > form > table tr > td:nth-child(1) > input { width: 180px; height: 35px; cursor: pointer;}
 
 .listSearch > form > table tr > td:nth-child(2) > input { width: 68px; height: 35px; }
 
@@ -1315,6 +1315,7 @@ margin-left: 25px;
     background-size: cover;
     background-color: rgba(0, 0, 0, 0);
     border: 0;
+    cursor: pointer;
 }
 
 /** 목록 - 필터 */
@@ -1330,6 +1331,7 @@ margin-left: 25px;
     display: block;
     float: left;
     width: 33px; height: 33px;
+    margin-bottom: 10px;
     margin-left: 10px;
     background-image: url(/Lemo/images/product/list.png);
     background-size: cover;
@@ -1344,6 +1346,7 @@ margin-left: 25px;
     text-align: center;
     border-radius: 10px;
     border: none;
+    cursor: pointer;
 }
 
 .listSearch > #filter > select:focus {
@@ -1410,9 +1413,24 @@ margin-left: 25px;
     display: inline-block;
 }
 
-.listSearch > #filter > #popupFilter > form > article:nth-child(2) > ul label { font-size: 15px; }
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) > ul label { font-size: 15px; cursor: pointer;}
 
-.listSearch > #filter > #popupFilter > form > article:nth-child(2) > ul label > input { margin-right: 5px; }
+.listSearch > #filter > #popupFilter > form > article:nth-child(2) > ul label > input { margin-right: 5px; cursor: pointer;}
+
+.irs--flat .irs-handle {cursor: pointer;}
+
+.irs--flat .irs-handle>i:first-child {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0%;
+    width: 18px;
+    height: 100%;
+    margin-left: -1px;
+    background-color: white;
+    border-radius: 50%;
+    border: 7px solid #da4453;
+}
 
 
 /** 목록 - 필터 - 팝업창 - 편의 시설 */
@@ -1472,26 +1490,38 @@ margin-left: 25px;
     font-size: 17px;
     background-color: #fcf951;
     box-shadow: 0px 4px 0px 0px #e1de3f;
+    cursor: pointer;
+}
+.listSearch > #filter > #popupFilter > form > article:nth-child(5) > input:hover {
+    background-color: rgba(255,0,85,1);
+    box-shadow: 0px 4px 0px 0px #d5435e;
+    color: #fff;
 }
 
 /** 메인(목록, Map) */
 .content {
-    overflow: hidden;
+    /* 2023/04/02 서정현*/
+    /*overflow: hidden;*/
     width: 1200px;
     margin: 0 auto;
 }
 
 /** 메인(목록) */
 .list {
-    float: left;
+    /* 2023/04/02 서정현*/
+    display: inline-block;
+    /*float: left;*/
+    /*margin-left: 85px;*/
+
     width: 610px; height: auto;
-    margin-left: 85px;
 }
 
 /** 목록 - 상품 목록 */
 .list > .list-area {
     width: 100%; height: auto;
-    padding: 20px;
+
+    /* 2023/04/02 서정현 */
+    /*padding: 20px;*/
 }
 
 .list > .list-area > ul {}
@@ -1500,7 +1530,12 @@ margin-left: 25px;
     overflow: hidden;
     padding: 15px;
     /**border-bottom: 1px solid #e6e31f;**/
-    border-bottom : 1px solid #e7e7e7;
+
+    /* 2023/04/02 서정현 */
+    /*border-bottom : 1px solid #e7e7e7;*/
+    box-shadow: 0 10px 10px 0 rgb(0 0 0 / 5%);
+
+
     border-radius: 15px;
     margin-bottom: 10px;
 }
@@ -1603,9 +1638,18 @@ margin-left: 25px;
 
 /** 메인(Map) */
 #listMap {
-    float: left;
-    width: 400px; height: 700px;
-    margin-top: 30px; margin-left: 30px;
+    /* 2023/04/02 서정현*/
+    position: sticky;
+    top: 10px;
+    float: right;
+    width: 570px;
+    /*float: left;*/
+    /*margin-left: 30px;*/
+    /*width: 400px; */
+    /*margin-top: 30px;*/
+
+
+    height: 700px;
     box-shadow: 0 10px 10px 0 rgb(0 0 0 / 15%);
     border-radius: 20px;
 }

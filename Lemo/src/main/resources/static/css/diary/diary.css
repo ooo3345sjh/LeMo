@@ -433,11 +433,11 @@ h3 {
     /*float: left;*/
     float: right;
     position: sticky;
-    top: 0;
-    margin-bottom: 31px;
+    top: 10px;
+    margin-bottom: 102px;
 
 
-    width: 400px; height: 700px;
+    width: 450px; height: 700px;
     margin-top: 85px; margin-left: 30px;
     box-shadow: 0 10px 10px 0 rgb(0 0 0 / 15%);
     border-radius: 20px;
@@ -448,6 +448,7 @@ h3 {
     width: 590px;
     margin-top: 40px;
     margin-left: 0;
+    margin-bottom: 31px;
 }
 
 #diary.diary_write #listMap {width: 450px;  margin-bottom: 104px;}
