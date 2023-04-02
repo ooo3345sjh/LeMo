@@ -2025,7 +2025,7 @@
         /*float: left;*/
         /*width: 280px;*/
         position: sticky;
-        top: 0;
+        top: 10px;
         margin-bottom: 31px;
 
         float: right;

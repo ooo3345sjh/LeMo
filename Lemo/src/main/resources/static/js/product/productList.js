@@ -18,8 +18,8 @@ $(function(){
         });
     });
 
-    $('#popupFilter').mouseleave(function(){
-        $(this).removeClass('on');
+    $('#filter').mouseleave(function(){
+        $('#popupFilter').removeClass('on');
     });
 
     // 검색 키워드를 지도 중심으로 설정

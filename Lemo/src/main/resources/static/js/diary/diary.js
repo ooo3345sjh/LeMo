@@ -70,4 +70,8 @@ $(function(){
     $('.heart').click(function(){
         $(this).toggleClass('on');
     });
+
+    $('.diary_content > button').click(function (e){
+        e.stopPropagation();
+    });
 });
