@@ -47,20 +47,26 @@ public interface BusinessDAO {
     // @since 2023/03/20
     public List<ProvinceVO> selectProvince();
 
-    // @since 2023/03/23
+    // @since 2023/03/23 판매자 숙박 목록
     public List<ProductAccommodationVO> selectAccForInfo(SearchCondition sc);
 
-    // @since 2023/03/23
+    // @since 2023/03/23 판매자 숙박 목록 페이징
     public int countAcc(SearchCondition sc);
 
-    // @since 2023/03/23
+    // @since 2023/03/23 판매자 소유 숙박 목록 보기
    public List<ProductAccommodationVO> selectAccOwnedForInfo(String user_id);
 
-   // @since 2023/03/31
+   // @since 2023/03/31 판매자 숙박 보기
     public ProductAccommodationVO viewAcc(Integer acc_id);
 
-    // @since 2023/03/31
+    // @since 2023/03/31 판매자 숙박 보기 - 서비스 카테고리
     public List<ServicereginfoVO> selectServiceInAcc(Integer acc_id);
+
+    // @since 2023/04/02 판매자 객실 목록
+    public List<ProductRoomVO> selectRoom(SearchCondition sc);
+
+    // @since 2023/04/02 판매자 객실 목록 페이징
+    public int countRoom(SearchCondition sc);
 
     // @since 2023/03/13
     public void insertCoupon(CouponVO vo, String user_id);
@@ -73,6 +79,9 @@ public interface BusinessDAO {
 
     // @since 2023/03/20 판매자 숙소 등록 (서비스)
     public int insertServiceRegInfo(Map<String, Object> param);
+
+    // @since 2023/04/02 판매자 객실 등록
+    public int insertRoom(Map<String, Object> param);
 
     // @since 2023/04/01 판매자 숙소 수정
     public int updateInfo(Map<String, Object> param);
