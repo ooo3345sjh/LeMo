@@ -204,7 +204,10 @@ main .main_content .col2 .board_list .title > a {
 main .main_content .col2 .board_list li:nth-of-type(1) {width: 5%;}
 main .main_content .col2 .board_list li:nth-of-type(2) {width: 10%;}
 main .main_content .col2 .board_list li:nth-of-type(3) {width: 50%;}
-main .main_content .col2 .board_list li:nth-of-type(4) {width: 14%;}
+main .main_content .col2 .board_list li:nth-of-type(4) {
+    width: 14%;
+    font-family: 'NOTO SANS KR';
+}
 main .main_content .col2 .board_list li:nth-of-type(5) {width: 14%;}
 
 main .main_content .col2 .board_list .prodBtn > a {

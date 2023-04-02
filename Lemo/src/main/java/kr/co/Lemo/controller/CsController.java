@@ -32,7 +32,7 @@ import java.util.Map;
 public class CsController {
 
     private final Environment environment;
-    private String group = "cs";
+    private String group = "title.cs";
 
     @Autowired
     private CsService service;

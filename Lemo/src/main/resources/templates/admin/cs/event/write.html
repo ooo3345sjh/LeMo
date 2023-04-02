@@ -38,14 +38,14 @@
             margin: auto;
         }
         #fileDropzone > #ex_file {
-<!--            position: absolute;-->
-<!--            width: 1px;-->
-<!--            height: 1px;-->
-<!--            padding: 0;-->
-<!--            margin: -1px;-->
-<!--            overflow: hidden;-->
-<!--            clip: rect(0,0,0,0);-->
-<!--            border: 0;-->
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
         }
         #fileDropzone #att_zone{
             padding-top: 25px;
@@ -76,22 +76,23 @@
             margin: auto;
         }
         #fileDropzone1 #main_zone{
-            padding-top: 25px;
+            padding-top: 129px;
+            height: 304px;
         }
         #fileDropzone1 #main_zone:empty::before{
             content: attr(data-placeholder);
             color: #999;
-            font-size: 26px;
+            font-size: 37px;
         }
         #fileDropzone1 > #main_file {
-<!--            position: absolute;-->
-<!--            width: 1px;-->
-<!--            height: 1px;-->
-<!--            padding: 0;-->
-<!--            margin: -1px;-->
-<!--            overflow: hidden;-->
-<!--            clip: rect(0,0,0,0);-->
-<!--            border: 0;-->
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
         }
     </style>
 </th:block>
@@ -144,7 +145,7 @@
                                                     <div id="main_zone" data-placeholder="사진을 첨부하려면  클릭해주세요"></div>
                                                     <input type="file" name="eventMainImg[]" id="main_file" accept="image/png, image/jpeg" class="insertFile" onchange="readURL(this);" required/>
                                                 </div>
-                                                <button id="checking">mainBannerFile값 확인</button>
+<!--                                                <button id="checking">mainBannerFile값 확인</button>-->
                                             </div>
                                         </td>
                                     </tr>
@@ -158,7 +159,7 @@
                                                         <img id="image" style="display:none">
                                                     </div>
                                                     <div id="att_zone" data-placeholder="사진을 첨부하려면  클릭해주세요"></div>
-                                                    <input type="file" name="eventbannerImg[]" id="ex_file" accept="image/png, image/jpeg" class="insertFile" required/>
+                                                    <input type="file" name="eventbannerImg[]" id="ex_file" accept="image/png, image/jpeg" class="insertFile" onchange="bannerReadURL(this)" required/>
                                                 </div>
                                             </div>
                                         </td>
@@ -205,6 +206,8 @@
     <script>
         let mainBannerFile; // 메인베너 파일
         const mainBannerImg = $('#mainImage'); // 메인베너 이미지
+        let eventBannerFile ; // 이벤트베너 파일
+        const eventBannerImg = $('#image'); // 이벤트베너 이미지
 
         $(document).ready(function() {
                 $('#summernote').summernote({
@@ -299,16 +302,16 @@
                 const previews = document.querySelector('#image');
 
 
-                fileDOM.addEventListener('change', () => {
-
-                    const reader = new FileReader();
-                    reader.onload = ({ target }) => {
-                        previews.src = target.result;
-                        previews.style.display= 'block';
-                        document.querySelector('#att_zone').style.display='none';
-                    };
-                    reader.readAsDataURL(fileDOM.files[0]);
-                });
+                //fileDOM.addEventListener('change', () => {
+                //
+                //    const reader = new FileReader();
+                //    reader.onload = ({ target }) => {
+                //        previews.src = target.result;
+                //        previews.style.display= 'block';
+                //        document.querySelector('#att_zone').style.display='none';
+                //    };
+                //    reader.readAsDataURL(fileDOM.files[0]);
+                //});
 
                 previews.addEventListener('click', () => {
                     $('input#ex_file').click();
@@ -354,14 +357,65 @@
                         const image = new Image();
                         image.src = e.target.result;
                         image.onload = function() {
-                            if (image.width < 1000 || image.height > 300 || image.height < 200) {
-                                alert("이미지 크기가 올바르지 않습니다. (가로는 1000px 이상, 세로는 200px 이상, 300px 이하)");
+                            if (image.width != 1100 || image.height != 440) {
+                                Swal.fire({
+                                    title : '이미지 크기가 올바르지 않습니다.',
+                                    text : '가로는 1100px, 세로는 440px로 맞춰주세요.',
+                                    icon : 'warning',
+                                    confirmButtonText : '확인'
+                                })
                             } else {
                                 console.log("start...");
                                 mainBannerImg.attr('src', e.target.result);
                                 mainBannerImg.show();
                                 $('#main_zone').hide();
                                 mainBannerFile = input.files[0];
+                            }
+                        }
+                    };
+
+                }
+            }
+
+
+
+            // 이벤트 베너
+            // 이미지 크기 검증
+             function bannerReadURL(input) {
+
+                const fileName = input.value;
+                const fileDot = fileName.lastIndexOf(".");
+                const fileType = fileName.substring(fileDot+1, fileName.length).toLowerCase();
+
+                if (input.files && input.files[0]) {
+                    if(fileType !== "jpg" && fileType !== "png" && fileType !== "jpeg"){
+                        Swal.fire({
+                            title : "파일형식은 JPG, PNG, JPEG만\n 가능합니다.",
+                            icon : 'warning',
+                            confirmButtonText : '확인'
+                        })
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.readAsDataURL(input.files[0]);
+                    reader.onload = function(e) {
+                        const image = new Image();
+                        image.src = e.target.result;
+                        image.onload = function() {
+                            if (image.width < 1000 || image.height > 300 || image.height < 200) {
+                                Swal.fire({
+                                    title : '이미지 크기가 올바르지 않습니다.',
+                                    text : '가로는 1000px 이상, 세로는 200px 이상, 300px 이하로 맞춰주세요.',
+                                    icon : 'warning',
+                                    confirmButtonText : '확인'
+                                })
+                            } else {
+                                console.log("start...");
+                                eventBannerImg.attr('src', e.target.result);
+                                eventBannerImg.show();
+                                $('#att_zone').hide();
+                                eventBannerFile = input.files[0];
                             }
                         }
                     };
