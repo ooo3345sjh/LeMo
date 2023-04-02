@@ -28,11 +28,11 @@
             <!-- 슬라이더 -->
             <div class="main_slider">
                 <div class="slider">
-                    <div><img th:src="@{/images/index/main_banner2.png}" alt="메인 배너"></div>
-                    <div><img th:src="@{/images/index/main_banner2.png}" alt="메인 배너"></div>
-                    <div><img th:src="@{/images/index/main_banner3.png}" alt="메인 배너"></div>
-                    <div><img th:src="@{/images/index/main_banner4.png}" alt="메인 배너"></div>
-                    <div><img th:src="@{/images/index/main_banner6.jpg}" alt="메인 배너"></div>
+                    <th:block th:each="event:${map.event}">
+                        <a th:href="@{/cs/event/view(cs_cate=${event.cs_cate}, cs_no=${event.cs_no})}">
+                            <img th:src="@{/img/cs/} + ${event.cs_no} + '/' + ${event.cs_eventMainBannerImg}" alt="메인 배너">
+                        </a>
+                    </th:block>
                 </div>
             </div>
             <div class="blank30"></div>

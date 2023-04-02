@@ -118,12 +118,18 @@ public class MainService {
         return mainDAO.selectNotice();
     }
 
+    // @since 2023/04/02
+    public List<CsVO> findEvent() throws Exception {
+        return mainDAO.selectEvent();
+    }
+
     // @since 2023/03/29
     public void findMain(Map map) throws Exception {
         map.put("revisit", findRevisit());
         map.put("best", findBest());
         map.put("diary", findBestDiary());
         map.put("notice", findNotice());
+        map.put("event", findEvent());
     }
 
 

@@ -12,6 +12,12 @@
     <!-- insert -->
 
     <!-- select -->
+    <select id="selectEvent" resultType="kr.co.Lemo.domain.CsVO">
+        SELECT * FROM `lemo_cs`
+        WHERE `cs_cate`='event' AND `cs_eventMainBannerState` = 1
+        ORDER BY `cs_rdate` DESC
+    </select>
+
     <select id="selectNotice" resultType="kr.co.Lemo.domain.CsVO">
         SELECT * FROM `lemo_cs`
         WHERE `cs_cate`='notice'
