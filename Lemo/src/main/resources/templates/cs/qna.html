@@ -142,7 +142,11 @@
 
               $('#qna_form').submit(function(e){
                     if(cs_type == '0'){
-                        alert('유형을 선택해주세요');
+                       Swal.fire({
+                           title : '유형을 선택해주세요.',
+                           icon : 'warning',
+                           confirmButtonText : '확인'
+                       })
                         e.preventDefault();
                         }
                     });
@@ -153,7 +157,11 @@
                     $('#qna_form').submit(function(e){
 
                     if( cs_type == '0'){
-                            alert('유형을 선택해주세요');
+                        Swal.fire({
+                           title : '유형을 선택해주세요.',
+                           icon : 'warning',
+                           confirmButtonText : '확인'
+                        })
                             e.preventDefault();
                         }
                     });

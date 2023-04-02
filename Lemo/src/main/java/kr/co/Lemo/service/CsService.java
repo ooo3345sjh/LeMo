@@ -219,11 +219,11 @@ public class CsService {
         return dao.updateEndEvent(cs_no);
     }
 
-    //@since 2023/03/29
+    //@since 2023/03/29 메인베너 게시 ON/OFF
     public int usaveMainBanner(@RequestParam("cs_eventMainBannerState") int cs_eventMainBannerState, @RequestParam("cs_no") int cs_no){
         return dao.updateMainBanner(cs_eventMainBannerState, cs_no);
     }
-    //@since 2023/03/30
+    //@since 2023/03/30 이벤트베너 게시 ON/OFF
     public int usaveEventBanner(@RequestParam("cs_eventBannerState") int cs_eventBannerState, @RequestParam("cs_no") int cs_no){
         return dao.updateEventBanner(cs_eventBannerState, cs_no);
     }

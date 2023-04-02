@@ -665,7 +665,7 @@ public class AdminController {
 
         }else if("faq".equals(cs_cate)){
             vo.setUser_id(myUser.getUser_id());
-            vo.setCs_regip(req.getRemoteAddr());
+            vo.setCs_regip(RemoteAddrHandler.getRemoteAddr(req));
 
             csService.rsaveFaqArticle(vo);
 

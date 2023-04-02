@@ -28,10 +28,10 @@
 
     <!-- 이벤트 이전글 다음글 -->
     <select id="selectEventPrev" resultType="kr.co.Lemo.domain.CsVO">
-         SELECT * FROM `lemo_cs` WHERE `cs_cate`=#{cs_cate} and <![CDATA[ `cs_no`<#{cs_no} order BY `cs_no` DESC LIMIT 1;]]>
+         SELECT * FROM `lemo_cs` WHERE `cs_cate`=#{cs_cate} and `cs_eventBannerState`='1' and <![CDATA[ `cs_no`<#{cs_no} order BY `cs_no` DESC LIMIT 1;]]>
     </select>
     <select id="selectEventNext" resultType="kr.co.Lemo.domain.CsVO">
-         SELECT * FROM `lemo_cs` WHERE `cs_cate`=#{cs_cate} and <![CDATA[`cs_no`>#{cs_no} order BY `cs_no` asc LIMIT 1;]]>
+         SELECT * FROM `lemo_cs` WHERE `cs_cate`=#{cs_cate} and `cs_eventBannerState`='1' and <![CDATA[`cs_no`>#{cs_no} order BY `cs_no` asc LIMIT 1;]]>
     </select>
 
     <select id="selectFaqArticles" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.CsVO">
