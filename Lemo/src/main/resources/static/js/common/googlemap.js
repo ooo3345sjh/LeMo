@@ -27,3 +27,21 @@ function initMap(){
 
     });
 }
+
+$(function(){
+    // Enterkey로 검색 실행
+    $(document).on('keyup', '#search-box', function(e){
+        if(e.keyCode == '13'){
+            $('.btnSearch.place').trigger('click');
+        }
+    });
+
+    // 검색어를 입력하지 않았을때 검색 실행 막기
+    $(document).on('click', '.btnSearch.place', function(){
+        let keyword = $('#search-box').val();
+        if(keyword.trim()==''){
+            sweetalert("검색어를 입력하세요", "warning");
+            return false;
+        }
+    });
+});
