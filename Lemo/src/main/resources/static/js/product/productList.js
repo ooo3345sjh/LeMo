@@ -22,6 +22,12 @@ $(function(){
         $('#popupFilter').removeClass('on');
     });
 
+    // 숙박 목록이 존재하지 않으면 중심 좌표를 서울시청으로 설정
+    if(accs.length == 0) {
+        clat = 37.566824194479864;
+        clng = 126.9786069825986;
+    }
+
     // 검색 키워드를 지도 중심으로 설정
     setCenter(clat, clng);
 
