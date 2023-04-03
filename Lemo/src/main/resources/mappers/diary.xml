@@ -10,19 +10,20 @@
 <mapper namespace="kr.co.Lemo.dao.DiaryDAO">
 
     <!-- select -->
-    <select id="selectDiaryArticle" resultType="kr.co.Lemo.domain.DiarySpotVO">
+    <select id="selectDiaryArticles" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
         SELECT
-        	c.`user_id`, a.`arti_title`, b.*
+            a.`arti_no`, a.`arti_title`, b.`user_id`
         FROM
-        	`lemo_diary_article` AS a JOIN
-        	`lemo_diary_spot`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
-        	`lemo_diary_like`    AS c ON a.`arti_no` = c.`arti_no`
+            `lemo_diary_article` AS a LEFT JOIN
+            `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
+            `lemo_product_reservation` AS c ON a.`res_no` = c.`res_no` LEFT JOIN
+            `lemo_product_accommodation` AS d ON c.`acc_id` = d.`acc_id`
         <choose>
-            <when test="option == 'addr'">
-
+            <when test="orderBySearchType == 'addr'">
+                WHERE d.`acc_addr` LIKE CONCAT('%', #{keyword} , '%')
             </when>
-            <when test="option == 'title_content'">
-
+            <when test="orderBySearchType == 'title_content'">
+                WHERE a.`arti_title` LIKE CONCAT('%', #{keyword} ,'%')
             </when>
         </choose>
         <if test="orderByOption == 'recent'">
@@ -32,8 +33,12 @@
             ORDER BY a.`arti_like` DESC
         </if>
         <if test="orderByOption == 'reply'">
-            ORDER BY a.`arti_comment` DESC;
+            ORDER BY a.`arti_comment` DESC
         </if>
+    </select>
+
+    <select id="selectDiarySpots" resultType="kr.co.Lemo.domain.DiarySpotVO">
+        SELECT * FROM `lemo_diary_spot`;
     </select>
 
     <select id="selectDiarySpot" resultType="kr.co.Lemo.domain.DiarySpotVO">

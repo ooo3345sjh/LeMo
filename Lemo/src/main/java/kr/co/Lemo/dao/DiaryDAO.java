@@ -1,5 +1,6 @@
 package kr.co.Lemo.dao;
 
+import kr.co.Lemo.domain.ArticleDiaryVO;
 import kr.co.Lemo.domain.DiaryCommentVO;
 import kr.co.Lemo.domain.DiarySpotVO;
 import kr.co.Lemo.domain.UserVO;
@@ -22,7 +23,9 @@ import java.util.Map;
 public interface DiaryDAO {
 
     // @since 2023/03/14
-    public List<DiarySpotVO> selectDiaryArticle(Map options);
+    public List<ArticleDiaryVO> selectDiaryArticles(Map options);
+
+    public List<DiarySpotVO> selectDiarySpots();
 
     // @since 2023/03/15
     public List<DiarySpotVO> selectDiarySpot(int arti_no);

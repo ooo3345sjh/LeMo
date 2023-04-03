@@ -1,6 +1,7 @@
 package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.DiaryDAO;
+import kr.co.Lemo.domain.ArticleDiaryVO;
 import kr.co.Lemo.domain.DiaryCommentVO;
 import kr.co.Lemo.domain.DiarySpotVO;
 import kr.co.Lemo.domain.UserVO;
@@ -35,12 +36,15 @@ public class DiaryService {
     private DiaryDAO dao;
 
     // @since 2023/03/14
-    public Map<Integer, List<DiarySpotVO>> findDiaryArticle(Map options) {
-        List<DiarySpotVO> spotVO = dao.selectDiaryArticle(options);
+    public List<ArticleDiaryVO> findDairyArticles(Map options) {
+        List<ArticleDiaryVO> articles = dao.selectDiaryArticles(options);
+        List<DiarySpotVO> spots = dao.selectDiarySpots();
+        Map<Integer, List<DiarySpotVO>> map = spots.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
 
-        Map<Integer, List<DiarySpotVO>> map = spotVO.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
-
-        return map;
+        for(ArticleDiaryVO artiVO : articles) {
+            artiVO.setSpotVO(map.get(artiVO.getArti_no()));
+        }
+        return articles;
     }
 
     // @since 2023/03/15

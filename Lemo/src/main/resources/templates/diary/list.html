@@ -29,7 +29,7 @@
                             <div id="filter2">
                                 <select name="orderBySearchType">
                                     <option value="addr">주소</option>
-                                    <option value="title_content">제목/내용</option>
+                                    <option value="title_content">제목</option>
                                 </select>
                                 <input name="keyword" class="keyword" type="text" placeholder="검색 키워드 입력">
                                 <button class="orderBySearchType">검색</button>
@@ -38,29 +38,29 @@
                         <!-- 여행일기 목록 -->
                         <div class="list">
                             <div class="list-area">
-                                <div class="diaryEmpty" th:if="${map.size == 0}">
+                                <div class="diaryEmpty" th:if="${articles.size == 0}">
                                     게시글이 없습니다.
                                 </div>
-                                <ul th:if="${map.size != 0}">
-                                    <li th:each="article:${map}">
-                                        <button sec:authorize="isAuthenticated()" th:if="${#authentication.principal.user_id != null}" th:class="${map.get(article.key).get(0).user_id == #authentication.principal.user_id ? 'heart on' : 'heart'}" th:data-no="${map.get(article.key).get(0).arti_no}">
+                                <ul th:if="${articles.size != 0}">
+                                    <li th:each="article:${articles}">
+                                        <button sec:authorize="isAuthenticated()" th:if="${#authentication.principal.user_id != null}" th:class="${article.user_id == #authentication.principal.user_id ? 'heart on' : 'heart'}" th:data-no="${article.arti_no}">
                                             <img th:src="@{/images/diary/heart.png}">
                                         </button>
-                                        <button class="marker" th:onclick="sortPosition([[${map.get(article.key).get(0).arti_no}]])"><img th:src="@{/images/diary/marker2.png}" alt="일정마크표시"></button>
+                                        <button class="marker" th:onclick="sortPosition([[${article.arti_no}]])"><img th:src="@{/images/diary/marker2.png}" alt="일정마크표시"></button>
                                         <!-- 사진 슬라이드 -->
                                         <div class="img_slider">
-                                            <div th:each="img:${map.get(article.key)}"><a th:href="@{#}"><img th:src="@{/img/diary/__${img.arti_no}__/__${img.spot_thumb}__}"></a></div>
+                                            <div th:each="img:${article.spotVO}"><a th:href="@{#}"><img th:src="@{/img/diary/__${img.arti_no}__/__${img.spot_thumb}__}"></a></div>
                                         </div>
                                         <!-- 여행일기 간략한 설명 -->
                                         <div class="diary_content">
                                             <div>
                                                 <span id="nick">홍길동</span>
-                                                <p>[[${map.get(article.key).get(0).arti_title}]]</p>
+                                                <p>[[${article.arti_title}]]</p>
                                                 <p>
-                                                    <b class="location" th:each="spot:${map.get(article.key)}">#[[${spot.spot_title}]] </b>
+                                                    <b class="location" th:each="spot:${article.spotVO}">#[[${spot.spot_title}]] </b>
                                                 </p>
                                             </div>
-                                            <button><a th:href="@{/diary/view (arti_no=${map.get(article.key).get(0).arti_no}) }">여행일기 보러가기</a></button>
+                                            <button><a th:href="@{/diary/view (arti_no=${article.arti_no}) }">여행일기 보러가기</a></button>
                                         </div>
                                     </li>
                                 </ul>
@@ -82,14 +82,20 @@
             <!-- 카카오 맵 -->
             <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712&libraries=services,clusterer"></script>
             <script th:inline="javascript">
-                let positionMap = [[${map}]];
                 let markerObject = new Map();
                 let overlays = new Map();
                 var markers = [];
+                let articles = [[${articles}]];
+
+                const arrObj = articles.reduce((newObj, obj) => {
+                    newObj[obj.arti_no] = obj;
+                    return newObj;
+                }, {});
 
                 const urlParams = new URLSearchParams(window.location.search);
                 const orderByOption     = urlParams.get('orderByOption');
                 const orderBySearchType = urlParams.get('orderBySearchType');
+                const orderByKeyword    = urlParams.get('keyword');
                 $('option[value='+orderByOption+']').prop('selected', true);
 
                 function sortPosition(arti_no) {
@@ -164,49 +170,45 @@
                 }
 
                 $(function(){
-                    // positionMap은 (key, value) => (arti_no, 여행일기) 형식인 Object
-                    // 여행일기 지도찾기 버튼 클릭 시 세부여행일기들을 핵심적으로 표시하기 위함
-                    // onclick(arti_no)으로 arti_no에 해당하는 여행일기 세부여행일기들의 marker 배열을 가져올 수 잇음
-                    // 그렇게되면 해당 이미지를 바꾸고 다시 셋팅, 등등 많은 것을 할 수 있을 것 같아서 이렇게 구현함
-                    for(let key in positionMap) {
+
+                    for(let key in arrObj) {
                         var positionMarker = [];
 
-                        positionMap[key].map(function(position, i) {
+                        for(let position in arrObj[key].spotVO) {
 
                             var marker = new kakao.maps.Marker({
-                                position : new kakao.maps.LatLng(position.spot_lattitude, position.spot_longtitude)
+                                position : new kakao.maps.LatLng(arrObj[key].spotVO[position].spot_lattitude, arrObj[key].spotVO[position].spot_longtitude)
                             });
 
-                            let content = '<div class="spot_wrap">';
-                               content += '<div class="spot_title">';
-                               content += position.spot_title
-                               content += '<div class="spot_close" title="닫기" onclick="closeOverlay('+position.spot_no+')"></div>'
-                               content += '</div>';
-                               content += '<div class="spot_content">';
-                               content += position.arti_title
-                               content += '</div>';
-                               content += '</div>';
+                            let contents = '<div class="spot_wrap">';
+                               contents += '<div class="spot_title">';
+                               contents += arrObj[key].spotVO[position].spot_title
+                               contents += '<div class="spot_close" title="닫기" onclick="closeOverlay('+arrObj[key].spotVO[position].spot_no+')"></div>'
+                               contents += '</div>';
+                               contents += '<div class="spot_content">';
+                               contents += arrObj[key].arti_title
+                               contents += '</div>';
+                               contents += '</div>';
 
                             var overlay = new kakao.maps.CustomOverlay({
-                                content: content,
+                                content: contents,
                                 position: marker.getPosition()
                             });
 
-                            overlays.set(position.spot_no, overlay);
+                            overlays.set(arrObj[key].spotVO[position].spot_no, overlay);
 
                             kakao.maps.event.addListener(marker, 'click', function() {
                                 overlays.forEach(function(over){ over.setMap(null); });
-
-                                overlay.setMap(map);
+                                let overlayT = overlays.get(arrObj[key].spotVO[position].spot_no);
+                                overlayT.setMap(map);
                             });
-
 
                             // 맵에 key값으로 분류되는 value로 넣기 위한 배열
                             positionMarker.push(marker);
 
                             // clusterer을 표기하기위한 배열
                             markers.push(marker);
-                        });
+                        }
 
                         // key=arti_no, value(세부여행일기 marker의 배열)
                         markerObject.set(key, positionMarker);
@@ -243,15 +245,15 @@
                 $('select[name=orderByOption]').change(function(){
                     let option = $(this).val();
 
-                    location.href= "/Lemo/diary/list?orderByOption="+option;
+                    location.href= "/Lemo/diary/list?orderByOption="+option+"&keyword="+orderByKeyword+"&orderBySearchType="+orderBySearchType;
 
                 });
 
                 $('.orderBySearchType').click(function(){
-                    let keyword = $('.keyword').val();
-                    let option  = $('select[name=orderBySearchType]').val();
+                    let keyword     = $('.keyword').val();
+                    let searchType  = $('select[name=orderBySearchType]').val();
 
-                    location.href= "/Lemo/diary/list?orderByOption="+orderByOption+"&keyword="+keyword+"&option="+option;
+                    location.href= "/Lemo/diary/list?orderByOption="+orderByOption+"&keyword="+keyword+"&orderBySearchType="+searchType;
                 });
             </script>
         </th:block>

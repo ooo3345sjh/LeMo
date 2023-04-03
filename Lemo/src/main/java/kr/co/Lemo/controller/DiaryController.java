@@ -46,8 +46,8 @@ public class DiaryController {
         log.debug("GET list start");
         m.addAttribute("title", environment.getProperty(diaryGroup));
 
-        Map<Integer, List<DiarySpotVO>> map = service.findDiaryArticle(options);
-        m.addAttribute("map", map);
+        List<ArticleDiaryVO> articles = service.findDairyArticles(options);
+        m.addAttribute("articles", articles);
 
         return "diary/list";
     }
@@ -212,13 +212,5 @@ public class DiaryController {
         int result = service.removeDiary(arti_no);
 
         return result;
-    }
-
-    // @since 2023/03/31
-    @ResponseBody
-    @PostMapping("search")
-    public void searchDiary(@RequestBody Map options) {
-        Map<Integer, List<DiarySpotVO>> map = service.findDiaryArticle(options);
-
     }
 }
