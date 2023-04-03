@@ -28,7 +28,7 @@
 ### 개발환경 Development Environment
 * IntelliJ IDEA
 * Visual Studio Code
-* MYSQL
+* HeidiSQL
 
 
 
