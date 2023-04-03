@@ -206,8 +206,10 @@
                                             -->
                                             <input class="insertSaleOption" type="number" placeholder="할인율 또는 할인가 택1 작성" required onkeydown="javascript: return event.keyCode == 69 ? false : true"/>
                                             <div class="selectSaleOption">
-                                                <input type="radio" name="cp_disType" value="1" class="discount">퍼센트(%)
-                                                <input type="radio" name="cp_disType" value="2" class="discountPrice">원(₩)
+                                                <input type="radio" name="cp_disType" value="1" class="discount" id="discount">
+                                                <label for="discount">퍼센트(%)</label>
+                                                <input type="radio" name="cp_disType" value="2" class="discountPrice" id="discountPrice">
+                                                <label for="discountPrice">원(₩)</label>
                                             </div>
                                         </td>
                                     </tr>

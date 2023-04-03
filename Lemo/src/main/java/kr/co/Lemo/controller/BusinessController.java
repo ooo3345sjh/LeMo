@@ -65,20 +65,28 @@ public class BusinessController {
     }
 
     // @since 2023/03/13
-    @PostMapping("coupon/insertCoupon")
-    public String rsaveCupon(CouponVO vo,
-                             RedirectAttributes redirectAttributes,
-                             @AuthenticationPrincipal UserVO myUser
-                             ) throws Exception {
+    @ResponseBody
+    @PostMapping("coupon/rsaveCoupon")
+    public String rsaveCoupon(@RequestParam Map<String,Object> param,
+                              @AuthenticationPrincipal UserVO myUser,
+                              Model model,
+                             RedirectAttributes redirectAttributes) throws Exception {
+
+        model.addAttribute("title", environment.getProperty(group));
+
+        log.warn("hi");
 
         String user_id = myUser.getUser_id();
 
         log.info("myUser : " + myUser);
         log.info("user_id : " + user_id);
 
+        param.put("user_id", user_id);
+
+        log.warn("acc_id: " + param.get("user_id"));
+
+        /*
         log.warn("쿠폰명 :" + vo.getCp_subject());
-        log.warn("쿠폰적용그룹 :" + vo.getCp_group());
-        log.warn("쿠폰타입 :" + vo.getCp_type());
         log.warn("할인율 :" + vo.getCp_rate());
         log.warn("할인타입 :" + vo.getCp_disType());
         log.warn("발급수량 :" + vo.getCp_limitedIssuance());
@@ -87,9 +95,11 @@ public class BusinessController {
         log.warn("배포시작일: "+vo.getCp_start());
         log.warn("배포시작일: "+vo.getCp_end());
         log.warn("이용가능일수:" + vo.getCp_daysAvailable());
+        */
 
+         log.info("param : "+param);
 
-        service.rsaveCupon(vo, user_id);
+        service.rsaveCoupon(param);
         redirectAttributes.addFlashAttribute("successMessage", "쿠폰이 등록되었습니다.");
         return "redirect:/business/coupon/insertCoupon";
     }
@@ -425,12 +435,35 @@ public class BusinessController {
 
     // @since 2023/04/02 판매자 객실 목록
     @GetMapping("roomInfo/list")
-    public String roonInfo_list(Model model,
-                                @RequestParam Map map,
-                                @ModelAttribute Admin_SearchVO sc){
+    public String roonInfo_list(@RequestParam Map map,
+                                @AuthenticationPrincipal UserVO myUser,
+                                @ModelAttribute Admin_SearchVO sc,
+                                Model model
+                                ){
+
+        model.addAttribute("title", environment.getProperty(group));
+
+        String user_id = "";
+        if(myUser != null) {
+            user_id = myUser.getUser_id();
+        }
 
         sc.setMap(map);
-        service.findAllRoom(model, sc);
+        sc.setUser_id(user_id);
+
+        int totalCnt = service.countAcc(sc);
+        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<ProductRoomVO> rooms = service.findAllRoom(sc);
+
+        log.warn("rooms: " + rooms.toString());
+
+        model.addAttribute("rooms", rooms);
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalRoom", pageHandler.getTotalCnt());
 
         return "business/roomInfo/list";
     }
@@ -489,10 +522,24 @@ public class BusinessController {
 
             log.info("param : " + param);
 
-            //service.rsaveRoom(param, request);
+            service.rsaveRoom(param, request);
         }
         return "redirect:/business/roomInfo/write";
 
     }
 
+    // 판매자 - 객실 보기
+    @GetMapping("roomInfo/view")
+    public String roomInfo_view(Model model,
+                                @RequestParam("room_id") Integer room_id) throws Exception{
+
+        ProductRoomVO room = service.findRoom(room_id);
+
+        log.warn("selected room: " + room);
+
+        model.addAttribute("room", room);
+        model.addAttribute("room_id", room_id);
+
+       return "business/roomInfo/view";
+    }
 }

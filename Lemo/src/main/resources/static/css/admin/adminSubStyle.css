@@ -1585,6 +1585,10 @@ main .selectSaleLimit > label {
     font-size: 13px;
     font-weight: 300;
 }
+main .selectSaleOption > label {
+    font-size: 13px;
+    font-weight: 300;
+}
 main .province_select {
     font-size: 13px;
     width: 200px;

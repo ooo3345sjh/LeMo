@@ -62,6 +62,10 @@ $(document).ready(function(){
 
             myDropzone.on("sending", function(file, xhr, formData){
                 formData.append("acc_id", $('select[name="acc_id"]').val());
+
+                formData.append("province_no", $('select[name="acc_id"] option:selected').data('value'));
+
+
                 formData.append("room_name", $('input[name="room_name"]').val());
                 formData.append("room_stock", $('input[name="room_stock"]').val());
                 formData.append("room_price", $('input[name="room_price"]').val());
