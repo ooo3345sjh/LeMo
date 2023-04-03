@@ -403,10 +403,10 @@
                         const image = new Image();
                         image.src = e.target.result;
                         image.onload = function() {
-                            if (image.width < 1000 || image.height > 300 || image.height < 200) {
+                            if (image.width < 800 || image.width > 1100 || image.height > 300 || image.height < 200) {
                                 Swal.fire({
                                     title : '이미지 크기가 올바르지 않습니다.',
-                                    text : '가로는 1000px 이상, 세로는 200px 이상, 300px 이하로 맞춰주세요.',
+                                    text : '가로는 800px 이상, 1100px 이하, 세로는 200px 이상, 300px 이하로 맞춰주세요.',
                                     icon : 'warning',
                                     confirmButtonText : '확인'
                                 })

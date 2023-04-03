@@ -583,6 +583,7 @@ public class AdminController {
     /**
      * @since 2023/03/14
      * @author 황원진
+     * @apiNote list modify
      */
     @GetMapping("cs/{cs_cate}/modify")
     public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
@@ -619,6 +620,7 @@ public class AdminController {
     /**
      * @since 2023/03/15
      * @author 황원진
+     * @apiNote list modify
      */
 
     @PostMapping("cs/{cs_cate}/modify")
@@ -633,6 +635,63 @@ public class AdminController {
         }
         return "redirect:/admin/cs/faq/list";
     }
+
+    /**
+     * @since 2023/04/03
+     * @author 황원진
+     * @apiNote view modify
+     */
+    @GetMapping("cs/{cs_cate}/viewModify")
+    public String usaveAdminCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
+        if("notice".equals(cs_cate)){
+            log.info("noticeViewModify");
+            CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+            model.addAttribute("mNotice", noticeArticle);
+            model.addAttribute("cs_no", cs_no);
+
+            return "admin/cs/notice/viewModify";
+
+        }else if("faq".equals(cs_cate)){
+            log.info("faqModify");
+            CsVO faqArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+            log.info("faqContent : " +faqArticle.getCs_content());
+            log.info("faqTitle : " +faqArticle.getCs_title());
+
+            model.addAttribute("mFaq", faqArticle);
+            model.addAttribute("cs_no", cs_no);
+
+            return "admin/cs/faq/modify";
+        }else if("event".equals(cs_cate)){
+            log.info("eventModify");
+            CsVO eventArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+            log.info("eventContent : " +eventArticle.getCs_content());
+            log.info("eventTitle : " +eventArticle.getCs_title());
+
+            model.addAttribute("mEvent", eventArticle);
+            model.addAttribute("cs_no", cs_no);
+        }
+        return "admin/cs/event/modify";
+    }
+
+
+    /**
+     * @since 2023/04/03
+     * @author 황원진
+     * @apiNote view modify
+     */
+    @PostMapping("cs/{cs_cate}/viewModify")
+    public String usaveAdminCsNotice(@PathVariable("cs_cate") String cs_cate, CsVO vo){
+        if ("notice".equals(cs_cate)) {
+            log.info("modifyListNoticeStart");
+            csService.usaveAdminNotice(vo);
+            return "redirect:/admin/cs/notice/view?cs_no="+vo.getCs_no();
+        }else if("faq".equals(cs_cate)){
+            log.info("modifyFaqStart");
+            csService.usaveFaqArticle(vo);
+        }
+        return "redirect:/admin/cs/faq/view?cs_no="+vo.getCs_no();
+    }
+
 
 
     /**

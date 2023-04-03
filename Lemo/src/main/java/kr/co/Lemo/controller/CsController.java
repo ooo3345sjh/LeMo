@@ -122,8 +122,8 @@ public class CsController {
     }
 
     // @since 2023/03/08
-    @GetMapping("event/view")
-    public String event_view(String cs_cate, int cs_no, Model model){
+    @GetMapping("{cs_cate}/view")
+    public String event_view(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
         log.info("no : " + cs_no);
 
         CsVO eventView = service.findCsArticle(cs_no);
