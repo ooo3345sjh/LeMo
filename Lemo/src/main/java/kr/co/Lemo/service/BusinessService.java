@@ -187,6 +187,7 @@ public class BusinessService {
 
         List<ProductRoomVO> rooms = dao.selectRoom(sc);
 
+        log.warn("sc : " + sc.toString());
         log.warn("Selected rooms: " + rooms.toString());
         log.warn("ph : " + pageHandler.getTotalCnt());
 
