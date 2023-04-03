@@ -179,6 +179,9 @@ public class BusinessService {
      */
      public List<ProductRoomVO> findAllRoom(Admin_SearchVO sc){
 
+        log.warn("Selected rooms: " + rooms.toString());
+        log.warn("ph : " + pageHandler.getTotalCnt());
+
 
         log.warn("Selected rooms: " + sc.toString());
         log.warn("user_id: " + sc.getUser_id());
