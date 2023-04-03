@@ -513,21 +513,27 @@ public class AdminController {
         if("event".equals(cs_cate)){
             log.info("admin/cs/event/list");
 
+            model.addAttribute("title", environment.getProperty(group));
             csService.findAllCsArticles(sc, model);
 
             return "admin/cs/event/list";
         }else if("notice".equals(cs_cate)) {
 
+            model.addAttribute("title", environment.getProperty(group));
             csService.findAllCsArticles(sc, model);
             return "admin/cs/notice/list";
         }else if("qna".equals(cs_cate)){
+
+            model.addAttribute("title", environment.getProperty(group));
             csService.findAllAdminQnaArticles(sc, model);
             return "admin/cs/qna/list";
         }else if("faq".equals(cs_cate)){
             if(cs_type != null){
+                model.addAttribute("title", environment.getProperty(group));
                 csService.findAllFaqArticles(sc, model);
                 return "admin/cs/faq/list";
             }else {
+                model.addAttribute("title", environment.getProperty(group));
                 csService.findAllCsArticles(sc, model);
             }
         }
