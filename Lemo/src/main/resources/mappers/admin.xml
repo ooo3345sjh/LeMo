@@ -326,7 +326,7 @@
         </if>
     </sql>
 
-    <!-- 회회원등급 (일반/엘리트) -->
+    <!-- 회원등급 (일반/엘리트) -->
     <sql id="searchLevel">
         <if test="searchLevel != null">
             <choose>

@@ -31,26 +31,14 @@ public class BusinessService {
     /**
      * 판매자 쿠폰 - 쿠폰 목록
      * @since 2023/03/13
-     * @param model
      * @param sc
      */
-    public List<CouponVO> selectCoupon(Model model, Map map, Admin_SearchVO sc){
-        int totalCnt = dao.countCoupon(sc);
-        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
-        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+    public List<CouponVO> selectCoupon(Admin_SearchVO sc){
+        return dao.selectCoupon(sc);
+    }
 
-        PageHandler pageHandler = new PageHandler(totalCnt, sc);
-
-        //log.info("select Coupon Service: " + sc.toString());
-
-        List<CouponVO> coupons = dao.selectCoupon(sc);
-
-        //log.info("Selected coupons: " + coupons.toString());
-
-        model.addAttribute("coupons", coupons);
-        model.addAttribute("ph", pageHandler);
-
-        return coupons;
+    public int countCoupon(SearchCondition sc){
+        return dao.countCoupon(sc);
     }
 
     /**

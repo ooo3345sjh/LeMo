@@ -34,26 +34,11 @@
                                 <div class="coupon_top">
                                     <h3>발급쿠폰검색</h3>
                                     <table class="search_coupon">
-                                        <colgroup>
-                                            <col width="10%">
-                                            <col width="40%">
-                                            <col width="10%">
-                                            <col width="40%">
-                                        </colgroup>
                                         <tr>
-                                            <th>
-                                                <select class="search_option" name="searchField">
-                                                    <option value="acc_id" th:selected="${ph.sc.searchField == 'acc_id'}">숙소아이디</option>
-                                                    <option value="cp_subject" th:selected="${ph.sc.searchField == 'cp_subject'}">쿠폰명</option>
-                                                </select>
-                                            </th>
+                                            <th>숙소 선택</th>
                                             <td>
-                                                <input type="text" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}"/>
-                                            </td>
-                                            <th>숙소구분</th>
-                                            <td>
-                                                <select id="c_role_type" class="selectAccOwned" name="searchAccName">
-                                                    <option value="A">A호텔</option>
+                                                <select id="c_role_type" class="selectAccOwned" name="acc_id">
+                                                    <option value="">- 전체 -</option>
                                                 </select>
                                             </td>
                                         </tr>
@@ -155,23 +140,30 @@
 
     // 쿠폰 목록 (판매자) 소유 숙소 셀렉트 옵션 추가
     window.onload = function() {
-        let select = document.getElementsByClassName("selectAccOwned")[0];
+        let selectAccOwned = document.getElementById("c_role_type");
 
-        //let user_id = "${pageContext.principal?.user_id}";
+        ajaxAPI("business/finaAllAccOwnedForInfo", null, "GET").then((response)=>{
 
-        //let jsonData = {"user_id": user_id};
+            console.log('response1 : %o', response);
 
-        //console.log(jsonData);
-
-        ajaxAPI("business/coupon/findAccOwned", null, "GET").then((response)=>{
-            console.log('response:' + response);
-            select.innerHTML = "";
             for (let i = 0; i < response.length; i++) {
-            let option = document.createElement("option");
-            option.value = response[i];
-            option.text = response[i];
-            select.add(option);
+                let option = document.createElement("option");
+                option.value = response[i].acc_id;
+                option.text = response[i].acc_name;
+
+
+                // 옵션값 고정
+                if (localStorage.getItem('selectedAccId') == response[i].acc_id) {
+                    option.setAttribute('selected', 'selected');
+                }
+
+                selectAccOwned.add(option);
             }
+
+            // 옵션 변경 시에도 옵션 고정
+            selectAccOwned.addEventListener('change', function() {
+                localStorage.setItem('selectedAccId', this.value);
+            });
         }).catch((errorMsg)=>{
             console.log(errorMsg);
         });
