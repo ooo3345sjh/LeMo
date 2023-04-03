@@ -53,4 +53,7 @@ public class CouponVO {
     // lemo_product_reservation;
     private int cp_dis_price;
 
+    // 추가
+    private int acc_id;
+
 }

@@ -33,17 +33,16 @@
 
                         <!-- 숙소 등록 폼 -->
                         <form class="col_register_form" th:action="@{/business/roomInfo/rsave}" method="post" enctype="multipart/form-data">
-
                             <!-- 객실 정보 -->
                             <div class="col_register1">
                                 <div class="stayName">
                                     <div>
-                                        <span>객실 정보</span>
+                                        <span>객실 정보 <i class="essential_tag_guide">* 표기 - 필수 입력 정보</i></span>
                                     </div>
                                 </div>
                                 <table class="input_stayRoomInfo">
                                     <tr>
-                                        <td>숙소 선택</td>
+                                        <td>숙소 선택 <i class="essential_tag">*</i></td>
                                         <td>
                                             <select name="acc_id" id="selectAccOwned">
                                                 <option></option>
@@ -51,41 +50,51 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>객실 이름</td>
+                                        <td>객실 이름 <i class="essential_tag">*</i></td>
                                         <td><input name="room_name" type="text"></td>
                                     </tr>
                                     <tr>
-                                        <td>객실 수</td>
-                                        <td><input name="room_stock" type="number" placeholder="동일 유형의 객실 수 설정"></td>
+                                        <td>객실 수 <i class="essential_tag">*</i></td>
+                                        <td>
+                                            <input name="room_stock" type="number" placeholder="동일 유형의 객실 수 설정" required onkeydown="javascript: return event.keyCode == 69 ? false : true">
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>객실 가격</td>
+                                        <td>객실 가격 <i class="essential_tag">*</i></td>
                                         <td>
-                                            <input name="room_price" type="number" placeholder="할인 전 기본가격">
+                                            <input name="room_price" type="number" placeholder="할인 전 기본가격" required onkeydown="javascript: return event.keyCode == 69 ? false : true">
                                             <span class="result_stayName">
                                                 💡 할인율(할인가)은 숙소 및 시즌 기준으로 일괄 적용됩니다.
                                             </span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>인원</td>
+                                        <td>인원 <i class="essential_tag">*</i></td>
                                         <td>
-                                            <input name="room_defNum" class="input60" type="number" placeholder="기준">/
-                                            <input name="room_maxNum" class="input60" type="number" placeholder="최대">
+                                            <input name="room_defNum" class="input60" type="number" placeholder="기준" required onkeydown="javascript: return event.keyCode == 69 ? false : true">/
+                                            <input name="room_maxNum" class="input60" type="number" placeholder="최대" required onkeydown="javascript: return event.keyCode == 69 ? false : true">
+                                            <span class="result_stayName">
+                                                💡 미입력 시, '1명'으로 등록됩니다.
+                                            </span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>인원추가가격</td>
-                                        <td><input name="room_addPrice" type="number" placeholder="1명 추가 시 가격 (원)"></td>
+                                        <td>인원추가가격 <i class="essential_tag">*</i></td>
+                                        <td>
+                                            <input name="room_addPrice" type="number" placeholder="1명 추가 시 가격 (원)">
+                                            <span class="result_stayName">
+                                                💡 미입력 시, '0원'으로 등록됩니다.
+                                            </span>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>객실이용안내</td>
+                                        <td>객실이용안내 <i class="essential_tag">*</i></td>
                                         <td>
                                             <textarea name="room_info" class="notice_text" id="summernote"></textarea>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>객실사진</td>
+                                        <td>객실사진 <i class="essential_tag">*</i></td>
                                         <td>
                                             <!-- 숙소 썸네일 이미지 -->
                                             <div class="stayThumb">
@@ -150,6 +159,123 @@
             });
             $('#summernote').summernote('fontSize', 14);
 
+            // 유효성 검사 (제출)
+            let btnSubmit = document.getElementById('btnSubmit');
+            let room_name = $('input[name=room_name]');
+            let room_stock = $('input[name=room_stock]');
+            let room_price = $('input[name=room_price]');
+            let room_defNum = $('input[name=room_defNum]');
+            let room_maxNum = $('input[name=room_maxNum]');
+            let room_addPrice = $('input[name=room_addPrice]');
+            let room_info = $('textarea[name=room_info]');
+            let room_checkIn = $('input[name=room_checkIn]');
+            let room_checkOut = $('input[name=room_checkOut]');
+
+            room_defNum.on("keydown", function(event) {
+                if (event.key === '-' || event.key === '+') {
+                    event.preventDefault();
+                }
+            });
+
+            room_defNum.on("input", function(event) {
+                if (this.value < 0) {
+                    this.value = 0;
+                }
+            });
+
+            room_maxNum.on("keydown", function(event) {
+                if (event.key === '-' || event.key === '+') {
+                    event.preventDefault();
+                }
+            });
+
+            room_maxNum.on("input", function(event) {
+                if (this.value < 0) {
+                    this.value = 0;
+                }
+            });
+
+            room_maxNum.on('focusout', () => {
+                if (parseInt(room_defNum.val()) > parseInt(room_maxNum.val())) {
+                    sweetalert("최대 인원은 기준인원보다 큰 수를 입력해 주십시오.", "warning");
+                    room_maxNum.val('');
+                    return false;
+                }
+            });
+
+            room_addPrice.on("keydown", function(event) {
+                if (event.key === '-' || event.key === '+') {
+                    event.preventDefault();
+                }
+            });
+
+            room_addPrice.on("input", function(event) {
+                if (this.value < 0) {
+                    this.value = 0;
+                }
+            });
+
+
+
+
+
+
+
+
+            btnSubmit.addEventListener('click', function(e){
+
+                if(!room_name.val()) {
+                    sweetalert("객실명을 입력해 주십시오.", "warning");
+                    return false;
+                }
+
+                if(!room_stock.val()) {
+                    sweetalert("객실 수를 입력해 주십시오.", "warning");
+                    return false;
+                }
+
+                if(!room_price.val()) {
+                    sweetalert("객실 가격을 입력해 주십시오.", "warning");
+                    return false;
+                }
+
+                if(!room_price.val()) {
+                    sweetalert("객실 가격을 입력해 주십시오.", "warning");
+                    return false;
+                }
+
+                if(!room_defNum.val() || !room_maxNum) {
+                    sweetalert("객실 수용 인원을 입력해 주십시오.", "warning");
+                    return false;
+                }
+
+                if(!room_addPrice.val()) {
+                    sweetalert("인원 추가 가격을 입력해 주십시오.", "warning");
+                    return false;
+                }
+
+                if(!room_info.val()) {
+                    sweetalert("객실 이용안내를 입력해 주십시오.", "warning");
+                    return false;
+                }
+
+                 Swal.fire({
+                   title: '객실이 등록되었습니다.',
+                   icon: 'success',
+
+                   showCancelButton: false, // cancel버튼 보이기. 기본은 원래 없음
+                   confirmButtonColor: '#bbd444', // confrim 버튼 색깔 지정
+                   confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+
+                }).then(result => {
+                   // 만약 Promise리턴을 받으면,
+                   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+                      location.href = "list";
+                   }
+                });
+
+            });
+
 
         });
 
@@ -161,7 +287,7 @@
             let selectAccOwned = document.getElementById("selectAccOwned");
 
              ajaxAPI("business/finaAllAccOwnedForInfo", null, "GET").then((response)=>{
-                //console.log('response1 : %o', response);
+                console.log('response1 : %o', response);
 
                 selectAccOwned.innerHTML = "";
 
@@ -173,6 +299,7 @@
                     let option = document.createElement("option");
                     option.value = response[i].acc_id;
                     option.text = response[i].acc_name;
+                    option.setAttribute('data-value', response[i].province_no);
                     selectAccOwned.add(option);
                 }
 

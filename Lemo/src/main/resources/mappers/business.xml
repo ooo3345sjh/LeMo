@@ -134,20 +134,28 @@
         <include refid="searchRoom"/>
     </select>
 
+    <!-- 판매자 - 객실 보기 -->
+    <select id="viewRoom" resultType="kr.co.Lemo.domain.ProductRoomVO">
+        select * from `lemo_product_room` as a
+        inner join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        inner join `lemo_product_ratepolicy` as c on a.acc_id=c.acc_id
+        where `room_id`=#{room_id};
+    </select>
 
 
-    <!-- business - user - insert coupon -->
-    <insert id="insertCoupon">
+
+    <!-- 판매자 - 쿠폰 등록 -->
+    <insert id="insertCoupon" parameterType="hashMap">
         INSERT INTO `lemo_product_coupon` (
-        `user_id`, `user_role`, `cp_subject`, `cp_group`, `cp_type`,
+        `user_id`, `acc_id`, `user_role`, `cp_subject`, `cp_group`, `cp_type`,
         `cp_rate`, `cp_disType`, `cp_price`, `cp_minimum`, `cp_maximum`,
         `cp_start`, `cp_end`, `cp_daysAvailable`, `cp_limitedIssuance`
         )
         VALUES (
-        #{user_id}, 'BUSINESS', #{cp_subject}, 'NULL', 'NULL', #{cp_rate},
+        #{user_id}, #{acc_id}, 'BUSINESS', #{cp_subject}, 'NULL', 'NULL', #{cp_rate},
         CASE
-        WHEN #{cp_rate} IS NOT NULL THEN '1'
-        WHEN #{cp_price} IS NOT NULL THEN '2'
+            WHEN #{cp_rate} IS NOT NULL THEN '1'
+            WHEN #{cp_price} IS NOT NULL THEN '2'
         ELSE NULL
         END,
         #{cp_price}, #{cp_minimum}, #{cp_maximum}, #{cp_start}, #{cp_end}, #{cp_daysAvailable}, #{cp_limitedIssuance}
@@ -201,6 +209,7 @@
         `acc_id` = #{acc_id},
         `room_name` = #{room_name},
         `room_stock` = #{room_stock},
+        `room_price` = #{room_price},
         `room_defNum` = #{room_defNum},
         `room_maxNum` = #{room_maxNum},
         `room_addPrice` = #{room_addPrice},

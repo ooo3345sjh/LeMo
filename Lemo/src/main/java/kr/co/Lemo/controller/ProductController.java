@@ -80,12 +80,20 @@ public class ProductController {
             uid = myUser.getUser_id();
         }
 
-        log.info("myUser : " + myUser);
-        log.info("uid : " + uid);
-
 
         // 숙소 정보 가져오기
         List<ProductAccommodationVO> rooms = service.findAccommodation(acc_id, checkIn, checkOut);
+
+        int acc_state = rooms.get(0).getAcc_state();
+        
+        // 차단 * 삭제된 숙소인 경우 잘못된 접근 페이지로 이동
+        if(acc_state != 1){
+            model.addAttribute("error", "B");
+            return "error/abnormalAccess";
+        }
+
+        log.info("room정보 : " + rooms);
+
 
         String user_id = rooms.get(0).getUser_id();
         
@@ -163,7 +171,7 @@ public class ProductController {
 
         // 세션에서 주문정보 가져온 후 정보 지우기
         OrderInfoVO vo = (OrderInfoVO) session.getAttribute("orderinfo");
-        session.removeAttribute("orderinfo");
+        //session.removeAttribute("orderinfo");
 
         String payment = vo.getPayment();
 
@@ -362,16 +370,16 @@ public class ProductController {
         vo.setUser_id(user_id);
         String imp_uid = vo.getImp_uid(); // 결제 고유 uid
         
-        /* 결제 테스트 중지할때 사용
+        /* 결제 테스트 중지할때 사용*/
         imp_uid = "imp_00000000";
         vo.setImp_uid(imp_uid);
-        int amount = 30000;*/
+        int amount = 20000;
 
         /* 토큰 발행 */
         String token = paymentservice.getToken();
 
         /* 결제 정보 */
-        int amount = paymentservice.paymentInfo(token, imp_uid);
+        //int amount = paymentservice.paymentInfo(token, imp_uid);
         vo.setAmount(amount);
 
         // 데이터 검증

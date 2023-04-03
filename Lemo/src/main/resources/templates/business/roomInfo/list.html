@@ -61,7 +61,7 @@
                                             <li class="roomInfo_li2" th:text="${room.acc_id}"></li>
                                             <li class="roomInfo_id" th:text="${room.room_id}" >11023</li>
                                             <li class="roomInfo_name" style="width: 30% !important;">
-                                                <a th:href="@{/admin/roomInfo/view (room_id=${room.room_id})}">[[${room.room_name}]]</a>
+                                                <a th:href="@{/business/roomInfo/view (room_id=${room.room_id})}">[[${room.room_name}]]</a>
                                             </li>
                                             <li class="roomInfo_li5" th:text="${room.room_stock}">20</li>
                                             <li class="roomInfo_li6" th:text="${room.acc_season == 1}? '비성수기':'성수기'">성수기</li>
