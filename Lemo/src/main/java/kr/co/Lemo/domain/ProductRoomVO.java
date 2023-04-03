@@ -29,6 +29,7 @@ public class ProductRoomVO {
     private String room_thumb;
     private String room_checkIn;
     private String room_checkOut;
+    private int room_state;
 
     // @since 2023/03/28 관리자 - 객실 목록
     private int acc_season;

@@ -9,7 +9,8 @@
             <main id="reserv_result">
                 <div class="content">
                     <div class="result_thanks">
-                        LeMo를 이용해주셔서 감사합니다. 수정필요함!@!@!@!!@!!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!@!
+                        <img th:src="@{/images/index/lemo_logo.png}">
+                        <b>예약이 성공적으로 완료</b>되었습니다.
                     </div>
                     <div class="reserve_view">
                         <div class="sub_tit">
@@ -21,7 +22,8 @@
                         </div>
                         <div>
                             <p>휴대폰번호</p>
-                            <span>[[${orderinfo.hp}]]</span>
+                            <span th:if="${orderinfo.hp.length()==10}">[[${orderinfo.hp.substring(0,3)}]]-[[${orderinfo.hp.substring(3,6)}]]-[[${orderinfo.hp.substring(6)}]]</span>
+                            <span th:if="${orderinfo.hp.length()==11}">[[${orderinfo.hp.substring(0,3)}]]-[[${orderinfo.hp.substring(3,7)}]]-[[${orderinfo.hp.substring(7)}]]</span>
                         </div>
                         <div class="sub_tit">
                             숙소정보
@@ -50,6 +52,18 @@
                         <div>
                             <p>결제 방법</p>
                             <span>[[${orderinfo.payment}]]</span>
+                        </div>
+                        <div>
+                            <p>결제 금액</p>
+                            <span>[[${#numbers.formatInteger(orderinfo.price,1,'COMMA')}]]원</span>
+                        </div>
+                        <div>
+                            <p>포인트 할인</p>
+                            <span>-[[${#numbers.formatInteger(orderinfo.point,1,'COMMA')}]]원</span>
+                        </div>
+                        <div>
+                            <p>쿠폰 할인</p>
+                            <span>-[[${#numbers.formatInteger(orderinfo.cp_disprice,1,'COMMA')}]]원</span>
                         </div>
                         <div>
                             <span><i>최종 결제 금액</i>(VAT포함)</span>

@@ -136,6 +136,7 @@ function completePayment(data){
 
 // 데이터 검증에 사용하는 정규표현식
 const regHp = /^(01[016789]{1})([0-9]{3,4})([0-9]{4})$/;
+/*const regHp = /^01(?:0|1|[6-9])-(?:\d{4})-\d{4}$/;*/
 const regName = /^[가-힣a-zA-Z]{2,}$/; // 한글, 영어 2글자 이상
 const regPoint = /^[0-9]+$/; // 포인트
 
@@ -183,6 +184,8 @@ $(function(){
     $(document).on('keyup', $('input[name=phone]'),function(){
         let hp = $('input[name=hp]').val();
         hp = hp.replace(/[^0-9]/g, "");
+        /*hp = hp.replace(/[^0-9]/g, '') // 숫자를 제외한 모든 문자 제거
+               .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);*/
         $('input[name=hp]').val(hp);
     })
 
@@ -293,9 +296,9 @@ $(function(){
 
         console.log(jsonData);
 
-        //completePayment(jsonData);
+        completePayment(jsonData);
 
-        paymentCard(jsonData);
+        //paymentCard(jsonData);
 
     });
 

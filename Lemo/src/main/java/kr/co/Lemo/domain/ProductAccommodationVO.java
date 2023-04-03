@@ -55,6 +55,7 @@ public class ProductAccommodationVO {
     private String room_info;
     private String room_checkIn;
     private String room_checkOut;
+    private int room_state;
 
 
     private int empty_room_stock;
