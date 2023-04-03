@@ -22,7 +22,7 @@
                 </div>
                 <!-- view 내용 -->
                 <div class="event_view">
-                    <span>[[${eventArticle.cs_title}]]</span>
+                    <span></span>
                     <div class="event_content">
                         <p th:each="img, i : ${#strings.arraySplit(eventArticle.cs_eventViewImg, '/')}">
                             <img th:src="@{/img/cs/{csNo}/{imageName}(csNo=${eventArticle.cs_no}, imageName=${img})}" />
@@ -36,13 +36,8 @@
                                 <img th:src="@{/images/cs/arrow_top.png}">
                             </div>
                         </div>
-                        <div class="info">
-                            · 본 이벤트는 LEMO에서 숙소 예약 시, 선착순 결제한 고객을 대상으로 진행됩니다.<br>
-                            · 일별 선착순 인원 종료 시점까지 할인 가능 합니다.<br>
-                            · 선착순 쿠폰은 기간 내, 매일 오전 0시에 시작 됩니다.<br>
-                            · 선착 순 종료 시, 최종 결제금액 동일합니다. 종료된 프로모션은 최종 결제 금액으로 프로모션 대상 여부를 확인해 주세요.<br>
-                            · 선착순 쿠폰 잔여여부는, 혜택 박스로 확인 가능 합니다.<br>
-                            · 타 간편 결제 수단에 등록된 카드는 할인이 적용되지 않습니다. (페이나우/네이버페이/카카오페이/페이코/삼성,LG페이 적용불가)
+                        <div class="info" th:utext="${eventArticle.cs_content}">
+
                         </div>
                     </div>
                 </div>
