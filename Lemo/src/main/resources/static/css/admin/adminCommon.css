@@ -26,6 +26,20 @@
 ::marker {
     font-size: 14px;
 }
+main .essential_tag_guide {
+    font-style: normal;
+    float: right;
+    padding-right: 14px;
+    font-size: 12px;
+    color: #f2552c;
+}
+main .essential_tag {
+    font-style: normal;
+    font-size: 17px;
+    vertical-align: middle;
+    color: #f2552c;
+    font-weight: 600;
+}
 
 .swal2-title {
     font-size: 14px !important;

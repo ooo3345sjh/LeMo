@@ -68,8 +68,11 @@ public interface BusinessDAO {
     // @since 2023/04/02 판매자 객실 목록 페이징
     public int countRoom(SearchCondition sc);
 
+    // @since 2023/04/03 (판매자 객실 보기)
+    public ProductRoomVO viewRoom(Integer room_id);
+
     // @since 2023/03/13
-    public void insertCoupon(CouponVO vo, String user_id);
+    public void insertCoupon(Map<String, Object> param);
 
     // @since 2023/03/20 판매자 숙소 등록
     public int insertInfo(Map<String, Object> param);

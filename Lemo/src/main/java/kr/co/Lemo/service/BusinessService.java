@@ -175,27 +175,28 @@ public class BusinessService {
      /**
      * 판매자 객실 - 객실 목록
      * @since 2023/04/02
-     * @param model
      * @param sc
      */
-     public List<ProductRoomVO> findAllRoom(Model model, SearchCondition sc){
-        int totalCnt = dao.countRoom(sc);
-        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
-        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+     public List<ProductRoomVO> findAllRoom(Admin_SearchVO sc){
 
-        PageHandler pageHandler = new PageHandler(totalCnt, sc);
 
-        List<ProductRoomVO> rooms = dao.selectRoom(sc);
+        log.warn("Selected rooms: " + sc.toString());
+        log.warn("user_id: " + sc.getUser_id());
 
-        log.warn("Selected rooms: " + rooms.toString());
-        log.warn("ph : " + pageHandler.getTotalCnt());
-
-        model.addAttribute("rooms", rooms);
-        model.addAttribute("ph", pageHandler);
-        model.addAttribute("totalRoom", pageHandler.getTotalCnt());
-
-        return rooms;
+        return dao.selectRoom(sc);
      }
+     public int countRoom(SearchCondition sc){
+         return dao.countRoom(sc);
+     }
+
+     /**
+     * 판매자 객실 - 객실 보기
+     * @since 2023/04/03
+     * @param room_id
+     */
+    public ProductRoomVO findRoom(Integer room_id) throws Exception {
+        return dao.viewRoom(room_id);
+    }
 
     /**
      * 판매자 소유 숙박 목록
@@ -211,10 +212,13 @@ public class BusinessService {
     /**
      * 판매자 쿠폰 - 쿠폰 등록
      * @since 2023/03/13
-     * @param vo
      * */
-    public void rsaveCupon(CouponVO vo, String user_id) throws Exception {
-        dao.insertCoupon(vo, user_id);
+    public void rsaveCoupon(Map<String,Object> param) throws Exception {
+
+         log.warn("param: " + param.toString());
+
+
+        dao.insertCoupon(param);
     }
 
     //@since 2023/04/01
@@ -343,7 +347,37 @@ public class BusinessService {
         String newName = String.join("/", fileRenames);
         log.warn("here5 newName: " + newName);
 
-        param.put("acc_thumbs", newName);
+        param.put("room_thumb", newName);
+
+        String acc_id = String.valueOf(param.get("acc_id"));
+        String province_no = String.valueOf(param.get("province_no"));
+
+        log.info("here6 acc_id: " + acc_id);
+        log.info("here7 province_no: " + province_no);
+
+        // 파일 업로드
+        //String path = new File("/Users/yiwonjeong/Desktop/Workspace/LeMo/Lemo/img/product/" + province_no + acc_id).getAbsolutePath();
+        String path = new File(uploadPath+"product/"+province_no+"/"+acc_id).getAbsolutePath();
+
+         // 저장 폴더가 없다면 생성
+        File checkFolder = new File(path);
+        if(!checkFolder.exists()){
+            try {
+                Files.createDirectories(checkFolder.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+         int count = 0;
+        for(MultipartFile mf : fileMap.values()) {
+            try {
+                mf.transferTo(new File(path, fileRenames.get(count)));
+                count++;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         return dao.insertRoom(param);
     }
