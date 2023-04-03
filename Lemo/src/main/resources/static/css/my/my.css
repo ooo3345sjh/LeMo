@@ -445,6 +445,10 @@
         text-decoration:none;
         margin: 1px 19px;
     }
+    #reservePrint{
+        width:80%;
+        margin: 0 auto;
+    }
 
 
 
@@ -1400,6 +1404,14 @@
         padding: 21px 15px;
         font-size: 15px;
     }
+    #btn_upload{
+        width: 90%;
+        margin: 0 auto;
+    }
+    .review.modify{
+        width: 90%;
+        margin: 0 auto;
+    }
 
     
     .blank30{
@@ -1496,8 +1508,8 @@
         background-color: #F5F5F5;
         border-radius: 6px;
         position: relative;
-        width: 752px;
-        margin: 25px 0px 0 16px;
+        width: 90%;
+        margin: 0 auto;
     }
     .my_review_view .my_review_tit {
         margin: 11px 0 0 0;
@@ -1657,7 +1669,7 @@
 
     .my_review_v_del {
         margin-top: 10px;
-        margin-right: 33px;
+        margin-right: 50px;
         box-shadow: inset 0px 1px 0px 0px #ffffff;
         background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
         background-color: #f9f9f9;
