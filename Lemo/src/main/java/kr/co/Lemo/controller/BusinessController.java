@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,30 +46,55 @@ public class BusinessController {
     }
 
     // @since 2023/03/13
+    @GetMapping("coupon/manageCoupon")
+    public String manageCoupon(@RequestParam Map map,
+                               @AuthenticationPrincipal UserVO myUser,
+                               @ModelAttribute Admin_SearchVO sc,
+                               Model model) {
+        log.warn("GET manage Coupon in business");
+
+        model.addAttribute("title", environment.getProperty(group));
+
+        String user_id = "";
+        if(myUser != null) {
+            user_id = myUser.getUser_id();
+        }
+
+        sc.setMap(map);
+        sc.setUser_id(user_id);
+
+        int totalCnt = service.countCoupon(sc);
+        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        //log.info("select Coupon Service: " + sc.toString());
+
+        List<CouponVO> coupons = service.selectCoupon(sc);
+
+        log.info("Selected coupons: " + coupons.toString());
+
+        model.addAttribute("coupons", coupons);
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalCoupons", pageHandler.getTotalCnt());
+
+        return "business/coupon/manageCoupon";
+    }
+
+
+    // @since 2023/03/13
     @GetMapping("coupon/insertCoupon")
     public String insertCoupon() {
         return "business/coupon/insertCoupon";
     }
 
     // @since 2023/03/13
-    @GetMapping("coupon/manageCoupon")
-    public String manageCoupon(Model model,
-                               @RequestParam Map map,
-                               @ModelAttribute Admin_SearchVO sc) {
-        log.warn("GET manage Coupon in business");
 
-        service.selectCoupon(model, map, sc);
-
-        return "business/coupon/manageCoupon";
-    }
-
-    // @since 2023/03/13
-    @ResponseBody
     @PostMapping("coupon/rsaveCoupon")
     public String rsaveCoupon(@RequestParam Map<String,Object> param,
-                              @AuthenticationPrincipal UserVO myUser,
-                              Model model,
-                             RedirectAttributes redirectAttributes) throws Exception {
+                                    @AuthenticationPrincipal UserVO myUser,
+                                    Model model) throws Exception {
 
         model.addAttribute("title", environment.getProperty(group));
 
@@ -84,24 +108,11 @@ public class BusinessController {
         param.put("user_id", user_id);
 
         log.warn("acc_id: " + param.get("user_id"));
-
-        /*
-        log.warn("쿠폰명 :" + vo.getCp_subject());
-        log.warn("할인율 :" + vo.getCp_rate());
-        log.warn("할인타입 :" + vo.getCp_disType());
-        log.warn("발급수량 :" + vo.getCp_limitedIssuance());
-        log.warn("최소주문금액: "+ vo.getCp_minimum());
-        log.warn("최대주문금액: "+ vo.getCp_maximum());
-        log.warn("배포시작일: "+vo.getCp_start());
-        log.warn("배포시작일: "+vo.getCp_end());
-        log.warn("이용가능일수:" + vo.getCp_daysAvailable());
-        */
-
-         log.info("param : "+param);
+        log.info("param : "+param);
 
         service.rsaveCoupon(param);
-        redirectAttributes.addFlashAttribute("successMessage", "쿠폰이 등록되었습니다.");
-        return "redirect:/business/coupon/insertCoupon";
+
+        return "redirect:/business/coupon/manageCoupon";
     }
 
     @ResponseBody

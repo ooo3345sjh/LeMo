@@ -9,21 +9,23 @@
  -->
 <mapper namespace="kr.co.Lemo.dao.BusinessDAO">
 
-    <!-- business - coupon - coupon list -->
+    <!-- 판매자 - 쿠폰 목록 -->
     <select id="selectCoupon" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.CouponVO">
-        select * from `lemo_product_coupon` as a
-        join `lemo_product_accommodation` as b on a.user_id = b.user_id
-        where a.`user_id`='3min-ik@hanmail.net'
-        <include refid="searchCouponType"/>
+        select * from `lemo_product_coupon`
+        where `user_id`=#{user_id}
+        <if test="acc_id != null">
+            and `acc_id`=#{acc_id}
+        </if>
         order by `cp_id` desc limit #{offset}, 10;
     </select>
 
-    <!-- business - coupon - count total coupons for pagination -->
+    <!-- 판매자 - 쿠폰 목록 페이징 -->
     <select id="countCoupon" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
-        select count(*) from `lemo_product_coupon` as a
-        join `lemo_product_accommodation` as b on a.user_id = b.user_id
-        where a.`user_id`='3min-ik@hanmail.net'
-        <include refid="searchCouponType"/>
+        select count(*) from `lemo_product_coupon`
+        where `user_id`=#{user_id}
+        <if test="acc_id != null">
+            and `acc_id`=#{acc_id}
+        </if>
     </select>
 
     <!-- business - coupon - select accommodation owned for BUSINESS search-->
@@ -141,7 +143,6 @@
         inner join `lemo_product_ratepolicy` as c on a.acc_id=c.acc_id
         where `room_id`=#{room_id};
     </select>
-
 
 
     <!-- 판매자 - 쿠폰 등록 -->
