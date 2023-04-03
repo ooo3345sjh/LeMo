@@ -18,6 +18,7 @@
 - JavaScript ES 6
 - HTML5
 - CSS3
+- MYSQL
 
 ### ERD
 
