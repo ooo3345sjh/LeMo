@@ -16,49 +16,68 @@
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
                         <div class="col0">
-                            <form th:action="@{/business/review/list}" id="selectedSubmit" method="GET">
-                                <div class="selectProdForAdmin">
-                                    <select class="selectAccOwned" name="acc_id" id="companySelect">
-                                        <option value="">숙소선택</option>
-                                        <th:block th:each="selected:${selectList}">
-                                        <option th:value="${selected.acc_id}" th:selected="${selected.acc_id}==${acc_id}">[[${selected.acc_name}]]</option>
-                                        </th:block>
-                                        <!-- add other options here -->
-                                    </select>
-                                    <input type="submit" id="submitBtn" style="display:none;"></input>
-                                </div>
-                            </form>
                         </div>
                         <div class="col_nav">
                             <span>리뷰관리 ></span>
                             <span>등록리뷰</span>
                         </div>
                         <div class="col2">
-                            <form action="#">
+                            <form th:action="@{/business/review/list}">
+                                <span class="search_review_tit">리뷰검색</span>
+                                <table class="search_review_table">
+                                    <tr>
+                                        <th>숙소 선택</th>
+                                        <td>
+                                            <select id="c_role_type" class="selectAccOwned" name="acc_id">
+                                                <option value="">- 전체 -</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="search_btn">
+                                    <button type="submit" class="btnAdminProd3">검색</button>
+                                </div>
+                                <span class="totalCount">리뷰 총 개수 ([[${totalReviews}]])</span>
                                 <div class="board_list">
                                     <ul>
-                                        <li style="width: 5%">#</li>
-                                        <li style="width: 10%">예약번호</li>
-                                        <li style="width: 34%">제목</li>
-                                        <li style="width: 1%"></li>
-                                        <li style="width: 10%">닉네임</li>
-                                        <li style="width: 10%">평점</li>
-                                        <li style="width: 10%">답변상태</li>
-                                        <li style="width: 10%">등록일</li>
+                                        <li class="review_list1">#</li>
+                                        <li class="review_list2">예약번호</li>
+                                        <li class="review_list3">제목</li>
+                                        <li class="review_list4">아이디</li>
+                                        <li class="review_list5">평점</li>
+                                        <li class="review_list6">답변상태</li>
+                                        <li class="review_list7">등록일</li>
                                     </ul>
                                     <ul th:each="review,i:${reviews}">
-                                        <li style="width: 5%">[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
-                                        <li th:text="${review.res_no}" style="width: 10%">23</li>
-                                        <li class="prodName" style="width: 34%">
+                                        <li class="review_list1">[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
+                                        <li class="review_list2" th:text="${review.res_no}">23</li>
+                                        <li class="prodName" style="width: 33% !important;">
                                             <span th:if="${review.revi_thumb != null}" class="tag">PHOTO</span>
                                             <a th:href="@{/business/review/view (revi_id=${review.revi_id})}"
                                                th:text="${review.revi_title}" class="reviewTitle" th:data-no="${review.revi_id}">title</a>
                                         </li>
-                                        <li style="width: 1%"><input type="hidden" id="filterAcc" th:value="${review.acc_id}"></li>
-                                        <li style="width: 10%" th:text="${#strings.substringBefore(review.user_id, '@') + '**'}">충치왕김건치</li>
-                                        <li style="width: 10%" th:text="${review.revi_rate}">1</li>
-                                        <li style="width: 10%" th:text="${review.revi_reply != null? '답변완료':'대기중'}" th:class="${review.revi_reply != null? 'completeReply':'waitReply'}"></li>
-                                        <li style="width: 10%" th:text="${review.revi_rdate}">2023-02-26</li>
+                                        <li class="review_list4" th:text="${#strings.substringBefore(review.user_id, '@') + '**'}">충치왕김건치</li>
+                                        <li class="review_list5">
+                                            <div class="r_rating">
+                                                <th:block th:if="${review.revi_rate == 5}">
+                                                    <h6 class="rating5mini">&nbsp;</h6>
+                                                </th:block>
+                                                <th:block th:if="${review.revi_rate == 4}">
+                                                    <h6 class="rating4mini">&nbsp;</h6>
+                                                </th:block>
+                                                <th:block th:if="${review.revi_rate == 3}">
+                                                    <h6 class="rating3mini">&nbsp;</h6>
+                                                </th:block>
+                                                <th:block th:if="${review.revi_rate == 2}">
+                                                    <h6 class="rating2mini">&nbsp;</h6>
+                                                </th:block>
+                                                <th:block th:if="${review.revi_rate == 1}">
+                                                    <h6 class="rating1mini">&nbsp;</h6>
+                                                </th:block>
+                                            </div>
+                                        </li>
+                                        <li th:text="${review.revi_reply != null? '답변완료':'대기중'}" th:class="${review.revi_reply != null? 'completeReply':'waitReply'}"></li>
+                                        <li class="review_list7" th:text="${review.revi_rdate}">2023-02-26</li>
                                     </ul>
                                 </div>
                                 <div class="pagination" th:object="${ph}" th:style="${#lists.size(reviews) == 0 ? 'visibility:hidden;':''}">
@@ -89,76 +108,37 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
-<script th:inline="javascript">
-$(document).ready(function(){
+    <script th:inline="javascript">
+    // 쿠폰 목록 (판매자) 소유 숙소 셀렉트 옵션 추가
+    window.onload = function() {
+        let selectAccOwned = document.getElementById("c_role_type");
 
-    let selectAccOwned = document.querySelector(".selectAccOwned");
+        ajaxAPI("business/finaAllAccOwnedForInfo", null, "GET").then((response)=>{
 
-    // 소유 숙소 셀렉트 옵션 추가
-<!--    window.onload=function(){-->
+            console.log('response1 : %o', response);
 
-<!--        let jsonData = {"user_id": "0hotelthem1@gmail.com"};-->
-
-<!--        ajaxAPI("business/review/findAccOwnedForReview", jsonData, "GET").then((response)=>{-->
-<!--            console.log('response:' + response);-->
-
-<!--            selectAccOwned.innerHTML = "<option value='NULL'>숙소선택</option>";-->
-<!--            for (let i = 0; i < response.length; i++) {-->
-
-<!--                console.log( [i] + ":" + response[i].acc_id);-->
-<!--                console.log( [i] + ":" + response[i].acc_name);-->
-
-<!--                let option = document.createElement("option");-->
-<!--                option.name = "searchAccForReview";-->
-<!--                option.value = response[i].acc_id;-->
-<!--                option.text = response[i].acc_name;-->
-
-<!--                if(response[i].acc_id == [[${acc_id}]]){-->
-<!--                     option.setAttribute('selected', 'selected');-->
-<!--                }-->
-
-<!--                selectAccOwned.add(option);-->
+            for (let i = 0; i < response.length; i++) {
+                let option = document.createElement("option");
+                option.value = response[i].acc_id;
+                option.text = response[i].acc_name;
 
 
+                // 옵션값 고정
+                if (localStorage.getItem('selectedAccId') == response[i].acc_id) {
+                    option.setAttribute('selected', 'selected');
+                }
 
-<!--            }-->
-<!--        }).catch((errorMsg)=>{-->
-<!--            console.log(errorMsg);-->
-<!--        });-->
-<!--    };-->
-
-    // 숙소 선택 시 목록 출력
-    $('#companySelect').on('change', function(){
-
-        const selectedAccName = $(this).val();
-        console.log(selectedAccName);
-
-        const option = selectAccOwned.options;
-        console.log(option.length);
-        let acc_id;
-        for(let i=0; i<option.length; i++){
-            if(option[i].value === selectedAccName){
-                option[i].selected = true;
-                //option[i].prop("selected", true);
-                console.log('option[i].value: '+option[i].value);
-
-                let user_id = "0hotelthem1@gmail.com";
-                acc_id = option[i].value;
-
-                console.log('test');
-
-
-                $('#submitBtn').trigger("click");
-
-
-
-
+                selectAccOwned.add(option);
             }
-        }
-    });
 
-
-});
-</script>
+            // 옵션 변경 시에도 옵션 고정
+            selectAccOwned.addEventListener('change', function() {
+                localStorage.setItem('selectedAccId', this.value);
+            });
+        }).catch((errorMsg)=>{
+            console.log(errorMsg);
+        });
+    };
+    </script>
 </th:block>
 </html>
