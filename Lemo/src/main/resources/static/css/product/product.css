@@ -2233,6 +2233,7 @@ margin-left: 25px;
 
 #reserv_result .content {
     margin: 0 auto;
+    width: auto;
 }
 
 .result_thanks {
