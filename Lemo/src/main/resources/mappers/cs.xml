@@ -13,7 +13,7 @@
     <!-- cs 목록 공통 -->
     <select id="selectCsArticles" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.CsVO">
         SELECT * FROM `lemo_cs` WHERE `cs_cate` =#{cs_cate}
-        order by `cs_no` DESC
+        order by `cs_eventBannerState` DESC, `cs_no` DESC
         limit #{offset}, 10;
     </select>
 
