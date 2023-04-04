@@ -408,4 +408,19 @@ public class ProductController {
             return new ResponseEntity<>("주문이 완료되었습니다", HttpStatus.OK);
         }
     }
+
+    // @since 2023/04/04
+    @ResponseBody
+    @PostMapping("terms")
+    public void terms(@RequestBody Map map){
+
+        log.debug("Get product terms start");
+        
+        // 가져올 약관 번호
+        int termsType_no = Integer.parseInt((String) map.get("termsType_no"));
+
+        log.info("termsType_no" + termsType_no);
+
+    }
+
 }
