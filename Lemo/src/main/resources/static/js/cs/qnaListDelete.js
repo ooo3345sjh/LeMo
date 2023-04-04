@@ -15,15 +15,22 @@
 
             console.log("checkList : " + checkList);
 
-            const jsonData = JSON.stringify({"checkList": checkList});
+            const jsonData = {"checkList": checkList};
 
             console.log("jsonData : " + jsonData);
 
 
-            ajaxAPI("admin/cs/qna/listRemove", jsonData, "delete").then((response) => {
+            ajaxAPI("admin/cs/qna/listRemove", jsonData, "post").then((response) => {
                 if(response.result > 0) {
-                    alert("해당 글이 삭제되었습니다.");
-                    location.replace("");
+                    Swal.fire({
+                        title : '해당 글이 삭제되었습니다',
+                        icon : 'success',
+                        confirmButtonText : '확인'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                          location.replace("");
+                        }
+                      });
                 }else {
                     alert('error');
                 }
