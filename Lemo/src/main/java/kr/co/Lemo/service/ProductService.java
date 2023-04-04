@@ -603,7 +603,6 @@ public class ProductService {
         
         /* 쿠폰 검증 */
         List<CouponVO> cps = (List<CouponVO>) map.get("cps");
-        log.info("cps" + cps);
         
         if(cp_id != null && cp_id !=""){ // 쿠폰 사용내역이 있으면
 
@@ -618,7 +617,6 @@ public class ProductService {
             }
 
             if(stat == 0){ // 쿠폰 아이디가 존재하지 않으면
-                log.info("여기 2...");
                 vo.setStatus(0);
                 return vo;
             }
@@ -629,11 +627,9 @@ public class ProductService {
             point = Integer.parseInt(vo.getPoint());
             
             if(user_point < point){ // 유저가 실제 보유한 포인트보다 사용한 포인트가 많을 경우
-                log.info("여기 3...");
                 vo.setStatus(0);
                 return vo;
             }else {
-                log.info("여기 4...");
                 po_disprice = point;
             }
         }
@@ -647,7 +643,6 @@ public class ProductService {
         disprice = cp_disprice + po_disprice;
 
         if(amount != price - disprice) { // 주문금액과 실제 금액이 일치하지 않는 경우
-            log.info("여기 5...");
             vo.setStatus(0);
             return vo;
         }
@@ -680,7 +675,6 @@ public class ProductService {
         // 예약 객실 등록
         dao.insetProductReservedRoom(vo);
         
-        
         // 쿠폰 사용내역이 있으면
         if(vo.getCp_id() != null && vo.getCp_id() != ""){
             // 쿠폰 업데이트
@@ -688,11 +682,12 @@ public class ProductService {
             
             // 쿠폰 로그 등록
             dao.insertMemberCouponLog(vo);
+
         }
         
 
         // 포인트 사용내역이 있으면
-        if(Integer.parseInt(vo.getPoint()) > 0){
+        if(vo.getPoint() != null && vo.getPoint() !="") {
             // 포인트 로그 등록
             dao.insertMemberPointLog(vo);
             // 유저 정보에 포인트 업데이트

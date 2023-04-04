@@ -311,6 +311,7 @@
     background: url(/Lemo/images/product/close.png) 50% 50% no-repeat;
     background-size: 24px auto;
     text-indent: -9999px;
+    cursor:pointer;
 }
 
 #popup_coupon > div > .iscroll_cp {
@@ -3139,4 +3140,143 @@ margin-left: 25px;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
         z-index: 1000;
+    }
+
+    /* 예약 - 약관 팝업 */
+
+    .popup_terms {
+        position: fixed;
+        left: 0;
+        top: 0;
+        display: none;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .popup_terms  > div {
+        overflow: hidden;
+        position: fixed;
+        top: 50%;
+        right: auto;
+        bottom: auto;
+        left: 46%;
+        width: 600px;
+        height: 520px;
+        margin: -250px 0 0 -200px;
+        border-radius: 4px;
+        background: #fff;
+        z-index: 999;
+    }
+
+    .popup_terms.on { display: block; }
+
+    .popup_terms > div > .fix_title {
+        display: block !important;
+        position: relative;
+        height: 64px;
+        padding-left: 32px;
+        background: #fff;
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+        font-size: 18px;
+        line-height: 64px;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .popup_terms > div > .fix_title > button {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 44px;
+        height: 44px;
+        border: none;
+        background: url(/Lemo/images/product/close.png) 50% 50% no-repeat;
+        background-size: 24px auto;
+        text-indent: -9999px;
+        cursor: pointer;
+    }
+
+    .popup_terms > div > .iscroll_cp {
+        overflow: auto;
+        position: absolute;
+        top: 64px;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin: 0 0 0 0;
+        background: #fff;
+        padding: 20px;
+    }
+
+    .popup_terms > div > .iscroll_cp::-webkit-scrollbar { width: 10px; }
+
+    .popup_terms > div > .iscroll_cp::-webkit-scrollbar-thumb {
+        height: 30%; /* 스크롤바의 길이 */
+        background: #fcf951; /* 스크롤바의 색상 */
+        border-radius: 10px;
+    }
+
+    .popup_terms > div > .iscroll_cp::-webkit-scrollbar-track { background: rgb(245 244 183 / 51%);;  /*스크롤바 뒷 배경 색상*/ }
+
+    .popup_terms > div > .iscroll_cp section {
+        margin: 0 32px 0 32px;
+        font-size: 16px;
+        color: rgba(0,0,0,0.56);
+        text-align: left;
+    }
+
+    .popup_terms > div > .iscroll_cp section strong {
+        display: block;
+        margin: 15px 0 20px 0;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .popup_terms > div > .iscroll_cp .dot_coupon_txt {
+        font-size: 16px;
+        text-align: left;
+        line-height: 26px;
+        color: rgba(0,0,0,0.56);
+    }
+
+    .popup_terms > div > .iscroll_cp .dot_coupon_txt > li {
+        line-height: 26px;
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+        padding-left: 14px;
+        background: url(/Lemo/images/product/full-stop.png) 0 2px no-repeat;
+        background-size: 12px auto;
+        font-size: 16px;
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .scroller {
+        text-align: center;
+        font-size: 15px;
+    }
+
+    .scroller .getCoupon {
+        float: right;
+        right: -100px;
+        width: 93px;
+        height: 35px;
+        border-radius: 6px;
+        background: #ebebeb;
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+        color: rgba(0,0,0,0.56);
+        cursor: pointer;
+    }
+
+    .scroller .getCoupon.on{
+        background: #FCF951;
+    }
+
+    .scroller > div {
+        font-size: 14px;
+        margin: 20px;
     }

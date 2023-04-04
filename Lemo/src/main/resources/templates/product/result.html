@@ -59,7 +59,8 @@
                         </div>
                         <div>
                             <p>포인트 할인</p>
-                            <span>- [[${#numbers.formatInteger(orderinfo.point,1,'COMMA')}]]P</span>
+                            <span th:if="${orderinfo.point != null && orderinfo.point !=''}">- [[${#numbers.formatInteger(orderinfo.point,1,'COMMA')}]]P</span>
+                            <span th:unless="${orderinfo.point != null && orderinfo.point !=''}">- 0P</span>
                         </div>
                         <div>
                             <p>쿠폰 할인</p>

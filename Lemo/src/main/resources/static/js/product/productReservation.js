@@ -3,6 +3,11 @@ function popdown_coupon(){
     $('#popup_cp').removeClass('on');
 }
 
+/** 약관 팝업 해제*/
+function popdown_terms(){
+    $('.popup_terms').removeClass('on');
+}
+
 function displayPrice(){
 
     let totPrice = price;
@@ -275,7 +280,7 @@ $(function(){
         }else if(payment == 2) {
             pg = 'tosspay';
         }else if(payment == 3){
-            pg = 'payco.AUTOPAY';
+            pg = 'payco.PARTNERTEST';
         }else if(payment == 4){
             pg = 'kakaopay.TC0ONETIME';
         }
@@ -300,6 +305,26 @@ $(function(){
 
         paymentCard(jsonData);
 
+    });
+
+    /* 약관 팝업 */
+    $(document).on('click', '.tl', function(){
+
+        let no = $(this).attr('data-no');
+
+        jsonData = {
+            "termsType_no" : no
+        }
+
+        ajaxAPI("product/terms", jsonData, "POST").then((response) => {
+
+            console.log(response);
+
+        }).catch((errorMsg) => {
+            console.log(errorMsg)
+        });
+
+        $('.popup_terms').addClass('on');
     });
 
 });
