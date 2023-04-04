@@ -682,7 +682,7 @@ public class AdminController {
     @PostMapping("cs/{cs_cate}/viewModify")
     public String usaveAdminCsNotice(@PathVariable("cs_cate") String cs_cate, CsVO vo){
         if ("notice".equals(cs_cate)) {
-            log.info("modifyListNoticeStart");
+            log.info("modifyViewNoticeStart");
             csService.usaveAdminNotice(vo);
             return "redirect:/admin/cs/notice/view?cs_no="+vo.getCs_no();
         }else if("faq".equals(cs_cate)){
