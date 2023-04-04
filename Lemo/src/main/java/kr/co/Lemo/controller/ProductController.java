@@ -117,6 +117,7 @@ public class ProductController {
         model.addAttribute("rooms", rooms);
         model.addAttribute("checkIn", checkIn);
         model.addAttribute("checkOut", checkOut);
+        model.addAttribute("title", environment.getProperty(group));
 
         return "product/view";
     }
@@ -161,6 +162,7 @@ public class ProductController {
         model.addAttribute("room", room);
         model.addAttribute("cps", cps);
         model.addAttribute("bv",bv);
+        model.addAttribute("title", environment.getProperty(group));
 
         return "product/reservation";
     }
@@ -180,21 +182,22 @@ public class ProductController {
                 payment = "신용/카드결제";
                 break;
             case "2" :
-                payment = "간편 계좌이체";
+                payment = "토스페이";
                 break;
             case "3" :
-                payment = "휴대폰결제";
+                payment = "PAYCO";
                 break;
             case "4":
-                payment = "네이버페이";
+                payment = "카카오페이";
                 break;
             case "5":
-                payment = "카카오페이";
+                payment = "계좌이체";
                 break;
         }
 
         vo.setPayment(payment);
         model.addAttribute("orderinfo", vo);
+        model.addAttribute("title", environment.getProperty(group));
 
         return "product/result";
     }
@@ -370,16 +373,16 @@ public class ProductController {
         vo.setUser_id(user_id);
         String imp_uid = vo.getImp_uid(); // 결제 고유 uid
         
-        /* 결제 테스트 중지할때 사용*/
+        /* 결제 테스트 중지할때 사용
         imp_uid = "imp_00000000";
         vo.setImp_uid(imp_uid);
-        int amount = 20000;
+        int amount = 20000;*/
 
         /* 토큰 발행 */
         String token = paymentservice.getToken();
 
         /* 결제 정보 */
-        //int amount = paymentservice.paymentInfo(token, imp_uid);
+        int amount = paymentservice.paymentInfo(token, imp_uid);
         vo.setAmount(amount);
 
         // 데이터 검증

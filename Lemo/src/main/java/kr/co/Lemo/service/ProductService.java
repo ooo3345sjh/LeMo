@@ -447,13 +447,13 @@ public class ProductService {
             int avg_price = room.getAvg_price(); // 숙박기간의 평균 가격
             int room_price = room.getRoom_price();
 
-            if (season == 1) { // 성수기일때
+            if (season == 2) { // 성수기일때
                 if (day == 5 || day == 6) { // 주말
                     avg_price += room_price * (100 - room.getRp_peakSeason_weekend()) / 100;
                 } else { // 주중
                     avg_price += room_price * (100 - room.getRp_peakSeason_weekday()) / 100;
                 }
-            } else if (season == 2) { // 비성수기일때
+            } else if (season == 1) { // 비성수기일때
                 if (day == 5 || day == 6) { // 주말
                     avg_price += room_price * (100 - room.getRp_offSeason_weekend()) / 100;
                 } else { // 주중

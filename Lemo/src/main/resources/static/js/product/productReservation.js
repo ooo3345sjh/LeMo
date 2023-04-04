@@ -53,48 +53,14 @@ function createMerchantUid(){
 }
 
 // 카드 결제
-/*
+
 function paymentCard(data) {
 
     var IMP = window.IMP;
     IMP.init("imp46647544");
 
 	IMP.request_pay({ // param
-        pg : 'html5_inicis.INIpayTest',
-        pay_method : 'card',
-        merchant_uid: data.merchant_uid,
-        name : room_name,
-        amount : data.totalPrice,
-        buyer_name : data.name,
-        buyer_email : user_email,
-        buyer_tel : user_hp,
-        display: {
-            card_quota: [3]  // 할부개월 3개월까지 활성화
-        }
-  	},
-	function (rsp) { // callback
-		if (rsp.success) {
-            console.log(rsp);
-            data.imp_uid = rsp.imp_uid;
-
-            completePayment(data);
-
-		} else {
-          // 결제 실패 시 로직
-          console.log(rsp);
-		}
-	});
-
-}*/
-
-// 카드 결제
-function paymentCard(data) {
-
-    var IMP = window.IMP;
-    IMP.init("imp46647544");
-
-	IMP.request_pay({ // param
-        pg : 'html5_inicis.INIpayTest',
+        pg : data.pg,
         pay_method : 'card',
         merchant_uid: data.merchant_uid,
         name : room_name,
@@ -151,6 +117,9 @@ let totalPrice = 0;
 let cp_id = "";
 
 $(function(){
+
+    displayPrice();
+
     /** 쿠폰 팝업 */
     $('.discount_button.coupon').click(function(){
         $('#popup_cp').addClass('on');
@@ -256,6 +225,7 @@ $(function(){
         let hp = $('input[name=hp]').val().replace(/[^0-9]/g, "");
         let point = $('.discount_input').val();
         let payment = $('#payment_select').val();
+        let pg = '';
 
         if(name.trim() == ""){
             sweetalert("예약자 이름을 입력하세요.", "warning");
@@ -284,6 +254,35 @@ $(function(){
             }
         }
 
+        /*
+        switch(payment) {
+            case 1:
+                pg = 'html5_inicis.INIpayTest';
+                break;
+            case 2:
+                pg = 'tosspay';
+                break;
+            case 3:
+                pg = 'payco.AUTOPAY';
+                break;
+            case 4:
+                pg = 'kakaopay.TC0ONETIME';
+                break;
+        }*/
+
+        if(payment == 1){
+            pg = 'html5_inicis.INIpayTest';
+        }else if(payment == 2) {
+            pg = 'tosspay';
+        }else if(payment == 3){
+            pg = 'payco.AUTOPAY';
+        }else if(payment == 4){
+            pg = 'kakaopay.TC0ONETIME';
+        }
+
+        console.log("payment : " + payment);
+        console.log("pg : " + pg);
+
         jsonData = {
             "point" : point,
             "cp_id" : cp_id,
@@ -291,14 +290,15 @@ $(function(){
             "hp" : hp,
             "merchant_uid" : createMerchantUid(),
             "payment" : payment,
-            "totalPrice" : totalPrice
+            "totalPrice" : totalPrice,
+            "pg" : pg
         }
 
         console.log(jsonData);
 
-        completePayment(jsonData);
+        //completePayment(jsonData);
 
-        //paymentCard(jsonData);
+        paymentCard(jsonData);
 
     });
 
