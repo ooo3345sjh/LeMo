@@ -110,5 +110,8 @@ public interface BusinessDAO {
    // @since 2023/03/23
    public int deleteAcc(@Param("acc_id") String acc_id);
 
+   // @since 2023/04/04
+   public int deleteRoom(@Param("room_id") String room_id);
+
 
 }

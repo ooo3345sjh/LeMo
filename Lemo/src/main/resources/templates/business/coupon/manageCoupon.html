@@ -69,16 +69,26 @@
                                             <th>발급수</th>
                                             <th>관리</th>
                                         </tr>
-                                        <tr th:each="coupon:${coupons}">
-                                            <td th:text="${coupon.cp_id}">1</td>
-                                            <td th:text="${coupon.cp_subject}"><a class="c_name" href="#">10만원이상 구매시 1만원 할인</a></td>
-                                            <td th:text="${coupon.cp_rate}">0</td>
-                                            <td th:text="${coupon.cp_price}">10,000</td>
-                                            <td th:text="${coupon.cp_start}">23.02.27</td>
-                                            <td th:text="${coupon.cp_end}">23.03.27</td>
-                                            <td th:text="${coupon.cp_IssuedCnt}">80</td>
-                                            <td><button type="button" name="check" class="removeCoupon" th:data-no="${coupon.cp_id}">삭제</button></td>
-                                        </tr>
+                                        <th:block th:if="${#lists.size(coupons) != 0}">
+                                            <tr th:each="coupon:${coupons}">
+                                                <td th:text="${coupon.cp_id}">1</td>
+                                                <td th:text="${coupon.cp_subject}"><a class="c_name" href="#">10만원이상 구매시 1만원 할인</a></td>
+                                                <td th:text="${coupon.cp_rate}">0</td>
+                                                <td th:text="${coupon.cp_price}">10,000</td>
+                                                <td th:text="${coupon.cp_start}">23.02.27</td>
+                                                <td th:text="${coupon.cp_end}">23.03.27</td>
+                                                <td th:text="${coupon.cp_IssuedCnt}">80</td>
+                                                <td><button type="button" name="check" class="removeCoupon" th:data-no="${coupon.cp_id}">삭제</button></td>
+                                            </tr>
+                                        </th:block>
+                                        <th:block th:if="${#lists.size(coupons) == 0}">
+                                            <tr>
+                                                <td colspan="8">
+                                                    <div class="noResult" style="padding-bottom: 45px;">해당 쿠폰이 없습니다.</div>
+                                                </td>
+                                            </tr>
+                                        </th:block>
+
                                     </table>
                                 </div>
                                 <div class="pagination_center">
@@ -119,8 +129,7 @@
 
             if(isDeleteOK){
                 let cp_id = $(this).attr('data-no');
-
-                console.log('cp_id ajax: ' + cp_id);
+                console.log('here1: ' + cp_id);
 
                 const jsonData = {"cp_id": cp_id};
 
@@ -134,6 +143,7 @@
                 }).catch((errorMsg) => {
                 console.log(errorMsg);
                 });
+
             }
         });
     });
@@ -169,17 +179,7 @@
         });
     };
 
-    // 판매자 검색 시, 발급 구분 판매자 고정
-    const searchOption = document.querySelector('select[name="searchField"]');
-    const searchCouponRole = document.querySelector('select[name="searchCouponRole"]');
 
-    searchOption.addEventListener('change', (event) => {
-        const selectedValue = event.target.value;
-
-        if (selectedValue === "user_id") {
-            searchCouponRole.value = "BUSINESS";
-        }
-    });
 
 
     </script>

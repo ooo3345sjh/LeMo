@@ -86,6 +86,7 @@
     <select id="selectAccForInfo" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
         select * from `lemo_product_accommodation`
         where `user_id`=#{user_id}
+        and `acc_state`!=2
         <include refid="searchAcc"/>
         order by `acc_id` desc limit #{offset}, 10;
     </select>
@@ -94,6 +95,7 @@
     <select id="countAcc" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
         select count(*) from `lemo_product_accommodation`
         where `user_id`=#{user_id}
+        and `acc_state`!=2
         <include refid="searchAcc"/>
     </select>
 
@@ -123,6 +125,7 @@
         inner join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         inner join `lemo_product_ratepolicy` as c on a.acc_id=c.acc_id
         where `user_id` = #{user_id}
+        and `room_state`!=2
         <include refid="searchRoom"/>
         order by `room_id` desc limit #{offset}, 10;
     </select>
@@ -133,6 +136,7 @@
         inner join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         inner join `lemo_product_ratepolicy` as c on a.acc_id=c.acc_id
         where `user_id` = #{user_id}
+        and `room_state`!=2
         <include refid="searchRoom"/>
     </select>
 
@@ -266,13 +270,27 @@
         update `lemo_product_review` set `revi_reply`=#{revi_reply} where `revi_id`=#{revi_id};
     </update>
 
+     <!-- 판매자 숙소 삭제  -->
+    <update id="deleteAcc">
+        update `lemo_product_accommodation` set
+        `acc_state`=2
+        where `acc_id`=#{acc_id};
+    </update>
+
+    <!-- 판매자 객실 삭제 -->
+    <update id="deleteRoom">
+        update `lemo_product_room` set
+        `room_state`=2
+        where `room_id`=#{room_id};
+    </update>
+
     <!-- 판매자 - 숙소 수정 (기존 서비스 삭제) -->
     <delete id="deleteServiceRegInfo" parameterType="hashMap">
         delete from `lemo_product_servicereginfo`
         where `acc_id`=#{acc_id};
     </delete>
 
-    <!-- business - user - delete coupon -->
+    <!-- 판매자 - 쿠폰 삭제 -->
     <delete id="deleteCoupon">
         delete from `lemo_product_coupon` where `cp_id`=#{cp_id};
     </delete>
@@ -282,12 +300,8 @@
         delete from `lemo_product_review` where `revi_id`=#{revi_id};
     </delete>
 
-    <!-- business - info - delete acc -->
-    <delete id="deleteAcc">
-        delete from `lemo_product_accommodation` as a
-        join `lemo_product_ratepolicy` as b on a.acc_id = b.acc_id
-        where a.`acc_id`=#{acc_id};
-    </delete>
+
+
 
     <!-- 공통 키 -->
     <!-- include :: sql 구문 재사용 -->
