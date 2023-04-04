@@ -3252,31 +3252,3 @@ margin-left: 25px;
         font-size: 16px;
         border-bottom: 1px solid rgba(0,0,0,0.08);
     }
-
-    .scroller {
-        text-align: center;
-        font-size: 15px;
-    }
-
-    .scroller .getCoupon {
-        float: right;
-        right: -100px;
-        width: 93px;
-        height: 35px;
-        border-radius: 6px;
-        background: #ebebeb;
-        font-size: 14px;
-        font-weight: bold;
-        border: none;
-        color: rgba(0,0,0,0.56);
-        cursor: pointer;
-    }
-
-    .scroller .getCoupon.on{
-        background: #FCF951;
-    }
-
-    .scroller > div {
-        font-size: 14px;
-        margin: 20px;
-    }
