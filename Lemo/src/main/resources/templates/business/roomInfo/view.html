@@ -116,11 +116,14 @@
                                     객실목록
                                 </a>
                             </div>
-                            <!--<div class="btnAdminProd">
+                            <div class="btnRoomModify">
                                 <a href="#">
                                     객실수정
                                 </a>
-                            </div>-->
+                            </div>
+                            <div class="btnRoomDelete" th:data-no="${room.room_id}">
+                                <button>객실삭제</button>
+                            </div>
                         </form>
                     </div>
                     <div class="blank30"></div>
@@ -131,9 +134,9 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
-    <script>
+    <script th:inline="javascript">
        // textarea tag 숨긴 채 출력
-       $(document).ready(function() {
+        $(document).ready(function() {
             const room_info = $('#room_info').text();
 
             const tempEl = document.createElement('div');
@@ -143,6 +146,47 @@
             console.log(plainText);
             $('#room_info').val(plainText);
         });
+
+        $('.btnRoomDelete').click(function(e){
+            e.preventDefault();
+
+            Swal.fire({
+           title: '객실을 정말 삭제하시겠습니까?',
+           text: '확인 버튼 클릭 시 삭제 취소가 불가능합니다.',
+           icon: 'warning',
+
+           showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+           confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+           cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+           confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+           cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+
+           reverseButtons: true, // 버튼 순서 거꾸로
+
+        }).then(result => {
+           // 만약 Promise리턴을 받으면,
+           if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+
+              let room_id = $(this).attr('data-no');
+              const jsonData = {"room_id": room_id};
+
+              ajaxAPI("business/roomInfo/removeRoom", jsonData, "POST").then((response) => {
+                  if(response.result > 0) {
+                    sweetalert("해당 객실이 삭제되었습니다.", "success");
+                    location.href = "http://localhost/Lemo/business/roomInfo/list";
+                  } else { alert('error'); }
+              }).catch((errorMsg) => {
+                console.log(errorMsg);
+              });
+
+           }else {
+                sweetalert("객실 삭제가 취소되었습니다.", "warning");
+           }
+        });
+
+
+
+        })
     </script>
 </th:block>
 </html>

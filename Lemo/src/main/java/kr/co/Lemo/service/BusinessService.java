@@ -495,6 +495,15 @@ public class BusinessService {
         return dao.deleteAcc(acc_id);
     }
 
+    /**
+     * 판매자 객실 - 객실 삭제
+     * @since 2023/04/04
+     * @param room_id
+     */
+    public int removeRoom(String room_id){
+        return dao.deleteRoom(room_id);
+    }
+
 
 
 

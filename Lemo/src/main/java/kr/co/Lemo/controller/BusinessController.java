@@ -553,4 +553,23 @@ public class BusinessController {
 
        return "business/roomInfo/view";
     }
+
+    // 판매자 - 객실 삭제
+    @ResponseBody
+    @PostMapping("roomInfo/removeRoom")
+    public Map<String, Integer> removeRoom(@RequestBody Map map) throws Exception {
+        String room_id = (String) map.get("room_id");
+
+        log.warn("GET removeRoom");
+
+        int result = service.removeRoom(room_id);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
+
+
 }
