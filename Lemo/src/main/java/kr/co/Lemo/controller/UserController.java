@@ -84,19 +84,21 @@ public class UserController {
      * @param error error 파라미터 값 L:차단된 회원, W:탈퇴한 회원
      * @apiNote 로그인시 에러가 발생할 경우 넘어오는 uri
      */
-    @GetMapping("login/error")
+    @PostMapping("login/error")
     public String login(
             Model m,
             @RequestParam(defaultValue = "null") String error,
             RedirectAttributes rttr,
+            HttpServletRequest req,
             HttpSession session
     ) {
-        log.debug("GET login start...");
+        log.debug("GET login error start...");
 
-        String uri = (String)session.getAttribute("toUri");
-        session.removeAttribute("toUri");
+        String username = req.getParameter("username");
+        Object uri = req.getAttribute("toUri");
 
         rttr.addFlashAttribute("error", error);
+        rttr.addFlashAttribute("username", username);
         rttr.addFlashAttribute("toUri", uri);
 
         return "redirect:/user/login";

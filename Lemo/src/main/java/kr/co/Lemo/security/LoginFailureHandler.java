@@ -30,7 +30,7 @@ import java.io.IOException;
 @Slf4j
 @Component
 @Configuration
-public class LoginFailureHandler implements AuthenticationFailureHandler {
+public class  LoginFailureHandler implements AuthenticationFailureHandler {
 
     protected final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -41,6 +41,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         log.debug(exception.getClass().toString());
         log.debug("isLockedException : "+String.valueOf(exception.getClass() == LockedException.class));
         log.debug("isDisabledException : "+String.valueOf(exception.getClass() == DisabledException.class));
+
         String error = null;
 
         if(exception.getClass() == DisabledException.class)
@@ -55,6 +56,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         else
             error = "error";
 
-        redirectStrategy.sendRedirect(request, response, "/user/login/error?error="+error);
+        request.getRequestDispatcher("/user/login/error?error="+error).forward(request, response);
+
     }
 }
