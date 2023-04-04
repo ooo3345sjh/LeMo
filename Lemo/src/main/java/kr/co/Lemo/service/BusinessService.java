@@ -3,13 +3,11 @@ package kr.co.Lemo.service;
 import kr.co.Lemo.dao.BusinessDAO;
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
-import kr.co.Lemo.utils.PageHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -36,7 +34,6 @@ public class BusinessService {
     public List<CouponVO> selectCoupon(Admin_SearchVO sc){
         return dao.selectCoupon(sc);
     }
-
     public int countCoupon(SearchCondition sc){
         return dao.countCoupon(sc);
     }
@@ -55,25 +52,14 @@ public class BusinessService {
 
     /**
      * 관리자 리뷰 - 리뷰 목록
-     * @since 2023/03/16
-     * @param model
+     * @since 2023/03/16, 2023/04/04(edit)
      * @param sc
      */
-    public List<ReviewVO> findAllReview(Model model, Admin_SearchVO sc){
-        int totalCnt = dao.countReview(sc);
-        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
-        if(sc.getPage() > totalPage) sc.setPage(totalPage);
-
-        PageHandler pageHandler = new PageHandler(totalCnt, sc);
-
-        List<ReviewVO> reviews = dao.selectReview(sc);
-
-        log.warn("Selected reviews in business: " + reviews.toString());
-
-        model.addAttribute("reviews", reviews);
-        model.addAttribute("ph", pageHandler);
-
-        return reviews;
+    public List<ReviewVO> findAllReview(Admin_SearchVO sc){
+        return dao.selectReview(sc);
+    }
+    public int countReview(SearchCondition sc){
+        return dao.countReview(sc);
     }
 
     /**
@@ -194,6 +180,17 @@ public class BusinessService {
         return dao.selectAccOwnedForInfo(user_id);
      }
 
+    /**
+     * 판매자 예약 정보 목록
+     * @since 2023/04/04
+     * @param sc
+     */
+     public List<ReservationVO> findAllReservaitons(Admin_SearchVO sc){
+         return  dao.selectReservaitons(sc);
+     }
+     public int countReservations(SearchCondition sc){
+         return dao.countReservations(sc);
+     }
 
 
     /**
