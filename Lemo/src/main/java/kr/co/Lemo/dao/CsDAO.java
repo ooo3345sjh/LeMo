@@ -1,6 +1,7 @@
 package kr.co.Lemo.dao;
 
 import kr.co.Lemo.domain.CsVO;
+import kr.co.Lemo.domain.TermVO;
 import kr.co.Lemo.utils.SearchCondition;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -29,6 +30,12 @@ public interface CsDAO {
     // @since 2023/03/12
     public CsVO selectEventPrev(@Param("cs_cate") String cs_cate, @Param("cs_no") int cs_no);
     public CsVO selectEventNext(@Param("cs_cate") String cs_cate, @Param("cs_no") int cs_no);
+    // @since 2023/04/04
+    public List<TermVO> selectTerm();
+    public List<TermVO> selectLocation();
+    public TermVO selectPrivacyRequire();
+    public TermVO selectFourTeen();
+    public TermVO selectMarketing();
 
     /**
      * @since 2023/03/12
@@ -70,5 +77,5 @@ public interface CsDAO {
     //@since 2023/03/15
     public int deleteFaqWrite(@Param("cs_no") int cs_no);
     //@since 2023/03/27
-    public int deleteQnaList(@Param("checkList") List<String> checkList, @Param("user_id") String user_id);
+    public int deleteQnaList(@Param("checkList") List<String> checkList);
 }

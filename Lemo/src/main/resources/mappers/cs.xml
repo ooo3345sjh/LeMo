@@ -57,6 +57,28 @@
         select * from `lemo_cs` where `cs_cate` =#{cs_cate} and `user_id`=#{user_id} order by `cs_no` desc;
     </select>
 
+
+    <!-- 약관 -->
+    <select id="selectTerm" resultType="kr.co.Lemo.domain.TermVO">
+        SELECT * <include refid="member_terms_join"/> where a.termsType_no = 1;
+    </select>
+
+    <select id="selectLocation" resultType="kr.co.Lemo.domain.TermVO">
+        SELECT * <include refid="member_terms_join"/> where a.termsType_no = 6;
+    </select>
+
+    <select id="selectPrivacyRequire" resultType="kr.co.Lemo.domain.TermVO">
+        SELECT * <include refid="member_terms_join"/> where a.termsType_no = 3;
+    </select>
+
+    <select id="selectFourTeen" resultType="kr.co.Lemo.domain.TermVO">
+        SELECT * <include refid="member_terms_join"/> where a.termsType_no = 2;
+    </select>
+
+    <select id="selectMarketing" resultType="kr.co.Lemo.domain.TermVO">
+        SELECT * <include refid="member_terms_join"/> where a.termsType_no = 5;
+    </select>
+
     <!-- 관리자 cs -->
 
     <select id="selectAdminQnaArticles" resultType="kr.co.Lemo.domain.CsVO">
@@ -198,15 +220,20 @@
     <delete id="deleteFaqWrite">
         delete from `lemo_cs` where `cs_no` =#{cs_no};
     </delete>
+
     <delete id="deleteQnaList">
         delete from `lemo_cs`
-        where `user_id`=#{user_id} and `cs_no` in
+        where `cs_no` in
         <foreach collection="checkList" index="index" item="checkList" open="(" close=")" separator=",">
             #{checkList}
         </foreach>
     </delete>
-    <!-- 공통 키 -->
 
+    <!-- 공통 키 -->
+    <sql id="member_terms_join">
+        FROM `lemo_member_terms` AS a
+        left JOIN `lemo_member_termstype` AS b ON a.termsType_no = b.termsType_no
+    </sql>
 
 
 
