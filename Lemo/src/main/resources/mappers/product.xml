@@ -249,6 +249,12 @@
         WHERE `room_id`= #{room_id}
     </select>
 
+    <select id="selectTerm" resultType="kr.co.Lemo.domain.TermVO">
+        SELECT * FROM `lemo_member_terms` AS a
+        JOIN `lemo_member_termstype` AS b
+        ON a.termsType_no = b.termsType_no
+        WHERE b.termsType_no = #{termsType_no}
+    </select>
 
     <!-- update -->
     <update id="updateProductCoupon">

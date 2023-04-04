@@ -63,10 +63,9 @@
                             <div>
                                 <p>결제 방법</p>
                                 <span th:if="${reservation.res_payment == 1}">신용/체크카드</span>
-                                <span th:if="${reservation.res_payment == 2}">간편 계좌이체</span>
-                                <span th:if="${reservation.res_payment == 3}">휴대폰결제</span>
-                                <span th:if="${reservation.res_payment == 4}">네이버페이</span>
-                                <span th:if="${reservation.res_payment == 5}">카카오페이</span>
+                                <span th:if="${reservation.res_payment == 2}">토스페이</span>
+                                <span th:if="${reservation.res_payment == 3}">PAYCO</span>
+                                <span th:if="${reservation.res_payment == 4}">카카오페이</span>
                             </div>
                             <div>
                                 <p>결제 금액</p>

@@ -269,12 +269,6 @@ public class ProductService {
         int mcp_id = cp.getMcp_id();
         int daysAvailable = cp.getCp_daysAvailable();
 
-
-        log.info("발급제한수량 + " + limitedIssuance);
-        log.info("총발급갯수 + " + issuedCnt);
-        log.info("mcp_id + " + mcp_id);
-        log.info("이용가능일수 + " + daysAvailable);
-
         if(limitedIssuance - issuedCnt == 0){ // 쿠폰 수량이 마감일 경우
             result = 1;
         }
@@ -305,6 +299,11 @@ public class ProductService {
 
         return map;
     }
+
+    // @since 2023/04/04
+    public TermVO findTerm(int termsType_no){
+        return dao.selectTerm(termsType_no);
+    };
 
     // update
 
