@@ -55,10 +55,8 @@ public class HomeLoginSuccessHandler extends LoginSuccessHandler implements Auth
         // 비밀번호 설정 후 3개월이 지났을 때 재설정 안내
         if(passExpiredTime.getTimeInMillis() < System.currentTimeMillis()){
             String uri = loginSuccessPage(request, response);
-            HttpSession session = request.getSession();
-            session.setAttribute("toUri", uri);
-            log.debug("uri : "+ uri);
-            redirectStrategy.sendRedirect(request, response, "/user/login/error?error=PNE");
+            request.setAttribute("toUri", uri);
+            request.getRequestDispatcher("/user/login/error?error=PNE").forward(request, response);
             return;
         }
 
