@@ -278,7 +278,7 @@ public class CsService {
     }
 
     //@since 2023/03/27
-    public int removeQnaList(@RequestParam(value = "checkList[]") List<String> checkList){
+    public int removeQnaList(@RequestParam("checkList[]") List checkList){
         log.info("serviceQnaRemove");
         return dao.deleteQnaList(checkList);
     }
