@@ -66,7 +66,7 @@
                             <a th:href="@{#}">삭제</a>
                         </div>
                         <div class="my_review_v_modify">
-                            <a th:href="@{/my/review/modify}">수정</a>
+                            <a th:href="@{/my/review/modify (res_no=${ review.res_no })}">수정</a>
                         </div>
                         <div class="my_review_v_list">
                             <a th:href="@{/my/review/list}">목록으로</a>

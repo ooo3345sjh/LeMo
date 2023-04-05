@@ -186,18 +186,19 @@ public class MyController {
     // @since 2023/03/08
     @GetMapping("review/view")
     public String reviewView(
-            @RequestParam int res_no,
+            @RequestParam(defaultValue = "0") int res_no,
             @AuthenticationPrincipal UserVO myUser,
             Model m
     ) {
         m.addAttribute("title", environment.getProperty(myGroup));
         m.addAttribute("cate", "review");
-
+        if(res_no == 0) { return "redirect:/my/review/list"; }
         String uid = myUser.getUser_id();
 
         ReviewVO review = service.findReview(res_no, myUser.getUser_id());
 
         if(review == null) { return "redirect:/my/review/list"; }
+        if(!uid.equals(review.getUser_id())) { return "redirect:/my/review/list"; }
 
         m.addAttribute("review", review);
 
@@ -230,6 +231,7 @@ public class MyController {
         ReviewVO review = service.findReviewAccommodation(res_no, myUser.getUser_id());
 
         if(review == null) { return "redirect:/my/review/list"; }
+        if(!uid.equals(review.getUser_id())) { return "redirect:/my/review/list"; }
 
         m.addAttribute("review", review);
 
@@ -255,14 +257,39 @@ public class MyController {
     @GetMapping("review/modify")
     public String reviewModify(
             @AuthenticationPrincipal UserVO myUser,
-            Model m
+            Model m,
+            @RequestParam(defaultValue = "0") int res_no
     ) {
         m.addAttribute("title", environment.getProperty(myGroup));
         m.addAttribute("cate", "review");
 
+        if(res_no == 0) { return "redirect:/my/review/list"; }
+
         String uid = myUser.getUser_id();
 
+        ReviewVO review = service.findReview(res_no, myUser.getUser_id());
+        if(review == null) { return "redirect:/my/review/list"; }
+        if(!uid.equals(review.getUser_id())) { return "redirect:/my/review/list"; }
+
+        m.addAttribute("review", review);
+
         return "my/review/modify";
+    }
+
+    // @since 2023/04/05
+    @PostMapping("review/modify")
+    public void reviewModify(
+            @RequestParam Map<String, Object> param,
+            MultipartHttpServletRequest request,
+            HttpServletRequest req,
+            @AuthenticationPrincipal UserVO myUser
+    ) {
+        log.debug("param : " + param);
+        Map<String, MultipartFile> fileMap = request.getFileMap();
+
+        for (MultipartFile multipartFile : fileMap.values()) {
+            log.debug("oriName : " + multipartFile.getOriginalFilename());
+        }
     }
 
     // @since 2023/03/08
@@ -381,19 +408,13 @@ public class MyController {
             @RequestParam(defaultValue = "0") int res_no,
             @AuthenticationPrincipal UserVO myUser
     ) {
+        m.addAttribute("cate", "reservation");
 
         if(res_no == 0) { return "redirect:/my/reservation/list"; }
-
-        m.addAttribute("cate", "view");
-        //service.findMyArticle(myCate, uid);
 
         ReservationVO reservation = service.findReservation(res_no, myUser.getUser_id());
 
         if(reservation == null) { return "redirect:/my/reservation/list"; }
-
-        log.debug("dis_price : " + reservation.getDis_price());
-        log.debug("poi_point : " + reservation.getPoi_point());
-        log.debug(""+reservation);
 
         m.addAttribute("reservation", reservation);
 
@@ -407,6 +428,11 @@ public class MyController {
         int result = service.removeUpdateReservation( resVO.getRes_no() );
 
         return result;
+    }
+
+    @GetMapping("reservation/modify")
+    public void reservationModify() {
+
     }
 
 
