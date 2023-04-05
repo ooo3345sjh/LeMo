@@ -642,4 +642,9 @@ public class BusinessController {
     }
 
 
+     @GetMapping("reservation/timeline")
+    public String reservation_timeline(){
+        return "business/reservation/timeline";
+    }
+
 }

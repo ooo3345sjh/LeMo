@@ -56,5 +56,11 @@ public class ReservationVO {
     private int sales;
     private int acc_state;
 
+    // @since 2023/04/05
+    private String acc_checkIn;
+    private String acc_checkOut;
+    private int tot_res_price;
+
+
 
 }

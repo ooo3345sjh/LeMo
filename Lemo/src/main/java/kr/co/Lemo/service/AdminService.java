@@ -321,6 +321,15 @@ public class AdminService {
     }
 
     /**
+     * @since 2023/04/05
+     * @param map
+     * @apiNote 관리자 통계관리 일별 누적 판매량
+     */
+    public List<ReservationVO> findAllDaySales(Map map){
+        return dao.selectDaySales(map);
+    }
+
+    /**
      * @since 2023/03/31
      * @author 박종협
      * @apiNote 매출 차트 테스트

@@ -101,6 +101,9 @@ public interface AdminDAO {
     // @since 2023/03/15
     public int deleteReview(@Param("revi_id") String revi_id);
 
+    // @since 2023/04/05
+    public List<ReservationVO> selectDaySales(Map map);
+
     /**
      * @since 2023/03/31
      * @author 박종협

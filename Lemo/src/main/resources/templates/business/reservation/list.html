@@ -95,11 +95,15 @@
                                                                             </div>
                                                                             <div class="d_b_name">
                                                                                 <div>체크인</div>
-                                                                                <div>[[${res.res_checkIn}]]</div>
+                                                                                <div>[[${res.res_checkIn}]]
+                                                                                    <th:block th:text="${res.room_checkIn != null ? res.room_checkIn : res.acc_checkIn}"></th:block>
+                                                                                </div>
                                                                             </div>
                                                                             <div class="d_b_name">
                                                                                 <div>체크아웃</div>
-                                                                                <div>[[${res.res_checkOut}]]</div>
+                                                                                <div>[[${res.res_checkOut}]]
+                                                                                    <th:block th:text="${res.room_checkOut != null ? res.room_checkOut : res.acc_checkOut}"></th:block>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -117,7 +121,7 @@
                                                                             </div>
                                                                             <div class="d_b_name">
                                                                                 <div>휴대폰번호</div>
-                                                                                <div>[[${res.res_hp}]]</div>
+                                                                                <div th:text="${#strings.substring(res.res_hp,0,3) + '-' + #strings.substring(res.res_hp,3,7) + '-' + #strings.substring(res.res_hp,7)}"></div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -149,15 +153,15 @@
                                                                             </div>
                                                                             <div class="d_b_name">
                                                                                 <div>결제금액</div>
-                                                                                <div>[[${res.res_disPrice + res.res_price}]]원</div>
+                                                                                <div th:text="${#numbers.formatInteger(res.res_price, 0, 'COMMA') + '원'}"></div>
                                                                             </div>
                                                                             <div class="d_b_name">
                                                                                 <div>할인금액</div>
-                                                                                <div>[[${res.res_disPrice}]]원</div>
+                                                                                <div th:text="${#numbers.formatInteger(res.res_disPrice, 0, 'COMMA') + '원'}"></div>
                                                                             </div>
                                                                             <div class="d_b_name2">
                                                                                 <div>최종결제금액 <i>(VAT포함)</i></div>
-                                                                                <div>[[${res.res_price}]]원</div>
+                                                                                <div th:text="${#numbers.formatInteger(res.res_price - res.res_disPrice, 0, 'COMMA') + '원'}"></div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
