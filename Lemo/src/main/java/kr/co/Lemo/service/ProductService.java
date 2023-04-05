@@ -303,7 +303,17 @@ public class ProductService {
     // @since 2023/04/04
     public TermVO findTerm(int termsType_no){
         return dao.selectTerm(termsType_no);
-    };
+    }
+
+    // @since 2023/04/05
+    public UserVO findUser(String user_id){
+        return dao.selectUser(user_id);
+    }
+
+    // @since 2023/04/05
+    public int findResNo(@Param("user_id") String user_id, @Param("res_no") int res_no){
+        return dao.selectResNo(user_id,res_no);
+    }
 
     // update
 

@@ -105,6 +105,12 @@ public interface ProductDAO {
     // @since 2023/04/04
     public TermVO selectTerm(@Param("termsType_no") int termsType_no);
 
+    // @since 2023/04/05
+    public UserVO selectUser(@Param("user_id") String user_id);
+
+    // @since 2023/04/05
+    public int selectResNo(@Param("user_id") String user_id, @Param("res_no") int res_no);
+
     // update
 
     // @since 2023/03/28

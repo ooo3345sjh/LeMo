@@ -137,9 +137,17 @@ public class ProductController {
                               HttpSession session,
                               @AuthenticationPrincipal UserVO myUser) throws Exception {
 
-        String user_id = myUser.getUser_id();
-
         Map map = (Map) session.getAttribute("map");
+
+        // 맵에 값이 존재하지 않으면 product/list로 redirect
+        if(map == null){
+            return "redirect:/product/list";
+        }
+
+        // 유저 정보 가져오기
+        String user_id = myUser.getUser_id();
+        UserVO user = service.findUser(user_id);
+
         map.put("user_id", user_id);
 
         // 객실 정보 가져오기
@@ -158,7 +166,7 @@ public class ProductController {
         session.setAttribute("resultmap", map);
 
         model.addAttribute("map", map);
-        model.addAttribute("user", myUser);
+        model.addAttribute("user", user);
         model.addAttribute("room", room);
         model.addAttribute("cps", cps);
         model.addAttribute("bv",bv);
@@ -169,11 +177,26 @@ public class ProductController {
 
 
     @GetMapping("result")
-    public String result(HttpSession session, Model model) throws Exception{
+    public String result(HttpSession session,
+                         Model model,
+                         @AuthenticationPrincipal UserVO myUser) throws Exception{
 
-        // 세션에서 주문정보 가져온 후 정보 지우기
+        // 세션에서 주문정보 가져오기
         OrderInfoVO vo = (OrderInfoVO) session.getAttribute("orderinfo");
-        //session.removeAttribute("orderinfo");
+
+        // vo 가 null 이면 product/list로 redirect
+        if(vo == null){
+            return "redirect:/product/list";
+        }
+
+        String user_id = myUser.getUser_id();
+        int res_no = vo.getRes_no();
+
+        // 로그인한 유저 id와 예약번호(res_no)로 조회하여 예약내역이 있는지 검증
+        int result = service.findResNo(user_id, res_no);
+        if(result == 0){
+            throw new Exception();
+        }
 
         String payment = vo.getPayment();
 

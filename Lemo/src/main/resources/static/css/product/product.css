@@ -3252,3 +3252,8 @@ margin-left: 25px;
         font-size: 16px;
         border-bottom: 1px solid rgba(0,0,0,0.08);
     }
+
+    /* 버튼 공통 */
+    button {
+        cursor: pointer;
+    }
