@@ -37,7 +37,7 @@ $(function(){
     });
 
     // 검색어를 입력하지 않았을때 검색 실행 막기
-    $(document).on('click', '.btnSearch.place', function(){
+    $(document).on('click', '.btnSearch.searchplace', function(){
         let keyword = $('#search-box').val();
         if(keyword.trim()==''){
             sweetalert("검색어를 입력하세요", "warning");
