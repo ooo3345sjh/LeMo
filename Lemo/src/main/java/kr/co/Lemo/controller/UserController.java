@@ -17,10 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -102,6 +108,32 @@ public class UserController {
         rttr.addFlashAttribute("toUri", uri);
 
         return "redirect:/user/login";
+    }
+
+    @GetMapping("logout")
+    public String logout(
+            HttpServletRequest req,
+            HttpServletResponse resp,
+            @AuthenticationPrincipal UserVO userVO,
+            String _csrf
+    ) {
+        log.debug("GET logout start...");
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null){
+            new SecurityContextLogoutHandler().logout(req,resp,authentication);
+
+            // DB remember-me 쿠키 삭제
+            JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
+            repository.setDataSource(dataSource);
+            repository.removeUserTokens(userVO.getUsername());
+        }
+        String fromUri = req.getHeader("Referer");
+
+        if(fromUri.contains("reset"))
+            return "redirect:"+"/user/login";
+        else
+            return "redirect:"+fromUri;
     }
 
     // @since 2023/03/08
