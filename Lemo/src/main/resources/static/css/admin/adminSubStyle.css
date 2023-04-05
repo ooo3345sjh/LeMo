@@ -2498,7 +2498,6 @@ main .d_b_name > div:last-child {
     color: rgb(41, 41, 41);
     font-size: 13px;
     font-weight: normal;
-    white-space: pre-line;
     text-align: left;
 }
 main .d_b_name2 {

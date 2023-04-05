@@ -175,6 +175,8 @@
         </if>
     </select>
 
+
+
     <!-- 판매자 - 쿠폰 등록 -->
     <insert id="insertCoupon" parameterType="hashMap">
         INSERT INTO `lemo_product_coupon` (

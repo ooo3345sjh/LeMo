@@ -51,7 +51,7 @@ public class AdminController {
     private CsService csService;
 
 
-    @GetMapping("index")
+    @GetMapping(value = {"", "index"})
     public String index_admin(
             Model model,
             Map map
@@ -88,7 +88,13 @@ public class AdminController {
     }
 
     @GetMapping("stats")
-    public String stats() {
+    public String stats(Model model, Map map) {
+
+        List<ReservationVO> vo = service.findAllDaySales(map);
+
+        log.warn("stats: " + vo);
+        model.addAttribute("stats", vo);
+
         return "admin/stats";
     }
 

@@ -15,6 +15,37 @@
             <section class="main_content">
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
+
+                        <!-- 관리자인 경우 출력-->
+                        <div class="col0">
+                            <form action="#">
+                                <div class="searchProdNum">
+                                    <input type="text" class="search_box" placeholder="숙소 번호 입력">
+                                    <button type="submit" class="btnSearch">
+                                        <input type="image" th:src="@{/images/admin/btn_search.png}">
+                                    </button>
+                                </div>
+                                <div class="guideMsg">관리자인 경우 출력(해당 문구 삭제 예정)</div>
+                            </form>
+                        </div>
+
+                        <!-- 판매자인 경우 출력-->
+                        <div class="col0">
+                            <form action="#">
+                                <div class="selectProdForAdmin">
+                                    <select>
+                                        <option value="0">숙소명</option>
+                                        <option value="1">푸른제주펜션</option>
+                                        <option value="2">보우힐펜션</option>
+                                        <option value="3">파라다이스호텔부산</option>
+                                        <option value="4">프리지아펜션</option>
+                                    </select>
+                                </div>
+                                <div class="guideMsg">판매자인 경우 출력(해당 문구 삭제 예정)</div>
+                            </form>
+                        </div>
+
+
                         <div class="col_nav" style="border-bottom: 1px solid #1a367e20;">
                             <span>통계관리</span>
                         </div>
@@ -221,14 +252,7 @@
     </script>
     <!-- 구글 차트 -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script th:inline="javascript">
-        // 참조 데이터 준비
-        let stats = [[${stats}]];
-        console.log("stats : " + stats);
-
-        console.log("stats res_price : " + stats[0].res_price);
-
-
+    <script type="text/javascript">
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
         // callback 정의 : drawVisualization
@@ -237,11 +261,11 @@
         // 오늘 날짜
         let today = new Date();
         // 오늘 날짜 (월)
-        nowMonth = today.getMonth() + 1;
+        let nowMonth = today.getMonth() + 1;
         // 오늘 날짜 (일)
-        nowDate = today.getDate();
+        let nowDate = today.getDate();
         // 출력 날짜 형태 지정
-        date = nowMonth + '/' + nowDate;
+        let date = nowMonth + '/' + nowDate;
 
         console.log(date);
 
@@ -259,7 +283,7 @@
             // 그래프 내용 : drawVisualization 구현
             var data = google.visualization.arrayToDataTable([
                 ['날짜', '일별매출', '누적매출'],
-                [before[6],  100, 200],
+                [before[6],  444, 444],
                 [before[5],  408, 852],
                 [before[4],  164, 1016],
                 [before[3],  239, 1255],
@@ -320,7 +344,6 @@
             });
         }
     </script>
-    <!--
     <script>
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
@@ -365,7 +388,6 @@
             chart.draw(view2, options);
         }
     </script>
-    -->
     <script type="text/javascript">
         google.charts.load("current", {packages:["corechart"]});
         google.charts.setOnLoadCallback(drawChart);

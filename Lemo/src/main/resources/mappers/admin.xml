@@ -196,6 +196,7 @@
         <include refid="searchAccInRes"/>
     </select>
 
+
     <select id="selectSales" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT
             (`res_price`-`res_disPrice`) AS `sales`, `res_checkIn`, `res_state`
@@ -205,10 +206,28 @@
         WHERE
         	( `res_checkIn` BETWEEN DATE( date_add(now(), INTERVAL -6 DAY) ) AND DATE( NOW() ) )
         	AND `res_state` NOT IN ( 0 )
-        <if test="user_id != null">
-            AND a.`user_id` = #{user_id};
-        </if>
     </select>
+
+    <!-- 관리자 - 일별 누적 판매량 -->
+    <select id="selectDaySales" resultType="kr.co.Lemo.domain.ReservationVO">
+        SELECT DATE(a.res_date) AS res_date,
+            MAX(a.res_state) AS res_state,
+            SUM(a.res_price) AS res_price,
+            SUM(a.res_price - a.res_disPrice) AS sales,
+            (SUM(a.res_price)-SUM(a.res_price - a.res_disPrice)) AS tot_res_price
+        FROM lemo_product_reservation AS a
+        LEFT JOIN lemo_product_accommodation AS b ON a.acc_id = b.acc_id
+        WHERE a.res_state NOT IN (0) AND a.res_checkIn BETWEEN DATE(date_add(now(), INTERVAL -6 DAY)) AND DATE(NOW())
+        GROUP BY DATE(a.res_date);
+    </select>
+    <!--
+    <select id="selectDaySales" resultType="kr.co.Lemo.domain.ReservationVO">
+        SELECT DATE(res_date) AS res_date, SUM(res_price) AS total_res_price
+        FROM lemo_product_reservation
+        GROUP BY DATE(res_date)
+        order by `res_date` asc;
+    </select>
+    -->
 
 
     <!-- 관리자 - 쿠폰 등록  -->
