@@ -26,7 +26,7 @@
                                     <input type="tel" name="hp" placeholder="체크인시 필요한 정보입니다." maxlength="13"
                                            th:value="${user.hp.length == 11 ? user.hp.substring(0,3) + '-' + user.hp.substring(3,7) + '-' + user.hp.substring(7) :
                                            user.hp.substring(0,3) + '-' + user.hp.substring(3,6) + '-' + user.hp.substring(6)}">
-                                    <button type="button">X</button>
+                                    <button type="button" class="deleteHp">X</button>
                                 </div>
                             </div>
                         </div>

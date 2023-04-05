@@ -256,6 +256,15 @@
         WHERE b.termsType_no = #{termsType_no}
     </select>
 
+    <select id="selectUser" resultType="kr.co.Lemo.domain.UserVO">
+        SELECT * FROM `lemo_member_userinfo` WHERE `user_id` = #{user_id};
+    </select>
+
+    <select id="selectResNo" resultType="int">
+        SELECT COUNT(`res_no`) FROM `lemo_product_reservation`
+        WHERE `user_id`= #{user_id} AND `res_no`= #{res_no}
+    </select>
+
     <!-- update -->
     <update id="updateProductCoupon">
         UPDATE `lemo_product_coupon`

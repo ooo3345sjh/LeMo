@@ -153,6 +153,10 @@ $(function(){
         popdown_coupon();
     });
 
+    /* 핸드폰 번호 지우기 */
+    $(document).on('click', '.deleteHp', function(){
+        $('input[name=hp]').val("");
+    });
 
     /* 핸드폰 번호 유효성 검사 */
     $(document).on('keyup', $('input[name=phone]'),function(){
