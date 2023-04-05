@@ -117,6 +117,23 @@ public class MyController {
                 m.addAttribute("ph", pointPageHandler);
 
                 return "my/point";
+            case "qna" :
+                m.addAttribute("cate", "qna");
+
+                // 페이징
+                int totalQna = service.findDiaryQnaCnt(vo);
+                int totalQnaPage = (int)Math.ceil(totalQna / (double)vo.getPageSize());
+                if(vo.getPage() > totalQnaPage) vo.setPage(totalQnaPage);
+
+                PageHandler qnaPageHandler = new PageHandler(totalQna, vo);
+
+                log.debug("ph : " + qnaPageHandler);
+
+                List<ProductQnaVO> csVO = service.findDiaryQna(vo);
+                m.addAttribute("cses", csVO);
+                m.addAttribute("ph", qnaPageHandler);
+
+                return "my/qna";
         }
 
         return "my/info";
@@ -373,6 +390,10 @@ public class MyController {
         ReservationVO reservation = service.findReservation(res_no, myUser.getUser_id());
 
         if(reservation == null) { return "redirect:/my/reservation/list"; }
+
+        log.debug("dis_price : " + reservation.getDis_price());
+        log.debug("poi_point : " + reservation.getPoi_point());
+        log.debug(""+reservation);
 
         m.addAttribute("reservation", reservation);
 

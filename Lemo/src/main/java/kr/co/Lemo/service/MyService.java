@@ -374,4 +374,13 @@ public class MyService {
         return dao.selectDiaryXY(res_no);
     }
 
+    // @since 2023/04/05
+    public List<ProductQnaVO> findDiaryQna(SearchCondition sc) {
+        return dao.selectDiaryQna(sc);
+    }
+
+    public int findDiaryQnaCnt(SearchCondition sc) {
+        return dao.selectDiaryQnaCnt(sc);
+    }
+
 }
