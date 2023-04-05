@@ -36,23 +36,27 @@
         group by `acc_name`;
     </select>
 
-    <!-- business - review - list -->
+    <!-- 판매자 - 리뷰 목록 -->
     <select id="selectReview" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ReviewVO">
         select * from `lemo_product_review` as a
         inner join `lemo_product_reservation` as b on a.res_no=b.res_no
-        inner join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
-        where c.`user_id`='1foodtax@within.co.kr'
-        <include refid="searchAccForReview"/>
+        join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
+        where c.`user_id`=#{user_id}
+        <if test="acc_id != null">
+            and b.`acc_id`=#{acc_id}
+        </if>
         order by `revi_rdate` desc limit #{offset}, 10;
     </select>
 
-    <!-- business - review - count total reviews for pagination -->
+    <!-- 판매자 - 리뷰 목록 페이징 -->
     <select id="countReview" parameterType="kr.co.Lemo.utils.SearchCondition"  resultType="java.lang.Integer">
         select count(*) from `lemo_product_review` as a
         inner join `lemo_product_reservation` as b on a.res_no=b.res_no
-        inner join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
-        where c.`user_id`='1foodtax@within.co.kr'
-        <include refid="searchAccForReview"/>
+        join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
+        where c.`user_id`=#{user_id}
+        <if test="acc_id != null">
+            and b.`acc_id`=#{acc_id}
+        </if>
     </select>
 
     <!-- business - review - select accommodation owned for BUSINESS search -->
@@ -63,7 +67,7 @@
         where c.`user_id`='1foodtax@within.co.kr';
     </select>
 
-    <!-- business - review - view -->
+    <!-- 판매자 - 리뷰 보기  -->
     <select id="viewReview" resultType="kr.co.Lemo.domain.ReviewVO">
         select * from `lemo_product_review` as a
         inner join `lemo_product_reservation` as b on a.res_no=b.res_no
@@ -148,6 +152,28 @@
         where `room_id`=#{room_id};
     </select>
 
+    <!-- 판매자 - 예약정보 목록 -->
+    <select id="selectReservaitons" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ReservationVO">
+        select * from `lemo_product_reservation` as a
+        inner join `lemo_product_room` as b on a.room_id=b.room_id
+        inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id
+        where c.`user_id`=#{user_id}
+        <if test="acc_id != null">
+            and a.`acc_id`=#{acc_id}
+        </if>
+        order by `res_state` asc limit ${offset}, 10;
+    </select>
+
+    <!-- 판매자 - 예약정보 목록 페이징 -->
+    <select id="countReservations"  parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
+        select count(*) from `lemo_product_reservation` as a
+        inner join `lemo_product_room` as b on a.room_id=b.room_id
+        inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id
+        where c.`user_id`=#{user_id}
+        <if test="acc_id != null">
+            and a.`acc_id`=#{acc_id}
+        </if>
+    </select>
 
     <!-- 판매자 - 쿠폰 등록 -->
     <insert id="insertCoupon" parameterType="hashMap">
@@ -223,6 +249,11 @@
         `room_checkIn` = #{room_checkIn},
         `room_checkOut` = #{room_checkOut}
     </insert>
+
+    <!-- 판매자 - 예약 - 메모 입력 -->
+    <update id="updateMemoInRes">
+        update `lemo_product_reservation` set `res_memo`=#{res_memo} where `res_no`=#{res_no};
+    </update>
 
     <!-- 판매자 - 숙소 수정 -->
     <update id="updateInfo" parameterType="hashMap" useGeneratedKeys="true" keyProperty="acc_id">

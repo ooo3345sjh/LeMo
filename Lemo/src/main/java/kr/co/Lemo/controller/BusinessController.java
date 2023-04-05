@@ -150,21 +150,41 @@ public class BusinessController {
         return ResponseEntity.ok(accs);
     }
 
+    // @since 2023/04/04 판매자 리뷰 목록
     @GetMapping("review/list")
-    public String review_list(Model model,
-                              @RequestParam Map map,
-                              @ModelAttribute Admin_SearchVO sc){
+    public String review_list(@RequestParam Map map,
+                              @AuthenticationPrincipal UserVO myUser,
+                              @ModelAttribute Admin_SearchVO sc,
+                              Model model){
+        log.warn("GET review list...");
+
+        model.addAttribute("title", environment.getProperty(group));
+
+        String user_id = "";
+        if(myUser != null) {
+            user_id = myUser.getUser_id();
+        }
+
         sc.setMap(map);
+        sc.setUser_id(user_id);
 
-        log.info("acc_id"+map.get("acc_id"));
-        model.addAttribute("acc_id", map.get("acc_id"));
+        int totalCnt = service.countReview(sc);
+        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
 
-        List<ReviewVO> accs = service.findAccOwnedForReview("1foodtax@within.co.kr");
-        model.addAttribute("selectList", accs);
-        service.findAllReview(model, sc);
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<ReviewVO> reviews = service.findAllReview(sc);
+        log.info("Selected reviews: " + reviews.toString());
+
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalReviews", pageHandler.getTotalCnt());
+
         return "business/review/list";
     }
 
+    // 판매자 리뷰 보기
     @GetMapping("review/view")
     public String review_view(Model model, @RequestParam("revi_id") Integer revi_id) throws Exception{
 
@@ -570,6 +590,56 @@ public class BusinessController {
         return resultMap;
     }
 
+    // 판매자 - 예약 관리
+    @GetMapping("reservation/list")
+    public String reservation_list(@RequestParam Map map,
+                                   @AuthenticationPrincipal UserVO myUser,
+                                   @ModelAttribute Admin_SearchVO sc,
+                                   Model model){
+        log.warn("GET reservation list...");
+
+        model.addAttribute("title", environment.getProperty(group));
+
+        String user_id = "";
+        if(myUser != null) {
+            user_id = myUser.getUser_id();
+        }
+
+        sc.setMap(map);
+        sc.setUser_id(user_id);
+
+        int totalCnt = service.countReservations(sc);
+        int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<ReservationVO> reservations = service.findAllReservaitons(sc);
+        log.info("Selected reservations: " + reservations.toString());
+
+        model.addAttribute("reservations", reservations);
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalReservations", pageHandler.getTotalCnt());
+
+        return "business/reservation/list";
+    }
+
+    // @since 2023/04/05 판매자 예약 - 메모 작성
+    @ResponseBody
+    @PostMapping("usaveMemoInRes")
+    public Map<String, Integer> usaveMemoInRes(@RequestBody Map map) throws Exception {
+        log.warn(map.toString());
+
+        String res_no = (String) map.get("res_no");
+        String res_memo = (String) map.get("res_memo");
+
+        int result = service.usaveMemoInRes(res_memo, res_no);
+
+        Map resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
 
 
 }

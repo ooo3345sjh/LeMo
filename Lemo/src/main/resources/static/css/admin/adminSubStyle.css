@@ -345,7 +345,13 @@ main .msg_condition_price {
     margin-left: 7px;
     display: none;
 }
-
+main .review_list1{width: 5% !important;}
+main .review_list2{width: 10% !important;}
+main .review_list3{width: 33% !important;}
+main .review_list4{width: 10% !important;}
+main .review_list5{width: 10% !important;}
+main .review_list6{width: 10% !important;}
+main .review_list7{width: 20% !important;}
 main .search_review_table {
     width: 100%;
     border-collapse: collapse;
@@ -602,7 +608,6 @@ main .btnRoomDelete {
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
-	font-family:Arial;
 	font-size:15px;
 	font-weight:bold;
 	text-decoration:none;
@@ -615,6 +620,60 @@ main .btnRoomDelete:hover {
 	background-color:#a5cc52;
 }
 main .btnRoomDelete:active {
+    position:relative;
+	top:1px;
+}
+main #removeReviewBtn {
+    margin: 15px 0;
+    margin-left: 5px;
+    box-shadow:inset 0px 1px 0px 0px #d9fbbe;
+	background:linear-gradient(to bottom, #b8e356 5%, #a5cc52 100%);
+	background-color:#b8e356;
+	border-radius:6px;
+	border:1px solid #83c41a;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:13px;
+	font-weight: 500;
+	text-decoration:none;
+	width: 120px !important;
+    height: 40px !important;
+}
+main #removeReviewBtn:hover {
+    background:linear-gradient(to bottom, #a5cc52 5%, #b8e356 100%);
+	background-color:#a5cc52;
+}
+main #removeReviewBtn:active {
+    position:relative;
+	top:1px;
+}
+main .btnRight {
+    display: inline-block;
+    float: right;
+}
+main #listReviewBtn {
+    margin: 15px 0;
+    margin-left: 8px;
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666 !important;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 32px;
+    text-decoration: none !important;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+main #listReviewBtn:hover {
+    background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
+	background-color:#e9e9e9;
+}
+main #listReviewBtn:active {
     position:relative;
 	top:1px;
 }
@@ -714,7 +773,7 @@ main .main_content .btnAdminProd3 {
     display: inline-block;
     cursor: pointer;
     color: #666666;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 500;
     padding: 10px 32px;
     text-decoration: none;
@@ -1553,6 +1612,15 @@ main .res_list7 {width: 10% !important;}
 main .res_list8 {width: 15% !important; font-family: 'Noto Sans KR';}
 main .res_list9 {width: 15% !important;}
 
+main .res_li1 {width: 5% !important;  font-family: 'Noto Sans KR';}
+main .res_li2 {width: 10% !important;  font-family: 'Noto Sans KR';}
+main .res_li3 {width: 10% !important;  font-family: 'Noto Sans KR';}
+main .res_li4 {width: 15% !important;}
+main .res_li5 {width: 10% !important;}
+main .res_li6 {width: 10% !important;}
+main .res_li7 {width: 20% !important;  font-family: 'Noto Sans KR';}
+main .res_li8 {width: 18% !important;  font-family: 'Noto Sans KR';}
+
 main .cancel_res {
     width: 10% !important;
     color: #f2552c;
@@ -1852,7 +1920,7 @@ main .col_register1 .search_coupon .search_option {
 }
 
 
-main .col_register1 #c_role_type {
+main #c_role_type {
     border: 1px solid #dcdcdc;
     padding: 1px 20px 1px 4px;
     max-width: 100%;
@@ -2120,17 +2188,39 @@ main .btn_R_answer:active {
     position:relative;
 	top:1px;
 }
+.dialog_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 dialog {
-    box-shadow: 0 14px 28px rgb(0 0 0 / 6%), 0 10px 10px rgb(0 0 0 / 6%);
-    border: none;
-    text-align: center;
-    border-radius: 5px;
-    position: absolute;
-    top: 15%;
-    margin: auto;
-    width: 35%;
-    height: fit-content;
-    overflow-y: scroll;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    z-index: 1001;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+}
+
+dialog_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1300px;
+    height: 1000px;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 dialog::-webkit-scrollbar {
     display: none;
@@ -2140,6 +2230,51 @@ dialog::backdrop {
     background-color: rgba(255, 255, 255, 0.3);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
+}
+main #d_Memo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  z-index: 1000;
+}
+main #d_Memo textarea {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    resize: none;
+}
+main #d_Memo .rr_btn {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+main #d_Memo .btnRclose {
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    background-color: #ccc;
+    margin-right: 10px;
+}
+main #d_Memo .btnRsubmit {
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    margin-right: 10px;
+    background-color: #00BBFE;
 }
 
 main .rr_nav {
@@ -2216,27 +2351,13 @@ main .rr_content2::after {
     border-bottom: 20px solid transparent;
     border-left: 30px solid #bdcdd6;
 }
-main .rr_btn {
-    width: 100%;
-    background: #6096B4;
-    height: auto;
-    padding: 5px 0;
-}
+
 main .rr_btn > button {
     font-size: 15px;
     font-weight: 500;
     width: 48%;
-    height: 54px;
     background: transparent;
-    border: none;
-    color: #fff;
     cursor: pointer;
-}
-main .btnRclose {
-    border-right: 1px solid #414f67 !important;
-}
-main .btnRsubmit {
-    
 }
 
 /* 모달 (admin - reservation - list) */
@@ -2279,42 +2400,43 @@ main #btnMemo {
 main #d_Detail > section {
     width: 100%;
     height: 100%;
+    background: #fff;
 }
 main .d_tit {
-    width: 100%;
-    height: auto;
-    padding: 10px;
-    background: #6096B4;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
 }
 main .d_tit > button {
     position: absolute;
-    top: 10px;
-    right: 14px;
-    font-size: 20px;
+    top: 6px;
+    right: 8px;
+    font-size: 12px;
     font-weight: 600;
     color: #fff;
-    background: transparent;
-    border: none;
+    background: #f2552c;
+    /* border: none; */
     cursor: pointer;
+    border: 4px solid;
+    padding: 4px 8px;
+    border-radius: 50%;
 }
 main #d_Detail .d_sub_tit {
-    width: 100%;
-    height: auto;
-    padding: 10px;
-    background: #93BFCF;
+    margin-bottom: 10px;
 }
 main .d_tit2 {
-    text-align: left;
-    font-size: 17px;
-    color: #fff;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
 }
 main .d_box {
-    width: 100%;
-    padding: 18px;
+    margin: 0;
+    padding: 0;
 }
 main .d_b1 {
+    justify-content: space-between;
+    margin-bottom: 10px;
     display: flex;
     -webkit-box-align: center;
     align-items: center;
@@ -2333,21 +2455,25 @@ main .d_b1 > span > i {
     font-weight: 700;
 }
 main .d_b2 {
+    font-weight: bold;
+    margin: 20px 0 2px;
     display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    padding: 5px 10px;
-    box-sizing: border-box;
-    border-bottom: 1px solid rgb(189, 189, 189);
-    font-weight: 500;
     font-size: 16px;
 }
 main .d_b3 {
-    padding: 10px;
-    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0 20px;
 }
 main .d_b3_1 {
-    display: flex;
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 470px;
 }
 main .d_b3_2 {
     flex: 1 0 0px;

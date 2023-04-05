@@ -102,6 +102,9 @@ public interface ProductDAO {
     // @since 2023/03/28
     public ProductAccommodationVO selectRoomForReservation(Map map);
 
+    // @since 2023/04/04
+    public TermVO selectTerm(@Param("termsType_no") int termsType_no);
+
     // update
 
     // @since 2023/03/28

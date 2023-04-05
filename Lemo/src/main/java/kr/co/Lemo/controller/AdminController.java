@@ -566,15 +566,15 @@ public class AdminController {
      * @author 황원진
      */
     @ResponseBody
-    @DeleteMapping("cs/qna/listRemove")
-    public Map<String, Integer> removeQnaList(@RequestParam(value = "checkList[]") List<String> checkList){
+    @PostMapping("cs/qna/listRemove")
+    public Map removeQnaList(@RequestBody Map<String, List<String>> data){
         log.info("listRemoveStart");
-
-        String user_id = "b1848@naver.com";
-       int result = csService.removeQnaList(checkList, user_id);
+//        log.debug(map.toString());
+        List<String> checkList = data.get("checkList");
+       int result = csService.removeQnaList(checkList);
 
        Map<String, Integer> map = new HashMap<>();
-       map.put("result", result);
+        map.put("result", result);
 
        return map;
     }

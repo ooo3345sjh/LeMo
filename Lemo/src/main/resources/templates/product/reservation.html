@@ -75,22 +75,29 @@
                             </p>
                             <p>
                                 <input type="checkbox" name="checkOne">
-                                <span>
+                                <span class="tl" data-no="10">
                                     <i>숙소이용규칙 및 취소/환불규정 동의</i>
                                     <b>(필수)</b>
                                 </span>
                             </p>
                             <p>
                                 <input type="checkbox" name="checkOne">
-                                <span>
-                                    <i>숙소이용규칙 및 취소/환불규정 동의</i>
+                                <span class="tl" data-no="11">
+                                    <i>개인정보 수집 및 이용 동의</i>
                                     <b>(필수)</b>
                                 </span>
                             </p>
                             <p>
                                 <input type="checkbox" name="checkOne">
-                                <span>
-                                    <i>숙소이용규칙 및 취소/환불규정 동의</i>
+                                <span class="tl" data-no="12">
+                                    <i>개인정보 제 3자 제공 동의</i>
+                                    <b>(필수)</b>
+                                </span>
+                            </p>
+                            <p>
+                                <input type="checkbox" name="checkOne">
+                                <span class="tl" data-no="13">
+                                    <i>만 14세 이상 확인</i>
                                     <b>(필수)</b>
                                 </span>
                             </p>
@@ -224,33 +231,18 @@
                 </div>
             </div>
 
-            <!--
-            <div id="popup_coupon" class="popup_coupon">
+            <!-- 약관 팝업 -->
+            <div class="popup_terms">
                 <div>
                     <div class="fix_title">
-                        사용 가능한 쿠폰
-                        <button type="button" onclick="popdown_coupon()">닫기</button>
+                        <button type="button" onclick="popdown_terms()">닫기</button>
                     </div>
                     <div class="iscroll_cp" style="touch-action: none;">
-                        <div class="scroller" style="transform: translate(0px, 0px) translateZ(0px);">
-                            <section>
-                                <strong>Lemo에서 드리는 쿠폰!</strong>
-                                <ul class="dot_coupon_txt">
-                                    <li>회원가입 10,000원 할인!</li>
-                                    <li>여름 특별 50,000 할인!</li>
-                                </ul>
-                            </section>
-                            <section>
-                                <strong>테스트 호텔에서 드리는 쿠폰!</strong>
-                                <ul class="dot_coupon_txt">
-                                    <li>여름 특별 50,000 할인</li>
-                                    <li>도보 방문시 5,000원 할인</li>
-                                </ul>
-                            </section>
+                        <div class="content" style="transform: translate(0px, 0px) translateZ(0px);">
                         </div>
                     </div>
                 </div>
-            </div>-->
+            </div>
         </th:block>
         <th:block layout:fragment="script">
             <script th:inline="javascript">

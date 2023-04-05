@@ -2,6 +2,7 @@ package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.CsDAO;
 import kr.co.Lemo.domain.CsVO;
+import kr.co.Lemo.domain.TermVO;
 import kr.co.Lemo.domain.UserVO;
 import kr.co.Lemo.domain.search.Cs_SearchVO;
 import kr.co.Lemo.utils.PageHandler;
@@ -57,6 +58,29 @@ public class CsService {
 
     public CsVO findCsArticle(@RequestParam("cs_no") int cs_no) {
         return dao.selectCsArticle(cs_no);
+    }
+
+    /**
+     *  이용약관
+     * @since  2023/04/04
+     */
+    public List<TermVO> findTerm(){
+        return dao.selectTerm();
+    }
+    public List<TermVO> findLocation(){
+        return dao.selectLocation();
+    }
+    public TermVO findPrivacy(){
+        return dao.selectPrivacyRequire();
+    }
+    public TermVO findFourTeen(){return dao.selectFourTeen();}
+    public TermVO findMarketing(){return dao.selectMarketing();}
+    public void findTerms(Map map){
+        map.put("term", findTerm());
+        map.put("privacy", findPrivacy());
+        map.put("location", findLocation());
+        map.put("fourteen", findFourTeen());
+        map.put("marketing", findMarketing());
     }
 
     /**
@@ -254,9 +278,9 @@ public class CsService {
     }
 
     //@since 2023/03/27
-    public int removeQnaList(@RequestParam(value = "checkList[]") List<String> checkList, @RequestParam("user_id") String user_id){
+    public int removeQnaList(@RequestParam("checkList[]") List checkList){
         log.info("serviceQnaRemove");
-        return dao.deleteQnaList(checkList, user_id);
+        return dao.deleteQnaList(checkList);
     }
 
 

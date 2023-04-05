@@ -20,22 +20,22 @@ import java.util.Map;
 @Mapper
 public interface BusinessDAO {
 
-    // @since 2023/03/13
+    // @since 2023/03/13 판매자 쿠폰 목록
    public List<CouponVO> selectCoupon(SearchCondition sc);
 
-    // @since 2023/03/13
+    // @since 2023/03/13 판매자 쿠폰 목록 페이징
     public int countCoupon(SearchCondition sc);
 
     // @since 2023/03/13
     public List<CouponVO> selectAccOwned(String user_id);
 
-    // @since 2023/03/16
+    // @since 2023/03/16 판매자 리뷰 목록
     public List<ReviewVO> selectReview(SearchCondition sc);
 
-    // @since 2023/03/16
+    // @since 2023/03/16 판매자 리뷰 목록 페이징
     public int countReview(SearchCondition sc);
 
-    // @since 2023/03/16
+    // @since 2023/03/16 판매자 리뷰 보기
     public ReviewVO viewReview(Integer revi_id);
 
     // @since 2023/03/16
@@ -68,10 +68,16 @@ public interface BusinessDAO {
     // @since 2023/04/02 판매자 객실 목록 페이징
     public int countRoom(SearchCondition sc);
 
-    // @since 2023/04/03 (판매자 객실 보기)
+    // @since 2023/04/03 판매자 객실 보기
     public ProductRoomVO viewRoom(Integer room_id);
 
-    // @since 2023/03/13
+    // @since 2023/04/04 판매자 예약 정보 목록
+    public List<ReservationVO> selectReservaitons(SearchCondition sc);
+
+    // @since 2023/04/04 판매자 예약 정보 목록 페이징
+    public int countReservations(SearchCondition sc);
+
+    // @since 2023/03/13 판매자 쿠폰 등록
     public void insertCoupon(Map<String, Object> param);
 
     // @since 2023/03/20 판매자 숙소 등록
@@ -85,6 +91,9 @@ public interface BusinessDAO {
 
     // @since 2023/04/02 판매자 객실 등록
     public int insertRoom(Map<String, Object> param);
+
+    // @since 2023/04/05
+    public int updateMemoInRes(@Param("res_memo") String res_memo, @Param("res_no") String res_no);
 
     // @since 2023/04/01 판매자 숙소 수정
     public int updateInfo(Map<String, Object> param);

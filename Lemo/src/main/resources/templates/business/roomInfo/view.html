@@ -173,7 +173,9 @@
               ajaxAPI("business/roomInfo/removeRoom", jsonData, "POST").then((response) => {
                   if(response.result > 0) {
                     sweetalert("해당 객실이 삭제되었습니다.", "success");
-                    location.href = "http://localhost/Lemo/business/roomInfo/list";
+                    setTimeout(function(){
+                      location.href = location.href = "http://localhost/Lemo/business/roomInfo/list";
+                    }, 1000); // delay of 1 second
                   } else { alert('error'); }
               }).catch((errorMsg) => {
                 console.log(errorMsg);

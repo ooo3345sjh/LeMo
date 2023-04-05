@@ -20,68 +20,71 @@
                             <span>등록리뷰</span>
                         </div>
                         <div class="col2" style="padding-top: 90px; padding-bottom: 76px;">
+                             <th:block th:if="${#strings.trim(review.revi_thumb) == ''}">
+                                 <div>empty</div>
+                                 <input type="hidden" id="thumb_pa" th:value="${#strings.trim(review.revi_thumb)}">
+                            </th:block>
+                            <th:block th:if="${#strings.trim(review.revi_thumb) != ''}">
                                 <div class="col2_r_slider">
                                     <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
                                         <div class="swiper-wrapper">
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4bda9d9a-c1c3-11ed-a377-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c0b577c-c1c3-11ed-969a-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c3fc302-c1c3-11ed-8f72-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c85294a-c1c3-11ed-b077-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4cb6946b-c1c3-11ed-a013-00e04c239987.jpg}"/></div>
+                                            <th:block th:each="img:${#strings.arraySplit(review.revi_thumb, '/')}">
+                                                <div class="swiper-slide"><img th:src="|@{/}img/review/${review.acc_id}/${img}|"/></div>
+                                            </th:block>
                                         </div>
                                         <div class="swiper-button-next"></div>
                                         <div class="swiper-button-prev"></div>
                                     </div>
                                     <div thumbsSlider="" class="swiper mySwiper">
                                         <div class="swiper-wrapper">
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4bda9d9a-c1c3-11ed-a377-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c0b577c-c1c3-11ed-969a-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c3fc302-c1c3-11ed-8f72-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4c85294a-c1c3-11ed-b077-00e04c239987.jpg}"/></div>
-                                            <div class="swiper-slide"><img th:src="@{/images/admin/4cb6946b-c1c3-11ed-a013-00e04c239987.jpg}"/></div>
+                                            <th:block th:each="img:${#strings.arraySplit(review.revi_thumb, '/')}">
+                                                <div class="swiper-slide"><img th:src="|@{/}img/review/${review.acc_id}/${img}|"/></div>
+                                            </th:block>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col2_r_box">
-                                    <input type="text" class="r_revi_id" th:value="${review.revi_id}"></input>
-                                    <div class="r_nick">
-                                        [[${#strings.substringBefore(review.user_id, '@') + '**'}]] <i>님의 후기</i>
-                                    </div>
-                                    <div class="r_stay">
-                                        [[${review.acc_name}]] <i>[[${review.room_name}]]</i>
-                                    </div>
-                                    <div class="r_date">
-                                        [[${review.res_checkIn}]] ~ [[${review.res_checkOut}]]
-                                    </div>
-                                    <div class="r_rating">
-                                        <th:block th:if="${review.revi_rate == 5}">
-                                            <h6 class="rating5">&nbsp;</h6>
-                                        </th:block>
-                                        <th:block th:if="${review.revi_rate == 4}">
-                                            <h6 class="rating4">&nbsp;</h6>
-                                        </th:block>
-                                        <th:block th:if="${review.revi_rate == 3}">
-                                            <h6 class="rating3">&nbsp;</h6>
-                                        </th:block>
-                                        <th:block th:if="${review.revi_rate == 2}">
-                                            <h6 class="rating2">&nbsp;</h6>
-                                        </th:block>
-                                        <th:block th:if="${review.revi_rate == 1}">
-                                            <h6 class="rating1">&nbsp;</h6>
-                                        </th:block>
-                                    </div>
-                                    <div class="r_content">
-                                        <div class="r_content_wrap">
-                                            <div class="r_content_tit">
-                                                [[${review.revi_title}]]
-                                            </div>
-                                            <div class="r_content_txt">
-                                                [[${review.revi_content}]]
-                                            </div>
+                            </th:block>
+                            <div class="col2_r_box">
+                                <input type="hidden" th:value="${review.acc_id}">
+                                <input type="text" class="r_revi_id" th:value="${review.revi_id}"></input>
+                                <div class="r_nick">
+                                    [[${#strings.substringBefore(review.user_id, '@') + '**'}]] <i>님의 후기</i>
+                                </div>
+                                <div class="r_stay">
+                                    [[${review.acc_name}]] <i>[[${review.room_name}]]</i>
+                                </div>
+                                <div class="r_date">
+                                    [[${review.res_checkIn}]] ~ [[${review.res_checkOut}]]
+                                </div>
+                                <div class="r_rating">
+                                    <th:block th:if="${review.revi_rate == 5}">
+                                        <h6 class="rating5">&nbsp;</h6>
+                                    </th:block>
+                                    <th:block th:if="${review.revi_rate == 4}">
+                                        <h6 class="rating4">&nbsp;</h6>
+                                    </th:block>
+                                    <th:block th:if="${review.revi_rate == 3}">
+                                        <h6 class="rating3">&nbsp;</h6>
+                                    </th:block>
+                                    <th:block th:if="${review.revi_rate == 2}">
+                                        <h6 class="rating2">&nbsp;</h6>
+                                    </th:block>
+                                    <th:block th:if="${review.revi_rate == 1}">
+                                        <h6 class="rating1">&nbsp;</h6>
+                                    </th:block>
+                                </div>
+                                <div class="r_content">
+                                    <div class="r_content_wrap">
+                                        <div class="r_content_tit">
+                                            [[${review.revi_title}]]
                                         </div>
+                                        <div class="r_content_txt">
+                                            [[${review.revi_content}]]
+                                        </div>
+                                    </div>
 
-                                    </div>
                                 </div>
+                            </div>
                         </div>
 
                     </div>
@@ -120,15 +123,15 @@
 
 
 
-                    <div class="btnAdminProd">
-                        <a href="javascript:history.back(-1)">
+                    <div class="btnRight">
+                        <a id="listReviewBtn" href="javascript:history.back(-1)">
                             리뷰목록
                         </a>
                     </div>
-                    <div class="btnAdminProd">
-                        <a href="#" id="removeReviewBtn">
+                    <div class="btnRight">
+                        <button id="removeReviewBtn" th:data-no="${review.revi_id}">
                             리뷰삭제
-                        </a>
+                        </button>
                     </div>
                     <div class="blank30"></div>
 
@@ -144,6 +147,18 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
         $(document).ready(function(){
+
+            // thumb 유무
+            thumb_pa = $('#thumb_pa').val();
+
+            if(thumb_pa == ''){
+                console.log('empty');
+                $('.col2_r_box').css("position", "static");
+                $('.col2_r_box').css("width", "85%");
+                $('.rating3').css("margin", "0 auto");
+
+            }
+
             var swiper = new Swiper(".mySwiper", {
                 spaceBetween: 5,
                 slidesPerView: 4,
@@ -179,8 +194,8 @@
                 console.log(dialog.returnValue);
             });
 
-            // input 엔터키 submit 막기
-            $('input[type="text"]').keydown(function() {
+            // 팝업 - input 엔터키 submit 막기
+            $('.btnRsubmit').keydown(function() {
                 if (event.keyCode === 13) {
                     event.preventDefault();
                 };
@@ -188,8 +203,6 @@
 
             // 리뷰 답변 작성하기
             $('.btnRsubmit').click(function(e){
-                e.preventDefault();
-                alert('click the submit button in review reply form');
 
                 let revi_id = $('.rp_revi_id').val();
                 let revi_reply = $('.rp_revi_reply').val();
@@ -206,7 +219,7 @@
 
                 ajaxAPI("business/usaveReply", jsonData, "POST").then((response) => {
                     if(response.result > 0) {
-                        alert('리뷰 답변 작성이 완료되었습니다.');
+                        sweetalert("리뷰 답변 작성이 완료되었습니다.", "success");
                         $('#d_review').hide();
                     } else {
                         alert('error');
@@ -220,26 +233,47 @@
             $('#removeReviewBtn').click(function(e){
                 e.preventDefault();
 
-                let isDeleteOK = confirm('정말 삭제하시겠습니까?');
 
-                if(isDeleteOK){
+                Swal.fire({
+                   title: '정말 삭제하시겠습니까?',
+                   text: '확인 버튼 클릭 시 삭제 취소가 불가능합니다.',
+                   icon: 'warning',
 
-                    let revi_id = $('.r_revi_id').val();
-                    console.log('revi_id: '+ revi_id);
+                   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+                   confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+                   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
 
-                    const jsonData = {"revi_id":revi_id};
+                   reverseButtons: true, // 버튼 순서 거꾸로
 
-                    ajaxAPI("business/removeReview", jsonData, "POST").then((response) => {
-                        if(response.result > 0) {
-                            alert('해당 리뷰가 삭제되었습니다.');
-                        } else {
-                            alert('error');
-                        }
-                    }).catch((errorMsg) => {
+                }).then(result => {
+                   // 만약 Promise리턴을 받으면,
+                   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+
+                      let revi_id = $(this).attr('data-no');
+                      const jsonData = {"revi_id": revi_id};
+
+                      ajaxAPI("business/removeReview", jsonData, "POST").then((response) => {
+                          if(response.result > 0) {
+                            sweetalert("해당 리뷰가 삭제되었습니다.", "success");
+                            <!--location.href = "http://localhost/Lemo/business/review/list";-->
+                            setTimeout(function(){
+                              location.href = "http://localhost/Lemo/business/review/list";
+                            }, 1000); // delay of 1 second
+                          } else { alert('error'); }
+                      }).catch((errorMsg) => {
                         console.log(errorMsg);
-                    });
-                }
+                      });
+                   }else {
+                      sweetalert("리뷰 삭제가 취소되었습니다.", "warning");
+                   }
+                });
+
+
             });
+
+
 
 
 

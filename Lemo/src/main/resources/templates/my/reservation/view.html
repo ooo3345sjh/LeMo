@@ -63,10 +63,9 @@
                             <div>
                                 <p>결제 방법</p>
                                 <span th:if="${reservation.res_payment == 1}">신용/체크카드</span>
-                                <span th:if="${reservation.res_payment == 2}">간편 계좌이체</span>
-                                <span th:if="${reservation.res_payment == 3}">휴대폰결제</span>
-                                <span th:if="${reservation.res_payment == 4}">네이버페이</span>
-                                <span th:if="${reservation.res_payment == 5}">카카오페이</span>
+                                <span th:if="${reservation.res_payment == 2}">토스페이</span>
+                                <span th:if="${reservation.res_payment == 3}">PAYCO</span>
+                                <span th:if="${reservation.res_payment == 4}">카카오페이</span>
                             </div>
                             <div>
                                 <p>결제 금액</p>
@@ -74,13 +73,13 @@
                             </div>
                             <div>
                                 <p>포인트 사용</p>
-                                <span th:if="reservation.poi_point != 0">- [[${#numbers.formatInteger(reservation.poi_point, 3, 'COMMA')}]]P</span>
                                 <span th:if="reservation.poi_point == 0">0P</span>
+                                <span th:if="reservation.poi_point != 0">- [[${#numbers.formatInteger(reservation.poi_point, 3, 'COMMA')}]]P</span>
                             </div>
                             <div>
                                 <p>쿠폰 할인</p>
-                                <span th:if="reservation.dis_price != 0">- [[${#numbers.formatInteger(reservation.dis_price, 3, 'COMMA')}]]원</span>
                                 <span th:if="reservation.dis_price == 0">0원</span>
+                                <span th:if="reservation.dis_price != 0">- [[${#numbers.formatInteger(reservation.dis_price, 3, 'COMMA')}]]원</span>
                             </div>
                             <div>
                                 <span><i>최종 결제 금액</i>(VAT포함)</span>

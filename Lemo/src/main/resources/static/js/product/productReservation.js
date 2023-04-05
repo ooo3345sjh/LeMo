@@ -3,6 +3,11 @@ function popdown_coupon(){
     $('#popup_cp').removeClass('on');
 }
 
+/** 약관 팝업 해제*/
+function popdown_terms(){
+    $('.popup_terms').removeClass('on');
+}
+
 function displayPrice(){
 
     let totPrice = price;
@@ -21,8 +26,8 @@ function displayPrice(){
     totalPrice = totPrice;
 
 
-    if(totPrice < 0){ // 전체 금액이 - 일 때
-        sweetalert("주문금액은 0원 이상이어야합니다.", "warning");
+    if(totPrice < 100){ // 전체 금액이 100원 이하 일 때 -> 결제 테스트 api 100원 이상 결제 되어야 함.
+        sweetalert("주문금액은\n 100원 이상이어야합니다.", "warning");
         $('input[name=point]').val("");
         $('.coupon-el.on').removeClass('on');
         totPrice = price;
@@ -275,7 +280,7 @@ $(function(){
         }else if(payment == 2) {
             pg = 'tosspay';
         }else if(payment == 3){
-            pg = 'payco.AUTOPAY';
+            pg = 'payco.PARTNERTEST';
         }else if(payment == 4){
             pg = 'kakaopay.TC0ONETIME';
         }
@@ -300,6 +305,39 @@ $(function(){
 
         paymentCard(jsonData);
 
+    });
+
+    /* 약관 팝업 */
+    $(document).on('click', '.tl', function(){
+
+        let no = $(this).attr('data-no');
+
+        jsonData = {
+            "termsType_no" : no
+        }
+
+        ajaxAPI("product/terms", jsonData, "POST").then((response) => {
+
+            console.log(response);
+            let html = "";
+
+            html += '<div><div class="fix_title">'
+            html += response.termsType_type_ko;
+            html += '<button type="button" onclick="popdown_terms()">닫기</button></div>'
+            html += '<div class="iscroll_cp" style="touch-action: none;">'
+            html += '<div class="content" style="transform: translate(0px, 0px) translateZ(0px);">'
+            html += response.terms_content+'</div></div></div>'
+
+            console.log(html);
+
+            $('.popup_terms').text("");
+            $('.popup_terms').append(html);
+
+        }).catch((errorMsg) => {
+            console.log(errorMsg)
+        });
+
+        $('.popup_terms').addClass('on');
     });
 
 });

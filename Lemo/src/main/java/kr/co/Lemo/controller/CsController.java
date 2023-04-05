@@ -60,6 +60,12 @@ public class CsController {
             service.findAllQnaArticles(vo, myUser, model);
 
             return "cs/qna";
+        }else if("terms".equals(cs_cate)){
+            model.addAttribute("title", environment.getProperty(group));
+            service.findTerms(map);
+
+            model.addAttribute("map", map);
+            return "cs/terms";
         }else if("faq".equals(cs_cate)){
 
         }
@@ -101,11 +107,20 @@ public class CsController {
         return "redirect:/cs/qna";
     }
 
-    @GetMapping("terms")
-    public String terms(Model model){
-        model.addAttribute("title", environment.getProperty(group));
-        return "cs/terms";
-    }
+    // @since 2023/04/04
+//    @GetMapping("terms")
+//    public String terms(Model model){
+//        model.addAttribute("title", environment.getProperty(group));
+//        List<TermVO> terms =service.findTerm();
+//        List<TermVO> location =service.findLocation();
+//        TermVO privacy = service.findPrivacy();
+//
+//        model.addAttribute("terms", terms);
+//        model.addAttribute("location", location);
+//        model.addAttribute("privacy", privacy);
+//
+//        return "cs/terms";
+//    }
 
     // @since 2023/03/08
     @GetMapping("{cs_cate}/list")
