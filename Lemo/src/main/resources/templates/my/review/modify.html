@@ -26,19 +26,19 @@
                                 나의 리뷰
                             </span>
                         </div>
-                        <form class="review modify">
+                        <form class="review modify" id="btn_upload">
                             <div class="my_review_modify">
-                                <div class="my_review_nick">레몬나르고빛갚으리오<i>&nbsp님의 리뷰</i></div>
+                                <div class="my_review_nick">[[${#authentication.principal.nick}]]<i>&nbsp님의 리뷰</i></div>
                                 <div class="my_review_m_tit">
                                     <div>
-                                        <input type="text" placeholder="제목을 입력해주세요" maxlength="100">
+                                        <input type="text" placeholder="제목을 입력해주세요" name="revi_title" th:value="${review.revi_title}" maxlength="100">
                                     </div>
                                 </div>
                                 <div class="my_review_m_place">
-                                    <span>부산 힐튼 호텔 슈페리어 더블</span>
+                                    <span>[[${review.acc_name}]]</span>
                                 </div>
                                 <div class="my_review_m_days">
-                                    <span>2023-02-13 ~ 2023-02-14</span>
+                                    <span>[[${review.res_checkIn}]] ~ [[${review.res_checkOut}]]</span>
                                 </div>
                                 <div class="my_review_m_rating">
                                     <div class="reating_q">
@@ -46,16 +46,16 @@
                                     </div>
                                     <!-- 임시 평점 -->
                                     <div class="star-ratings">
-                                        <input type="radio" name="rating" value="5" id="rate1"><label for="rate1">⭐</label>
-                                        <input type="radio" name="rating" value="4" id="rate2"><label for="rate2">⭐</label>
-                                        <input type="radio" name="rating" value="3" id="rate3"><label for="rate3">⭐</label>
-                                        <input type="radio" name="rating" value="2" id="rate4"><label for="rate4">⭐</label>
-                                        <input type="radio" name="rating" value="1" id="rate5"><label for="rate5">⭐</label>
+                                        <input type="radio" name="revi_rate" value="5" th:checked="${review.revi_rate eq 5}" id="rate1"><label for="rate1">⭐</label>
+                                        <input type="radio" name="revi_rate" value="4" th:checked="${review.revi_rate eq 4}" id="rate2"><label for="rate2">⭐</label>
+                                        <input type="radio" name="revi_rate" value="3" th:checked="${review.revi_rate eq 3}" id="rate3"><label for="rate3">⭐</label>
+                                        <input type="radio" name="revi_rate" value="2" th:checked="${review.revi_rate eq 2}" id="rate4"><label for="rate4">⭐</label>
+                                        <input type="radio" name="revi_rate" value="1" th:checked="${review.revi_rate eq 1}" id="rate5"><label for="rate5">⭐</label>
                                     </div>
                                 </div>
                                 <div class="my_review_m_textbox">
                                     <div class="my_review_m_text">
-                                        <textarea placeholder="내용을 입력해주세요"></textarea>
+                                        <textarea name="revi_content" placeholder="내용을 입력해주세요">[[${review.revi_content}]]</textarea>
                                     </div>
                                 </div>
                                 <div class="dropzone" id="fileDropzone">
@@ -109,17 +109,24 @@
             </main>
         </th:block>
         <th:block layout:fragment="script">
-            <script th:src="@{/js/admin/dragNdrop.js}"></script>
-            <script>
-            let url = "/admin/cs/event/write";
+            <script th:src="@{/js/my/dragNdropModiy.js}"></script>
+            <script th:inline="javascript">
             let maxFiles = 1;
-                    $(function(){
+            let acc_id = [[${review.acc_id}]]
+            let reviewThumbs = [[${review.revi_thumb}]]
 
-                        // 취소버튼 확인
-                        $('.my_review_m_cancel').click(function(){
-                            confirm("수정을 취소하시겠습니까?");
-                        });
+            const thumbs = reviewThumbs.split('/');
+
+            $(function(){
+                // 취소버튼 확인
+                $('.my_review_m_cancel').click(function(){
+                    let conf = confirm("수정을 취소하시겠습니까?");
+                    if(conf) {
+                        location.href = '/Lemo/my/review/list';
+                    }
                 });
+            });
+
             </script>
         </th:block>
 </html>

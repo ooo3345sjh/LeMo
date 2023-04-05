@@ -1793,6 +1793,7 @@
         border-radius: 4px;
     }
     .my_review_modify .my_review_m_rating {
+        position: relative;
         margin: 0 auto;
         margin-top: 32px;
         width: 721px;
@@ -1813,7 +1814,41 @@
         display: inline-block;
         direction: rtl;
         border: none;
+        /**
+        color: #aaa9a9;
+        unicode-bidi: bidi-override;
+        width: max-content;
+        -webkit-text-fill-color: transparent;
+        -webkit-text-stroke-width: 1.3px;
+        -webkit-text-stroke-color: #2b2a29;
+        */
     }
+    /**
+    .my_review_m_rating .star-ratings .star-ratings-fill {
+        color: #fff58c;
+        padding: 0px;
+        position: absolute;
+        z-index: 1;
+        display: flex;
+        top: 75px;
+        right: 271px;
+        overflow: hidden;
+        -webkit-text-fill-color: gold;
+    }
+
+    .my_review_m_rating .star-ratings .star-ratings-fill > span { font-size: 35px; }
+
+    .my_review_m_rating .star-ratings .star-ratings-base {
+        z-index: 0;
+        padding: 0;
+        position: absolute;
+        top: 75px;
+        right: 271px;
+    }
+
+    .my_review_m_rating .star-ratings .star-ratings-base > span { font-size: 35px; }
+    */
+
     .my_review_m_rating .star-ratings input[type=radio] {
         display: none;
     }
@@ -2291,11 +2326,11 @@
     #my .my_qna > table {
         width: 100%;
         height: auto;
-        border-top: 2px solid #444;
         margin-top: 6px;
         border-collapse: collapse;
         margin-top: 30px;
         table-layout: fixed;
+        border-top: 1px solid #dbdbdb;
     }
 
     #my .my_qna > table tr { }
@@ -2303,10 +2338,10 @@
     #my .my_qna > table tr > th {
         text-align: center;
         padding: 9px;
-        background-color: #adab37;
+        background-color: #F7F7F7;
         box-sizing: border-box;
-        color: #fff;
         font-size: 15px;
+        border-bottom: 1px solid #dbdbdb;
     }
 
     #my .my_qna > table tr > th:nth-child(1) { width: 80px; }
@@ -2315,7 +2350,7 @@
     #my .my_qna > table tr > th:nth-child(4) { width: 120px; }
 
     #my .my_qna > table > tbody {
-        border-bottom: 1px solid #aaa;
+        border-bottom: 1px solid #dbdbdb;
     }
 
     #my .my_qna > table tr > td {
