@@ -367,6 +367,16 @@ public class BusinessService {
     }
 
     /**
+     * 판매자 예약 - 메모 입력
+     * @since 2023/04/05
+     * @param res_memo
+     * @param res_no
+     */
+    public int usaveMemoInRes(String res_memo, String res_no){
+        return dao.updateMemoInRes(res_memo, res_no);
+    }
+
+    /**
      * 판매자 숙소 - 숙소 수정
      * @since 2023/04/01
      * @param param

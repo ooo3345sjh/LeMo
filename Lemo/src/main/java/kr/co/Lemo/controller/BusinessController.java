@@ -624,5 +624,22 @@ public class BusinessController {
         return "business/reservation/list";
     }
 
+    // @since 2023/04/05 판매자 예약 - 메모 작성
+    @ResponseBody
+    @PostMapping("usaveMemoInRes")
+    public Map<String, Integer> usaveMemoInRes(@RequestBody Map map) throws Exception {
+        log.warn(map.toString());
+
+        String res_no = (String) map.get("res_no");
+        String res_memo = (String) map.get("res_memo");
+
+        int result = service.usaveMemoInRes(res_memo, res_no);
+
+        Map resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
 
 }

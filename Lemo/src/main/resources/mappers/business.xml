@@ -155,9 +155,9 @@
     <!-- 판매자 - 예약정보 목록 -->
     <select id="selectReservaitons" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ReservationVO">
         select * from `lemo_product_reservation` as a
-        inner join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
-        join `lemo_product_room` as c on a.acc_id=c.acc_id
-        where b.`user_id`=#{user_id}
+        inner join `lemo_product_room` as b on a.room_id=b.room_id
+        inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id
+        where c.`user_id`=#{user_id}
         <if test="acc_id != null">
             and a.`acc_id`=#{acc_id}
         </if>
@@ -167,9 +167,9 @@
     <!-- 판매자 - 예약정보 목록 페이징 -->
     <select id="countReservations"  parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
         select count(*) from `lemo_product_reservation` as a
-        inner join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
-        join `lemo_product_room` as c on a.acc_id=c.acc_id
-        where b.`user_id`=#{user_id}
+        inner join `lemo_product_room` as b on a.room_id=b.room_id
+        inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id
+        where c.`user_id`=#{user_id}
         <if test="acc_id != null">
             and a.`acc_id`=#{acc_id}
         </if>
@@ -249,6 +249,11 @@
         `room_checkIn` = #{room_checkIn},
         `room_checkOut` = #{room_checkOut}
     </insert>
+
+    <!-- 판매자 - 예약 - 메모 입력 -->
+    <update id="updateMemoInRes">
+        update `lemo_product_reservation` set `res_memo`=#{res_memo} where `res_no`=#{res_no};
+    </update>
 
     <!-- 판매자 - 숙소 수정 -->
     <update id="updateInfo" parameterType="hashMap" useGeneratedKeys="true" keyProperty="acc_id">
