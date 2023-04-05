@@ -15,9 +15,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.CsrfLogoutHandler;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -29,7 +32,7 @@ import javax.sql.DataSource;
  * @author 서정현
  * @apiNote SecurityConfig
  */
-@EnableWebSecurity(debug = false)
+@EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 public class SecurityConfig implements WebMvcConfigurer {
@@ -46,7 +49,6 @@ public class SecurityConfig implements WebMvcConfigurer {
     // @since 2023/03/21
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http
                 // 인가(접근권한) 설정
                 .authorizeHttpRequests(req -> req
@@ -90,8 +92,8 @@ public class SecurityConfig implements WebMvcConfigurer {
                                 resp.sendRedirect(req.getContextPath()+"/user/login");
                             else
                                 resp.sendRedirect(fromUri);
-
                         })
+                        .deleteCookies("JSESSIONID", "remember-me")
                 )
 
                 // 권한이 없는 uri 접근시 보여줄 페이지설정

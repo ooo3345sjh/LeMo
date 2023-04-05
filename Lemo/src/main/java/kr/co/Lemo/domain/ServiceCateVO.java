@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 /**
  * @since 2023/03/08
  * @author 이원정
- * @apiNote lemo_member_user (회원) VO
+ * @apiNote lemo_product_serviceRegInfo(편의시설/서비스 카테고리) VO
  */
 
 @Data
