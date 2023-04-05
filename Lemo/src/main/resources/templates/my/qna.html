@@ -1,0 +1,132 @@
+<!--
+    날짜 : 2023/04/05
+    이름 : 박종협
+    내용 : 마이페이지 qna
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/default-layout">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/my/my.css}">
+
+</th:block>
+<th:block layout:fragment="content">
+            <main>
+                <section id="my">
+                    <th:block th:replace="~{fragments/_aside::myAside}"></th:block>
+                    <div class="content">
+                        <!-- 카테고리 -->
+                        <div class="tab">
+                            <span class="my_title">
+                                상품 문의
+                            </span>
+                        </div>
+                        <div class="my_qna">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>문의번호</th>
+                                        <th>답변상태</th>
+                                        <th>제목</th>
+                                        <th>등록일</th>
+                                    </tr>
+                                </thead>
+                                <tbody th:each="cs:${cses}">
+                                    <tr>
+                                        <td class="no">[[${cs.qna_no}]]</td>
+                                        <td class="status">
+                                            <span class="notAnswerYet" th:if="${cs.qna_reply == null}">검토중</span>
+                                            <span class="notAnswerYet" th:if="${cs.qna_reply != null}">답변완료</span>
+                                        </td>
+                                        <td class="tit"><a href="#" th:onclick="popupAnswer([[${cs.qna_no}]])">[[${cs.qna_title}]]</a></td>
+                                        <td class="date">[[${cs.qna_rdate.substring(0,10)}]]</td>
+                                    </tr>
+                                    <tr class="answer" th:id="answer+${cs.qna_no}">
+                                        <td colspan="4">
+                                            <div class="qt">
+                                                <span class="ic_qt">Q</span>
+                                                [[${cs.qna_content}]]
+                                            </div>
+                                            <div class="as" th:if="${cs.qna_reply != null}">
+                                                <span class="ic_as">A</span>
+                                                [[${cs.qna_reply}]]
+                                            </div>
+                                            <p class="reginfo" th:if="${cs.qna_reply != null}">
+                                                <span class="wh">판매자의 답변</span>
+                                                <span class="date">
+                                                    등록일 :
+                                                    <em>[[${cs.qna_reply_date}]]</em>
+                                                </span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 페이징 -->
+                        <div class="paging" th:object="${ph}" th:unless="${cses.size() == 0}">
+                            <span th:if="*{showPrev}">
+                                <a th:href="@{/my/pick} + ${ph.sc.getQueryString(ph.beginPage-1)}">
+                                    <img th:src="@{/images/product/left.png}" alt="previous">
+                                </a>
+                            </span>
+                            <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
+                                <a th:href="@{/my/pick} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
+                            </span>
+                            <span th:if="*{showNext}">
+                                <a th:href="@{/my/pick} + ${ph.sc.getQueryString(ph.endPage+1)}">
+                                    <img th:src="@{/images/product/right.png}" alt="next">
+                                </a>
+                            </span>
+                        </div>
+                    </div>  
+                </section>
+                <!-- 우측 미니 사이드바 -->
+                <div class="btn_quick">
+                    <ul>
+                        <li class="btn_wishlist">
+                            <a href="javascript:;">
+                                <img th:src="@{/images/index/empty-heart.png}">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img th:src="@{/images/index/naver_quick.png}">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <img th:src="@{/images/index/kakao_quick.png}">
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{#}" id="scrollToTop" onclick="return false;">
+                                <img th:src="@{/images/index/top_btn.png}">
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{#}" id="scrollToBottom" onclick="return false;">
+                                <img th:src="@{/images/index/bottom_btn.png}">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </main>
+    </th:block>
+    <th:block layout:fragment="script">
+        <script>
+            function popupAnswer(no) {
+                let status = $('#answer'+no).hasClass('on');
+
+                if(status) {
+                    $('#answer'+no).css('display', 'none');
+                    $('#answer'+no).removeClass('on');
+                }else {
+                    $('#answer'+no).css('display', 'table-row');
+                    $('#answer'+no).addClass('on');
+                }
+            }
+        </script>
+    </th:block>
+</html>

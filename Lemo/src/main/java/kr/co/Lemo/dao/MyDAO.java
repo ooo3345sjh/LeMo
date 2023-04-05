@@ -64,4 +64,8 @@ public interface MyDAO {
     public ProductAccommodationVO selectDiaryXY(int res_no);
     public String selectReservationImpUid(int res_no);
 
+    // @since 2023/04/05
+    public List<ProductQnaVO> selectDiaryQna(SearchCondition sc);
+    public int selectDiaryQnaCnt(SearchCondition sc);
+
 }

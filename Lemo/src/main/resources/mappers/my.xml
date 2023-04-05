@@ -37,7 +37,9 @@
     </select>
 
     <select id="selectReservation" resultType="kr.co.Lemo.domain.ReservationVO">
-        SELECT * FROM
+        SELECT
+            a.*, b.*, c.*, IFNULL(d.`dis_price`, 0) AS `dis_price`, IFNULL(e.`poi_point`, 0) AS `poi_point`
+        FROM
             `lemo_product_reservation`   AS a LEFT JOIN
             `lemo_product_room`          AS b ON a.`room_id` = b.`room_id` LEFT JOIN
             `lemo_product_accommodation` AS c ON a.`acc_id`  = c.`acc_id` LEFT JOIN
@@ -178,6 +180,15 @@
             `lemo_product_reservation` AS a LEFT JOIN
             `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
         WHERE a.`res_no` = #{res_no};
+    </select>
+
+    <select id="selectDiaryQna" resultType="kr.co.Lemo.domain.ProductQnaVO">
+        SELECT * FROM `lemo_product_qna` WHERE `user_id` = #{user_id}
+        ORDER BY `qna_no` DESC
+    </select>
+
+    <select id="selectDiaryQnaCnt" resultType="int">
+        SELECT COUNT(`qna_no`) FROM `lemo_product_qna` WHERE `user_id` = #{user_id}
     </select>
 
     <!-- insert -->
