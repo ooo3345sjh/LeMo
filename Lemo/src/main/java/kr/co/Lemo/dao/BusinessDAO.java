@@ -92,6 +92,9 @@ public interface BusinessDAO {
     // @since 2023/04/02 판매자 객실 등록
     public int insertRoom(Map<String, Object> param);
 
+    // @since 2023/04/05
+    public int updateMemoInRes(@Param("res_memo") String res_memo, @Param("res_no") String res_no);
+
     // @since 2023/04/01 판매자 숙소 수정
     public int updateInfo(Map<String, Object> param);
 

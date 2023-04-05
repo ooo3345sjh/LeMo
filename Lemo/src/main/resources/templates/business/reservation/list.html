@@ -55,7 +55,7 @@
                                             <li class="res_li3" th:text="${res.room_id}">#</li>
                                             <li class="res_li4" th:text="${res.room_name}">#</li>
                                             <li class="res_li5" th:text="${res.res_name}">#</li>
-                                            <li class="res_li6"
+                                            <li
                                                 th:class="${res.res_state == 0 ? 'cancel_res' : (res.res_state == 1 ? 'complete_res' : 'complete_acc')}"
                                                 th:text="${res.res_state == 0 ? '예약취소' : (res.res_state == 1 ? '예약완료' : '숙박완료')}">
                                             </li>
@@ -148,6 +148,10 @@
                                                                                 </th:block>
                                                                             </div>
                                                                             <div class="d_b_name">
+                                                                                <div>결제금액</div>
+                                                                                <div>[[${res.res_disPrice + res.res_price}]]원</div>
+                                                                            </div>
+                                                                            <div class="d_b_name">
                                                                                 <div>할인금액</div>
                                                                                 <div>[[${res.res_disPrice}]]원</div>
                                                                             </div>
@@ -190,15 +194,15 @@
                                 </div>
                                 <div class="pagination" th:object="${ph}" th:style="${#lists.size(reservations) == 0 ? 'visibility:hidden;':''}">
                                     <th:block th:if="*{showPrev}">
-                                        <a th:href="@{/admin/reservation/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
+                                        <a th:href="@{/business/reservation/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
                                     </th:block>
                                     <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
-                                        <a th:href="@{/admin/reservation/list} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                        <a th:href="@{/business/reservation/list} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
                                             [[${num}]]
                                         </a>
                                     </th:block>
                                     <th:block th:if="*{showNext}">
-                                        <a th:href="@{/admin/reservation/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                        <a th:href="@{/business/reservation/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
                                     </th:block>
                                 </div>
                             </form>
@@ -214,42 +218,89 @@
 <th:block layout:fragment="script">
     <script>
         $(document).ready(function(){
-
             // 상세정보 팝업
-            const btnDetail = document.getElementById('btnDetail');
-            const d_Detail = document.getElementById('d_Detail');
-            const btnCloseModal = document.getElementById('btnCloseModal');
+            var detail_sec = $('.detail_sec');
 
-            btnDetail.addEventListener("click", (e)=>{
+            $(document).on('click', '.btnDetail', function(e){
                 e.preventDefault();
-                d_Detail.showModal();
+                const dialog = $(this).next()[0];
+                $(this).next().show();
+
+                let res_no = $(this).val();
+                console.log('res_no: '+ res_no );
+
+                $(this).next().find('.res_no').attr('value', res_no);
+
             });
 
-            btnCloseModal.addEventListener("click", ()=>{
-                d_Detail.close();
+            // 상세정보 팝업 닫기
+            $(document).on('click', '.btnRclose', function(e) {
+                e.preventDefault();
+                console.log("click the close button");
+                $(this).closest('li').find('#d_Detail').hide();
             });
+
+
 
             // 메모 팝업
-            const btnMemo  = document.getElementById('btnMemo');
-            const d_Memo = document.getElementById('d_Memo');
-            const btnCloseModal2 = document.getElementById('btnCloseModal2');
-
-            btnMemo.addEventListener("click", (e)=>{
+            $(document).on('click', '.btnMemo', function(e){
                 e.preventDefault();
-                d_Memo.showModal();
+                $(this).next().show();
+
+                let res_no = $(this).val();
+                console.log('res_no: '+ res_no );
+
+                $(this).next().find('.res_no').attr('value', res_no);
+
             });
 
-            btnCloseModal2.addEventListener("click", ()=>{
-                d_Memo.close();
+            // 메모 팝업 닫기
+            $(document).on('click', '.btnRclose', function(e) {
+                e.preventDefault();
+                console.log("click the close button");
+                $(this).closest('li').find('#d_Memo').hide();
             });
 
             // input 엔터키 submit 막기
-            $('input[type="text"]').keydown(function() {
+            $('.btnRsubmit').keydown(function() {
                 if (event.keyCode === 13) {
                     event.preventDefault();
                 };
             });
+
+            // 메모 작성
+            $(document).on('click', '.btnRsubmit', function(e) {
+                e.preventDefault();
+
+                let res_no = $(this).parent().prev().prev().find('.res_no').val();
+                let res_memo = $(this).parent().prev().children().val();
+                console.log('res_no: ' + res_no);
+                console.log('res_memo: ' + res_memo);
+
+                const jsonData = {
+                    "res_no": res_no,
+                    "res_memo": res_memo
+                };
+
+                ajaxAPI("business/usaveMemoInRes", jsonData, "POST").then((response) => {
+                    if (response.result > 0) {
+                      sweetalert("메모 작성이 완료되었습니다.", "success");
+                      $(this).closest('li').find('#d_Memo').hide();
+                    } else {
+                      alert('error');
+                    }
+                }).catch((errorMsg) => {
+                    console.log(errorMsg);
+                });
+            });
+
+
+
+
+
         });
+
+
 
     // 쿠폰 목록 (판매자) 소유 숙소 셀렉트 옵션 추가
     window.onload = function() {

@@ -230,6 +230,7 @@ main .main_content {
     height: auto;
     overflow: hidden;
 }
+
 main .main_content::before {
     position: absolute;
     top: 0;
