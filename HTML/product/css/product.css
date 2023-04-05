@@ -122,7 +122,7 @@
 
 }
 
-#productInfo > .info > h3 { font-size: 28px; font-weight: bold;}
+#productInfo > .info > h3 { font-size: 28px; font-weight: bold; display: inline-block;}
 
 #productInfo > .info > .score {
     position: relative;
@@ -2062,3 +2062,131 @@
     text-decoration: none;
     margin: 1px 9px;
 }
+
+/* view 추가 */
+#productInfo > .info > .pick {
+    float: right;
+    bottom: 0;
+    top: auto;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #c1c1c1;
+    display: inline-block;
+    vertical-align: bottom;
+    margin-right: 10px;
+}
+
+#productInfo > .info > .pick div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+#productInfo > .info > .pick > div > a {
+    position: relative;
+    top: 3px;
+    display: inline-block;
+    width: 25px;
+    height: 21px;
+    padding: 0px;
+    background: url('../img/wish.png') no-repeat center / 25px 21px;
+    color: transparent;
+    font-size: 0;
+}
+#productInfo > .info > .pick > div > a.on {
+    background-image: url('../img/wish_on.png')
+}
+
+
+    /* 상품 - 보기 문의하기 */
+
+    .prodQna #inputSearchForm {
+        margin-top: 30px;
+    }
+    .prodQna .board_schbox {}
+    .prodQna .board_schbox * {vertical-align: middle;}
+
+    .prodQna .board_schbox .ip_board-sch {
+        width: 145px;
+        padding: 6px 18px 6px 12px;
+        height: 32px;
+        border: 1px solid #d6d7d8;
+        border-radius: 2px;
+        line-height: 14px;
+        font-size: 14px;
+        color: #000;
+    }
+
+    .board_schbox .btn_sch {
+        border : 1px solid #d6d7d8;
+        font-size: 13px;
+        display: inline-block;
+        width: 50px;
+        height: 32px;
+        margin-left: 2px;
+    }
+
+    .board_schbox .btn_sch:hover {
+        border: 1px solid #9d9999;
+    }
+
+
+    .board_schbox .btn_sch .blind {
+        font-size: 13px;
+    }
+
+    .board_schbox .txt_result {
+        margin-left: 10px;
+        line-height: 32px;
+        font-size: 12px;
+        color: #5e636d;
+    }
+
+    .board_schbox .txt_result #txtSearchCount {
+        font-weight : bold;
+    }
+
+    /* 상품 문의 - 테이블 */
+    .board_qna .tb_board {
+    margin-top : 20px;
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #a4a9b0;
+    border-bottom: 1px solid #ececec;
+    }
+
+    .tb_board thead th {
+        padding: 13px 0;
+        text-align: center;
+        font-size: 14px;
+        line-height: 20px;
+        color: #222;
+        background: #f8f9fa;
+    }
+
+    .tb_board td {
+        padding: 16px 0 16px 12px;
+        border-top: 1px solid #ececec;
+        font-size: 14px;
+        line-height: 14px;
+        text-align: left;
+        color: #5e636d;
+        word-wrap: break-word;
+    }
+
+    .blind.arr {
+        width: 14px;
+        height: 14px;
+        display: block;
+        position: absolute;
+        left: auto;
+        right: 0;
+        top: 4px;
+        background-position: -590px -310px;
+        text-indent: -999em;
+        font-size: 0;
+        background: url(/Lemo/images/product/sp_vipgroup.png) no-repeat;
+    }
