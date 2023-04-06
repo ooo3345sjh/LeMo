@@ -90,8 +90,10 @@ public class AdminController {
     @GetMapping("stats")
     public String stats(Model model, Map map) {
 
-        // 매출현황
+        // 일별 매출 현황
         List<ReservationVO> stats = service.findAllDaySales(map);
+        // 월별 매출 현황
+        List<ReservationVO> statsMonth = service.findAllMonthSales(map);
         // 결제 현황
         List<ReservationVO> pays = service.findAllPayment(map);
         Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
@@ -101,20 +103,23 @@ public class AdminController {
         int totalCanceled = service.countWeeksCancel();
         // 1:1 문의 수
         int totalQna = service.countWeeksQna();
+        // 상품 등록 수
+        int totalAcc = service.countWeeksAcc();
+        // 회원가입 수
+        int totalUser = service.countWeeksUser();
 
-        //log.warn("stats: " + stats);
+        //log.warn("statsMonth: " + statsMonth);
         //log.warn("pays: " + pays);
         //log.warn("pays length: " + pays.size());
         //log.warn("pays map : " + paysMap);
-        log.warn("total: " + total);
-        log.warn("totalCanceled: " + totalCanceled);
-        log.warn("totalQna: " + totalQna);
 
         model.addAttribute("stats", stats);
+        model.addAttribute("statsMonth", statsMonth);
         model.addAttribute("paysMap", paysMap);
         model.addAttribute("totalSales", total);
         model.addAttribute("totalCanceled", totalCanceled);
         model.addAttribute("totalQna", totalQna);
+        model.addAttribute("totalUser", totalUser);
 
         return "admin/stats";
     }
@@ -844,6 +849,7 @@ public class AdminController {
     /**
      * @since 2023/03/14
      * @author 황원진
+     * @apiNote qna 답글 update
      */
     @PostMapping("cs/{cs_cate}/view")
     public String usaveQnaArticle(String cs_reply, int cs_no){
@@ -852,7 +858,7 @@ public class AdminController {
 
         csService.usaveQnaArticle(cs_reply, cs_no);
 
-        return "redirect:/admin/cs/qna/list";
+        return "redirect:/admin/cs/qna/view?cs_no="+cs_no;
     }
 
 

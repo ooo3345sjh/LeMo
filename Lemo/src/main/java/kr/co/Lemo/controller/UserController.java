@@ -80,11 +80,6 @@ public class UserController {
         return "user/login";
     }
 
-    @PostMapping("login")
-    public void login() {
-        log.debug("POST login start...");
-    }
-
     /**
      * @since 2023/03/23
      * @param error error 파라미터 값 L:차단된 회원, W:탈퇴한 회원
@@ -98,7 +93,7 @@ public class UserController {
             HttpServletRequest req,
             HttpSession session
     ) {
-        log.debug("GET login error start...");
+        log.debug("POST login error start...");
 
         String username = req.getParameter("username");
         Object uri = req.getAttribute("toUri");

@@ -222,19 +222,29 @@
         ORDER BY `res_date` desc limit 7;
     </select>
 
-    <!-- 관리자 - 일별 누적 판매 건수 (일주일) -->
-    <select id="countWeeksSales" resultType="java.lang.Integer">
-        select count(a.`res_checkIn`) from `lemo_product_reservation` as a
-        join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
-        where a.res_state NOT IN (0) AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY)) AND DATE(NOW());
-    </select>
-
     <!-- 관리자 - 결제방법 결제 현황 (일주일) -->
     <select id="selectPayment" resultType="kr.co.Lemo.domain.ReservationVO">
         select * from `lemo_product_reservation` as a
         join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         where a.res_state NOT IN (0) AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY)) AND DATE(NOW())
         order by a.res_payment;
+    </select>
+
+     <!-- 관리자 - 월별 매출 근황 (월별) -->
+    <select id="selectMonthSales" resultType="kr.co.Lemo.domain.ReservationVO">
+        SELECT MONTH(a.res_date) AS res_month, SUM(a.res_price - a.res_disPrice) AS tot_res_price
+        FROM lemo_product_reservation AS a
+        LEFT JOIN lemo_product_accommodation AS b ON a.acc_id = b.acc_id
+        WHERE a.res_state NOT IN (0) AND a.res_checkIn BETWEEN DATE(date_add(now(), INTERVAL -6 MONTH)) AND DATE(NOW())
+        GROUP BY MONTH(a.res_date)
+        ORDER BY res_month;
+    </select>
+
+    <!-- 관리자 - 일별 누적 판매 건수 (일주일) -->
+    <select id="countWeeksSales" resultType="java.lang.Integer">
+        select count(a.`res_checkIn`) from `lemo_product_reservation` as a
+        join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        where a.res_state NOT IN (0) AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY)) AND DATE(NOW());
     </select>
 
     <!-- 관리자 - 취소 건수 (일주일) -->
@@ -245,11 +255,25 @@
     </select>
 
     <!-- 관리자 - 1:1 문의수 (일주일) -->
-    <select id="countWeeksQna"  resultType="java.lang.Integer">
+    <select id="countWeeksQna" resultType="java.lang.Integer">
         select count(`cs_no`) from `lemo_cs`
         where `cs_cate`='qna'
         and `cs_rdate` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY)) AND DATE(NOW());
     </select>
+
+    <!-- 관리자 - 상품 등록 수 (일주일) -->
+    <select id="countWeeksAcc" resultType="java.lang.Integer">
+        select count(`acc_id`) from `lemo_product_accommodation`
+        where `acc_rdate` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY)) AND DATE(NOW());
+    </select>
+
+    <!-- 관리자 - 회원등록 수 (일주일) -->
+    <select id="countWeeksUser" resultType="java.lang.Integer">
+        select count(`user_id`) from `lemo_member_userinfo`
+        where `rdate` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY)) AND DATE(NOW());
+    </select>
+
+
     <!--
     <select id="selectDaySales" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT DATE(res_date) AS res_date, SUM(res_price) AS total_res_price
