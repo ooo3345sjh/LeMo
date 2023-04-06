@@ -123,4 +123,18 @@ public interface BusinessDAO {
    public int deleteRoom(@Param("room_id") String room_id);
 
 
+ /**
+  * @since  2023/04/05
+  * @author 황원진
+  * @apiNote 판매자 qna DAO
+  */
+
+  // @since 2023/04/05 판매자 상품관리 목록
+  public List<ProductQnaVO> selectQnaList(SearchCondition sc);
+
+  //@since 2023/04/05 판매자 상품관리 페이징
+  public int countQnas(SearchCondition sc);
+
+  //@since 2023/04/05 판매자 소유상품 목록
+  public List<ProductQnaVO> selectAccOwnedForQna(String user_id);
 }

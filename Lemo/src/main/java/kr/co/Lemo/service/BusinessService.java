@@ -513,8 +513,37 @@ public class BusinessService {
 
 
 
+    /**
+     * @since  2023/04/05
+     * @author 황원진
+     * @apiNote 판매자 qna service
+     */
 
+    /**
+     * 판매자 상품문의 - 문의목록
+     * @since 2023/04/05
+     * @param sc
+     */
+    public List<ProductQnaVO> findAllQna(Admin_SearchVO sc){
+        return dao.selectQnaList(sc);
+    }
 
+    /**
+     * 판매자 상품문의 - 목록 페이징
+     * @since 2023/04/05
+     * @param sc
+     */
+    public int countQna(SearchCondition sc){
+        return dao.countQnas(sc);
+    }
 
+    /**
+     * 판매자 소유 상품 목록
+     * @since 2023/04/05
+     * @param user_id
+     */
+    public List<ProductQnaVO> findAllAccOwnedForQna(String user_id){
+        return dao.selectAccOwnedForQna(user_id);
+    }
 
 }
