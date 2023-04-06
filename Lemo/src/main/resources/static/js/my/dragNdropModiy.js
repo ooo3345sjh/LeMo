@@ -106,7 +106,7 @@ $(function(){
 
                 toDataURL(imgSrc)
                   .then(dataUrl => {
-
+                    console.log(dataUrl);
 //                    fetch(dataUrl)
 //                        .then((res) => res.blob())
 //                        .then((myBlob) => {
@@ -156,7 +156,7 @@ $(function(){
             document.querySelector('#btn_dropzone').addEventListener('click', function (e) {
                 console.log('alert');
                 console.log(myDropzone.files);
-                myDropzone.processQueue();
+                //myDropzone.processQueue();
             });
 
             myDropzone.on("complete", function(file) {
