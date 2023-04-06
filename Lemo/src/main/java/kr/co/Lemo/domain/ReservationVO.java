@@ -64,5 +64,6 @@ public class ReservationVO {
     // @since 2023/04/06 @author 이해빈;
     private String payment;
     private int cp_disprice;
+    private int res_month;
 
 }

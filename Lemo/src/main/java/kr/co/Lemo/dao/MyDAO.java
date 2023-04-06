@@ -68,4 +68,8 @@ public interface MyDAO {
     public List<ProductQnaVO> selectDiaryQna(SearchCondition sc);
     public int selectDiaryQnaCnt(SearchCondition sc);
 
+    // @since 2023/04/06
+    public String selectCheckReviewId(int res_no);
+    public int updateReview(Map<String, Object> param);
+
 }

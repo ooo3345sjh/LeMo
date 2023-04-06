@@ -277,19 +277,25 @@ public class MyController {
     }
 
     // @since 2023/04/05
-    @PostMapping("review/modify")
-    public void reviewModify(
+    @ResponseBody
+    @PostMapping("review/usave")
+    public String usaveReview(
             @RequestParam Map<String, Object> param,
-            MultipartHttpServletRequest request,
             HttpServletRequest req,
-            @AuthenticationPrincipal UserVO myUser
+            @AuthenticationPrincipal UserVO myUser,
+            MultipartHttpServletRequest request
     ) {
-        log.debug("param : " + param);
         Map<String, MultipartFile> fileMap = request.getFileMap();
+        param.put("revi_regip", req.getRemoteAddr());
 
-        for (MultipartFile multipartFile : fileMap.values()) {
-            log.debug("oriName : " + multipartFile.getOriginalFilename());
-        }
+        String user_id = myUser.getUser_id();
+        String review_id = service.findCheckReviewId(Integer.parseInt(String.valueOf(param.get("res_no"))));
+
+        if(!user_id.equals(review_id)) { return "redirect:/my/review/list"; }
+
+        service.usaveReview(param, fileMap);
+
+        return "test";
     }
 
     // @since 2023/03/08
@@ -370,8 +376,6 @@ public class MyController {
         m.addAttribute("title", environment.getProperty(diaryGroup));
 
         String uid = myUser.getUser_id();
-
-
 
         return "my/diary/modify";
     }

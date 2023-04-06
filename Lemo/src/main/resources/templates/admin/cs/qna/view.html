@@ -39,15 +39,16 @@
                                         <div class="view_recomment">
                                             <div class="write_recomment">
                                                 <div class="inner_txt">
-                                                    <textarea placeholder="문의 답변을 작성해 주세요" name="cs_reply" th:text="${qnaArticle.cs_reply}"></textarea>
+                                                    <textarea placeholder="문의 답변을 작성해 주세요" id="cs_reply" name="cs_reply" th:text="${qnaArticle.cs_reply}" th:disabled="${qnaArticle.cs_reply != null} ? true : false"></textarea>
                                                 </div>
 
                                                 <div class="btnSubmit">
                                                     <th:block th:if="${qnaArticle.cs_reply == null}">
                                                         <button class="btnAdminProd" type="submit">등록</button>
                                                     </th:block>
-                                                    <th:block th:if="${qnaArticle.cs_reply != null}">
-                                                        <button class="btnAdminProd" type="submit">수정</button>
+                                                    <th:block th:if="${qnaArticle.cs_reply != null }">
+                                                        <button class="btnAdminProd" type="button" onclick="toggleDisabled()">수정하기</button>
+                                                        <button class="btnAdminProd" type="submit" style="display:none;">수정</button>
                                                     </th:block>
                                                         <button class="btnAdminProd" type="button" onclick="javascript:history.back();">목록으로</button>
                                                 </div>
@@ -88,6 +89,23 @@
                 }
             });
         });
+
+        // 답변 포커스
+        const cs_reply = document.getElementById('cs_reply');
+        cs_reply.focus();
+
+        // 수정하기 버튼 클릭시 disabled 변경
+        function toggleDisabled() {
+            var textarea = document.getElementById("cs_reply"); // textarea 요소 가져오기
+            if (textarea.disabled) {
+                textarea.disabled = false; // disabled 속성 제거하여 편집 가능하도록 함
+                document.querySelector('button[type="submit"]').style.display = "block"; // 수정하기 버튼 숨기기
+                document.querySelector('button[type="button"]').style.display = "none";
+            } else {
+              textarea.disabled = true; // disabled 속성 추가하여 편집 불가능하도록 함
+              document.querySelector('button[type="submit"]').style.display = "none"; // 수정하기 버튼 보이기
+            }
+          }
 
         function modifyCheck(e) {
           e.preventDefault(); // form submit 막음
