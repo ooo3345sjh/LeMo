@@ -844,6 +844,7 @@ public class AdminController {
     /**
      * @since 2023/03/14
      * @author 황원진
+     * @apiNote qna 답글 update
      */
     @PostMapping("cs/{cs_cate}/view")
     public String usaveQnaArticle(String cs_reply, int cs_no){
@@ -852,7 +853,7 @@ public class AdminController {
 
         csService.usaveQnaArticle(cs_reply, cs_no);
 
-        return "redirect:/admin/cs/qna/list";
+        return "redirect:/admin/cs/qna/view?cs_no="+cs_no;
     }
 
 
