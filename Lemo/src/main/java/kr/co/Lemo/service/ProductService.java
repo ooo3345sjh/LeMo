@@ -315,6 +315,11 @@ public class ProductService {
         return dao.selectResNo(user_id,res_no);
     }
 
+    // @since 2023/04/06
+    public ReservationVO findOrderInfo(int res_no){
+        return dao.selectOrderInfo(res_no);
+    };
+
     // update
 
     // delete

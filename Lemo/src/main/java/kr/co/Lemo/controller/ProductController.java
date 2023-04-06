@@ -182,15 +182,27 @@ public class ProductController {
                          @AuthenticationPrincipal UserVO myUser) throws Exception{
 
         // 세션에서 주문정보 가져오기
-        OrderInfoVO vo = (OrderInfoVO) session.getAttribute("orderinfo");
+        //OrderInfoVO vo = (OrderInfoVO) session.getAttribute("orderinfo");
 
         // vo 가 null 이면 product/list로 redirect
-        if(vo == null){
+//        if(vo == null){
+//            return "redirect:/product/list";
+//        }
+
+        // 세션에서 res_no가 null이면 product/list로 redirect
+        Object obj = session.getAttribute("res_no");
+        if(obj == null){
             return "redirect:/product/list";
         }
 
+        int res_no = (int) obj;
+
         String user_id = myUser.getUser_id();
-        int res_no = vo.getRes_no();
+        //int res_no1 = vo.getRes_no();
+
+        log.info("예약 번호 : " + res_no);
+
+        //log.info("예약 번호 : " + res_no + "주문정보에 저장된 예약번호 : " +res_no1);
 
         // 로그인한 유저 id와 예약번호(res_no)로 조회하여 예약내역이 있는지 검증
         int result = service.findResNo(user_id, res_no);
@@ -198,28 +210,32 @@ public class ProductController {
             throw new Exception();
         }
 
-        String payment = vo.getPayment();
+        // 예약 정보 가져오기
+        ReservationVO vo = service.findOrderInfo(res_no);
 
-        switch(payment) {
-            case "1" :
+        int res_payment = vo.getRes_payment();
+        String payment = "";
+
+        switch(res_payment) {
+            case 1 :
                 payment = "신용/카드결제";
                 break;
-            case "2" :
+            case 2 :
                 payment = "토스페이";
                 break;
-            case "3" :
+            case 3 :
                 payment = "PAYCO";
                 break;
-            case "4":
+            case 4:
                 payment = "카카오페이";
                 break;
-            case "5":
+            case 5:
                 payment = "계좌이체";
                 break;
         }
 
         vo.setPayment(payment);
-        model.addAttribute("orderinfo", vo);
+        model.addAttribute("oi", vo);
         model.addAttribute("title", environment.getProperty(group));
 
         return "product/result";
@@ -421,12 +437,13 @@ public class ProductController {
 
         }else { // 결제 성공
             log.info( "최종 결제 정보 vo : " + vo);
-            
-            // 세션에 주문 정보 저장
-            session.setAttribute("orderinfo", vo);
 
             /* 예약 진행 */
             service.reservation(vo);
+
+            // 세션에 주문 정보 저장
+            session.setAttribute("orderinfo", vo);
+            session.setAttribute("res_no", vo.getRes_no());
 
             return new ResponseEntity<>("주문이 완료되었습니다", HttpStatus.OK);
         }
@@ -443,11 +460,6 @@ public class ProductController {
         int termsType_no = Integer.parseInt((String) map.get("termsType_no"));
 
         TermVO term = service.findTerm(termsType_no);
-
-        log.info("약관 번호 :" + termsType_no);
-
-        log.info("약관 :" + term);
-
         return term;
     }
 
