@@ -117,6 +117,14 @@
 
             const thumbs = reviewThumbs.split('/');
 
+            let rating  = document.querySelector('input[name="revi_rate"]');
+            console.log(rating.value);
+
+            $('input[name="revi_rate"]').click(function(){
+                $('input[name="revi_rate"]').prop("checked", false);
+                console.log($(this).val());
+            });
+
             $(function(){
                 // 취소버튼 확인
                 $('.my_review_m_cancel').click(function(){

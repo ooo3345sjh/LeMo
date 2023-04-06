@@ -32,7 +32,7 @@ import javax.sql.DataSource;
  * @author 서정현
  * @apiNote SecurityConfig
  */
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 public class SecurityConfig implements WebMvcConfigurer {

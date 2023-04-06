@@ -191,6 +191,10 @@
         SELECT COUNT(`qna_no`) FROM `lemo_product_qna` WHERE `user_id` = #{user_id}
     </select>
 
+    <select id="selectCheckReviewId" resultType="String">
+        SELECT `user_id` FROM `lemo_product_review` WHERE `res_no` = #{res_no}
+    </select>
+
     <!-- insert -->
     <insert id="insertDiaryArticle" parameterType="kr.co.Lemo.domain.ArticleDiaryVO" useGeneratedKeys="true" keyProperty="arti_no">
         INSERT INTO `lemo_diary_article` SET
@@ -246,6 +250,16 @@
 
     <update id="updateReservationState">
         UPDATE `lemo_product_reservation` SET `res_state` = 0 WHERE `res_no` = #{res_no};
+    </update>
+
+    <update id="updateReview">
+        UPDATE `lemo_product_review` SET
+            `revi_rate` = #{revi_rate},
+            `revi_title` = #{revi_title},
+            `revi_content` = #{revi_content},
+            `revi_regip` = #{revi_regip},
+            `revi_thumb` = #{revi_thumb}
+        WHERE `res_no` = #{res_no}
     </update>
 
     <!-- delete -->
