@@ -303,6 +303,39 @@ public class MyService {
         return dao.selectCheckReview(res_no);
     }
 
+    // @since 2023/03/30
+    public ProductAccommodationVO findeDiaryXY(int res_no) {
+        return dao.selectDiaryXY(res_no);
+    }
+
+    // @since 2023/04/05
+    public List<ProductQnaVO> findDiaryQna(SearchCondition sc) {
+        return dao.selectDiaryQna(sc);
+    }
+
+    public int findDiaryQnaCnt(SearchCondition sc) {
+        return dao.selectDiaryQnaCnt(sc);
+    }
+
+    // @since 2023/04/06
+
+    public String findCheckReviewId(int res_no) {
+        return dao.selectCheckReviewId(res_no);
+    }
+
+    public void usaveReview(Map<String, Object> param, Map<String, MultipartFile> fileMap) {
+        for(MultipartFile mf : fileMap.values()) {
+            log.debug("mf : " + mf.getOriginalFilename());
+        }
+
+        List<String> fileName = checkReivewFile(param, fileMap);
+
+        String files = String.join("/", fileName);
+        param.put("revi_thumb", files);
+
+        dao.updateReview(param);
+    }
+
     // 기능
 
     // @since 2023/03/12
@@ -369,18 +402,75 @@ public class MyService {
         return 1;
     }
 
-    // @since 2023/03/30
-    public ProductAccommodationVO findeDiaryXY(int res_no) {
-        return dao.selectDiaryXY(res_no);
-    }
+    public List<String> checkReivewFile(Map<String, Object> param, Map<String, MultipartFile> fileMap) {
 
-    // @since 2023/04/05
-    public List<ProductQnaVO> findDiaryQna(SearchCondition sc) {
-        return dao.selectDiaryQna(sc);
-    }
+        String dirPath = new File(uploadPath+"review/"+param.get("acc_id")).getAbsolutePath();
 
-    public int findDiaryQnaCnt(SearchCondition sc) {
-        return dao.selectDiaryQnaCnt(sc);
-    }
+        File dir = new File(dirPath);
+        File Files[] = dir.listFiles();
 
+        List<String> oriReview = new ArrayList<>();
+        List<String> newReview = new ArrayList<>();
+        List<String> oriRemoveReview = new ArrayList<>();
+        List<String> newRemoveReview = new ArrayList<>();
+
+        for(File fname : Files) {
+            oriReview.add(fname.getName());
+            oriRemoveReview.add(fname.getName());
+        }
+
+        for(MultipartFile mf : fileMap.values()) {
+            newReview.add(mf.getOriginalFilename());
+            newRemoveReview.add(mf.getOriginalFilename());
+        }
+
+        // 저장되어질 reviewImage
+        newReview.removeAll(oriRemoveReview);
+        log.debug("저장 : " + newReview);
+
+        // 삭제되어질 reviewImage
+        oriReview.removeAll(newRemoveReview);
+        log.debug("삭제 : " + oriReview);
+
+        if(oriReview.size() != 0) {
+            // 삭제
+            for(String deleteFile : oriReview) {
+
+                File df = new File(dirPath + "/" + deleteFile);
+                if(df.exists()) { df.delete(); }
+            }
+        }
+
+        List<String> changeSaveFile = new ArrayList<>();
+
+        if(newReview.size() != 0) {
+            // 저장
+            for(String saveFile : newReview) {
+                String ext = saveFile.substring(saveFile.indexOf("."));
+                log.debug("saveFile : " + saveFile);
+                String newName = UUID.randomUUID() + ext;
+                log.debug("newName : " + newName);
+                changeSaveFile.add(newName);
+
+                MultipartFile mf = fileMap.get(saveFile);
+
+                try {
+                    mf.transferTo(new File(dirPath, newName));
+                } catch (IllegalStateException e) {
+                    log.error(e.getMessage());
+                } catch (IOException e) {
+                    log.error(e.getMessage());
+                }
+            }
+        }
+
+        // db에 저장될 리스트 이름
+        oriRemoveReview.removeAll(oriReview);
+        oriRemoveReview.addAll(changeSaveFile);
+        log.debug("DB : " + oriRemoveReview);
+
+
+        return oriRemoveReview;
+
+    }
 }
