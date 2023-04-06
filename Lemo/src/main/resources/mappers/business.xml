@@ -343,8 +343,9 @@
 
     <!-- 판매자 상품문의 목록-->
     <select id="selectQnaList" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductQnaVO">
-        select * from `lemo_product_qna` as a
+        select a.*, b.`acc_name`, c.`nick` from `lemo_product_qna` as a
         join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        JOIN `lemo_member_userinfo` AS c ON a.user_id=c.user_id
         where b.`user_id`= #{user_id}
         <if test="acc_id != null">
             and a.`acc_id`=#{acc_id}
@@ -353,13 +354,13 @@
     </select>
 
     <!-- 판매자 상품문의 목록 페이징 -->
-    <select id="countQnaList" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
+    <select id="countQnas" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
         select count(*) FROM `lemo_product_qna` AS a
         JOIN `lemo_product_accommodation` AS b
         ON a.acc_id = b.acc_id
         WHERE b.`user_id` = #{user_id}
         <if test="acc_id != null">
-            and b.`acc_id`=#{acc_id}
+            and a.`acc_id`=#{acc_id}
         </if>
     </select>
 

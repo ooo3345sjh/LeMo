@@ -647,4 +647,57 @@ public class BusinessController {
         return "business/reservation/timeline";
     }
 
+
+
+
+    /**
+     * @since 2023/04/05
+     * @author 황원진
+     * @apiNote 판매자 상품문의 controller
+     */
+
+    // @since 2023/04/06 판매자 상품문의 목록
+    @GetMapping("qna/list")
+    public String qna_list(@RequestParam Map map,
+                           @AuthenticationPrincipal UserVO myUser,
+                           @ModelAttribute Admin_SearchVO sc,
+                           Model model){
+
+        model.addAttribute("title", environment.getProperty(group));
+
+        String user_id = "";
+        if(myUser != null){
+            user_id = myUser.getUser_id();
+        }
+
+        sc.setMap(map);
+        sc.setUser_id(user_id);
+
+        int totalCnt = service.countQna(sc);
+        int totalPage = (int) Math.ceil(totalCnt / (double)sc.getPageSize());
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<ProductQnaVO> qnaArticles = service.findAllQna(sc);
+
+        model.addAttribute("qnaArticles", qnaArticles);
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalCnt", totalCnt);
+        model.addAttribute("sc", sc);
+
+        return null;
+    }
+
+    // @since 2023/04/06
+    @GetMapping("finaAllAccOwnedForQna")
+    public ResponseEntity<List<ProductQnaVO>> findAllAccOwnedForQna(@AuthenticationPrincipal UserVO myUser){
+
+        log.debug("findAllAccOwnedForQna");
+
+        String user_id = myUser.getUser_id();
+
+        List<ProductQnaVO> accs = service.findAllAccOwnedForQna(user_id);
+        return ResponseEntity.ok(accs);
+    }
 }
