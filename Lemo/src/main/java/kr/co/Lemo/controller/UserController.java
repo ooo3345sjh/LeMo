@@ -110,6 +110,7 @@ public class UserController {
         return "redirect:/user/login";
     }
 
+    // @since 2023/04/06
     @GetMapping("logout")
     public String logout(
             HttpServletRequest req,
