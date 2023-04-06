@@ -61,6 +61,8 @@ public class ReservationVO {
     private String acc_checkOut;
     private int tot_res_price;
 
-
+    // @since 2023/04/06 @author 이해빈;
+    private String payment;
+    private int cp_disprice;
 
 }

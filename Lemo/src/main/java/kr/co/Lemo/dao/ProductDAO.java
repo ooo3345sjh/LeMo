@@ -111,6 +111,9 @@ public interface ProductDAO {
     // @since 2023/04/05
     public int selectResNo(@Param("user_id") String user_id, @Param("res_no") int res_no);
 
+    // @since 2023/04/06
+    public ReservationVO selectOrderInfo( @Param("res_no") int res_no);
+
     // update
 
     // @since 2023/03/28

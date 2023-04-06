@@ -43,5 +43,4 @@ public class OrderInfoVO {
     private int res_no; // 예약 번호
     private int mcp_id;
 
-
 }

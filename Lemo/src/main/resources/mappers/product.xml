@@ -104,6 +104,7 @@
     <select id="selectAccommodation" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
         SELECT a.*, r.*, IFNULL(b.empty_room_stock, r.room_stock) as 'empty_room_stock',c.*
         FROM `lemo_product_accommodation` a
+
         JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
         LEFT JOIN (
             SELECT a.acc_id 'acc_id', r.room_id 'room_id', (r.room_stock - COUNT(rero.rero_id)) 'empty_room_stock' FROM `lemo_product_accommodation` a
@@ -263,6 +264,24 @@
     <select id="selectResNo" resultType="int">
         SELECT COUNT(`res_no`) FROM `lemo_product_reservation`
         WHERE `user_id`= #{user_id} AND `res_no`= #{res_no}
+    </select>
+
+    <select id="selectOrderInfo" resultType="kr.co.Lemo.domain.ReservationVO">
+        SELECT a.*,b.acc_name,c.room_name,
+        IFNULL(`room_checkIn`, acc_checkIn) AS `room_checkIn`,
+        IFNULL(`room_checkOut`, acc_checkOut) AS `room_checkOut`,
+        IFNULL(d.`poi_point`, 0) AS `poi_point`,
+        IFNULL(e.`dis_price`, 0) AS `cp_disprice`
+        FROM `lemo_product_reservation` AS a
+        JOIN `lemo_product_accommodation` AS b
+        ON a.acc_id = b.acc_id
+        JOIN `lemo_product_room` AS c
+        ON a.room_id = c.`room_id`
+        LEFT JOIN `lemo_member_point_log` AS d
+        ON a.res_no = d.res_no
+        LEFT JOIN `lemo_member_coupon_log` AS e
+        ON a.res_no = e.res_no
+        WHERE a.`res_no`=#{res_no}
     </select>
 
     <!-- update -->
