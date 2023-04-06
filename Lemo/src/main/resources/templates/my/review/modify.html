@@ -118,11 +118,10 @@
             const thumbs = reviewThumbs.split('/');
 
             let rating  = document.querySelector('input[name="revi_rate"]');
-            console.log(rating.value);
 
             $('input[name="revi_rate"]').click(function(){
-                $('input[name="revi_rate"]').prop("checked", false);
-                console.log($(this).val());
+                $('#rate'+rating).prop("checked", false);
+                rating = $(this).val();
             });
 
             $(function(){
