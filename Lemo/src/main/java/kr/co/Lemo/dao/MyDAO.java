@@ -71,5 +71,6 @@ public interface MyDAO {
     // @since 2023/04/06
     public String selectCheckReviewId(int res_no);
     public int updateReview(Map<String, Object> param);
+    public int deleteReview(int res_no);
 
 }

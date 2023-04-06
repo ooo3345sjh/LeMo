@@ -63,7 +63,7 @@
                             <div class="blank30"></div>
                         </div>
                         <div class="my_review_v_del">
-                            <a th:href="@{#}">삭제</a>
+                            <a th:href="@{#}" class="deleteReview">삭제</a>
                         </div>
                         <div class="my_review_v_modify">
                             <a th:href="@{/my/review/modify (res_no=${ review.res_no })}">수정</a>
@@ -107,6 +107,9 @@
             </th:block>
             <th:block layout:fragment="script">
                 <script>
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const res_no = urlParams.get('res_no');
+
                     $(function(){
                         /** Swiper Slider **/
                         const swiper = new Swiper('.review_swiper-container', {
@@ -135,6 +138,42 @@
                                 //이전페이지 설정
                                 prevEl: '.swiper-button-prev',
                             },
+                        });
+
+                        $('.deleteReview').click(function(e){
+                            e.preventDefault();
+
+                            Swal.fire({
+                                title: '정말 삭제하시겠습니까?',
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: '확인',
+                                cancelButtonText: '취소',
+                                reverseButtons: false,
+                            }).then(result => {
+                                if (result.isConfirmed) {
+                                    let jsonData = { "res_no":res_no };
+
+                                    ajaxAPI("my/review", jsonData, "DELETE").then((response)=>{
+                                        if(response == 1) {
+                                            Swal.fire({
+                                                title: '리뷰가 삭제되었습니다.',
+                                                icon: 'info',
+                                                confirmButtonColor: '#3085d6',
+                                                cancelButtonColor: '#d33',
+                                                confirmButtonText: '확인',
+                                                reverseButtons: false,
+                                            }).then(result => {
+                                                location.href='/Lemo/my/review/list';
+                                            });
+                                        }else {
+                                            Swal.fire( '다시 시도해주세요.' );
+                                        }
+                                    });
+                                }
+                            });
                         });
                     });
                 </script>

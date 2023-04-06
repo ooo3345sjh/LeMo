@@ -323,7 +323,7 @@ public class MyService {
         return dao.selectCheckReviewId(res_no);
     }
 
-    public void usaveReview(Map<String, Object> param, Map<String, MultipartFile> fileMap) {
+    public String usaveReview(Map<String, Object> param, Map<String, MultipartFile> fileMap) {
         for(MultipartFile mf : fileMap.values()) {
             log.debug("mf : " + mf.getOriginalFilename());
         }
@@ -333,7 +333,22 @@ public class MyService {
         String files = String.join("/", fileName);
         param.put("revi_thumb", files);
 
-        dao.updateReview(param);
+        int result = dao.updateReview(param);
+        String success = "usaveImageFail";
+        switch (result) {
+            case 1 :
+                success = "usaveImageSuccess";
+                break;
+            case 0 :
+                success = "usaveImageFail";
+                break;
+        }
+
+        return success;
+    }
+
+    public int removeReview(int res_no) {
+        return dao.deleteReview(res_no);
     }
 
     // 기능
