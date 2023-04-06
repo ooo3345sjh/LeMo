@@ -60,7 +60,7 @@ public class ReservationVO {
     private String acc_checkIn;
     private String acc_checkOut;
     private int tot_res_price;
-
+    private int res_month;
 
 
 }
