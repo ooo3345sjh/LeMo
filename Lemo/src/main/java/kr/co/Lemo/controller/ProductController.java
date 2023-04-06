@@ -451,4 +451,9 @@ public class ProductController {
         return term;
     }
 
+    @GetMapping("result2")
+    public String result2(){
+        return "/product/result2";
+    }
+
 }
