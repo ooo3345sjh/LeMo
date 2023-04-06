@@ -71,7 +71,7 @@
                                 <button type="submit" id="btn_dropzone">수정완료</button>
                             </div>
                             <div class="my_review_m_cancel">
-                                <a th:href="@{#}">취소</a>
+                                <a th:href="@{/my/review/view ( res_no=${review.res_no} )}">취소</a>
                             </div>
                         </form>
                     </div>  
@@ -114,26 +114,7 @@
             let maxFiles = 1;
             let acc_id = [[${review.acc_id}]]
             let reviewThumbs = [[${review.revi_thumb}]]
-
             const thumbs = reviewThumbs.split('/');
-
-            let rating  = document.querySelector('input[name="revi_rate"]');
-
-            $('input[name="revi_rate"]').click(function(){
-                $('#rate'+rating).prop("checked", false);
-                rating = $(this).val();
-            });
-
-            $(function(){
-                // 취소버튼 확인
-                $('.my_review_m_cancel').click(function(){
-                    let conf = confirm("수정을 취소하시겠습니까?");
-                    if(conf) {
-                        location.href = '/Lemo/my/review/list';
-                    }
-                });
-            });
-
             </script>
         </th:block>
 </html>
