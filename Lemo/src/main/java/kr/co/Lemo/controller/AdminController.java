@@ -90,10 +90,31 @@ public class AdminController {
     @GetMapping("stats")
     public String stats(Model model, Map map) {
 
-        List<ReservationVO> vo = service.findAllDaySales(map);
+        // 매출현황
+        List<ReservationVO> stats = service.findAllDaySales(map);
+        // 결제 현황
+        List<ReservationVO> pays = service.findAllPayment(map);
+        Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
+        // 총 매출 건수
+        int total = service.countWeeksSales();
+        // 취소 건수
+        int totalCanceled = service.countWeeksCancel();
+        // 1:1 문의 수
+        int totalQna = service.countWeeksQna();
 
-        log.warn("stats: " + vo);
-        model.addAttribute("stats", vo);
+        //log.warn("stats: " + stats);
+        //log.warn("pays: " + pays);
+        //log.warn("pays length: " + pays.size());
+        //log.warn("pays map : " + paysMap);
+        log.warn("total: " + total);
+        log.warn("totalCanceled: " + totalCanceled);
+        log.warn("totalQna: " + totalQna);
+
+        model.addAttribute("stats", stats);
+        model.addAttribute("paysMap", paysMap);
+        model.addAttribute("totalSales", total);
+        model.addAttribute("totalCanceled", totalCanceled);
+        model.addAttribute("totalQna", totalQna);
 
         return "admin/stats";
     }

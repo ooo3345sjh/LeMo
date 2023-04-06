@@ -104,6 +104,18 @@ public interface AdminDAO {
     // @since 2023/04/05
     public List<ReservationVO> selectDaySales(Map map);
 
+    // @since 2023/04/06
+    public int countWeeksSales();
+
+    // @since 2023/04/06
+    public List<ReservationVO> selectPayment(Map map);
+
+    // @since 2023/04/06
+    public int countWeeksCancel();
+
+    // @since 2023/04/06
+    public int countWeeksQna();
+
     /**
      * @since 2023/03/31
      * @author 박종협

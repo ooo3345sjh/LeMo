@@ -29,9 +29,9 @@
                                     <div class="tot_sales">
                                         <div class="tot_sales_box">
                                             <div class="ts_tit1">총매출</div>
-                                            <div class="ts_count">53</div>
+                                            <div class="ts_count">[[${totalSales}]]</div>
                                             <div class="ts_tit2">건</div>
-                                            <div class="ts_price">5,000,000</div>
+                                            <div class="ts_price" th:text="${#numbers.formatInteger(stats[0].tot_res_price + stats[1].tot_res_price + stats[2].tot_res_price + stats[3].tot_res_price + stats[4].tot_res_price + stats[5].tot_res_price + stats[6].tot_res_price, 0, 'COMMA')}"></div>
                                             <div class="ts_tit3">원</div>
                                         </div>
                                     </div>
@@ -54,11 +54,11 @@
                                                 <div class="today_grid">
                                                     <div class="today_grid_item">
                                                         <p>예약건수</p>
-                                                        <h3>300</h3>
+                                                        <h3>[[${totalSales}]]</h3>
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>취소건수</p>
-                                                        <h3>30</h3>
+                                                        <h3>[[${totalCanceled}]]</h3>
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>방문자수</p>
@@ -66,7 +66,7 @@
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>1:1문의수</p>
-                                                        <h3>115</h3>
+                                                        <h3>[[${totalQna}]]</h3>
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>상품등록</p>
@@ -224,8 +224,8 @@
     <script th:inline="javascript">
         // 참조 데이터 준비
         let stats = [[${stats}]];
-        console.log("stats : " + stats);
 
+        console.log(stats);
         console.log("stats res_price : " + stats[0].res_price);
 
 
@@ -243,29 +243,37 @@
         // 출력 날짜 형태 지정
         date = nowMonth + '/' + nowDate;
 
-        console.log(date);
+        console.log("date : " + date);
 
         // 이전 날짜
         // before[1] = 1일전 , before[2] = 2일전
         let before = new Array();
         for (let i=1; i<7; i++){
             before[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
-            before[i] = before[i].getMonth() + '/' + before[i].getDate();
+            before[i] = (before[i].getMonth()+1) + '/' + before[i].getDate();
         }
-        console.log( before[1] );
+        console.log(before[6] + " - " + stats[0].tot_res_price);
+        console.log(before[5] + " - " + stats[1].tot_res_price);
+        console.log(before[4] + " - " + stats[2].tot_res_price);
+        console.log(before[3] + " - " + stats[3].tot_res_price);
+        console.log(before[2] + " - " + stats[4].tot_res_price);
+        console.log(before[1] + " - " + stats[5].tot_res_price);
+        console.log(date + " - " + stats[6].tot_res_price);
+
+
 
         function drawVisualization() {
 
             // 그래프 내용 : drawVisualization 구현
             var data = google.visualization.arrayToDataTable([
                 ['날짜', '일별매출', '누적매출'],
-                [before[6],  100, 200],
-                [before[5],  408, 852],
-                [before[4],  164, 1016],
-                [before[3],  239, 1255],
-                [before[2],  60, 1315],
-                [before[1],  380, 1695],
-                [date,  80, 1775]
+                [before[6],  stats[6].tot_res_price, stats[6].tot_res_price],
+                [before[5],  stats[5].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price],
+                [before[4],  stats[4].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price],
+                [before[3],  stats[3].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price],
+                [before[2],  stats[2].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price],
+                [before[1],  stats[1].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price + stats[1].tot_res_price],
+                [date,  stats[0].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[1].tot_res_price + stats[1].tot_res_price + stats[0].tot_res_price]
             ]);
 
             // 그래프 주석 표기
@@ -366,19 +374,25 @@
         }
     </script>
     -->
-    <script type="text/javascript">
+    <script th:inline="javascript">
+
+        // 참조 데이터 준비
+        let paysMap = [[${paysMap}]];
+
+        //console.log(paysMap);
+        //console.log(paysMap[1][0].res_no);
+        //console.log(paysMap[1].length);
+
+
         google.charts.load("current", {packages:["corechart"]});
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
             ['payment', 'Percent'],
-            ['신용/체크카드', 35],
-            ['간편계좌이체', 8],
-            ['토스페이', 7],
-            ['네이버페이', 3],
-            ['PAYCO', 23],
-            ['법인카드', 2],
-            ['휴대폰결제', 27]
+            ['신용/체크카드', paysMap[1].length],
+            ['토스페이', paysMap[2].length],
+            ['PAYCO', paysMap[3].length],
+            ['카카오페이', paysMap[4].length]
             ]);
 
             var options = {
@@ -391,7 +405,7 @@
                 position: 'bottom',
                 maxLines: 7
                 },
-                colors: ['#4F650D', '#637A15', '#7F9822', '#9CB631', '#BBD444','#D3E570','#E4F28F'],
+                colors: ['#4F650D', '#7F9822', '#BBD444','#D3E570'],
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('donutchart'));

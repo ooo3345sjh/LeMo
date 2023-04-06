@@ -330,6 +330,30 @@ public class AdminService {
     }
 
     /**
+    * @since 2023/04/06
+    * @apiNote 관리자 카운트
+     */
+    public int countWeeksSales(){
+        return dao.countWeeksSales();
+    }
+     public int countWeeksCancel(){
+        return dao.countWeeksCancel();
+     }
+     public int countWeeksQna(){
+        return dao.countWeeksQna();
+     }
+
+    /**
+     * @since 2023/04/06
+     * @param map
+     * @apiNote 관리자 결제방법 결제 현황
+     */
+    public List<ReservationVO> findAllPayment(Map map){
+        return dao.selectPayment(map);
+    }
+
+
+    /**
      * @since 2023/03/31
      * @author 박종협
      * @apiNote 매출 차트 테스트
