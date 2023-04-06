@@ -3,7 +3,6 @@ package kr.co.Lemo.service;
 import kr.co.Lemo.dao.AdminDAO;
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
-import kr.co.Lemo.repository.AdminRepo;
 import kr.co.Lemo.utils.PageHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.AllArgsConstructor;
@@ -20,8 +19,6 @@ import java.util.Map;
 public class AdminService {
 
     private AdminDAO dao;
-    private AdminRepo repo;
-
     /**
      * 관리자 회원 - 회원 목록
      * @since 2023/03/09
