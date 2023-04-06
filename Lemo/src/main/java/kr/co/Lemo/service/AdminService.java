@@ -330,6 +330,15 @@ public class AdminService {
     }
 
     /**
+     * @since 2023/04/06
+     * @param map
+     * @apiNote 관리자 통계관리 월별 누적 판매량
+     */
+    public List<ReservationVO> findAllMonthSales(Map map){
+        return dao.selectMonthSales(map);
+    }
+
+    /**
     * @since 2023/04/06
     * @apiNote 관리자 카운트
      */
@@ -341,6 +350,12 @@ public class AdminService {
      }
      public int countWeeksQna(){
         return dao.countWeeksQna();
+     }
+     public int countWeeksAcc(){
+        return dao.countWeeksAcc();
+     }
+     public int countWeeksUser(){
+        return dao.countWeeksUser();
      }
 
     /**
