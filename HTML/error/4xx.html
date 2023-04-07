@@ -1,37 +1,81 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>4XX ERROR</title>
-        <link rel="stylesheet" href="../css/common.css"/>
-    </head>
-    <style>
-        body {
-          background-color: #F5F6FF;
-          width: 100%;
-          height: 100%;
-        }
-        #wrapper {
-          width: 100%;
-          height: 100%;
-          border: 1px solid blue;
-        }
-        #error {
-          width: 1200px;
-          margin: 0px auto;
-        }
-        
-        #error > img {
-          width: 300px;
-        }
-    </style>
-    <body>
-        <div id="wrapper">
-            <div id="error">
-              <span>404 ERROR</span>
-              <img src="./img/search3.png">
-              <strong>페이지가 작동하지 않습니다.</strong>
-              <span>문제가 지속될 경우, 사이트 관리자에게 문의해주세요.</span>
-            </div>
+  <head>
+    <title>4XX ERROR</title>
+    <link rel="stylesheet" href="../css/common.css" />
+  </head>
+  <style>
+    body {
+      /*background-color: #f5f6ff;*/
+      width: 100%;
+      height: 100%;
+    }
+    #wrapper {
+      width: 100vw;
+      height: 100vh;
+      border: 1px solid blue;
+      display: table-cell;
+      vertical-align: middle;
+    }
+    #error {
+      width: 1200px;
+      margin: 0px auto;
+      border: 1px solid red;
+      padding: 30px;
+    }
+
+    #error > img {
+      width: 300px;
+      display: block;
+      float: left;
+      transform: rotate(158deg);
+    }
+
+    #error > strong {
+      display: block;
+      font-size: 40px;
+    }
+    #error > span:nth-of-type(1) {
+      display: block;
+      font-size: 250px;
+      font-weight: 800;
+      text-align: center;
+      color: #fcf951;
+    }
+    #error > span:nth-of-type(2) {
+      display: block;
+      font-size: 20px;
+    }
+
+    #error .button {
+      margin-top: 20px;
+    }
+
+    #error button {
+      width: 93px;
+      height: 48px;
+      border-radius: 6px;
+      background: #fef951;
+      font-size: 14px;
+      font-weight: bold;
+      border: none;
+      color: rgba(0, 0, 0, 0.56);
+    }
+  </style>
+  <body>
+    <div id="wrapper">
+      <div id="error">
+        <span>404</span>
+        <img src="./img/lemon.png" />
+        <strong>페이지를 찾을 수 없습니다.</strong>
+        <span>
+          페이지의 URL이나 이름이 변경되었거나 일시적으로 사용할 수 없습니다.
+        </span>
+        <div class="button">
+          <button>홈으로 이동</button>
+          <button>이전 페이지로</button>
         </div>
-    </body>   
+      </div>
+    </div>
+  </body>
 </html>
