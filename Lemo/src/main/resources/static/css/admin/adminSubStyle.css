@@ -2540,8 +2540,6 @@ main .d_box > textarea {
 
 /* 타임라인 */
 main .guideTimelineColor {
-    float: right;
-    padding: 14px;
 }
 main .guideTimelineColor td:nth-of-type(odd) {
     width: 20px;
@@ -2553,10 +2551,10 @@ main .guideTimelineColor td:nth-of-type(even) {
     padding-right: 16px;
     vertical-align: middle;
 }
-main .guideTimelineColor td:nth-of-type(1) {background: #2B3467;}
-main .guideTimelineColor td:nth-of-type(3) {background: #ff95a6;}
-main .guideTimelineColor td:nth-of-type(5) {background: #BAD7E9;}
-main .guideTimelineColor td:nth-of-type(7) {background: #d7d7d7;}
+main .guideTimelineColor td:nth-of-type(1) {background: #d7d7d7;}
+main .guideTimelineColor td:nth-of-type(3) {background: #BAD7E9;}
+main .guideTimelineColor td:nth-of-type(5) {background: #ff95a6;}
+
 main .select_data {
     height: 34px;
     float: left;
@@ -2574,7 +2572,7 @@ main .select_data > input {
     height: 34px;
 }
 main #calendar-container {
-    padding: 33px 0;
+    padding: 15px 0;
 }
 #calendar {
     max-width: 1400px;
