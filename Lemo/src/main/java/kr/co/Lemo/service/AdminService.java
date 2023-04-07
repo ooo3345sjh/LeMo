@@ -332,7 +332,52 @@ public class AdminService {
      * @apiNote 관리자 통계관리 월별 누적 판매량
      */
     public List<ReservationVO> findAllMonthSales(Map map){
-        return dao.selectMonthSales(map);
+
+        int total = 0;
+        double percent = 0;
+
+        List<ReservationVO> mp = dao.selectMonthSales(map);
+
+        for(ReservationVO vo : mp){
+            total += vo.getTot_res_price();
+        }
+
+        log.warn("total sales: " + total);
+
+        for(ReservationVO vo : mp){
+            double tot_month_percent = ((vo.getTot_res_price()+0.0)/(total+0.0))*100;
+            log.warn("tot_month_percent: " + tot_month_percent);
+            vo.setTot_month_percent(tot_month_percent);
+        }
+
+        // vo 확인용 로그 출력
+        for(ReservationVO vo : mp){
+            double test = vo.getTot_month_percent();
+            log.warn("test : " + test);
+        }
+        return mp;
+    }
+
+    /**
+     * @since 2023/04/07
+     * @param map
+     * @apiNote 관리자 통계관리 월별 예약 건수
+     */
+    public List<ReservationVO> countMonthSales(Map map){
+
+        List<ReservationVO> cms = dao.countMonthSales(map);
+
+        for(ReservationVO vo : cms){
+            int tot_month_sales = vo.getTot_month_sales();
+            vo.setTot_month_sales(tot_month_sales);
+        }
+
+        //  vo 확인용 로그 출력
+        for(ReservationVO vo : cms){
+            int test2 = vo.getTot_month_sales();
+            log.warn("test2: " + test2);
+        }
+        return cms;
     }
 
     /**

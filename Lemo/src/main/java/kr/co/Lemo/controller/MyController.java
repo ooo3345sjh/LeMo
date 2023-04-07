@@ -291,11 +291,29 @@ public class MyController {
         String user_id = myUser.getUser_id();
         String review_id = service.findCheckReviewId(Integer.parseInt(String.valueOf(param.get("res_no"))));
 
-        if(!user_id.equals(review_id)) { return "redirect:/my/review/list"; }
+        if(!user_id.equals(review_id)) { return "usaveImageFail"; }
 
-        service.usaveReview(param, fileMap);
+        String result = service.usaveReview(param, fileMap);
 
-        return "test";
+        return result;
+    }
+
+    // @since 2023/04/06
+    @ResponseBody
+    @DeleteMapping("review")
+    public int removeReview(
+            @RequestBody Map map,
+            @AuthenticationPrincipal UserVO myUser
+    ) {
+        int res_no = Integer.parseInt(String.valueOf(map.get("res_no")));
+        String user_id = myUser.getUser_id();
+        String review_id = service.findCheckReviewId(res_no);
+
+        if(!user_id.equals(review_id)) { return 101; }
+
+        int result = service.removeReview(res_no);
+
+        return result;
     }
 
     // @since 2023/03/08
@@ -523,12 +541,12 @@ public class MyController {
      * @return
      */
     @ResponseBody
-    @PatchMapping("info/isNoticeEnabled")
+    @PatchMapping("info/notification")
     public Map updateIsNoticeEnabled(
             @AuthenticationPrincipal UserVO userVO,
             @RequestBody Map map
     ) throws  Exception {
-        log.debug("MyService PATCH isNoticeEnabled start...");
+        log.debug("MyService PATCH notification start...");
 
         Integer isNoticeEnabled = (Integer) map.get("isNoticeEnabled");
         int result = 0;

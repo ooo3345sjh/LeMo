@@ -656,7 +656,7 @@ public class BusinessController {
      * @apiNote 판매자 상품문의 controller
      */
 
-    // @since 2023/04/06 판매자 상품문의 목록
+    // @since 2023/04/06 황원진 판매자 상품문의 목록
     @GetMapping("qna/list")
     public String qna_list(@RequestParam Map map,
                            @AuthenticationPrincipal UserVO myUser,
@@ -689,7 +689,7 @@ public class BusinessController {
         return null;
     }
 
-    // @since 2023/04/06
+    // @since 2023/04/06 황원진 select option 추가
     @GetMapping("finaAllAccOwnedForQna")
     public ResponseEntity<List<ProductQnaVO>> findAllAccOwnedForQna(@AuthenticationPrincipal UserVO myUser){
 
@@ -699,5 +699,18 @@ public class BusinessController {
 
         List<ProductQnaVO> accs = service.findAllAccOwnedForQna(user_id);
         return ResponseEntity.ok(accs);
+    }
+
+    // @since 2023/04/06 황원진 상품목록 선택삭제
+    @ResponseBody
+    @PostMapping("qna/listRemove")
+    public Map removeQnaList(@RequestBody Map<String, List<String>> data){
+        List<String> checkList = data.get("checkList");
+        int result = service.removeQnaList(checkList);
+
+        Map<String, Integer> map = new HashMap<>();
+        map.put("result", result);
+
+        return map;
     }
 }

@@ -114,16 +114,16 @@
                                             <input type="checkbox" name="all">
                                         </li>
                                         <li>#</li>
-                                        <li>예약번호</li>
+                                        <li>상품번호</li>
                                         <li>제목</li>
-                                        <li>작성자</li>
+                                        <li>문의자</li>
                                         <li>작성일</li>
                                         <li>상태</li>
                                     </ul>
                                     <th:block th:each="qnaArticle,i:${qnaArticles}">
                                         <ul>
                                             <li>
-                                                <input type="checkbox" name="cs_no" th:value="${qnaArticle.qna_no}">
+                                                <input type="checkbox" name="qna_no" th:value="${qnaArticle.qna_no}">
                                             </li>
                                             <li>[[*{totalCnt-sc.offset} - ${i.index}]]</li>
                                             <li>[[${qnaArticle.acc_id}]]</li>
@@ -133,7 +133,7 @@
                                             <li>[[${qnaArticle.nick}]]</li>
                                             <li>[[${qnaArticle.qna_rdate.substring(2, 10)}]]</li>
                                             <li th:if="${qnaArticle.qna_reply == null}" class="re_off">검토중</li>
-                                            <li th:if="${qnaArticle.qna_reply != null}" class="re_off">답변완료</li>
+                                            <li th:if="${qnaArticle.qna_reply != null}" class="re_complete">답변완료</li>
                                         </ul>
                                     </th:block>
                                 </div>
@@ -170,7 +170,7 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
-    <script th:src="@{/js/cs/qnaListDelete.js}"></script>
+    <script th:src="@{/js/admin/qnaListDelete.js}"></script>
     <script th:inline="javascript">
     // 상품문의 목록 (판매자) 소유 숙소 셀렉트 옵션 추가
     window.onload = function() {

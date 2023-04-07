@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:util="urn:util"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/admin-layout}">
 <th:block layout:fragment="css-js">
@@ -96,77 +97,17 @@
                                                         <th>비율</th>
                                                         <th>그래프</th>
                                                     </tr>
-                                                    <tr th:each="vo:${statsMonth}">
-                                                        <td>[[${vo.res_month}]]</td>
-                                                        <td>order count</td>
+                                                    <tr th:each="vo, i:${statsMonth}">
+                                                        <td>[[${vo.res_month}]]월</td>
+                                                        <td>[[${vo.tot_month_sales}]]</td>
+                                                        <td th:text="${#numbers.formatInteger(vo.tot_res_price, 0, 'COMMA') + '원'}">36,000</td>
+                                                        <td th:text="${#numbers.formatDecimal(vo.tot_month_percent, 2, 2) + '%'}"></td>
+                                                        <td>
+                                                            <progress id="progress1" th:value="${vo.tot_month_percent}" min="0" max="100"></progress>
+                                                        </td>
+                                                    </tr>
 
-                                                        <td>[[${vo.tot_res_price}]]</td>
-                                                        <td>total sale percent graph</td>
-                                                    </tr>
 
-                                                    <tr id="monthAdd">
-                                                        <td>A룸</td>
-                                                        <td>1</td>
-                                                        <td>123,000</td>
-                                                        <td>36%</td>
-                                                        <td>
-                                                            <progress id="progress1" value="36" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>B룸</td>
-                                                        <td>2</td>
-                                                        <td>234,000</td>
-                                                        <td>52%</td>
-                                                        <td>
-                                                            <progress id="progress1" value="52" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>C룸</td>
-                                                        <td>3</td>
-                                                        <td>123,000</td>
-                                                        <td>16%</td>
-                                                        <td>
-                                                            <progress id="progress1" value="16" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>D룸</td>
-                                                        <td>4</td>
-                                                        <td>123,000</td>
-                                                        <td>76%</td>
-                                                        <td>
-                                                            <progress id="progress1" value="76" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>E룸</td>
-                                                        <td>5</td>
-                                                        <td>123,000</td>
-                                                        <td>36%</td>
-                                                        <td>
-                                                            <progress id="progress1" value="36" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>F룸</td>
-                                                        <td>6</td>
-                                                        <td>123,000</td>
-                                                        <td>12%</td>
-                                                        <td>
-                                                            <progress id="progress1" value="12" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>G룸</td>
-                                                        <td>7</td>
-                                                        <td>123,000</td>
-                                                        <td>36%</td>
-                                                        <td>
-                                                            <progress id="progress1" value="36" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
                                                 </table>
                                             </div>
                                         </div>
@@ -386,9 +327,6 @@
         // 참조 데이터 준비
         let statsMonth = [[${statsMonth}]];
 
-        // 테이블 비우기
-        let monthAdd = $('#monthAdd');
-
         console.log(statsMonth);
         console.log('statsMonth.length : ' + statsMonth.length);
 
@@ -398,6 +336,11 @@
         //console.log( statsMonth[0].res_month + "=" + statsMonth[0].tot_res_price);
         //console.log( statsMonth[1].res_month + "=" + statsMonth[1].tot_res_price);
         //console.log( statsMonth[2].res_month + "=" + statsMonth[2].tot_res_price);
+
+        let monthPercentList = [[${monthPercentList}]];
+
+        console.log(monthPercentList);
+        console.log(monthPercentList[0]);
     </script>
     <script th:inline="javascript">
 

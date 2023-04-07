@@ -203,7 +203,13 @@ main .main_content .col2 .board_list li {
     font-size: 14px;
     text-align: center;
 }
-main .re_off {}
+main .re_off {
+    color: #E84545;
+}
+main .re_complete {
+    color: #00bbfe;
+}
+
 main .re_on {
     color: #00bbfe;
     font-weight: 500;
@@ -1637,7 +1643,6 @@ main .view_content > textarea {
     font-size: 15px;
     line-height: 20px;
     padding: 15px 10px;
-    border-bottom: 1px solid #d2d2d2;
     text-align: left;
     overflow-y: auto;
 }
@@ -1647,7 +1652,6 @@ main .view_recomment {
     margin-bottom: 30px;
 }
 main .inner_txt {
-    border: 1px solid #efefef;
     border-radius: 3px;
 }
 main .inner_txt > textarea {

@@ -245,7 +245,7 @@
                     "email":email
                 };
 
-                ajaxAPI("user/email/duplicate", jsonData, "POST").then((response) => {
+                ajaxAPI("user/email/duplicate?email="+email, jsonData, "GET").then((response) => {
                     if(response.result === 0){
                         $('#email_msg').text('존재하지않는 회원입니다.');
                     } else {

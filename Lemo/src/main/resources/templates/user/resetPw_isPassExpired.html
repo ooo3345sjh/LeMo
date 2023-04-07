@@ -81,7 +81,7 @@
                 "password":passInput.val()
             }
 
-            ajaxAPI("user/expiredPw/reset", jsonData, "PATCH").then((response) => {
+            ajaxAPI("user/expired-pw/reset", jsonData, "PATCH").then((response) => {
                 if(response.result === 1) {
                     Swal.fire({
                         title : "비밀번호 재설정에 성공했습니다.",

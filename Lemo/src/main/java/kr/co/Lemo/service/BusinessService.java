@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -546,4 +547,13 @@ public class BusinessService {
         return dao.selectAccOwnedForQna(user_id);
     }
 
+    /**
+     * 판매자 상품문의 - 선택삭제
+     * @since 2023/04/07
+     * @param checkList
+     */
+    public int removeQnaList(@RequestParam("checkList[]") List checkList){
+        log.info("serviceQnaRemove");
+        return dao.deleteQnaList(checkList);
+    }
 }

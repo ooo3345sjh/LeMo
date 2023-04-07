@@ -1,3 +1,4 @@
+// imgsrc(경로)를 base64로 인코딩
 const toDataURL = url => fetch(url)
   .then(response => response.blob())
   .then(blob => new Promise((resolve, reject) => {
@@ -7,8 +8,8 @@ const toDataURL = url => fetch(url)
     reader.readAsDataURL(blob)
   }))
 
+// base64를 파일로 변환
 function base64toFile(base_data, filename) {
-
     var arr = base_data.split(','),
         mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]),
@@ -28,7 +29,20 @@ const res_no = urlParams.get('res_no');
 
 Dropzone.autoDiscover=false;
 
-let testFormData = new FormData();
+// formData 생성
+let usaveFormData = new FormData();
+
+// rating 변경
+let rating  = document.querySelector('input[name="revi_rate"]');
+
+// rating 변경
+// modify 화면 불러올 시 value값에 해당하는 input에 cheked 걸어버리기 때문에
+// 변경 시 checked를 풀어줘야함
+$('input[name="revi_rate"]').click(function(){
+    $('input[name="revi_rate"]').attr("checked", false);
+    $(this).attr("checked", true);
+    rating.value = $(this).val();
+});
 
 $(function(){
     const myDropzone = new Dropzone('div.dropzone', {
@@ -37,7 +51,7 @@ $(function(){
         method:'post',
         headers: {
             // 요청 보낼때 헤더 설정
-            'X-CSRF-TOKEN' : $('meta[name="_csrf"]').attr('content') // jwt
+            'X-CSRF-TOKEN' : $('meta[name="_csrf"]').attr('content')
         },
 
         autoProcessQueue: false,
@@ -57,6 +71,7 @@ $(function(){
             // 최초 dropzone 설정시 init을 통해 호출
             let myDropzone = this; // closure 변수 (화살표 함수 쓰지않게 주의)
 
+            // thumbs는 revi_thumbs를 불러와서 배열로 split한 것임
             for(thumb in thumbs) {
                 let imgSrc = '/Lemo/img/review/'+acc_id+'/'+thumbs[thumb];
                 let dataURL;
@@ -70,76 +85,82 @@ $(function(){
                     accepted: true
                 };
 
-                //myDropzone.options.addedfile.call(myDropzone, mockFile);
-                //myDropzone.options.thumbnail.call(myDropzone, mockFile, imgSrc);
+                // imSrc로 base64를 생성하고 base64로 파일을 생성한다음 formdata에 append
                 toDataURL(imgSrc).then(dataUrl => {
-                    var fileTest = base64toFile(dataUrl, fileName);
-                    testFormData.append(fileName, fileTest);
+                    var oriFile = base64toFile(dataUrl, fileName);
+                    usaveFormData.append(fileName, oriFile);
                 });
 
+                // 가지고있는 이미지를 dropzone에 표기
                 myDropzone.displayExistingFile(mockFile, imgSrc);
+
+                // files에 push를 해줘야 최대 업로드 수 등등 dropzone 기능 온전히 사용가능
                 myDropzone.files.push(mockFile);
 
             }
 
+                // 이미지를 css로 90px로 변경
+                // dropzone을 이용해 추가한 이미지는 조절이 되어 잘 들어가지만
+                // displayExistingFile이걸 이용한 이미지는 조절이 안됨..
             {
-                $('[data-dz-thumbnail]').css('height', '120');
-                $('[data-dz-thumbnail]').css('width', '120');
+                $('[data-dz-thumbnail]').css('height', '90');
+                $('[data-dz-thumbnail]').css('width', '90');
                 $('[data-dz-thumbnail]').css('object-fit', 'cover');
             };
 
-            myDropzone.on("thumbnail", function(file, dataURL) {
-                // 안쓰이지만 추후에 제거
-            });
-
+            // 이미지 추가 시 작동하는 기능
+            // 이 기능은 기존 이미지가 추가 될때는 작동하지 않음
+            // 오로지 새로운 이미지를 추가할때만 발생함
+            // file.name으로 formdata에 입력해준다.
             myDropzone.on("addedfile", function(file) {
-                console.log("addedfile");
-                console.log(file);
-                testFormData.append(file.name, file);
+                usaveFormData.append(file.name, file);
             });
 
+            // 이미지 삭제시 작동하는 기능
+            // 이건 기존 이미지 또는 새로운 이미지 모두 작동하는 기능임
+            // 따라서 formdata에 append시킨 name으로 삭제를 함
             myDropzone.on("removedfile", function(file) {
-              alert('checkRemove');
-              console.log(file);
-              testFormData.delete(file.name);
+                usaveFormData.delete(file.name);
             });
 
             // 서버에 제출 submit 버튼 이벤트 등록
             document.querySelector('#btn_dropzone').addEventListener('click', function (e) {
-                console.log(myDropzone.files);
-
                 let title   = document.querySelector('input[name="revi_title"]');
                 let content = document.querySelector('textarea[name="revi_content"]');
 
-                console.log(rating.value);
+                // 나머지 input value append
+                usaveFormData.append("revi_title", title.value);
+                usaveFormData.append("revi_content", content.value);
+                usaveFormData.append("revi_rate", rating.value);
+                usaveFormData.append("acc_id", acc_id);
+                usaveFormData.append("res_no", res_no);
 
-                testFormData.append("revi_title", title.value);
-                testFormData.append("revi_content", content.value);
-                testFormData.append("revi_rate", rating.value);
-                testFormData.append("acc_id", acc_id);
-                testFormData.append("res_no", res_no);
-
+                // queue 기능을 사용하지 않음
                 //myDropzone.processQueue();
-//                $.ajax({
-//                    url: '/Lemo/my/review/usave',
-//                    method: 'POST',
-//                    beforeSend: function (xhr) {
-//                        xhr.setRequestHeader(header, token);
-//                    },
-//                    data: testFormData,
-//                    contentType: false,
-//                    processData: false,
-//                    enctype : 'multipart/form-data',
-//                    success: function(data) {
-//
-//                    }
-//                });
+
+                $.ajax({
+                    url: '/Lemo/my/review/usave',
+                    method: 'POST',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+                    data: usaveFormData,
+                    contentType: false,
+                    processData: false,
+                    enctype : 'multipart/form-data',
+                    success: function(data) {
+                        if(data == 'usaveImageFail') {
+                            location.href = '/Lemo/my/review/list';
+                        }else if(data == 'usaveImageSuccess') {
+                            location.href= "/Lemo/my/review/view?res_no="+res_no;
+                        }
+                    }
+                });
 
             });
 
             myDropzone.on("complete", function(file) {
-                console.log('test');
-                //location.href= "/Lemo/my/review/view?res_no="+res_no;
+                location.href= "/Lemo/my/review/view?res_no="+res_no;
             });
 
         },

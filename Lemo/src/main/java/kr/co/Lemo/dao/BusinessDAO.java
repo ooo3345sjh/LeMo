@@ -137,4 +137,7 @@ public interface BusinessDAO {
 
   //@since 2023/04/05 판매자 소유상품 목록
   public List<ProductQnaVO> selectAccOwnedForQna(String user_id);
+
+  // @since 2023/04/07 판매자 상품관리 목록 선택삭제
+  public int deleteQnaList(@Param("checkList") List<String> checkList);
 }

@@ -267,6 +267,10 @@
         DELETE FROM `lemo_product_reserved_room` WHERE `res_no` = #{res_no};
     </delete>
 
+    <delete id="deleteReview">
+        DELETE FROM `lemo_product_review` WHERE `res_no` = #{res_no};
+    </delete>
+
 
     <!-- 공통 키 -->
 

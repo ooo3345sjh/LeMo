@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,12 +89,33 @@ public class AdminController {
     }
 
     @GetMapping("stats")
-    public String stats(Model model, Map map) {
+    public String stats(Model model,
+                        Map map) {
 
         // 일별 매출 현황
         List<ReservationVO> stats = service.findAllDaySales(map);
         // 월별 매출 현황
         List<ReservationVO> statsMonth = service.findAllMonthSales(map);
+
+        List<Double> monthPercentList = new ArrayList<>();
+
+        for (ReservationVO vo : statsMonth) {
+            double totMonthPercent = vo.getTot_month_percent();
+            log.warn("totMonthPercent: " + totMonthPercent);
+            monthPercentList.add(totMonthPercent);
+        }
+        log.warn("monthPercentList: " + monthPercentList);
+        // 월별 예약 건수
+        List<ReservationVO> salesMonth = service.countMonthSales(map);
+
+        List<Integer> monthSalesList = new ArrayList<>();
+
+        for(ReservationVO vo: salesMonth){
+            int monthSales = vo.getTot_month_sales();
+            log.warn("monthSales : " + monthSales);
+            monthSalesList.add(monthSales);
+        }
+        log.warn("monthSalesList : " + monthSalesList);
         // 결제 현황
         List<ReservationVO> pays = service.findAllPayment(map);
         Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
@@ -108,18 +130,24 @@ public class AdminController {
         // 회원가입 수
         int totalUser = service.countWeeksUser();
 
+
+
         //log.warn("statsMonth: " + statsMonth);
         //log.warn("pays: " + pays);
         //log.warn("pays length: " + pays.size());
         //log.warn("pays map : " + paysMap);
+        //log.warn("salesMonth: " + salesMonth);
 
         model.addAttribute("stats", stats);
         model.addAttribute("statsMonth", statsMonth);
+        model.addAttribute("monthPercentList", monthPercentList);
         model.addAttribute("paysMap", paysMap);
         model.addAttribute("totalSales", total);
         model.addAttribute("totalCanceled", totalCanceled);
         model.addAttribute("totalQna", totalQna);
         model.addAttribute("totalUser", totalUser);
+        model.addAttribute("salesMonth", salesMonth);
+        model.addAttribute("monthSalesList", monthSalesList);
 
         return "admin/stats";
     }
