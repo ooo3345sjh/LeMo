@@ -50,7 +50,7 @@ public class MainController {
     }
 
     // @since 2023/03/23
-    @GetMapping("/accessDenied")
+    @GetMapping("/access/denied")
     public String accessDenied(){
         return "/error/accessDeniedPage";
     }

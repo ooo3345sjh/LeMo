@@ -2144,6 +2144,8 @@
 
 
     .my_diary_list ul li .img_slider img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
     }
 

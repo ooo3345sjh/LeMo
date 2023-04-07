@@ -94,7 +94,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 )
 
                 // 권한이 없는 uri 접근시 보여줄 페이지설정
-                .exceptionHandling(e->e.accessDeniedPage("/accessDenied"));
+                .exceptionHandling(e->e.accessDeniedPage("/access/denied"));
 
                 // 커스텀한 AuthenticationProvider를 추가 등록하는 방법
                 AuthenticationManagerBuilder amb = http.getSharedObject(AuthenticationManagerBuilder.class);
