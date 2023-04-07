@@ -1,5 +1,6 @@
 package kr.co.Lemo.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,19 +17,45 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ReservationVO {
+    @JsonProperty("groupId")
     private int res_no;
     private int acc_id;
     private int room_id;
     private String user_id;
     private int res_price;
     private int res_disPrice;
+    @JsonProperty("title")
     private String res_name;
     private String res_hp;
     private int res_payment;
     private String res_date;
+    @JsonProperty("start")
     private String res_checkIn;
+    @JsonProperty("end")
     private String res_checkOut;
     private int res_state;
+
+    @JsonProperty("color")
+    private String color;
+
+    @JsonProperty("textColor")
+    private String textColor;
+    public void setRes_state(int res_state) {
+        this.res_state = res_state;
+
+        if(res_state == 0){
+            this.color = "#d7d7d7";
+            this.textColor = "#252525";
+        }else if(res_state == 1){
+            this.color = "#BAD7E9";
+            this.textColor = "#252525";
+        }else if(res_state == 2){
+            this.color = "#ff95a6";
+            this.textColor = "#252525";
+        }
+
+    }
+
     private String res_memo;
 
     // 추가

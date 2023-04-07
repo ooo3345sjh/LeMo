@@ -200,7 +200,10 @@
     <select id="selectTimeline" resultType="kr.co.Lemo.domain.ReservationVO">
         select * from `lemo_product_reservation` as a
         inner join `lemo_product_room` as b on a.room_id=b.room_id
-        inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id;
+        inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id
+        where
+            month(a.`res_checkIn`) = month(current_date()) and
+            year(a.`res_checkIn`) = year(current_date());
     </select>
 
     <!-- (박종협) 관리자 - 메인 통계 -->
