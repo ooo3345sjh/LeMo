@@ -47,8 +47,9 @@ public class CsController {
                                     @ModelAttribute Cs_SearchVO sc){
 
         sc.setMap(map);
+        model.addAttribute("title", environment.getProperty(group));
         if("notice".equals(cs_cate)) {
-            model.addAttribute("title", environment.getProperty(group));
+
             service.findAllCsArticles(sc, model);
 
             return "cs/notice";
@@ -56,12 +57,10 @@ public class CsController {
             if (myUser == null || myUser.getUser_id() == null) {
                 return "redirect:/user/login";
             }
-            model.addAttribute("title", environment.getProperty(group));
             service.findAllQnaArticles(vo, myUser, model);
 
             return "cs/qna";
         }else if("terms".equals(cs_cate)){
-            model.addAttribute("title", environment.getProperty(group));
             service.findTerms(map);
 
             model.addAttribute("map", map);
@@ -123,13 +122,15 @@ public class CsController {
 //    }
 
     // @since 2023/03/08
-    @GetMapping("{cs_cate}/list")
-    public String findAllEvent_list(@PathVariable("cs_cate") String cs_cate,
+    @GetMapping("event/list")
+    public String findAllEvent_list(
                                     Model model,
                                     @RequestParam Map map,
                                     @ModelAttribute Cs_SearchVO sc){
         sc.setMap(map);
+        sc.setCs_cate("event");
         model.addAttribute("title", environment.getProperty(group));
+        model.addAttribute("cs_cate", "event");
 
         service.findAllCsArticles(sc, model);
 
@@ -137,9 +138,11 @@ public class CsController {
     }
 
     // @since 2023/03/08
-    @GetMapping("{cs_cate}/view")
-    public String event_view(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
+    @GetMapping("event/view")
+    public String event_view( int cs_no, Model model){
         log.info("no : " + cs_no);
+
+        String cs_cate = "event";
 
         CsVO eventView = service.findCsArticle(cs_no);
         CsVO eventPrev = service.findEventPrev(cs_cate, cs_no);
@@ -154,6 +157,7 @@ public class CsController {
         model.addAttribute("eventArticle", eventView);
         model.addAttribute("eventPrev", eventPrev);
         model.addAttribute("eventNext", eventNext);
+        model.addAttribute("cs_cate", cs_cate);
 
 
         return "cs/event/view";

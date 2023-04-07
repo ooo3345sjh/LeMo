@@ -1647,8 +1647,6 @@ main .view_content > textarea {
     overflow-y: auto;
 }
 main .view_recomment {
-    border: 1px solid rgb(248, 248, 248);
-    background-color: rgb(248, 248, 248);
     margin-bottom: 30px;
 }
 main .inner_txt {

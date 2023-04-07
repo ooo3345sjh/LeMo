@@ -9,10 +9,11 @@
         main .business_reply {
             text-align: left;
             padding: 10px 2px 4px 8px;
+            margin-bottom: 6px;
         }
         main .business_reply .business {
             border-radius: 11px;
-            padding: 3px 4px 3px 2px;
+            padding: 3px 9px;
             background: #bbd444;
             font-size: 13px;
             color: white;
@@ -127,6 +128,8 @@
 <!--            oriContent = textarea.value; // 기존의 값 저장-->
             if (textarea.disabled) {
                 textarea.disabled = false; // disabled 속성 제거하여 편집 가능하도록 함
+                textarea.style.backgroundColor = "#ececec";
+                textarea.focus();
                 document.querySelector('button[type="submit"]').style.display = "block"; // 수정 버튼 보이기
                 document.querySelector('button[type="button"]:nth-child(1)').style.display = "none"; // 수정하기 버튼 숨기기
                 document.querySelector('button[type="button"]:nth-child(3)').style.display = "none"; // 목록으로 버튼 보이기
@@ -134,6 +137,7 @@
             } else {
                 textarea.value = oriContent; // 기존의 값으로 되돌리기
                 textarea.disabled = true; // disabled 속성 추가하여 편집 불가능하도록 함
+                textarea.style.backgroundColor = "#f8f8f8"; // 색상을 기존 색상으로 복원
                 document.querySelector('button[type="submit"]').style.display = "none"; // 수정 버튼 숨기기
                 document.querySelector('button[type="button"]:nth-child(1)').style.display = "block"; // 수정하기 버튼 보이기
                 document.querySelector('button[type="button"]:nth-child(3)').style.display = "block"; // 목록으로 버튼 숨기기

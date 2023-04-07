@@ -20,7 +20,7 @@
             console.log("jsonData : " + jsonData);
 
 
-            ajaxAPI("admin/cs/qna/listRemove", jsonData, "post").then((response) => {
+            ajaxAPI("admin/cs/qna", jsonData, "Delete").then((response) => {
                 if(response.result > 0) {
                     Swal.fire({
                         title : '해당 글이 삭제되었습니다',

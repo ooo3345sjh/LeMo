@@ -88,6 +88,7 @@
                         <!-- 공지 보기 폼 -->
                         <form class="col_register_form" id="modifyNotice" th:action="@{/admin/cs/notice/modify}" method="post" onsubmit="modifyCheck(event);">
                             <input type="hidden" name="cs_no" th:value="${cs_no}">
+                            <input type="hidden" name="reUri" th:value="${reUri}">
                             <!-- 공지제목 등록 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -203,7 +204,7 @@
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: '승인',
+            confirmButtonText: '확인',
             cancelButtonText: '취소',
             reverseButtons: false,
           }).then((result) => {
