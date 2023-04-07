@@ -13,22 +13,26 @@
     #wrapper {
       width: 100vw;
       height: 100vh;
-      border: 1px solid blue;
       display: table-cell;
       vertical-align: middle;
+      background-color: #fffff6;
     }
     #error {
+      position: relative;
       width: 1200px;
       margin: 0px auto;
-      border: 1px solid red;
       padding: 30px;
+      text-align: center;
     }
 
     #error > img {
-      width: 300px;
+      position: absolute;
+      width: 201px;
       display: block;
       float: left;
       transform: rotate(158deg);
+      top: 127px;
+      left: 501px;
     }
 
     #error > strong {
@@ -45,14 +49,18 @@
     #error > span:nth-of-type(2) {
       display: block;
       font-size: 20px;
+      color: #8d8a8a;
     }
 
     #error .button {
       margin-top: 20px;
     }
 
-    #error button {
-      width: 93px;
+    #error a {
+      display: inline-block;
+      line-height: 48px;
+      text-align: center;
+      width: 145px;
       height: 48px;
       border-radius: 6px;
       background: #fef951;
@@ -60,20 +68,25 @@
       font-weight: bold;
       border: none;
       color: rgba(0, 0, 0, 0.56);
+      margin: 0px 5px;
+    }
+
+    #error a:nth-child(2){
+      background: #ebebeb;
     }
   </style>
   <body>
     <div id="wrapper">
       <div id="error">
-        <span>404</span>
+        <span>400</span>
         <img src="./img/lemon.png" />
         <strong>페이지를 찾을 수 없습니다.</strong>
         <span>
           페이지의 URL이나 이름이 변경되었거나 일시적으로 사용할 수 없습니다.
         </span>
         <div class="button">
-          <button>홈으로 이동</button>
-          <button>이전 페이지로</button>
+          <a href="#">홈으로 이동</a>
+          <a href="#">이전 페이지로</a>
         </div>
       </div>
     </div>
