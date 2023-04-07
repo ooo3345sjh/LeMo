@@ -44,7 +44,7 @@
                                             <li>[[${qna.nick}]]</li>
                                             <li>[[${qna.cs_rdate.substring(2, 10)}]]</li>
                                             <li th:if="${qna.cs_reply == null}" class="re_off">검토중</li>
-                                            <li th:if="${qna.cs_reply != null}" class="re_off">답변완료</li>
+                                            <li th:if="${qna.cs_reply != null}" class="re_complete">답변완료</li>
                                         </ul>
                                     </th:block>
                                 </div>

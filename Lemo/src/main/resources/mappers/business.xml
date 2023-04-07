@@ -370,7 +370,14 @@
         where `user_id`=#{user_id};
     </select>
 
-
+    <!-- 판매자 상품문의 목록 선택살제-->
+    <delete id="deleteQnaList">
+        delete from `lemo_product_qna`
+        where `qna_no` in
+        <foreach collection="checkList" index="index" item="checkList" open="(" close=")" separator=",">
+            #{checkList}
+        </foreach>
+    </delete>
 
 
 
