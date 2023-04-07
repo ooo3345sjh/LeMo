@@ -560,30 +560,28 @@ public class AdminController {
         log.info("admin/cs/.../list...");
 
         sc.setMap(map);
+        model.addAttribute("title", environment.getProperty(group));
+
         if("event".equals(cs_cate)){
             log.info("admin/cs/event/list");
 
-            model.addAttribute("title", environment.getProperty(group));
+
             csService.findAllCsArticles(sc, model);
 
             return "admin/cs/event/list";
         }else if("notice".equals(cs_cate)) {
 
-            model.addAttribute("title", environment.getProperty(group));
             csService.findAllCsArticles(sc, model);
             return "admin/cs/notice/list";
         }else if("qna".equals(cs_cate)){
 
-            model.addAttribute("title", environment.getProperty(group));
             csService.findAllAdminQnaArticles(sc, model);
             return "admin/cs/qna/list";
         }else if("faq".equals(cs_cate)){
             if(cs_type != null){
-                model.addAttribute("title", environment.getProperty(group));
                 csService.findAllFaqArticles(sc, model);
                 return "admin/cs/faq/list";
             }else {
-                model.addAttribute("title", environment.getProperty(group));
                 csService.findAllCsArticles(sc, model);
             }
         }
@@ -596,9 +594,10 @@ public class AdminController {
     /**
      * @since 2023/03/16
      * @author 황원진
+     * @apiNote 단일 게시물 삭제
      */
     @ResponseBody
-    @DeleteMapping("cs/{cs_cate}/articleRemove")
+    @DeleteMapping("cs/{cs_cate}/article")
     public Map<String, Integer> removeAdminArticle(@PathVariable("cs_cate") String cs_cate, @RequestBody Map map) throws Exception {
 
         int cs_no = Integer.parseInt(String.valueOf(map.get("cs_no")));
@@ -614,9 +613,10 @@ public class AdminController {
     /**
      * @since 2023/03/27
      * @author 황원진
+     * @apiNote 게시물 선택삭제
      */
     @ResponseBody
-    @PostMapping("cs/qna/listRemove")
+    @DeleteMapping("cs/qna")
     public Map removeQnaList(@RequestBody Map<String, List<String>> data){
         log.info("listRemoveStart");
 //        log.debug(map.toString());
@@ -636,10 +636,18 @@ public class AdminController {
      * @apiNote list modify
      */
     @GetMapping("cs/{cs_cate}/modify")
-    public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
+    public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model, HttpServletRequest request){
         if("notice".equals(cs_cate)){
             log.info("noticeModify");
             CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+            String uri =  request.getHeader("referer");
+            String regexUri = request.getContextPath() + "/admin/cs/notice/list";
+            if(uri.contains(regexUri)){
+                model.addAttribute("reUri", 1);
+            }else{
+                model.addAttribute("reUri", 2);
+            }
+            log.debug(uri);
             model.addAttribute("mNotice", noticeArticle);
             model.addAttribute("cs_no", cs_no);
 
@@ -674,72 +682,24 @@ public class AdminController {
      */
 
     @PostMapping("cs/{cs_cate}/modify")
-    public String usaveAdminNotice(@PathVariable("cs_cate") String cs_cate, CsVO vo){
+    public String usaveAdminNotice(@PathVariable("cs_cate") String cs_cate, CsVO vo, String reUri){
         if ("notice".equals(cs_cate)) {
             log.info("modifyNoticeStart");
+            log.debug(reUri);
+
             csService.usaveAdminNotice(vo);
-            return "redirect:/admin/cs/notice/list";
+            if(reUri.equals("1") ){
+                log.debug("noticeList");
+                return "redirect:/admin/cs/notice/list";
+            }else{
+                return "redirect:/admin/cs/notice/view?cs_no="+vo.getCs_no();
+            }
+
         }else if("faq".equals(cs_cate)){
             log.info("modifyFaqStart");
             csService.usaveFaqArticle(vo);
         }
         return "redirect:/admin/cs/faq/list";
-    }
-
-    /**
-     * @since 2023/04/03
-     * @author 황원진
-     * @apiNote view modify
-     */
-    @GetMapping("cs/{cs_cate}/viewModify")
-    public String usaveAdminCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
-        if("notice".equals(cs_cate)){
-            log.info("noticeViewModify");
-            CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
-            model.addAttribute("mNotice", noticeArticle);
-            model.addAttribute("cs_no", cs_no);
-
-            return "admin/cs/notice/viewModify";
-
-        }else if("faq".equals(cs_cate)){
-            log.info("faqModify");
-            CsVO faqArticle = csService.findAdminCsArticle(cs_cate, cs_no);
-            log.info("faqContent : " +faqArticle.getCs_content());
-            log.info("faqTitle : " +faqArticle.getCs_title());
-
-            model.addAttribute("mFaq", faqArticle);
-            model.addAttribute("cs_no", cs_no);
-
-            return "admin/cs/faq/modify";
-        }else if("event".equals(cs_cate)){
-            log.info("eventModify");
-            CsVO eventArticle = csService.findAdminCsArticle(cs_cate, cs_no);
-            log.info("eventContent : " +eventArticle.getCs_content());
-            log.info("eventTitle : " +eventArticle.getCs_title());
-
-            model.addAttribute("mEvent", eventArticle);
-            model.addAttribute("cs_no", cs_no);
-        }
-        return "admin/cs/event/modify";
-    }
-
-
-    /**
-     * @since 2023/04/03
-     * @author 황원진
-     * @apiNote view modify
-     */
-    @PostMapping("cs/{cs_cate}/viewModify")
-    public String usaveAdminCsNotice(@PathVariable("cs_cate") String cs_cate, CsVO vo){
-        if ("notice".equals(cs_cate)) {
-            log.info("modifyViewNoticeStart");
-            csService.usaveAdminNotice(vo);
-            return "redirect:/admin/cs/notice/view?cs_no="+vo.getCs_no();
-        }else if("faq".equals(cs_cate)){
-            log.info("modifyFaqStart");
-            csService.usaveFaqArticle(vo);
-        }
-        return "redirect:/admin/cs/faq/view?cs_no="+vo.getCs_no();
     }
 
 
@@ -880,43 +840,6 @@ public class AdminController {
     }
 
 
-    /**
-     * @since 2023/03/17
-     * @author 황원진
-     * @apiNote 관리자 이벤트 활성화
-     */
-    @ResponseBody
-    @PostMapping("cs/event/eventOn")
-    public Map<String, Integer> usaveOnEvent(@RequestBody Map map){
-
-        int cs_no = Integer.parseInt(String.valueOf(map.get("cs_no")));
-
-        int result = csService.usaveOnEvent(cs_no);;
-
-        Map<String, Integer> resultMap = new HashMap<>();
-        resultMap.put("result", result);
-
-        return resultMap;
-    }
-
-    /**
-     * @since 2023/03/17
-     * @author 황원진
-     * @apiNote 관리자 이벤트 비활성화
-     */
-    @ResponseBody
-    @PostMapping("cs/event/eventEnd")
-    public Map<String, Integer> usaveEndEvent(@RequestBody Map map){
-
-        int cs_no = Integer.parseInt(String.valueOf(map.get("cs_no")));
-
-        int result = csService.usaveEndEvent(cs_no);
-
-        Map<String, Integer> resultMap = new HashMap<>();
-        resultMap.put("result", result);
-
-        return resultMap;
-    }
 
     /**
      * @since 2023/03/29

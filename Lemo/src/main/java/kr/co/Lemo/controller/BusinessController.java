@@ -690,7 +690,7 @@ public class BusinessController {
     }
 
     // @since 2023/04/06 황원진 select option 추가
-    @GetMapping("finaAllAccOwnedForQna")
+    @GetMapping("find-all-product-qna")
     public ResponseEntity<List<ProductQnaVO>> findAllAccOwnedForQna(@AuthenticationPrincipal UserVO myUser){
 
         log.debug("findAllAccOwnedForQna");
@@ -703,7 +703,7 @@ public class BusinessController {
 
     // @since 2023/04/06 황원진 상품목록 선택삭제
     @ResponseBody
-    @PostMapping("qna/listRemove")
+    @DeleteMapping("qna")
     public Map removeQnaList(@RequestBody Map<String, List<String>> data){
         List<String> checkList = data.get("checkList");
         int result = service.removeQnaList(checkList);
