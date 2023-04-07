@@ -2204,7 +2204,6 @@ dialog {
     left: 50%;
     transform: translate(-50%, -50%);
     max-width: 90%;
-    max-height: 90%;
     z-index: 1001;
     background-color: #fff;
     border: 1px solid #ccc;

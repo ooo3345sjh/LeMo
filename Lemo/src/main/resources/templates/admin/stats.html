@@ -71,7 +71,7 @@
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>상품등록</p>
-                                                        <h3>[[${totalQna}]]</h3>
+                                                        <h3>[[${totalAcc}]]</h3>
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>회원가입</p>
@@ -100,6 +100,7 @@
                                                     <tr th:each="vo, i:${statsMonth}">
                                                         <td>[[${vo.res_month}]]월</td>
                                                         <td>[[${vo.tot_month_sales}]]</td>
+                                                        <!--/* <td>[[${monthSalesList}]]</td>  */-->
                                                         <td th:text="${#numbers.formatInteger(vo.tot_res_price, 0, 'COMMA') + '원'}">36,000</td>
                                                         <td th:text="${#numbers.formatDecimal(vo.tot_month_percent, 2, 2) + '%'}"></td>
                                                         <td>

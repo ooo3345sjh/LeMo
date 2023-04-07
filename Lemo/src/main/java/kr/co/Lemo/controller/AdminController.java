@@ -52,73 +52,14 @@ public class AdminController {
     private CsService csService;
 
 
+    // 관리자 - 메인
     @GetMapping(value = {"", "index"})
-    public String index_admin(
+     public String index_admin(
             Model model,
             Map map
     ) {
-        List<ReservationVO> vo = service.findSales(map);
-
-        Map<String, List<ReservationVO>> sales = vo.stream().collect(Collectors.groupingBy(ReservationVO::getRes_checkIn));
-
-        Map<String, Integer> totals = new HashMap<>();
-
-        int count = 0;
-        for( String key : sales.keySet() ) {
-            List<ReservationVO> test = sales.get(key);
-            int totalSales = 0;
-            for(ReservationVO sale : test) {
-                totalSales += sale.getSales();
-            }
-            totals.put(key, totalSales);
-        }
-
-        model.addAttribute("sales", totals);
-
-        log.debug("totals : " + totals);
-        log.debug("2023-03-24 : " + totals.get("2023-03-24"));
-        log.debug("2023-03-25 : " + totals.get("2023-03-25"));
-        log.debug("2023-03-26 : " + totals.get("2023-03-26"));
-        log.debug("2023-03-27 : " + totals.get("2023-03-27"));
-        log.debug("2023-03-28 : " + totals.get("2023-03-28"));
-        log.debug("2023-03-29 : " + totals.get("2023-03-29"));
-        log.debug("2023-03-30 : " + totals.get("2023-03-30"));
-        log.debug("2023-03-31 : " + totals.get("2023-03-31"));
-
-        return "admin/index";
-    }
-
-    @GetMapping("stats")
-    public String stats(Model model,
-                        Map map) {
-
         // 일별 매출 현황
         List<ReservationVO> stats = service.findAllDaySales(map);
-        // 월별 매출 현황
-        List<ReservationVO> statsMonth = service.findAllMonthSales(map);
-
-        List<Double> monthPercentList = new ArrayList<>();
-
-        for (ReservationVO vo : statsMonth) {
-            double totMonthPercent = vo.getTot_month_percent();
-            log.warn("totMonthPercent: " + totMonthPercent);
-            monthPercentList.add(totMonthPercent);
-        }
-        log.warn("monthPercentList: " + monthPercentList);
-        // 월별 예약 건수
-        List<ReservationVO> salesMonth = service.countMonthSales(map);
-
-        List<Integer> monthSalesList = new ArrayList<>();
-
-        for(ReservationVO vo: salesMonth){
-            int monthSales = vo.getTot_month_sales();
-            log.warn("monthSales : " + monthSales);
-            monthSalesList.add(monthSales);
-        }
-        log.warn("monthSalesList : " + monthSalesList);
-        // 결제 현황
-        List<ReservationVO> pays = service.findAllPayment(map);
-        Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
         // 총 매출 건수
         int total = service.countWeeksSales();
         // 취소 건수
@@ -130,7 +71,54 @@ public class AdminController {
         // 회원가입 수
         int totalUser = service.countWeeksUser();
 
+        model.addAttribute("stats", stats);
+        model.addAttribute("totalSales", total);
+        model.addAttribute("totalCanceled", totalCanceled);
+        model.addAttribute("totalQna", totalQna);
+        model.addAttribute("totalAcc", totalAcc);
+        model.addAttribute("totalUser", totalUser);
 
+        return "admin/index";
+    }
+
+    // 관리자 - 통계 관리
+    @GetMapping("stats")
+    public String stats(Model model,
+                        Map map) {
+
+        // 일별 매출 현황
+        List<ReservationVO> stats = service.findAllDaySales(map);
+
+        // 월별 매출 현황
+        List<ReservationVO> statsMonth = service.findAllMonthSales(map);
+
+        List<Double> monthPercentList = new ArrayList<>();
+
+        for (ReservationVO vo : statsMonth) {
+            double totMonthPercent = vo.getTot_month_percent();
+            log.warn("totMonthPercent: " + totMonthPercent);
+            monthPercentList.add(totMonthPercent);
+        }
+        log.warn("monthPercentList: " + monthPercentList);
+
+        // 결제 현황
+        List<ReservationVO> pays = service.findAllPayment(map);
+        Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
+
+        // 총 매출 건수
+        int total = service.countWeeksSales();
+
+        // 취소 건수
+        int totalCanceled = service.countWeeksCancel();
+
+        // 1:1 문의 수
+        int totalQna = service.countWeeksQna();
+
+        // 상품 등록 수
+        int totalAcc = service.countWeeksAcc();
+
+        // 회원가입 수
+        int totalUser = service.countWeeksUser();
 
         //log.warn("statsMonth: " + statsMonth);
         //log.warn("pays: " + pays);
@@ -145,9 +133,8 @@ public class AdminController {
         model.addAttribute("totalSales", total);
         model.addAttribute("totalCanceled", totalCanceled);
         model.addAttribute("totalQna", totalQna);
+        model.addAttribute("totalAcc", totalAcc);
         model.addAttribute("totalUser", totalUser);
-        model.addAttribute("salesMonth", salesMonth);
-        model.addAttribute("monthSalesList", monthSalesList);
 
         return "admin/stats";
     }
@@ -549,7 +536,10 @@ public class AdminController {
     }
 
     @GetMapping("reservation/timeline")
-    public String reservation_timeline(){
+    public String reservation_timeline(Model model){
+
+        service.findAllTimeline(model);
+
         return "admin/reservation/timeline";
     }
 
