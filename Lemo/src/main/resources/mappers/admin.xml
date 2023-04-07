@@ -196,6 +196,13 @@
         <include refid="searchAccInRes"/>
     </select>
 
+    <!-- 관리자 타임라인 -->
+    <select id="selectTimeline" resultType="kr.co.Lemo.domain.ReservationVO">
+        select * from `lemo_product_reservation` as a
+        inner join `lemo_product_room` as b on a.room_id=b.room_id
+        inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id;
+    </select>
+
     <!-- (박종협) 관리자 - 메인 통계 -->
     <select id="selectSales" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT
@@ -232,7 +239,7 @@
 
      <!-- 관리자 - 월별 매출 근황 (월별) -->
     <select id="selectMonthSales" resultType="kr.co.Lemo.domain.ReservationVO">
-        SELECT MONTH(a.res_date) AS res_month, SUM(a.res_price - a.res_disPrice) AS tot_res_price
+        SELECT MONTH(a.res_date) AS res_month, SUM(a.res_price - a.res_disPrice) AS tot_res_price, COUNT(a.`res_checkIn`) AS tot_month_sales
         FROM lemo_product_reservation AS a
         LEFT JOIN lemo_product_accommodation AS b ON a.acc_id = b.acc_id
         WHERE a.res_state NOT IN (0) AND a.res_checkIn BETWEEN DATE(date_add(now(), INTERVAL -6 MONTH)) AND DATE(NOW())
@@ -273,13 +280,9 @@
         where `rdate` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY)) AND DATE(NOW());
     </select>
 
-    <!-- 관리자 - 월별 예약 건수 -->
-    <select id="countMonthSales"  resultType="kr.co.Lemo.domain.ReservationVO">
-        SELECT COUNT(a.`res_checkIn`) AS tot_month_sales FROM lemo_product_reservation AS a
-        JOIN lemo_product_accommodation AS b ON a.acc_id = b.acc_id
-        WHERE a.res_state NOT IN (0) AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 MONTH)) AND DATE(NOW())
-        GROUP BY MONTH(a.res_date);
-    </select>
+
+
+
 
 
     <!--
@@ -513,7 +516,7 @@
                     and `cp_subject` like CONCAT('%', #{searchWord}, '%')
                 </when>
                 <when test='searchField == "user_id"'>
-                    and a.`user_id` like CONCAT('%', #{searchWord}, '%')
+                    and `user_id` like CONCAT('%', #{searchWord}, '%')
                 </when>
             </choose>
         </if>
@@ -554,7 +557,7 @@
         <if test="searchField != null">
             <choose>
                 <when test='searchField == "acc_id"'>
-                   and `acc_id` like CONCAT('%', #{searchWord}, '%')
+                   and b.`acc_id` like CONCAT('%', #{searchWord}, '%')
                 </when>
                 <when test='searchField == "acc_name"'>
                    and `acc_name` like CONCAT('%', #{searchWord}, '%')

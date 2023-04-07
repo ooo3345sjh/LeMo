@@ -71,6 +71,9 @@ public interface AdminDAO {
     // @since 2023/03/30
     public int countReservations(SearchCondition sc);
 
+    // @since 2023/04/07
+    public List<ReservationVO> selectTimeline();
+
     // @since 2023/03/11
     public void insertCoupon(CouponVO vo);
 
@@ -125,8 +128,6 @@ public interface AdminDAO {
     // @since 2023/04/06
     public int countWeeksUser();
 
-    // @since 2023/04/07
-    public List<ReservationVO> countMonthSales(Map map);
 
     /**
      * @since 2023/03/31
