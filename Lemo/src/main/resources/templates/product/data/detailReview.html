@@ -75,13 +75,13 @@
 
 <div class="paging" th:object="${ph}" th:if="${reviews.size() > 0}">
     <span class="prev" th:if="*{showPrev}">
-        <a th:href="@{/product/detailreview} + ${ph.sc.getQueryString(ph.beginPage-1)}" onclick="movePage(event,this,'review')"></a>
+        <a th:href="@{/product/detail-review} + ${ph.sc.getQueryString(ph.beginPage-1)}" onclick="movePage(event,this,'review')"></a>
     </span>
     <span class="on" th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
-        <a th:href="@{/product/detailreview} + ${ph.sc.getQueryString(num)}" onclick="movePage(event,this,'review')">[[${num}]]</a>
+        <a th:href="@{/product/detail-review} + ${ph.sc.getQueryString(num)}" onclick="movePage(event,this,'review')">[[${num}]]</a>
     </span>
     <span class="next" th:if="*{showNext}">
-        <a th:href="@{/product/detailreview} + ${ph.sc.getQueryString(ph.endPage+1)}" onclick="movePage(event,this,'review')"></a>
+        <a th:href="@{/product/detail-review} + ${ph.sc.getQueryString(ph.endPage+1)}" onclick="movePage(event,this,'review')"></a>
     </span>
 </div>
 </html>

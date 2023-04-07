@@ -3142,7 +3142,7 @@ margin-left: 25px;
         z-index: 1000;
     }
 
-    /* 예약 - 약관 팝업 */
+    /* 예약 - 약관 팝업 2023/04/06 추가 */
 
     .popup_terms {
         position: fixed;
@@ -3258,8 +3258,7 @@ margin-left: 25px;
         cursor: pointer;
     }
 
-    /* 예약내역 상세보기 */
-
+    /* 예약내역 상세보기 2023/04/06 추가 */
     .reserve_wrap {
         position: relative;
         width: 700px;
@@ -3381,8 +3380,6 @@ margin-left: 25px;
         text-align: left;
         margin-left: 7px;
     }
-
-
 
     .btn_button {
         width: 700px; height: 100px;

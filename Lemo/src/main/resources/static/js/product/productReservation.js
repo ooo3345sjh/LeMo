@@ -95,7 +95,7 @@ function paymentCard(data) {
 // 결제 완료
 function completePayment(data){
 
-    ajaxAPI("product/paymentComplete", data, "POST").then((response) => {
+    ajaxAPI("product/payment-complete", data, "POST").then((response) => {
         location.href="/Lemo/product/result"
 
     }).catch((errorMsg) => {

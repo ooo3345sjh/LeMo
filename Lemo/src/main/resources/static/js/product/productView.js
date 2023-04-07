@@ -34,7 +34,7 @@ function remove_tab_class(){
 /* 탭의 데이터 로드 */
 function loadData(cate, acc_id) {
 
-    let url = "/Lemo/product/detail"+cate+"?acc_id=" + acc_id;
+    let url = "/Lemo/product/detail-"+cate+"?acc_id=" + acc_id;
 
     $('#detail_'+cate).load(url, function() {
         console.log('load complete!');
@@ -240,7 +240,7 @@ $(function(){
             "user_id" : uid
         }
 
-        ajaxAPI("product/getCoupon", jsonData, "POST").then((response) => {
+        ajaxAPI("product/coupon/receive", jsonData, "POST").then((response) => {
             if(response.result == 1 ) {
                 sweetalert("쿠폰 수량이 마감되었습니다.", "warning");
             }else if(response.result == 2) {
@@ -459,7 +459,7 @@ $(function(){
             "qna_secret" : secret
         }
 
-        ajaxAPI("product/rsaveQna", jsonData, "POST").then((response) => {
+        ajaxAPI("product/qna", jsonData, "POST").then((response) => {
             if(response.result > 0) {
                 // 글 등록 성공시 문의작성폼 초기화
                 $('#qa_title').val("");
@@ -506,7 +506,7 @@ $(function(){
             return;
         }
 
-        let href = "/Lemo/product/detailqna?searchWord="+keyword+"&acc_id="+acc_id;
+        let href = "/Lemo/product/detail-qna?searchWord="+keyword+"&acc_id="+acc_id;
 
         $('#detail_qna').load(href, function() {
             console.log('load complete!');
@@ -548,7 +548,7 @@ $(function(){
 
                 isFetchingData = true;
                 $.ajax({
-                    url: '/Lemo/product/detaildiary?acc_id='+acc_id+"&page="+page,
+                    url: '/Lemo/product/detail-diary?acc_id='+acc_id+"&page="+page,
                     success: function(response) {
                         // 응답 결과를 jQuery객체로 변환후 html 추출후 append
                         let html = $('<div>').html(response).find('.diary_list').html();
