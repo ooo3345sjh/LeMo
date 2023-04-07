@@ -28,6 +28,9 @@
                                 <tbody>
                                     <tr th:each="pick:${picks}">
                                         <td>
+                                            <input type="checkbox">
+                                        </td>
+                                        <td>
                                             <a th:href="@{/product/view ( acc_id=${pick.acc_id} )}" class="my_pick_img">
                                                 <img th:src="|@{/}img/product/${pick.province_no}/${pick.acc_id}/${#strings.substringBefore(pick.acc_thumbs, '/')}|" alt="장소 이미지">
                                             </a>
@@ -58,6 +61,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <button class="btnRemovePick" type="button">찜 삭제</button>
                         </div>
                         <!-- 페이징 -->
                         <div class="paging" th:object="${ph}" th:unless="${picks.size() == 0}">

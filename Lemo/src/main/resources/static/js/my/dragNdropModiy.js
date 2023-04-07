@@ -120,7 +120,7 @@ $(function(){
             // 이건 기존 이미지 또는 새로운 이미지 모두 작동하는 기능임
             // 따라서 formdata에 append시킨 name으로 삭제를 함
             myDropzone.on("removedfile", function(file) {
-              usaveFormData.delete(file.name);
+                usaveFormData.delete(file.name);
             });
 
             // 서버에 제출 submit 버튼 이벤트 등록
