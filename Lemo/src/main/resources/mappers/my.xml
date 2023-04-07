@@ -240,8 +240,6 @@
     </insert>
 
     <!-- update -->
-
-
     <update id="updateProductCoupon">
         UPDATE `lemo_product_coupon` SET
             `cp_IssuedCnt` = ( `cp_IssuedCnt` + 1 )

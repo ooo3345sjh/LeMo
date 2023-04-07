@@ -188,6 +188,8 @@ $(function(){
                 $(this).children('textarea').val('');
                 $(this).children('textarea').css('height', '76px');
 
+            }else if(response["result"] == 'thereIsNoCommentType') {
+                Swal.fire(`다시 시도해주세요.`)
             }
         });
     })

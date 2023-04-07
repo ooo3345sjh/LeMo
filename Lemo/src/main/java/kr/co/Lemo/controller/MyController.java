@@ -6,6 +6,7 @@ import kr.co.Lemo.domain.search.ProductDetail_SearchVO;
 import kr.co.Lemo.service.MyService;
 
 import kr.co.Lemo.service.PaymentService;
+import kr.co.Lemo.service.ProductService;
 import kr.co.Lemo.utils.PageHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import kr.co.Lemo.service.UserService;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +49,8 @@ public class MyController {
     private String myGroup = "title.my";
     private String diaryGroup = "title.my.diary";
     private final MyService service;
+
+    private final ProductService productService;
 
     // @since 2023/03/31
     @Autowired
@@ -199,6 +203,8 @@ public class MyController {
 
         if(review == null) { return "redirect:/my/review/list"; }
         if(!uid.equals(review.getUser_id())) { return "redirect:/my/review/list"; }
+
+        log.debug(""+review.getThumbs());
 
         m.addAttribute("review", review);
 
@@ -438,7 +444,32 @@ public class MyController {
 
         if(reservation == null) { return "redirect:/my/reservation/list"; }
 
-        m.addAttribute("reservation", reservation);
+        // 예약 정보 가져오기
+        ReservationVO vo = productService.findOrderInfo(res_no);
+
+        int res_payment = vo.getRes_payment();
+        String payment = "";
+
+        switch(res_payment) {
+            case 1 :
+                payment = "신용/카드결제";
+                break;
+            case 2 :
+                payment = "토스페이";
+                break;
+            case 3 :
+                payment = "PAYCO";
+                break;
+            case 4:
+                payment = "카카오페이";
+                break;
+            case 5:
+                payment = "계좌이체";
+                break;
+        }
+
+        vo.setPayment(payment);
+        m.addAttribute("oi", vo);
 
         return "my/reservation/view";
     }
@@ -452,11 +483,15 @@ public class MyController {
         return result;
     }
 
-    @GetMapping("reservation/modify")
-    public void reservationModify() {
-
+    // @since 2023/04/07
+    @ResponseBody
+    @DeleteMapping("pick")
+    public void removePick(
+            @RequestBody Map map
+    ) {
+        log.debug(""+map.get("chkList"));
+        log.debug(map.get("chkList").getClass().getName());
     }
-
 
     /**
      * @since 2023/03/27

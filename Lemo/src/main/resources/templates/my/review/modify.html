@@ -109,12 +109,10 @@
             </main>
         </th:block>
         <th:block layout:fragment="script">
-            <script th:src="@{/js/my/dragNdropModiy.js}"></script>
+            <script th:src="@{/js/my/review_modify.js}"></script>
             <script th:inline="javascript">
-            let maxFiles = 1;
             let acc_id = [[${review.acc_id}]]
             let reviewThumbs = [[${review.revi_thumb}]]
-            const thumbs = reviewThumbs.split('/');
             </script>
         </th:block>
 </html>
