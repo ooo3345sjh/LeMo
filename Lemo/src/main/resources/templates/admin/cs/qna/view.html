@@ -5,6 +5,22 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminQna.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <style>
+        main .business_reply {
+            text-align: left;
+            padding: 10px 2px 4px 8px;
+        }
+        main .business_reply .business {
+            border-radius: 11px;
+            padding: 3px 4px 3px 2px;
+            background: #bbd444;
+            font-size: 13px;
+            color: white;
+        }
+        main .business_reply .business_date {
+            font-size: 14px;
+        }
+    </style>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -20,13 +36,13 @@
                             <span>문의사항</span>
                         </div>
                         <div class="col2">
-                            <form id="qna_update" th:action="@{/admin/cs/qna/view}" method="post" onsubmit="modifyCheck(event);">
+                            <form id="qna_update" th:action="@{/admin/cs/qna/view}" method="post">
                                 <input type="hidden" name="cs_no" th:value="${cs_no}">
                                 <div class="board_view">
                                     <div class="view_box">
                                         <div class="view_head">
                                             <div class="title">
-                                                <p>[[${qnaArticle.cs_type_ko}]]  [[${qnaArticle.cs_title}]]</p>
+                                                <p>[[${qnaArticle.cs_type_ko}]] &nbsp;&nbsp;&nbsp; [[${qnaArticle.cs_title}]]</p>
                                             </div>
                                             <div class="info">
                                                 <div class="view_date">[[${qnaArticle.cs_rdate.substring(2,10)}]]</div>
@@ -38,19 +54,27 @@
                                         </div>
                                         <div class="view_recomment">
                                             <div class="write_recomment">
+                                                <th:block th:if="${qnaArticle.cs_reply != null}">
+                                                    <div class="business_reply">
+                                                        <span class="business">판매자 답변</span>&nbsp;&nbsp;&nbsp;<span class="business_date">[[${qnaArticle.cs_reply_date}]]</span>
+                                                    </div>
+                                                </th:block>
                                                 <div class="inner_txt">
                                                     <textarea placeholder="문의 답변을 작성해 주세요" id="cs_reply" name="cs_reply" th:text="${qnaArticle.cs_reply}" th:disabled="${qnaArticle.cs_reply != null} ? true : false"></textarea>
                                                 </div>
 
                                                 <div class="btnSubmit">
                                                     <th:block th:if="${qnaArticle.cs_reply == null}">
-                                                        <button class="btnAdminProd" type="submit">등록</button>
+                                                        <button class="btnAdminProd" type="submit" id="write" onclick="writeCheck(event)" form="qna_update">등록</button>
+                                                        <button class="btnAdminProd" type="button" onclick="javascript:history.back();">목록으로</button>
                                                     </th:block>
                                                     <th:block th:if="${qnaArticle.cs_reply != null }">
                                                         <button class="btnAdminProd" type="button" onclick="toggleDisabled()">수정하기</button>
-                                                        <button class="btnAdminProd" type="submit" style="display:none;">수정</button>
-                                                    </th:block>
+                                                        <button class="btnAdminProd" type="submit" style="display:none;" id="modify" onclick="modifyCheck(event)" form="qna_update">수정</button>
                                                         <button class="btnAdminProd" type="button" onclick="javascript:history.back();">목록으로</button>
+                                                        <button class="btnAdminProd" type="button" onclick="toggleDisabled()" style="display:none">취소</button>
+                                                    </th:block>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -95,37 +119,70 @@
         cs_reply.focus();
 
         // 수정하기 버튼 클릭시 disabled 변경
+        let oriContent = document.getElementById("cs_reply").value;
         function toggleDisabled() {
             var textarea = document.getElementById("cs_reply"); // textarea 요소 가져오기
+            console.log("text : " +textarea.text);
+            console.log("value : " +textarea.value);
+<!--            oriContent = textarea.value; // 기존의 값 저장-->
             if (textarea.disabled) {
                 textarea.disabled = false; // disabled 속성 제거하여 편집 가능하도록 함
-                document.querySelector('button[type="submit"]').style.display = "block"; // 수정하기 버튼 숨기기
-                document.querySelector('button[type="button"]').style.display = "none";
+                document.querySelector('button[type="submit"]').style.display = "block"; // 수정 버튼 보이기
+                document.querySelector('button[type="button"]:nth-child(1)').style.display = "none"; // 수정하기 버튼 숨기기
+                document.querySelector('button[type="button"]:nth-child(3)').style.display = "none"; // 목록으로 버튼 보이기
+                document.querySelector('button[type="button"]:nth-child(4)').style.display = "block"; // 취소 버튼 보이기
             } else {
-              textarea.disabled = true; // disabled 속성 추가하여 편집 불가능하도록 함
-              document.querySelector('button[type="submit"]').style.display = "none"; // 수정하기 버튼 보이기
+                textarea.value = oriContent; // 기존의 값으로 되돌리기
+                textarea.disabled = true; // disabled 속성 추가하여 편집 불가능하도록 함
+                document.querySelector('button[type="submit"]').style.display = "none"; // 수정 버튼 숨기기
+                document.querySelector('button[type="button"]:nth-child(1)').style.display = "block"; // 수정하기 버튼 보이기
+                document.querySelector('button[type="button"]:nth-child(3)').style.display = "block"; // 목록으로 버튼 숨기기
+                document.querySelector('button[type="button"]:nth-child(4)').style.display = "none"; // 취소 버튼 숨기기
             }
           }
 
+        // 작성시 확인
+        function writeCheck(e) {
+            e.preventDefault(); // form submit 막음
+            console.log("1");
+                Swal.fire({
+                title: '등록하시겠습니까?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소',
+                reverseButtons: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const form = document.getElementById('qna_update');
+                        form.submit(); // 폼 제출 실행
+                    }
+                });
+            }
+
+        // 수정시 확인
         function modifyCheck(e) {
-          e.preventDefault(); // form submit 막음
-          console.log("1");
-          Swal.fire({
-            title: '입력하시겠습니까?',
-            icon: 'question',
+            e.preventDefault(); // form submit 막음
+            console.log("1");
+            Swal.fire({
+            title: '수정하시겠습니까?',
+            text: '수정한 내용은 복구할 수 없습니다.',
+            icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: '승인',
+            confirmButtonText: '수정',
             cancelButtonText: '취소',
             reverseButtons: false,
-          }).then((result) => {
-            if (result.isConfirmed) {
-              e.target.submit(); // form submit 실행
-            }
-          });
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.getElementById('qna_update');
+                    form.submit(); // 폼 제출 실행
+                }
+            });
         }
-
     </script>
 </th:block>
 </html>
