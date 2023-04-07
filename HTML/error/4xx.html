@@ -15,7 +15,8 @@
       height: 100vh;
       display: table-cell;
       vertical-align: middle;
-      background-color: #fffff6;
+      /*
+      background-color: #fffff6;*/
     }
     #error {
       position: relative;
@@ -24,28 +25,29 @@
       padding: 30px;
       text-align: center;
     }
-
+    /*
     #error > img {
       position: absolute;
-      width: 201px;
+      width: 170px;
       display: block;
       float: left;
       transform: rotate(158deg);
-      top: 127px;
-      left: 501px;
-    }
+      top: 113px;
+      left: 513px;
+    }*/
 
     #error > strong {
       display: block;
       font-size: 40px;
     }
+    /*
     #error > span:nth-of-type(1) {
       display: block;
       font-size: 250px;
       font-weight: 800;
       text-align: center;
-      color: #fcf951;
-    }
+      color: #fef951;
+    }*/
     #error > span:nth-of-type(2) {
       display: block;
       font-size: 20px;
@@ -71,15 +73,39 @@
       margin: 0px 5px;
     }
 
+    #error a:hover{
+      background: #bbd444;
+    }
+
     #error a:nth-child(2){
       background: #ebebeb;
     }
+
+
+    #error > img {
+    position: absolute;
+    width: 171px;
+    display: block;
+    float: left;
+    transform: rotate(158deg);
+    top: 108px;
+    left: 515px;
+    }
+
+    #error > span:nth-of-type(1) {
+    display: block;
+    font-size: 207px;
+    font-weight: 800;
+    text-align: center;
+    color: #000000;
+    }
+
   </style>
   <body>
     <div id="wrapper">
       <div id="error">
         <span>400</span>
-        <img src="./img/lemon.png" />
+        <img src="./img/lemon1.png" />
         <strong>페이지를 찾을 수 없습니다.</strong>
         <span>
           페이지의 URL이나 이름이 변경되었거나 일시적으로 사용할 수 없습니다.
