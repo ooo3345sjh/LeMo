@@ -594,7 +594,7 @@ $(function(){
          const jsonData = {
              "isNoticeEnabled":isNoticeEnabled
          }
-         ajaxAPI("my/info/isNoticeEnabled", jsonData, "PATCH").then((response) => {
+         ajaxAPI("my/info/notification", jsonData, "PATCH").then((response) => {
              let title;
 
              if(response.result === 1){

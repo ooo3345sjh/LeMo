@@ -429,7 +429,7 @@ public class UserController {
     }
 
     // @since 2023/03/25
-    @GetMapping("expiredPw/reset")
+    @GetMapping("expired-pw/reset")
     public String resetExpiredPw(Model m, @AuthenticationPrincipal UserVO user) {
         if(user.getType() != 1)
             return "redirect:/index";
@@ -440,7 +440,7 @@ public class UserController {
 
     // @since 2023/03/25
     @ResponseBody
-    @PatchMapping("expiredPw/reset")
+    @PatchMapping("expired-pw/reset")
     public Map resetExpiredPw(
             @AuthenticationPrincipal UserVO user,
             @RequestBody Map map
@@ -493,13 +493,9 @@ public class UserController {
     @ResponseBody
     public Map sendSms(@RequestBody MessageVO messageVO, HttpServletRequest req) throws Exception {
         log.debug("POST sendSms start...");
-        log.debug(messageVO.toString());
         Map map = new HashMap();
         try {
             SmsResponseVO response = smsService.sendSms(messageVO);
-//            SmsResponseVO response = SmsResponseVO.builder()
-//                                                .code(123123)
-//                                                .build();
 
             HttpSession session = req.getSession();
             session.setAttribute("authCode", response.getCode());
@@ -511,17 +507,6 @@ public class UserController {
             map.put("result", "error");
         }
 
-        return map;
-    }
-
-    // @since 2023/03/25
-    @ResponseBody
-    @PostMapping("email/duplicate")
-    public Map isDuplicatedEmail(@RequestBody Map map, HttpServletRequest req) throws Exception {
-        log.debug("POST isDuplicatedEmail start...");
-
-        int result = userService.countByEmail((String)map.get("email"));
-        map.put("result", result);
         return map;
     }
 

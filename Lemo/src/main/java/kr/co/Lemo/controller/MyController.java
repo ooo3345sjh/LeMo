@@ -541,12 +541,12 @@ public class MyController {
      * @return
      */
     @ResponseBody
-    @PatchMapping("info/isNoticeEnabled")
+    @PatchMapping("info/notification")
     public Map updateIsNoticeEnabled(
             @AuthenticationPrincipal UserVO userVO,
             @RequestBody Map map
     ) throws  Exception {
-        log.debug("MyService PATCH isNoticeEnabled start...");
+        log.debug("MyService PATCH notification start...");
 
         Integer isNoticeEnabled = (Integer) map.get("isNoticeEnabled");
         int result = 0;

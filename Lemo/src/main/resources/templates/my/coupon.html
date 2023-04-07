@@ -62,7 +62,7 @@
                             <b> 장</b>
                             </div>
                             <div class="un_1" th:if="${products.size() == 0}">
-                                <p>발급중인 쿠폰이 없습니다.</p>
+                                <p>발급 가능한 쿠폰이 없습니다.</p>
                             </div>
                             <div class="un_1" th:if="${products.size() != 0}" >
                                 <div class="coupon_item" th:each="product:${products}" th:id="rCoupon__${product.cp_id}__">
