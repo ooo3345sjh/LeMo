@@ -224,7 +224,7 @@ public class ProductController {
         return "product/result";
     }
 
-    @GetMapping("detaildiary")
+    @GetMapping("detail-diary")
     public String detailDiary(Model model,
                               @RequestParam Map map,
                               @ModelAttribute ProductDetail_SearchVO vo) {
@@ -247,7 +247,7 @@ public class ProductController {
     }
 
     // @since 2023/03/25
-    @GetMapping("detailreview")
+    @GetMapping("detail-review")
     public String detailReview(Model model,
                                @RequestParam Map map,
                                @ModelAttribute ProductDetail_SearchVO vo) {
@@ -276,7 +276,7 @@ public class ProductController {
     }
 
     // @since 2023/03/22
-    @GetMapping("detailqna")
+    @GetMapping("detail-qna")
     public String detailQna(Model model,
                               @RequestParam Map map,
                               @ModelAttribute ProductDetail_SearchVO vo,
@@ -308,7 +308,7 @@ public class ProductController {
 
     // @since 2023/03/22
     @ResponseBody
-    @PostMapping("rsaveQna")
+    @PostMapping("qna")
     public Map<String, Integer> rsaveQna(@RequestBody ProductQnaVO qna, HttpServletRequest req) {
 
         log.debug("Get rsaveQna start");
@@ -347,7 +347,7 @@ public class ProductController {
         return resultMap;
     }
 
-    // @since 2023/03/27
+    // @since 2023/03/27 쿠폰 목록 가져오기
     @ResponseBody
     @PostMapping("coupon")
     public List<CouponVO> coupon(@RequestBody Map map){
@@ -361,9 +361,9 @@ public class ProductController {
     }
 
 
-    // @since 2023/03/27
+    // @since 2023/03/27 쿠폰 발급하기
     @ResponseBody
-    @PostMapping("getCoupon")
+    @PostMapping("coupon/receive")
     public Map<String, Integer> getCoupon(@RequestBody Map map){
 
         log.debug("product getCoupon start");
@@ -380,7 +380,7 @@ public class ProductController {
 
     // @since 2023/03/31
     @ResponseBody
-    @PostMapping("paymentComplete")
+    @PostMapping("payment-complete")
     public ResponseEntity<String> paymentComplete(HttpSession session,
                                                   @RequestBody OrderInfoVO vo,
                                                   @AuthenticationPrincipal UserVO myUser) throws Exception {

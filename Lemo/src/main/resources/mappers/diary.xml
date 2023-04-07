@@ -26,6 +26,9 @@
                 WHERE a.`arti_title` LIKE CONCAT('%', #{keyword} ,'%')
             </when>
         </choose>
+        <if test="orderByOption == null">
+            ORDER BY a.`arti_no` DESC
+        </if>
         <if test="orderByOption == 'recent'">
             ORDER BY a.`arti_rdate` DESC
         </if>

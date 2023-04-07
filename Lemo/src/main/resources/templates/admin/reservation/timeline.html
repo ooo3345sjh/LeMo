@@ -17,72 +17,44 @@
                     <div class="main_content_div">
                         <!-- 관리자인 경우 출력-->
                         <div class="col0">
-                            <form action="#">
-                                <div class="searchProdNum">
-                                    <input type="text" class="search_box" placeholder="숙소 번호 입력">
-                                    <button type="submit" class="btnSearch">
-                                        <input type="image" th:src="@{/images/admin/btn_search.png}">
-                                    </button>
-                                </div>
-                                <div class="select_data">
-                                    <input type="date">
-                                </div>
-                                <div class="guideMsg">관리자인 경우 출력(해당 문구 삭제 예정)</div>
-                                <div class="guideTimelineColor">
-                                    <table>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>결제완료</td>
-                                            <td>3</td>
-                                            <td>결제미완료</td>
-                                            <td>5</td>
-                                            <td>체크인</td>
-                                            <td>7</td>
-                                            <td>체크아웃</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </form>
-                        </div>
 
-                        <!-- 판매자인 경우 출력-->
-                        <div class="col0">
-                            <form action="#">
-                                <div class="selectProdForAdmin">
-                                    <select>
-                                        <option value="0">숙소명</option>
-                                        <option value="1">푸른제주펜션</option>
-                                        <option value="2">보우힐펜션</option>
-                                        <option value="3">파라다이스호텔부산</option>
-                                        <option value="4">프리지아펜션</option>
-                                    </select>
-                                </div>
-                                <div class="select_data">
-                                    <input type="date">
-                                </div>
-                                <div class="guideMsg">판매자인 경우 출력(해당 문구 삭제 예정)</div>
-                                <div class="guideTimelineColor">
-                                    <table>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>결제완료</td>
-                                            <td>3</td>
-                                            <td>결제미완료</td>
-                                            <td>5</td>
-                                            <td>체크인</td>
-                                            <td>7</td>
-                                            <td>체크아웃</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </form>
                         </div>
-
                         <div class="col_nav">
                             <span>예약관리 ></span>
                             <span>타임라인</span>
                         </div>
                         <div class="col2">
+                            <span class="search_reservation_tit">타임라인 검색</span>
+                            <table class="search_review_table" style="margin-bottom: 50px;">
+                                <tr>
+                                    <th>옵션 검색</th>
+                                    <td>
+                                        <select name="searchField" class="accOption_res">
+                                            <option value="acc_id" >숙소번호</option>
+                                            <option value="acc_name" >숙소명</option>
+                                            <option value="res_no" >예약번호</option>
+                                            <option value="res_name" >예약자명</option>
+                                        </select>
+                                        <input type="text" class="resOption_search" name="searchWord" placeholder="검색어를 입력하세요" >
+                                        <button type="submit" class="btnSearch">검색</button>
+                                        <button type="button" class="resetOption" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div class="guideTimelineColor">
+                                <table>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>예약취소</td>
+                                        <td>2</td>
+                                        <td>예약완료</td>
+                                        <td>3</td>
+                                        <td>숙박완료</td>
+                                    </tr>
+                                </table>
+                            </div>
+
                             <!-- 캘린더 -->
                             <div id="calendar-container">
                                 <div id='calendar'></div>
@@ -188,9 +160,13 @@
     <script th:src='@{/js/admin/packages/core/main.js}'></script>
     <script th:src='@{/js/admin/packages/interaction/main.js}'></script>
     <script th:src='@{/js/admin/packages/daygrid/main.js}'></script>
-    <script>
-        // ajax로 데이터 가져오기 https://fullcalendar.io/docs/events-json-feed
+    <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
+
+            console.log('here1...');
+
+            const timelines = [[${timelines}]];
+            console.log(timelines);
 
             // 예약 상세 정보 팝업
             const d_Detail = document.getElementById('d_Detail');
@@ -227,66 +203,21 @@
                 eventClick:function(event){
                     d_Detail.showModal();
                 },
-                events: [
-                    {
-                    groupId: 1,
-                    title: '[101] 이동글',
-                    start: '2023-03-01',
-                    color: '#2B3467',
-                    textColor: '#fff'
-                    },
-                    {
-                    groupId: 2,
-                    title: '[102] 김네모',
-                    start: '2023-03-03',
-                    end: '2023-03-05',
-                    color: '#ff95a6'
-                    },
-                    {
-                    groupId: 3,
-                    title: '[103] 박세모',
-                    start: '2023-03-06',
-                    end: '2023-03-09',
-                    color: '#BAD7E9',
-                    textColor: '#252525'
-                    },
-                    {
-                    groupId: 4,
-                    title: '[104] 김녹차',
-                    start: '2023-03-17',
-                    end: '2023-03-18',
-                    color: '#d7d7d7',
-                    textColor: '#252525'
-                    },
-                    {
-                    groupId: 5,
-                    title: '[105] 송라떼',
-                    start: '2023-03-12',
-                    end: '2023-03-12',
-                    color: '#d7d7d7',
-                    textColor: '#252525'
-                    },
-                    {
-                    groupId: 6,
-                    title: '[106] 민코딩',
-                    start: '2023-03-15',
-                    end: '2023-03-15',
-                    color: '#d7d7d7',
-                    textColor: '#252525'
-                    },
-                    {
-                    groupId: 7,
-                    title: '[107] 홍길동',
-                    start: '2023-03-11',
-                    end: '2023-03-11',
-                    color: '#d7d7d7',
-                    textColor: '#252525'
-                    }
-                ]
+                datesRender: function(info) {
+                $('.fc-prev-button').click(function() {
+                    alert('prev 버튼 클릭');
+                });
+                $('.fc-next-button').click(function() {
+                    alert('next 버튼 클릭');
+                });
+            },
+                events: timelines
             });
 
             calendar.render();
         });
+    </script>
+    <script th:inline="javascript">
     </script>
 </th:block>
 </html>

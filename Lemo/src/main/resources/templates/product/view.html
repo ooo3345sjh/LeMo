@@ -140,7 +140,11 @@
                 <button type="button" class="detail_info_default">
                     <span>기본 정보</span>
                 </button>
-                <section class="info_default" th:utext="${rooms.get(0).acc_info.replaceAll('\r\n|\r|\n', '<br/>')}"></section>
+                <section class="info_default" th:if="${rooms.get(0).acc_info != 'None' && rooms.get(0).acc_info != null}"
+                         th:utext="${rooms.get(0).acc_info.replaceAll('\r\n|\r|\n', '<br/>')}"></section>
+                <section class="info_default" th:unless="${rooms.get(0).acc_info != 'None' && rooms.get(0).acc_info != null}">
+                    등록된 숙소 정보가 없습니다.
+                </section>
                 <!-- 편의시설 및 서비스 -->
                 <button type="button" class="detail_info_service">
                     <span>편의시설 및 서비스</span>

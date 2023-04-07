@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -709,6 +710,16 @@ public class ProductService {
         }
 
 
+
+    }
+
+    /**
+     * @since 2023/04/07
+     * @author 서정현
+     * @apiNote 매일 자정 모든 상품의 리뷰 평균 점수 업데이트
+     */
+//    @Scheduled(cron = "")
+    public void rsaveAvgRate() throws Exception {
 
     }
 }

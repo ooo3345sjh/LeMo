@@ -20,12 +20,12 @@
                                 <!-- single item1 -->
                                 <div class="single_status">
                                     <p>예약건수</p>
-                                    <h3>300</h3>
+                                    <h3>[[${totalSales}]]</h3>
                                 </div>
                                 <!-- single item2 -->
                                 <div class="single_status">
                                     <p>취소건수</p>
-                                    <h3>30</h3>
+                                    <h3>[[${totalCanceled}]]</h3>
                                 </div>
                                 <!-- single item3 -->
                                 <div class="single_status">
@@ -35,17 +35,17 @@
                                 <!-- single item4 -->
                                 <div class="single_status">
                                     <p>1:1문의수</p>
-                                    <h3>115</h3>
+                                    <h3>[[${totalQna}]]</h3>
                                 </div>
                                 <!-- single item5 -->
                                 <div class="single_status">
                                     <p>상품등록</p>
-                                    <h3>100</h3>
+                                    <h3>[[${totalAcc}]]</h3>
                                 </div>
                                 <!-- single item6 -->
                                 <div class="single_status">
                                     <p>회원가입</p>
-                                    <h3>200</h3>
+                                    <h3>[[${totalUser}]]</h3>
                                 </div>
                             </div>
                         </div>
@@ -142,10 +142,12 @@
     <!-- 구글 차트 -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script th:inline="javascript">
-            const totalSales = [[${sales}]];
+             // 참조 데이터 준비
+            let stats = [[${stats}]];
 
-            console.log(totalSales);
-            console.log(totalSales['2023-03-31']);
+            console.log(stats);
+            console.log("stats res_price : " + stats[0].res_price);
+
 
             // 구글 열 차트를 로드
             google.charts.load('current', {'packages':['corechart']});
@@ -153,35 +155,30 @@
             google.charts.setOnLoadCallback(drawVisualization);
 
             // 오늘 날짜
-            let today = new Date();
-            // 오늘 연도
-            let fullYear = today.getFullYear();
-            // 오늘 날짜 (월)
-            let newMonth = today.getMonth() + 1;
-            // 오늘 날짜 (일)
-            let newDate = today.getDate();
-            // 출력 날짜 형태 지정
-            let date2 = newMonth + '/' + newDate;
-            let date3 = fullYear + '-' + ('0' + newMonth.toString().slice(-2)) + '-' + newDate
+        let today = new Date();
+        // 오늘 날짜 (월)
+        nowMonth = today.getMonth() + 1;
+        // 오늘 날짜 (일)
+        nowDate = today.getDate();
+        // 출력 날짜 형태 지정
+        date = nowMonth + '/' + nowDate;
 
-            console.log(date3);
-            console.log(totalSales[date3])
+        console.log("date : " + date);
 
-
-            // 이전 날짜
-            // before[1] = 1일전 , before[2] = 2일전
-            let before = new Array();
-            for (let i=1; i<7; i++){
-                before[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
-                before[i] = (before[i].getFullYear()) + '-'
-                          + ('0' + (before[i].getMonth() + 1).toString().slice(-2) ) + '-'
-                          + before[i].getDate();
-                if(totalSales[before[i]] == undefined) {
-                     totalSales[before[i]] = 0;
-                }
-            }
-
-            console.log(totalSales);
+        // 이전 날짜
+        // before[1] = 1일전 , before[2] = 2일전
+        let before = new Array();
+        for (let i=1; i<7; i++){
+            before[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
+            before[i] = (before[i].getMonth()+1) + '/' + before[i].getDate();
+        }
+        console.log(before[6] + " - " + stats[0].tot_res_price);
+        console.log(before[5] + " - " + stats[1].tot_res_price);
+        console.log(before[4] + " - " + stats[2].tot_res_price);
+        console.log(before[3] + " - " + stats[3].tot_res_price);
+        console.log(before[2] + " - " + stats[4].tot_res_price);
+        console.log(before[1] + " - " + stats[5].tot_res_price);
+        console.log(date + " - " + stats[6].tot_res_price);
 
             function drawVisualization() {
 
@@ -190,13 +187,13 @@
                 // 그래프 내용 : drawVisualization 구현
                 var data = google.visualization.arrayToDataTable([
                     ['날짜', '일별매출', '누적매출'],
-                    [before[6].substring(5,10),  totalSales[before[6]], totalSales[before[6]] ],
-                    [before[5].substring(5,10),  totalSales[before[5]], totalSales[before[6]] + totalSales[before[5]] ],
-                    [before[4].substring(5,10),  totalSales[before[4]], totalSales[before[6]] + totalSales[before[5]] + totalSales[before[4]] ],
-                    [before[3].substring(5,10),  totalSales[before[3]], totalSales[before[6]] + totalSales[before[5]] + totalSales[before[4]] + totalSales[before[3]] ],
-                    [before[2].substring(5,10),  totalSales[before[2]], totalSales[before[6]] + totalSales[before[5]] + totalSales[before[4]] + totalSales[before[3]] + totalSales[before[2]] ],
-                    [before[1].substring(5,10),  totalSales[before[1]], totalSales[before[6]] + totalSales[before[5]] + totalSales[before[4]] + totalSales[before[3]] + totalSales[before[2]] + totalSales[before[1]] ],
-                    [date2, totalSales[date3], totalSales[before[6]] + totalSales[before[5]] + totalSales[before[4]] + totalSales[before[3]] + totalSales[before[2]] + totalSales[before[1]] + totalSales[date3] ]
+                    [before[6],  stats[6].tot_res_price, stats[6].tot_res_price],
+                    [before[5],  stats[5].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price],
+                    [before[4],  stats[4].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price],
+                    [before[3],  stats[3].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price],
+                    [before[2],  stats[2].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price],
+                    [before[1],  stats[1].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price + stats[1].tot_res_price],
+                    [date,  stats[0].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[1].tot_res_price + stats[1].tot_res_price + stats[0].tot_res_price]
                 ]);
 
                 // 그래프 주석 표기

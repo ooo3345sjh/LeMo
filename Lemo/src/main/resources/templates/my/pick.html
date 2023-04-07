@@ -28,7 +28,7 @@
                                 <tbody>
                                     <tr th:each="pick:${picks}">
                                         <td>
-                                            <input type="checkbox">
+                                            <input class="checkPicks" type="checkbox" th:value="${pick.acc_id}">
                                         </td>
                                         <td>
                                             <a th:href="@{/product/view ( acc_id=${pick.acc_id} )}" class="my_pick_img">
@@ -115,7 +115,25 @@
     </th:block>
     <th:block layout:fragment="script">
         <script>
+            $(function(){
+                $('.btnRemovePick').click(function(){
+                    let chkList = [];
 
-            </script>
+                    $('.checkPicks:checked').each(function(){
+                        chkList.push($(this).val());
+                    });
+
+                    if(chkList.length > 0) {
+                        let jsonData = {
+                            "chkList" : chkList
+                        };
+
+                        ajaxAPI("my/pick", jsonData, "DELETE").then((response)=>{
+
+                        })
+                    }
+                });
+            })
+        </script>
     </th:block>
 </html>

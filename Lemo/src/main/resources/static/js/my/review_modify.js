@@ -70,50 +70,57 @@ $(function(){
         init: function () {
             // 최초 dropzone 설정시 init을 통해 호출
             let myDropzone = this; // closure 변수 (화살표 함수 쓰지않게 주의)
+            if(reviewThumbs != null) {
+                // thumbs는 revi_thumbs를 불러와서 배열로 split한 것임
+                const thumbs = reviewThumbs.split('/');
 
-            // thumbs는 revi_thumbs를 불러와서 배열로 split한 것임
-            for(thumb in thumbs) {
-                let imgSrc = '/Lemo/img/review/'+acc_id+'/'+thumbs[thumb];
-                let dataURL;
-                let fileName = thumbs[thumb];
+                for(thumb in thumbs) {
+                    let imgSrc = '/Lemo/img/review/'+acc_id+'/'+thumbs[thumb];
+                    let dataURL;
+                    let fileName = thumbs[thumb];
 
-                var mockFile = {
-                    name: thumbs[thumb],
-                    size: 1000,
-                    type: 'image/jpeg',
-                    url: fileName,
-                    accepted: true
+                    var mockFile = {
+                        name: thumbs[thumb],
+                        size: 1000,
+                        type: 'image/jpeg',
+                        url: fileName,
+                        accepted: true
+                    };
+
+                    // imSrc로 base64를 생성하고 base64로 파일을 생성한다음 formdata에 append
+                    toDataURL(imgSrc).then(dataUrl => {
+                        var oriFile = base64toFile(dataUrl, fileName);
+                        usaveFormData.append(fileName, oriFile);
+                    });
+
+                    // 가지고있는 이미지를 dropzone에 표기
+                    myDropzone.displayExistingFile(mockFile, imgSrc);
+
+                    // files에 push를 해줘야 최대 업로드 수 등등 dropzone 기능 온전히 사용가능
+                    myDropzone.files.push(mockFile);
+
+                }
+
+                    // 이미지를 css로 90px로 변경
+                    // dropzone을 이용해 추가한 이미지는 조절이 되어 잘 들어가지만
+                    // displayExistingFile이걸 이용한 이미지는 조절이 안됨..
+                {
+                    $('[data-dz-thumbnail]').css('height', '90');
+                    $('[data-dz-thumbnail]').css('width', '90');
+                    $('[data-dz-thumbnail]').css('object-fit', 'cover');
                 };
 
-                // imSrc로 base64를 생성하고 base64로 파일을 생성한다음 formdata에 append
-                toDataURL(imgSrc).then(dataUrl => {
-                    var oriFile = base64toFile(dataUrl, fileName);
-                    usaveFormData.append(fileName, oriFile);
-                });
-
-                // 가지고있는 이미지를 dropzone에 표기
-                myDropzone.displayExistingFile(mockFile, imgSrc);
-
-                // files에 push를 해줘야 최대 업로드 수 등등 dropzone 기능 온전히 사용가능
-                myDropzone.files.push(mockFile);
-
             }
-
-                // 이미지를 css로 90px로 변경
-                // dropzone을 이용해 추가한 이미지는 조절이 되어 잘 들어가지만
-                // displayExistingFile이걸 이용한 이미지는 조절이 안됨..
-            {
-                $('[data-dz-thumbnail]').css('height', '90');
-                $('[data-dz-thumbnail]').css('width', '90');
-                $('[data-dz-thumbnail]').css('object-fit', 'cover');
-            };
 
             // 이미지 추가 시 작동하는 기능
             // 이 기능은 기존 이미지가 추가 될때는 작동하지 않음
             // 오로지 새로운 이미지를 추가할때만 발생함
             // file.name으로 formdata에 입력해준다.
             myDropzone.on("addedfile", function(file) {
-                usaveFormData.append(file.name, file);
+                let fileLength = myDropzone.files.length;
+                if(fileLength <= 5) {
+                    usaveFormData.append(file.name, file);
+                }
             });
 
             // 이미지 삭제시 작동하는 기능
@@ -159,9 +166,9 @@ $(function(){
 
             });
 
-            myDropzone.on("complete", function(file) {
-                location.href= "/Lemo/my/review/view?res_no="+res_no;
-            });
+//            myDropzone.on("complete", function(file) {
+//                location.href= "/Lemo/my/review/view?res_no="+res_no;
+//            });
 
         },
     });
