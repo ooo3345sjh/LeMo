@@ -240,7 +240,7 @@
         ORDER BY res_month;
     </select>
 
-    <!-- 관리자 - 일별 누적 판매 건수 (일주일) -->
+    <!-- 관리자 - 예약 건수 (일주일) -->
     <select id="countWeeksSales" resultType="java.lang.Integer">
         select count(a.`res_checkIn`) from `lemo_product_reservation` as a
         join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
@@ -271,6 +271,14 @@
     <select id="countWeeksUser" resultType="java.lang.Integer">
         select count(`user_id`) from `lemo_member_userinfo`
         where `rdate` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY)) AND DATE(NOW());
+    </select>
+
+    <!-- 관리자 - 월별 예약 건수 -->
+    <select id="countMonthSales"  resultType="kr.co.Lemo.domain.ReservationVO">
+        SELECT COUNT(a.`res_checkIn`) AS tot_month_sales FROM lemo_product_reservation AS a
+        JOIN lemo_product_accommodation AS b ON a.acc_id = b.acc_id
+        WHERE a.res_state NOT IN (0) AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 MONTH)) AND DATE(NOW())
+        GROUP BY MONTH(a.res_date);
     </select>
 
 
