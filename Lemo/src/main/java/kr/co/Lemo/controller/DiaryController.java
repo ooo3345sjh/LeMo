@@ -78,63 +78,58 @@ public class DiaryController {
 
     // @since 2023/03/20
     @ResponseBody
-    @PostMapping("oriComment")
+    @PostMapping("{commentType}")
     public ResponseEntity<Map<String, String>> rsaveOriComment(
+            @PathVariable("commentType") String commentType,
             @RequestBody DiaryCommentVO commentVO,
             @AuthenticationPrincipal UserVO myUser,
             HttpServletRequest req
     ){
-        log.debug("POST oriComment start");
+        log.debug("POST "+ commentType +" start");
         commentVO.setUser_id( myUser.getUser_id() );
         commentVO.setCom_replyId( myUser.getUser_id() );
         commentVO.setCom_regip(req.getRemoteAddr());
 
-        int result = service.rsaveOriComment(commentVO);
-
-        Map<String, String> map = new HashMap<>();
-        map.put("result", Integer.toString(result));
-        map.put("nick", myUser.getNick());
-        map.put("com_no", Integer.toString(commentVO.getCom_no()));
-        map.put("photo", myUser.getPhoto());
-
-        return ResponseEntity.ok(map);
-    }
-
-    // @since 2023/03/16
-    @ResponseBody
-    @PostMapping("comment")
-    public ResponseEntity<Map<String, String>> rsaveComment(
-            @RequestBody DiaryCommentVO commentVO,
-            @AuthenticationPrincipal UserVO myUser,
-            HttpServletRequest req
-    ) {
-        log.debug("POST comment start");
-
-        commentVO.setUser_id(myUser.getUser_id());
-        commentVO.setCom_regip(req.getRemoteAddr());
-
         Map<String, String> map = new HashMap<>();
 
-        if(commentVO.getCom_pno() != 0) {
-            UserVO userVO = service.findCommentNick(commentVO.getCom_no());
-            commentVO.setCom_replyId(userVO.getUser_id());
+        if(commentType.equals("oriComment")) {
+            int result = service.rsaveOriComment(commentVO);
 
-            int result = service.rsaveComment(commentVO);
-
-            map.put("user_id", myUser.getUser_id());
-            map.put("nick", myUser.getNick());
-            map.put("com_nick", userVO.getNick());
             map.put("result", Integer.toString(result));
-            map.put("com_pno", Integer.toString(commentVO.getCom_no()));
+            map.put("nick", myUser.getNick());
+            map.put("com_no", Integer.toString(commentVO.getCom_no()));
             map.put("photo", myUser.getPhoto());
+
+            return ResponseEntity.ok(map);
+
+        }else if(commentType.equals("comment")) {
+
+            if(commentVO.getCom_pno() != 0) {
+                UserVO userVO = service.findCommentNick(commentVO.getCom_no());
+                commentVO.setCom_replyId(userVO.getUser_id());
+
+                int result = service.rsaveComment(commentVO);
+
+                map.put("user_id", myUser.getUser_id());
+                map.put("nick", myUser.getNick());
+                map.put("com_nick", userVO.getNick());
+                map.put("result", Integer.toString(result));
+                map.put("com_pno", Integer.toString(commentVO.getCom_no()));
+                map.put("photo", myUser.getPhoto());
+            }
+
+            return ResponseEntity.ok(map);
+        }else {
+            map.put("result", "thereIsNoCommentType");
         }
 
         return ResponseEntity.ok(map);
+
     }
 
     // @since 2023/03/17
     @ResponseBody
-    @DeleteMapping("comment")
+    @DeleteMapping("{commentType}")
     public ResponseEntity<Integer> removeComment(@RequestBody DiaryCommentVO commentVO) {
         log.debug("DELETE comment start");
 
@@ -145,27 +140,32 @@ public class DiaryController {
 
     // @since 2023/03/20
     @ResponseBody
-    @PatchMapping("comment")
-    public ResponseEntity<Integer> usaveComment(@RequestBody DiaryCommentVO commentVO, HttpServletRequest req) {
-        log.debug("PATCH comment start");
+    @PatchMapping("{commentType}")
+    public ResponseEntity<Integer> usaveComment(
+            @PathVariable("commentType") String commentType,
+            @RequestBody DiaryCommentVO commentVO,
+            HttpServletRequest req
+    ) {
+        log.debug("PATCH "+commentType+" start");
 
-        commentVO.setCom_regip(req.getRemoteAddr());
-        int result = service.usaveComment(commentVO);
+        if(commentType.equals("comment")) {
 
-        return ResponseEntity.ok(result);
-    }
+            commentVO.setCom_regip(req.getRemoteAddr());
+            int result = service.usaveComment(commentVO);
 
-    // @since 2023/0322
-    @ResponseBody
-    @PatchMapping("oriComment")
-    public ResponseEntity<Integer> usaveOriComment(@RequestBody DiaryCommentVO commentVO, HttpServletRequest req) {
-        log.debug("PATCH oriComment start");
+            return ResponseEntity.ok(result);
 
-        commentVO.setCom_regip(req.getRemoteAddr());
+        }else if(commentType.equals("oriComment")) {
 
-        int result = service.usaveOriComment(commentVO);
+            commentVO.setCom_regip(req.getRemoteAddr());
 
-        return ResponseEntity.ok(result);
+            int result = service.usaveOriComment(commentVO);
+
+            return ResponseEntity.ok(result);
+        }
+
+        return ResponseEntity.ok(404);
+
     }
 
     // @since 2023/03/30

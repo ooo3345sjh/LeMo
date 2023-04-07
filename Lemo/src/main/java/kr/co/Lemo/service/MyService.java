@@ -227,9 +227,11 @@ public class MyService {
 
         if(reVO != null) {
             String acc_thumb = reVO.getRevi_thumb();
-
-            List<String> thumbs = Arrays.asList(acc_thumb.split("/"));
-            reVO.setThumbs(thumbs);
+            log.debug("acc_thumb : " + acc_thumb);
+            if(acc_thumb != null) {
+                List<String> thumbs = Arrays.asList(acc_thumb.split("/"));
+                reVO.setThumbs(thumbs);
+            }
         }
 
         return reVO;
@@ -329,9 +331,12 @@ public class MyService {
         }
 
         List<String> fileName = checkReivewFile(param, fileMap);
-
-        String files = String.join("/", fileName);
-        param.put("revi_thumb", files);
+        if(!fileName.isEmpty()) {
+            String files = String.join("/", fileName);
+            param.put("revi_thumb", files);
+        }else {
+            param.put("revi_thumb", null);
+        }
 
         int result = dao.updateReview(param);
         String success = "usaveImageFail";

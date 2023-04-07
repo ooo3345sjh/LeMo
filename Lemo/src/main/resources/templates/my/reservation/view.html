@@ -9,85 +9,91 @@
       layout:decorate="layouts/default-layout">
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/my/my.css}">
-
 </th:block>
 <th:block layout:fragment="content">
             <main>
                 <section id="my">
                     <th:block th:replace="~{fragments/_aside::myAside}"></th:block>
                     <div class="content">
-                        <!-- 카테고리 -->
-                        <div class="tab">
-                            <span class="my_title">
-                                예약 상세 내역
-                            </span>
-                        </div>
                         <div id="reservePrint">
-                        <div class="reserve_view">
-                            <div class="sub_tit">
-                                예약자 정보
+                            <div class="reserve_wrap">
+                                <div class="tit">
+                                    <h1>예약상세정보</h1>
+                                    <span>
+                                        예약번호:
+                                        <i>[[${oi.res_no}]]</i>
+                                    </span>
+                                    <span>
+                                        예약일자:
+                                        <i>[[${oi.res_date}]]</i>
+                                    </span>
+                                </div>
+                                <div class="sub_tit">
+                                    숙소정보
+                                </div>
+                                <div class="ordinfo">
+                                    <div>
+                                        <div class="ord-el">
+                                            <div>숙소정보</div>
+                                            <div>[[${oi.acc_name}]] [[${oi.room_name}]]</div>
+                                        </div>
+                                        <div class="ord-el">
+                                            <div>체크인</div>
+                                            <div>[[${oi.res_checkIn}]] [[${oi.room_checkIn.substring(0,5)}]]</div>
+                                        </div>
+                                        <div class="ord-el">
+                                            <div>체크아웃</div>
+                                            <div>[[${oi.res_checkOut}]] [[${oi.room_checkOut.substring(0,5)}]]</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sub_tit">
+                                    예약자 정보
+                                </div>
+                                <div class="ordinfo">
+                                    <div>
+                                        <div class="ord-el">
+                                            <div>예약자명</div>
+                                            <div>[[${oi.res_name}]]</div>
+                                        </div>
+                                        <div class="ord-el">
+                                            <div>연락처</div>
+                                            <div th:if="${oi.res_hp.length()==10}">[[${oi.res_hp.substring(0,3)}]]-[[${oi.res_hp.substring(3,6)}]]-[[${oi.res_hp.substring(6)}]]</div>
+                                            <div th:if="${oi.res_hp.length()==11}">[[${oi.res_hp.substring(0,3)}]]-[[${oi.res_hp.substring(3,7)}]]-[[${oi.res_hp.substring(7)}]]</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sub_tit">
+                                    결제정보
+                                </div>
+                                <div class="ordinfo">
+                                    <div>
+                                        <div class="ord-el">
+                                            <div>결제방법</div>
+                                            <div>[[${oi.payment}]]</div>
+                                        </div>
+                                        <div class="ord-el">
+                                            <div>결제금액</div>
+                                            <div>[[${#numbers.formatInteger(oi.res_price,1,'COMMA')}]]원</div>
+                                        </div>
+                                        <div class="ord-el">
+                                            <div>쿠폰할인</div>
+                                            <div>- [[${#numbers.formatInteger(oi.cp_disprice,1,'COMMA')}]]원</div>
+                                        </div>
+                                        <div class="ord-el">
+                                            <div>포인트할인</div>
+                                            <div>- [[${#numbers.formatInteger(oi.poi_point,1,'COMMA')}]]P</div>
+                                        </div>
+                                        <div class="ord-price">
+                                            <div>
+                                                최종결제금액
+                                                <i>(VAT포함)</i>
+                                            </div>
+                                            <div>[[${#numbers.formatInteger((oi.res_price - oi.res_disPrice),1,'COMMA')}]]원</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <p>예약자 정보</p>
-                                <span>[[${reservation.res_name}]]</span>
-                            </div>
-                            <div>
-                                <p>휴대폰번호</p>
-                                <span>[[${reservation.res_hp}]]</span>
-                            </div>
-                            <div class="sub_tit">
-                                숙소정보
-                            </div>
-                            <div>
-                                <p>숙소 정보</p>
-                                <span>[[${reservation.acc_name}]]<br>
-<!--                                     [레이트버드-18시 체크인] 스탠다드 더블 / 1박-->
-                                    [[${reservation.room_name}]] / [[${reservation.night}]]박
-                                </span>
-                            </div>
-                            <div>
-                                <p>체크인</p>
-                                <span>[[${reservation.res_checkIn}]] [[${reservation.room_checkIn.substring(0,5)}]]</span>
-                            </div>
-                            <div>
-                                <p>체크아웃</p>
-                                <span>[[${reservation.res_checkOut}]] [[${reservation.room_checkOut.substring(0,5)}]]</span>
-                            </div>
-                            <div class="sub_tit">
-                                결제정보
-                            </div>
-                            <div>
-                                <p>예약번호</p>
-                                <span>[[${reservation.res_no}]]</span>
-                            </div>
-                            <div>
-                                <p>결제 방법</p>
-                                <span th:if="${reservation.res_payment == 1}">신용/체크카드</span>
-                                <span th:if="${reservation.res_payment == 2}">토스페이</span>
-                                <span th:if="${reservation.res_payment == 3}">PAYCO</span>
-                                <span th:if="${reservation.res_payment == 4}">카카오페이</span>
-                            </div>
-                            <div>
-                                <p>결제 금액</p>
-                                <span>[[${#numbers.formatInteger(reservation.room_price, 3, 'COMMA')}]]원</span>
-                            </div>
-                            <div>
-                                <p>포인트 사용</p>
-                                <span th:if="reservation.poi_point eq 0">0P</span>
-                                <span th:if="reservation.poi_point ne 0">- [[${#numbers.formatInteger(reservation.poi_point, 3, 'COMMA')}]]P</span>
-                            </div>
-                            <div>
-                                <p>쿠폰 할인</p>
-                                <span th:if="reservation.dis_price eq 0">0원</span>
-                                <span th:if="reservation.dis_price ne 0">- [[${#numbers.formatInteger(reservation.dis_price, 3, 'COMMA')}]]원</span>
-                            </div>
-                            <div>
-                                <span><i>최종 결제 금액</i>(VAT포함)</span>
-                            </div>
-                            <div>
-                                <p>[[${#numbers.formatInteger(reservation.res_price, 3, 'COMMA')}]]원</p>
-                            </div>
-                        </div>
                         </div>
                         <div class="btnReserveView">
                             <a href="#" class="reservePrint" onclick="reservPrint()">예약 내역 인쇄</a>
