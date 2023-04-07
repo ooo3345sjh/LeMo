@@ -92,9 +92,6 @@ public class ProductController {
             return "error/abnormalAccess";
         }
 
-        log.info("room정보 : " + rooms);
-
-
         String user_id = rooms.get(0).getUser_id();
         
         // 서비스 카테 가져오기
@@ -181,28 +178,14 @@ public class ProductController {
                          Model model,
                          @AuthenticationPrincipal UserVO myUser) throws Exception{
 
-        // 세션에서 주문정보 가져오기
-        //OrderInfoVO vo = (OrderInfoVO) session.getAttribute("orderinfo");
-
-        // vo 가 null 이면 product/list로 redirect
-//        if(vo == null){
-//            return "redirect:/product/list";
-//        }
-
-        // 세션에서 res_no가 null이면 product/list로 redirect
+        // 예약번호가 null이면 product/list로 redirect
         Object obj = session.getAttribute("res_no");
         if(obj == null){
             return "redirect:/product/list";
         }
 
         int res_no = (int) obj;
-
         String user_id = myUser.getUser_id();
-        //int res_no1 = vo.getRes_no();
-
-        log.info("예약 번호 : " + res_no);
-
-        //log.info("예약 번호 : " + res_no + "주문정보에 저장된 예약번호 : " +res_no1);
 
         // 로그인한 유저 id와 예약번호(res_no)로 조회하여 예약내역이 있는지 검증
         int result = service.findResNo(user_id, res_no);
@@ -246,9 +229,6 @@ public class ProductController {
                               @RequestParam Map map,
                               @ModelAttribute ProductDetail_SearchVO vo) {
 
-
-        log.info("vo : " +vo);
-        log.info("map: " + map);
 
         vo.setMap(map);
         List<ArticleDiaryVO> diaries = service.findAllProductDiaries(vo);
@@ -405,9 +385,6 @@ public class ProductController {
                                                   @RequestBody OrderInfoVO vo,
                                                   @AuthenticationPrincipal UserVO myUser) throws Exception {
 
-        log.info("here...");
-        log.info("vo : " + vo);
-
         String user_id = myUser.getUser_id();
         vo.setUser_id(user_id);
         String imp_uid = vo.getImp_uid(); // 결제 고유 uid
@@ -436,13 +413,11 @@ public class ProductController {
             return new ResponseEntity<String>("결제 에러가 발생했습니다.", HttpStatus.BAD_GATEWAY);
 
         }else { // 결제 성공
-            log.info( "최종 결제 정보 vo : " + vo);
 
             /* 예약 진행 */
             service.reservation(vo);
 
-            // 세션에 주문 정보 저장
-            session.setAttribute("orderinfo", vo);
+            // 세션에 주문 번호 저장
             session.setAttribute("res_no", vo.getRes_no());
 
             return new ResponseEntity<>("주문이 완료되었습니다", HttpStatus.OK);
@@ -461,11 +436,6 @@ public class ProductController {
 
         TermVO term = service.findTerm(termsType_no);
         return term;
-    }
-
-    @GetMapping("result2")
-    public String result2(){
-        return "/product/result2";
     }
 
 }
