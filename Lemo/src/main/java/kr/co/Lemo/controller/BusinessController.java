@@ -46,7 +46,7 @@ public class BusinessController {
     }
 
     // @since 2023/03/13
-    @GetMapping("coupon/manageCoupon")
+    @GetMapping("coupon/list")
     public String manageCoupon(@RequestParam Map map,
                                @AuthenticationPrincipal UserVO myUser,
                                @ModelAttribute Admin_SearchVO sc,
@@ -79,19 +79,19 @@ public class BusinessController {
         model.addAttribute("ph", pageHandler);
         model.addAttribute("totalCoupons", pageHandler.getTotalCnt());
 
-        return "business/coupon/manageCoupon";
+        return "business/coupon/list";
     }
 
 
     // @since 2023/03/13
-    @GetMapping("coupon/insertCoupon")
+    @GetMapping("coupon/coupon")
     public String insertCoupon() {
-        return "business/coupon/insertCoupon";
+        return "business/coupon/coupon";
     }
 
     // @since 2023/03/13
 
-    @PostMapping("coupon/rsaveCoupon")
+    @PostMapping("coupon/post")
     public String rsaveCoupon(@RequestParam Map<String,Object> param,
                                     @AuthenticationPrincipal UserVO myUser,
                                     Model model) throws Exception {
@@ -112,11 +112,11 @@ public class BusinessController {
 
         service.rsaveCoupon(param);
 
-        return "redirect:/business/coupon/manageCoupon";
+        return "redirect:/business/coupon/list";
     }
 
     @ResponseBody
-    @PostMapping("coupon/removeCoupon")
+    @DeleteMapping("coupon/delete")
     public Map<String, Integer> removeCoupon(@RequestBody Map map) throws Exception {
 
         String cp_id = (String) map.get("cp_id");
@@ -198,6 +198,7 @@ public class BusinessController {
         return "business/review/view";
     }
 
+/* (확인 후 삭제 예정)
 
     @GetMapping("review/findAccOwnedForReview")
     public ResponseEntity<List<ReviewVO>> findAccOwnedForReview(String user_id) {
@@ -210,10 +211,11 @@ public class BusinessController {
 
         return ResponseEntity.ok(accs);
     }
+*/
 
     // @since 2023/03/16 판매자 리뷰 답변 작성
     @ResponseBody
-    @PostMapping("usaveReply")
+    @PostMapping("reply")
     public Map<String, Integer> usaveReply(@RequestBody Map map) throws Exception {
         log.warn(map.toString());
 
@@ -231,7 +233,7 @@ public class BusinessController {
 
     // @since 2023/03/16 판매자 리뷰 삭제
     @ResponseBody
-    @PostMapping("removeReview")
+    @DeleteMapping("/review/delete")
     public Map<String, Integer> removeReview(@RequestBody Map map) throws Exception {
         String revi_id = (String)map.get("revi_id");
 
@@ -324,7 +326,7 @@ public class BusinessController {
 
     // 판매자 숙소 등록
     @ResponseBody
-    @PostMapping("info/rsave")
+    @PostMapping("info/post")
     public String info_rsave(@RequestParam Map<String,Object> param,
                              @AuthenticationPrincipal UserVO myUser,
                              MultipartHttpServletRequest request,
@@ -424,7 +426,7 @@ public class BusinessController {
 
 
     @ResponseBody
-    @PostMapping("info/removeAcc")
+    @DeleteMapping("info/delete")
     public Map<String,Integer> removeAcc(@RequestBody Map map) throws Exception {
         String acc_id = (String)map.get("acc_id");
 
@@ -442,7 +444,7 @@ public class BusinessController {
 
 
 
-    @GetMapping("info/findService")
+    @GetMapping("info/service")
     public ResponseEntity<List<ServiceCateVO>> findService(){
         List<ServiceCateVO> services = service.findService();
         return ResponseEntity.ok(services);
@@ -453,6 +455,7 @@ public class BusinessController {
         List<ProvinceVO> provinces = service.findProvince();
         return ResponseEntity.ok(provinces);
     }
+/* ( 확인 후 삭제 예정)
 
     @GetMapping("MapTest")
     public String MapTest() {
@@ -463,9 +466,10 @@ public class BusinessController {
     public String summernoteTest(){
         return "business/dragNdropTest";
     }
+*/
 
     // @since 2023/04/02 판매자 객실 목록
-    @GetMapping("roomInfo/list")
+    @GetMapping("room/list")
     public String roonInfo_list(@RequestParam Map map,
                                 @AuthenticationPrincipal UserVO myUser,
                                 @ModelAttribute Admin_SearchVO sc,
@@ -496,12 +500,12 @@ public class BusinessController {
         model.addAttribute("ph", pageHandler);
         model.addAttribute("totalRoom", pageHandler.getTotalCnt());
 
-        return "business/roomInfo/list";
+        return "business/room/list";
     }
 
     // @since 2023/04/02 판매자 소유 숙박 목록
-    @GetMapping("finaAllAccOwnedForInfo")
-    public ResponseEntity<List<ProductAccommodationVO>> finaAllAccOwnedForInfo(@AuthenticationPrincipal UserVO myUser){
+    @GetMapping("find-acc")
+    public ResponseEntity<List<ProductAccommodationVO>> findAllAccOwnedForInfo(@AuthenticationPrincipal UserVO myUser){
 
          log.warn("GET findAccOwned...");
 
@@ -510,18 +514,18 @@ public class BusinessController {
          log.warn("user_id = " + user_id);
 
         //List<String> accs = service.finaAllAccOwnedForInfo(user_id).stream().map(ProductAccommodationVO::getAcc_name).collect(Collectors.toList());
-        List<ProductAccommodationVO> accs = service.finaAllAccOwnedForInfo(user_id);
+        List<ProductAccommodationVO> accs = service.findAllAccOwnedForInfo(user_id);
         return ResponseEntity.ok(accs);
     }
 
     // @since 2023/04/02 판매자 객실 등록
-    @GetMapping("roomInfo/write")
+    @GetMapping("room/room")
     public String roomInfo_write(){
-       return "business/roomInfo/write";
+       return "business/room/write";
     }
 
     // @since 2023/04/02 판매자 객실 등록
-    @PostMapping("roomInfo/rsave")
+    @PostMapping("room/post")
     public String rsaveRoom(@RequestParam Map<String, Object> param,
                             MultipartHttpServletRequest request,
                             Model model) throws Exception{
@@ -555,12 +559,12 @@ public class BusinessController {
 
             service.rsaveRoom(param, request);
         }
-        return "redirect:/business/roomInfo/write";
+        return "redirect:/business/room/list";
 
     }
 
     // 판매자 - 객실 보기
-    @GetMapping("roomInfo/view")
+    @GetMapping("room/view")
     public String roomInfo_view(Model model,
                                 @RequestParam("room_id") Integer room_id) throws Exception{
 
@@ -571,12 +575,12 @@ public class BusinessController {
         model.addAttribute("room", room);
         model.addAttribute("room_id", room_id);
 
-       return "business/roomInfo/view";
+       return "business/room/view";
     }
 
     // 판매자 - 객실 삭제
     @ResponseBody
-    @PostMapping("roomInfo/removeRoom")
+    @DeleteMapping("room/delete")
     public Map<String, Integer> removeRoom(@RequestBody Map map) throws Exception {
         String room_id = (String) map.get("room_id");
 
@@ -626,7 +630,7 @@ public class BusinessController {
 
     // @since 2023/04/05 판매자 예약 - 메모 작성
     @ResponseBody
-    @PostMapping("usaveMemoInRes")
+    @PostMapping("reservation/memo")
     public Map<String, Integer> usaveMemoInRes(@RequestBody Map map) throws Exception {
         log.warn(map.toString());
 
@@ -645,6 +649,39 @@ public class BusinessController {
      @GetMapping("reservation/timeline")
     public String reservation_timeline(){
         return "business/reservation/timeline";
+    }
+
+    @GetMapping("stats")
+    public String stats(Model model,
+                        @AuthenticationPrincipal UserVO myUser,
+                        Map map){
+
+        model.addAttribute("title", environment.getProperty(group));
+
+        String user_id = "";
+        if(myUser != null){
+            user_id = myUser.getUser_id();
+        }
+
+        map.put("user_id", user_id);
+
+        // 일별 매출 현황
+        List<ReservationVO> stats = service.findAllDaySales(map);
+
+        // 결제 현황
+        List<ReservationVO> pays = service.findAllPayment(map);
+        Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
+
+        // 총 매출 건수
+        int total = service.countWeeksSales(map);
+
+        log.warn("total: " + total);
+
+        model.addAttribute("stats", stats);
+        model.addAttribute("paysMap", paysMap);
+        model.addAttribute("totalSales", total);
+
+        return "business/stats";
     }
 
 

@@ -2,14 +2,11 @@ package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.My_SearchVO;
-import kr.co.Lemo.domain.search.ProductDetail_SearchVO;
 import kr.co.Lemo.service.MyService;
-
 import kr.co.Lemo.service.PaymentService;
 import kr.co.Lemo.service.ProductService;
-import kr.co.Lemo.utils.PageHandler;
-import kr.co.Lemo.utils.SearchCondition;
 import kr.co.Lemo.service.UserService;
+import kr.co.Lemo.utils.PageHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @since 2023/03/07
@@ -478,6 +472,7 @@ public class MyController {
     @Transactional
     @DeleteMapping("reservation")
     public int reservationDelete(@RequestBody ReservationVO resVO) throws Exception {
+
         int result = service.removeUpdateReservation( resVO.getRes_no() );
 
         return result;

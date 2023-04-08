@@ -285,7 +285,7 @@
                     "res_memo": res_memo
                 };
 
-                ajaxAPI("admin/usaveMemoInRes", jsonData, "POST").then((response) => {
+                ajaxAPI("admin/reservation/memo", jsonData, "POST").then((response) => {
                     if (response.result > 0) {
                       alert('메모 작성이 완료되었습니다.');
                       $(this).closest('li').find('#d_Memo').hide();

@@ -11,7 +11,7 @@
     <main>
         <div class="main_inner">
             <!-- 죄측 사이드바 -->
-            <th:block th:replace="~{fragments/_aside::businessFragment}"></th:block>
+            <th:block th:replace="~{fragments/_aside::adminFragment}"></th:block>
             <!-- 우측 메인 컨테이너 -->
             <section class="main_content">
                 <div class="main_cotent_inner">
@@ -21,7 +21,7 @@
                             <span>객실관리</span>
                         </div>
                         <div class="col2">
-                            <form th:action="@{/business/roomInfo/list}">
+                            <form th:action="@{/admin/room/list}">
                                 <span class="search_review_tit">객실검색</span>
                                 <table class="search_review_table">
                                     <tr>
@@ -61,7 +61,7 @@
                                             <li class="roomInfo_li2" th:text="${room.acc_id}"></li>
                                             <li class="roomInfo_id" th:text="${room.room_id}" >11023</li>
                                             <li class="roomInfo_name" style="width: 30% !important;">
-                                                <a th:href="@{/business/roomInfo/view (room_id=${room.room_id})}">[[${room.room_name}]]</a>
+                                                <a th:href="@{/admin/room/view (room_id=${room.room_id})}">[[${room.room_name}]]</a>
                                             </li>
                                             <li class="roomInfo_li5" th:text="${room.room_stock}">20</li>
                                             <li class="roomInfo_li6" th:text="${room.acc_season == 1}? '비성수기':'성수기'">성수기</li>
@@ -84,22 +84,22 @@
                                 </div>
                                 <div class="pagination" th:object="${ph}" th:style="${#lists.size(rooms) == 0 ? 'visibility:hidden;':''}">
                                     <th:block th:if="*{showPrev}">
-                                        <a th:href="@{/admin/roomInfo/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
+                                        <a th:href="@{/admin/room/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
                                     </th:block>
                                     <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
-                                        <a th:href="@{/admin/roomInfo/list} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                        <a th:href="@{/admin/room/list} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
                                             [[${num}]]
                                         </a>
                                     </th:block>
                                     <th:block th:if="*{showNext}">
-                                        <a th:href="@{/admin/roomInfo/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                        <a th:href="@{/admin/room/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
                                     </th:block>
                                 </div>
-                                <div class="btnAdminProd">
-                                    <a th:href="@{/business/roomInfo/write}">
-                                        객실등록
+                               <!-- <div class="btnAdminProd">
+                                    <a href="#">
+                                        숙소등록
                                     </a>
-                                </div>
+                                </div>-->
                             </form>
                         </div>
                     </div>
@@ -164,9 +164,6 @@
               window.location.href = url;
               return false;
             });
-
-
-
 
         });
     </script>

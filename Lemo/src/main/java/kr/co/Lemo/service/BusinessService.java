@@ -177,7 +177,7 @@ public class BusinessService {
      * @since 2023/04/02
      * @param user_id
      */
-     public List<ProductAccommodationVO> finaAllAccOwnedForInfo(String user_id){
+     public List<ProductAccommodationVO> findAllAccOwnedForInfo(String user_id){
         return dao.selectAccOwnedForInfo(user_id);
      }
 
@@ -193,6 +193,31 @@ public class BusinessService {
          return dao.countReservations(sc);
      }
 
+    /**
+     * @since 2023/04/08
+     * @param map
+     * @apiNote 판매자 - 통계관리 - 일별 누적 판매량 (일주일)
+     */
+     public List<ReservationVO> findAllDaySales (Map map){
+         return dao.selectDaySales(map);
+     }
+
+     /**
+     * @since 2023/04/08
+     * @param map
+     * @apiNote 판매자 결제방법 결제 현황
+     */
+    public List<ReservationVO> findAllPayment(Map map){
+         return dao.selectPayment(map);
+    }
+
+    /**
+    * @since 2023/04/06
+    * @apiNote 판매자 카운트
+     */
+    public int countWeeksSales(Map map){
+        return dao.countWeeksSales(map);
+    }
 
     /**
      * 판매자 쿠폰 - 쿠폰 등록

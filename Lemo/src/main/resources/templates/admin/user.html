@@ -243,7 +243,7 @@
                 "memo": memo
             };
 
-            ajaxAPI("admin/updateMemo", jsonData, "POST").then((response) => {
+            ajaxAPI("admin/user/memo", jsonData, "POST").then((response) => {
                 if (response.result > 0) {
                   alert('메모 작성이 완료되었습니다.');
                   $(this).closest('li').find('#d_Memo').hide();
@@ -267,9 +267,9 @@
 
             const jsonData = {"user_id": user_id};
 
-            ajaxAPI("admin/updateIsLocked", jsonData, "POST").then((response) => {
+            ajaxAPI("admin/user/block", jsonData, "POST").then((response) => {
                     if(response.result > 0) {
-                        alert('해당 회원이 차단되었습니다.');
+                        sweetalert("해당 회원이 차단되었습니다.", "success");
                         //$('#userList').load(location.href+' #userList');
                         //location.reload();
                         normal.attr('class', 'block');
@@ -295,9 +295,9 @@
             const jsonData = {"user_id": user_id};
 
 
-            ajaxAPI("admin/usaveClear", jsonData, "POST").then((response) => {
+            ajaxAPI("admin/user/unblock", jsonData, "POST").then((response) => {
                     if(response.result > 0) {
-                        alert('해당 회원의 차단이 해제되었습니다.');
+                        sweetalert("해당 회원의 차단이 해제되었습니다.", "success");
                         //location.reload();
                         block.attr('class', 'normal');
                         block.text("정상");

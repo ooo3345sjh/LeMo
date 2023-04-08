@@ -160,7 +160,7 @@
                         </div>
 
                         <!-- 등록 폼 -->
-                        <form class="col_register_form" th:action="@{/business/coupon/rsaveCoupon}" method="post">
+                        <form class="col_register_form" th:action="@{/business/coupon/post}" method="post">
                             <!-- <input type="hidden" name="userId_id" th:value="${#authentication.principal.user.uid}">-->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -256,7 +256,7 @@
         window.onload = function() {
             let selectAccOwned = document.getElementById("selectAccOwned");
 
-            ajaxAPI("business/finaAllAccOwnedForInfo", null, "GET").then((response)=>{
+            ajaxAPI("business/find-acc", null, "GET").then((response)=>{
 
                 console.log('response1 : %o', response);
 
