@@ -26,12 +26,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpSession;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -718,8 +720,26 @@ public class ProductService {
      * @author 서정현
      * @apiNote 매일 자정 모든 상품의 리뷰 평균 점수 업데이트
      */
-//    @Scheduled(cron = "")
-    public void rsaveAvgRate() throws Exception {
+    @Scheduled(cron = "0 0 0 * * *")
+    public void usaveAvgRate() throws Exception {
+        log.debug("usaveAvgRate start...");
+        dao.updateAvgRate();
+    }
 
+    /**
+     * @since 2023/04/07
+     * @author 서정현
+     * @apiNote 매일 자정 예약번호 yyyyMMdd000000로 업데이트
+     */
+    @Scheduled(cron = "0 0 0 * * *")
+    public void usaveResNo() throws Exception {
+        log.debug("usaveResNo start...");
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd");
+        String format = formatter.format(new Date());
+
+        Long res_no = Long.parseLong(format + "000000");
+
+        dao.usaveResNo(res_no);
     }
 }

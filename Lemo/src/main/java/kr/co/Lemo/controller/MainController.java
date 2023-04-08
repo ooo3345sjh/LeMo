@@ -51,8 +51,9 @@ public class MainController {
 
     // @since 2023/03/23
     @GetMapping("/access/denied")
-    public String accessDenied(){
-        return "/error/accessDeniedPage";
+    public String accessDenied(Model m){
+        m.addAttribute("status", 403);
+        return "/error/4xx";
     }
 
 
