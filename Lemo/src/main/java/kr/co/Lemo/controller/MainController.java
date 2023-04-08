@@ -1,14 +1,6 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.domain.BusinessInfoVO;
-import kr.co.Lemo.domain.MessageVO;
-import kr.co.Lemo.domain.SmsResponseVO;
-import kr.co.Lemo.domain.UserVO;
-import kr.co.Lemo.domain.search.SearchconditionTestVO_sjh;
 import kr.co.Lemo.service.MainService;
-import kr.co.Lemo.service.SmsService;
-import kr.co.Lemo.service.UserService;
-import kr.co.Lemo.utils.SearchCondition;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
@@ -16,13 +8,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * @since 2023/03/19
@@ -64,5 +53,16 @@ public class MainController {
     @GetMapping("auth")
     public String auth(){
         return SecurityContextHolder.getContext().getAuthentication().toString();
+    }
+
+    /**
+     * @since 2023/04/08
+     * @author 이해빈
+     * */
+    @GetMapping("/errorPage")
+    public String errorPage(Model model){
+
+        model.addAttribute("error", 500);
+        return "/error/errorPage";
     }
 }
