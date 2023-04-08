@@ -1,18 +1,57 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<title>4xx</title>
-	</head>
-	<body>
-		서버에서 문제가 발생했습니다.<br />
-		  관리자에게 문의해주세요.
-		  <p>경로: [[${path}]]</p>
-		  <p>오류: [[${error}]]</p>
-		  <p>메시지: [[${message}]]</p>
-		  <p>오류 목록 : [[${errors}]]</p>
-		  <p>상태: [[${status}]]</p>
-		  <p>발생 시간: [[${timestamp}]]</p>
-		  <p>예외 클래스: [[${exception}]]</p>
-	</body>
+<head>
+	<title th:if="${status == 400 or status == 401 or status == 403 or status == 404 or status == 405 or status == 408}">
+			[[${status}]] error
+	</title>
+	<title th:unless="${status == 400 or status == 401 or status == 403 or status == 404 or status == 405 or status == 408}">
+			400 error
+	</title>
+	<link rel="stylesheet" th:href="@{/css/error.css}" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="error">
+		<!-- 에러 번호 -->
+		<span th:if="${status == 400 or status == 401 or status == 403 or status == 404 or status == 405 or status == 408}">
+			[[${status}]]
+		</span>
+		<span th:unless="${status == 400 or status == 401 or status == 403 or status == 404 or status == 405 or status == 408}">
+			400
+		</span>
+		<img th:src="@{/images/index/lemon1.png}" />
+		<!-- 에러 문구 -->
+		<th:block th:switch="${status}">
+			<th:block th:case="401">
+				<strong>접근 권한이 없습니다.</strong>
+				<span>해당 페이지에 대한 접근 권한이 없습니다.</span>
+			</th:block>
+			<th:block th:case="403">
+				<strong>접근이 거부되었습니다.</strong>
+				<span>해당 페이지에 대한 접근이 거부되었습니다. 페이지의 주소가 정확한지 다시 확인해주시기 바랍니다.</span>
+			</th:block>
+			<th:block th:case="404">
+				<strong>페이지를 찾을 수 없습니다.</strong>
+				<span>페이지의 URL이나 이름이 변경되었거나 일시적으로 사용할 수 없습니다.</span>
+			</th:block>
+			<th:block th:case="405">
+				<strong>허용되지 않는 메서드입니다.</strong>
+				<span>접근에 사용하는 방법이 허용되지 않습니다</span>
+			</th:block>
+			<th:block th:case="408">
+				<strong>요청 시간이 초과되었습니다.</strong>
+				<span>다시 시도 바랍니다. 문제가 계속되면 사이트 관리자에게 문의하세요.</span>
+			</th:block>
+			<th:block th:case="*">
+				<strong>요청 실패(Bad Request)</strong>
+				<span>요청문에 오류가 있거나 서버가 요청을 이해하지 못합니다.</span>
+			</th:block>
+		</th:block>
+		<div class="button">
+			<a th:href="@{/}">홈으로</a>
+			<a href="javascript:history.back()">이전 페이지로</a>
+		</div>
+	</div>
+</div>
+</body>
 </html>
