@@ -1,10 +1,13 @@
 package kr.co.Lemo.controller;
 
+import javassist.NotFoundException;
 import kr.co.Lemo.service.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,16 +57,5 @@ public class MainController {
     @GetMapping("auth")
     public String auth(){
         return SecurityContextHolder.getContext().getAuthentication().toString();
-    }
-
-    /**
-     * @since 2023/04/08
-     * @author 이해빈
-     * */
-    @GetMapping("/errorPage")
-    public String errorPage(Model model){
-
-        model.addAttribute("error", 500);
-        return "/error/errorPage";
     }
 }
