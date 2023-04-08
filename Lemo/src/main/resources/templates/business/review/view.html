@@ -217,7 +217,7 @@
 
                 console.log('here in business/review html');
 
-                ajaxAPI("business/usaveReply", jsonData, "POST").then((response) => {
+                ajaxAPI("business/reply", jsonData, "POST").then((response) => {
                     if(response.result > 0) {
                         sweetalert("리뷰 답변 작성이 완료되었습니다.", "success");
                         $('#d_review').hide();
@@ -254,7 +254,7 @@
                       let revi_id = $(this).attr('data-no');
                       const jsonData = {"revi_id": revi_id};
 
-                      ajaxAPI("business/removeReview", jsonData, "POST").then((response) => {
+                      ajaxAPI("business/review/delete", jsonData, "DELETE").then((response) => {
                           if(response.result > 0) {
                             sweetalert("해당 리뷰가 삭제되었습니다.", "success");
                             <!--location.href = "http://localhost/Lemo/business/review/list";-->

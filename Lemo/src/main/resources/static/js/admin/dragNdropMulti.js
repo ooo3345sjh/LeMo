@@ -4,7 +4,7 @@ Dropzone.autoDiscover=false;
 $(document).ready(function(){
 
     const myDropzone = new Dropzone('div.dropzone', {
-        url: "/Lemo/business/info/rsave",       //업로드할 url (ex)컨트롤러)
+        url: "/Lemo/business/info/post",       //업로드할 url (ex)컨트롤러)
         method: 'post',
         headers: {
           // 요청 보낼때 헤더 설정

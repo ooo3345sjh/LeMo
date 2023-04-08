@@ -157,10 +157,12 @@
               let acc_id = $(this).attr('data-no');
               const jsonData = {"acc_id": acc_id};
 
-              ajaxAPI("business/info/removeAcc", jsonData, "POST").then((response) => {
+              ajaxAPI("business/info/delete", jsonData, "DELETE").then((response) => {
                   if(response.result > 0) {
                     sweetalert("해당 숙소가 삭제되었습니다.", "success");
-                    location.reload();
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
                   } else { alert('error'); }
               }).catch((errorMsg) => {
                 console.log(errorMsg);

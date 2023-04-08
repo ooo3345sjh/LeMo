@@ -113,7 +113,7 @@
     window.onload = function() {
         let selectAccOwned = document.getElementById("c_role_type");
 
-        ajaxAPI("business/finaAllAccOwnedForInfo", null, "GET").then((response)=>{
+        ajaxAPI("business/find-acc", null, "GET").then((response)=>{
 
             console.log('response1 : %o', response);
 

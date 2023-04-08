@@ -111,7 +111,7 @@
                         </div>
 
                         <!-- 숙소 등록 폼 -->
-                        <form name="form" class="col_register_form" th:action="@{/business/info/rsave}" method="post" enctype="multipart/form-data">
+                        <form name="form" class="col_register_form" th:action="@{/business/info/post}" method="post" enctype="multipart/form-data">
                             <input type="text" name="province_no">
                             <input type="text" name="acc_city">
                             <input type="text" name="acc_longtitude">
@@ -475,7 +475,7 @@
         if(result_help.style.display === 'none'){
             result_help.style.display = 'block';
 
-            ajaxAPI("business/info/findService", null, "GET").then((response)=>{
+            ajaxAPI("business/info/service", null, "GET").then((response)=>{
                 //console.log('response1 : %o', response);
 
                 result_td.innerHTML = "";
@@ -505,7 +505,7 @@
 
     search_area.addEventListener("click", function(){
 
-        ajaxAPI("business/info/findService", null, "GET").then((response)=>{
+        ajaxAPI("business/info/service", null, "GET").then((response)=>{
             //console.log('response : %o', response);
             ref = response;
             //console.log("ref:  %o", ref);

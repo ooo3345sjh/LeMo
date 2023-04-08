@@ -77,6 +77,15 @@ public interface BusinessDAO {
     // @since 2023/04/04 판매자 예약 정보 목록 페이징
     public int countReservations(SearchCondition sc);
 
+    // @since 2023/04/08 판매자 - 통계관리 - 일별 누적 판매량 (일주일)
+    public List<ReservationVO> selectDaySales (Map map);
+
+    // @since 2023/04/08 판매자 - 결제방법 결제 현황 (일주일)
+    public List<ReservationVO> selectPayment(Map map);
+
+    // @since 2023/04/08 판매자 - 예약 건수 (일주일)
+    public int countWeeksSales(Map map);
+
     // @since 2023/03/13 판매자 쿠폰 등록
     public void insertCoupon(Map<String, Object> param);
 

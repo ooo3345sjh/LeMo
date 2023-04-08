@@ -22,7 +22,7 @@
                             <span>쿠폰목록</span>
                         </div>
 
-                        <form class="col_register_form" th:action="@{/admin/coupon/manageCoupon}">
+                        <form class="col_register_form" th:action="@{/admin/coupon/list}">
                             <!-- 쿠폰 관리 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -74,7 +74,7 @@
                                             <!--<a href="#" class="btn_remove">삭제</a>-->
                                         </div>
                                         <div class="c_w30">
-                                            <a th:href="@{/admin/coupon/insertCoupon}" class="btn_insert">쿠폰등록</a>
+                                            <a th:href="@{/admin/coupon/coupon}" class="btn_insert">쿠폰등록</a>
                                         </div>
                                     </div>
                                     <table class="c_list">
@@ -103,15 +103,15 @@
                                 <div class="pagination_center">
                                     <div class="pagination" th:object="${ph}" th:style="${#lists.size(coupons) == 0 ? 'visibility:hidden;':''}">
                                         <th:block th:if="*{showPrev}">
-                                            <a th:href="@{/admin/coupon/manageCoupon} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
+                                            <a th:href="@{/admin/coupon/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
                                         </th:block>
                                         <th:block th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}">
-                                            <a th:href="@{/admin/coupon/manageCoupon} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
+                                            <a th:href="@{/admin/coupon/list} + ${ph.sc.getQueryString(num)}" th:class="${num == ph.sc.page ? 'num current':'num'}">
                                                 [[${num}]]
                                             </a>
                                         </th:block>
                                         <th:block th:if="*{showNext}">
-                                            <a th:href="@{/admin/coupon/manageCoupon} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                            <a th:href="@{/admin/coupon/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
                                         </th:block>
                                     </div>
                                 </div>
@@ -134,26 +134,47 @@
         $('.removeCoupon').click(function(e){
             e.preventDefault();
 
-            let isDeleteOK = confirm('정말 삭제하시겠습니까?');
 
-            if(isDeleteOK){
-                let cp_id = $(this).attr('data-no');
+            Swal.fire({
+               title: '정말 삭제하시겠습니까?',
+               icon: 'warning',
 
-                console.log('cp_id ajax: ' + cp_id);
+               showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+               confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+               cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+               confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+               cancelButtonText: '취소', // cancel 버튼 텍스트 지정
 
-                const jsonData = {"cp_id": cp_id};
+               reverseButtons: true, // 버튼 순서 거꾸로
 
-                ajaxAPI("admin/coupon/removeCoupon", jsonData, "DELETE").then((response) => {
-                    if(response.result > 0) {
-                        alert("쿠폰이 삭제되었습니다.");
-                        location.replace("/Lemo/admin/coupon/manageCoupon");
-                    } else {
-                        alert('error');
-                    }
-                }).catch((errorMsg) => {
-                console.log(errorMsg);
-                });
-            }
+            }).then(result => {
+               // 만약 Promise리턴을 받으면,
+               if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+
+                  let cp_id = $(this).attr('data-no');
+
+                    console.log('cp_id ajax: ' + cp_id);
+
+                    const jsonData = {"cp_id": cp_id};
+
+                    ajaxAPI("admin/coupon/delete", jsonData, "DELETE").then((response) => {
+                        if(response.result > 0) {
+                            sweetalert("쿠폰이 삭제되었습니다.", "success");
+                            setTimeout(function() {
+                                location.replace("/Lemo/admin/coupon/list");
+                            }, 2000);
+                        } else {
+                            alert('error');
+                        }
+                    }).catch((errorMsg) => {
+                    console.log(errorMsg);
+                    });
+               }
+            });
+
+
+
+
         });
     });
 
