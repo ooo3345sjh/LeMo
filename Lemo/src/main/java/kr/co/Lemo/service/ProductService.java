@@ -6,7 +6,10 @@ import kr.co.Lemo.dao.ProductDAO;
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.ProductDetail_SearchVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
+import kr.co.Lemo.entity.VisitorslogEntity;
+import kr.co.Lemo.repository.VisitorslogRepo;
 import kr.co.Lemo.utils.PageHandler;
+import kr.co.Lemo.utils.RemoteAddrHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -18,19 +21,17 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -45,6 +46,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@Transactional(rollbackOn = Exception.class)
 public class ProductService {
 
     @Autowired
@@ -52,6 +54,9 @@ public class ProductService {
 
     @Value("${kakaoMap.AdminKey}")
     private String serviceKey;
+
+    @Autowired
+    private VisitorslogRepo visitorslogRepo;
 
     // insert
     // @since 2023/03/21
@@ -260,7 +265,6 @@ public class ProductService {
     }
 
     // @since 2023/03/27
-    @Transactional
     public int getCoupon(Map map){
 
         int result = 0;
@@ -683,7 +687,6 @@ public class ProductService {
     }
 
     // @since 2023/03/31
-    @Transactional
     public void reservation(OrderInfoVO vo) throws Exception {
 
         // 예약 내역 등록
@@ -742,4 +745,63 @@ public class ProductService {
 
         dao.usaveResNo(res_no);
     }
+
+    /**
+     * @since 2023/04/09
+     * @author 서정현
+     * @apiNote mongodb에 방문자 로그 저장하는 서비스
+     */
+    public VisitorslogEntity saveVisitorsLog(VisitorslogEntity visitorslogEntity) throws Exception {
+        return visitorslogRepo.save(visitorslogEntity);
+    }
+
+    /**
+     * @since 2023/04/09
+     * @author 서정현
+     * @apiNote UV(방문자수) = Unique한 회원ID를 가진 방문자 + Unique한 세션쿠키 중 회원ID가 없는 방문자 + Unique한 IP중 세션쿠키도 없고 회원ID도 없는 방문자
+     */
+    public boolean checkVisitor(VisitorslogEntity visitorslogEntity) throws Exception {
+        Instant instantStart = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant instantEnd = LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        LocalDateTime startOfDay = LocalDateTime.ofInstant(instantStart, ZoneId.systemDefault());
+        LocalDateTime endOfDay = LocalDateTime.ofInstant(instantEnd, ZoneId.systemDefault());
+
+        // 오늘 날짜 회원 아이디 체크
+        int result = 0;
+        if(visitorslogEntity.getUsername() != null){
+            result = visitorslogRepo.selectUsername(startOfDay, endOfDay, visitorslogEntity.getUsername(), visitorslogEntity.getAcc_id()).size();
+            if(result > 0) return false;
+        }
+
+        // 오늘 날짜 세션 아이디 체크
+        String sessionId = visitorslogEntity.getSessionid();
+        result = visitorslogRepo.selectSessionId(startOfDay, endOfDay, sessionId, visitorslogEntity.getAcc_id()).size();
+        if(result > 0) return false;
+
+        // 오늘 날짜 ip 체크
+        String ip = visitorslogEntity.getIp();
+        result = visitorslogRepo.selectIp(startOfDay, endOfDay, ip, visitorslogEntity.getAcc_id()).size();
+        if(result > 0) return false;
+
+        // 등록된 로그가 없으면 true 반환
+        return true;
+    }
+
+    /**
+     * @since 2023/04/09
+     * @author 서정현
+     * @apiNote PC/휴대폰 구분
+     */
+    public String getDevice(HttpServletRequest req) {
+        String userAgent = req.getHeader("User-Agent").toUpperCase();
+        String device = null;
+
+        if(userAgent.indexOf("MOBI") > -1)
+            device = "MOBILE";
+        else
+            device = "PC";
+
+        return device;
+    }
+    
 }
