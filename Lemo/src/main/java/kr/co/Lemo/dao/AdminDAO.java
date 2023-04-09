@@ -104,7 +104,7 @@ public interface AdminDAO {
     // @since 2023/03/15
     public int deleteReview(@Param("revi_id") String revi_id);
 
-    // @since 2023/04/05
+    // @since 2023/04/05 관리자 - 통계관리 - 일별 누적 판매량 (일주일)
     public List<ReservationVO> selectDaySales(Map map);
 
     // @since 2023/04/06

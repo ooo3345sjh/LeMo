@@ -86,6 +86,15 @@ public interface BusinessDAO {
     // @since 2023/04/08 판매자 - 예약 건수 (일주일)
     public int countWeeksSales(Map map);
 
+    // @since 2023/04/09 판매자 - 취소 건수 (일주일)
+    public int countWeeksCancel(Map map);
+
+     // @since 2023/04/09 판매자 - 1:1 문의수 (일주일)
+    public int countWeeksQna(Map map);
+
+    // @since 2023/04/09 판매자 - 상품 등록 건수
+    public int countWeeksAcc();
+
     // @since 2023/03/13 판매자 쿠폰 등록
     public void insertCoupon(Map<String, Object> param);
 

@@ -58,15 +58,15 @@
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>취소건수</p>
-                                                        <h3>30</h3>
+                                                        <h3>[[${totalCanceled}]]</h3>
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>방문자수</p>
-                                                        <h3>1,000</h3>
+                                                        <h3>구현예정</h3>
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>1:1문의수</p>
-                                                        <h3>115</h3>
+                                                        <h3>[[${totalQna}]]</h3>
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>상품등록</p>
@@ -226,6 +226,10 @@
         // 참조 데이터 준비
         let stats = [[${stats}]];
 
+        console.log(stats);
+
+
+
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
         // callback 정의 : drawVisualization
@@ -249,6 +253,13 @@
             before[i] = (before[i].getMonth()+1) + '/' + before[i].getDate();
         }
 
+        console.log(before[6] + " - " + stats[0].tot_res_price);
+        console.log(before[5] + " - " + stats[1].tot_res_price);
+        console.log(before[4] + " - " + stats[2].tot_res_price);
+        console.log(before[3] + " - " + stats[3].tot_res_price);
+        console.log(before[2] + " - " + stats[4].tot_res_price);
+        console.log(before[1] + " - " + stats[5].tot_res_price);
+        console.log(date + " - " + stats[6].tot_res_price);
 
         function drawVisualization() {
 
@@ -367,8 +378,8 @@
          // 참조 데이터 준비
         let paysMap = [[${paysMap}]];
 
-        console.log(paysMap);
-        console.log(paysMap[1].length);
+        //console.log(paysMap);
+        //console.log(paysMap[1].length);
 
         google.charts.load("current", {packages:["corechart"]});
         google.charts.setOnLoadCallback(drawChart);
