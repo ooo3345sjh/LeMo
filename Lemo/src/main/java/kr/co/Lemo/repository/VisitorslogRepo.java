@@ -12,7 +12,7 @@ import java.util.List;
 public interface VisitorslogRepo extends MongoRepository<VisitorslogEntity, String> {
 
     @Query(value = "{'$and' : [{'date' : {'$gte' : ?0, '$lt' : ?1}}, {'acc_id' : ?2}]}", count = true)
-    Integer countVisitors(LocalDateTime start, LocalDateTime end);
+    Integer countVisitors(LocalDateTime start, LocalDateTime end, String acc_id);
 
     @Query(value = "{'$and' : [{'date' : {'$gte' : ?0, '$lt' : ?1}}, {'acc_id' : ?2}]}")
     List<VisitorslogEntity> selectVisitors(LocalDateTime start, LocalDateTime end, String acc_id);
