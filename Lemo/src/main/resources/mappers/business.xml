@@ -213,6 +213,32 @@
         AND b.user_id=#{user_id};
     </select>
 
+    <!-- 판매자 - 취소 건수 (일주일) -->
+    <select id="countWeeksCancel"  resultType="java.lang.Integer">
+        select count(a.`res_checkIn`) from `lemo_product_reservation` as a
+        join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        where a.res_state=0
+        AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
+        AND DATE(NOW())
+        AND b.user_id=#{user_id};
+    </select>
+
+    <!-- 판매자 - 1:1 문의수 (일주일) -->
+    <select id="countWeeksQna" resultType="java.lang.Integer">
+        select count(`cs_no`) from `lemo_cs`
+        where `cs_cate`='qna'
+        and `cs_rdate` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
+        AND DATE(NOW())
+        AND user_id=#{user_id};
+    </select>
+
+    <!-- 판매자 - 상품 등록 수 (일주일) -->
+    <select id="countWeeksAcc" resultType="java.lang.Integer">
+        select count(`acc_id`) from `lemo_product_accommodation`
+        where `acc_rdate` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
+        AND DATE(NOW())
+        AND user_id=#{user_id};
+    </select>
 
 
     <!-- 판매자 - 쿠폰 등록 -->

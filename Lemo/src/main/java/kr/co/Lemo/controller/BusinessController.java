@@ -675,11 +675,22 @@ public class BusinessController {
         // 총 매출 건수
         int total = service.countWeeksSales(map);
 
-        log.warn("total: " + total);
+        // 취소 건수
+        int totalCanceled = service.countWeeksCancel(map);
+
+        // 1:1 문의 수
+        int totalQna = service.countWeeksQna(map);
+
+        // 상품 등록 수
+        int totalAcc = service.countWeeksAcc();
+
+        log.warn("totalAcc: " + totalAcc);
 
         model.addAttribute("stats", stats);
         model.addAttribute("paysMap", paysMap);
         model.addAttribute("totalSales", total);
+        model.addAttribute("totalCanceled", totalCanceled);
+        model.addAttribute("totalQna", totalQna);
 
         return "business/stats";
     }
