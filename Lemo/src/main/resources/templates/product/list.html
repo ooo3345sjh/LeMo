@@ -120,7 +120,7 @@
                                         <span class="badge">[[${acc.accType_type}]]</span>
                                         <img th:src="|@{/}img/product/${acc.province_no}/${acc.acc_id}/${#strings.substringBefore(acc.acc_thumbs, '/')}|" alt="상품 이미지">
                                         <article class="stage">
-                                            <a th:href="@{/product/view(acc_id=${acc.acc_id},checkIn=${checkIn},checkOut=${checkOut})}">
+                                            <a th:href="@{/product/view(acc_id=${acc.acc_id},checkIn=${checkIn},checkOut=${checkOut})}" class="acc_rink" th:data-acc_id="${acc.acc_id}">
                                                 <div class="stage-name">
                                                     <strong>[[${acc.acc_name}]]</strong>
                                                     <p>
@@ -194,6 +194,30 @@
                 let maxPrice = [[${ph.sc.maxPrice}]];
                 let minPrice = [[${ph.sc.minPrice}]];
                 if(maxPrice == 0) {maxPrice = 600000};
+
+
+                /**
+                 * @since 2023/04/09
+                 * @author 서정현
+                 * @apinote 숙소 클릭시 mongodb에 방문자 로그를 저장하기위한 이벤트
+                 */
+                $('.acc_rink').click(function (e){
+                    e.preventDefault();
+
+                    const jsonData = {
+                        "acc_id":$(this).data("acc_id")
+                    }
+
+                    ajaxAPI("product/visitor-log", jsonData, "POST").then((response) => {
+                        if(response.result === 1){
+                            location.href = $(this).attr("href");
+                        }
+
+                    }).catch((errorMsg) => {
+                        console.log(errorMsg)
+                    });
+                })
+
             </script>
             <script th:src="@{/js/product/productList.js}"></script>
         </th:block>
