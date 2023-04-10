@@ -209,11 +209,9 @@
                     }
 
                     ajaxAPI("product/visitor-log", jsonData, "POST").then((response) => {
-                        if(response.result === 1){
-                            location.href = $(this).attr("href");
-                        }
-
+                        location.href = $(this).attr("href");
                     }).catch((errorMsg) => {
+                        location.href = $(this).attr("href");
                         console.log(errorMsg)
                     });
                 })

@@ -8,6 +8,11 @@ import org.springframework.data.mongodb.repository.Query;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * @since 2023/04/11
+ * @author 서정현
+ * @apiNote product_visitors_log 방문자 로그 repository
+ */
 public interface VisitorsLogRepo extends MongoRepository<VisitorsLogEntity, String> {
 
     @Query(value = "{'$and' : [{'date' : {'$gte' : ?0, '$lt' : ?1}}, {'acc_id' : ?2}]}", count = true)
