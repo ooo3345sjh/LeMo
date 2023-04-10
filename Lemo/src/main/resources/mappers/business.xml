@@ -240,6 +240,13 @@
         AND user_id=#{user_id};
     </select>
 
+    <!-- 판매자 - 등록 리뷰 수 (일주일) -->
+    <select id="countWeeksReview" resultType="java.lang.Integer">
+        select count(revi_id) from `lemo_product_review` as a
+        join `lemo_product_reservation` as b on a.res_no=b.res_no
+        join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
+        where c.`user_id`=#{user_id};
+    </select>
 
     <!-- 판매자 - 쿠폰 등록 -->
     <insert id="insertCoupon" parameterType="hashMap">

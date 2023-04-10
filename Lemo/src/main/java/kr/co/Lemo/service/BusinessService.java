@@ -220,9 +220,10 @@ public class BusinessService {
     }
     public int countWeeksCancel(Map map){ return dao.countWeeksCancel(map); }
     public int countWeeksQna(Map map){ return dao.countWeeksQna(map); }
-    public int countWeeksAcc(){
-        return dao.countWeeksAcc();
+    public int countWeeksAcc(Map map){
+        return dao.countWeeksAcc(map);
      }
+    public int countWeeksReview(Map map){return dao.countWeeksReview(map);}
 
     /**
      * 판매자 쿠폰 - 쿠폰 등록
