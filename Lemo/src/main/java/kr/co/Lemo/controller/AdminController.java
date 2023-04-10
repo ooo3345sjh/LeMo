@@ -842,7 +842,7 @@ public class AdminController {
      * @author 황원진
      * @apiNote qna 답글 update
      */
-    @PostMapping("cs/{cs_cate}/view")
+    @PostMapping("cs/qna/reply")
     public String usaveQnaArticle(String cs_reply, int cs_no){
         log.info("cs_reply : " + cs_reply);
         log.info("cs_no : " + cs_no);
@@ -896,15 +896,6 @@ public class AdminController {
         return resultMap;
     }
 
-    @GetMapping("cs/terms/test")
-    public String terms_list(){
-        return "admin/cs/terms/test";
-    }
-
-    @GetMapping("cs/terms/write")
-    public String terms_write(){
-        return "admin/cs/terms/write";
-    }
 
 
 
