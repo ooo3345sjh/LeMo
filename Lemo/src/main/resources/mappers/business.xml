@@ -434,7 +434,7 @@
         where `user_id`=#{user_id};
     </select>
 
-    <!-- 판매자 상품문의 목록 선택살제-->
+    <!-- 판매자 상품문의 목록 선택삭제-->
     <delete id="deleteQnaList">
         delete from `lemo_product_qna`
         where `qna_no` in
@@ -443,7 +443,29 @@
         </foreach>
     </delete>
 
+    <!-- 판매자 상품문의 상세보기 -->
+    <select id="selectQnaArticle" resultType="kr.co.Lemo.domain.ProductQnaVO">
+        select a.*, b.`acc_name`, c.`nick` from `lemo_product_qna` as a
+        join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        JOIN `lemo_member_userinfo` AS c ON a.user_id=c.user_id
+        where  a.`qna_no` = #{qan_no};
+    </select>
 
+    <!-- 판매자 상품문의 답변 등록 -->
+    <update id="updateQnaReply">
+        update `lemo_product_qna` set
+        `qna_reply`=#{qna_reply},
+        `qna_reply_date`=NOW()
+        where `qna_no` =#{qna_no};
+    </update>
+
+    <!-- 판매자 상품문의 답변 수정 -->
+    <update id="updateQnaUdate">
+        update `lemo_product_qna` set
+        `qna_reply`=#{qna_reply},
+        `qna_udate`=NOW()
+        where `qna_no` =#{qna_no};
+    </update>
 
 
 

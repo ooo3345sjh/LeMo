@@ -641,7 +641,7 @@ public class AdminController {
     /**
      * @since 2023/03/14
      * @author 황원진
-     * @apiNote list modify
+     *
      */
     @GetMapping("cs/{cs_cate}/modify")
     public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model, HttpServletRequest request){
@@ -673,7 +673,7 @@ public class AdminController {
             return "admin/cs/faq/modify";
         }else if("event".equals(cs_cate)){
             log.info("eventModify");
-            CsVO eventArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+            CsVO eventArticle = csService.findAdminEventArticle(cs_cate, cs_no);
             log.info("eventContent : " +eventArticle.getCs_content());
             log.info("eventTitle : " +eventArticle.getCs_title());
 
@@ -686,7 +686,7 @@ public class AdminController {
     /**
      * @since 2023/03/15
      * @author 황원진
-     * @apiNote list modify
+     *
      */
 
     @PostMapping("cs/{cs_cate}/modify")
@@ -723,9 +723,11 @@ public class AdminController {
         }else if("notice".equals(cs_cate)){
             return "admin/cs/notice/write";
         }else if("event".equals(cs_cate)){
+            return "admin/cs/event/write";
+        }else if("terms".equals(cs_cate)){
 
         }
-        return "admin/cs/event/write";
+        return "admin/cs/terms/write";
     }
 
 
@@ -736,6 +738,7 @@ public class AdminController {
     @PostMapping("cs/{cs_cate}/write")
     public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate,
                                      CsVO vo,
+                                     TermVO termVO,
                                      @AuthenticationPrincipal UserVO myUser,
                                      HttpServletRequest req) {
 
@@ -751,9 +754,11 @@ public class AdminController {
             vo.setCs_regip(RemoteAddrHandler.getRemoteAddr(req));
 
             csService.rsaveFaqArticle(vo);
-
+            return "redirect:/admin/cs/faq/list";
+        }else if("terms".equals(cs_cate)){
+            csService.rsaveTermArticle(termVO);
         }
-        return "redirect:/admin/cs/faq/list";
+        return "redirect:/admin/cs/terms/write";
     }
 
     /**

@@ -54,7 +54,8 @@ public interface CsDAO {
     public int insertArticleQna(CsVO vo);
     //@since 2023/03/15
     public int insertFaqArticle(CsVO vo);
-
+    // @since 2023/04/09
+    public int insertTermArticle(TermVO vo);
 
     /** update **/
     // @since 2023/04/07

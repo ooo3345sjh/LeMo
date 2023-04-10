@@ -44,6 +44,7 @@ public class CsVO {
     private List<String> checkList;
     private String cs_eventMainBannerImg;
     private int cs_eventMainBannerState;
+    private List<String> thumbs;
 
     public String getCs_type_ko(){
         String type = null;

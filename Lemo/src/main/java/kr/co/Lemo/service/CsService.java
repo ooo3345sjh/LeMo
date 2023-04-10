@@ -153,6 +153,21 @@ public class CsService {
         return dao.selectAdminCsArticle(cs_cate, cs_no);
     }
 
+    // @since 2023/04/09 이벤트 수정 GET
+    public CsVO findAdminEventArticle(@RequestParam("cs_cate") String cs_cate, @RequestParam("cs_no") int cs_no) {
+        CsVO csVO = dao.selectAdminCsArticle(cs_cate, cs_no);
+
+        if(csVO != null) {
+            String acc_thumb = csVO.getCs_eventViewImg();
+
+            if(acc_thumb != null) {
+                List<String> thumbs = Arrays.asList(acc_thumb.split("/"));
+                csVO.setThumbs(thumbs);
+            }
+        }
+        return csVO;
+    }
+
     /** insert **/
     public int rsaveEventArticle(MultipartHttpServletRequest request, Map<String, Object> parameter, MultipartFile cs_eventBanner) {
         Map<String, MultipartFile> fileMap = request.getFileMap();
@@ -220,6 +235,10 @@ public class CsService {
         return dao.insertFaqArticle(vo);
     }
 
+    //@since 2023/04/09
+    public int rsaveTermArticle(TermVO vo){
+        return dao.insertTermArticle(vo);
+    }
 
     /** update **/
     //@since 2023/03/14

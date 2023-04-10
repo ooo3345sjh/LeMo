@@ -586,4 +586,29 @@ public class BusinessService {
         log.info("serviceQnaRemove");
         return dao.deleteQnaList(checkList);
     }
+
+    /***
+     *  판매자 상품문의 - 상세보기
+     *  @since 2023/04/08
+     *  @param qna_no
+     */
+    public ProductQnaVO findQnaArticle(int qna_no){
+        return dao.selectQnaArticle(qna_no);
+    }
+
+    /***
+     *  판매자 상품문의 - 답변 등록
+     *  @since 2023/04/08
+     */
+    public int usaveQnaReply(@RequestParam("qna_reply") String qna_reply, @RequestParam("qna_no") int qna_no){
+        return dao.updateQnaReply(qna_reply, qna_no);
+    }
+
+    /***
+     *  판매자 상품문의 - 답변 수정
+     *  @since 2023/04/08
+     */
+    public int usaveQnaUdate(@RequestParam("qna_reply") String qna_reply, @RequestParam("qna_no") int qna_no){
+        return dao.updateQnaUdate(qna_reply, qna_no);
+    }
 }

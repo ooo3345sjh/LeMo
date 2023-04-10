@@ -140,9 +140,9 @@
                                             <div class="stayThumb">
                                                 <div id="fileDropzone1">
                                                     <div class="event_write_mainImg">
-                                                        <img id="mainImage" style="display:none">
+                                                        <img id="mainImage"  th:src="@{/img/cs/{cs_no}/{cs_eventMainBannerImg}(cs_no=${mEvent.cs_no}, cs_eventMainBannerImg=${mEvent.cs_eventMainBannerImg})}">
                                                     </div>
-                                                    <div id="main_zone" data-placeholder="사진을 첨부하려면  클릭해주세요"></div>
+<!--                                                    <div id="main_zone" data-placeholder="사진을 첨부하려면  클릭해주세요"></div>-->
                                                     <input type="file" name="eventMainImg[]" id="main_file" accept="image/png, image/jpeg" class="insertFile" onchange="readURL(this);" required/>
                                                 </div>
                                                 <!--                                                <button id="checking">mainBannerFile값 확인</button>-->
@@ -152,13 +152,13 @@
                                     <tr>
                                         <td>배너 이미지</td>
                                         <td>
-                                            <span>* 해당 이미지는 이벤트 페이지 내 적용되는 배너 이미지입니다. 이미지 크기는 가로 1100px 세로 200px 이상 300px 이하 입니다</span>
+                                            <span>* 해당 이미지는 이벤트 페이지 내 적용되는 배너 이미지입니다. 이미지 크기는 가로 800px이상 1100px이하 세로 200px 이상 300px 이하 입니다</span>
                                             <div class="stayThumb">
                                                 <div id="fileDropzone">
                                                     <div class="event_write_bannerImg">
-                                                        <img id="image" style="display:none">
+                                                        <img id="image"  th:src="@{/img/cs/{cs_no}/{cs_eventBannerImg}(cs_no=${mEvent.cs_no}, cs_eventBannerImg=${mEvent.cs_eventbannerImg})}">
                                                     </div>
-                                                    <div id="att_zone" data-placeholder="사진을 첨부하려면  클릭해주세요"></div>
+<!--                                                    <div id="att_zone" data-placeholder="사진을 첨부하려면  클릭해주세요"></div>-->
                                                     <input type="file" name="eventbannerImg[]" id="ex_file" accept="image/png, image/jpeg" class="insertFile" onchange="bannerReadURL(this)" required/>
                                                 </div>
                                             </div>

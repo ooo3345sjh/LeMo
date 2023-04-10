@@ -16,9 +16,9 @@
             <div class="content">
                 <!-- 카테고리 -->
                 <div class="tab">
-                            <span class="terms_title">
-                                약관 및 정책
-                            </span>
+                    <span class="terms_title">
+                        약관 및 정책
+                    </span>
                 </div>
                 <!-- 약관 및 정책 카테고리 -->
                 <div class="sub_cate">
@@ -38,8 +38,7 @@
 <!--                                <span>0.</span>-->
                                 <b>[[${term.terms_title}]]</b>
                             </a>
-                            <div class="toggle">
-                                [[${term.terms_content}]]
+                            <div class="toggle" th:utext="${term.terms_content}">
                             </div>
                         </li>
                     </ul>
@@ -89,8 +88,8 @@
     <script th:src="@{/js/cs/toggle.js}"></script>
     <script th:src="@{/js/cs/terms.js}"></script>
     <script>
-        if([[${param.privacy}]])
-            onPrivacy();
+<!--        if([[${param.privacy}]])-->
+<!--            onPrivacy();-->
     </script>
 </th:block>
 </html>
