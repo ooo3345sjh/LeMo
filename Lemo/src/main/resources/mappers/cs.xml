@@ -152,6 +152,13 @@
             `cs_rdate`=NOW();
         </insert>
 
+        <insert id="insertTermArticle">
+            insert into `lemo_member_terms` set
+            `termsType_no`=#{termsType_no},
+            `terms_title` =#{terms_title},
+            `terms_content` =#{terms_content};
+        </insert>
+
     <!-- update -->
     <update id="updateQnaArticle">
         update `lemo_cs` set

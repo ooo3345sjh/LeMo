@@ -150,10 +150,13 @@
 
                 const jsonData = {"acc_id": acc_id};
 
-                 ajaxAPI("admin/usaveDropAcc", jsonData, "POST").then((response) => {
+                 ajaxAPI("admin/info/block", jsonData, "POST").then((response) => {
                     if(response.result > 0) {
-                        alert('해당 숙소가 차단되었습니다.');
-                        location.reload();
+                        sweetalert("해당 숙소가 차단되었습니다.", "success");
+                        setTimeout(function(){
+                            location.reload();
+                        }, 2000);
+
                     } else {
                         alert('error');
                     }
@@ -171,10 +174,12 @@
 
                 const jsonData = {"acc_id": acc_id};
 
-                ajaxAPI("admin/usaveClearAcc", jsonData, "POST").then((response) => {
+                ajaxAPI("admin/info/unblock", jsonData, "POST").then((response) => {
                     if(response.result > 0) {
-                        alert('해당 숙소 차단이 해제되었습니다.');
-                        location.reload();
+                        sweetalert("해당 숙소 차단이 해제되었습니다.", "success");
+                        setTimeout(function(){
+                            location.reload();
+                        }, 2000);
                     } else {
                         alert('error');
                     }

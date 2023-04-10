@@ -13,6 +13,26 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script th:src="@{/js/admin/summernote-ko-KR.js}"></script>
+    <style>
+        .btnAdminnProd > #writeComplete{
+            margin: 15px 0;
+            margin-left: 8px;
+            box-shadow: inset 0px 1px 0px 0px #ffffff;
+            background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            border: 1px solid #dcdcdc;
+            display: inline-block;
+            cursor: pointer;
+            color: #666666;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 10px 32px;
+            text-decoration: none;
+            text-shadow: 0px 1px 0px #ffffff;
+            float: right;
+        }
+    </style>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -29,7 +49,7 @@
                         </div>
 
                         <!-- 약관 등록 폼 -->
-                        <form class="col_register_form" action="#">
+                        <form class="col_register_form" id="terms_typeForm" th:action="@{/admin/cs/terms/write}" method="post">
 
                             <!-- 약관 정보 -->
                             <div class="col_register1">
@@ -42,38 +62,45 @@
                                     <tr>
                                         <td>약관 선택</td>
                                         <td>
-                                            <select name="terms_type">
-                                                <option value="terms">이용약관</option>
-                                                <option value="location">위치기반 서비스 이용약관</option>
-                                                <option value="privacy">개인정보 수집 및 이용</option>
-                                                <option value="fourteen">만 14세 이상 확인</option>
-                                                <option value="marketingAgree">마케팅 알림 수신 동의</option>
+                                            <select name="termsType_no" id="termsType_no">
+                                                <option value="0">약관선택</option>
+                                                <option value="1">이용약관</option>
+                                                <option value="2">만 14세 이상 확인</option>
+                                                <option value="3">개인정보 수집 및 이용</option>
+                                                <option value="5">마케팅 알림 수신 동의</option>
+                                                <option value="6">위치기반 서비스 이용약관</option>
                                             </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>약관 제목</td>
+                                        <td>
+                                            <input type="text" name="terms_title" placeholder="약관제목을 입력해주세요">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>약관 내용</td>
                                         <td>
-                                            <div id="summernote"></div>
+                                            <textarea id="summernote" name="terms_content"></textarea>
                                         </td>
                                     </tr>
                                 </table>
                                 <!-- 약관 항목 추가 -->
-                                <div class="btnAdminProd add">
-                                    <a href="#">
-                                        항목 추가
-                                    </a>
-                                </div>
-                                <dialog id="dialog">
-                                    <div class="addTerms">
-                                        <label>약관 제목 :<input type="text"></label>
-                                    </div>
-                                </dialog>
+<!--                                <div class="btnAdminProd add">-->
+<!--                                    <a href="#">-->
+<!--                                        항목 추가-->
+<!--                                    </a>-->
+<!--                                </div>-->
+<!--                                <dialog id="dialog">-->
+<!--                                    <div class="addTerms">-->
+<!--                                        <label>약관 제목 :<input type="text"></label>-->
+<!--                                    </div>-->
+<!--                                </dialog>-->
                             </div>
-                            <div class="btnAdminProd">
-                                <a href="#">
-                                    약관등록
-                                </a>
+                            <div class="btnAdminnProd">
+                                <button id="writeComplete" type="submit">
+                                    등록
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -109,6 +136,41 @@
                 alert('wow');
 
             });
+
+
+
+
+            // 약관 유형 선택
+              let terms_type = $('.input_stayRoomInfo').find("select[name=termsType_no]").val();
+              // = document.getElementById('faqCs_type').value;
+              console.log(terms_type);
+
+              $('#terms_typeForm').submit(function(e){
+                if( terms_type == '0'){
+                        Swal.fire({
+                             title : '약관을 선택해주세요',
+                             icon : 'error',
+                             confirmButtonText : '확인'
+                         })
+                        e.preventDefault();
+                    }
+                });
+
+              $('select[name=termsType_no]').change(function(){
+                 console.log("select 값 확인" +$(this).val());
+                 terms_type = $(this).val();
+                 $('#terms_typeForm').submit(function(e){
+
+                 if( terms_type == '0'){
+                        Swal.fire({
+                             title : '유형을 선택해주세요',
+                             icon : 'error',
+                             confirmButtonText : '확인'
+                         })
+                        e.preventDefault();
+                    }
+                });
+              });
         });
     </script>
 </th:block>

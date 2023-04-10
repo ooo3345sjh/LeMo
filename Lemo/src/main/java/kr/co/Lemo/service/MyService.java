@@ -16,7 +16,6 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -280,7 +279,7 @@ public class MyService {
         return resVO;
     }
 
-    public int removeUpdateReservation(int res_no) throws Exception {
+    public int removeUpdateReservation(long res_no) throws Exception {
         int result = 0;
 
         /* 토큰 발행 */

@@ -177,7 +177,7 @@ public class BusinessService {
      * @since 2023/04/02
      * @param user_id
      */
-     public List<ProductAccommodationVO> finaAllAccOwnedForInfo(String user_id){
+     public List<ProductAccommodationVO> findAllAccOwnedForInfo(String user_id){
         return dao.selectAccOwnedForInfo(user_id);
      }
 
@@ -193,6 +193,37 @@ public class BusinessService {
          return dao.countReservations(sc);
      }
 
+    /**
+     * @since 2023/04/08
+     * @param map
+     * @apiNote 판매자 - 통계관리 - 일별 누적 판매량 (일주일)
+     */
+     public List<ReservationVO> findAllDaySales (Map map){
+         return dao.selectDaySales(map);
+     }
+
+     /**
+     * @since 2023/04/08
+     * @param map
+     * @apiNote 판매자 결제방법 결제 현황
+     */
+    public List<ReservationVO> findAllPayment(Map map){
+         return dao.selectPayment(map);
+    }
+
+    /**
+    * @since 2023/04/06
+    * @apiNote 판매자 카운트
+     */
+    public int countWeeksSales(Map map){
+        return dao.countWeeksSales(map);
+    }
+    public int countWeeksCancel(Map map){ return dao.countWeeksCancel(map); }
+    public int countWeeksQna(Map map){ return dao.countWeeksQna(map); }
+    public int countWeeksAcc(Map map){
+        return dao.countWeeksAcc(map);
+     }
+    public int countWeeksReview(Map map){return dao.countWeeksReview(map);}
 
     /**
      * 판매자 쿠폰 - 쿠폰 등록
@@ -555,5 +586,30 @@ public class BusinessService {
     public int removeQnaList(@RequestParam("checkList[]") List checkList){
         log.info("serviceQnaRemove");
         return dao.deleteQnaList(checkList);
+    }
+
+    /***
+     *  판매자 상품문의 - 상세보기
+     *  @since 2023/04/08
+     *  @param qna_no
+     */
+    public ProductQnaVO findQnaArticle(int qna_no){
+        return dao.selectQnaArticle(qna_no);
+    }
+
+    /***
+     *  판매자 상품문의 - 답변 등록
+     *  @since 2023/04/08
+     */
+    public int usaveQnaReply(@RequestParam("qna_reply") String qna_reply, @RequestParam("qna_no") int qna_no){
+        return dao.updateQnaReply(qna_reply, qna_no);
+    }
+
+    /***
+     *  판매자 상품문의 - 답변 수정
+     *  @since 2023/04/08
+     */
+    public int usaveQnaUdate(@RequestParam("qna_reply") String qna_reply, @RequestParam("qna_no") int qna_no){
+        return dao.updateQnaUdate(qna_reply, qna_no);
     }
 }

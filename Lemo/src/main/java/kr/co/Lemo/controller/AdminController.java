@@ -206,7 +206,7 @@ public class AdminController {
 
     // @since 2023/03/09 관리자 회원 - 메모 작성
     @ResponseBody
-    @PostMapping("updateMemo")
+    @PostMapping("user/memo")
     public Map<String, Integer> updateMemo(@RequestBody Map map) throws Exception {
         log.warn(map.toString());
 
@@ -223,7 +223,7 @@ public class AdminController {
 
     // @since 2023/03/30 관리자 예약 - 메모 작성
     @ResponseBody
-    @PostMapping("usaveMemoInRes")
+    @PostMapping("reservation/memo")
     public Map<String, Integer> usaveMemoInRes(@RequestBody Map map) throws Exception {
         log.warn(map.toString());
 
@@ -240,7 +240,7 @@ public class AdminController {
 
     // @since 2023/03/10 관리자 회원 - 회원 차단
     @ResponseBody
-    @PostMapping("updateIsLocked")
+    @PostMapping("user/block")
     public Map<String, Integer> updateIsLocked(@RequestBody Map map) throws Exception {
         String user_id = (String) map.get("user_id");
         int result = service.updateIsLocked(user_id);
@@ -252,7 +252,7 @@ public class AdminController {
     }
 
     @ResponseBody
-    @PostMapping("usaveClear")
+    @PostMapping("user/unblock")
     public Map<String, Integer> usaveClear(@RequestBody Map map) throws Exception {
         String user_id = (String) map.get("user_id");
         int result = service.usaveClear(user_id);
@@ -265,7 +265,7 @@ public class AdminController {
 
     // @since 2023/03/30 관리자 숙박 차단
     @ResponseBody
-    @PostMapping("usaveDropAcc")
+    @PostMapping("/info/block")
     public Map<String, Integer> usaveDropAcc(@RequestBody Map map) throws Exception {
         String acc_id = (String) map.get("acc_id");
         int result = service.usaveDropAcc(acc_id);
@@ -278,7 +278,7 @@ public class AdminController {
 
     // @since 2023/03/30 관리자 숙박 차단 해제
     @ResponseBody
-    @PostMapping("usaveClearAcc")
+    @PostMapping("/info/unblock")
     public Map<String, Integer> usaveClearAcc(@RequestBody Map map) throws Exception {
          String acc_id = (String) map.get("acc_id");
         int result = service.usaveClearAcc(acc_id);
@@ -291,13 +291,13 @@ public class AdminController {
 
 
     // @since 2023/03/11
-    @GetMapping("coupon/insertCoupon")
-    public String insertCoupon() {
-        return "admin/coupon/insertCoupon";
+    @GetMapping("coupon/coupon")
+    public String coupon() {
+        return "admin/coupon/coupon";
     }
 
     // @since 2023/03/12
-    @PostMapping("coupon/rsaveCupon")
+    @PostMapping("coupon/post")
     public String rsaveCupon(CouponVO vo, RedirectAttributes redirectAttributes) throws Exception {
 
         log.warn("rsaveCupon : " + vo);
@@ -316,11 +316,11 @@ public class AdminController {
 
         service.rsaveCupon(vo);
         redirectAttributes.addFlashAttribute("successMessage", "쿠폰이 등록되었습니다.");
-        return "redirect:/admin/coupon/insertCoupon";
+        return "redirect:/admin/coupon/coupon";
     }
 
-    @GetMapping("coupon/manageCoupon")
-    public String manageCoupon(Model model,
+    @GetMapping("coupon/list")
+    public String list(Model model,
                                @RequestParam Map map,
                                @ModelAttribute Admin_SearchVO sc) {
         log.warn("GET manage Coupon...");
@@ -328,7 +328,7 @@ public class AdminController {
         sc.setMap(map);
         service.selectCoupon(model, sc);
 
-        return "admin/coupon/manageCoupon";
+        return "admin/coupon/list";
     }
 
     // @since 2023/03/11
@@ -341,6 +341,7 @@ public class AdminController {
         return "redirect:/admin/coupon/manageCoupon";
     }
      */
+/*
 
     @GetMapping("coupon/findAccOwned")
     public ResponseEntity<List<String>> findAccOwned(String user_id) {
@@ -351,9 +352,10 @@ public class AdminController {
         List<String> accs = service.findAccOwned(user_id).stream().map(CouponVO::getAcc_name).collect(Collectors.toList());
         return ResponseEntity.ok(accs);
     }
+*/
 
     @ResponseBody
-    @DeleteMapping("coupon/removeCoupon")
+    @DeleteMapping("coupon/delete")
     public Map<String, Integer> removeCoupon(@RequestBody Map map) throws Exception {
 
         String cp_id = (String) map.get("cp_id");
@@ -399,6 +401,7 @@ public class AdminController {
 
         return "admin/review/view";
     }
+/*
 
     // @since 2023/03/15 관리자 쿠폰 답변 작성
     @ResponseBody
@@ -417,6 +420,8 @@ public class AdminController {
         return resultMap;
 
     }
+*/
+
 
     // @since 2023/03/15 관리자 리뷰 삭제
     @ResponseBody
@@ -433,7 +438,7 @@ public class AdminController {
     }
 
     // 관리자 - 객실 목록
-    @GetMapping("roomInfo/list")
+    @GetMapping("room/list")
     public String roomInfo_list(Model model,
                                 @RequestParam Map map,
                                 @ModelAttribute Admin_SearchVO sc){
@@ -441,11 +446,11 @@ public class AdminController {
         sc.setMap(map);
         service.findAllRoom(model, sc);
 
-        return "admin/roomInfo/list";
+        return "admin/room/list";
     }
 
     // 관리자 - 객실 보기
-    @GetMapping("roomInfo/view")
+    @GetMapping("room/view")
     public String roomInfo_view(Model model,
                                 @RequestParam("room_id") Integer room_id) throws Exception{
 
@@ -456,21 +461,22 @@ public class AdminController {
         model.addAttribute("room", room);
         model.addAttribute("room_id", room_id);
 
-       return "admin/roomInfo/view";
+       return "admin/room/view";
     }
 
-    @GetMapping("roomInfo/modify")
+    /* (확인 후 삭제 예정)
+    @GetMapping("room/modify")
     public String roomInfo_modify(){
-       return "admin/roomInfo/modify";
+       return "admin/room/modify";
     }
+    */
 
-
-
+    /* (확인 후 삭제 예정)
     @GetMapping("roomInfo/write")
     public String roomInfo_write(){
        return "admin/roomInfo/write";
     }
-
+    */
     @GetMapping("info/list")
     public String info_list(Model model,
                             @RequestParam Map map,
@@ -635,7 +641,7 @@ public class AdminController {
     /**
      * @since 2023/03/14
      * @author 황원진
-     * @apiNote list modify
+     *
      */
     @GetMapping("cs/{cs_cate}/modify")
     public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model, HttpServletRequest request){
@@ -667,7 +673,7 @@ public class AdminController {
             return "admin/cs/faq/modify";
         }else if("event".equals(cs_cate)){
             log.info("eventModify");
-            CsVO eventArticle = csService.findAdminCsArticle(cs_cate, cs_no);
+            CsVO eventArticle = csService.findAdminEventArticle(cs_cate, cs_no);
             log.info("eventContent : " +eventArticle.getCs_content());
             log.info("eventTitle : " +eventArticle.getCs_title());
 
@@ -680,7 +686,7 @@ public class AdminController {
     /**
      * @since 2023/03/15
      * @author 황원진
-     * @apiNote list modify
+     *
      */
 
     @PostMapping("cs/{cs_cate}/modify")
@@ -717,9 +723,11 @@ public class AdminController {
         }else if("notice".equals(cs_cate)){
             return "admin/cs/notice/write";
         }else if("event".equals(cs_cate)){
+            return "admin/cs/event/write";
+        }else if("terms".equals(cs_cate)){
 
         }
-        return "admin/cs/event/write";
+        return "admin/cs/terms/write";
     }
 
 
@@ -730,6 +738,7 @@ public class AdminController {
     @PostMapping("cs/{cs_cate}/write")
     public String rsaveNoticeArticle(@PathVariable("cs_cate") String cs_cate,
                                      CsVO vo,
+                                     TermVO termVO,
                                      @AuthenticationPrincipal UserVO myUser,
                                      HttpServletRequest req) {
 
@@ -745,9 +754,11 @@ public class AdminController {
             vo.setCs_regip(RemoteAddrHandler.getRemoteAddr(req));
 
             csService.rsaveFaqArticle(vo);
-
+            return "redirect:/admin/cs/faq/list";
+        }else if("terms".equals(cs_cate)){
+            csService.rsaveTermArticle(termVO);
         }
-        return "redirect:/admin/cs/faq/list";
+        return "redirect:/admin/cs/terms/write";
     }
 
     /**
@@ -831,7 +842,7 @@ public class AdminController {
      * @author 황원진
      * @apiNote qna 답글 update
      */
-    @PostMapping("cs/{cs_cate}/view")
+    @PostMapping("cs/qna/reply")
     public String usaveQnaArticle(String cs_reply, int cs_no){
         log.info("cs_reply : " + cs_reply);
         log.info("cs_no : " + cs_no);
@@ -885,15 +896,6 @@ public class AdminController {
         return resultMap;
     }
 
-    @GetMapping("cs/terms/test")
-    public String terms_list(){
-        return "admin/cs/terms/test";
-    }
-
-    @GetMapping("cs/terms/write")
-    public String terms_write(){
-        return "admin/cs/terms/write";
-    }
 
 
 

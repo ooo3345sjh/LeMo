@@ -3,9 +3,11 @@ package kr.co.Lemo.controller;
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.ProductDetail_SearchVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
+import kr.co.Lemo.entity.VisitorsLogEntity;
 import kr.co.Lemo.service.PaymentService;
 import kr.co.Lemo.service.ProductService;
 import kr.co.Lemo.utils.PageHandler;
+import kr.co.Lemo.utils.RemoteAddrHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,12 +68,13 @@ public class ProductController {
 
     // @since 2023/03/17 상품 보기
     @GetMapping("view")
-    public String view(Model model,
-                       int acc_id,
-                       String checkIn,
-                       String checkOut,
-                       @AuthenticationPrincipal UserVO myUser
-                       ) throws Exception {
+    public String view(
+            Model model,
+            int acc_id,
+            String checkIn,
+            String checkOut,
+            @AuthenticationPrincipal UserVO myUser
+    ) throws Exception {
 
 
         log.debug("Get view start");
@@ -106,7 +110,7 @@ public class ProductController {
         if(uid != ""){
             result = service.findProductPick(acc_id, uid);
         }
-
+                
         model.addAttribute("result", result);
         model.addAttribute("uid", uid);
         model.addAttribute("scs", scs);
@@ -184,7 +188,7 @@ public class ProductController {
             return "redirect:/product/list";
         }
 
-        int res_no = (int) obj;
+        long res_no = (long) obj;
         String user_id = myUser.getUser_id();
 
         // 로그인한 유저 id와 예약번호(res_no)로 조회하여 예약내역이 있는지 검증
@@ -438,4 +442,35 @@ public class ProductController {
         return term;
     }
 
+    /**
+     * @since 2023/04/09
+     * @author 서정현
+     * @apiNote mongodb에 방문자 로그 저장하는 서비스
+     */
+    @ResponseBody
+    @PostMapping("visitor-log")
+    public Map loggingVisitors (
+            HttpServletRequest req,
+            @RequestBody Map map,
+           @AuthenticationPrincipal UserVO user
+    ) throws Exception{
+        log.debug("POST loggingVisitors start...");
+
+        VisitorsLogEntity visitorslogEntity = VisitorsLogEntity.builder()
+                .ip(RemoteAddrHandler.getRemoteAddr(req))
+                .acc_id(String.valueOf(map.get("acc_id")))
+                .username(user != null? user.getUser_id():null)
+                .date(new Date())
+                .sessionid(req.getSession().getId())
+                .device(service.getDevice(req))
+                .build();
+
+        boolean isExist = service.checkVisitor(visitorslogEntity);
+
+        if(isExist)
+            service.saveVisitorsLog(visitorslogEntity);
+
+        map.put("result", 1);
+        return map;
+    }
 }

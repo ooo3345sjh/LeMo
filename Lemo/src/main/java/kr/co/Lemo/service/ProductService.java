@@ -6,6 +6,8 @@ import kr.co.Lemo.dao.ProductDAO;
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.ProductDetail_SearchVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
+import kr.co.Lemo.entity.VisitorsLogEntity;
+import kr.co.Lemo.repository.VisitorsLogRepo;
 import kr.co.Lemo.utils.PageHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
@@ -18,20 +20,20 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
+import java.text.SimpleDateFormat;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -43,6 +45,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@Transactional(rollbackOn = Exception.class)
 public class ProductService {
 
     @Autowired
@@ -50,6 +53,9 @@ public class ProductService {
 
     @Value("${kakaoMap.AdminKey}")
     private String serviceKey;
+
+    @Autowired
+    private VisitorsLogRepo visitorslogRepo;
 
     // insert
     // @since 2023/03/21
@@ -258,7 +264,6 @@ public class ProductService {
     }
 
     // @since 2023/03/27
-    @Transactional
     public int getCoupon(Map map){
 
         int result = 0;
@@ -312,12 +317,12 @@ public class ProductService {
     }
 
     // @since 2023/04/05
-    public int findResNo(@Param("user_id") String user_id, @Param("res_no") int res_no){
+    public int findResNo(@Param("user_id") String user_id, @Param("res_no") long res_no){
         return dao.selectResNo(user_id,res_no);
     }
 
     // @since 2023/04/06
-    public ReservationVO findOrderInfo(int res_no){
+    public ReservationVO findOrderInfo(long res_no){
         return dao.selectOrderInfo(res_no);
     };
 
@@ -681,7 +686,6 @@ public class ProductService {
     }
 
     // @since 2023/03/31
-    @Transactional
     public void reservation(OrderInfoVO vo) throws Exception {
 
         // 예약 내역 등록
@@ -718,8 +722,92 @@ public class ProductService {
      * @author 서정현
      * @apiNote 매일 자정 모든 상품의 리뷰 평균 점수 업데이트
      */
-//    @Scheduled(cron = "")
-    public void rsaveAvgRate() throws Exception {
-
+    @Scheduled(cron = "0 0 0 * * *")
+    public void usaveAvgRate() throws Exception {
+        log.debug("usaveAvgRate start...");
+        dao.updateAvgRate();
     }
+
+    /**
+     * @since 2023/04/07
+     * @author 서정현
+     * @apiNote 매일 자정 예약번호 yyyyMMdd000000로 업데이트
+     */
+    @Scheduled(cron = "0 0 0 * * *")
+    public void usaveResNo() throws Exception {
+        log.debug("usaveResNo start...");
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd");
+        String format = formatter.format(new Date());
+
+        Long res_no = Long.parseLong(format + "000000");
+
+        dao.usaveResNo(res_no);
+    }
+
+    /**
+     * @since 2023/04/09
+     * @author 서정현
+     * @apiNote mongodb에 방문자 로그 저장하는 서비스
+     */
+    public VisitorsLogEntity saveVisitorsLog(VisitorsLogEntity visitorslogEntity) throws Exception {
+        return visitorslogRepo.save(visitorslogEntity);
+    }
+
+    /**
+     * @since 2023/04/09
+     * @author 서정현
+     * @apiNote UV(방문자수) = Unique한 회원ID를 가진 방문자 + Unique한 세션쿠키 중 회원ID가 없는 방문자 + Unique한 IP중 세션쿠키도 없고 회원ID도 없는 방문자
+     */
+    public boolean checkVisitor(VisitorsLogEntity visitorslogEntity) throws Exception {
+        Instant instantStart = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant instantEnd = LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        LocalDateTime startOfDay = LocalDateTime.ofInstant(instantStart, ZoneId.systemDefault());
+        LocalDateTime endOfDay = LocalDateTime.ofInstant(instantEnd, ZoneId.systemDefault());
+
+        // 오늘 날짜 회원 아이디 체크
+        int result = 0;
+        if(visitorslogEntity.getUsername() != null){
+            result = visitorslogRepo.selectUsername(startOfDay, endOfDay, visitorslogEntity.getUsername(), visitorslogEntity.getAcc_id()).size();
+
+            if(result > 0) return false;
+            else return true;
+        }
+
+        // 오늘 날짜 세션 아이디 체크
+        String sessionId = visitorslogEntity.getSessionid();
+
+        if(sessionId != null){
+            result = visitorslogRepo.selectSessionId(startOfDay, endOfDay, sessionId, visitorslogEntity.getAcc_id()).size();
+            if(result > 0) return false;
+        }
+
+        else {
+            // 오늘 날짜 ip 체크
+            String ip = visitorslogEntity.getIp();
+            result = visitorslogRepo.selectIp(startOfDay, endOfDay, ip, visitorslogEntity.getAcc_id()).size();
+            if(result > 0) return false;
+        }
+
+        // 등록된 로그가 없으면 true 반환
+        return true;
+    }
+
+    /**
+     * @since 2023/04/09
+     * @author 서정현
+     * @apiNote PC/휴대폰 구분
+     */
+    public String getDevice(HttpServletRequest req) {
+        String userAgent = req.getHeader("User-Agent").toUpperCase();
+        String device = null;
+
+        if(userAgent.indexOf("MOBI") > -1)
+            device = "MOBILE";
+        else
+            device = "PC";
+
+        return device;
+    }
+    
 }

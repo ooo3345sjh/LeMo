@@ -175,7 +175,78 @@
         </if>
     </select>
 
+    <!-- 판매자 - 통계관리 - 일별 누적 판매량 (일주일) -->
+    <select id="selectDaySales"  resultType="kr.co.Lemo.domain.ReservationVO">
+        SELECT DATE(a.res_date) AS res_date,
+            MAX(a.res_state) AS res_state,
+            SUM(a.res_price) AS res_price,
+            SUM(a.res_disPrice) AS res_disPrice,
+            (SUM(a.res_price - a.res_disPrice)) AS tot_res_price
+            FROM lemo_product_reservation AS a
+        LEFT JOIN lemo_product_accommodation AS b ON a.acc_id = b.acc_id
+        WHERE a.res_state NOT IN (0)
+        	AND a.res_checkIn BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
+        	AND DATE(NOW())
+        	AND b.user_id=#{user_id}
+        GROUP BY DATE(a.res_date)
+        ORDER BY `res_date` desc limit 7;
+    </select>
 
+    <!-- 판매자 - 결제방법 결제 현황 (일주일) -->
+    <select id="selectPayment" resultType="kr.co.Lemo.domain.ReservationVO">
+        select * from `lemo_product_reservation` as a
+        join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        where a.res_state NOT IN (0)
+            AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
+            AND DATE(NOW())
+            AND b.user_id=#{user_id}
+        order by a.res_payment;
+    </select>
+
+    <!-- 판매자 - 예약 건수 (일주일) -->
+    <select id="countWeeksSales" resultType="java.lang.Integer">
+        select count(a.`res_checkIn`) from `lemo_product_reservation` as a
+        join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        where a.res_state NOT IN (0)
+        AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
+        AND DATE(NOW())
+        AND b.user_id=#{user_id};
+    </select>
+
+    <!-- 판매자 - 취소 건수 (일주일) -->
+    <select id="countWeeksCancel"  resultType="java.lang.Integer">
+        select count(a.`res_checkIn`) from `lemo_product_reservation` as a
+        join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        where a.res_state=0
+        AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
+        AND DATE(NOW())
+        AND b.user_id=#{user_id};
+    </select>
+
+    <!-- 판매자 - 1:1 문의수 (일주일) -->
+    <select id="countWeeksQna" resultType="java.lang.Integer">
+        select count(`cs_no`) from `lemo_cs`
+        where `cs_cate`='qna'
+        and `cs_rdate` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
+        AND DATE(NOW())
+        AND user_id=#{user_id};
+    </select>
+
+    <!-- 판매자 - 상품 등록 수 (일주일) -->
+    <select id="countWeeksAcc" resultType="java.lang.Integer">
+        select count(`acc_id`) from `lemo_product_accommodation`
+        where `acc_rdate` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
+        AND DATE(NOW())
+        AND user_id=#{user_id};
+    </select>
+
+    <!-- 판매자 - 등록 리뷰 수 (일주일) -->
+    <select id="countWeeksReview" resultType="java.lang.Integer">
+        select count(revi_id) from `lemo_product_review` as a
+        join `lemo_product_reservation` as b on a.res_no=b.res_no
+        join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
+        where c.`user_id`=#{user_id};
+    </select>
 
     <!-- 판매자 - 쿠폰 등록 -->
     <insert id="insertCoupon" parameterType="hashMap">
@@ -370,7 +441,7 @@
         where `user_id`=#{user_id};
     </select>
 
-    <!-- 판매자 상품문의 목록 선택살제-->
+    <!-- 판매자 상품문의 목록 선택삭제-->
     <delete id="deleteQnaList">
         delete from `lemo_product_qna`
         where `qna_no` in
@@ -379,7 +450,29 @@
         </foreach>
     </delete>
 
+    <!-- 판매자 상품문의 상세보기 -->
+    <select id="selectQnaArticle" resultType="kr.co.Lemo.domain.ProductQnaVO">
+        select a.*, b.`acc_name`, c.`nick` from `lemo_product_qna` as a
+        join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        JOIN `lemo_member_userinfo` AS c ON a.user_id=c.user_id
+        where  a.`qna_no` = #{qan_no};
+    </select>
 
+    <!-- 판매자 상품문의 답변 등록 -->
+    <update id="updateQnaReply">
+        update `lemo_product_qna` set
+        `qna_reply`=#{qna_reply},
+        `qna_reply_date`=NOW()
+        where `qna_no` =#{qna_no};
+    </update>
+
+    <!-- 판매자 상품문의 답변 수정 -->
+    <update id="updateQnaUdate">
+        update `lemo_product_qna` set
+        `qna_reply`=#{qna_reply},
+        `qna_udate`=NOW()
+        where `qna_no` =#{qna_no};
+    </update>
 
 
 

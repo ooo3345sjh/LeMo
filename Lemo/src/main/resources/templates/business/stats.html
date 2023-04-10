@@ -10,42 +10,11 @@
     <main>
         <div class="main_inner">
             <!-- 죄측 사이드바 -->
-            <th:block th:replace="~{fragments/_aside::adminFragment}"></th:block>
+            <th:block th:replace="~{fragments/_aside::businessFragment}"></th:block>
             <!-- 우측 메인 컨테이너 -->
             <section class="main_content">
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
-
-                        <!-- 관리자인 경우 출력-->
-                        <div class="col0">
-                            <form action="#">
-                                <div class="searchProdNum">
-                                    <input type="text" class="search_box" placeholder="숙소 번호 입력">
-                                    <button type="submit" class="btnSearch">
-                                        <input type="image" th:src="@{/images/admin/btn_search.png}">
-                                    </button>
-                                </div>
-                                <div class="guideMsg">관리자인 경우 출력(해당 문구 삭제 예정)</div>
-                            </form>
-                        </div>
-
-                        <!-- 판매자인 경우 출력-->
-                        <div class="col0">
-                            <form action="#">
-                                <div class="selectProdForAdmin">
-                                    <select>
-                                        <option value="0">숙소명</option>
-                                        <option value="1">푸른제주펜션</option>
-                                        <option value="2">보우힐펜션</option>
-                                        <option value="3">파라다이스호텔부산</option>
-                                        <option value="4">프리지아펜션</option>
-                                    </select>
-                                </div>
-                                <div class="guideMsg">판매자인 경우 출력(해당 문구 삭제 예정)</div>
-                            </form>
-                        </div>
-
-
                         <div class="col_nav" style="border-bottom: 1px solid #1a367e20;">
                             <span>통계관리</span>
                         </div>
@@ -60,9 +29,9 @@
                                     <div class="tot_sales">
                                         <div class="tot_sales_box">
                                             <div class="ts_tit1">총매출</div>
-                                            <div class="ts_count">53</div>
+                                            <div class="ts_count">[[${totalSales}]]</div>
                                             <div class="ts_tit2">건</div>
-                                            <div class="ts_price">5,000,000</div>
+                                            <div class="ts_price" th:text="${#numbers.formatInteger(stats[0].tot_res_price + stats[1].tot_res_price + stats[2].tot_res_price + stats[3].tot_res_price + stats[4].tot_res_price + stats[5].tot_res_price + stats[6].tot_res_price, 0, 'COMMA')}"></div>
                                             <div class="ts_tit3">원</div>
                                         </div>
                                     </div>
@@ -85,27 +54,27 @@
                                                 <div class="today_grid">
                                                     <div class="today_grid_item">
                                                         <p>예약건수</p>
-                                                        <h3>300</h3>
+                                                        <h3>[[${totalSales}]]</h3>
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>취소건수</p>
-                                                        <h3>30</h3>
+                                                        <h3>[[${totalCanceled}]]</h3>
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>방문자수</p>
-                                                        <h3>1,000</h3>
+                                                        <h3>구현예정</h3>
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>1:1문의수</p>
-                                                        <h3>115</h3>
+                                                        <h3>[[${totalQna}]]</h3>
                                                     </div>
                                                     <div class="today_grid_item">
                                                         <p>상품등록</p>
-                                                        <h3>100</h3>
+                                                        <h3>[[${totalAcc}]]</h3>
                                                     </div>
                                                     <div class="today_grid_item">
-                                                        <p>회원가입</p>
-                                                        <h3>200</h3>
+                                                        <p>리뷰수</p>
+                                                        <h3>[[${totalReview}]]</h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -252,7 +221,15 @@
     </script>
     <!-- 구글 차트 -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+    <script th:inline="javascript">
+
+        // 참조 데이터 준비
+        let stats = [[${stats}]];
+
+        console.log(stats);
+
+
+
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
         // callback 정의 : drawVisualization
@@ -261,35 +238,41 @@
         // 오늘 날짜
         let today = new Date();
         // 오늘 날짜 (월)
-        let nowMonth = today.getMonth() + 1;
+        nowMonth = today.getMonth() + 1;
         // 오늘 날짜 (일)
-        let nowDate = today.getDate();
+        nowDate = today.getDate();
         // 출력 날짜 형태 지정
-        let date = nowMonth + '/' + nowDate;
+        date = nowMonth + '/' + nowDate;
 
-        console.log(date);
 
         // 이전 날짜
         // before[1] = 1일전 , before[2] = 2일전
         let before = new Array();
         for (let i=1; i<7; i++){
             before[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
-            before[i] = before[i].getMonth() + '/' + before[i].getDate();
+            before[i] = (before[i].getMonth()+1) + '/' + before[i].getDate();
         }
-        console.log( before[1] );
+
+        console.log(before[6] + " - " + stats[0].tot_res_price);
+        console.log(before[5] + " - " + stats[1].tot_res_price);
+        console.log(before[4] + " - " + stats[2].tot_res_price);
+        console.log(before[3] + " - " + stats[3].tot_res_price);
+        console.log(before[2] + " - " + stats[4].tot_res_price);
+        console.log(before[1] + " - " + stats[5].tot_res_price);
+        console.log(date + " - " + stats[6].tot_res_price);
 
         function drawVisualization() {
 
             // 그래프 내용 : drawVisualization 구현
             var data = google.visualization.arrayToDataTable([
                 ['날짜', '일별매출', '누적매출'],
-                [before[6],  444, 444],
-                [before[5],  408, 852],
-                [before[4],  164, 1016],
-                [before[3],  239, 1255],
-                [before[2],  60, 1315],
-                [before[1],  380, 1695],
-                [date,  80, 1775]
+                [before[6],  stats[6].tot_res_price, stats[6].tot_res_price],
+                [before[5],  stats[5].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price],
+                [before[4],  stats[4].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price],
+                [before[3],  stats[3].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price],
+                [before[2],  stats[2].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price],
+                [before[1],  stats[1].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price + stats[1].tot_res_price],
+                [date,  stats[0].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[1].tot_res_price + stats[1].tot_res_price + stats[0].tot_res_price]
             ]);
 
             // 그래프 주석 표기
@@ -344,6 +327,7 @@
             });
         }
     </script>
+    <!--
     <script>
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
@@ -388,19 +372,24 @@
             chart.draw(view2, options);
         }
     </script>
-    <script type="text/javascript">
+    -->
+    <script th:inline="javascript">
+
+         // 참조 데이터 준비
+        let paysMap = [[${paysMap}]];
+
+        console.log(paysMap);
+        console.log(paysMap[2].length);
+
         google.charts.load("current", {packages:["corechart"]});
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
             ['payment', 'Percent'],
-            ['신용/체크카드', 35],
-            ['간편계좌이체', 8],
-            ['토스페이', 7],
-            ['네이버페이', 3],
-            ['PAYCO', 23],
-            ['법인카드', 2],
-            ['휴대폰결제', 27]
+            ['신용/체크카드', 0],
+            ['토스페이', 3],
+            ['PAYCO', 4],
+            ['카카오페이', 5]
             ]);
 
             var options = {
@@ -413,7 +402,7 @@
                 position: 'bottom',
                 maxLines: 7
                 },
-                colors: ['#4F650D', '#637A15', '#7F9822', '#9CB631', '#BBD444','#D3E570','#E4F28F'],
+                colors: ['#4F650D', '#7F9822', '#BBD444','#D3E570'],
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('donutchart'));

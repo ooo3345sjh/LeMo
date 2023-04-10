@@ -19,6 +19,7 @@
 - HTML5
 - CSS3
 - MYSQL
+- Mongodb
 
 ### ERD
 

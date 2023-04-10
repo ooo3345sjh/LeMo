@@ -109,10 +109,10 @@ public interface ProductDAO {
     public UserVO selectUser(@Param("user_id") String user_id);
 
     // @since 2023/04/05
-    public int selectResNo(@Param("user_id") String user_id, @Param("res_no") int res_no);
+    public int selectResNo(@Param("user_id") String user_id, @Param("res_no") long res_no);
 
     // @since 2023/04/06
-    public ReservationVO selectOrderInfo( @Param("res_no") int res_no);
+    public ReservationVO selectOrderInfo( @Param("res_no") long res_no);
 
     // update
 
@@ -124,6 +124,20 @@ public interface ProductDAO {
 
     //@since 2023/03/31
     public int updateMemberUserInfo(OrderInfoVO vo);
+
+    /**
+     * @since 2023/04/08
+     * @author 서정현
+     * @apiNote 매일 자정 각 숙소의 평균 별점을 계산후에 업데이트 시키기는 쿼리문
+     */
+    int updateAvgRate() throws Exception;
+
+    /**
+     * @since 2023/04/08
+     * @author 서정현
+     * @apiNote 매일 자정 예약번호 yyyyMMdd000000로 업데이트
+     */
+    int usaveResNo(@Param("res_no") Long res_no) throws Exception;
 
     // delete
 

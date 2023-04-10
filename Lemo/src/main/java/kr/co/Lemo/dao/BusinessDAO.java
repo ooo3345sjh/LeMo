@@ -77,6 +77,27 @@ public interface BusinessDAO {
     // @since 2023/04/04 판매자 예약 정보 목록 페이징
     public int countReservations(SearchCondition sc);
 
+    // @since 2023/04/08 판매자 - 통계관리 - 일별 누적 판매량 (일주일)
+    public List<ReservationVO> selectDaySales (Map map);
+
+    // @since 2023/04/08 판매자 - 결제방법 결제 현황 (일주일)
+    public List<ReservationVO> selectPayment(Map map);
+
+    // @since 2023/04/08 판매자 - 예약 건수 (일주일)
+    public int countWeeksSales(Map map);
+
+    // @since 2023/04/09 판매자 - 취소 건수 (일주일)
+    public int countWeeksCancel(Map map);
+
+     // @since 2023/04/09 판매자 - 1:1 문의수 (일주일)
+    public int countWeeksQna(Map map);
+
+    // @since 2023/04/09 판매자 - 상품 등록 건수
+    public int countWeeksAcc(Map map);
+
+    //@since 2023/04/09 판매자 - 등록 리뷰 수 (일주일)
+    public int countWeeksReview(Map map);
+
     // @since 2023/03/13 판매자 쿠폰 등록
     public void insertCoupon(Map<String, Object> param);
 
@@ -140,4 +161,13 @@ public interface BusinessDAO {
 
   // @since 2023/04/07 판매자 상품관리 목록 선택삭제
   public int deleteQnaList(@Param("checkList") List<String> checkList);
+
+  // @since 2023/04/08 판매자 상품관리 상세보기
+  public ProductQnaVO selectQnaArticle(int qna_no);
+
+  // @since 2023/04/08 판매자 상품관리 답변 등록
+  public int updateQnaReply (@Param("qna_reply") String qna_reply, @Param("qna_no") int qna_no);
+
+  // @since 2023/04/08 판매자 상품관리 답변 수정
+  public int updateQnaUdate (@Param("qna_reply") String qna_reply, @Param("qna_no") int qna_no);
 }

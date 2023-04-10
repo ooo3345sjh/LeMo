@@ -304,6 +304,31 @@
         WHERE `user_id` = #{user_id}
     </update>
 
+    <!--
+        날짜 : 2023/04/08
+        이름 : 서정현
+        내용 : 매일 자정 각 숙소의 평균 별점을 계산후에 업데이트 시키는 쿼리문
+     -->
+    <update id="updateAvgRate">
+        UPDATE `lemo_product_accommodation` acc
+        JOIN (
+            SELECT a.acc_id, AVG(r.revi_rate) 'acc_rate'  FROM  `lemo_product_accommodation` a
+            JOIN `lemo_product_reservation` res ON a.acc_id = res.acc_id
+            JOIN `lemo_product_review` r ON res.res_no = r.res_no
+            GROUP BY a.acc_id
+        ) vals ON acc.acc_id = vals.acc_id
+        SET acc.acc_rate = TRUNCATE(vals.acc_rate ,1);
+    </update>
+
+    <!--
+        날짜 : 2023/04/08
+        이름 : 서정현
+        내용 : 매일 자정 예약번호 yyyyMMdd000000로 업데이트
+     -->
+    <update id="usaveResNo">
+        ALTER TABLE `lemo_product_reservation` auto_increment = #{res_no};
+    </update>
+
     <!-- delete -->
     <delete id="deleteProductPick">
         DELETE FROM `lemo_product_pick` WHERE `acc_id` = #{acc_id} AND `user_id` = #{user_id}
