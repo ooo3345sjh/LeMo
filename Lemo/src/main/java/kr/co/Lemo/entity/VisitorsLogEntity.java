@@ -15,7 +15,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VisitorslogEntity {
+public class VisitorsLogEntity {
     @Id
     private String id;
     private String acc_id;

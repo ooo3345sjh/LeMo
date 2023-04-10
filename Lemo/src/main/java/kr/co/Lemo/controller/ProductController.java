@@ -3,8 +3,7 @@ package kr.co.Lemo.controller;
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.ProductDetail_SearchVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
-import kr.co.Lemo.entity.VisitorslogEntity;
-import kr.co.Lemo.repository.VisitorslogRepo;
+import kr.co.Lemo.entity.VisitorsLogEntity;
 import kr.co.Lemo.service.PaymentService;
 import kr.co.Lemo.service.ProductService;
 import kr.co.Lemo.utils.PageHandler;
@@ -16,16 +15,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -461,7 +456,7 @@ public class ProductController {
     ) throws Exception{
         log.debug("POST loggingVisitors start...");
 
-        VisitorslogEntity visitorslogEntity = VisitorslogEntity.builder()
+        VisitorsLogEntity visitorslogEntity = VisitorsLogEntity.builder()
                 .ip(RemoteAddrHandler.getRemoteAddr(req))
                 .acc_id(String.valueOf(map.get("acc_id")))
                 .username(user != null? user.getUser_id():null)

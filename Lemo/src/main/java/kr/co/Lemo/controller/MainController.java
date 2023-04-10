@@ -1,13 +1,11 @@
 package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.UserVO;
-import kr.co.Lemo.entity.VisitorslogEntity;
-import kr.co.Lemo.repository.VisitorslogRepo;
+import kr.co.Lemo.entity.VisitorsLogEntity;
+import kr.co.Lemo.repository.VisitorsLogRepo;
 import kr.co.Lemo.service.MainService;
-import kr.co.Lemo.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,7 +35,7 @@ public class MainController {
     private final Environment environment;
     private String group = "title.main";
     private final MainService mainService;
-    private final VisitorslogRepo visitorslogRepo;
+    private final VisitorsLogRepo visitorslogRepo;
 
     // @since 2023/03/05
     @GetMapping(value = {"/", "/index"})
@@ -70,7 +67,7 @@ public class MainController {
     @ResponseBody
     @GetMapping("mongo")
     public String mongo(HttpServletRequest req, @AuthenticationPrincipal UserVO user){
-        VisitorslogEntity visitorslogEntity1 = VisitorslogEntity.builder()
+        VisitorsLogEntity visitorsLogEntity1 = VisitorsLogEntity.builder()
                                                                 .ip("1.0.0.0.127")
                                                                 .date(new Date())
                                                                 .sessionid("33333")

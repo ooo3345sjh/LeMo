@@ -6,10 +6,9 @@ import kr.co.Lemo.dao.ProductDAO;
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.ProductDetail_SearchVO;
 import kr.co.Lemo.domain.search.Product_SearchVO;
-import kr.co.Lemo.entity.VisitorslogEntity;
-import kr.co.Lemo.repository.VisitorslogRepo;
+import kr.co.Lemo.entity.VisitorsLogEntity;
+import kr.co.Lemo.repository.VisitorsLogRepo;
 import kr.co.Lemo.utils.PageHandler;
-import kr.co.Lemo.utils.RemoteAddrHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -56,7 +55,7 @@ public class ProductService {
     private String serviceKey;
 
     @Autowired
-    private VisitorslogRepo visitorslogRepo;
+    private VisitorsLogRepo visitorslogRepo;
 
     // insert
     // @since 2023/03/21
@@ -751,7 +750,7 @@ public class ProductService {
      * @author 서정현
      * @apiNote mongodb에 방문자 로그 저장하는 서비스
      */
-    public VisitorslogEntity saveVisitorsLog(VisitorslogEntity visitorslogEntity) throws Exception {
+    public VisitorsLogEntity saveVisitorsLog(VisitorsLogEntity visitorslogEntity) throws Exception {
         return visitorslogRepo.save(visitorslogEntity);
     }
 
@@ -760,7 +759,7 @@ public class ProductService {
      * @author 서정현
      * @apiNote UV(방문자수) = Unique한 회원ID를 가진 방문자 + Unique한 세션쿠키 중 회원ID가 없는 방문자 + Unique한 IP중 세션쿠키도 없고 회원ID도 없는 방문자
      */
-    public boolean checkVisitor(VisitorslogEntity visitorslogEntity) throws Exception {
+    public boolean checkVisitor(VisitorsLogEntity visitorslogEntity) throws Exception {
         Instant instantStart = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
         Instant instantEnd = LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
         LocalDateTime startOfDay = LocalDateTime.ofInstant(instantStart, ZoneId.systemDefault());
