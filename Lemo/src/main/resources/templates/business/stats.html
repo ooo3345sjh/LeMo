@@ -378,18 +378,18 @@
          // 참조 데이터 준비
         let paysMap = [[${paysMap}]];
 
-        //console.log(paysMap);
-        //console.log(paysMap[1].length);
+        console.log(paysMap);
+        console.log(paysMap[2].length);
 
         google.charts.load("current", {packages:["corechart"]});
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
             ['payment', 'Percent'],
-            ['신용/체크카드', paysMap[1].length],
-            ['토스페이', paysMap[2].length],
-            ['PAYCO', paysMap[3].length],
-            ['카카오페이', paysMap[4].length]
+            ['신용/체크카드', 0],
+            ['토스페이', 3],
+            ['PAYCO', 4],
+            ['카카오페이', 5]
             ]);
 
             var options = {
