@@ -140,4 +140,13 @@ public interface BusinessDAO {
 
   // @since 2023/04/07 판매자 상품관리 목록 선택삭제
   public int deleteQnaList(@Param("checkList") List<String> checkList);
+
+  // @since 2023/04/08 판매자 상품관리 상세보기
+  public ProductQnaVO selectQnaArticle(int qna_no);
+
+  // @since 2023/04/08 판매자 상품관리 답변 등록
+  public int updateQnaReply (@Param("qna_reply") String qna_reply, @Param("qna_no") int qna_no);
+
+  // @since 2023/04/08 판매자 상품관리 답변 수정
+  public int updateQnaUdate (@Param("qna_reply") String qna_reply, @Param("qna_no") int qna_no);
 }

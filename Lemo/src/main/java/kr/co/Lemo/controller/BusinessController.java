@@ -713,4 +713,40 @@ public class BusinessController {
 
         return map;
     }
+
+    // @since 2023/04/08 황원진 상품목록 상세보기
+    @GetMapping("qna/view")
+    public String findQnaArticle(int qna_no, Model model){
+       ProductQnaVO qnaArticle = service.findQnaArticle(qna_no);
+
+       model.addAttribute("qnaArticle", qnaArticle);
+       model.addAttribute("qna_no", qna_no);
+
+        return "business/qna/view";
+    }
+
+    // @since 2023/04/08 황원진 상품목록 답변등록
+    @PostMapping("qna/view")
+    public String usaveQnaReply(String qna_reply, int qna_no){
+        service.usaveQnaReply(qna_reply, qna_no);
+        return "redirect:/business/qna/view?qna_no="+qna_no;
+    }
+
+    // @since 2023/04/08 황원진 상품목록 답변수정
+    @ResponseBody
+    @PatchMapping("qna/udate")
+    public Map<String, Integer> usaveQnaUdate(@RequestBody Map map){
+        String qna_reply = (String) map.get("qna_reply");
+        int qna_no = Integer.parseInt(String.valueOf(map.get("qna_no")));
+
+        log.debug(qna_reply);
+        log.debug(String.valueOf(qna_no));
+
+        int result =service.usaveQnaUdate(qna_reply, qna_no);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
 }

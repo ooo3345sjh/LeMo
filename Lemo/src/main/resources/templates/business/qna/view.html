@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin-layout}">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/admin/adminQna.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <style>
+        main .business_reply {
+            text-align: left;
+            padding: 10px 2px 4px 8px;
+            margin-bottom: 6px;
+        }
+        main .business_reply .business {
+            border-radius: 11px;
+            padding: 3px 9px;
+            background: #bbd444;
+            font-size: 13px;
+            color: white;
+        }
+        main .business_reply .business_date {
+            font-size: 14px;
+        }
+
+        main .business_reply .uDate {
+            border-radius: 6px;
+            padding: 3px 5px;
+            background: #fcf951;
+            font-size: 13px;
+            color: #252525;
+            margin-left: 4px;
+        }
+    </style>
+</th:block>
+<th:block layout:fragment="content">
+    <main>
+        <div class="main_inner">
+            <!-- 죄측 사이드바 -->
+            <th:block th:replace="~{fragments/_aside::businessFragment}"></th:block>
+            <!-- 우측 메인 컨테이너 -->
+            <section class="main_content">
+                <div class="main_cotent_inner">
+                    <div class="main_content_div">
+                        <div class="col_nav">
+                            <span>고객센터 ></span>
+                            <span>문의사항</span>
+                        </div>
+                        <div class="col2">
+                            <form id="qna_update" th:action="@{/business/qna/view}" method="post">
+                                <input type="hidden" id="qna_no" name="qna_no" th:value="${qna_no}">
+                                <div class="board_view">
+                                    <div class="view_box">
+                                        <div class="view_head">
+                                            <div class="title">
+                                                <p>[[${qnaArticle.qna_title}]]</p>
+                                            </div>
+                                            <div class="info">
+                                                <div class="view_date">[[${qnaArticle.qna_rdate.substring(2,10)}]]</div>
+                                                <div class="view_user">[[${qnaArticle.nick}]]</div>
+                                            </div>
+                                        </div>
+                                        <div class="view_content">
+                                            <textarea readonly>[[${qnaArticle.qna_content}]]</textarea>
+                                        </div>
+                                        <div class="view_recomment">
+                                            <div class="write_recomment">
+                                                <th:block th:if="${qnaArticle.qna_reply != null}">
+                                                    <div class="business_reply">
+                                                        <span class="business">판매자 답변</span>&nbsp;&nbsp;&nbsp;<span class="business_date">[[${qnaArticle.qna_reply_date}]]</span>
+                                                        <th:block th:if="${qnaArticle.qna_udate != null}">
+                                                            <span class="uDate">수정</span>
+                                                        </th:block>
+                                                    </div>
+                                                </th:block>
+                                                <div class="inner_txt">
+                                                    <textarea placeholder="문의 답변을 작성해 주세요" id="qna_reply" name="qna_reply" th:text="${qnaArticle.qna_reply}" th:disabled="${qnaArticle.qna_reply != null} ? true : false"></textarea>
+                                                </div>
+
+                                                <div class="btnSubmit">
+                                                    <th:block th:if="${qnaArticle.qna_reply == null}">
+                                                        <button class="btnAdminProd" type="submit" id="write" onclick="writeCheck(event)" form="qna_update">등록</button>
+                                                        <button class="btnAdminProd" type="button" onclick="javascript:history.back();">목록으로</button>
+                                                    </th:block>
+                                                    <th:block th:if="${qnaArticle.qna_reply != null }">
+                                                        <button class="btnAdminProd" type="button" onclick="toggleDisabled()">수정하기</button>
+                                                        <button class="btnAdminProd" type="button" style="display:none;" id="bntModify">수정</button>
+                                                        <button class="btnAdminProd" type="button" onclick="javascript:history.back();">목록으로</button>
+                                                        <button class="btnAdminProd" type="button" onclick="toggleDisabled()" style="display:none">취소</button>
+                                                    </th:block>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="btnAdminProd4">
+                                    <a href="#">
+                                        선택삭제
+                                    </a>
+                                </div> -->
+                            </form>
+                        </div>
+                    </div>
+                    <div class="blank30"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
+</th:block>
+<th:block layout:fragment="script">
+    <script>
+
+        // cs_type 선택
+        $(document).ready(function(){
+            let qna_reply = document.querySelector('textarea[name="qna_reply"]');
+            $('#qna_update').submit(function(e){
+                if( qna_reply.value.trim() == ''){
+                    Swal.fire({
+                         title : '답변내용을 입력해 주세요',
+                         icon : 'error',
+                         confirmButtonText : '확인'
+                     })
+                    e.preventDefault();
+                }
+            });
+        });
+
+        // 답변 포커스
+        const qna_reply = document.getElementById('qna_reply');
+        qna_reply.focus();
+
+        // 수정하기 버튼 클릭시 disabled 변경
+        let oriContent = document.getElementById("qna_reply").value;
+        function toggleDisabled() {
+            var textarea = document.getElementById("qna_reply"); // textarea 요소 가져오기
+            console.log("text : " +textarea.text);
+            console.log("value : " +textarea.value);
+<!--            oriContent = textarea.value; // 기존의 값 저장-->
+            if (textarea.disabled) {
+                textarea.disabled = false; // disabled 속성 제거하여 편집 가능하도록 함
+                textarea.style.backgroundColor = "#ececec";
+                textarea.focus();
+                document.querySelector('button[type="button"]:nth-child(1)').style.display = "none"; // 수정하기 버튼 숨기기
+                document.querySelector('button[type="button"]:nth-child(2)').style.display = "block"; // 수정 버튼 숨기기
+                document.querySelector('button[type="button"]:nth-child(3)').style.display = "none"; // 목록으로 버튼 보이기
+                document.querySelector('button[type="button"]:nth-child(4)').style.display = "block"; // 취소 버튼 보이기
+            } else {
+                textarea.value = oriContent; // 기존의 값으로 되돌리기
+                textarea.disabled = true; // disabled 속성 추가하여 편집 불가능하도록 함
+                textarea.style.backgroundColor = "#f8f8f8"; // 색상을 기존 색상으로 복원
+                document.querySelector('button[type="button"]:nth-child(1)').style.display = "block"; // 수정하기 버튼 보이기
+                document.querySelector('button[type="button"]:nth-child(2)').style.display = "none"; // 수정 버튼 숨기기
+                document.querySelector('button[type="button"]:nth-child(3)').style.display = "block"; // 목록으로 버튼 숨기기
+                document.querySelector('button[type="button"]:nth-child(4)').style.display = "none"; // 취소 버튼 숨기기
+            }
+          }
+
+        // 작성시 확인
+        function writeCheck(e) {
+            e.preventDefault(); // form submit 막음
+            console.log("1");
+                Swal.fire({
+                title: '등록하시겠습니까?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소',
+                reverseButtons: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const form = document.getElementById('qna_update');
+                        form.submit(); // 폼 제출 실행
+                    }
+                });
+            }
+
+        // 답변 수정하기
+        $(document).ready(function() {
+
+        $('#bntModify').click(function(e){
+            e.preventDefault();
+                Swal.fire({
+                    title: '해당 글을 수정하시겠습니까?',
+                    icon: 'question',
+
+                    showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                    confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+                    confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+                    cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+
+                    reverseButtons: false,
+                }).then(result => {
+                    if(result.isConfirmed){
+                        let reply = $('textarea[name=qna_reply]').val();
+                        let no = $('input[name=qna_no]').val();
+
+                        console.log(reply);
+                        console.log(no);
+
+                        jsonData = {
+                                "qna_reply": reply,
+                                "qna_no": no
+                                }
+
+                        console.log(jsonData);
+
+                        ajaxAPI("business/qna/udate", jsonData, "PATCH").then((response) => {
+                            if(response.result > 0) {
+                                console.log("성공");
+                                location.replace("/Lemo/business/qna/view?qna_no=" + no);
+
+                            }else {
+                                alert('error');
+                                location.replace("/Lemo/admin/cs/notice/list");
+                            }
+                        }).catch((errMsg) => {
+                            console.log(errMsg);
+                        });
+                    }
+                });
+
+        });
+
+
+
+        });
+    </script>
+</th:block>
+</html>

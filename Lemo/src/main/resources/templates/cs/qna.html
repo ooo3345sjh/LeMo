@@ -5,6 +5,23 @@
       layout:decorate="layouts/default-layout">
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/cs/cs.css}">
+    <style>
+        .show_list li {
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .show_list li #nonData {
+            overflow: visible;
+            white-space: normal;
+            text-overflow: initial;
+            line-height: normal;
+            word-wrap: break-word;
+            font-size: 19px;
+            width: 100%;
+            padding: 14px 0;
+            text-align: center;
+        }
+    </style>
 </th:block>
 <th:block layout:fragment="content">
     <!-- 메인 -->
@@ -28,6 +45,11 @@
                 <!-- 1:1 문의 목록 -->
                 <div class="tab_each" id="qna_list" style="display: block;">
                     <ul id="qnas" class="show_list open_list">
+                        <li th:if="${qnaArticles.size() == 0}">
+                            <p colspan="6" id="nonData">
+                                문의내역이 없습니다.
+                            </p>
+                        </li>
                         <th:block th:each="qna:${qnaArticles}">
                             <li>
                                 <!-- 제목 길이를 substring으로 자르기 -->
