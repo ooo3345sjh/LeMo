@@ -769,18 +769,25 @@ public class ProductService {
         int result = 0;
         if(visitorslogEntity.getUsername() != null){
             result = visitorslogRepo.selectUsername(startOfDay, endOfDay, visitorslogEntity.getUsername(), visitorslogEntity.getAcc_id()).size();
+
             if(result > 0) return false;
+            else return true;
         }
 
         // 오늘 날짜 세션 아이디 체크
         String sessionId = visitorslogEntity.getSessionid();
-        result = visitorslogRepo.selectSessionId(startOfDay, endOfDay, sessionId, visitorslogEntity.getAcc_id()).size();
-        if(result > 0) return false;
 
-        // 오늘 날짜 ip 체크
-        String ip = visitorslogEntity.getIp();
-        result = visitorslogRepo.selectIp(startOfDay, endOfDay, ip, visitorslogEntity.getAcc_id()).size();
-        if(result > 0) return false;
+        if(sessionId != null){
+            result = visitorslogRepo.selectSessionId(startOfDay, endOfDay, sessionId, visitorslogEntity.getAcc_id()).size();
+            if(result > 0) return false;
+        }
+
+        else {
+            // 오늘 날짜 ip 체크
+            String ip = visitorslogEntity.getIp();
+            result = visitorslogRepo.selectIp(startOfDay, endOfDay, ip, visitorslogEntity.getAcc_id()).size();
+            if(result > 0) return false;
+        }
 
         // 등록된 로그가 없으면 true 반환
         return true;
