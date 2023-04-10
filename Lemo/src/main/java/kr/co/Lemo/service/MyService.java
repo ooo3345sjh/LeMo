@@ -94,7 +94,7 @@ public class MyService {
 
         // diary_article 입력 데이터 분류
         ArticleDiaryVO diaryVO = ArticleDiaryVO.builder()
-                                .res_no( Integer.parseInt(String.valueOf(param.get("res_no"))) )
+                                .res_no( Long.parseLong(String.valueOf(param.get("res_no"))) )
                                 .user_id(user_id)
                                 .arti_title((String) param.get("diaryTitle"))
                                 .arti_thumb(newName)
@@ -108,7 +108,7 @@ public class MyService {
 
         int arti_no = diaryVO.getArti_no();
 
-        ProductAccommodationVO accommo = dao.selectProvinceAddr(Integer.parseInt(String.valueOf(param.get("res_no"))));
+        ProductAccommodationVO accommo = dao.selectProvinceAddr(Long.parseLong(String.valueOf(param.get("res_no"))));
 
         // 파일 업로드
         if(result == 1) {
@@ -221,7 +221,7 @@ public class MyService {
     public int findTotalReviews(SearchCondition sc) {
         return dao.selectTotalReviews(sc);
     }
-    public ReviewVO findReview(int res_no, String user_id) {
+    public ReviewVO findReview(long res_no, String user_id) {
         ReviewVO reVO = dao.selectReview(res_no, user_id);
 
         if(reVO != null) {
@@ -235,7 +235,7 @@ public class MyService {
 
         return reVO;
     }
-    public ReviewVO findReviewAccommodation(int res_no, String user_id) {
+    public ReviewVO findReviewAccommodation(long res_no, String user_id) {
         return dao.selectReviewAccommodation(res_no, user_id);
     }
     public void rsavsReview(MultipartHttpServletRequest request, Map<String, Object> param) {
@@ -265,7 +265,7 @@ public class MyService {
     }
 
     // @since 2023/03/29
-    public ReservationVO findReservation(int res_no, String user_id) {
+    public ReservationVO findReservation(long res_no, String user_id) {
 
         ReservationVO resVO = dao.selectReservation(res_no, user_id);
 
@@ -296,16 +296,16 @@ public class MyService {
         return result;
     }
 
-    public int findCheckReview(int res_no) {
+    public int findCheckReview(long res_no) {
         return dao.selectCheckReview(res_no);
     }
 
-    public int findCheckDiary(int res_no) {
+    public int findCheckDiary(long res_no) {
         return dao.selectCheckReview(res_no);
     }
 
     // @since 2023/03/30
-    public ProductAccommodationVO findeDiaryXY(int res_no) {
+    public ProductAccommodationVO findeDiaryXY(long res_no) {
         return dao.selectDiaryXY(res_no);
     }
 
@@ -320,7 +320,7 @@ public class MyService {
 
     // @since 2023/04/06
 
-    public String findCheckReviewId(int res_no) {
+    public String findCheckReviewId(long res_no) {
         return dao.selectCheckReviewId(res_no);
     }
 
@@ -351,7 +351,7 @@ public class MyService {
         return success;
     }
 
-    public int removeReview(int res_no) {
+    public int removeReview(long res_no) {
         return dao.deleteReview(res_no);
     }
 

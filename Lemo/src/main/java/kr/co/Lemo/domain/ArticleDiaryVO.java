@@ -19,7 +19,7 @@ import java.util.List;
 public class ArticleDiaryVO {
 
     private int arti_no;
-    private int res_no;
+    private long res_no;
     private String user_id;
     private String arti_title;
     private String arti_thumb;
