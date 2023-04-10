@@ -184,7 +184,7 @@ public class MyController {
     // @since 2023/03/08
     @GetMapping("review/view")
     public String reviewView(
-            @RequestParam(defaultValue = "0") int res_no,
+            @RequestParam(defaultValue = "0") long res_no,
             @AuthenticationPrincipal UserVO myUser,
             Model m
     ) {
@@ -208,7 +208,7 @@ public class MyController {
     // @since 2023/03/08
     @GetMapping("review/write")
     public String reviewWrite(
-            @RequestParam(defaultValue = "0") int res_no,
+            @RequestParam(defaultValue = "0") long res_no,
             @RequestParam(defaultValue = "0") int acc_id,
             RedirectAttributes re,
             @AuthenticationPrincipal UserVO myUser,
@@ -258,7 +258,7 @@ public class MyController {
     public String reviewModify(
             @AuthenticationPrincipal UserVO myUser,
             Model m,
-            @RequestParam(defaultValue = "0") int res_no
+            @RequestParam(defaultValue = "0") long res_no
     ) {
         m.addAttribute("title", environment.getProperty(myGroup));
         m.addAttribute("cate", "review");
@@ -289,7 +289,8 @@ public class MyController {
         param.put("revi_regip", req.getRemoteAddr());
 
         String user_id = myUser.getUser_id();
-        String review_id = service.findCheckReviewId(Integer.parseInt(String.valueOf(param.get("res_no"))));
+        long res_no = Long.parseLong(String.valueOf(param.get("res_no")));
+        String review_id = service.findCheckReviewId(res_no);
 
         if(!user_id.equals(review_id)) { return "usaveImageFail"; }
 
@@ -305,7 +306,7 @@ public class MyController {
             @RequestBody Map map,
             @AuthenticationPrincipal UserVO myUser
     ) {
-        int res_no = Integer.parseInt(String.valueOf(map.get("res_no")));
+        long res_no = Long.parseLong(String.valueOf(map.get("res_no")));
         String user_id = myUser.getUser_id();
         String review_id = service.findCheckReviewId(res_no);
 
@@ -338,7 +339,7 @@ public class MyController {
     @GetMapping("diary/write")
     public String diary_write(
             @AuthenticationPrincipal UserVO myUser,
-            @RequestParam(value = "res_no", defaultValue = "0") int res_no,
+            @RequestParam(value = "res_no", defaultValue = "0") long res_no,
             Model m
     ) {
         log.debug("GET diary/write start");
@@ -427,7 +428,7 @@ public class MyController {
     @GetMapping("reservation/view")
     public String reservationView(
             Model m,
-            @RequestParam(defaultValue = "0") int res_no,
+            @RequestParam(defaultValue = "0") long res_no,
             @AuthenticationPrincipal UserVO myUser
     ) {
         m.addAttribute("cate", "reservation");
@@ -473,7 +474,9 @@ public class MyController {
     @DeleteMapping("reservation")
     public int reservationDelete(@RequestBody ReservationVO resVO) throws Exception {
 
-        int result = service.removeUpdateReservation( resVO.getRes_no() );
+        long res_no = Long.parseLong( String.valueOf(resVO.getRes_no()) );
+
+        int result = service.removeUpdateReservation( res_no );
 
         return result;
     }
