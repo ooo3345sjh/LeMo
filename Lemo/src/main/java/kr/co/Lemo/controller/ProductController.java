@@ -188,7 +188,7 @@ public class ProductController {
             return "redirect:/product/list";
         }
 
-        int res_no = (int) obj;
+        long res_no = (long) obj;
         String user_id = myUser.getUser_id();
 
         // 로그인한 유저 id와 예약번호(res_no)로 조회하여 예약내역이 있는지 검증

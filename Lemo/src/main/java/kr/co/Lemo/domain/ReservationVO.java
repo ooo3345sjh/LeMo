@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ReservationVO {
     @JsonProperty("groupId")
-    public int res_no;
+    public long res_no;
     private int acc_id;
     private int room_id;
     private String user_id;

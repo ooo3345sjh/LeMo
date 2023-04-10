@@ -40,7 +40,7 @@ public class OrderInfoVO {
     private int price; // 판매가격
     private String room_name;
 
-    private int res_no; // 예약 번호
+    private long res_no; // 예약 번호
     private int mcp_id;
 
 }
