@@ -32,7 +32,7 @@ public interface MyDAO {
     public List<ReservationVO> selectReservations(SearchCondition sc);
 
     // @since 2023/03/27
-    public ProductAccommodationVO selectProvinceAddr(int res_no);
+    public ProductAccommodationVO selectProvinceAddr(long res_no);
     public List<CouponVO> selectMemberCoupons(String user_id);
     public List<CouponVO> selectProductCoupons(String user_id);
     public int selectTotalReservations(SearchCondition sc);
@@ -53,24 +53,24 @@ public interface MyDAO {
 
     // @since 2023/03/29
     public ReservationVO selectReservation(@Param("res_no") int res_no, @Param("user_id") String user_id);
-    public int deleteReservation(int res_no);
-    public int selectCheckReview(int res_no);
-    public int selectCheckDiary(int res_no);
+    public int deleteReservation(long res_no);
+    public int selectCheckReview(long res_no);
+    public int selectCheckDiary(long res_no);
 
     // @since 2023/03/30
-    public int updateReservationState(int res_no);
+    public int updateReservationState(long res_no);
 
     // @since 2023/03/31
-    public ProductAccommodationVO selectDiaryXY(int res_no);
-    public String selectReservationImpUid(int res_no);
+    public ProductAccommodationVO selectDiaryXY(long res_no);
+    public String selectReservationImpUid(long res_no);
 
     // @since 2023/04/05
     public List<ProductQnaVO> selectDiaryQna(SearchCondition sc);
     public int selectDiaryQnaCnt(SearchCondition sc);
 
     // @since 2023/04/06
-    public String selectCheckReviewId(int res_no);
+    public String selectCheckReviewId(long res_no);
     public int updateReview(Map<String, Object> param);
-    public int deleteReview(int res_no);
+    public int deleteReview(long res_no);
 
 }

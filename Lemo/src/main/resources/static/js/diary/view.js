@@ -69,33 +69,6 @@ map.setBounds(bounds);
 /* 댓글 모두 보기 */
 $(function(){
 
-    // /** 카카오맵 - 스크롤 따라 이동 */
-    // $(window).scroll(function() {
-    //
-    //     let currentPosition = parseInt($('#listMap').css('top'));
-    //     let mapHeight = $('#listMap').height();
-    //     let listHeight = $('.list-area').height();
-    //     let boxOffsetTop = $('.list-area').offset().top;
-    //
-    //     let scrollTop = $(window).scrollTop();
-    //     let point;
-    //     let endPoint = listHeight - mapHeight;
-    //
-    //
-    //     if( scrollTop < boxOffsetTop ){
-    //         point = 0;
-    //     }else if( scrollTop > endPoint ) {
-    //         point = endPoint-30;
-    //     }else {
-    //         point = (scrollTop - boxOffsetTop)+100;
-    //     }
-    //
-    //     if(point < 0) {point = 0}
-    //
-    //     $('#listMap').stop().animate({top: point}, 700);
-    // });
-
-
     /* 글 토글 */
     $('.spot').click(function(e){
         e.preventDefault();
