@@ -317,12 +317,12 @@ public class ProductService {
     }
 
     // @since 2023/04/05
-    public int findResNo(@Param("user_id") String user_id, @Param("res_no") int res_no){
+    public int findResNo(@Param("user_id") String user_id, @Param("res_no") long res_no){
         return dao.selectResNo(user_id,res_no);
     }
 
     // @since 2023/04/06
-    public ReservationVO findOrderInfo(int res_no){
+    public ReservationVO findOrderInfo(long res_no){
         return dao.selectOrderInfo(res_no);
     };
 

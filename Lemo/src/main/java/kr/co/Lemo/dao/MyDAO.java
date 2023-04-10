@@ -53,16 +53,16 @@ public interface MyDAO {
 
     // @since 2023/03/29
     public ReservationVO selectReservation(@Param("res_no") int res_no, @Param("user_id") String user_id);
-    public int deleteReservation(int res_no);
+    public int deleteReservation(long res_no);
     public int selectCheckReview(int res_no);
     public int selectCheckDiary(int res_no);
 
     // @since 2023/03/30
-    public int updateReservationState(int res_no);
+    public int updateReservationState(long res_no);
 
     // @since 2023/03/31
     public ProductAccommodationVO selectDiaryXY(int res_no);
-    public String selectReservationImpUid(int res_no);
+    public String selectReservationImpUid(long res_no);
 
     // @since 2023/04/05
     public List<ProductQnaVO> selectDiaryQna(SearchCondition sc);

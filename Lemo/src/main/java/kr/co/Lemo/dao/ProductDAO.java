@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -110,10 +109,10 @@ public interface ProductDAO {
     public UserVO selectUser(@Param("user_id") String user_id);
 
     // @since 2023/04/05
-    public int selectResNo(@Param("user_id") String user_id, @Param("res_no") int res_no);
+    public int selectResNo(@Param("user_id") String user_id, @Param("res_no") long res_no);
 
     // @since 2023/04/06
-    public ReservationVO selectOrderInfo( @Param("res_no") int res_no);
+    public ReservationVO selectOrderInfo( @Param("res_no") long res_no);
 
     // update
 
