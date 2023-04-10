@@ -96,7 +96,7 @@
                         <div class="bot_btn">
                             <p>LEMO를 이용하고 싶지 않으신가요?</p>
                             <button type="button">
-                                <a class="withdraw" th:href="@{#}">회원탈퇴</a>
+                                <a class="withdraw" th:href="@{/my/withdraw}">회원탈퇴</a>
                             </button>
                         </div>
                     </div>
@@ -107,13 +107,6 @@
 <th:block layout:fragment="script">
     <script th:src="@{/js/my/info.js}"></script>
     <script>
-        //회원탈퇴
-        $(function(){
-            $('.withdraw').click(function(){
-            console.log("1");
-            confirm('LEMO를 탈퇴하시겠습니까?');
-            });
-        });
         let principalNick = "[[${#authentication.principal.nick}]]";
     </script>
 </th:block>

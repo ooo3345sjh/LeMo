@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -491,5 +492,26 @@ public class MyService {
 
         return oriRemoveReview;
 
+    }
+
+    /**
+     * @since 2023/04/11
+     * @author 서정현
+     * @apiNote 회원 포인트 및 보유 쿠폰 갯수 조회
+     */
+    public void findUserPointAndCouponCnt(Model m, String user_id){
+        m.addAttribute("point", dao.selectUserPoint(user_id));
+        m.addAttribute("coupon", dao.selectUserCoupon(user_id));
+    }
+
+    /**
+     * @since 2023/04/11
+     * @author 서정현
+     * @apiNote 회원 탈퇴 업데이트
+     */
+    public int usaveWithdrawUser(String user_id){
+        dao.deleteUserCoupon(user_id);
+        int result = dao.updateWithdrawUser(user_id);
+        return  result;
     }
 }

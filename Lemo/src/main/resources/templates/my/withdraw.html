@@ -1,0 +1,521 @@
+<!--
+    날짜 : 2023/04/09
+    이름 : 이해빈
+    내용 : 회원탈퇴 화면설계
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta th:name="_csrf" th:content="${_csrf.token}"/>
+        <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+        <title>LEMO :: 회원탈퇴</title>
+        <!-- 구글 폰트 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <link href="https://webfontworld.github.io/goodchoice/Jalnan.css" rel="stylesheet">
+
+        <!-- favicon -->
+        <link rel="shortcut icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
+        <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
+
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+        <!-- sweet Alert -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
+        <script th:src="@{/js/common/ajaxAPI.js}"></script>
+
+        <!-- style css -->
+        <link rel="stylesheet" th:href="@{/css/user/user.css}">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                margin: 0;
+                padding: 0;
+                font-family: 'Red Hat Display', 'Noto Sans KR', sans-serif;
+                font-size: 11px;
+                font-weight: 400;
+                box-sizing: border-box;
+            }
+            ul, ol {list-style: none;}
+            a {text-decoration: none; color: #252525;}
+            input, textarea {outline: none;}
+
+            html::-webkit-scrollbar {
+                display: none;
+            }
+
+            #withdraw {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background: #fff;
+                margin-top: 60px;
+                margin-bottom: 150px;
+                width: 500px;
+            }
+
+            .wd_wrap {
+                width: 100%;
+            }
+            .wd_wrap > .wd_tit {
+                width: 100%;
+                text-align: center;
+                margin: 10px 0;
+                position: relative;
+            }
+            .wd_wrap > .wd_tit > span {
+                font-size: 24px;
+            }
+            .wd_wrap > .wd_tit > a {
+                float: right;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+            .wd_wrap > .wd_tit img {
+                width: 15px;
+            }
+
+            /* 회원탈퇴 - 내용 */
+            .wd_wrap > .wd_content > .wd_survey_tit{
+                margin: 50px 0;
+                text-align: center;
+            }
+            .wd_wrap > .wd_content > .wd_survey_tit span {
+                font-family: 'jalnan';
+                font-size: 24px;
+            }
+
+            .wd_wrap > .wd_content > .wd_survey_tit span:nth-of-type(1) {
+                display: block;
+                margin-bottom: 6px;
+            }
+
+            .wd_wrap > .wd_content > .wd_survey_tit b{
+                font-family: 'jalnan';
+                font-size: 24px;
+                color: #bbd444;
+            }
+
+            .wd_wrap > .wd_content > .radio_li {}
+            .wd_wrap > .wd_content > .radio_li > .radio_li_item {}
+            .wd_wrap > .wd_content > .radio_li > .radio_li_item > .select_item_area{
+                display: flex;
+                align-items: center;
+                width: 100%;
+                height: 48px;
+                cursor: pointer;
+            }
+            .wd_wrap > .wd_content > .radio_li > .radio_li_item > .select_item_area > div {
+                width: 17px;
+                height: 17px;
+                border-radius: 50%;
+                border: 1px solid #cccccc;
+                margin: 0px 10px;
+            }
+
+            .wd_wrap > .wd_content > .radio_li > .radio_li_item > .select_item_area > div.on {
+                background: rgba(255,0,85,1);
+                border: 1px solid rgba(255,0,85,1);
+                scale: 1.1;
+            }
+            .wd_wrap > .wd_content > .radio_li > .radio_li_item > .select_item_area > span {
+                font-size: 15px;
+                color: #575757
+            }
+
+            /* 탈퇴 이유 */
+            .wd_wrap > .wd_content > .radio_li > .radio_li_item > .reason_content {
+                max-height: 1000px;
+                opacity: 1;
+                transition: opacity .3s ease-in-out,max-height .2s ease-in-out;
+                padding: 0px 20px;
+            }
+            .wd_wrap > .wd_content > .radio_li > .radio_li_item > .reason_content > textarea {
+                display: block;
+                padding: 14px 16px 18px;
+                margin-bottom: 10px;
+                resize: none;
+                width: 100%;
+                height: 92px;
+                border: none;
+                border-radius: 8px;
+                background-color: #f8fafc;
+                line-height: 1.5;
+                color: rgba(0,0,0,.56);
+                font-size: 13px;
+            }
+
+            /* 버튼 */
+            .wd_wrap .next {
+                height: 56px;
+                font-size: 16px;
+                line-height: 56px;
+                display: block;
+                width: 100%;
+                margin-top: 16px;
+                border-radius: 6px;
+                text-align: center;
+                border: none;
+                background: #ebebeb;
+                color:rgba(0,0,0,0.56);
+                font-weight: bold;
+            }
+
+            .wd_wrap .next.on {
+                color: #fff;
+                background: linear-gradient(to right, rgba(255,0,85,1) 1%,rgba(230,34,67,1) 100%);
+            }
+
+            /* step2 */
+            .wd_wrap > .wd_content.step2 > .wd_survey_tit {
+                margin: 50px 0px 20px;
+            }
+            .wd_wrap > .wd_content > .wd_survey_sub_title {
+                margin-bottom: 40px;
+                text-align: center;
+                color: rgba(0,0,0,.56);
+                word-break: break-all;
+                font-size: 15px;
+                font-weight: 500;
+            }
+            .wd_wrap > .wd_content > .asset-list {
+                position: relative;
+                margin-bottom: 32px;
+            }
+            .wd_wrap > .wd_content > .asset-list > .asset-item {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                padding: 16px 24px;
+                color: rgba(0,0,0,.56);
+                line-height: 1.38;
+                border-radius: 8px;
+                background-color: #fff;
+                box-shadow: 0 2px 16px 0 rgb(0 0 0 / 8%);
+            }
+            .wd_wrap > .wd_content > .asset-list > .asset-item:first-child {
+                margin-bottom: 20px;
+            }
+
+            .wd_wrap > .wd_content > .asset-list > .asset-item >.left {
+                display: flex;
+                flex-wrap: wrap;
+                line-height: 1.38;
+            }
+            .wd_wrap > .wd_content > .asset-list > .asset-item >.left > div:first-child{
+                padding-right: 6px;
+                font-size: 15px;
+            }
+            .wd_wrap > .wd_content > .asset-list > .asset-item >.left > div:last-child{
+                font-size: 15px;
+                font-weight: bold;
+                color: #eb4242;
+            }
+            .wd_wrap > .wd_content > .asset-list > .asset-item >.right {
+                font-size: 15px;
+                color: #eb4242;
+            }
+
+            /* 고지사항 */
+            .wd_wrap > .wd_content > .info-list{}
+            .wd_wrap > .wd_content > .info-list > li{
+                position: relative;
+                margin-bottom: 9px;
+                color: rgba(0,0,0,.56);
+                line-height: 1.53;
+                font-size: 14px;
+                font-weight: 400;
+                list-style: disc;
+                margin-left: 24px;
+            }
+            .wd_wrap > .wd_content > .info-list > li >b{
+                position: relative;
+                margin-bottom: 9px;
+                color: rgba(0,0,0,.56);
+                line-height: 1.53;
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+            /* 탈퇴 동의 div */
+            .wd_wrap > .wd_content > .withdraw-agree{
+                display: flex;
+                align-items: center;
+                height: 36px;
+                cursor: pointer;
+                margin-top: 50px;
+            }
+            .wd_wrap > .wd_content > .withdraw-agree > div:first-child{
+                border: 2px solid #cbcbcb;
+                width: 20px;
+                height: 20px;
+                border-radius: 3px;
+                margin-right: 10px;
+            }
+            .wd_wrap > .wd_content > .withdraw-agree > div:first-child.on{
+                border: 2px solid #eb4242;
+                background-color: #eb4242;
+            }
+
+
+            .wd_wrap > .wd_content > .withdraw-agree > div:first-child > img {
+                width: 100%;
+                object-fit: cover;
+            }
+            
+            .wd_wrap > .wd_content > .withdraw-agree > div:last-child{
+                font-size: 14px;
+                color: rgba(0,0,0,1.56);
+                font-weight: bold; 
+            }
+
+            .wd_wrap > .wd_content.step1{display: block;}
+            .wd_wrap > .wd_content.step2{display: block;}
+                    
+        </style>
+    </head>
+    <body>
+        <div id="wrapper">
+            <header></header>
+            <main id="withdraw">
+                <div class="wd_wrap">
+                    <div class="wd_tit">
+                        <span>회원탈퇴</span>
+                        <a th:href="@{/my/info}"><img th:src="@{/images/my/close.png}" alt="닫기"></a>
+                    </div>
+                    <!-- step1 -->
+                    <div class="wd_content step1">
+                        <div class="wd_survey_tit">
+                            <span>왜 떠나시는지</span>
+                            <b>이유</b><span>가 있을까요?</span>
+                        </div>
+                        <!-- 탈퇴 사유 -->
+                        <ul class="radio_li">
+                            <li class="radio_li_item">
+                                <div class="select_item_area">
+                                    <div class="check_reason"></div>
+                                    <span>사용을 잘 안하게 돼요</span>
+                                </div>
+                                <div class="reason_content">
+                                    <textarea maxlength="80" placeholder="(선택사항) 서비스 이용 중 아쉬운 점에 대해 알려주세요.&#13;&#10;고객님의 소리에 귀 기울일게요. 80자 이내"></textarea>
+                                </div>
+                            </li>
+                            <li class="radio_li_item">
+                                <div class="select_item_area">
+                                    <div class="check_reason"></div>
+                                    <span>예약하고 싶은 숙소가 없어요</span>
+                                </div>
+                            </li>
+                            <li class="radio_li_item">
+                                <div class="select_item_area">
+                                    <div class="check_reason"></div>
+                                    <span>예약, 취소, 혜택받기 등 사용이 어려워요</span>
+                                </div>
+                            </li>
+                            <li class="radio_li_item">
+                                <div class="select_item_area">
+                                    <div class="check_reason"></div>
+                                    <span>혜택(쿠폰,포인트)이 너무 적어요</span>
+                                </div>
+                            </li>
+                            <li class="radio_li_item">
+                                <div class="select_item_area">
+                                    <div class="check_reason"></div>
+                                    <span>개인정보 보호를 위해 삭제할 정보가 있어요</span>
+                                </div>
+                            </li>
+                            <li class="radio_li_item">
+                                <div class="select_item_area">
+                                    <div class="check_reason"></div>
+                                    <span>사용을 잘 안하게 돼요</span>
+                                </div>
+                            </li>
+                            <li class="radio_li_item">
+                                <div class="select_item_area">
+                                    <div class="check_reason"></div>
+                                    <span>다른 계정이 있어요</span>
+                                </div>
+                            </li>
+                            <li class="radio_li_item">
+                                <div class="select_item_area">
+                                    <div class="check_reason"></div>
+                                    <span>기타</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- 다음 단계로 클래스 on 가능-->
+                        <a href="#" class="withdraw_reason_form next">다음단계로</a>
+                    </div>
+                    <!-- step2 -->
+                    <div class="wd_content step2">
+                        <div class="wd_survey_tit">
+                            <span>이제 더 가시면..</span>
+                            <b>혜택이 영영 사라져요</b>
+                        </div>
+                        <div class="wd_survey_sub_title">
+                            탈퇴하시면 지금껏 모으신 무료(무상) 포인트와<br>
+                            쿠폰들이 사라져 복구가 불가해요.
+                        </div>
+                        <!-- 보유 쿠폰, 상품 -->
+                        <div class="asset-list">
+                            <div class="asset-item">
+                                <div class="left">
+                                    <div>잔여 무료(무상)포인트</div>
+                                    <div id="user_point"> 0P</div>
+                                </div>
+                                <div class="right">즉시 소멸</div>
+                            </div>
+                            <div class="asset-item">
+                                <div class="left">
+                                    <div>잔여 쿠폰</div>
+                                    <div id="user_couponCnt"> 0</div>
+                                </div>
+                                <div class="right">즉시 소멸</div>
+                            </div>
+                        </div>
+                        <!-- 공지사항 -->
+                        <ul class="info-list">
+                            <li>무료(무상) 포인트는 숙박 및 레저·티켓 구매시 사용 가능해요.</li>
+                            <li><b>등록된 리뷰는 자동으로 삭제되지 않아요.</b>탈퇴 전 개별적으로 삭제해 주세요.</li>
+                            <li><b>계정 정보 및 찜 목록 등 서비스 이용정보는 복구가 불가</b>하며, 동일한 아이디로 24시간 이후 재가입이 가능해요.</li>
+                        </ul>
+                        <div class="withdraw-agree">
+                            <!-- chkbox에 클래스 on-->
+                            <div class="chkbox"><img th:src="@{/images/my/check.png}"></div>
+                            <div>위 주의사항을 모두 숙지했고, 탈퇴에 동의합니다.</div>
+                        </div>
+                        <a href="#" class="next">진짜 안녕</a>
+                    </div>
+                </div>
+            </main>        
+            <footer></footer>
+        </div>  
+    </body>
+<script>
+    const contextPath = "[[@{/}]]";
+    const user_point = "[[${point}]]";
+    const user_couponCnt = "[[${coupon}]]";
+    const token = document.head.querySelector("meta[name='_csrf']").content;
+    const header = document.head.querySelector("meta[name='_csrf_header']").content;
+    const stepWithdrawReasonCheck = $('.wd_content.step1');
+    const stepWithdraw = $('.wd_content.step2');
+    const wirhdrawReasonInput = $('.reason_content');
+    let withdrawReasonText; // 탈퇴 이유 TEXT
+    stepWithdraw.remove();
+    wirhdrawReasonInput.remove();
+    $(function (){
+
+        $('.select_item_area').click(function (){
+            $('.check_reason').removeClass('on');
+            wirhdrawReasonInput.remove();
+            const check_box = $(this).find('.check_reason');
+            if(check_box.hasClass('on')){
+                check_box.removeClass('on');
+            } else {
+                check_box.addClass('on');
+                check_box.parent().after(wirhdrawReasonInput);
+            }
+            $('.withdraw_reason_form.next').addClass("on");
+        });
+
+        $(document).on('click','.withdraw_reason_form.next', function (e){
+            e.preventDefault();
+
+            let count = 0;
+            $('.check_reason').each(function (index, item){
+                if(item.classList.contains("on")){
+                    count++;
+                    withdrawReasonText = $(this).closest('.radio_li_item').find('.reason_content > textarea').val().trim();
+                }
+            })
+
+            if(count > 1){
+                $(this).removeClass('on');
+                $('.check_reason').removeClass('on');
+                wirhdrawReasonInput.remove();
+                Swal.fire({
+                    title : '하나의 선택지만 체크해주세요.',
+                    icon : 'warning',
+                    confirmButtonText : '확인'
+                })
+            } else {
+                stepWithdrawReasonCheck.remove();
+                $('.wd_wrap').append(stepWithdraw);
+                stepWithdraw.find('#user_point').text(Number(user_point).toLocaleString());
+                stepWithdraw.find('#user_couponCnt').text(Number(user_couponCnt).toLocaleString());
+            }
+        });
+
+        $(document).on('click', '.withdraw-agree', function (){
+            let checkBox = $(this).find('.chkbox');
+            if(checkBox.hasClass('on')){
+                checkBox.removeClass('on');
+                $('.next').removeClass('on');
+            } else {
+                checkBox.addClass('on');
+                $('.next').addClass('on');
+            }
+        })
+
+        $(document).on('click', '.next', function (e){
+            e.preventDefault();
+
+            if(!$('.withdraw-agree .chkbox').hasClass('on')){
+                $('.next').removeClass('on');
+                return;
+            }
+
+            Swal.fire({
+                html: '<p style="font-size:16px; font-weight:bold;">회원 탈퇴 시 계정 정보 및 보유중인 무료 (무상) 포인트와 쿠폰은 삭제되어 복구가 불가해요.<br>정말로 탈퇴하시겠어요?</p>',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '떠날래요',
+                cancelButtonText: '더 써볼래요'
+            }).then((result) => {
+                if(result.isConfirmed === true){
+
+                    const jsonData = {
+                        text:withdrawReasonText.substring(0, 80) || null
+                    }
+
+                    ajaxAPI("my/withdraw", jsonData, "POST").then((response) => {
+                        if(response.result == 1){
+                            location.href = contextPath + "user/logout";
+                        } else {
+                            Swal.fire({
+                                title : '회원탈퇴에 실패했습니다.\n 잠시 후 다시 시도해주세요.',
+                                icon : 'error',
+                                confirmButtonText : '확인'
+                            })
+                        }
+                    }).catch((errorMsg) => {
+                        console.log(errorMsg);
+                        Swal.fire({
+                            title : '회원탈퇴에 실패했습니다.\n 잠시 후 다시 시도해주세요.',
+                            icon : 'error',
+                            confirmButtonText : '확인'
+                        })
+                    });
+                } else {
+                    location.href = contextPath + "my/info";
+                }
+            })
+
+
+        });
+
+    });
+</script>
+</html>

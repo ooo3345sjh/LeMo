@@ -195,6 +195,25 @@
         SELECT `user_id` FROM `lemo_product_review` WHERE `res_no` = #{res_no}
     </select>
 
+    <!--
+        날짜 : 2023/04/11
+        이름 : 서정현
+        내용 : 회원의 포인트 조회
+    -->
+    <select id="selectUserPoint" resultType="int">
+        SELECT `point` FROM `lemo_member_userinfo` WHERE `user_id`= #{user_id};
+    </select>
+    <!--
+        날짜 : 2023/04/11
+        이름 : 서정현
+        내용 : 회원의 쿠폰 갯수 조회
+    -->
+    <select id="selectUserCoupon" resultType="int">
+        SELECT COUNT(*) FROM `lemo_member_userinfo` u JOIN
+        `lemo_member_coupon` c ON u.user_id = c.user_id
+        WHERE u.`user_id`= #{user_id};
+    </select>
+
     <!-- insert -->
     <insert id="insertDiaryArticle" parameterType="kr.co.Lemo.domain.ArticleDiaryVO" useGeneratedKeys="true" keyProperty="arti_no">
         INSERT INTO `lemo_diary_article` SET
@@ -260,6 +279,20 @@
         WHERE `res_no` = #{res_no}
     </update>
 
+    <!--
+        날짜 : 2023/04/11
+        이름 : 서정현
+        내용 : 회원 탈퇴 업데이트
+    -->
+    <update id="updateWithdrawUser">
+        UPDATE `lemo_member_userinfo` SET
+            `point`=0,
+            `isEnabled`=0,
+            `udate`=NOW(),
+            `wdate`=NOW()
+        WHERE `user_id` = #{user_id};
+    </update>
+
     <!-- delete -->
     <delete id="deleteReservation">
         DELETE FROM `lemo_product_reserved_room` WHERE `res_no` = #{res_no};
@@ -268,7 +301,14 @@
     <delete id="deleteReview">
         DELETE FROM `lemo_product_review` WHERE `res_no` = #{res_no};
     </delete>
-
+    <!--
+        날짜 : 2023/04/11
+        이름 : 서정현
+        내용 : 회원이 보유한 쿠폰 삭제
+    -->
+    <update id="deleteUserCoupon">
+        DELETE FROM `lemo_member_coupon` WHERE `user_id` = #{user_id};
+    </update>
 
     <!-- 공통 키 -->
 

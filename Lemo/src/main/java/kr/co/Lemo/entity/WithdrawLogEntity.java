@@ -12,20 +12,18 @@ import java.util.Date;
 /**
  * @since 2023/04/11
  * @author 서정현
- * @apiNote product_visitors_log 방문자 로그 entity
+ * @apiNote withdraw_reasons_log entity
  */
-@Document(collection = "product_visitors_log")
+@Document(collection = "withdraw_log")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VisitorsLogEntity {
+public class WithdrawLogEntity {
     @Id
     private String id;
-    private String acc_id;
     private String username;
     private String ip;
-    private Date date;
-    private String sessionid;
-    private String device;
+    private String text;
+    private Date rdate;
 }
