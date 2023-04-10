@@ -32,7 +32,7 @@ public interface MyDAO {
     public List<ReservationVO> selectReservations(SearchCondition sc);
 
     // @since 2023/03/27
-    public ProductAccommodationVO selectProvinceAddr(int res_no);
+    public ProductAccommodationVO selectProvinceAddr(long res_no);
     public List<CouponVO> selectMemberCoupons(String user_id);
     public List<CouponVO> selectProductCoupons(String user_id);
     public int selectTotalReservations(SearchCondition sc);
@@ -69,8 +69,8 @@ public interface MyDAO {
     public int selectDiaryQnaCnt(SearchCondition sc);
 
     // @since 2023/04/06
-    public String selectCheckReviewId(int res_no);
+    public String selectCheckReviewId(long res_no);
     public int updateReview(Map<String, Object> param);
-    public int deleteReview(int res_no);
+    public int deleteReview(long res_no);
 
 }
