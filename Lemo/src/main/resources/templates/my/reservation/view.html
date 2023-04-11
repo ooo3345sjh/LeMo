@@ -97,7 +97,7 @@
                         </div>
                         <div class="btnReserveView">
                             <a href="#" class="reservePrint" onclick="reservPrint()">예약 내역 인쇄</a>
-                            <a th:href="@{/my/reservation/delete ( res_no=${reservation.res_no} )}" class="reserveCancel" id="reserveCancel" th:if="${reservation.res_state != 2 && reservation.res_state != 0}">예약 취소</a>
+                            <a th:href="@{/my/reservation/delete ( res_no= ${oi.res_no} )}" class="reserveCancel" id="reserveCancel" th:if="${oi.res_state != 2 && oi.res_state != 0}">예약 취소</a>
                         </div>
                     </div>  
                 </section>

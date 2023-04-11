@@ -630,6 +630,16 @@ button {cursor: pointer;}
     cursor:pointer;
 }
 
+.place .spot > input {
+    width: 350px;
+    height: 35px;
+    font-size: 20px;
+    font-weight: bolder;
+    border: 1px solid #a7c5dd;
+    border-radius: 8px;
+    padding-left: 10px;
+}
+
 
 /* .place > .spot > span::before {
     position: relative;
