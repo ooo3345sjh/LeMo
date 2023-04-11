@@ -85,16 +85,40 @@
     <script>
          $(function(){
             var checkList = [];
-
+            // 전체선택 체크박스
             $('input[name=all]').click(function(){
                 //리스트 초기화
                 checkList = [];
 
                 // 전체 선택 시 전부 체크
-                $('input[name=cs_no]').prop('checked', true);
+                if($(this).prop('checked')){
+                    $('input[name=cs_no]').prop('checked', true);
+                }else{
+                    $('input[name=cs_no]').prop('checked', false);
+                }
 
                 // checkList에 담는 이유는 선택삭제시 필요
                 $('input[name=cs_no]:checked').each(function(){checkList.push($(this).val()); });
+
+                console.log("checklist : " + checkList);
+            });
+
+            // 개별 선택 체크박스 이벤트 처리
+            $('input[name=cs_no]').click(function(){
+                // 체크가 해제되면 전체 선택 체크박스 체크 해제
+                if(!$(this).prop('checked')){
+                    $('input[name=all]').prop('checked', false);
+                }
+                // 모든 체크박스가 체크되어 있으면 전체 선택 체크박스 체크
+                else if($('input[name=cs_no]:checked').length === $('input[name=cs_no]').length){
+                    $('input[name=all]').prop('checked', true);
+                }
+
+                // checkList에 담는 이유는 선택 삭제시 필요
+                checkList = [];
+                $('input[name=cs_no]:checked').each(function(){
+                    checkList.push($(this).val());
+                });
 
                 console.log("checklist : " + checkList);
             });
