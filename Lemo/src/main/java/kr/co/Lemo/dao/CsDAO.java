@@ -43,8 +43,12 @@ public interface CsDAO {
      * */
     public List<CsVO> selectAdminQnaArticles(SearchCondition sc);
     public CsVO selectAdminCsArticle(@Param("cs_cate") String cs_cate, @Param("cs_no") int cs_no);
-
-
+    //@since 2023/04/10 관리자 - 이벤트 목록
+    public List<CsVO> selectAdminEventArticles(SearchCondition sc);
+    //@since 2023/04/10 관리자 - 약관 목록
+    public List<TermVO> selectAdminTerms(SearchCondition sc);
+    //@since 2023/04/10 관리자 - 약관 총갯수
+    public int countAdminTerms();
 
     /** insert **/
     // @since 2023/03/09

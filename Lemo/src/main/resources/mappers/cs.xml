@@ -17,6 +17,13 @@
         limit #{offset}, 10;
     </select>
 
+    <!-- 관리자 이벤트 목록-->
+    <select id="selectAdminEventArticles" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.CsVO">
+        SELECT * FROM `lemo_cs` WHERE `cs_cate` =#{cs_cate}
+        order by `cs_no` DESC
+        limit #{offset}, 10;
+    </select>
+
     <select id="countEventArticles" resultType="java.lang.Integer">
         select count(*) from `lemo_cs` where `cs_cate` =#{cs_cate};
     </select>
@@ -96,6 +103,19 @@
         ON a.user_id = b.user_id
         WHERE a.`cs_cate` =#{cs_cate} and a.`cs_no` =#{cs_no};
     </select>
+
+    <!-- 관리자 약관 목록 -->
+    <select id="selectAdminTerms" resultType="kr.co.Lemo.domain.TermVO">
+        SELECT a.*, b.`termsType_type_ko` FROM `lemo_member_terms` AS a
+        JOIN `lemo_member_termstype` AS b ON a.termsType_no=b.termsType_no
+        order by `terms_no` DESC
+        Limit #{offset}, 10;
+    </select>
+
+    <select id="countAdminTerms" resultType="java.lang.Integer">
+        select count(*) from `lemo_member_terms`;
+    </select>
+
 
     <!-- insert -->
         <insert id="insertEventArticle" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="cs_no">

@@ -580,9 +580,7 @@ public class AdminController {
         if("event".equals(cs_cate)){
             log.info("admin/cs/event/list");
 
-
-            csService.findAllCsArticles(sc, model);
-
+            csService.findAllEventArticles(sc, model);
             return "admin/cs/event/list";
         }else if("notice".equals(cs_cate)) {
 
@@ -599,8 +597,11 @@ public class AdminController {
             }else {
                 csService.findAllCsArticles(sc, model);
             }
+            return "admin/cs/faq/list";
+        }else if("terms".equals(cs_cate)){
+            csService.findAllAdminTerms(sc, model);
         }
-        return "admin/cs/faq/list";
+        return "admin/cs/terms/list";
     }
 
 

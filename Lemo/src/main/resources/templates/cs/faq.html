@@ -17,6 +17,18 @@
             padding: 14px 0;
             text-align: center;
         }
+        .show_list li .list_n span {
+            padding-bottom: 7px;
+            overflow: visible;
+            white-space: normal;
+            text-overflow: initial;
+            line-height: normal;
+            word-wrap: break-word;
+            font-size: 18px;
+            width: 100%;
+            color: black;
+        }
+
     </style>
 </th:block>
 <th:block layout:fragment="content">
@@ -56,7 +68,7 @@
                         <th:block th:each="faq:${csArticles}">
                             <li>
                                 <a href="#" class="list_n">
-                                    <p class="${faq.cs_type}">[[${faq.cs_type_ko}]]</p> <p>[[${faq.cs_title}]]</p>
+                                    <span class="${faq.cs_type}" th:text="|[${faq.cs_type_ko}]|"></span> &nbsp&nbsp&nbsp <span>[[${faq.cs_title}]]</span>
                                 </a>
                                 <div class="toggle">
                                     [[${faq.cs_content}]]

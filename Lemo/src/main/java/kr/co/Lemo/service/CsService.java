@@ -56,6 +56,25 @@ public class CsService {
         return eventArticles;
     }
 
+    // @since 2023/04/10 관리자 - 이벤트 리스트
+    public List<CsVO> findAllEventArticles(Cs_SearchVO sc, Model model){
+        int totalCnt = dao.countEventArticles(sc.getCs_cate());
+        int totalPage = (int) Math.ceil(totalCnt / (double)sc.getPageSize());
+
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<CsVO> adminEventArticles = dao.selectAdminEventArticles(sc);
+
+        model.addAttribute("adminEventArticles", adminEventArticles);
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalCnt", totalCnt);
+        model.addAttribute("sc", sc);
+
+        return adminEventArticles;
+    }
+
+
     public CsVO findCsArticle(@RequestParam("cs_no") int cs_no) {
         return dao.selectCsArticle(cs_no);
     }
@@ -125,6 +144,10 @@ public class CsService {
 
         return faqArticles;
     }
+    /**
+     *  관리자
+     * @since  2023/03/12
+     */
 
     // @since 2023/03/12
     public List<CsVO> findAllAdminQnaArticles(Cs_SearchVO sc, Model model) {
@@ -167,6 +190,26 @@ public class CsService {
         }
         return csVO;
     }
+
+    // @since 2023/04/10 관리자 약관 목록
+    public List<TermVO> findAllAdminTerms(Cs_SearchVO sc, Model model){
+        int totalCnt = dao.countAdminTerms();
+        int totalPage = (int) Math.ceil(totalCnt/ (double)sc.getPageSize());
+
+        if(sc.getPage() > totalPage) sc.setPage(totalPage);
+        PageHandler pageHandler = new PageHandler(totalCnt, sc);
+
+        List<TermVO> termArticles = dao.selectAdminTerms(sc);
+
+        model.addAttribute("terms", termArticles);
+        model.addAttribute("ph", pageHandler);
+        model.addAttribute("totalCnt", totalCnt);
+        model.addAttribute("sc", sc);
+
+        return termArticles;
+    }
+
+
 
     /** insert **/
     public int rsaveEventArticle(MultipartHttpServletRequest request, Map<String, Object> parameter, MultipartFile cs_eventBanner) {
