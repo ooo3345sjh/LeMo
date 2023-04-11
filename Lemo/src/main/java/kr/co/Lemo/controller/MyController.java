@@ -2,10 +2,7 @@ package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.My_SearchVO;
-import kr.co.Lemo.service.MyService;
-import kr.co.Lemo.service.PaymentService;
-import kr.co.Lemo.service.ProductService;
-import kr.co.Lemo.service.UserService;
+import kr.co.Lemo.service.*;
 import kr.co.Lemo.utils.PageHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +40,8 @@ public class MyController {
     private String myGroup = "title.my";
     private String diaryGroup = "title.my.diary";
     private final MyService service;
-
     private final ProductService productService;
+    private final DiaryService diaryService;
 
     // @since 2023/03/31
     @Autowired
@@ -360,6 +357,25 @@ public class MyController {
         return "my/diary/write";
     }
 
+    // @since 2023/03/09
+    @GetMapping("diary/modify")
+    public String diary_modify(
+            @AuthenticationPrincipal UserVO myUser,
+            @RequestParam(defaultValue = "0") int arti_no,
+            Model m
+    ) {
+        m.addAttribute("title", environment.getProperty(diaryGroup));
+
+        if(arti_no == 0) { return "redirect:/my/reservation/list"; }
+
+        String uid = myUser.getUser_id();
+
+        List<DiarySpotVO> spotVO = diaryService.findDiarySpot(arti_no);
+        m.addAttribute("article", spotVO);
+
+        return "my/diary/modify";
+    }
+
     /**
      * @since 2023/03/10
      * @apiNote @RequestPart는 multipart/form-data에 특화된 어노테이션
@@ -384,19 +400,6 @@ public class MyController {
         map.put("result", result);
 
         return map;
-    }
-
-    // @since 2023/03/09
-    @GetMapping("diary/modify")
-    public String diary_modify(
-            @AuthenticationPrincipal UserVO myUser,
-            Model m
-    ) {
-        m.addAttribute("title", environment.getProperty(diaryGroup));
-
-        String uid = myUser.getUser_id();
-
-        return "my/diary/modify";
     }
 
     // @since 2023/03/29
