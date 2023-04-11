@@ -163,10 +163,8 @@
     <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
 
-            console.log('here1...');
-
             const timelines = [[${timelines}]];
-            console.log(timelines);
+            //console.log(timelines);
 
             // 예약 상세 정보 팝업
             const d_Detail = document.getElementById('d_Detail');
@@ -204,15 +202,15 @@
                     d_Detail.showModal();
                 },
                 datesRender: function(info) {
-                $('.fc-prev-button').click(function() {
-                    alert('prev 버튼 클릭');
+                    $('.fc-prev-button').click(function() {
+                        alert('prev 버튼 클릭');
+                    });
+                    $('.fc-next-button').click(function() {
+                        alert('next 버튼 클릭');
+                    });
+                },
+                    events: timelines
                 });
-                $('.fc-next-button').click(function() {
-                    alert('next 버튼 클릭');
-                });
-            },
-                events: timelines
-            });
 
             calendar.render();
         });

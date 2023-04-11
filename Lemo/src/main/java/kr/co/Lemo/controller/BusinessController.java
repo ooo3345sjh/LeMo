@@ -41,7 +41,27 @@ public class BusinessController {
     private BusinessService service;
 
     @GetMapping(value = {"", "index"})
-    public String index_business() {
+    public String index_business(Model model,
+                                 @AuthenticationPrincipal UserVO myUser,
+                                 Map map) {
+
+        model.addAttribute("title", environment.getProperty(group));
+
+        String user_id = "";
+        if(myUser != null){
+            user_id = myUser.getUser_id();
+        }
+
+        map.put("user_id", user_id);
+
+        int unAssignedRoom = service.countUnassignedRoom(map);
+        int rooms = service.countRooms(map);
+
+        log.warn("rooms : " + rooms);
+
+        model.addAttribute("unAssignedRoom", unAssignedRoom);
+        model.addAttribute("rooms", rooms);
+
         return "business/index";
     }
 
@@ -646,8 +666,34 @@ public class BusinessController {
     }
 
 
-     @GetMapping("reservation/timeline")
-    public String reservation_timeline(){
+    @GetMapping("reservation/timeline")
+    public String reservation_timeline(Model model,
+                                       @AuthenticationPrincipal UserVO myUser,
+                                       @RequestParam Map map,
+                                       @RequestParam(required = false) Integer acc_id){
+
+        model.addAttribute("title", environment.getProperty(group));
+
+        String user_id = "";
+        if(myUser != null){
+            user_id = myUser.getUser_id();
+        }
+
+        map.put("user_id", user_id);
+
+        //log.warn("map : " + map);
+        log.warn("acc_id : " + map.get("acc_id"));
+
+        List<ReservationVO> timelines = service.findAllTimeline(map);
+
+        model.addAttribute("timelines", timelines);
+
+        List<ProductAccommodationVO> accs = service.findAllAccOwnedForInfo(user_id);
+        model.addAttribute("accs", accs);
+        log.warn(""+accs);
+
+        //log.warn("Timelines after model add : " + timelines);
+
         return "business/reservation/timeline";
     }
 

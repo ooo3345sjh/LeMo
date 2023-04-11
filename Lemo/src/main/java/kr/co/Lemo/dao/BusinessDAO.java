@@ -77,6 +77,11 @@ public interface BusinessDAO {
     // @since 2023/04/04 판매자 예약 정보 목록 페이징
     public int countReservations(SearchCondition sc);
 
+    // @since 2023/04/11 판매자 - 메인 - 미배정 객실/객실
+    public int countUnassignedRoom(Map map);
+    public int countRooms(Map map);
+
+
     // @since 2023/04/08 판매자 - 통계관리 - 일별 누적 판매량 (일주일)
     public List<ReservationVO> selectDaySales (Map map);
 
@@ -98,8 +103,11 @@ public interface BusinessDAO {
     // @since 2023/04/09 판매자 - 상품 등록 건수
     public int countWeeksAcc(Map map);
 
-    //@since 2023/04/09 판매자 - 등록 리뷰 수 (일주일)
+    // @since 2023/04/09 판매자 - 등록 리뷰 수 (일주일)
     public int countWeeksReview(Map map);
+
+    // @since 2023/04/11 판매자 - 타임라인
+    public List<ReservationVO> selectTimeline(Map map);
 
     // @since 2023/03/13 판매자 쿠폰 등록
     public void insertCoupon(Map<String, Object> param);

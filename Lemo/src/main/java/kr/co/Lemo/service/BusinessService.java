@@ -233,6 +233,21 @@ public class BusinessService {
         return dao.countWeeksAcc(map);
      }
     public int countWeeksReview(Map map){return dao.countWeeksReview(map);}
+    public int countUnassignedRoom(Map map){
+        return dao.countUnassignedRoom(map);
+    }
+    public int countRooms(Map map){
+        return dao.countRooms(map);
+    }
+
+    /**
+     * @since 2023/04/11
+     * @param map
+     * @apiNote 판매자 타임라인
+     */
+    public List<ReservationVO> findAllTimeline(Map map){
+        return dao.selectTimeline(map);
+    }
 
     /**
      * 판매자 쿠폰 - 쿠폰 등록
