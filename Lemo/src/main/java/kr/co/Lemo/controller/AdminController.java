@@ -60,19 +60,26 @@ public class AdminController {
     ) {
         // 일별 매출 현황
         List<ReservationVO> stats = service.findAllDaySales(map);
-        // 총 매출 건수
-        int total = service.countWeeksSales();
+
+        // 당일 누적 판매량
+        List<ReservationVO> todaySales = service.findAllTodaySales();
+
+        // 예약건수
+        int total = service.countDaySales();
         // 취소 건수
-        int totalCanceled = service.countWeeksCancel();
+        int totalCanceled = service.countDayCancel();
         // 1:1 문의 수
-        int totalQna = service.countWeeksQna();
+        int totalQna = service.countDayQna();
         // 상품 등록 수
-        int totalAcc = service.countWeeksAcc();
+        int totalAcc = service.countDayAcc();
         // 회원가입 수
-        int totalUser = service.countWeeksUser();
+        int totalUser = service.countDayUser();
+
+        log.warn("total : " + total);
 
         model.addAttribute("stats", stats);
         model.addAttribute("totalSales", total);
+        model.addAttribute("todaySales", todaySales);
         model.addAttribute("totalCanceled", totalCanceled);
         model.addAttribute("totalQna", totalQna);
         model.addAttribute("totalAcc", totalAcc);

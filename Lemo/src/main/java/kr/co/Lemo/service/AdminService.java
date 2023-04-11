@@ -328,6 +328,14 @@ public class AdminService {
     }
 
     /**
+     * @since 2023/04/11
+     * @apiNote 관리자 - 메인 - 일별 누적 판매량 (당일)
+     */
+     public List<ReservationVO> findAllTodaySales(){
+        return dao.selectTodaySales();
+     }
+
+    /**
      * @since 2023/04/05
      * @param map
      * @apiNote 관리자 통계관리 일별 누적 판매량
@@ -375,21 +383,30 @@ public class AdminService {
     * @since 2023/04/06
     * @apiNote 관리자 카운트
      */
-    public int countWeeksSales(){
+     public int countWeeksSales(){
         return dao.countWeeksSales();
     }
+     public int countDaySales() {return dao.countDaySales();}
+
      public int countWeeksCancel(){
         return dao.countWeeksCancel();
      }
+     public int countDayCancel() {return dao.countDayCancel();}
+
      public int countWeeksQna(){
         return dao.countWeeksQna();
      }
+     public int countDayQna(){return dao.countDayQna();}
+
      public int countWeeksAcc(){
         return dao.countWeeksAcc();
      }
+     public int countDayAcc() {return dao.countDayAcc();}
+
      public int countWeeksUser(){
         return dao.countWeeksUser();
      }
+     public int countDayUser(){return dao.countDayUser();}
 
     /**
      * @since 2023/04/06

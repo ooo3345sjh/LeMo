@@ -16,6 +16,34 @@
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
                         <div class="col1">
+                            <!-- 오늘 날짜 출력 -->
+                            <div class="today_sales_status">
+                                <p>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</p>
+                            </div>
+                            <!--/*
+                            <div class="tot_sales">
+                                <div class="tot_sales_box">
+                                    <div class="ts_tit1">총매출</div>
+                                    <div class="ts_count">[[${todaySales[0].count_sales}]]</div>
+                                    <div class="ts_tit2">건</div>
+                                    <div class="ts_price" th:text="${#numbers.formatInteger(todaySales[0].tot_res_price, 0, 'COMMA')}">36,000</div>
+                                    <div class="ts_tit3">원</div>
+                                </div>
+                            </div>
+                             */-->
+                        </div>
+                    </div>
+                    <div class="blank30"></div>
+
+                    <div class="main_content_div">
+                        <div class="col1">
+                            <!--/*
+                            <div class="col1_graph">
+                                <div class="graph_inner" style="width:100% ;">
+                                    <div id="chart_div" style="width: 99%; height: 500px;"></div>
+                                </div>
+                            </div>
+                            */-->
                             <div class="today_status">
                                 <!-- single item1 -->
                                 <div class="single_status">
@@ -50,19 +78,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="blank30"></div>
-                    <div class="main_content_div">
-                        <div class="col1">
-                            <div class="col1_header">
-                                <h3>매출 현황</h3>
-                            </div>
-                            <div class="col1_graph">
-                                <div class="graph_inner" style="width:100% ;">
-                                    <div id="chart_div" style="width: 99%; height: 500px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="blank30"></div>
                     <div class="main_content_div2">
                         <h3>공지사항</h3>
@@ -142,19 +158,19 @@
     <!-- 구글 차트 -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script th:inline="javascript">
-             // 참조 데이터 준비
-            let stats = [[${stats}]];
+         // 참조 데이터 준비
+        let stats = [[${stats}]];
 
-            console.log(stats);
-            console.log("stats res_price : " + stats[0].res_price);
+        console.log(stats);
+        console.log("stats res_price : " + stats[0].res_price);
 
 
-            // 구글 열 차트를 로드
-            google.charts.load('current', {'packages':['corechart']});
-            // callback 정의 : drawVisualization
-            google.charts.setOnLoadCallback(drawVisualization);
+        // 구글 열 차트를 로드
+        google.charts.load('current', {'packages':['corechart']});
+        // callback 정의 : drawVisualization
+        google.charts.setOnLoadCallback(drawVisualization);
 
-            // 오늘 날짜
+        // 오늘 날짜
         let today = new Date();
         // 오늘 날짜 (월)
         nowMonth = today.getMonth() + 1;
