@@ -251,6 +251,54 @@ main .main_content > .main_cotent_inner {
     border-radius: 10px;
     padding: 40px 30px;
 }
+main .search_review_table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #dbdbdb;
+}
+main .search_review_table tr {
+    height: 43px;
+}
+main .search_review_table th {
+    text-align: left;
+    border-bottom: 1px solid #dbdbdb;
+    padding-left: 17px;
+    background: #f0f0f0;
+    width: 20%;
+    width: 17% !important;
+    font-size: 13px;
+    padding: 0 10px;
+}
+main .search_review_table th > select {
+    font-size: 13px;
+    width: 200px;
+    height: 28px;
+    border: 1px solid #dbdbdb;
+    padding: 1px 5px;
+}
+main .search_review_table td {
+    font-size: 13px;
+    text-align: left;
+    border-bottom: 1px solid #dbdbdb;
+    border-left: 1px solid #dbdbdb;
+    padding-left: 17px;
+    background: #fff;
+}
+main .search_review_table td > input {
+    font-size: 13px;
+    width: 97%;
+    height: 28px;
+    border: 1px solid #dbdbdb;
+    padding-left: 8px;
+}
+main #c_role_type {
+    border: 1px solid #dcdcdc;
+    padding: 1px 20px 1px 4px;
+    max-width: 100%;
+    text-decoration: none;
+    font-size: 13px;
+    height: 30px;
+}
 
 /* 페이징 */
 main .pagination {

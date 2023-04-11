@@ -16,14 +16,22 @@
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
                         <div class="col0">
-                            <div class="selectProd">
-                                <select>
-                                    <option value="0">서울조선호텔</option>
-                                    <option value="1">푸른제주펜션</option>
-                                    <option value="2">보우힐펜션</option>
-                                    <option value="3">파라다이스호텔부산</option>
-                                    <option value="4">프리지아펜션</option>
-                                </select>
+                            <div class="col4">
+                                <form th:action="@{/business/reservation/timeline}">
+                                   <table class="search_review_table" style="margin-bottom: 50px;">
+                                        <tr>
+                                            <th>숙소 선택</th>
+                                            <td>
+                                                <select id="c_role_type" class="selectAccOwned" name="acc_id">
+                                                    <option value=" ">-숙소 선택-</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        </table>
+                                        <div class="search_btn">
+                                            <button type="submit" class="btnAdminProd3">검색</button>
+                                        </div>
+                                </form>
                             </div>
                         </div>
                         <div class="col1">
@@ -31,7 +39,7 @@
                                 <!-- single item1 -->
                                 <div class="single_status">
                                     <p>미배정 객실</p>
-                                    <h3>0</h3>
+                                    <h3>[[${unAssignedRoom}]] / [[${rooms}]]</h3>
                                 </div>
                                 <!-- single item2 -->
                                 <div class="single_status">

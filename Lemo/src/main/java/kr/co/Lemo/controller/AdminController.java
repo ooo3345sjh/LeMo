@@ -401,7 +401,7 @@ public class AdminController {
 
         ReviewVO review = service.findReview(revi_id);
 
-        log.warn("selected review: " + review);
+        //log.warn("selected review: " + review);
 
         model.addAttribute("review", review);
         model.addAttribute("revi_id", revi_id);

@@ -175,8 +175,26 @@
         </if>
     </select>
 
+    <!-- 판매자 - 메인 - 전체 객실 수 -->
+    <select id="countRooms" resultType="java.lang.Integer">
+        select count(a.`room_id`) from `lemo_product_room` as a
+            inner join `lemo_product_accommodation` as b on a.`acc_id`=b.`acc_id`
+        where b.`user_id`=#{user_id}
+        and a.`acc_id`='1004530';
+    </select>
+
+    <!-- 판매자 - 메인 - 미배정 객실 -->
+    <select id="countUnassignedRoom" resultType="java.lang.Integer">
+        select count(a.`room_id`) from `lemo_product_room` as a
+            inner join `lemo_product_accommodation` as b on a.`acc_id`=b.`acc_id`
+        where
+            b.`user_id`=#{user_id}
+            and a.`room_id` not in (select `room_id` from `lemo_product_reserved_room`)
+            and a.`acc_id`='1004530';
+    </select>
+
     <!-- 판매자 - 통계관리 - 일별 누적 판매량 (일주일) -->
-    <select id="selectDaySales"  resultType="kr.co.Lemo.domain.ReservationVO">
+    <select id="selectDaySales" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT DATE(a.res_date) AS res_date,
             MAX(a.res_state) AS res_state,
             SUM(a.res_price) AS res_price,
@@ -227,46 +245,60 @@
     <!-- 판매자 - 예약 건수 (일주일) -->
     <select id="countWeeksSales" resultType="java.lang.Integer">
         select count(a.`res_checkIn`) from `lemo_product_reservation` as a
-        join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+            join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         where a.res_state NOT IN (0)
-        AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
-        AND DATE(NOW())
-        AND b.user_id=#{user_id};
+            AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
+            AND DATE(NOW())
+            AND b.user_id=#{user_id};
     </select>
 
     <!-- 판매자 - 취소 건수 (일주일) -->
     <select id="countWeeksCancel"  resultType="java.lang.Integer">
         select count(a.`res_checkIn`) from `lemo_product_reservation` as a
-        join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+            join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         where a.res_state=0
-        AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
-        AND DATE(NOW())
-        AND b.user_id=#{user_id};
+            AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
+            AND DATE(NOW())
+            AND b.user_id=#{user_id};
     </select>
 
     <!-- 판매자 - 1:1 문의수 (일주일) -->
     <select id="countWeeksQna" resultType="java.lang.Integer">
         select count(`cs_no`) from `lemo_cs`
         where `cs_cate`='qna'
-        and `cs_rdate` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
-        AND DATE(NOW())
-        AND user_id=#{user_id};
+            and `cs_rdate` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
+            AND DATE(NOW())
+            AND user_id=#{user_id};
     </select>
 
     <!-- 판매자 - 상품 등록 수 (일주일) -->
     <select id="countWeeksAcc" resultType="java.lang.Integer">
         select count(`acc_id`) from `lemo_product_accommodation`
         where `acc_rdate` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
-        AND DATE(NOW())
-        AND user_id=#{user_id};
+            AND DATE(NOW())
+            AND user_id=#{user_id};
     </select>
 
     <!-- 판매자 - 등록 리뷰 수 (일주일) -->
     <select id="countWeeksReview" resultType="java.lang.Integer">
         select count(revi_id) from `lemo_product_review` as a
-        join `lemo_product_reservation` as b on a.res_no=b.res_no
-        join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
+            join `lemo_product_reservation` as b on a.res_no=b.res_no
+            join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
         where c.`user_id`=#{user_id};
+    </select>
+
+    <!-- 판매자 타임라인 -->
+    <select id="selectTimeline"  resultType="kr.co.Lemo.domain.ReservationVO">
+        select * from `lemo_product_reservation` as a
+            inner join `lemo_product_room` as b on a.room_id=b.room_id
+            inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id
+        where
+            month(a.`res_checkIn`) = month(current_date())
+            and year(a.`res_checkIn`) = year(current_date())
+            and c.`user_id`=#{user_id}
+            <if test="acc_id != null">
+                and c.`acc_id`=#{acc_id}
+            </if>
     </select>
 
 
