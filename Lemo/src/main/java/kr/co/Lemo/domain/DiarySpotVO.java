@@ -47,4 +47,7 @@ public class DiarySpotVO {
     private String user_id;
     private String nick;
 
+    // @since 2023/04/11
+    private long res_no;
+
 }

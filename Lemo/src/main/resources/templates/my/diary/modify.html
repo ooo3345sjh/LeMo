@@ -27,39 +27,42 @@
                             <h3>#여행일기 수정</h3>
                             <!-- 여행일기 보기 -->
                             <div class="view">
-                                <div class="list-area">
-                                    <div id="diary_content">
-                                        <input type="text" style="border: none; font-size:18px;" placeholder="제목을 작성해주세요" th:value="${article.get(0).getArti_title}">
-                                        <ul>
-                                            <li>
-                                                <input  type="text" name="daterange" id="daterange">
-                                                <span style="font-size: 12px; color:#a39797;">※여행기간을 선택해주세요</span>
-                                            </li>
-                                            <li>[[${article.get(0).getAcc_name}]]</li>
-                                        </ul>
-                                    </div>
-                                    <div class="write_search" style="margin-top: 40px; font-size: 13px; color: #342929;">
-                                        <span style="display: block; margin: 0 0 10px 5px; font-size: 13px;">보다 상세한 검색은 자동완성을 이용해주세요.</span>
-                                        <input type="text" id="searchAddr" style="width: 250px; height: 30px; font-size: 15px; border: none; padding-left: 10px; margin-right: 10px;"/>
-                                        주소 검색 후 Enter키를 눌러주세요.!
-                                        <br>
-                                    </div>
-                                    <div th:each="spot, i:${article}" th:class="${'place '+'place_D'+spot.spot_title}" th:data-no="${i.count}">
-                                        <div class="spot">
-                                            <img src="/Lemo/images/diary/marker7.png" width="30px" height="40px">
-                                            <span>[[${spot.spot_title}]]</span>
+                                <form id="diaryForm">
+                                    <div class="list-area">
+                                        <div id="diary_content">
+                                            <input type="text" name=arti_title style="border: none; font-size:18px;" placeholder="제목을 작성해주세요" th:value="${article.get(0).getArti_title}">
+                                            <ul>
+                                                <li>
+                                                    <input  type="text" name="daterange" id="daterange">
+                                                    <span style="font-size: 12px; color:#a39797;">※여행기간을 선택해주세요</span>
+                                                </li>
+                                                <li>[[${article.get(0).getAcc_name}]]</li>
+                                            </ul>
                                         </div>
-                                        <img src="/Lemo/images/cs/arr_down.png" class="arrow">
-                                        <button class="delete_diary" th:data-place="${spot.spot_title}" th:data-no="${i.count}">삭제</button>
-                                        <div class="toggle">
-                                            <div class="image">
-                                                <input type="file" class="ex_file" data-no="1" name="thumb" accept="image/png, image/jpeg" style="display: none;">
-                                                <img th:src="@{ /img/diary/__${spot.arti_no}__/__${spot.spot_thumb}__ }">
+                                        <div class="write_search" style="margin-top: 40px; font-size: 13px; color: #342929;">
+                                            <span style="display: block; margin: 0 0 10px 5px; font-size: 13px;">보다 상세한 검색은 자동완성을 이용해주세요.</span>
+                                            <input type="text" id="searchAddr" style="width: 250px; height: 30px; font-size: 15px; border: none; padding-left: 10px; margin-right: 10px;"/>
+                                            주소 검색 후 Enter키를 눌러주세요.!
+                                            <br>
+                                        </div>
+                                        <div th:each="spot, i:${article}" th:class="${'place '+'place_D'+spot.spot_title}" th:data-no="${i.count}">
+                                            <div class="spot">
+                                                <img src="/Lemo/images/diary/marker7.png" width="30px" height="40px">
+                                                <input type="text" th:value="${spot.spot_title}" placeholder="여행일기 제목을 작성해주세요.">
                                             </div>
-                                            <textarea class="contentArea" name="spot_content" placeholder="내용을 입력해주세요." onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)"></textarea>
+                                            <img src="/Lemo/images/cs/arr_down.png" class="arrow">
+                                            <button class="delete_diary" th:data-place="${spot.spot_title}" th:data-no="${i.count}">삭제</button>
+                                            <div class="toggle">
+                                                <div class="image">
+                                                    <input type="file" class="ex_file" th:data-no="${i.count}" name="thumb" accept="image/png, image/jpeg" style="display: none;">
+                                                    <img class="inputImage" th:src="@{ /img/diary/__${spot.arti_no}__/__${spot.spot_thumb}__ }">
+                                                </div>
+                                                <textarea class="contentArea" name="spot_content" placeholder="내용을 입력해주세요." onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)">[[${spot.spot_content}]]</textarea>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <input type="submit" id="btnDiarySubmit" name="submit" value="수정완료">
+                                </form>
                             </div>
                             <!-- 지도 -->
                             <div id="listMap">
@@ -82,6 +85,9 @@
             let overlays = new Map();
             let markerMap = new Map();
             let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
+            let fileInputList = [];
+            const fileMap = new Map();
+            const urlParams = new URLSearchParams(window.location.search);
 
             /**
                 검색된 마크에도 mouseover, mouselevae, click 적용시켰고
@@ -90,6 +96,31 @@
                 지금은 두개를 나눠놨기 때문에 코드가 전체적으로 길어짐
                 마커 이미지 변경은 #F6
             */
+
+            // imgsrc(경로)를 base64로 인코딩
+            const toDataURL = url => fetch(url)
+              .then(response => response.blob())
+              .then(blob => new Promise((resolve, reject) => {
+                const reader = new FileReader()
+                reader.onloadend = () => resolve(reader.result)
+                reader.onerror = reject
+                reader.readAsDataURL(blob)
+              }))
+
+            // base64를 파일로 변환
+            function base64toFile(base_data, filename) {
+                var arr = base_data.split(','),
+                    mime = arr[0].match(/:(.*?);/)[1],
+                    bstr = atob(arr[1]),
+                    n = bstr.length,
+                    u8arr = new Uint8Array(n);
+
+                while(n--){
+                    u8arr[n] = bstr.charCodeAt(n);
+                }
+
+                return new File([u8arr], filename, {type:mime});
+            }
 
             // #F1 : 키워드 검색 완료 시 호출되는 콜백함수 입니다
             function placesSearchCB (data, status, pagination) {
@@ -243,7 +274,8 @@
                 let addContent  = `<div class="place place_D${withoutSpace}" data-no="${count}">`;
                     addContent +=   '<div class="spot">';
                     addContent +=       '<img src="/Lemo/images/diary/marker7.png" width="30px" height="40px">';
-                    addContent +=       '<span>'+ place +'</span>';
+<!--                    addContent +=       '<span>'+ place +'</span>';-->
+                    addContent +=       '<input type="text" value="'+place+'" placeholder="여행일기 제목을 작성해주세요.">'
                     addContent +=   '</div>';
                     addContent +=   '<img src="/Lemo/images/cs/arr_down.png" class="arrow">';
                     addContent +=   `<button class="delete_diary" data-place="${withoutSpace}" data-no="${count}">삭제</button>`;
@@ -377,8 +409,13 @@
             var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
             map.setZoomable(false); // 최초 지도 생성시 확대기능 off
 
+            // #2 지도에 표시된 마커 객체를 가지고 있을 배열입니다
+            // markers : 클릭 생성된 마커 저장 배열 | searchMarkers : 검색 생성된 마커 저장 배열
+            // 두가지를 나눈건 작성완료 시점에 검색된 marker 숨기기 + 클릭 생성 마크 배열만 보내기 위함
+            var markers = [];
+            var searchMarkers = [];
 
-
+            // modify 실행 시 작성했던 마커, 이미지 등을 출력하는 기능입니다.
             positionMap.forEach(function(position, i){
 
                 var marker = new kakao.maps.Marker({
@@ -409,6 +446,14 @@
 
                 overlays.set(position.spot_title, overlay);
 
+                // imSrc로 base64를 생성하고 base64로 파일을 생성한다음 formdata에 append
+                const imgSrc = '/Lemo/img/diary/'+position.arti_no+'/'+position.spot_thumb;
+                toDataURL(imgSrc).then(dataUrl => {
+                    var oriFile = base64toFile(dataUrl, position.spot_thumb);
+                    fileInputList.push(oriFile);
+                    fileMap.set(i+1, oriFile);
+                });
+
                 kakao.maps.event.addListener(marker, 'click', function() {
                     overlays.forEach(function(over){ over.setMap(null); });
 
@@ -416,16 +461,11 @@
                 });
 
                 markerMap.set(count++, marker);
+                markers.push(marker);
 
             });
 
             map.setBounds(bounds);
-
-            // #2 지도에 표시된 마커 객체를 가지고 있을 배열입니다
-            // markers : 클릭 생성된 마커 저장 배열 | searchMarkers : 검색 생성된 마커 저장 배열
-            // 두가지를 나눈건 작성완료 시점에 검색된 marker 숨기기 + 클릭 생성 마크 배열만 보내기 위함
-            var markers = [];
-            var searchMarkers = [];
 
             // #3 장소 검색 객체를 생성
             var ps = new kakao.maps.services.Places();
@@ -552,9 +592,12 @@
                 let formData = new FormData();
 
                 // file 가져오기
-                $.each(fileInputList, function (index, el){
-                    formData.append('file', el[0].files[0]);
-                })
+<!--                $.each(fileInputList, function (index, el){-->
+<!--                    formData.append('file', el[0].files[0]);-->
+<!--                })-->
+                for(const [key, value] of fileMap) {
+                    formData.append('file', value)
+                }
 
                 let submitSpotTitle = [];
                 let submitSpotContent = [];
@@ -562,8 +605,8 @@
                 let submitLng = [];
 
                 // submitTitle 가져오기
-                $('.spot > span').each(function(){
-                    submitSpotTitle.push($(this).text());
+                $('.spot > input').each(function(){
+                    submitSpotTitle.push($(this).val());
                 });
 
                 // submitContent 가져오기
@@ -571,7 +614,6 @@
                     if($(this).val()){ submitSpotContent.push($(this).val()); }
                 });
 
-                console.log(markers);
 
                 // Lat, Lng 가져오기
                 for(var i=0; i<markers.length; i++){
@@ -579,12 +621,21 @@
                     submitLng.push(markers[i].getPosition().getLng());
                 }
 
-                let res_no          = getUrlParameter('res_no');
+                let res_no          = [[${article.get(0).res_no}]]
                 let formTitle       = $('input[name=arti_title]').val();
                 let formSpotTitle   = submitSpotTitle.join('/');
                 let formSpotContent = submitSpotContent.join('/');
                 let formLat         = submitLat.join('/');
                 let formLng         = submitLng.join('/');
+
+                console.log(fileMap);
+                console.log(markers);
+                console.log('res_no : ' + res_no)
+                console.log('formTitle : ' + formTitle)
+                console.log('formSpotTitle : ' + formSpotTitle)
+                console.log('formSpotContent : ' + formSpotContent)
+                console.log('formLat : ' + formLat)
+                console.log('formLng : ' + formLng)
 
                 let jsonData = {
                     res_no           : res_no,
@@ -597,6 +648,8 @@
                     diaryLng         : formLng
                 }
 
+                console.log(jsonData);
+
                 formData.append('key', new Blob([ JSON.stringify(jsonData) ], {type : "application/json"}));
 
                 if(!$('input[name=arti_title]').val()) {
@@ -608,14 +661,14 @@
                 }else if(markers.length != submitSpotContent.length) {
                     sweetAlert('안내', '내용을 입력하지 않으신 <br>여행일기가 있습니다.!');
                     return;
-                }else if(markers.length != fileInputList.length) {
+                }else if(markers.length != fileMap.size) {
                     sweetAlert('안내', '사진을 입력하지 않으신 <br>여행일기가 있습니다.!');
                     return;
                 }
 
                 // ajax 처리 부분
                 $.ajax({
-                    url: '/Lemo/my/diary/rsave',
+                    url: '/Lemo/my/diary/usave',
                     method: 'POST',
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader(header, token);
@@ -650,23 +703,12 @@
                 e.stopPropagation();
                 e.preventDefault();
 
-                // 서정현 TEST
-                no = $(this).parent().find('input[type=file]').data('no');
-                console.log("수정전 : ");
-                console.log(fileInputList);
-                let filtered = fileInputList.filter((element) => element.data('no') !== no);
-                fileInputList = filtered;
-                console.log("수정후 : ");
-                console.log(fileInputList);
+                let deleteNo = Number($(this).attr('data-no'));
+                fileMap.delete(deleteNo)
 
                 let data_place = $(this).attr('data-place');
                 let data_no = $(this).data('no');
-                console.log(data_place);
-                console.log(data_no);
-
                 let deleteMarker = markerMap.get(data_no);
-                console.log(deleteMarker);
-                console.log(data_place);
 
                 removeAlert(deleteMarker, data_place, data_no);
             });

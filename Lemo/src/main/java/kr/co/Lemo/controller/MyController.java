@@ -407,6 +407,29 @@ public class MyController {
         return map;
     }
 
+    // @since 2023/04/11
+    @ResponseBody
+    @PostMapping("diary/usave")
+    public void diary_usave(
+            @AuthenticationPrincipal UserVO myUser,
+            @RequestPart(value = "key") Map<String, Object> param,
+            @RequestPart(value = "file", required = false) List<MultipartFile> fileList,
+            HttpServletRequest req
+    ) {
+        log.debug("POST diary/usave start");
+        log.debug(param.toString());
+
+        String user_id = myUser.getUser_id();
+
+        int mfCount = 0;
+        for(MultipartFile mf : fileList) {
+            log.debug(mfCount + ":" +mf.getOriginalFilename());
+            mfCount++;
+        }
+
+        service.diary_usave(param, fileList, req, user_id);
+    }
+
     // @since 2023/03/29
     @GetMapping("reservation/list")
     public String reservationList(
@@ -473,6 +496,7 @@ public class MyController {
 
         vo.setPayment(payment);
         m.addAttribute("oi", vo);
+        log.debug("oi : " + vo);
 
         return "my/reservation/view";
     }

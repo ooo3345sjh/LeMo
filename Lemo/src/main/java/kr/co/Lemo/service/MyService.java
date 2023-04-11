@@ -137,6 +137,16 @@ public class MyService {
         return finalResult;
     }
 
+    // @since 2023/04/11
+    public void diary_usave(
+            Map<String, Object> param,
+            List<MultipartFile> fileList,
+            HttpServletRequest req,
+            String user_id
+    ) {
+
+    }
+
     // @since 2023/03/24
     public List<ProductAccommodationVO> findPicks(SearchCondition sc) {
         return dao.selectPicks(sc);

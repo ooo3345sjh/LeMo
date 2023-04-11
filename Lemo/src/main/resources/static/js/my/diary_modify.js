@@ -1,4 +1,3 @@
-let fileInputList = [];
 let count = 1;
 $(function(){
     /* 글 토글 */
@@ -34,15 +33,16 @@ $(function(){
         let inputFile = $(this).parent('.image');
         $(this).change(function(e){
             let preview = $('.inputImage', inputFile);
+            let fileNo = Number($(this).attr('data-no'));
+
             const reader = new FileReader();
+
             var oFile = $(this)[0].files;
 
             if(oFile.length < 1){
                 // preview.attr('src', '/Lemo/images/diary/imgUpload.png');
             }else {
-                // 서정현 TEST
-                fileInputList.push($(this).clone());
-
+                fileMap.set(fileNo, e.target.files[0]);
                 reader.readAsDataURL(e.target.files[0]);
                 reader.onload = function(event){
                     preview.attr('src', event.target.result);
