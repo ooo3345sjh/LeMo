@@ -2,8 +2,14 @@ package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.My_SearchVO;
-import kr.co.Lemo.service.*;
+import kr.co.Lemo.entity.WithdrawLogEntity;
+import kr.co.Lemo.repository.WithdrawLogRepo;
+import kr.co.Lemo.service.MyService;
+import kr.co.Lemo.service.PaymentService;
+import kr.co.Lemo.service.ProductService;
+import kr.co.Lemo.service.UserService;
 import kr.co.Lemo.utils.PageHandler;
+import kr.co.Lemo.utils.RemoteAddrHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +56,7 @@ public class MyController {
 
     // 서정현
     private final UserService userService;
+    private final WithdrawLogRepo withdrawLogRepo;
 
     // @since 2023/03/12
     @GetMapping("{myCate}")
@@ -589,6 +597,48 @@ public class MyController {
 
         if(isNoticeEnabled != null)
             result = userService.usaveIsNoticeEnabled(isNoticeEnabled, userVO);
+
+        map.put("result", result);
+        return map;
+    }
+
+    /**
+     * @since 2023/04/11
+     * @author 서정현
+     * @apiNote 회원탈퇴 화면 출력
+     */
+    @GetMapping("withdraw")
+    public String withdrawUser(@AuthenticationPrincipal UserVO user, Model m){
+        log.debug("MyService GET withdrawUser start...");
+        service.findUserPointAndCouponCnt(m, user.getUser_id());
+        return "my/withdraw";
+    }
+
+    /**
+     * @since 2023/04/11
+     * @author 서정현
+     * @apiNote 회원탈퇴 등록
+     */
+    @ResponseBody
+    @PostMapping("withdraw")
+    public Map withdrawUser(
+            @AuthenticationPrincipal UserVO user,
+            @RequestBody Map map,
+            HttpServletRequest req
+    ){
+        log.debug("MyService POST withdrawUser start...");
+        
+        // 회원 탈퇴 처리(포인트 소멸, 쿠폰 삭제 및 userinfo.isEnabled = 0 처리)
+        int result = service.usaveWithdrawUser(user.getUser_id());
+        
+        // mongodb에 회원탈퇴 로그 저장
+        WithdrawLogEntity withdrawLogEntity = WithdrawLogEntity.builder()
+                .username(user.getUser_id())
+                .ip(RemoteAddrHandler.getRemoteAddr(req))
+                .text((String)map.get("text"))
+                .rdate(new Date())
+                .build();
+        withdrawLogEntity = withdrawLogRepo.save(withdrawLogEntity);
 
         map.put("result", result);
         return map;

@@ -57,6 +57,33 @@ public interface MyDAO {
     public int selectCheckReview(long res_no);
     public int selectCheckDiary(long res_no);
 
+
+    /**
+     * @since 2023/04/11
+     * @author 서정현
+     * @apiNote 회원 포인트 조회
+     */
+    int selectUserPoint (@Param("user_id")String user_id);
+    /**
+     * @since 2023/04/11
+     * @author 서정현
+     * @apiNote 회원 쿠폰 갯수 조회
+     */
+    int selectUserCoupon (@Param("user_id")String user_id);
+    /**
+     * @since 2023/04/11
+     * @author 서정현
+     * @apiNote 회원 탈퇴 업데이트
+     */
+    int updateWithdrawUser (@Param("user_id")String user_id);
+
+    /**
+     * @since 2023/04/11
+     * @author 서정현
+     * @apiNote 회원이 보유한 쿠폰 삭제
+     */
+    int deleteUserCoupon (@Param("user_id")String user_id);
+
     // @since 2023/03/30
     public int updateReservationState(long res_no);
 

@@ -110,8 +110,7 @@ public class UserController {
     public String logout(
             HttpServletRequest req,
             HttpServletResponse resp,
-            @AuthenticationPrincipal UserVO userVO,
-            String _csrf
+            @AuthenticationPrincipal UserVO userVO
     ) {
         log.debug("GET logout start...");
 
