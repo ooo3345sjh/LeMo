@@ -551,6 +551,21 @@ button {cursor: pointer;}
     cursor:pointer;
 }
 
+.diaryModify {
+    float: right;
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 17px;
+    color: white;
+    margin-top: 20px;
+    margin-left: 15px;
+    background-color: #297a98;
+    cursor: pointer;
+}
+
 #diary_content {
     background-color: #ffffff;
     width: 100%;
