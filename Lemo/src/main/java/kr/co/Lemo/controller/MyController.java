@@ -514,14 +514,14 @@ public class MyController {
     }
 
     // @since 2023/04/07
-    @ResponseBody
-    @DeleteMapping("pick")
-    public void removePick(
-            @RequestBody Map map
-    ) {
-        log.debug(""+map.get("chkList"));
-        log.debug(map.get("chkList").getClass().getName());
-    }
+//    @ResponseBody
+//    @DeleteMapping("pick")
+//    public void removePick(
+//            @RequestBody Map map
+//    ) {
+//        log.debug(""+map.get("chkList"));
+//        log.debug(map.get("chkList").getClass().getName());
+//    }
 
     /**
      * @since 2023/03/27
@@ -662,6 +662,24 @@ public class MyController {
         withdrawLogEntity = withdrawLogRepo.save(withdrawLogEntity);
 
         map.put("result", result);
+        return map;
+    }
+
+    /**
+     * @since 2023/04/11
+     * @author 이해빈
+     * @apiNote 찜한 숙소 삭제
+     */
+    @ResponseBody
+    @DeleteMapping("pick")
+    public Map removePick(@RequestBody Map map, @AuthenticationPrincipal UserVO myUser){
+
+        String user_id = myUser.getUser_id();
+        map.put("user_id", user_id);
+
+        int result = service.removePick(map);
+        map.put("result", result);
+
         return map;
     }
 

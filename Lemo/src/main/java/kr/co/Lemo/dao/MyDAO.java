@@ -84,6 +84,13 @@ public interface MyDAO {
      */
     int deleteUserCoupon (@Param("user_id")String user_id);
 
+    /***
+     * @since 2023/04/11
+     * @author 이해빈
+     * @apNote 찜한 숙소 삭제
+     */
+    int deletePick(Map map);
+
     // @since 2023/03/30
     public int updateReservationState(long res_no);
 

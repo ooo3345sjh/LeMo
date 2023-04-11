@@ -36,10 +36,12 @@
                                             </a>
                                         </td>
                                         <td>
+                                            <!-- 스타일 수정됨
                                             <div class="my_pick_Name">
-                                                <a th:href="@{/product/view ( acc_id=${pick.acc_id} )}" class="pickName">[[${pick.acc_name}]]</a>
-                                            </div>
+
+                                            </div>-->
                                             <div class="my_pick_rating">
+                                                <a th:href="@{/product/view ( acc_id=${pick.acc_id} )}" class="pickName">[[${pick.acc_name}]]</a>
                                                 <!-- 임시 평점 -->
                                                 <div class="star-ratings">
                                                     <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
@@ -53,7 +55,7 @@
                                                     <span>[[${pick.acc_review}]]</span>
                                                 </div>
                                             </div>
-                                            <div class="blank30"></div>
+                                            <!--<div class="blank30"></div>-->
                                             <div class="my_pick_address">
                                                 <span>[[${pick.acc_addr}]]</span>
                                             </div>
@@ -61,7 +63,10 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <button class="btnRemovePick" type="button">찜 삭제</button>
+                            <th:block th:if="${picks.size() != 0}">
+                                <button class="commonBtn btnSelectAll" type="button">전체 선택</button>
+                                <button class="commonBtn btnRemovePick" type="button">찜 삭제</button>
+                            </th:block>
                         </div>
                         <!-- 페이징 -->
                         <div class="paging" th:object="${ph}" th:unless="${picks.size() == 0}">
@@ -81,7 +86,7 @@
                         </div>
                     </div>  
                 </section>
-                <!-- 우측 미니 사이드바 -->
+                <!-- 우측 미니 사이드바
                 <div class="btn_quick">
                     <ul>
                         <li class="btn_wishlist">
@@ -110,18 +115,51 @@
                             </a>
                         </li>
                     </ul>
-                </div>
+                </div>-->
             </main>
     </th:block>
     <th:block layout:fragment="script">
         <script>
             $(function(){
-                $('.btnRemovePick').click(function(){
-                    let chkList = [];
+                // 체크 박스 관련 변수
+                const chkList = [];
 
+                // 전체 선택, 전체 해제
+                $('.btnSelectAll').click(function(){
+                    let btntxt = $(this).text();
+                    if(btntxt == '전체 선택') {
+                        $('.checkPicks').prop('checked', true);
+                        $(this).text('전체 해제');
+                    }
+                    if(btntxt == '전체 해제') {
+                        $('.checkPicks').prop('checked', false);
+                        $(this).text('전체 선택');
+                    }
+                });
+
+                // 개별 체크박스 변경 시 전체선택 체크박스 선택 상태 변경
+                $('.checkPicks').change(function() {
+                  if($('.checkPicks:checked').length == $('.checkPicks').length) {
+                    $('.btnSelectAll').prop('checked', true);
+                    $('.btnSelectAll').text('전체 해제');
+                  } else {
+                    $('.btnSelectAll').prop('checked', false);
+                    $('.btnSelectAll').text('전체 선택');
+                  }
+                });
+
+                // 선택한 찜한 숙소 삭제
+                $('.btnRemovePick').click(function(){
                     $('.checkPicks:checked').each(function(){
                         chkList.push($(this).val());
                     });
+
+                    console.log(chkList);
+
+                    if(chkList.length == 0){
+                        sweetalert("선택된 숙소가 없습니다!","warning");
+                        return false;
+                    }
 
                     if(chkList.length > 0) {
                         let jsonData = {
@@ -129,7 +167,11 @@
                         };
 
                         ajaxAPI("my/pick", jsonData, "DELETE").then((response)=>{
-
+                            if(response.result > 0){
+                                location.reload(true);
+                            }else{
+                                sweetalert("선택한 숙소를 삭제하지 못하였습니다.\n잠시 후 다시 시도해 주세요.","error");
+                            }
                         })
                     }
                 });

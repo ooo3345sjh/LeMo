@@ -5,6 +5,7 @@ import kr.co.Lemo.domain.*;
 import kr.co.Lemo.utils.RemoteAddrHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -523,5 +524,14 @@ public class MyService {
         dao.deleteUserCoupon(user_id);
         int result = dao.updateWithdrawUser(user_id);
         return  result;
+    }
+
+    /***
+     * @since 2023/04/11
+     * @author 이해빈
+     * @apNote 찜한 숙소 삭제
+     */
+    public int removePick(@Param("chkList") Map map){
+       return dao.deletePick(map);
     }
 }

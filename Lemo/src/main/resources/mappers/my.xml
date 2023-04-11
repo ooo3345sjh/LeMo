@@ -301,6 +301,15 @@
     <delete id="deleteReview">
         DELETE FROM `lemo_product_review` WHERE `res_no` = #{res_no};
     </delete>
+
+    <delete id="deletePick" parameterType="map">
+        DELETE FROM `lemo_product_pick`
+        WHERE `acc_id` IN
+        <foreach collection="chkList" item="acc_id" open="(" separator="," close=")">
+            #{acc_id}
+        </foreach>
+        AND `user_id`= #{user_id};
+    </delete>
     <!--
         날짜 : 2023/04/11
         이름 : 서정현
