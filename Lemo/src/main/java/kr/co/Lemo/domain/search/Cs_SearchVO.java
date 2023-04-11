@@ -20,4 +20,5 @@ public class Cs_SearchVO extends SearchCondition {
     private String cs_cate;
     private String cs_type;
     private String user_id;
+    private int termsType_no;
 }

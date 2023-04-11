@@ -193,7 +193,7 @@ public class CsService {
 
     // @since 2023/04/10 관리자 약관 목록
     public List<TermVO> findAllAdminTerms(Cs_SearchVO sc, Model model){
-        int totalCnt = dao.countAdminTerms();
+        int totalCnt = dao.countAdminTerms(sc);
         int totalPage = (int) Math.ceil(totalCnt/ (double)sc.getPageSize());
 
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
@@ -207,6 +207,11 @@ public class CsService {
         model.addAttribute("sc", sc);
 
         return termArticles;
+    }
+
+    // @since 2023/04/11 관리자 약관 유형 목록
+    public List<TermVO> findTermsTypes(){
+        return dao.selectAdminTermsType();
     }
 
 

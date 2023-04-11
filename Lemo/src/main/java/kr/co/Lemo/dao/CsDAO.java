@@ -48,7 +48,9 @@ public interface CsDAO {
     //@since 2023/04/10 관리자 - 약관 목록
     public List<TermVO> selectAdminTerms(SearchCondition sc);
     //@since 2023/04/10 관리자 - 약관 총갯수
-    public int countAdminTerms();
+    public int countAdminTerms(SearchCondition sc);
+    //@since 2023/04/11 관리자 - 약관 유형 목록
+    public List<TermVO> selectAdminTermsType();
 
     /** insert **/
     // @since 2023/03/09

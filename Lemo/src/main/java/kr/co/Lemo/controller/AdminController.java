@@ -604,7 +604,18 @@ public class AdminController {
         return "admin/cs/terms/list";
     }
 
+    /**
+     * @return
+     * @author 황원진
+     * @apiNote 약관 select option 추가
+     * @since 2023/04/11
+     */
+    @GetMapping("cs/terms/find-terms-type")
+    public ResponseEntity<List<TermVO>> findTermsTypes(){
 
+        List<TermVO> types = csService.findTermsTypes();
+        return ResponseEntity.ok(types);
+    }
 
 
     /**
