@@ -4,10 +4,7 @@ import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.My_SearchVO;
 import kr.co.Lemo.entity.WithdrawLogEntity;
 import kr.co.Lemo.repository.WithdrawLogRepo;
-import kr.co.Lemo.service.MyService;
-import kr.co.Lemo.service.PaymentService;
-import kr.co.Lemo.service.ProductService;
-import kr.co.Lemo.service.UserService;
+import kr.co.Lemo.service.*;
 import kr.co.Lemo.utils.PageHandler;
 import kr.co.Lemo.utils.RemoteAddrHandler;
 import lombok.RequiredArgsConstructor;
@@ -493,14 +490,14 @@ public class MyController {
     }
 
     // @since 2023/04/07
-    @ResponseBody
-    @DeleteMapping("pick")
-    public void removePick(
-            @RequestBody Map map
-    ) {
-        log.debug(""+map.get("chkList"));
-        log.debug(map.get("chkList").getClass().getName());
-    }
+//    @ResponseBody
+//    @DeleteMapping("pick")
+//    public void removePick(
+//            @RequestBody Map map
+//    ) {
+//        log.debug(""+map.get("chkList"));
+//        log.debug(map.get("chkList").getClass().getName());
+//    }
 
     /**
      * @since 2023/03/27
@@ -641,6 +638,24 @@ public class MyController {
         withdrawLogEntity = withdrawLogRepo.save(withdrawLogEntity);
 
         map.put("result", result);
+        return map;
+    }
+
+    /**
+     * @since 2023/04/11
+     * @author 이해빈
+     * @apiNote 찜한 숙소 삭제
+     */
+    @ResponseBody
+    @DeleteMapping("pick")
+    public Map removePick(@RequestBody Map map, @AuthenticationPrincipal UserVO myUser){
+
+        String user_id = myUser.getUser_id();
+        map.put("user_id", user_id);
+
+        int result = service.removePick(map);
+        map.put("result", result);
+
         return map;
     }
 
