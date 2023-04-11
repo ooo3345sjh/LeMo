@@ -205,10 +205,19 @@ public class BusinessService {
      /**
      * @since 2023/04/08
      * @param map
-     * @apiNote 판매자 결제방법 결제 현황
+     * @apiNote 판매자 - 결제방법 결제 현황
      */
     public List<ReservationVO> findAllPayment(Map map){
          return dao.selectPayment(map);
+    }
+
+    /**
+     * @since 2023/04/10
+     * @param map
+     * @apiNote 판매자 - 객실별 예약 현황 (일주일)
+     */
+    public List<ReservationVO> selectWeeksRoom(Map map){
+        return dao.selectWeeksRoom(map);
     }
 
     /**

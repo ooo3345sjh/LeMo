@@ -96,67 +96,13 @@
                                                         <th>비율</th>
                                                         <th>그래프</th>
                                                     </tr>
-                                                    <tr>
-                                                        <td>A룸</td>
-                                                        <td>1</td>
-                                                        <td>123,000</td>
-                                                        <td>36%</td>
+                                                    <tr th:each="room:${roomPercent}">
+                                                        <td>[[${room.room_name}]]</td>
+                                                        <td>[[${room.count_sales}]]</td>
+                                                        <td th:text="${#numbers.formatInteger(room.tot_res_price, 0, 'COMMA') + '원'}">36,000</td>
+                                                        <td th:text="${#numbers.formatDecimal(room.room_sales_percent, 2, 0) + '%'}"></td>
                                                         <td>
-                                                            <progress id="progress1" value="36" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>B룸</td>
-                                                        <td>2</td>
-                                                        <td>234,000</td>
-                                                        <td>52%</td>
-                                                        <td>
-                                                            <progress id="progress1" value="52" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>C룸</td>
-                                                        <td>3</td>
-                                                        <td>123,000</td>
-                                                        <td>16%</td>
-                                                        <td>
-                                                            <progress id="progress1" value="16" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>D룸</td>
-                                                        <td>4</td>
-                                                        <td>123,000</td>
-                                                        <td>76%</td>
-                                                        <td>
-                                                            <progress id="progress1" value="76" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>E룸</td>
-                                                        <td>5</td>
-                                                        <td>123,000</td>
-                                                        <td>36%</td>
-                                                        <td>
-                                                            <progress id="progress1" value="36" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>F룸</td>
-                                                        <td>6</td>
-                                                        <td>123,000</td>
-                                                        <td>12%</td>
-                                                        <td>
-                                                            <progress id="progress1" value="12" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>G룸</td>
-                                                        <td>7</td>
-                                                        <td>123,000</td>
-                                                        <td>36%</td>
-                                                        <td>
-                                                            <progress id="progress1" value="36" min="0" max="100"></progress>
+                                                            <progress id="progress1" th:value="${room.room_sales_percent}" min="0" max="100"></progress>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -378,18 +324,18 @@
          // 참조 데이터 준비
         let paysMap = [[${paysMap}]];
 
-        console.log(paysMap);
-        console.log(paysMap[2].length);
+        //console.log(paysMap);
+        //console.log(paysMap[1].length);
 
         google.charts.load("current", {packages:["corechart"]});
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
             ['payment', 'Percent'],
-            ['신용/체크카드', 0],
-            ['토스페이', 3],
-            ['PAYCO', 4],
-            ['카카오페이', 5]
+            ['신용/체크카드', paysMap[1].length],
+            ['토스페이', paysMap[2].length],
+            ['PAYCO', paysMap[3].length],
+            ['카카오페이', paysMap[4].length]
             ]);
 
             var options = {
@@ -413,6 +359,12 @@
             });
 
         }
+    </script>
+    <script th:inline="javascript">
+
+        let roomPercent = [[${roomPercent}]];
+
+        console.log(roomPercent);
     </script>
 </th:block>
 </html>

@@ -15,13 +15,17 @@ main .main_content .col1 {
 main .main_content .col1 > .today_status {
     display: grid;
     grid-template-columns: repeat(6,1fr);
-    grid-gap: 20px;
+    grid-gap: 15px;
     margin-bottom: 30px;
+    padding-left: 10px;
+    padding-right: 19px;
 }
 main .main_content .col1 > .today_status .single_status {
     background: #fff;
     border-radius: 10px;
     padding: 10px;
+    border: 0 solid #e3e3e3;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 2%), 0 2px 6px 0 rgb(206 206 238 / 15%);
 }
 main .main_content .col1 > .today_status .single_status > p {
     font-size: 14px;
@@ -51,6 +55,7 @@ main .main_content .main_content_div2 {
     display: flex;
     flex-wrap: wrap;
     position: relative;
+
 }
 main .main_content .main_content_div2 > h3 {
     font-size: 17px;
@@ -66,15 +71,78 @@ main .main_content .main_content_div2 .more {
     color: #424242;
     font-weight: 200;
     cursor: pointer;
-} 
+}
+main .today_sales_status {
+    background: #fff;
+    position: relative;
+    border-bottom: 1px solid #e4e4e400;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 0px 6px 0 rgb(206 206 238 / 54%);
+    margin-bottom: 23px;
+}
+main .today_sales_status > p {
+    font-size: 24px;
+    text-align: center;
+    width: 330px;
+    height: 60px;
+    color: #6c757d!important;
+    border: none;
+    cursor: pointer;
+    line-height: 60px;
+    margin: 0 auto;
+}
+main .current_sales_stat {
+    width: 100%;
+}
+main .tot_sales {
+    margin: 18px 0;
+    text-align: center;
+}
+main .tot_sales_box {
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+    color: #6c757d!important;
+    padding: 5px 80px 0 78px;
+    border: 1px solid #ececec;
+    border-radius: 11px;
+    border-left: 6px solid #bbd444;
+    background: #fff;
+    height: 59px;
+    display: inline-block;
+    margin: 10px 0 20px;
+}
+main .tot_sales_box > div {
+    display: inline-block;
+    font-size: 22px;
+    color: #6f6d6d;
+}
+main .ts_tit1 {
+    margin-right: 14px;
+}
+main .ts_count {
+    font-size: 35px !important;
+    margin-right: 3px;
+    font-weight: 500;
+    color: #32393f !important;
+}
+main .ts_tit2 {
+    margin-right: 26px;
+    font-weight: 300;
+}
+main .ts_price {
+    font-size: 35px !important;
+    margin-right: 3px;
+    font-weight: 500;
+    color: #32393f !important;
+}
+
+
 main .main_content .col2 {
     flex: 0 0 auto;
     width: 100%;
-    padding: 8px;
     background: #fff;
-    border: 1px solid rgba(26, 54, 126, 0.125);
-    border-radius: 0.25rem;
-    border: 1px solid #ececec;
+    border-radius: 10px;
+    padding: 10px;
+    border: 0 solid #e3e3e3;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 2%), 0 2px 6px 0 rgb(206 206 238 / 15%);
 }
 main .main_content .col2 .noticeList {
     border-top: 1px solid #bbb;

@@ -104,11 +104,11 @@ public interface AdminDAO {
     // @since 2023/03/15
     public int deleteReview(@Param("revi_id") String revi_id);
 
+     // @since 2023/04/11 관리자 - 메인 - 일별 누적 판매량 (당일)
+    public List<ReservationVO> selectTodaySales();
+
     // @since 2023/04/05 관리자 - 통계관리 - 일별 누적 판매량 (일주일)
     public List<ReservationVO> selectDaySales(Map map);
-
-    // @since 2023/04/06
-    public int countWeeksSales();
 
     // @since 2023/04/06
     public List<ReservationVO> selectPayment(Map map);
@@ -117,16 +117,20 @@ public interface AdminDAO {
     public List<ReservationVO> selectMonthSales(Map map);
 
     // @since 2023/04/06
+    public int countWeeksSales();
+    public int countDaySales();
+
     public int countWeeksCancel();
+    public int countDayCancel();
 
-    // @since 2023/04/06
     public int countWeeksQna();
+    public int countDayQna();
 
-    // @since 2023/04/06
     public int countWeeksAcc();
+    public int countDayAcc();
 
-    // @since 2023/04/06
     public int countWeeksUser();
+    public int countDayUser();
 
 
     /**

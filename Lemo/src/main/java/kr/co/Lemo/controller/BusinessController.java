@@ -668,9 +668,13 @@ public class BusinessController {
         // 일별 매출 현황
         List<ReservationVO> stats = service.findAllDaySales(map);
 
-        // 결제 현황
+        // 결제 수단 현황
         List<ReservationVO> pays = service.findAllPayment(map);
         Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
+
+        // 객실 예약 현황
+        List<ReservationVO> roomPercent = service.selectWeeksRoom(map);
+
 
         // 총 매출 건수
         int total = service.countWeeksSales(map);
@@ -687,7 +691,7 @@ public class BusinessController {
         // 리뷰 등록 수
         int totalReview = service.countWeeksReview(map);
 
-        log.warn("totalReview: " + totalReview);
+        log.warn("roomPercent: " + roomPercent);
 
         model.addAttribute("stats", stats);
         model.addAttribute("paysMap", paysMap);
@@ -696,6 +700,7 @@ public class BusinessController {
         model.addAttribute("totalQna", totalQna);
         model.addAttribute("totalAcc", totalAcc);
         model.addAttribute("totalReview", totalReview);
+        model.addAttribute("roomPercent", roomPercent);
 
 
         return "business/stats";
