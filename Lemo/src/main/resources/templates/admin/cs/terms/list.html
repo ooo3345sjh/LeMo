@@ -8,12 +8,79 @@
     <style>
         main .main_content .col2 .board_list li:nth-of-type(1) {width: 5%;}
         main .main_content .col2 .board_list li:nth-of-type(2) {width: 20%;}
-        main .main_content .col2 .board_list li:nth-of-type(3) {width: 40%;}
+        main .main_content .col2 .board_list li:nth-of-type(3) {width: 54%;}
         main .main_content .col2 .board_list li:nth-of-type(4) {
             width: 14%;
-            font-family: 'NOTO SANS KR';
         }
-        main .main_content .col2 .board_list li:nth-of-type(5) {width: 14%;}
+
+
+        main .search_review_tit {
+            width: 100%;
+            display: block;
+            text-align: left;
+            font-size: 17px;
+            margin: 10px;
+            font-weight: 500;
+        }
+
+        main .search_review_table {
+            width: 100%;
+            border-collapse: collapse;
+            border-top: 1px solid #dbdbdb;
+        }
+
+        main .search_review_table tr {
+            height: 43px;
+        }
+
+        main .search_review_table th {
+            text-align: left;
+            border-bottom: 1px solid #dbdbdb;
+            padding-left: 0px;
+            padding: 0 10px;
+            background: #f0f0f0;
+            width: 17% !important;
+            font-size: 13px;
+        }
+        main .search_review_table td {
+            font-size: 13px;
+            text-align: left;
+            border-bottom: 1px solid #dbdbdb;
+            border-left: 1px solid #dbdbdb;
+            padding-left: 17px;
+        }
+        main #c_role_type {
+            border: 1px solid #dcdcdc;
+            padding: 1px 20px 1px 4px;
+            max-width: 100%;
+            text-decoration: none;
+            font-size: 13px;
+            height: 30px;
+        }
+
+        main .main_content .btnAdminProd3 {
+            margin: 15px 0;
+            margin-left: 8px;
+            box-shadow: inset 0px 1px 0px 0px #ffffff;
+            background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            border: 1px solid #dcdcdc;
+            display: inline-block;
+            cursor: pointer;
+            color: #666666;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 10px 32px;
+            text-decoration: none;
+            text-shadow: 0px 1px 0px #ffffff;
+        }
+
+        .show_list #nonData {
+            width: 100% !important;
+            margin-bottom: 9px;
+            font-size: 24px;
+        }
     </style>
 </th:block>
 <th:block layout:fragment="content">
@@ -31,29 +98,41 @@
                         </div>
                         <div class="col2">
                             <form action="#">
+                                <span class="search_review_tit">약관유형검색</span>
+                                <table class="search_review_table">
+                                    <tr>
+                                        <th>유형 선택</th>
+                                        <td>
+                                            <select id="c_role_type" class="selectAccOwned" name="termsType_no">
+                                                <option value=0>- 전체 -</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="search_btn">
+                                    <button type="submit" class="btnAdminProd3">검색</button>
+                                </div>
                                 <div class="board_list">
                                     <ul>
                                         <li>#</li>
                                         <li>유형</li>
                                         <li>제목</li>
-                                        <li>작성일</li>
                                         <li>비고</li>
                                     </ul>
-                                    <ul th:if="${terms.size() == 0}">
-                                        <li colspan="6">
-                                            등록된 문의글이 없습니다.
+                                    <ul class="show_list" th:if="${terms.size() == 0}">
+                                        <li id="nonData" colspan="6">
+                                            등록된 약관이 없습니다.
                                         </li>
                                     </ul>
-                                    <th:block th:each="notice,i:${terms}">
+                                    <th:block th:each="term,i:${terms}">
                                         <ul>
                                             <li>[[*{totalCnt-sc.offset} - ${i.index}]]</li>
-                                            <li>[[${notice.termsType_type_ko}]]</li>
+                                            <li>[[${term.termsType_type_ko}]]</li>
                                             <li class="title">
-                                                <a th:href="@{#}">[[${notice.terms_title}]]</a>
+                                                <a th:href="@{#}">[[${term.terms_title}]]</a>
                                             </li>
-                                            <li>23-04-11</li>
                                             <li class="prodBtn">
-                                                <a class="btnNoticeDelete" th:data-no="${notice.terms_no}">삭제</a>
+                                                <a class="btnTermDelete" th:data-no="${term.terms_no}">삭제</a>
                                                 <a th:href="@{#}" class="btnModify">수정</a>
                                             </li>
                                         </ul>
@@ -95,7 +174,7 @@
     <script>
         $(document).ready(function() {
             // notice 삭제
-        $('.btnNoticeDelete').click(function(e){
+        $('.btnTermDelete').click(function(e){
             e.preventDefault();
                 Swal.fire({
                     title: '해당 글을 삭제하시겠습니까?',
@@ -110,11 +189,11 @@
                     reverseButtons: false,
                 }).then(result => {
                     if(result.isConfirmed){
-                        let cs_no = $(this).attr('data-no');
+                        let term_no = $(this).attr('data-no');
 
-                        console.log('cs_no ajax : ' + cs_no);
+                        console.log('term_no ajax : ' + term_no);
 
-                        const jsonData = {"cs_no": cs_no};
+                        const jsonData = {"term_no": term_no};
 
                         ajaxAPI("admin/cs/notice/article", jsonData, "delete").then((response) => {
                             if(response.result > 0) {
@@ -135,12 +214,45 @@
                         });
                     }
                 });
-
+            });
         });
 
 
+        // 약관 셀렉트 옵션 추가
+        window.onload = function() {
 
+        let selectAccOwned = document.getElementById("c_role_type");
+
+
+        ajaxAPI("admin/cs/terms/find-terms-type", null, "GET").then((response)=>{
+
+            console.log('response1 : %o', response);
+
+            for (let i = 0; i < response.length; i++) {
+                let option = document.createElement("option");
+                option.value = response[i].termsType_no;
+                option.text = response[i].termsType_type_ko;
+
+
+                // 옵션값 고정
+                if (sessionStorage.getItem('selectedAccId') == response[i].termsType_no) {
+                    option.setAttribute('selected', 'selected');
+                }
+
+                selectAccOwned.add(option);
+            }
+
+
+            // 옵션 변경 시에도 옵션 고정
+            selectAccOwned.addEventListener('change', function() {
+                sessionStorage.setItem('selectedAccId', this.value);
+            });
+
+<!--            sessionStorage.clear();-->
+        }).catch((errorMsg)=>{
+            console.log(errorMsg);
         });
+    };
     </script>
 </th:block>
 </html>

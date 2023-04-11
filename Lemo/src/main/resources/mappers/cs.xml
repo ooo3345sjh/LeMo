@@ -105,15 +105,27 @@
     </select>
 
     <!-- 관리자 약관 목록 -->
-    <select id="selectAdminTerms" resultType="kr.co.Lemo.domain.TermVO">
+    <select id="selectAdminTerms" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.TermVO">
         SELECT a.*, b.`termsType_type_ko` FROM `lemo_member_terms` AS a
         JOIN `lemo_member_termstype` AS b ON a.termsType_no=b.termsType_no
+        <if test="termsType_no != 0">
+            and a.`termsType_no`=#{termsType_no}
+        </if>
         order by `terms_no` DESC
         Limit #{offset}, 10;
     </select>
 
-    <select id="countAdminTerms" resultType="java.lang.Integer">
-        select count(*) from `lemo_member_terms`;
+    <!-- 약관 목록 페이징 -->
+    <select id="countAdminTerms" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
+        select count(*) from `lemo_member_terms`
+        <if test="termsType_no != 0">
+            where `termsType_no`=#{termsType_no}
+        </if>;
+    </select>
+
+    <!-- 약관 유형 목록-->
+    <select id="selectAdminTermsType" resultType="kr.co.Lemo.domain.TermVO">
+        SELECT `termsType_no`, `termsType_type_ko` from `lemo_member_termstype`;
     </select>
 
 

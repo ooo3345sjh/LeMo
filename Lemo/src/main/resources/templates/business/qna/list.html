@@ -183,7 +183,7 @@
 <th:block layout:fragment="script">
     <script th:src="@{/js/admin/qnaListDelete.js}"></script>
     <script th:inline="javascript">
-    // 상품문의 목록 (판매자) 소유 숙소 셀렉트 옵션 추가
+    // 상품문의 목록 셀렉트 옵션 추가
     window.onload = function() {
         let selectAccOwned = document.getElementById("c_role_type");
 
@@ -209,6 +209,8 @@
             selectAccOwned.addEventListener('change', function() {
                 localStorage.setItem('selectedAccId', this.value);
             });
+
+<!--            window.localStorage.clear();-->
         }).catch((errorMsg)=>{
             console.log(errorMsg);
         });
