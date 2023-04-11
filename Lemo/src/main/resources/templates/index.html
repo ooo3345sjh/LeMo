@@ -229,20 +229,23 @@
                 </div>
                 <div class="main_notice_board">
                     <ul class="notice_board_inner">
-                        <th:block th:each="notice : ${map.notice}">
+                        <th:block th:if="${map.notice != null}">
+                            <th:block th:each="notice : ${map.notice}">
+                                <li class="notice_item1">
+                                    <a class="notice_link" th:href="@{/cs/notice(cs_no=${notice.cs_no})}">
+                                        <span class="text_tit"><i>[[${#strings.equals(notice.cs_type, "notice")? "공지사항":"이벤트당첨자안내" }]]</i> [[${notice.cs_title}]]</span>
+                                        <span class="text_date">[[${#strings.substring(notice.cs_rdate, 2, 10)}]]</span>
+                                    </a>
+                                </li>
+                            </th:block>
+                        </th:block>
+                        <th:block th:unless="${map.notice != null}">
                             <li class="notice_item1">
-                                <a class="notice_link" href="#">
-                                    <span class="text_tit"><i>공지사항</i> [[${notice.cs_title}]]</span>
-                                    <span class="text_date">[[${#strings.substring(notice.cs_rdate, 2, 10)}]]</span>
+                                <a class="notice_link" style="text-align:center;">
+                                    <span class="text_tit" style="width:100%;">등록된 공지사항이 없습니다.</span>
                                 </a>
                             </li>
                         </th:block>
-                        <li class="notice_item1">
-                            <a class="notice_link" href="#">
-                                <span class="text_tit"><i>이벤트 당첨자 안내</i> 2023 2월 이벤트 당첨자 발표</span>
-                                <span class="text_date">23.02.24</span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </div>

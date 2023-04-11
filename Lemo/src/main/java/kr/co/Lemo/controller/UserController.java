@@ -85,7 +85,7 @@ public class UserController {
      * @param error error 파라미터 값 L:차단된 회원, W:탈퇴한 회원
      * @apiNote 로그인시 에러가 발생할 경우 넘어오는 uri
      */
-    @PostMapping("login/error")
+    @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET}, value = "login/error")
     public String login(
             Model m,
             @RequestParam(defaultValue = "null") String error,
@@ -125,7 +125,7 @@ public class UserController {
         }
         String fromUri = req.getHeader("Referer");
 
-        if(fromUri.contains("reset"))
+        if(fromUri == null || fromUri.contains("reset"))
             return "redirect:"+"/user/login";
         else
             return "redirect:"+fromUri;

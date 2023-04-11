@@ -64,31 +64,4 @@ public class MainController {
         return SecurityContextHolder.getContext().getAuthentication().toString();
     }
 
-    @ResponseBody
-    @GetMapping("mongo")
-    public String mongo(HttpServletRequest req, @AuthenticationPrincipal UserVO user){
-        VisitorsLogEntity visitorsLogEntity1 = VisitorsLogEntity.builder()
-                                                                .ip("1.0.0.0.127")
-                                                                .date(new Date())
-                                                                .sessionid("33333")
-                                                                .device("PC")
-                                                                .build();
-//        visitorslogRepo.save(visitorslogEntity1);
-        Instant instant = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
-        Instant instant2 = LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        LocalDate localDate = LocalDate.of(2023, 04, 9);
-        LocalDate localDate2 = LocalDate.parse("2023-03-03", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Instant instant3 = localDate2.atStartOfDay(ZoneId.systemDefault()).toInstant();
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-        LocalDateTime localDateTime2 = LocalDateTime.ofInstant(instant2, ZoneId.systemDefault());
-        LocalDateTime localDateTime3 = LocalDateTime.ofInstant(instant3, ZoneId.systemDefault());
-
-        log.debug(localDateTime3.toString());
-//        service.saveVisitorsLog(req, user);
-        log.debug(visitorslogRepo.selectSessionId(localDateTime, localDateTime2, "E57D4CD6E21C1E45E7AED8C3AF1294BE", "1000167").toString());
-        log.debug(visitorslogRepo.selectIp(localDateTime, localDateTime2, "0:0:0:0:0:0:0:1", "1000167").toString());
-        log.debug(visitorslogRepo.selectUsername(localDateTime, localDateTime2, "ooo3345@naver.com", "1000167").toString());
-        return visitorslogRepo.selectUsername(localDateTime, localDateTime2, user!= null? user.getUser_id():null, "1000167") + "";
-//        return visitorslogRepo.selectVisitors(localDateTime, localDateTime2).toString();
-    }
 }
