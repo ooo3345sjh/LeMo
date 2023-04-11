@@ -25,7 +25,7 @@
                     <ul id="notices" class="show_list open_list">
                         <th:block th:each="notice:${csArticles}">
                             <li>
-                                <a href="#" class="list_n">
+                                <a th:href="'#'+${notice.cs_no}" th:id="${notice.cs_no}" class="list_n">
                                     <p>[[${notice.cs_title}]]</p>
                                     <span>[[${notice.cs_rdate.substring(2, 10)}]]</span>
                                 </a>
@@ -60,5 +60,10 @@
 
 <th:block layout:fragment="script">
     <script th:src="@{/js/cs/toggle.js}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#92')[0].scrollIntoView({ behavior: 'instant' });
+        });
+    </script>
 </th:block>
 </html>

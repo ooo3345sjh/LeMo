@@ -66,7 +66,12 @@ public class LoginSuccessHandler {
         System.out.println("savedRequest = " + savedRequest);
         System.out.println("prevPage = " + prevPage);
         if (savedRequest != null) {
-            uri = savedRequest.getRedirectUrl();
+            if (savedRequest.getRedirectUrl().contains("/my/withdraw"))
+                uri = "/my/info";
+
+            else
+                uri = savedRequest.getRedirectUrl();
+
         }
         else if (prevPage != null && !prevPage.equals("")) {
             // 회원가입 - 로그인으로 넘어온 경우 "/"로 redirect

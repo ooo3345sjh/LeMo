@@ -4,7 +4,7 @@
     내용 : 회원탈퇴 화면설계
 -->
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
         <meta th:name="_csrf" th:content="${_csrf.token}"/>
@@ -159,8 +159,8 @@
                 height: 56px;
                 font-size: 16px;
                 line-height: 56px;
-                display: block;
-                width: 100%;
+                display: inline-block;
+                width: 47%;
                 margin-top: 16px;
                 border-radius: 6px;
                 text-align: center;
@@ -169,6 +169,8 @@
                 color:rgba(0,0,0,0.56);
                 font-weight: bold;
             }
+
+            .wd_wrap .next:nth-of-type(1){margin-right:20px;}
 
             .wd_wrap .next.on {
                 color: #fff;
@@ -281,6 +283,10 @@
 
             .wd_wrap > .wd_content.step1{display: block;}
             .wd_wrap > .wd_content.step2{display: block;}
+
+            .btn_move-link {
+                text-align: center;
+            }
                     
         </style>
     </head>
@@ -291,7 +297,6 @@
                 <div class="wd_wrap">
                     <div class="wd_tit">
                         <span>회원탈퇴</span>
-                        <a th:href="@{/my/info}"><img th:src="@{/images/my/close.png}" alt="닫기"></a>
                     </div>
                     <!-- step1 -->
                     <div class="wd_content step1">
@@ -353,8 +358,11 @@
                                 </div>
                             </li>
                         </ul>
-                        <!-- 다음 단계로 클래스 on 가능-->
-                        <a href="#" class="withdraw_reason_form next">다음단계로</a>
+                        <div class="btn_move-link">
+                            <a th:href="@{/my/info}" class="withdraw_reason_form next" style="background: #bbd444; color: #fff;">이전으로</a>
+                            <a href="#" class="withdraw_reason_form next" id="next_btn">다음단계로</a>
+                        </div>
+
                     </div>
                     <!-- step2 -->
                     <div class="wd_content step2">
@@ -394,7 +402,10 @@
                             <div class="chkbox"><img th:src="@{/images/my/check.png}"></div>
                             <div>위 주의사항을 모두 숙지했고, 탈퇴에 동의합니다.</div>
                         </div>
-                        <a href="#" class="next">진짜 안녕</a>
+                        <div class="btn_move-link">
+                            <a th:href="@{/my/info}" class="withdraw_reason_form next" style="background: #bbd444; color: #fff;">다음에 할래요</a>
+                            <a href="#" class="next" id="btn_withdraw">진짜 안녕</a>
+                        </div>
                     </div>
                 </div>
             </main>        
@@ -425,10 +436,10 @@
                 check_box.addClass('on');
                 check_box.parent().after(wirhdrawReasonInput);
             }
-            $('.withdraw_reason_form.next').addClass("on");
+            $('#next_btn').addClass("on");
         });
 
-        $(document).on('click','.withdraw_reason_form.next', function (e){
+        $(document).on('click','#next_btn', function (e){
             e.preventDefault();
 
             let count = 0;
@@ -439,7 +450,7 @@
                 }
             })
 
-            if(count > 1){
+            if(count != 1){
                 $(this).removeClass('on');
                 $('.check_reason').removeClass('on');
                 wirhdrawReasonInput.remove();
@@ -463,15 +474,19 @@
                 $('.next').removeClass('on');
             } else {
                 checkBox.addClass('on');
-                $('.next').addClass('on');
+                $('#btn_withdraw').addClass('on');
             }
         })
 
-        $(document).on('click', '.next', function (e){
+        $(document).on('click', '#btn_withdraw', function (e){
             e.preventDefault();
-
             if(!$('.withdraw-agree .chkbox').hasClass('on')){
-                $('.next').removeClass('on');
+                $('#btn_withdrawt').removeClass('on');
+                 Swal.fire({
+                    title : '탈퇴 동의에 체크해주세요.',
+                    icon : 'warning',
+                    confirmButtonText : '확인'
+                })
                 return;
             }
 
