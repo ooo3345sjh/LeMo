@@ -55,26 +55,25 @@ public class MainService {
     public List<Object> findRevisit() throws Exception {
         LocalDate now = LocalDate.now();
         return mainDAO.selectRevisit().stream().map(p -> {
+            int now_price = 0;
             if(p.getAcc_season()==1){
-                int now_price = 0;
                 if(now.getDayOfWeek().getValue() == 5 || now.getDayOfWeek().getValue() == 6){
                     now_price = (int)(p.getRoom_price() * (1-(p.getRp_offSeason_weekend()/100.0)));
                 } else {
                     now_price = (int)(p.getRoom_price() * (1-(p.getRp_offSeason_weekday()/100.0)));
                 }
-                p.setNow_price(now_price);
             }
 
             else {
-                int now_price = 0;
 
                 if(now.getDayOfWeek().getValue() == 5 || now.getDayOfWeek().getValue() == 6){
                     now_price = (int)(p.getRoom_price() * (1-(p.getRp_peakSeason_weekend()/100.0)));
                 } else {
                     now_price = (int)(p.getRoom_price() * (1-(p.getRp_peakSeason_weekday()/100.0)));
                 }
-                p.setNow_price(now_price);
             }
+            now_price = (now_price / 100) * 100;
+            p.setNow_price(now_price);
             return p;
         }).collect(Collectors.toList());
     }
@@ -83,27 +82,25 @@ public class MainService {
     public List findBest() throws Exception {
         LocalDate now = LocalDate.now();
         return mainDAO.selectBest().stream().map(p -> {
+            int now_price = 0;
             if(p.getAcc_season()==1){
-                int now_price = 0;
 
                 if(now.getDayOfWeek().getValue() == 5 || now.getDayOfWeek().getValue() == 6){
                     now_price = (int)(p.getRoom_price() * (1-(p.getRp_offSeason_weekend()/100.0)));
                 } else {
                     now_price = (int)(p.getRoom_price() * (1-(p.getRp_offSeason_weekday()/100.0)));
                 }
-                p.setNow_price(now_price);
             }
 
             else {
-                int now_price = 0;
-
                 if(now.getDayOfWeek().getValue() == 5 || now.getDayOfWeek().getValue() == 6){
                     now_price = (int)(p.getRoom_price() * (1-(p.getRp_peakSeason_weekend()/100.0)));
                 } else {
                     now_price = (int)(p.getRoom_price() * (1-(p.getRp_peakSeason_weekday()/100.0)));
                 }
-                p.setNow_price(now_price);
             }
+            now_price = (now_price / 100) * 100;
+            p.setNow_price(now_price);
             return p;
         }).collect(Collectors.toList());
     }

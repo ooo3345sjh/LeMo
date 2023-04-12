@@ -56,6 +56,7 @@
                 ) b
                 ON a.acc_id = b.acc_id AND r.room_id = b.room_id
                 LEFT JOIN `lemo_product_ratepolicy` c ON a.acc_id = c.acc_id
+                WHERE r.room_state = 1
             ) a JOIN
             (
                 SELECT a.`acc_id`, COUNT(*) cnt FROM
@@ -70,7 +71,7 @@
             ON a.a.acc_id = b.acc_id
             WHERE a.empty_room_stock <>0 AND a.top = 1 AND a.acc_state = 1
             ORDER BY b.cnt DESC
-            LIMIT 5
+            LIMIT 10
         ]]>
     </select>
     <select id="selectBest" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
@@ -92,10 +93,11 @@
                     ) b
                 ON a.acc_id = b.acc_id AND r.room_id = b.room_id
                 LEFT JOIN `lemo_product_ratepolicy` c ON a.acc_id = c.acc_id
+                WHERE r.room_state = 1
             ) a
             WHERE a.empty_room_stock <>0 AND a.top = 1 AND a.acc_state = 1 AND a.acc_review > 100
             ORDER BY a.acc_rate DESC
-            LIMIT 5)
+            LIMIT 10)
         ]]>
     </select>
 
