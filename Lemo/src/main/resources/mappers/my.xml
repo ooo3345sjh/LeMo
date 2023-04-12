@@ -183,7 +183,10 @@
     </select>
 
     <select id="selectDiaryQna" resultType="kr.co.Lemo.domain.ProductQnaVO">
-        SELECT * FROM `lemo_product_qna` WHERE `user_id` = #{user_id}
+        SELECT a.*, b.`acc_name` FROM `lemo_product_qna` AS a
+        JOIN `lemo_product_accommodation` AS b
+        ON a.`acc_id` = b.`acc_id`
+        WHERE a.`user_id` = #{user_id}
         ORDER BY `qna_no` DESC
     </select>
 
@@ -331,6 +334,14 @@
             #{acc_id}
         </foreach>
         AND `user_id`= #{user_id};
+    </delete>
+
+    <delete id="deleteQna" parameterType="map">
+        DELETE FROM `lemo_product_qna`
+        WHERE `qna_no` IN
+        <foreach collection="chkList" item="qna_no" open="(" separator="," close=")">
+            #{qna_no}
+        </foreach>
     </delete>
     <!--
         날짜 : 2023/04/11
