@@ -210,7 +210,7 @@
                 localStorage.setItem('selectedAccId', this.value);
             });
 
-<!--            window.localStorage.clear();-->
+
         }).catch((errorMsg)=>{
             console.log(errorMsg);
         });
@@ -233,6 +233,12 @@
                 console.log("checklist : " + checkList);
             });
          });
+
+        $(document).ready(function() {
+            $('#asideReview').click(function(){
+                window.localStorage.clear();
+            });
+        });
     </script>
 </th:block>
 </html>

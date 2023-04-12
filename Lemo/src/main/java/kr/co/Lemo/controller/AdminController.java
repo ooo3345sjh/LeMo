@@ -842,6 +842,7 @@ public class AdminController {
     @GetMapping("cs/{cs_cate}/view")
     public String findAdminCsArticle(@PathVariable("cs_cate") String cs_cate,
                                      int cs_no,
+                                     int page,
                                      Model model){
         log.info("cs_view Start");
 
@@ -863,12 +864,13 @@ public class AdminController {
 
         }else if("event".equals(cs_cate)){
             log.info("admin/event");
+            log.info("page : " +page);
             CsVO eventArticle = csService.findAdminCsArticle(cs_cate, cs_no);
             log.info("eventArticle viewImg : " + eventArticle.getCs_eventViewImg());
             model.addAttribute("event", eventArticle);
             model.addAttribute("cs_no", cs_no);
             model.addAttribute("cs_cate", cs_cate);
-
+            model.addAttribute("page", page);
 
         }
         return "admin/cs/event/view";
