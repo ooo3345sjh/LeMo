@@ -20,6 +20,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @since 2023/03/19
@@ -40,7 +41,6 @@ public class MainController {
     // @since 2023/03/05
     @GetMapping(value = {"/", "/index"})
     public String index(Model m, Map map) throws Exception {
-
         mainService.findMain(map);
         m.addAttribute("title", environment.getProperty(group));
         m.addAttribute("map", map);

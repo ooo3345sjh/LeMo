@@ -92,6 +92,24 @@
         WHERE `user_id`=#{username};
     </update>
 
+    <!--
+       날짜 : 2023/04/08
+       이름 : 서정현
+       내용 : 매시간마다 탈퇴한지 24시간이 지난 회원ID 변경 쿼리문
+    -->
+    <update id="updateWithdrawUserId">
+        <![CDATA[
+            UPDATE `lemo_member_userinfo` u
+            JOIN (
+                SELECT * FROM `lemo_member_userinfo`
+                WHERE `wdate` <= DATE_ADD(NOW(),INTERVAL -1 DAY)
+            ) vals ON u.user_id = vals.user_id
+            SET
+                u.`user_id`= #{username},
+                u.`hp`= 0;
+         ]]>
+    </update>
+
     <!-- delete -->
 
     <!-- 공통 키 -->

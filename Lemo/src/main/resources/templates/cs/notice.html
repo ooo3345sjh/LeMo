@@ -62,7 +62,11 @@
     <script th:src="@{/js/cs/toggle.js}"></script>
     <script>
         $(document).ready(function () {
-            $('#92')[0].scrollIntoView({ behavior: 'instant' });
+            const cs_no = "[[${param.cs_no}]]"|| null;
+            if(cs_no != null){
+                $('#'+cs_no).trigger("click");
+                $('#'+cs_no)[0].scrollIntoView({ behavior: 'instant' });
+            }
         });
     </script>
 </th:block>

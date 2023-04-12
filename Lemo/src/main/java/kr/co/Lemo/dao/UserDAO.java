@@ -51,6 +51,12 @@ public interface UserDAO {
     int updateHp(@Param("hp") String hp, @Param("username")String username) throws Exception;
     int updateIsNoticeEnabled(@Param("isNoticeEnabled") int isNoticeEnabled, @Param("username")String username) throws Exception;
 
+    /**
+     * @since 2023/04/12
+     * @apiNote 매시간마다 탈퇴한지 24시간이 지난 회원ID 변경
+     */
+    int updateWithdrawUserId(@Param("username")String username) throws Exception;
+
     // delete
 
 
