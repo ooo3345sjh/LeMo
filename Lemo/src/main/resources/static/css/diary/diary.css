@@ -631,13 +631,16 @@ button {cursor: pointer;}
 }
 
 .place .spot > input {
+    position: relative;
+    bottom: -5px;
     width: 350px;
     height: 35px;
     font-size: 20px;
     font-weight: bolder;
-    border: 1px solid #a7c5dd;
-    border-radius: 8px;
-    padding-left: 10px;
+    border: none;
+    /* border: 1px solid #a7c5dd; */
+    /* border-radius: 8px; */
+    /* padding-left: 10px; */
 }
 
 
@@ -673,9 +676,10 @@ button {cursor: pointer;}
     bottom: 18px;
     float: right;
     width: 15px;
+    cursor: pointer;
 }
 
-.place > button {
+.place > .delete_diary {
     width: 20px;
     height: 20px;
     position: relative;
@@ -684,6 +688,21 @@ button {cursor: pointer;}
     float: right;
     margin-right: 20px;
     background-image: url(/Lemo/images/diary/delete-button.png);
+    background-color: transparent;
+    background-size: 20px;
+    border: none;
+    font-size: 0;
+}
+
+.place > .modify_diary {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    right: -45px;
+    bottom: 20px;
+    float: right;
+    margin-right: 20px;
+    background-image: url(/Lemo/images/diary/edit.png);
     background-color: transparent;
     background-size: 20px;
     border: none;

@@ -107,4 +107,9 @@ public interface MyDAO {
     public int updateReview(Map<String, Object> param);
     public int deleteReview(long res_no);
 
+    // @since 2023/04/12
+    public int updateDiaryArticle(ArticleDiaryVO diaryVO);
+
+    public int updateDiarySpot(DiarySpotVO spotVO);
+
 }

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -139,13 +140,59 @@ public class MyService {
     }
 
     // @since 2023/04/11
-    public void diary_usave(
+    public String diary_usave(
             Map<String, Object> param,
             List<MultipartFile> fileList,
             HttpServletRequest req,
             String user_id
     ) {
+        String[] spotNo  = ((String) param.get("diaryNo")).split("/");
+        String[] title   = ((String) param.get("diarySpotTitle")).split("/");
+        String[] content = ((String) param.get("diarySpotContent")).split("/");
+        String[] lat     = ((String) param.get("diaryLat")).split("/");
+        String[] lng     = ((String) param.get("diaryLng")).split("/");
 
+        List<String> fileName = checkDiaryFile(fileList, param);
+
+        String newName = String.join("/", fileName);
+
+        // diary_article 입력 데이터 분류
+        ArticleDiaryVO diaryVO = ArticleDiaryVO.builder()
+                .arti_no(Integer.parseInt(String.valueOf(param.get("arti_no"))))
+                .res_no( Long.parseLong(String.valueOf(param.get("res_no"))) )
+                .user_id(user_id)
+                .arti_title((String) param.get("diaryTitle"))
+                .arti_thumb(newName)
+                .arti_regip(RemoteAddrHandler.getRemoteAddr(req))
+                .arti_start((String) param.get("diaryStart"))
+                .arti_end((String) param.get("diaryEnd"))
+                .build();
+
+        int articleResult = dao.updateDiaryArticle(diaryVO);
+
+        String[] images  = newName.split("/");
+        for(int i = 0; i<images.length; i++) {
+            DiarySpotVO spotVO = DiarySpotVO.builder()
+                    .arti_no(Integer.parseInt(String.valueOf(param.get("arti_no"))))
+                    .spot_no(Integer.parseInt(spotNo[i]))
+                    .spot_longtitude(Double.parseDouble(lng[i]))
+                    .spot_lattitude(Double.parseDouble(lat[i]))
+                    .spot_title(title[i])
+                    .spot_content(content[i])
+                    .spot_thumb(images[i])
+                    .build();
+
+            dao.updateDiarySpot(spotVO);
+        }
+
+        String usaveResult = "usaveDiaryFail";
+        switch (articleResult) {
+            case 1 :
+                usaveResult = "usaveDairySucceess";
+                break;
+        }
+
+        return usaveResult;
     }
 
     // @since 2023/03/24
@@ -478,9 +525,7 @@ public class MyService {
             // 저장
             for(String saveFile : newReview) {
                 String ext = saveFile.substring(saveFile.indexOf("."));
-                log.debug("saveFile : " + saveFile);
                 String newName = UUID.randomUUID() + ext;
-                log.debug("newName : " + newName);
                 changeSaveFile.add(newName);
 
                 MultipartFile mf = fileMap.get(saveFile);
@@ -500,8 +545,74 @@ public class MyService {
         oriRemoveReview.addAll(changeSaveFile);
         log.debug("DB : " + oriRemoveReview);
 
-
         return oriRemoveReview;
+
+    }
+
+    // @since 2023/04/12
+    public List<String> checkDiaryFile(List<MultipartFile> fileList, Map<String, Object> param) {
+
+        String dirPath = new File(uploadPath+"diary/"+param.get("arti_no")).getAbsolutePath();
+
+        File dir = new File(dirPath);
+        File Files[] = dir.listFiles();
+
+        List<String> oriDiary = new ArrayList<>();
+        List<String> newDiary = new ArrayList<>();
+        List<String> oriRemoveDiary = new ArrayList<>();
+        List<String> newRemoveDiary = new ArrayList<>();
+
+        for(File fname : Files) {
+            oriDiary.add(fname.getName());
+            oriRemoveDiary.add(fname.getName());
+        }
+
+        for(MultipartFile mf : fileList) {
+            newDiary.add(mf.getOriginalFilename());
+            newRemoveDiary.add(mf.getOriginalFilename());
+        }
+
+        // 저장되어질 reviewImage
+        newDiary.removeAll(oriRemoveDiary);
+        log.debug("저장 : " + newDiary);
+
+        // 삭제되어질 reviewImage
+        oriDiary.removeAll(newRemoveDiary);
+        log.debug("삭제 : " + oriDiary);
+
+        if(oriDiary.size() != 0) {
+            // 삭제
+            for(String deleteFile : oriDiary) {
+
+                File df = new File(dirPath + "/" + deleteFile);
+                if(df.exists()) { df.delete(); }
+            }
+        }
+
+        List<String> changeSaveFile = new ArrayList<>();
+
+        int count = 0;
+        if(newDiary.size() != 0) {
+            // 저장
+            for(String saveFile : newDiary) {
+                String ext = saveFile.substring(saveFile.indexOf("."));
+                String newName = UUID.randomUUID() + ext;
+                changeSaveFile.add(newName);
+
+                MultipartFile mf = fileList.get(count);
+
+                try {
+                    mf.transferTo(new File(dirPath, newName));
+                    count++;
+                } catch (IllegalStateException e) {
+                    log.error(e.getMessage());
+                } catch (IOException e) {
+                    log.error(e.getMessage());
+                }
+            }
+        }
+
+        return changeSaveFile;
 
     }
 
