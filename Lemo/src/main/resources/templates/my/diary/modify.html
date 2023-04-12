@@ -63,6 +63,7 @@
                                         </div>
                                     </div>
                                     <input type="submit" id="btnDiarySubmit" name="submit" value="수정완료">
+                                    <a class="btnDiaryModifyCancle" th:href="@{#}">취소</a>
                                 </form>
                             </div>
                             <!-- 지도 -->
@@ -91,6 +92,10 @@
             const fileMap = new Map();
             const urlParams = new URLSearchParams(window.location.search);
             const arti_no = urlParams.get('arti_no');
+
+            console.log(positionMap);
+            diary_start = positionMap[0].arti_start;
+            diary_end = positionMap[0].arti_end;
 
             /**
                 검색된 마크에도 mouseover, mouselevae, click 적용시켰고
@@ -618,116 +623,129 @@
             $('#diaryForm').submit(function(e){
                 e.preventDefault();
 
-                //FormData 새로운 객체 생성
-                let formData = new FormData();
+                Swal.fire({
+                    title: '수정 하시겠습니까?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '확인',
+                    cancelButtonText: '취소',
+                    reverseButtons: false,
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        //FormData 새로운 객체 생성
+                        let formData = new FormData();
 
-                // file 가져오기
-                for(const [key, value] of fileMap) {
-                    formData.append('file', value)
-                }
-
-                let submitSpotTitle = [];
-                let submitSpotContent = [];
-                let submitLat = [];
-                let submitLng = [];
-
-                // spotNo 가져오기
-
-
-                // submitTitle 가져오기
-                $('.spot > input').each(function(){
-                    submitSpotTitle.push($(this).val());
-                });
-
-                // submitContent 가져오기
-                $('textarea[name=spot_content]').each(function(){
-                    if($(this).val()){ submitSpotContent.push($(this).val()); }
-                });
-
-
-                // Lat, Lng 가져오기
-                for(var i=0; i<markers.length; i++){
-                    submitLat.push(markers[i].getPosition().getLat());
-                    submitLng.push(markers[i].getPosition().getLng());
-                }
-
-                let res_no          = [[${article.get(0).res_no}]]
-                let formTitle       = $('input[name=arti_title]').val();
-                let formSpotTitle   = submitSpotTitle.join('/');
-                let formSpotContent = submitSpotContent.join('/');
-                let formLat         = submitLat.join('/');
-                let formLng         = submitLng.join('/');
-                let formSpotNo      = spotNoList.join('/');
-
-                console.log(fileMap);
-                console.log(overlays);
-                console.log(markers);
-<!--                console.log('res_no : ' + res_no)-->
-<!--                console.log('formTitle : ' + formTitle)-->
-<!--                console.log('formSpotTitle : ' + formSpotTitle)-->
-<!--                console.log('formSpotContent : ' + formSpotContent)-->
-<!--                console.log('formLat : ' + formLat)-->
-<!--                console.log('formLng : ' + formLng)-->
-
-                let jsonData = {
-                    arti_no          : arti_no,
-                    res_no           : res_no,
-                    diaryNo          : formSpotNo,
-                    diaryTitle       : formTitle,
-                    diaryStart       : diary_start,
-                    diaryEnd         : diary_end,
-                    diarySpotTitle   : formSpotTitle,
-                    diarySpotContent : formSpotContent,
-                    diaryLat         : formLat,
-                    diaryLng         : formLng
-                }
-
-                formData.append('key', new Blob([ JSON.stringify(jsonData) ], {type : "application/json"}));
-
-                if(!$('input[name=arti_title]').val()) {
-                    sweetAlert('안내', '제목을 작성해주세요.!');
-                    return;
-                }else if(markers.length == 0) {
-                    sweetAlert('안내', '일기를 작성해주세요.!');
-                    return;
-                }else if(markers.length != submitSpotContent.length) {
-                    sweetAlert('안내', '내용을 입력하지 않으신 <br>여행일기가 있습니다.!');
-                    return;
-                }else if(markers.length != fileMap.size) {
-                    sweetAlert('안내', '사진을 입력하지 않으신 <br>여행일기가 있습니다.!');
-                    return;
-                }
-
-
-                // ajax 처리 부분
-                $.ajax({
-                    url: '/Lemo/my/diary/usave',
-                    method: 'POST',
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader(header, token);
-                    },
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    enctype : 'multipart/form-data',
-                    success: function(data) {
-                        if(data.result == 'usaveDairySucceess') {
-                            Swal.fire({
-                                title: '수정되었습니다.!',
-                                icon: 'info',
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: '확인',
-                                reverseButtons: false,
-                            }).then(result => {
-                                location.href = "/Lemo/diary/view?arti_no="+arti_no;
-                            });
-                        }else {
-                            Swal.fire( '수정에 실패했습니다. 새로고침 후 다시 시도해주세요.' );
+                        // file 가져오기
+                        for(const [key, value] of fileMap) {
+                            formData.append('file', value)
                         }
+
+                        let submitSpotTitle = [];
+                        let submitSpotContent = [];
+                        let submitLat = [];
+                        let submitLng = [];
+
+                        // spotNo 가져오기
+
+
+                        // submitTitle 가져오기
+                        $('.spot > input').each(function(){
+                            submitSpotTitle.push($(this).val());
+                        });
+
+                        // submitContent 가져오기
+                        $('textarea[name=spot_content]').each(function(){
+                            if($(this).val()){ submitSpotContent.push($(this).val()); }
+                        });
+
+
+                        // Lat, Lng 가져오기
+                        for(var i=0; i<markers.length; i++){
+                            submitLat.push(markers[i].getPosition().getLat());
+                            submitLng.push(markers[i].getPosition().getLng());
+                        }
+
+                        let res_no          = [[${article.get(0).res_no}]]
+                        let formTitle       = $('input[name=arti_title]').val();
+                        let formSpotTitle   = submitSpotTitle.join('/');
+                        let formSpotContent = submitSpotContent.join('/');
+                        let formLat         = submitLat.join('/');
+                        let formLng         = submitLng.join('/');
+                        let formSpotNo      = spotNoList.join('/');
+
+                        console.log(fileMap);
+                        console.log(overlays);
+                        console.log(markers);
+        <!--                console.log('res_no : ' + res_no)-->
+        <!--                console.log('formTitle : ' + formTitle)-->
+        <!--                console.log('formSpotTitle : ' + formSpotTitle)-->
+        <!--                console.log('formSpotContent : ' + formSpotContent)-->
+        <!--                console.log('formLat : ' + formLat)-->
+        <!--                console.log('formLng : ' + formLng)-->
+
+                        let jsonData = {
+                            arti_no          : arti_no,
+                            res_no           : res_no,
+                            diaryNo          : formSpotNo,
+                            diaryTitle       : formTitle,
+                            diaryStart       : diary_start,
+                            diaryEnd         : diary_end,
+                            diarySpotTitle   : formSpotTitle,
+                            diarySpotContent : formSpotContent,
+                            diaryLat         : formLat,
+                            diaryLng         : formLng
+                        }
+
+                        formData.append('key', new Blob([ JSON.stringify(jsonData) ], {type : "application/json"}));
+
+                        if(!$('input[name=arti_title]').val()) {
+                            sweetAlert('안내', '제목을 작성해주세요.!');
+                            return;
+                        }else if(markers.length == 0) {
+                            sweetAlert('안내', '일기를 작성해주세요.!');
+                            return;
+                        }else if(markers.length != submitSpotContent.length) {
+                            sweetAlert('안내', '내용을 입력하지 않으신 <br>여행일기가 있습니다.!');
+                            return;
+                        }else if(markers.length != fileMap.size) {
+                            sweetAlert('안내', '사진을 입력하지 않으신 <br>여행일기가 있습니다.!');
+                            return;
+                        }
+
+
+                        // ajax 처리 부분
+                        $.ajax({
+                            url: '/Lemo/my/diary/usave',
+                            method: 'POST',
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader(header, token);
+                            },
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            enctype : 'multipart/form-data',
+                            success: function(data) {
+                                console.log(data.result);
+                                if(data.result == 'usaveDairySuccess') {
+                                    Swal.fire({
+                                        title: '수정되었습니다.!',
+                                        icon: 'info',
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: '확인',
+                                        reverseButtons: false,
+                                    }).then(result => {
+                                        location.href = "/Lemo/diary/view?arti_no="+arti_no;
+                                    });
+                                }else {
+                                    Swal.fire( '수정에 실패했습니다. 새로고침 후 다시 시도해주세요.' );
+                                }
+                            }
+                        });
                     }
                 });
-
             });
 
             $(document).on('click', '.modify_diary', function(e){
@@ -742,6 +760,7 @@
                     spot_title_input.css('border', 'none');
                     spot_title_input.css('border-radius', '8px');
                     spot_title_input.css('padding-left', '0');
+                    $(this).css('background-image', 'url(/Lemo/images/diary/edit.png)');
                     $(this).removeClass('on');
 
                     let content = '<div class="spot_wrap">';
@@ -780,16 +799,21 @@
                     spot_title_input.css('border', '1px solid #a7c5dd');
                     spot_title_input.css('border-radius', '8px');
                     spot_title_input.css('padding-left', '10px');
+                    $(this).css('background-image', 'url(/Lemo/images/diary/check.png)');
                     $(this).addClass('on');
                 }
 
             })
 
             $(document).on('click', '.delete_diary', function(e){
+                console.log('작동 시작')
                 e.stopPropagation();
                 e.preventDefault();
 
                 let deleteNo = Number($(this).attr('data-no'));
+                console.log('deleteNo : ' + deleteNo)
+                console.log('파일')
+                console.log(fileMap.get(deleteNo))
                 fileMap.delete(deleteNo)
 
                 let data_place = $(this).attr('data-place');
@@ -797,6 +821,25 @@
                 let deleteMarker = markerMap.get(data_no);
 
                 removeAlert(deleteMarker, data_place, data_no);
+            });
+
+            $(document).on('click', '.btnDiaryModifyCancle', function(e){
+                e.preventDefault();
+
+                Swal.fire({
+                    title: '수정을 취소하시겠습니까?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '확인',
+                    cancelButtonText: '취소',
+                    reverseButtons: false,
+                }).then(result => {
+                    if (result.isConfirmed) {
+                       location.href = "/Lemo/diary/view?arti_no="+arti_no;
+                    }
+                });
             });
         </script>
     </th:block>

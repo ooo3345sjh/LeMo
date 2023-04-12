@@ -17,8 +17,8 @@ $(function(){
             "firstDay": 1
         },
         "minDate" : date,
-        "startDate": date,
-        "endDate": date,
+        "startDate": diary_start,
+        "endDate": diary_end,
         "selectBackward": false,
         "drops": "down",
         "opens": "center"
