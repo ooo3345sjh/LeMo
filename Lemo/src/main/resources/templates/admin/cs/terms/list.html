@@ -129,7 +129,7 @@
                                             <li>[[*{totalCnt-sc.offset} - ${i.index}]]</li>
                                             <li>[[${term.termsType_type_ko}]]</li>
                                             <li class="title">
-                                                <a th:href="@{#}">[[${term.terms_title}]]</a>
+                                                <a th:href="@{/admin/cs/terms/view (terms_no=${term.terms_no})}">[[${term.terms_title}]]</a>
                                             </li>
                                             <li class="prodBtn">
                                                 <a class="btnTermDelete" th:data-no="${term.terms_no}">삭제</a>
@@ -177,7 +177,7 @@
         $('.btnTermDelete').click(function(e){
             e.preventDefault();
                 Swal.fire({
-                    title: '해당 글을 삭제하시겠습니까?',
+                    title: '해당 약관을 삭제하시겠습니까?',
                     icon: 'question',
 
                     showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
@@ -195,22 +195,22 @@
 
                         const jsonData = {"term_no": term_no};
 
-                        ajaxAPI("admin/cs/notice/article", jsonData, "delete").then((response) => {
+                        ajaxAPI("admin/cs/term", jsonData, "delete").then((response) => {
                             if(response.result > 0) {
                                 Swal.fire({
                                         title : '글이 삭제되었습니다.',
                                         icon : 'success',
                                         confirmButtonText : '확인'
                                     }).then(function(){
-                                        location.replace("/Lemo/admin/cs/notice/list");
+                                        location.replace("/Lemo/admin/cs/terms/list");
                                     });
 
                             }else {
                                 alert('error');
-                                location.replace("/Lemo/admin/cs/notice/list");
+                                location.replace("/Lemo/admin/cs/terms/list");
                             }
                         }).catch((errMsg) => {
-                            console.log(errorMsg);
+                            console.log(errMsg);
                         });
                     }
                 });

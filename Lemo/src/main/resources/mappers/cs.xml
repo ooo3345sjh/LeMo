@@ -65,7 +65,7 @@
     </select>
 
 
-    <!-- 약관 -->
+    <!-- 고객센터 약관 -->
     <select id="selectTerm" resultType="kr.co.Lemo.domain.TermVO">
         SELECT * <include refid="member_terms_join"/> where a.termsType_no = 1;
     </select>
@@ -128,6 +128,10 @@
         SELECT `termsType_no`, `termsType_type_ko` from `lemo_member_termstype`;
     </select>
 
+    <!-- 관리자 약관 상세보기-->
+    <select id="selectTermArticle" resultType="kr.co.Lemo.domain.TermVO">
+        select * from `lemo_member_terms` where `terms_no`=#{terms_no};
+    </select>
 
     <!-- insert -->
         <insert id="insertEventArticle" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="cs_no">
@@ -245,16 +249,23 @@
     </update>
 
     <!-- delete -->
+    <!-- 공통 단일 게시물 삭제 -->
     <delete id="deleteFaqWrite">
         delete from `lemo_cs` where `cs_no` =#{cs_no};
     </delete>
 
+    <!-- qna 선택 삭제 -->
     <delete id="deleteQnaList">
         delete from `lemo_cs`
         where `cs_no` in
         <foreach collection="checkList" index="index" item="checkList" open="(" close=")" separator=",">
             #{checkList}
         </foreach>
+    </delete>
+
+    <!-- term 게시물 삭제-->
+    <delete id="deleteTerm">
+        DELETE FROM `lemo_member_terms` WHERE `terms_no` =#{terms_no};
     </delete>
 
     <!-- 공통 키 -->

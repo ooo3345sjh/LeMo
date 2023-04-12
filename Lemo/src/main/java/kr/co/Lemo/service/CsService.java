@@ -214,6 +214,11 @@ public class CsService {
         return dao.selectAdminTermsType();
     }
 
+    // @since 2023/04/12 관리자 약관 상세보기
+    public TermVO findTermArticle(@RequestParam("terms_no") int terms_no){
+        return dao.selectTermArticle(terms_no);
+    }
+
 
 
     /** insert **/
@@ -321,7 +326,7 @@ public class CsService {
 
 
     /** delete **/
-    //@since 2023/03/15
+    //@since 2023/03/15 관리자 - 단일 게시글 삭제
     public int removeAdminArticle(@RequestParam("cs_no") int cs_no) throws IOException {
        CsVO file =  dao.selectCsArticle(cs_no);
        log.info("deleteFile : " + file.getCs_eventViewImg());
@@ -344,18 +349,32 @@ public class CsService {
         return dao.deleteFaqWrite(cs_no);
     }
 
-    //@since 2023/03/27
+    //@since 2023/03/27 관리자 - qna 선택삭제
     public int removeQnaList(@RequestParam("checkList[]") List checkList){
         log.info("serviceQnaRemove");
         return dao.deleteQnaList(checkList);
     }
 
 
+    // @since 2023/04/11 관리자 - 약관 삭제
+    public int removeTerm(@RequestParam("terms_no") int terms_no){
+        return dao.deleteTerm(terms_no);
+    }
+
+
+
+
+
+
+
+
+    /** 이미지 등록 **/
+
     //@since 2023/03/30
     @Value("${spring.servlet.multipart.location}")
     private String uploadPath;
 
-    /** 이미지 등록 **/
+
     public int uploadFile(ArrayList<String> newArrFilesInfo, Map<String, MultipartFile> fileMap, String bannerNewName, MultipartFile cs_eventBanner, String cs_no) {
         log.info("newArrFilesInfo : "+newArrFilesInfo.size());
         log.info("fileMap : "+fileMap.size());
