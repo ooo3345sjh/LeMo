@@ -75,7 +75,7 @@ public class AdminController {
         // 회원가입 수
         int totalUser = service.countDayUser();
 
-        log.warn("total : " + total);
+        //log.warn("total : " + total);
 
         model.addAttribute("stats", stats);
         model.addAttribute("totalSales", total);
@@ -95,6 +95,11 @@ public class AdminController {
 
         // 일별 매출 현황
         List<ReservationVO> stats = service.findAllDaySales(map);
+
+        // 당일 누적 판매량
+        List<ReservationVO> todaySales = service.findAllTodaySales();
+
+        //log.warn("todaySales: " + todaySales);
 
         // 월별 매출 현황
         List<ReservationVO> statsMonth = service.findAllMonthSales(map);
@@ -127,11 +132,14 @@ public class AdminController {
         // 회원가입 수
         int totalUser = service.countWeeksUser();
 
+        // 주별 평균 매출
+        int avgWeeks = service.selectWeekAvg();
+
         //log.warn("statsMonth: " + statsMonth);
         //log.warn("pays: " + pays);
         //log.warn("pays length: " + pays.size());
         //log.warn("pays map : " + paysMap);
-        //log.warn("salesMonth: " + salesMonth);
+
 
         model.addAttribute("stats", stats);
         model.addAttribute("statsMonth", statsMonth);
@@ -142,6 +150,8 @@ public class AdminController {
         model.addAttribute("totalQna", totalQna);
         model.addAttribute("totalAcc", totalAcc);
         model.addAttribute("totalUser", totalUser);
+        model.addAttribute("avgWeeks", avgWeeks);
+        model.addAttribute("todaySales",todaySales);
 
         return "admin/stats";
     }

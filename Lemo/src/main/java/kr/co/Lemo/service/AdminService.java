@@ -406,7 +406,9 @@ public class AdminService {
      public int countWeeksUser(){
         return dao.countWeeksUser();
      }
-     public int countDayUser(){return dao.countDayUser();}
+     public int countDayUser(){return dao.countDayUser(); }
+
+    public int selectWeekAvg(){ return dao.selectWeekAvg(); }
 
     /**
      * @since 2023/04/06
