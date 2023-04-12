@@ -21,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -343,5 +344,16 @@ public class UserService {
         }
 
         return result;
+    }
+
+    /**
+     * @since 2023/04/12
+     * @author 서정현
+     * @apiNote 매일 한시간마다 탈퇴한지 24시간이 지난 회원ID 업데이트
+     */
+    @Scheduled(cron = "0 */1 * * * *")
+    public void usaveWithdrawUserId() throws Exception {
+        log.debug("usaveWithdrawUserId start...");
+        userDAO.updateWithdrawUserId(UUID.randomUUID().toString());
     }
 }
