@@ -378,6 +378,8 @@ public class MyController {
         List<DiarySpotVO> spotVO = diaryService.findDiarySpot(arti_no);
         m.addAttribute("article", spotVO);
 
+        log.debug(""+spotVO);
+
         return "my/diary/modify";
     }
 
@@ -410,7 +412,7 @@ public class MyController {
     // @since 2023/04/11
     @ResponseBody
     @PostMapping("diary/usave")
-    public void diary_usave(
+    public Map<String, String> diary_usave(
             @AuthenticationPrincipal UserVO myUser,
             @RequestPart(value = "key") Map<String, Object> param,
             @RequestPart(value = "file", required = false) List<MultipartFile> fileList,
@@ -427,7 +429,12 @@ public class MyController {
             mfCount++;
         }
 
-        service.diary_usave(param, fileList, req, user_id);
+        String result = service.diary_usave(param, fileList, req, user_id);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("result", result);
+
+        return map;
     }
 
     // @since 2023/03/29

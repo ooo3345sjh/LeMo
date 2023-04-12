@@ -279,6 +279,28 @@
         WHERE `res_no` = #{res_no}
     </update>
 
+    <update id="updateDiaryArticle" parameterType="kr.co.Lemo.domain.ArticleDiaryVO">
+        UPDATE `lemo_diary_article` SET
+            `arti_title` = #{arti_title},
+            `arti_thumb` = #{arti_thumb},
+            `arti_udate` = NOW(),
+            `arti_regip` = #{arti_regip},
+            `arti_start` = #{arti_start},
+            `arti_end`   = #{arti_end}
+        WHERE `arti_no` = #{arti_no}
+    </update>
+
+    <update id="updateDiarySpot" parameterType="kr.co.Lemo.domain.DiarySpotVO">
+        UPDATE `lemo_diary_spot` SET
+            `spot_longtitude` = #{spot_longtitude},
+            `spot_lattitude`  = #{spot_lattitude},
+            `spot_xy`         = ST_GeomFromText(CONCAT('POINT(', #{spot_longtitude}, ' ', #{spot_lattitude}, ')')),
+            `spot_title`      = #{spot_title},
+            `spot_content`    = #{spot_content},
+            `spot_thumb`      = #{spot_thumb}
+        WHERE `spot_no` = #{spot_no};
+    </update>
+
     <!--
         날짜 : 2023/04/11
         이름 : 서정현

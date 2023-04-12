@@ -1,7 +1,7 @@
 let count = 1;
 $(function(){
     /* 글 토글 */
-    $(document).on('click', '.spot', function(e){
+    $(document).on('click', '.arrow', function(e){
         e.stopPropagation();
 
         $(this).parent().find('.toggle').slideToggle(600);
