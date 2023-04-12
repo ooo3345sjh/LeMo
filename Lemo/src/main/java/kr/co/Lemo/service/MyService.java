@@ -1,10 +1,13 @@
 package kr.co.Lemo.service;
 
+import kr.co.Lemo.dao.DiaryDAO;
 import kr.co.Lemo.dao.MyDAO;
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.utils.RemoteAddrHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,6 +43,9 @@ public class MyService {
     // @since 2023/03/11
     @Autowired
     private MyDAO dao;
+
+    @Autowired
+    private DiaryDAO diaryDAO;
 
     @Autowired
     private PaymentService paymentservice;
@@ -138,59 +145,87 @@ public class MyService {
     }
 
     // @since 2023/04/11
-    public String diary_usave(
+    public int diary_usave(
             Map<String, Object> param,
             List<MultipartFile> fileList,
             HttpServletRequest req,
             String user_id
     ) {
-        String[] spotNo  = ((String) param.get("diaryNo")).split("/");
+// 파일 이름 수정 -> 이걸 먼저하는 이유는
+        // 파일 업로드 시 경로는 img/diary/arti_no/파일 이름 이고
+        // arti_no를 얻기 위해선 먼저 diary_article에 데이터를 입력해줘야됨
+        // 따라서 먼저 이름을 수정함
+        // 만약 파일 경로를 arti_no로 안한다면 fileUpload 함수에 포함시켜 한번에 처리할 수 있음
+        // diary_spot 입력 데이터 분류
+
+        int finalResult = 0;
+        // 데이터 검증(필수로 입력되어야하는 부분이라 길이가 모두 똑같아야함)
         String[] title   = ((String) param.get("diarySpotTitle")).split("/");
         String[] content = ((String) param.get("diarySpotContent")).split("/");
         String[] lat     = ((String) param.get("diaryLat")).split("/");
         String[] lng     = ((String) param.get("diaryLng")).split("/");
 
-        List<String> fileName = checkDiaryFile(fileList, param);
+        if(title.length != content.length && title.length != lat.length && title.length != lng.length
+            && content.length != lat.length && content.length != lat.length
+            && lat.length != lng.length)
+        {
+            finalResult = 2;
+            return finalResult;
+        }
 
-        String newName = String.join("/", fileName);
+
+        List<String> fileRenames = new ArrayList<>();
+
+        for(MultipartFile mf : fileList){
+            String oriName = mf.getOriginalFilename();
+            String ext = oriName.substring(oriName.indexOf("."));
+            String newName = UUID.randomUUID().toString() + ext;
+            fileRenames.add(newName);
+        }
+
+        String newName = String.join("/", fileRenames);
 
         // diary_article 입력 데이터 분류
         ArticleDiaryVO diaryVO = ArticleDiaryVO.builder()
-                .arti_no(Integer.parseInt(String.valueOf(param.get("arti_no"))))
-                .res_no( Long.parseLong(String.valueOf(param.get("res_no"))) )
-                .user_id(user_id)
-                .arti_title((String) param.get("diaryTitle"))
-                .arti_thumb(newName)
-                .arti_regip(RemoteAddrHandler.getRemoteAddr(req))
-                .arti_start((String) param.get("diaryStart"))
-                .arti_end((String) param.get("diaryEnd"))
-                .build();
+                                .arti_no(Integer.parseInt(String.valueOf(param.get("arti_no"))))
+                                .arti_title((String) param.get("diaryTitle"))
+                                .arti_thumb(newName)
+                                .arti_regip(RemoteAddrHandler.getRemoteAddr(req))
+                                .arti_start((String) param.get("diaryStart"))
+                                .arti_end((String) param.get("diaryEnd"))
+                                .build();
 
-        int articleResult = dao.updateDiaryArticle(diaryVO);
+        // diary_article 테이블 입력
+        int result = dao.updateDiaryArticle(diaryVO);
+
+        int arti_no = diaryVO.getArti_no();
+
+        ProductAccommodationVO accommo = dao.selectProvinceAddr(Long.parseLong(String.valueOf(param.get("res_no"))));
+
+        // 파일 업로드
+        if(result == 1) {
+            finalResult = fileUpload(fileList, fileRenames, arti_no);
+        }else {
+
+        }
 
         String[] images  = newName.split("/");
-        for(int i = 0; i<images.length; i++) {
+        for(int i = 0; i<images.length; i++){
             DiarySpotVO spotVO = DiarySpotVO.builder()
-                    .arti_no(Integer.parseInt(String.valueOf(param.get("arti_no"))))
-                    .spot_no(Integer.parseInt(spotNo[i]))
-                    .spot_longtitude(Double.parseDouble(lng[i]))
-                    .spot_lattitude(Double.parseDouble(lat[i]))
-                    .spot_title(title[i])
-                    .spot_content(content[i])
-                    .spot_thumb(images[i])
-                    .build();
+                                .arti_no(arti_no)
+                                .spot_longtitude(Double.parseDouble(lng[i]))
+                                .spot_lattitude(Double.parseDouble(lat[i]))
+                                .spot_title(title[i])
+                                .spot_content(content[i])
+                                .spot_thumb(images[i])
+                                .province_name(accommo.getProvince_name())
+                                .spot_addr(accommo.getAcc_addr()).build();
 
-            dao.updateDiarySpot(spotVO);
+            // diary_spot 테이블 입력
+            dao.insertDiarySpot(spotVO);
         }
 
-        String usaveResult = "usaveDiaryFail";
-        switch (articleResult) {
-            case 1 :
-                usaveResult = "usaveDairySucceess";
-                break;
-        }
-
-        return usaveResult;
+        return finalResult;
     }
 
     // @since 2023/03/24
@@ -545,6 +580,22 @@ public class MyService {
 
         return oriRemoveReview;
 
+    }
+
+    public int removeDiarySpot(Map<String, Object> param) {
+        String dirPath = new File(uploadPath+"diary/"+param.get("arti_no")).getAbsolutePath();
+
+        File deleteFolder = new File(dirPath);
+
+        try {
+            FileUtils.cleanDirectory(deleteFolder);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        int reuslt = diaryDAO.deleteDiarySpot(Integer.parseInt(String.valueOf(param.get("arti_no"))));
+
+        return reuslt;
     }
 
     // @since 2023/04/12

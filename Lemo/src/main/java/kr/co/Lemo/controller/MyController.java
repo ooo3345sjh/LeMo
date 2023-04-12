@@ -378,8 +378,6 @@ public class MyController {
         List<DiarySpotVO> spotVO = diaryService.findDiarySpot(arti_no);
         m.addAttribute("article", spotVO);
 
-        log.debug(""+spotVO);
-
         return "my/diary/modify";
     }
 
@@ -419,20 +417,21 @@ public class MyController {
             HttpServletRequest req
     ) {
         log.debug("POST diary/usave start");
-        log.debug(param.toString());
 
         String user_id = myUser.getUser_id();
 
-        int mfCount = 0;
-        for(MultipartFile mf : fileList) {
-            log.debug(mfCount + ":" +mf.getOriginalFilename());
-            mfCount++;
-        }
+        service.removeDiarySpot(param);
 
-        String result = service.diary_usave(param, fileList, req, user_id);
+        int result = service.diary_usave(param, fileList, req, user_id);
 
         Map<String, String> map = new HashMap<>();
-        map.put("result", result);
+        String finalResult = "usaveDairyFail";
+        switch (result) {
+            case 1 :
+                finalResult = "usaveDairySuccess";
+        }
+
+        map.put("result", finalResult);
 
         return map;
     }
