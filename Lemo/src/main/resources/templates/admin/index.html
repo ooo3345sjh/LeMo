@@ -5,6 +5,13 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminStyle.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <style>
+        main .main_content > .main_cotent_inner {
+            background: #fff !important;
+            box-shadow: 0 2px 6px 0 rgb(218 218 253 / 2%), 0 2px 6px 0 rgb(206 206 238 / 15%);
+            border: 1px solid #F3F6F9;
+        }
+    </style>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -31,57 +38,119 @@
                                 </div>
                             </div>
                              */-->
+                            <p class="tsd_msg">상세 매출 내역은 '통계관리'에서 확인해 주십시오.</p>
+                            <div class="sales_day_status">
+                                <div class="tot_sales_day">
+                                    <div class="tsd_tit1">총매출</div>
+                                    <div class="tsd_tit2">11 <i>건</i></div>
+                                    <div class="tsd_tit3" >1,234,567,89 <i>원</i></div>
+                                </div>
+                                <div class="tsd_grid">
+                                    <div class="tsd_grid1">
+                                        <div class="tsd_res">
+                                            <p>예약</p>
+                                            <h3>[[${totalSales}]] <i>건</i></h3>
+                                        </div>
+                                        <div class="tsd_cancel">
+                                            <p>취소</p>
+                                            <h3>[[${totalCanceled}]] <i>건</i></h3>
+                                        </div>
+                                        <div class="tsd_visit">
+                                            <p>방문자</p>
+                                            <h3>1,234 <i>명</i></h3>
+                                        </div>
+                                    </div>
+                                    <div class="tsd_grid2">
+                                        <div class="tsd_qna">
+                                            <p>1:1 문의</p>
+                                            <h3>[[${totalQna}]] <i>건</i></h3>
+                                        </div>
+                                        <div class="tsd_prod">
+                                            <p>상품등록</p>
+                                            <h3>[[${totalAcc}]] <i>건</i></h3>
+                                        </div>
+                                        <div class="tsd_regi">
+                                            <p>회원가입</p>
+                                            <h3>[[${totalUser}]] <i>건</i></h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="blank30"></div>
-
+                    <div class="blank10"></div>
                     <div class="main_content_div">
-                        <div class="col1">
-                            <!--/*
-                            <div class="col1_graph">
+                        <div class="col1" style="width: 100%">
+                            <div class="col1_graph_chart">
+                                <!-- 매출 현황 -->
                                 <div class="graph_inner" style="width:100% ;">
                                     <div id="chart_div" style="width: 99%; height: 500px;"></div>
                                 </div>
-                            </div>
-                            */-->
-                            <div class="today_status">
-                                <!-- single item1 -->
-                                <div class="single_status">
-                                    <p>예약건수</p>
-                                    <h3>[[${totalSales}]]</h3>
-                                </div>
-                                <!-- single item2 -->
-                                <div class="single_status">
-                                    <p>취소건수</p>
-                                    <h3>[[${totalCanceled}]]</h3>
-                                </div>
-                                <!-- single item3 -->
-                                <div class="single_status">
-                                    <p>방문자수</p>
-                                    <h3>1,000</h3>
-                                </div>
-                                <!-- single item4 -->
-                                <div class="single_status">
-                                    <p>1:1문의수</p>
-                                    <h3>[[${totalQna}]]</h3>
-                                </div>
-                                <!-- single item5 -->
-                                <div class="single_status">
-                                    <p>상품등록</p>
-                                    <h3>[[${totalAcc}]]</h3>
-                                </div>
-                                <!-- single item6 -->
-                                <div class="single_status">
-                                    <p>회원가입</p>
-                                    <h3>[[${totalUser}]]</h3>
+                                <!-- 결제 현황 -->
+                                <div class="payment_stat_graph">
+                                    <div id="donutchart" style="width: 100%; height: 500px;"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <div class="tsd_best">
+                        <div class="tsd_best_inner">
+                            <h3>BEST <i>숙소</i></h3>
+                        </div>
+                        <div class="col2">
+                                <div class="bestAccList">
+                                    <ul>
+                                        <li class="ba_li1">#</li>
+                                        <li class="ba_li2">숙박번호</li>
+                                        <li class="ba_li3">숙박명</li>
+                                        <li class="ba_li4">판매자 아이디</li>
+                                        <li class="ba_li5">등록일</li>
+                                    </ul>
+                                    <ul>
+                                        <li class="ba_li1">1</li>
+                                        <li class="ba_li2">1004590</li>
+                                        <li class="ba_li3">어쩌고 저쩌고 숙박</li>
+                                        <li class="ba_li4">circle@naver.com</li>
+                                        <li class="ba_li5">2023-04-12</li>
+                                    </ul>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="tsd_best">
+                        <div class="tsd_best_inner">
+                            <h3>BEST <i>객실</i></h3>
+                        </div>
+                        <div class="col2">
+                                <div class="bestRoomList">
+                                    <ul>
+                                        <li class="br_li1">#</li>
+                                        <li class="br_li2">숙빅번호</li>
+                                        <li class="br_li3">숙박명</li>
+                                        <li class="br_li4">객실아이디</li>
+                                        <li class="br_li5">객실명</li>
+                                        <li class="br_li6">판매자 아이디</li>
+                                    </ul>
+                                    <ul>
+                                        <li class="br_li1">1</li>
+                                        <li class="br_li2">1004590</li>
+                                        <li class="br_li3">어쩌고 저쩌고 숙박</li>
+                                        <li class="br_li4">1016538</li>
+                                        <li class="br_li5">더블 트윈</li>
+                                        <li class="br_li6">circle@naver.com</li>
+                                    </ul>
+                                </div>
+                            </div>
+                    </div>
+
+
                     <div class="blank30"></div>
                     <div class="main_content_div2">
-                        <h3>공지사항</h3>
+                        <div class="tsd_best_inner">
+                            <h3>공지사항</h3>
+                        </div>
                         <a class="more" href="#">> 더보기</a>
                         <div class="col2">
                             <form action="#">
@@ -102,19 +171,15 @@
                                         <li>2023.02.25</li>
                                     </ul>
                                 </div>
-                                <div class="paging">
-                                    <div class="opg_1">
-                                        <button type="button"><</button>
-                                        <span><b>1</b>&nbsp;/&nbsp;<s>3</s></span>
-                                        <button type="button">></button>
-                                    </div>
-                                </div>
                             </form>
                         </div>
                     </div>
                     <div class="blank30"></div>
+                    <!-- 최신글 5개 불러오기 -->
                     <div class="main_content_div2">
-                        <h3>1:1문의</h3>
+                        <div class="tsd_best_inner">
+                            <h3>1:1 문의</h3>
+                        </div>
                         <a class="more" href="#">> 더보기</a>
                         <div class="col2">
                             <form action="#">
@@ -137,13 +202,6 @@
                                         <li>별이</li>
                                         <li>2023.02.25</li>
                                     </ul>
-                                </div>
-                                <div class="paging">
-                                    <div class="opg_1">
-                                        <button type="button"><</button>
-                                        <span><b>1</b>&nbsp;/&nbsp;<s>3</s></span>
-                                        <button type="button">></button>
-                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -262,6 +320,48 @@
                 chart.draw(view, options);
             }
     </script>
+    <script th:inline="javascript">
 
+        // 참조 데이터 준비
+        //let paysMap = [[${paysMap}]];
+
+        //console.log(paysMap);
+        //console.log(paysMap[1][0].res_no);
+        //console.log(paysMap[1].length);
+
+
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+            ['payment', 'Percent'],
+            ['신용/체크카드', 20],
+            ['토스페이', 30],
+            ['PAYCO', 10],
+            ['카카오페이', 40]
+            ]);
+
+            var options = {
+                title: '결제현황',
+                titleTextStyle: {fontSize:18, bold: true},
+                width: '100%',
+                fontSize: 15,
+                pieHole: 0.3,
+                legend: {
+                position: 'bottom',
+                maxLines: 7
+                },
+                colors: ['#4F650D', '#7F9822', '#BBD444','#D3E570'],
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+
+            $(window).resize(function(){
+                drawChart();
+            });
+
+        }
+    </script>
 </th:block>
 </html>
