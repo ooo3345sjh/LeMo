@@ -30,7 +30,7 @@ public interface CsDAO {
     // @since 2023/03/12
     public CsVO selectEventPrev(@Param("cs_cate") String cs_cate, @Param("cs_no") int cs_no);
     public CsVO selectEventNext(@Param("cs_cate") String cs_cate, @Param("cs_no") int cs_no);
-    // @since 2023/04/04
+    // @since 2023/04/04 고객센터 - 약관
     public List<TermVO> selectTerm();
     public List<TermVO> selectLocation();
     public TermVO selectPrivacyRequire();
@@ -51,6 +51,9 @@ public interface CsDAO {
     public int countAdminTerms(SearchCondition sc);
     //@since 2023/04/11 관리자 - 약관 유형 목록
     public List<TermVO> selectAdminTermsType();
+    //@since 2023/04/12 관리자 - 약관 상세보기
+    public TermVO selectTermArticle(@Param("terms_no") int terms_no);
+
 
     /** insert **/
     // @since 2023/03/09
@@ -83,8 +86,10 @@ public interface CsDAO {
 
 
     /** delete **/
-    //@since 2023/03/15
+    //@since 2023/03/15 관리자 - 단일 게시글 삭제
     public int deleteFaqWrite(@Param("cs_no") int cs_no);
-    //@since 2023/03/27
+    //@since 2023/03/27 관리자 - qna 선택 삭제
     public int deleteQnaList(@Param("checkList") List<String> checkList);
+    //@since 2023/04/12 관리자 - 약관 삭제
+    public int deleteTerm(@Param("terms_no") int terms_no);
 }

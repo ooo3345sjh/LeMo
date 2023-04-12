@@ -619,6 +619,27 @@ public class AdminController {
 
 
     /**
+     * @since 2023/04/12
+     * @author 황원진
+     * @apiNote terms 게시물 삭제
+     */
+    @ResponseBody
+    @DeleteMapping("cs/term")
+    public Map<String, Integer> removeTerm(@RequestBody Map map){
+        log.debug("term");
+        log.debug((String) map.get("terms_no"));
+
+        int terms_no = Integer.parseInt(String.valueOf(map.get("term_no")));
+
+        int result = csService.removeTerm(terms_no);
+
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("result", result);
+
+        return resultMap;
+    }
+
+    /**
      * @since 2023/03/16
      * @author 황원진
      * @apiNote 단일 게시물 삭제
@@ -814,17 +835,14 @@ public class AdminController {
 
 
 
-
-
-
-
-
     /**
      * @since 2023/03/12
      * @author 황원진
      */
     @GetMapping("cs/{cs_cate}/view")
-    public String findAdminCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model){
+    public String findAdminCsArticle(@PathVariable("cs_cate") String cs_cate,
+                                     int cs_no,
+                                     Model model){
         log.info("cs_view Start");
 
         if("qna".equals(cs_cate)){
@@ -851,10 +869,27 @@ public class AdminController {
             model.addAttribute("cs_no", cs_no);
             model.addAttribute("cs_cate", cs_cate);
 
-            return "admin/cs/event/view";
+
         }
         return "admin/cs/event/view";
     }
+
+    /**
+     * @since 2023/04/12
+     * @author 황원진
+     * @apiNote term 약관 상세보기
+     */
+    @GetMapping("cs/terms/view")
+    public String findTermArticle(int terms_no, Model model){
+        log.debug("terms");
+        TermVO termArticle = csService.findTermArticle(terms_no);
+
+        model.addAttribute("term", termArticle);
+        model.addAttribute("terms_no", terms_no);
+
+        return "admin/cs/terms/view";
+    }
+
 
     /**
      * @since 2023/03/14

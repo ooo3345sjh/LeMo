@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin-layout}">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/admin/adminNotice.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+</th:block>
+<!DOCTYPE html>
+<th:block layout:fragment="content">
+    <main>
+        <div class="main_inner">
+            <!-- 죄측 사이드바 -->
+            <th:block th:replace="~{fragments/_aside::adminFragment}"></th:block>
+            <!-- 우측 메인 컨테이너 -->
+            <section class="main_content">
+                <div class="main_cotent_inner">
+                    <div class="main_content_div">
+                        <div class="col_nav">
+                            <span>고객센터 ></span>
+                            <span>약관 보기</span>
+                        </div>
+
+                        <!-- 공지 보기 폼 -->
+                        <div class="col_register_form">
+                            <!-- 공지 제목, 내용 -->
+                            <div class="col_register1">
+                                <div class="stayName">
+                                    <div>
+                                        <span>[[${term.terms_title}]]</span>
+                                    </div>
+                                </div>
+                                <div class="noticeContent">
+                                    <div th:utext="${term.terms_content}">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 버튼 -->
+                            <div class="btnAdminProd">
+                                <a th:href="@{/admin/cs/terms/list}">
+                                    약관목록
+                                </a>
+                            </div>
+                            <div class="btnAdminProd">
+                                <a th:href="@{#}">
+                                    약관수정
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blank30"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
+</th:block>
+<th:block layout:fragment="script">
+</th:block>
+</html>
