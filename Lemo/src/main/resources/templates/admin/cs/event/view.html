@@ -22,6 +22,7 @@
 
                         <!-- 이벤트 보기 폼 -->
                         <div class="col_register_form">
+                            <input type="hidden" id="page" value="${page}">
                             <!-- 이벤트 제목, 내용 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -57,7 +58,7 @@
 
                             <!-- 버튼 -->
                             <div class="btnAdminProd">
-                                <a href="javascript:history.back();">
+                                <a th:href='@{/admin/cs/event/list (page=${page})}'>
                                     이벤트목록
                                 </a>
                             </div>

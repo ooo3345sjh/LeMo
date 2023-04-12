@@ -168,7 +168,7 @@
                                             <ul>
                                                 <li>[[*{totalCnt-sc.offset} - ${i.index}]]</li>
                                                 <li class="title">
-                                                    <a th:href="@{/admin/cs/event/view (cs_no=${article.cs_no})}">[[${article.cs_title}]]</a>
+                                                    <a th:href="@{/admin/cs/event/view(cs_no=${article.cs_no}, page=${ph.sc.page})}" >[[${article.cs_title}]]</a>
                                                 </li>
                                                 <li>[[${article.cs_eventStart}]] ~ [[${article.cs_eventEnd}]]</li>
                                                 <li class="prodBtn" id="event_li">
