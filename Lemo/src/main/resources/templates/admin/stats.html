@@ -6,6 +6,13 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminSubStyle.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <style>
+        main .main_content > .main_cotent_inner {
+            background: #fff !important;
+            box-shadow: 0 2px 6px 0 rgb(218 218 253 / 2%), 0 2px 6px 0 rgb(206 206 238 / 15%);
+            border: 1px solid #F3F6F9;
+        }
+    </style>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -20,6 +27,28 @@
                             <span>통계관리</span>
                         </div>
                         <div class="col2" style="background: transparent;">
+                            <div class="search_date_sort">
+                                <ul class="date_msg">기간별 조회</ul>
+                                <ul class="date_3ea">
+                                    <li>
+                                        <a href="#">1주일</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">15일</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">1개월</a>
+                                    </li>
+                                </ul>
+                                <ul class="sd_date_box">
+                                    <li class="sd_date">
+                                        <input class="select_date" type="date"> - <input class="select_date" type="date">
+                                    </li>
+                                    <button type="submit" class="sd_submit">조회</button>
+                                    <button type="reset" class="sd_reset">초기화</button>
+                                </ul>
+                            </div>
+                            
                             <form action="#">
                                 <div class="stats_container">
                                     <!-- 날짜 선택 -->
@@ -43,8 +72,8 @@
                                             <!-- 매출 현황 -->
                                             <div class="sales_graph">
                                                 <div id="chart_div" style="width: 99%; height: 500px;"></div>
-                                            <!-- 결제 현황 -->
                                             </div>
+                                             <!-- 결제 현황 -->
                                             <div class="payment_stat_graph">
                                                 <div id="donutchart" style="width: 100%; height: 500px;"></div>
                                             </div>

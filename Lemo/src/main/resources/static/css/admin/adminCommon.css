@@ -63,6 +63,9 @@ main .essential_tag {
   }
 
   /* 여백 */
+  .blank10 {
+      height: 10px;
+  }
   .blank30 {
       height: 30px;
   }
