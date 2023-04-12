@@ -89,7 +89,15 @@ public interface MyDAO {
      * @author 이해빈
      * @apNote 찜한 숙소 삭제
      */
-    int deletePick(Map map);
+    public int deletePick(Map map);
+
+    /***
+     * @since 2023/04/12
+     * @author 이해빈
+     * @apNote 숙박 문의 삭제
+     */
+    public int deleteQna(Map map);
+
 
     // @since 2023/03/30
     public int updateReservationState(long res_no);

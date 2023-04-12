@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -692,7 +691,16 @@ public class MyService {
      * @author 이해빈
      * @apNote 찜한 숙소 삭제
      */
-    public int removePick(@Param("chkList") Map map){
+    public int removePick(Map map){
        return dao.deletePick(map);
+    }
+
+    /***
+     * @since 2023/04/12
+     * @author 이해빈
+     * @apNote 숙박 문의 삭제
+     */
+    public int removeQna(Map map){
+        return dao.deleteQna(map);
     }
 }

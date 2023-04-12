@@ -689,4 +689,21 @@ public class MyController {
         return map;
     }
 
+
+    /**
+     * @since 2023/04/12
+     * @author 이해빈
+     * @apiNote 숙박 문의 삭제
+     */
+    @ResponseBody
+    @DeleteMapping("qna")
+    public Map removeQna(@RequestBody Map map){
+
+        int result = service.removeQna(map);
+        map.put("result", 1);
+
+        return map;
+    }
+
+
 }

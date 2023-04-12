@@ -26,24 +26,28 @@
                             <table>
                                 <thead>
                                     <tr>
+                                        <th><input type="checkbox" class="check-qna-All"></th>
                                         <th>문의번호</th>
                                         <th>답변상태</th>
+                                        <th>숙소 이름</th>
                                         <th>제목</th>
                                         <th>등록일</th>
                                     </tr>
                                 </thead>
-                                <tbody th:each="cs:${cses}">
+                                <tbody th:each="cs:${cses}" th:if="${cses.size > 0}">
                                     <tr>
+                                        <td><input type="checkbox" class="check-qna" th:attr="data-no=${cs.qna_no}"></td>
                                         <td class="no">[[${cs.qna_no}]]</td>
                                         <td class="status">
                                             <span class="notAnswerYet" th:if="${cs.qna_reply == null}">검토중</span>
                                             <span class="notAnswerYet" th:if="${cs.qna_reply != null}">답변완료</span>
                                         </td>
+                                        <td>[[${cs.acc_name}]]</td>
                                         <td class="tit"><a href="#" th:onclick="popupAnswer([[${cs.qna_no}]])">[[${cs.qna_title}]]</a></td>
                                         <td class="date">[[${cs.qna_rdate.substring(0,10)}]]</td>
                                     </tr>
                                     <tr class="answer" th:id="answer+${cs.qna_no}">
-                                        <td colspan="4">
+                                        <td colspan="6">
                                             <div class="qt">
                                                 <span class="ic_qt">Q</span>
                                                 [[${cs.qna_content}]]
@@ -62,8 +66,15 @@
                                         </td>
                                     </tr>
                                 </tbody>
+                                <tbody th:if="${cses.size == 0}">
+                                    <tr>
+                                        <td colspan="6">작성한 문의글이 존재하지 않습니다.</td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
+                        <!-- 삭제버튼 -->
+                        <button class="commonBtn btnRemoveQna" type="button">선택 삭제</button>
                         <!-- 페이징 -->
                         <div class="paging" th:object="${ph}" th:unless="${cses.size() == 0}">
                             <span th:if="*{showPrev}">
@@ -82,36 +93,6 @@
                         </div>
                     </div>  
                 </section>
-                <!-- 우측 미니 사이드바 -->
-                <div class="btn_quick">
-                    <ul>
-                        <li class="btn_wishlist">
-                            <a href="javascript:;">
-                                <img th:src="@{/images/index/empty-heart.png}">
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">
-                                <img th:src="@{/images/index/naver_quick.png}">
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">
-                                <img th:src="@{/images/index/kakao_quick.png}">
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{#}" id="scrollToTop" onclick="return false;">
-                                <img th:src="@{/images/index/top_btn.png}">
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{#}" id="scrollToBottom" onclick="return false;">
-                                <img th:src="@{/images/index/bottom_btn.png}">
-                            </a>
-                        </li>
-                    </ul>
-                </div>
             </main>
     </th:block>
     <th:block layout:fragment="script">
@@ -127,6 +108,55 @@
                     $('#answer'+no).addClass('on');
                 }
             }
+
+            $(function(){
+                // 체크 박스 관련 변수
+                const chkList = [];
+
+                // 전체 선택, 전체 해제
+                $('.check-qna-All').click(function(){
+                    let checked = $(this).prop('checked');
+                    $('.check-qna').prop('checked', checked);
+                });
+
+                // 개별 체크박스 변경 시 전체선택 체크박스 선택 상태 변경
+                $('.check-qna').change(function() {
+                  if($('.check-qna:checked').length == $('.check-qna').length) {
+                    $('.check-qna-All').prop('checked', true);
+                  } else {
+                    $('.check-qna-All').prop('checked', false);
+                  }
+                });
+
+                // 선택한 문의글 삭제
+                $('.btnRemoveQna').click(function(){
+                    $('.check-qna:checked').each(function(){
+                        chkList.push($(this).attr("data-no"));
+                    });
+
+                    console.log(chkList);
+
+                    if(chkList.length == 0){
+                        sweetalert("선택된 문의글이 없습니다!","warning");
+                        return false;
+                    }
+
+                    if(chkList.length > 0) {
+                        let jsonData = {
+                            "chkList" : chkList
+                        };
+
+                        ajaxAPI("my/qna", jsonData, "DELETE").then((response)=>{
+                            if(response.result > 0){
+                                location.reload(true);
+                            }else{
+                                sweetalert("선택한 문의글을 삭제하지 못하였습니다.\n잠시 후 다시 시도해 주세요.","error");
+                            }
+                        })
+                    }
+                });
+            })
+
         </script>
     </th:block>
 </html>
