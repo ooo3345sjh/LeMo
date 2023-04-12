@@ -351,7 +351,7 @@ public class UserService {
      * @author 서정현
      * @apiNote 매일 한시간마다 탈퇴한지 24시간이 지난 회원ID 업데이트
      */
-    @Scheduled(cron = "0 */1 * * * *")
+    @Scheduled(cron = "0 0 0/1 * * * ")
     public void usaveWithdrawUserId() throws Exception {
         log.debug("usaveWithdrawUserId start...");
         userDAO.updateWithdrawUserId(UUID.randomUUID().toString());
