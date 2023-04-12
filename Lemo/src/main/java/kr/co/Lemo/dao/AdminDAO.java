@@ -132,6 +132,8 @@ public interface AdminDAO {
     public int countWeeksUser();
     public int countDayUser();
 
+    public int selectWeekAvg();
+
 
     /**
      * @since 2023/03/31

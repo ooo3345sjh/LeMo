@@ -243,6 +243,23 @@
         ORDER BY `res_date` desc limit 7;
     </select>
 
+    <!-- 관리자 - 통계관리 주 평균 판매량 -->
+    <select id="selectWeekAvg" resultType="java.lang.Integer">
+        SELECT AVG(tot_res_price) AS avg_tot_res_price
+        FROM (
+            SELECT DATE(a.res_date) AS res_date,
+                    MAX(a.res_state) AS res_state,
+                    SUM(a.res_price) AS res_price,
+                    SUM(a.res_disPrice) AS res_disPrice,
+                    (SUM(a.res_price - a.res_disPrice)) AS tot_res_price
+                    FROM lemo_product_reservation AS a
+                LEFT JOIN lemo_product_accommodation AS b ON a.acc_id = b.acc_id
+                WHERE a.res_state NOT IN (0) AND a.res_checkIn BETWEEN DATE(date_add(now(), INTERVAL -6 DAY)) AND DATE(NOW())
+                GROUP BY DATE(a.res_date)
+                ORDER BY `res_date` DESC LIMIT 7
+        ) AS subquery;
+    </select>
+
     <!-- 관리자 - 결제방법 결제 현황 (일주일) -->
     <select id="selectPayment" resultType="kr.co.Lemo.domain.ReservationVO">
         select * from `lemo_product_reservation` as a

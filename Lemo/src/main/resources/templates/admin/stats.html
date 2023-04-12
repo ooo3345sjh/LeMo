@@ -31,13 +31,13 @@
                                 <ul class="date_msg">기간별 조회</ul>
                                 <ul class="date_3ea">
                                     <li>
-                                        <a href="#">1주일</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">15일</a>
+                                        <a href="#">당일</a>
                                     </li>
                                     <li>
                                         <a href="#">1개월</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">1년</a>
                                     </li>
                                 </ul>
                                 <ul class="sd_date_box">
@@ -48,14 +48,62 @@
                                     <button type="reset" class="sd_reset">초기화</button>
                                 </ul>
                             </div>
-                            
+
                             <form action="#">
                                 <div class="stats_container">
                                     <!-- 날짜 선택 -->
+                                    <!--
                                     <div class="current_date_div">
                                         <input type="text" id="datepicker" name="dates">
                                     </div>
+                                    -->
+
+
+                                <div class="sales_day_status">
+
+                                    <div class="tot_sales_day">
+                                        <div class="tsd_tit1">총매출</div>
+                                        <div class="tsd_tit2">[[${totalSales}]] <i>건</i></div>
+                                        <div class="tsd_tit3" th:text="${#numbers.formatInteger(stats[0].tot_res_price + stats[1].tot_res_price + stats[2].tot_res_price + stats[3].tot_res_price + stats[4].tot_res_price + stats[5].tot_res_price + stats[6].tot_res_price, 0, 'COMMA')}">1,234,567,89 <i>원</i></div>
+                                        <i>원</i>
+                                    </div>
+
+                                    <div class="tsd_grid">
+                                        <div class="tsd_grid1">
+                                            <div class="tsd_res">
+                                                <p>예약</p>
+                                                <h3>[[${totalSales}]] <i>건</i></h3>
+                                            </div>
+                                            <div class="tsd_cancel">
+                                                <p>취소</p>
+                                                <h3>[[${totalCanceled}]] <i>건</i></h3>
+                                            </div>
+                                            <div class="tsd_visit">
+                                                <p>방문자</p>
+                                                <h3>1,234 <i>명</i></h3>
+                                            </div>
+                                        </div>
+                                        <div class="tsd_grid2">
+                                            <div class="tsd_qna">
+                                                <p>1:1 문의</p>
+                                                <h3>[[${totalQna}]] <i>건</i></h3>
+                                            </div>
+                                            <div class="tsd_prod">
+                                                <p>상품등록</p>
+                                                <h3>[[${totalAcc}]] <i>건</i></h3>
+                                            </div>
+                                            <div class="tsd_regi">
+                                                <p>회원가입</p>
+                                                <h3>[[${totalUser}]] <i>건</i></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="blank10"></div>
+
+
                                     <!-- 총 매출 -->
+                                    <!--
                                     <div class="tot_sales">
                                         <div class="tot_sales_box">
                                             <div class="ts_tit1">총매출</div>
@@ -65,6 +113,7 @@
                                             <div class="ts_tit3">원</div>
                                         </div>
                                     </div>
+                                    -->
                                     <!-- 매출현황 -->
                                     <div class="current_sales_stat">
                                         <!-- 매출 그래프 및 결제 현황-->
@@ -78,7 +127,29 @@
                                                 <div id="donutchart" style="width: 100%; height: 500px;"></div>
                                             </div>
                                         </div>
+                                        <div class="sg_box">
+                                            <!-- 일별/주별/연벌 매출 그래프 현황 -->
+                                            <div class="sales_stat_chart2">
+                                                <div class="sg_day">
+                                                    <div id="chart_div_day" style="width: 99%; height: 300px;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="sales_stat_chart2">
+                                                <div class="sg_day">
+                                                    <div id="chart_div_month" style="width: 99%; height: 300px;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="sales_stat_chart2">
+                                                <div class="sg_day">
+                                                    <div id="chart_div_year" style="width: 99%; height: 300px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
                                         <!-- 오늘 현황 -->
+                                        <!--
                                         <div class="today_stat">
                                             <div class="today_div">
                                                 <div class="today_grid">
@@ -109,6 +180,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        -->
                                         <!-- 객실 점유율 -->
                                         <!-- <div class="sales_room_percent">
                                             <div class="chart_box">
@@ -243,16 +315,18 @@
 
         function drawVisualization() {
 
+            let avgWeeks = [[${avgWeeks}]];
+
             // 그래프 내용 : drawVisualization 구현
             var data = google.visualization.arrayToDataTable([
-                ['날짜', '일별매출', '누적매출'],
-                [before[6],  stats[6].tot_res_price, stats[6].tot_res_price],
-                [before[5],  stats[5].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price],
-                [before[4],  stats[4].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price],
-                [before[3],  stats[3].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price],
-                [before[2],  stats[2].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price],
-                [before[1],  stats[1].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price + stats[1].tot_res_price],
-                [date,  stats[0].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[1].tot_res_price + stats[1].tot_res_price + stats[0].tot_res_price]
+                ['날짜', '일별매출', '주매출평균'],
+                [before[6],  stats[6].tot_res_price, avgWeeks],
+                [before[5],  stats[5].tot_res_price, avgWeeks],
+                [before[4],  stats[4].tot_res_price, avgWeeks],
+                [before[3],  stats[3].tot_res_price, avgWeeks],
+                [before[2],  stats[2].tot_res_price, avgWeeks],
+                [before[1],  stats[1].tot_res_price, avgWeeks],
+                [date,  stats[0].tot_res_price, avgWeeks]
             ]);
 
             // 그래프 주석 표기
@@ -307,52 +381,322 @@
             });
         }
     </script>
-    <!--
-    <script>
+    <!-- 일별 매출 그래프 -->
+    <script th:inline="javascript">
+        // 참조 데이터 준비
+        let dayStats = [[${stats}]];
+
+        // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
+        // callback 정의 : drawVisualization
+        google.charts.setOnLoadCallback(drawVisualization);
 
-        function drawChart() {
+        // 오늘 날짜
+        today = new Date();
+        // 오늘 날짜 (월)
+        nowMonth = today.getMonth() + 1;
+        // 오늘 날짜 (일)
+        nowDate = today.getDate();
+        // 출력 날짜 형태 지정
+        date = nowMonth + '/' + nowDate;
 
-            var data2 = google.visualization.arrayToDataTable([
-                    ['객실유형', '퍼센트', { role: 'style' } ],
-                    ['전체',  44+22+12, 'color: #4F650D'],
-                    ['A룸',  44 , 'color: #BBD444'],
-                    ['B룸',  40, 'color: #BBD444'],
-                    ['C룸',  16, 'color: #BBD444'],
-                    ['D룸',  23, 'color: #BBD444'],
-                    ['E룸',  60, 'color: #BBD444']
-                ]);
+        console.log("date : " + date);
 
-            var view2 = new google.visualization.DataView(data2);
-            view2.setColumns([0, 1,
+        // 이전 날짜
+        // before[1] = 1일전 , before[2] = 2일전
+        before = new Array();
+        for (let i=1; i<7; i++){
+            before[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
+            before[i] = (before[i].getMonth()+1) + '/' + before[i].getDate();
+        }
+        console.log(before[6] + " - " + dayStats[0].tot_res_price);
+        console.log(before[5] + " - " + dayStats[1].tot_res_price);
+        console.log(before[4] + " - " + dayStats[2].tot_res_price);
+        console.log(before[3] + " - " + dayStats[3].tot_res_price);
+        console.log(before[2] + " - " + dayStats[4].tot_res_price);
+        console.log(before[1] + " - " + dayStats[5].tot_res_price);
+        console.log(date + " - " + dayStats[6].tot_res_price);
+
+
+
+        function drawVisualization() {
+
+            // 그래프 내용 : drawVisualization 구현
+            //todaySales
+            var data = google.visualization.arrayToDataTable([
+                ['날짜', '일별매출', '누적매출'],
+                [before[6],  dayStats[6].tot_res_price, dayStats[6].tot_res_price],
+                [before[5],  dayStats[5].tot_res_price, dayStats[6].tot_res_price + stats[5].tot_res_price],
+                [before[4],  dayStats[4].tot_res_price, dayStats[6].tot_res_price + dayStats[5].tot_res_price + dayStats[4].tot_res_price],
+                [before[3],  dayStats[3].tot_res_price, dayStats[6].tot_res_price + dayStats[5].tot_res_price + dayStats[4].tot_res_price + dayStats[3].tot_res_price],
+                [before[2],  dayStats[2].tot_res_price, dayStats[6].tot_res_price + dayStats[5].tot_res_price + dayStats[4].tot_res_price + dayStats[3].tot_res_price + dayStats[2].tot_res_price],
+                [before[1],  dayStats[1].tot_res_price, dayStats[6].tot_res_price + dayStats[5].tot_res_price + dayStats[4].tot_res_price + dayStats[3].tot_res_price + dayStats[2].tot_res_price + dayStats[1].tot_res_price],
+                [date,  dayStats[0].tot_res_price, dayStats[6].tot_res_price + dayStats[5].tot_res_price + dayStats[4].tot_res_price + dayStats[3].tot_res_price + dayStats[1].tot_res_price + dayStats[1].tot_res_price + dayStats[0].tot_res_price]
+            ]);
+
+            // 그래프 주석 표기
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
                             { calc: "stringify",
                                 sourceColumn: 1,
                                 type: "string",
                                 role: "annotation" },
                             2]);
 
+            // 그래프 옵션
             var options = {
-                'title':'객실 점유율 (%)',
-                'width':1200,
-                'height':300,
-                legend: {position: 'none'},
-                isStacked: true,
-                    // 가로축 설정
-                hAxis: {
-                    minValue: 0,
-                    maxValue: 100
+                title : '일별 매출현황',
+                titleTextStyle: {fontSize: 18},
+                animation:{
+                    duration: 1000,
+                    easing: 'in',
                 },
-                format: 'percent'
+                // 세로축 설정
+                vAxis: {
+                    titleTextStyle: {italic: false, bold: true},
+                    textStyle: {
+                        fontSize: 16,
+                        bold: true,
+                        italic: false
+                    }
+                },
+                // 가로축 설정
+                hAxis: {
+                    titleTextStyle: {italic: false, bold: true},
+                    textStyle: {
+                        fontSize: 16,
+                        bold: true,
+                        italic: false
+                    }
+                },
+                format: 'currency',             // 숫자 또는 라벨의 형식 문자열 (currency: 현지 통화)
+                seriesType: 'bars',             // 베이스 차트 종류
+                colors: ['#AACB73'],            // 베이스 차트 색상
+                pointSize: 5,                   // 라인 포인트
+                crosshair: { trigger: 'both', color: '#FFD4D4', opacity: 0.8 }, // 라인 교차점
+                series: {1:
+                    { pointShape: 'circle', type: 'line', color: '#FFD4D4'}}    // 라인
             };
 
+            var chart = new google.visualization.ComboChart(document.getElementById('chart_div_day'));
+            chart.draw(view, options);
 
-
-            var chart = new google.visualization.BarChart(document.getElementById('chart_div2'));
-            chart.draw(view2, options);
+            $(window).resize(function(){
+                drawVisualization();
+            });
         }
     </script>
-    -->
+
+    <!-- 월별 매출 그래프 -->
+    <script th:inline="javascript">
+        // 참조 데이터 준비
+        let monthStats = [[${stats}]];
+
+        // 구글 열 차트를 로드
+        google.charts.load('current', {'packages':['corechart']});
+        // callback 정의 : drawVisualization
+        google.charts.setOnLoadCallback(drawVisualization);
+
+        // 오늘 날짜
+        today = new Date();
+        // 오늘 날짜 (월)
+        nowMonth = today.getMonth() + 1;
+        // 오늘 날짜 (일)
+        nowDate = today.getDate();
+        // 출력 날짜 형태 지정
+        date = nowMonth + '/' + nowDate;
+
+        console.log("date : " + date);
+
+        // 이전 날짜
+        // before[1] = 1일전 , before[2] = 2일전
+        before = new Array();
+        for (let i=1; i<7; i++){
+            before[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
+            before[i] = (before[i].getMonth()+1) + '/' + before[i].getDate();
+        }
+        console.log(before[6] + " - " + monthStats[0].tot_res_price);
+        console.log(before[5] + " - " + monthStats[1].tot_res_price);
+        console.log(before[4] + " - " + monthStats[2].tot_res_price);
+        console.log(before[3] + " - " + monthStats[3].tot_res_price);
+        console.log(before[2] + " - " + monthStats[4].tot_res_price);
+        console.log(before[1] + " - " + monthStats[5].tot_res_price);
+        console.log(date + " - " + monthStats[6].tot_res_price);
+
+
+
+        function drawVisualization() {
+
+            // 그래프 내용 : drawVisualization 구현
+            var data = google.visualization.arrayToDataTable([
+                ['날짜', '일별매출', '누적매출'],
+                [before[6],  monthStats[6].tot_res_price, monthStats[6].tot_res_price],
+                [before[5],  monthStats[5].tot_res_price, monthStats[6].tot_res_price + stats[5].tot_res_price],
+                [before[4],  monthStats[4].tot_res_price, monthStats[6].tot_res_price + monthStats[5].tot_res_price + monthStats[4].tot_res_price],
+                [before[3],  monthStats[3].tot_res_price, monthStats[6].tot_res_price + monthStats[5].tot_res_price + monthStats[4].tot_res_price + monthStats[3].tot_res_price],
+                [before[2],  monthStats[2].tot_res_price, monthStats[6].tot_res_price + monthStats[5].tot_res_price + monthStats[4].tot_res_price + monthStats[3].tot_res_price + monthStats[2].tot_res_price],
+                [before[1],  monthStats[1].tot_res_price, monthStats[6].tot_res_price + monthStats[5].tot_res_price + monthStats[4].tot_res_price + monthStats[3].tot_res_price + monthStats[2].tot_res_price + monthStats[1].tot_res_price],
+                [date,  monthStats[0].tot_res_price, monthStats[6].tot_res_price + monthStats[5].tot_res_price + monthStats[4].tot_res_price + monthStats[3].tot_res_price + monthStats[1].tot_res_price + monthStats[1].tot_res_price + monthStats[0].tot_res_price]
+            ]);
+
+            // 그래프 주석 표기
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                            { calc: "stringify",
+                                sourceColumn: 1,
+                                type: "string",
+                                role: "annotation" },
+                            2]);
+
+            // 그래프 옵션
+            var options = {
+                title : '월별 매출현황',
+                titleTextStyle: {fontSize: 18},
+                animation:{
+                    duration: 1000,
+                    easing: 'in',
+                },
+                // 세로축 설정
+                vAxis: {
+                    titleTextStyle: {italic: false, bold: true},
+                    textStyle: {
+                        fontSize: 16,
+                        bold: true,
+                        italic: false
+                    }
+                },
+                // 가로축 설정
+                hAxis: {
+                    titleTextStyle: {italic: false, bold: true},
+                    textStyle: {
+                        fontSize: 16,
+                        bold: true,
+                        italic: false
+                    }
+                },
+                format: 'currency',             // 숫자 또는 라벨의 형식 문자열 (currency: 현지 통화)
+                seriesType: 'bars',             // 베이스 차트 종류
+                colors: ['#AACB73'],            // 베이스 차트 색상
+                pointSize: 5,                   // 라인 포인트
+                crosshair: { trigger: 'both', color: '#FFD4D4', opacity: 0.8 }, // 라인 교차점
+                series: {1:
+                    { pointShape: 'circle', type: 'line', color: '#FFD4D4'}}    // 라인
+            };
+
+            var chart = new google.visualization.ComboChart(document.getElementById('chart_div_month'));
+            chart.draw(view, options);
+
+            $(window).resize(function(){
+                drawVisualization();
+            });
+        }
+    </script>
+
+    <!-- 연별 매출 그래프 -->
+    <script th:inline="javascript">
+        // 참조 데이터 준비
+        let yearStats = [[${stats}]];
+
+        // 구글 열 차트를 로드
+        google.charts.load('current', {'packages':['corechart']});
+        // callback 정의 : drawVisualization
+        google.charts.setOnLoadCallback(drawVisualization);
+
+        // 오늘 날짜
+        today = new Date();
+        // 오늘 날짜 (월)
+        nowMonth = today.getMonth() + 1;
+        // 오늘 날짜 (일)
+        nowDate = today.getDate();
+        // 출력 날짜 형태 지정
+        date = nowMonth + '/' + nowDate;
+
+        console.log("date : " + date);
+
+        // 이전 날짜
+        // before[1] = 1일전 , before[2] = 2일전
+        before = new Array();
+        for (let i=1; i<7; i++){
+            before[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
+            before[i] = (before[i].getMonth()+1) + '/' + before[i].getDate();
+        }
+        console.log(before[6] + " - " + yearStats[0].tot_res_price);
+        console.log(before[5] + " - " + yearStats[1].tot_res_price);
+        console.log(before[4] + " - " + yearStats[2].tot_res_price);
+        console.log(before[3] + " - " + yearStats[3].tot_res_price);
+        console.log(before[2] + " - " + yearStats[4].tot_res_price);
+        console.log(before[1] + " - " + yearStats[5].tot_res_price);
+        console.log(date + " - " + yearStats[6].tot_res_price);
+
+
+
+        function drawVisualization() {
+
+            // 그래프 내용 : drawVisualization 구현
+            var data = google.visualization.arrayToDataTable([
+                ['날짜', '일별매출', '누적매출'],
+                [before[6],  yearStats[6].tot_res_price, yearStats[6].tot_res_price],
+                [before[5],  yearStats[5].tot_res_price, yearStats[6].tot_res_price + stats[5].tot_res_price],
+                [before[4],  yearStats[4].tot_res_price, yearStats[6].tot_res_price + yearStats[5].tot_res_price + yearStats[4].tot_res_price],
+                [before[3],  yearStats[3].tot_res_price, yearStats[6].tot_res_price + yearStats[5].tot_res_price + yearStats[4].tot_res_price + yearStats[3].tot_res_price],
+                [before[2],  yearStats[2].tot_res_price, yearStats[6].tot_res_price + yearStats[5].tot_res_price + yearStats[4].tot_res_price + yearStats[3].tot_res_price + yearStats[2].tot_res_price],
+                [before[1],  yearStats[1].tot_res_price, yearStats[6].tot_res_price + yearStats[5].tot_res_price + yearStats[4].tot_res_price + yearStats[3].tot_res_price + yearStats[2].tot_res_price + yearStats[1].tot_res_price],
+                [date,  yearStats[0].tot_res_price, yearStats[6].tot_res_price + yearStats[5].tot_res_price + yearStats[4].tot_res_price + yearStats[3].tot_res_price + yearStats[1].tot_res_price + yearStats[1].tot_res_price + yearStats[0].tot_res_price]
+            ]);
+
+            // 그래프 주석 표기
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                            { calc: "stringify",
+                                sourceColumn: 1,
+                                type: "string",
+                                role: "annotation" },
+                            2]);
+
+            // 그래프 옵션
+            var options = {
+                title : '연별 매출현황',
+                titleTextStyle: {fontSize: 18},
+                animation:{
+                    duration: 1000,
+                    easing: 'in',
+                },
+                // 세로축 설정
+                vAxis: {
+                    titleTextStyle: {italic: false, bold: true},
+                    textStyle: {
+                        fontSize: 16,
+                        bold: true,
+                        italic: false
+                    }
+                },
+                // 가로축 설정
+                hAxis: {
+                    titleTextStyle: {italic: false, bold: true},
+                    textStyle: {
+                        fontSize: 16,
+                        bold: true,
+                        italic: false
+                    }
+                },
+                format: 'currency',             // 숫자 또는 라벨의 형식 문자열 (currency: 현지 통화)
+                seriesType: 'bars',             // 베이스 차트 종류
+                colors: ['#AACB73'],            // 베이스 차트 색상
+                pointSize: 5,                   // 라인 포인트
+                crosshair: { trigger: 'both', color: '#FFD4D4', opacity: 0.8 }, // 라인 교차점
+                series: {1:
+                    { pointShape: 'circle', type: 'line', color: '#FFD4D4'}}    // 라인
+            };
+
+            var chart = new google.visualization.ComboChart(document.getElementById('chart_div_year'));
+            chart.draw(view, options);
+
+            $(window).resize(function(){
+                drawVisualization();
+            });
+        }
+    </script>
+
     <script th:inline="javascript">
         // 참조 데이터 준비
         let statsMonth = [[${statsMonth}]];
