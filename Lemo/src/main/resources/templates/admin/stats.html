@@ -128,8 +128,14 @@
                                                 <div id="donutchart" style="width: 100%; height: 500px;"></div>
                                             </div>
                                         </div>
+
+                                        <div class="sg_hr">
+                                            <p>단위 기간별 매출 현황</p>
+                                        </div>
+
+
                                         <div class="sg_box">
-                                            <!-- 일별/주별/연벌 매출 그래프 현황 -->
+                                            <!-- 일별/주별/연별 매출 그래프 현황 -->
                                             <div class="sales_stat_chart2">
                                                 <div class="sg_day">
                                                     <div id="chart_div_day" style="width: 99%; height: 300px;"></div>
@@ -201,7 +207,7 @@
                                                     </tr>
                                                     <tr th:each="vo, i:${statsMonth}">
                                                         <td>[[${vo.res_month}]]월</td>
-                                                        <td>[[${vo.tot_month_sales}]]</td>
+                                                        <td>[[${vo.tot_month_sales}]]건</td>
                                                         <!--/* <td>[[${monthSalesList}]]</td>  */-->
                                                         <td th:text="${#numbers.formatInteger(vo.tot_res_price, 0, 'COMMA') + '원'}">36,000</td>
                                                         <td th:text="${#numbers.formatDecimal(vo.tot_month_percent, 2, 2) + '%'}"></td>
@@ -452,8 +458,8 @@
                 },                              // 그래프 색상 이름 제거 (default: 자동 생성)
                 colors: ['#AACB73'],            // 베이스 차트 색상
                 chartArea: {
-                width: '65%',                   // 그래프 영역 크기 조절 (픽셀은 px 표기X, 백분율은 % 표기)
-                right: '8%'                     // 그래프 영역 위치 이동 (그래프 왼쪽 끝 기준 위치 설정)
+                    width: '65%',                   // 그래프 영역 크기 조절 (픽셀은 px 표기X, 백분율은 % 표기)
+                    right: '8%'                     // 그래프 영역 위치 이동 (그래프 왼쪽 끝 기준 위치 설정)
                 }
             };
 
@@ -548,10 +554,16 @@
                 format: 'currency',             // 숫자 또는 라벨의 형식 문자열 (currency: 현지 통화)
                 seriesType: 'bars',             // 베이스 차트 종류
                 colors: ['#AACB73'],            // 베이스 차트 색상
+                chartArea: {
+                    width: '65%',                   // 그래프 영역 크기 조절 (픽셀은 px 표기X, 백분율은 % 표기)
+                    right: '8%'                     // 그래프 영역 위치 이동 (그래프 왼쪽 끝 기준 위치 설정)
+                },
                 pointSize: 5,                   // 라인 포인트
                 crosshair: { trigger: 'both', color: '#FFD4D4', opacity: 0.8 }, // 라인 교차점
-                series: {1:
-                    { pointShape: 'circle', type: 'line', color: '#FFD4D4'}}    // 라인
+                series: {
+                    0: {color: '#AACB73', visibleInLegend: false},  // 막대 그래프 우측 라벨 제거
+                    1: { pointShape: 'circle', type: 'line', color: '#FFD4D4', visibleInLegend: false} // 라인
+                }
             };
 
             var chart = new google.visualization.ComboChart(document.getElementById('chart_div_month'));
@@ -632,6 +644,7 @@
                 // 세로축 설정
                 vAxis: {
                     titleTextStyle: {italic: false, bold: true},
+                    format: '#,###',             // 숫자 또는 라벨의 형식 문자열 (currency: 현지 통화)
                     textStyle: {
                         fontSize: 16,
                         bold: true,
@@ -645,15 +658,21 @@
                         fontSize: 16,
                         bold: true,
                         italic: false
-                    }
+                    },
+                    format: '####'                // 숫자 형식 지정
                 },
-                format: 'currency',             // 숫자 또는 라벨의 형식 문자열 (currency: 현지 통화)
                 seriesType: 'bars',             // 베이스 차트 종류
                 colors: ['#AACB73'],            // 베이스 차트 색상
+                chartArea: {
+                    width: '65%',                   // 그래프 영역 크기 조절 (픽셀은 px 표기X, 백분율은 % 표기)
+                    right: '8%'                     // 그래프 영역 위치 이동 (그래프 왼쪽 끝 기준 위치 설정)
+                },
                 pointSize: 5,                   // 라인 포인트
                 crosshair: { trigger: 'both', color: '#FFD4D4', opacity: 0.8 }, // 라인 교차점
-                series: {1:
-                    { pointShape: 'circle', type: 'line', color: '#FFD4D4'}}    // 라인
+                series: {
+                    0: {color: '#AACB73', visibleInLegend: false},  // 막대 그래프 우측 라벨 제거
+                    1: { pointShape: 'circle', type: 'line', color: '#FFD4D4', visibleInLegend: false} // 라인
+                }
             };
 
             var chart = new google.visualization.ComboChart(document.getElementById('chart_div_year'));

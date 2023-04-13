@@ -2726,18 +2726,14 @@ main #chart_div {
 
 main .sales_div {
     width: 100%;
-    padding: 30px 0 30px 0;
     margin-bottom: 1.5rem;
     background: #fff;
-    border-radius: 10px;
-    border: 0 solid #e3e3e3;
-    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 2%), 0 2px 6px 0 rgb(206 206 238 / 15%);
 }
 main .sales_table {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin: 35px 0;
+    margin: 5px 0;
 }
 main .sales_table table {
     width: 96%;
@@ -2746,27 +2742,26 @@ main .sales_table table {
     margin: 0 auto;
 }
 main .sales_table tr {
-    border-bottom: 1px solid #ececec;
+    border-bottom: 1px solid #bbb;
 }
 main .sales_table tr:first-child {
-    border-top: 1px solid #ececec;
+    border-top: 1px solid #bbb;
 }
 main .sales_table th {
-    font-size: 16px;
-    font-weight: 500;
-    color: #424242;
+    font-size: 13px;
     padding: 10px 0;
-    background: #f2f1f1;
+    background: #F7F7F7;
 }
-main .sales_table th:nth-of-type(1) {width: 19%;}
+main .sales_table th:nth-of-type(1) {width: 9%;}
 main .sales_table th:nth-of-type(2) {width: 10%;}
 main .sales_table th:nth-of-type(3) {width: 17%;}
 main .sales_table th:nth-of-type(4) {width: 15%;}
 main .sales_table th:nth-of-type(5) {}
 main .sales_table td {
-    color: #424242;
     padding: 10px 0;
     font-size: 14px;
+    font-family: 'Noto Sans KR';
+    font-weight: 300;
 }
 main #progress1 {
     text-align: left;
@@ -3123,4 +3118,16 @@ main .sd_msg {
 main .sd_msg > strong {
     font-size: 13px;
     color: #00bbfe;
+}
+main .sg_hr {
+    border-bottom: 1px solid #F3F6F9;
+    padding-bottom: 4px;
+    margin-bottom: 24px;
+    text-align: left;
+    margin-top: 51px;
+}
+main .sg_hr > p {
+    font-size: 13px;
+    color: #424242;
+    font-weight: 300;
 }

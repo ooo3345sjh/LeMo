@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                              */-->
-                            <p class="tsd_msg">상세 매출 내역은 '통계관리'에서 확인해 주십시오.</p>
+                            <p class="tsd_msg">상세 매출 내역은 <strong>통계관리</strong>에서 확인해 주십시오.</p>
                             <div class="sales_day_status">
                                 <div class="tot_sales_day">
                                     <div class="tsd_tit1">총매출</div>
@@ -80,7 +80,8 @@
                         </div>
                     </div>
                     <div class="blank10"></div>
-                    <div class="main_content_div">
+                    <p class="tsd_msg2">당일 기준 (<strong>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</strong>)로부터 <strong>7일 전</strong> 데이터가 조회됩니다.</p>
+                    <div class="main_content_div" id="main_content_div">
                         <div class="col1" style="width: 100%">
                             <div class="col1_graph_chart">
                                 <!-- 매출 현황 -->
