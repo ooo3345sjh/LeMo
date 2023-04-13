@@ -53,8 +53,7 @@
 <!--                                <span>01.</span>-->
                                 <b>[[${location.terms_title}]]</b>
                             </a>
-                            <div class="toggle">
-                                [[${location.terms_content}]]
+                            <div class="toggle" th:utext="${location.terms_content}">
                             </div>
                         </li>
                     </ul>
