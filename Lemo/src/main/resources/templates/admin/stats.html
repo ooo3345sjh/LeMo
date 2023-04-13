@@ -477,6 +477,7 @@
 
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
+
         // callback 정의 : drawVisualization
         google.charts.setOnLoadCallback(drawVisualization);
 
@@ -492,23 +493,20 @@
 
         // 이전 날짜
         // before[1] = 1일전 , before[2] = 2일전
-        before = new Array();
+        monthBefore = new Array();
         for (let i=1; i<7; i++){
             const monthAgo = new Date(Montoday.getTime() - (i * 30 * 24 * 60 * 60 * 1000)); // 30일(한달)을 기준으로 계산
             const Mmonth = monthAgo.toLocaleString('default', { month: 'long' }); // 월을 문자열로 변환
-            before[i] = Mmonth;
+            monthBefore[i] = Mmonth;
         }
 
-        console.log(MonDate);
-
         function drawVisualization() {
-
             // 그래프 내용 : drawVisualization 구현
             var data = google.visualization.arrayToDataTable([
                 ['날짜', '일별매출', '월매출평균'],
-                [before[3],  MstatsMonth[0].tot_res_price, monthAvg],
-                [before[2],  MstatsMonth[1].tot_res_price, monthAvg],
-                [before[1],  MstatsMonth[2].tot_res_price, monthAvg],
+                [monthBefore[3],  MstatsMonth[0].tot_res_price, monthAvg],
+                [monthBefore[2],  MstatsMonth[1].tot_res_price, monthAvg],
+                [monthBefore[1],  MstatsMonth[2].tot_res_price, monthAvg],
                 [MonDate,  MstatsMonth[3].tot_res_price, monthAvg]
             ]);
 

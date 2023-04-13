@@ -34,6 +34,9 @@ $(function(){
         let inputFile = $(this).parent('.image');
         $(this).change(function(e){
             let preview = $('.inputImage', inputFile);
+
+            let fileNo = $(this).attr('data-no');
+
             const reader = new FileReader();
             var oFile = $(this)[0].files;
 
@@ -42,6 +45,7 @@ $(function(){
             }else {
                 // 서정현 TEST
                 fileInputList.push($(this).clone());
+                fileMap.set(fileNo, e.target.files[0])
 
                 reader.readAsDataURL(e.target.files[0]);
                 reader.onload = function(event){

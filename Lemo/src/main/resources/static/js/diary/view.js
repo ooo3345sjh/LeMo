@@ -56,10 +56,16 @@ positionMap.forEach(function(position, i){
 
     overlays.set(position.spot_no, overlay);
 
-    kakao.maps.event.addListener(marker, 'click', function() {
+    kakao.maps.event.addListener(marker, 'mouseover', function() {
         overlays.forEach(function(over){ over.setMap(null); });
 
         overlay.setMap(map);
+    });
+
+    kakao.maps.event.addListener(marker, 'mouseout', function() {
+        overlays.forEach(function(over){ over.setMap(null); });
+
+        overlay.setMap(null);
     });
 
 });

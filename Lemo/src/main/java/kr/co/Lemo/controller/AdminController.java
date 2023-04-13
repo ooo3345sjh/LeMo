@@ -168,6 +168,8 @@ public class AdminController {
         //log.warn("pays length: " + pays.size());
         log.warn("stats: " + stats);
 
+        log.debug(""+statsMonth);
+
 
         model.addAttribute("stats", stats);
         model.addAttribute("statsMonth", statsMonth);
