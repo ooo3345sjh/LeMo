@@ -8,6 +8,12 @@ main .main_content .main_content_div {
     display: flex;
     flex-wrap: wrap;
 }
+main #main_content_div {
+    border-top: 1px solid #F3F6F9;
+    padding-top: 26px;
+    margin-top: 85px;
+    margin-bottom: 34px;
+}
 main .main_content .col1 {
     flex: 0 0 auto;
     width: 100%;
@@ -102,6 +108,21 @@ main .tsd_msg {
     font-size: 13px;
     color: #424242;
     font-weight: 300;
+}
+main .tsd_msg > strong {
+    font-size: 13px;
+    color: #00bbfe;
+}
+main .tsd_msg2 {
+    font-size: 13px;
+    color: #424242;
+    font-weight: 300;
+    position: absolute;
+    top: 26%;
+}
+main .tsd_msg2 > strong {
+    font-size: 13px;
+    color: #00bbfe;
 }
 main .sales_day_status {
     margin-top: 50px;
@@ -265,7 +286,7 @@ main .tsd_best {
     border: 1px solid transparent;
     display: flex;
     flex-wrap: wrap;
-    margin-top: 40px;
+    padding-top: 22px;
 }
 main .tsd_best_inner {
     padding: 2px 20px;
@@ -382,8 +403,10 @@ main .main_content .col2 .bestAccList li {
     display: inline-block;
     height: 32px;
     font-size: 13px;
-    padding-top: 7px;
     text-align: center;
+    font-family: 'Noto Sans KR';
+    line-height: 32px;
+
 }
 main .ba_li1 { width: 8%; }
 main .ba_li2 { width: 15%; }
