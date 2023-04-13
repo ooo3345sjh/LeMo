@@ -40,6 +40,9 @@ public interface UserDAO {
     // @since 2023/03/16
     int countByNick (@Param("nick")String nick) throws Exception;
 
+    // @since 2023/04/14
+    int countByBizRegNum (@Param("bizRegNum")String bizRegNum) throws Exception;
+
 
     // update
     // @since 2023/03/25

@@ -149,7 +149,7 @@ $(function(){
         }
         ajaxAPI("user/sms/send", jsonData, "POST").then((response) => {
             if(response.result == "error") {
-                alert('인증코드 전송에 실패했습니다.\n잠시 후 다시 시도해주세요.');
+                getSwal('인증코드 전송에 실패했습니다.\n잠시 후 다시 시도해주세요.', "info");
                 isSended = false;
             } else {
                 isSended = true;

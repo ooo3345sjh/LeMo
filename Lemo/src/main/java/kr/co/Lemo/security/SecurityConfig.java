@@ -152,7 +152,8 @@ public class SecurityConfig implements WebMvcConfigurer {
     // @since 2023/03/21
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        return (web) -> web.ignoring()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     // @since 2023/03/21

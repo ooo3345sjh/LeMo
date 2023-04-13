@@ -346,6 +346,11 @@ public class UserService {
         return result;
     }
 
+    // @since 2023/03/28
+    public int findByBizRegNum(String bizRegNum) throws Exception {
+        return userDAO.countByBizRegNum(bizRegNum);
+    }
+
     /**
      * @since 2023/04/12
      * @author 서정현

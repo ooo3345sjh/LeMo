@@ -89,6 +89,12 @@
     <script>
 <!--        if([[${param.privacy}]])-->
 <!--            onPrivacy();-->
+        $(function (){
+            const type = "[[${param.type}]]" || null;
+
+            if(type != null)
+                $("#"+type).trigger("click");
+        })
     </script>
 </th:block>
 </html>
