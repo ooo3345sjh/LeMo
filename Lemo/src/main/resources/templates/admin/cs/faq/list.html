@@ -185,7 +185,7 @@
                                                 </td>
                                                 <td>
                                                     <a class="btnFaqDelete" th:data-no="${faq.cs_no}">삭제</a>
-                                                    <a th:href="@{/admin/cs/faq/modify (cs_no=${faq.cs_no})}" class="btnFaqModify">수정</a>
+                                                    <a th:href="@{/admin/cs/faq/modify (cs_no=${faq.cs_no}, page=${ph.sc.page})}" class="btnFaqModify">수정</a>
                                                 </td>
                                             </tr>
                                             <tr class="answerwrap">

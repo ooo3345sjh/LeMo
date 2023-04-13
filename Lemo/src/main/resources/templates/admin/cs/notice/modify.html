@@ -89,6 +89,7 @@
                         <form class="col_register_form" id="modifyNotice" th:action="@{/admin/cs/notice/modify}" method="post" onsubmit="modifyCheck(event);">
                             <input type="hidden" name="cs_no" th:value="${cs_no}">
                             <input type="hidden" name="reUri" th:value="${reUri}">
+                            <input type="hidden" name="page" th:value="${page}">
                             <!-- 공지제목 등록 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -127,7 +128,7 @@
                                 </button>
                             </div>
                             <div class="btnAdminProd">
-                                <a th:href="@{/admin/cs/notice/list}">
+                                <a th:href="@{/admin/cs/notice/list (page=${page})}">
                                     목록으로
                                 </a>
                             </div>

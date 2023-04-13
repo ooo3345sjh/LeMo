@@ -22,6 +22,7 @@
                         <div class="col2">
                             <form th:action="@{/admin/cs/faq/modify}" method="post" id="cs_typeForm" onsubmit="modifyCheck(event);">
                                 <input type="hidden" name="cs_no" th:value="${cs_no}">
+                                <input type="hidden" name="page" th:value="${page}">
                                 <div class="board_view">
                                     <div class="view_box">
                                         <div class="view_head">
@@ -54,7 +55,7 @@
                                                     <button class="btnAdminProd" type="submit">수정</button>
                                                 </div>
                                                 <div class="btnSubmit">
-                                                    <button class="btnAdminProd" type="button" onclick="javascript:history.back();">목록으로</button>
+                                                    <button class="btnAdminProd" type="button" th:onclick="@{/admin/cs/faq/list (page=${page})}">목록으로</button>
                                                 </div>
                                             </div>
                                         </div>

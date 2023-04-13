@@ -726,7 +726,11 @@ public class AdminController {
      *
      */
     @GetMapping("cs/{cs_cate}/modify")
-    public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate, int cs_no, Model model, HttpServletRequest request){
+    public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate,
+                                 int cs_no,
+                                 Model model,
+                                 int page,
+                                 HttpServletRequest request){
         if("notice".equals(cs_cate)){
             log.info("noticeModify");
             CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
@@ -740,6 +744,7 @@ public class AdminController {
             log.debug(uri);
             model.addAttribute("mNotice", noticeArticle);
             model.addAttribute("cs_no", cs_no);
+            model.addAttribute("page", page);
 
             return "admin/cs/notice/modify";
 
@@ -751,6 +756,7 @@ public class AdminController {
 
             model.addAttribute("mFaq", faqArticle);
             model.addAttribute("cs_no", cs_no);
+            model.addAttribute("page", page);
 
             return "admin/cs/faq/modify";
         }else if("event".equals(cs_cate)){
@@ -761,6 +767,7 @@ public class AdminController {
 
             model.addAttribute("mEvent", eventArticle);
             model.addAttribute("cs_no", cs_no);
+            model.addAttribute("page", page);
         }
         return "admin/cs/event/modify";
     }
@@ -772,7 +779,10 @@ public class AdminController {
      */
 
     @PostMapping("cs/{cs_cate}/modify")
-    public String usaveAdminNotice(@PathVariable("cs_cate") String cs_cate, CsVO vo, String reUri){
+    public String usaveAdminNotice(@PathVariable("cs_cate") String cs_cate,
+                                   CsVO vo,
+                                   int page,
+                                   String reUri){
         if ("notice".equals(cs_cate)) {
             log.info("modifyNoticeStart");
             log.debug(reUri);
@@ -780,16 +790,16 @@ public class AdminController {
             csService.usaveAdminNotice(vo);
             if(reUri.equals("1") ){
                 log.debug("noticeList");
-                return "redirect:/admin/cs/notice/list";
+                return "redirect:/admin/cs/notice/list?page="+page;
             }else{
-                return "redirect:/admin/cs/notice/view?cs_no="+vo.getCs_no();
+                return "redirect:/admin/cs/notice/view?cs_no="+vo.getCs_no()+"&page="+page;
             }
 
         }else if("faq".equals(cs_cate)){
             log.info("modifyFaqStart");
             csService.usaveFaqArticle(vo);
         }
-        return "redirect:/admin/cs/faq/list";
+        return "redirect:/admin/cs/faq/list?page="+page;
     }
 
 
@@ -892,6 +902,7 @@ public class AdminController {
             CsVO qnaArticle = csService.findAdminCsArticle(cs_cate, cs_no);
             model.addAttribute("qnaArticle", qnaArticle);
             model.addAttribute("cs_no", cs_no);
+            model.addAttribute("page", page);
             return "admin/cs/qna/view";
 
         }else if("notice".equals(cs_cate)) {
@@ -902,6 +913,7 @@ public class AdminController {
 
             model.addAttribute("notice", noticeArticle);
             model.addAttribute("cs_no", cs_no);
+            model.addAttribute("page", page);
             return "admin/cs/notice/view";
 
         }else if("event".equals(cs_cate)){
