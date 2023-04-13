@@ -39,12 +39,12 @@
 
                             <!-- 버튼 -->
                             <div class="btnAdminProd">
-                                <a th:href="@{/admin/cs/notice/list}">
+                                <a th:href="@{/admin/cs/notice/list (page=${page})}">
                                     공지목록
                                 </a>
                             </div>
                             <div class="btnAdminProd">
-                                <a th:href="@{/admin/cs/notice/modify (cs_no=${notice.cs_no})}">
+                                <a th:href="@{/admin/cs/notice/modify (cs_no=${notice.cs_no}, page=${page})}">
                                     공지수정
                                 </a>
                             </div>

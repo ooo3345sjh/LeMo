@@ -40,12 +40,12 @@
                                             <li>[[*{totalCnt-sc.offset} - ${i.index}]]</li>
                                             <li>[[${notice.cs_type_ko}]]</li>
                                             <li class="title">
-                                                <a th:href="@{/admin/cs/notice/view (cs_no=${notice.cs_no})}">[[${notice.cs_title}]]</a>
+                                                <a th:href="@{/admin/cs/notice/view (cs_no=${notice.cs_no}, page=${ph.sc.page})}">[[${notice.cs_title}]]</a>
                                             </li>
                                             <li>[[${notice.cs_rdate}]]</li>
                                             <li class="prodBtn">
                                                 <a class="btnNoticeDelete" th:data-no="${notice.cs_no}">삭제</a>
-                                                <a th:href="@{/admin/cs/notice/modify (cs_no=${notice.cs_no})}" class="btnModify">수정</a>
+                                                <a th:href="@{/admin/cs/notice/modify (cs_no=${notice.cs_no}, page=${ph.sc.page})}" class="btnModify">수정</a>
                                             </li>
                                         </ul>
                                     </th:block>
