@@ -414,17 +414,22 @@ $(function(){
     /* 문의 등록 dialog */
     const dialog = document.getElementById('qnadialog');
 
-    $(document).on('click',  '#w_qna', function(){
+    $(document).on('click',  '#w_qna', function(e){
+
+        e.preventDefault();
 
         if(uid == "") {
             sweetalert("로그인을 하셔야\n 문의글 작성이 가능합니다.", "error")
             return;
         }
-        dialog.showModal();
+        //dialog.showModal();
+        $('.qna-popup').addClass('on');
     });
 
     $(document).on('click', '.bt_cancel', function(){
-        dialog.close();
+        $('#qa_title').val("");
+        $('#ta_content').val("");
+        $('.qna-popup').removeClass('on');
     });
 
 
@@ -442,13 +447,7 @@ $(function(){
         }
 
         if(title.trim().length == 0) {
-
-            Swal.fire({
-                title : "문의 제목을 작성해주세요.",
-                icon : "warning",
-                confirmButtonText : '확인',
-            });
-            //sweetalert("문의 제목을 작성해주세요.", "warning");
+            sweetalert("문의 제목을 작성해주세요.", "warning");
             return;
         }
 
@@ -470,7 +469,7 @@ $(function(){
                 // 글 등록 성공시 문의작성폼 초기화
                 $('#qa_title').val("");
                 $('#ta_content').val("");
-                dialog.close();
+                $('.qna-popup').removeClass('on');
                 // qna 탭 새로 고침
                 let cate = 'qna';
                 loadData(cate, acc_id);
@@ -567,10 +566,6 @@ $(function(){
                 });
             }
         }
-/*
-        console.log("scrollT : " + scrollT);
-        console.log("scrollH : " + scrollH);
-        console.log("contentH : " + contentH);*/
     });
 });
 

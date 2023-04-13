@@ -2732,10 +2732,34 @@ margin-left: 25px;
 
     /* 문의하기 폼 */
 
+    .qna-popup {
+        position: fixed;
+        left: 0;
+        top: 0;
+        display: none;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .qna-popup.on {
+        display: block;
+    }
+
     .vip_popup_wrap {
+        display : block;
         width : 660px;
         padding: 22px 20px 46px;
         box-sizing : border-box;
+        border-radius: 6px;
+        background-color: #fff;
+
+        /* 추가 */
+        position: relative;
+        top: 20vh;
+        left: 33vw;
+        text-align: center;
     }
 
     .vip_popup_wrap .tit_vippop {
@@ -3411,4 +3435,9 @@ margin-left: 25px;
         padding: 16px 24px;
         text-decoration: none;
         margin: 1px 9px;
+    }
+
+
+    .swal-overlay {
+      z-index: 10000;
     }
