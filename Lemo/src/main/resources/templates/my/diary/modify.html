@@ -86,10 +86,10 @@
             let positionMap = [[${article}]];
             let overlays = new Map();
             let markerMap = new Map();
+            const fileMap = new Map();
             let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
             let fileInputList = [];
             let spotNoList = [];
-            const fileMap = new Map();
             const urlParams = new URLSearchParams(window.location.search);
             const arti_no = urlParams.get('arti_no');
 

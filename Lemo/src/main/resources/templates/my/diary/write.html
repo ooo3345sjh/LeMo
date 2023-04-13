@@ -66,6 +66,7 @@
                 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712&libraries=services"></script>
                 <script th:inline="javascript">
                     let markerMap = new Map();
+                    const fileMap = new Map();
                     let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
                     let accommoLng = [[${accommo.acc_longtitude}]];
                     let accommoLat = [[${accommo.acc_lattitude}]];
