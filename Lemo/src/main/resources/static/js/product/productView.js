@@ -368,7 +368,7 @@ $(function(){
     $(document).on('click', '#pick', function(){
 
         if(uid == "") {
-            sweetalert("로그인을 하셔야 찜하기가 가능합니다.", "error");
+            sweetalert("로그인 후 찜하기가 가능합니다.", "error");
             return false;
         }
 
@@ -417,7 +417,7 @@ $(function(){
     $(document).on('click',  '#w_qna', function(){
 
         if(uid == "") {
-            sweetalert("로그인을 하셔야 문의글 작성이 가능합니다.", "error")
+            sweetalert("로그인을 하셔야\n 문의글 작성이 가능합니다.", "error")
             return;
         }
         dialog.showModal();
@@ -442,12 +442,18 @@ $(function(){
         }
 
         if(title.trim().length == 0) {
-            sweetalert("문의 제목을 작성해주세요.", "warning");
+
+            Swal.fire({
+                title : "문의 제목을 작성해주세요.",
+                icon : "warning",
+                confirmButtonText : '확인',
+            });
+            //sweetalert("문의 제목을 작성해주세요.", "warning");
             return;
         }
 
         if(content.trim().length == 0) {
-            sweetalert("문의 제목을 작성해주세요.", "warning");
+            sweetalert("문의 내용을 작성해주세요.", "warning");
             return;
         }
 
@@ -484,7 +490,7 @@ $(function(){
         let qnacontent = $('#a' + qna_no);
 
         if($(this).attr('data-locked') == 1) {
-            sweetalert('비밀글은 작성자만 조회할 수 있습니다.', "warning"); return;
+            sweetalert('비밀글은 작성자만\n 조회할 수 있습니다.', "warning"); return;
         }
 
         let status = $(qnacontent).hasClass('on');
