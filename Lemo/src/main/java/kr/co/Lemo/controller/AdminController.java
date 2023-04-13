@@ -166,7 +166,7 @@ public class AdminController {
         //log.warn("statsMonth: " + statsMonth);
         //log.warn("pays: " + pays);
         //log.warn("pays length: " + pays.size());
-        log.warn("stats: " + stats);
+        //log.warn("stats: " + stats);
 
         log.debug(""+statsMonth);
 
