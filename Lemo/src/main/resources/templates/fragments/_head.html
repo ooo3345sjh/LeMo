@@ -46,6 +46,14 @@
                 })
 
             })
+
+            function getSwal(message, status){
+                Swal.fire({
+                    title : message,
+                    icon : status,
+                    confirmButtonText : '확인'
+                })
+            }
         </script>
     </head>
 </th:block>

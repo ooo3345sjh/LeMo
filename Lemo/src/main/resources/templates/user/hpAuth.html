@@ -10,7 +10,6 @@
         <main id="certification">
             <section>
                 <form name="form" th:action="@{/user/hp/auth}" method="post">
-                    <input type="hidden" name="type" th:value="${type}">
                     <div class="title">
                         <strong class="logo">
                             <img th:src="@{/images/index/lemo_logo-removebg-preview.png}" alt="">
@@ -39,9 +38,9 @@
         <script>
             const error = "[[${param.error}]]";
             if(error == "code"){
-                alert("인증에 실패했습니다. 다시 시도해주세요.");
+                getSwal("인증에 실패했습니다. 다시 시도해주세요.", "warning");
             } else if(error == "hp") {
-                alert("휴대폰 형식이 올바르지 않습니다. 다시 시도해주세요.");
+                getSwal("휴대폰 형식이 올바르지 않습니다. 다시 시도해주세요.", "warning");
             }
             $(function(){
                 $(document).on('click', '#section2 .btn_common', function(){
@@ -71,7 +70,7 @@
                         smsAuthCodeCnt = smsAuthCodeCnt - 1;
 
                         if(smsAuthCodeCnt <= 0){
-                            alert('인증 번호 5회 입력 실패했습니다. 재인증 해주세요.');
+                            getSwal('인증 번호 5회 입력 실패했습니다. 재인증 해주세요.', "warning");
                             $('#section2').remove();
                             smsAuthCodeCnt = 5;
                         }

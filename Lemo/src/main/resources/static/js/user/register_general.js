@@ -76,7 +76,7 @@ $(function (){
 
         ajaxAPI("user/email/duplicate?email="+email, null, "GET").then((response) => {
             if(response.result == -99999) {
-                alert('중복확인에 실패했습니다.\n다시 시도해주세요.');
+                getSwal('중복확인에 실패했습니다. 다시 시도해주세요.', "warning");
             } else if(response.result > 0) {
                 $('#email_msg').text('이미 존재하는 이메일입니다.');
                 emailOk = false;

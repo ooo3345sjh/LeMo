@@ -135,7 +135,8 @@ public class UserController {
     @GetMapping("terms")
     public String terms(
             Model m,
-            @RequestParam(defaultValue = "null") String type
+            @RequestParam(defaultValue = "null") String type,
+            HttpSession session
     ) {
         log.debug("GET terms start...");
 
@@ -145,7 +146,9 @@ public class UserController {
 
 
         m.addAttribute("title", environment.getProperty(group));
-        m.addAttribute("type", type);
+
+        session.setMaxInactiveInterval(60*30); // 세션 만료시간 30분 설정
+        session.setAttribute("regType", type);
 
         return "user/terms";
     }
@@ -154,21 +157,17 @@ public class UserController {
     @PostMapping("terms")
     public String terms(
             String termsType_no,
-            @RequestParam(defaultValue = "null") String type,
-            HttpServletRequest req,
-            Model m
+            HttpServletRequest req
     ){
         log.debug("POST terms start...");
-        log.debug(type);
-        if(!"general".equals(type) && !"business".equals(type))
+        HttpSession session = req.getSession();
+        String regType = (String)session.getAttribute("regType");
+
+        if(!"general".equals(regType) && !"business".equals(regType))
             return "redirect:/user/join";
 
-
-        m.addAttribute("type", type);
-        HttpSession session = req.getSession();
-        session.setMaxInactiveInterval(60*30); // 세션 만료시간 30분 설정
         session.setAttribute("termsAuth", termsType_no);
-        return "redirect:/user/hp/auth?type=" + type;
+        return "redirect:/user/hp/auth";
     }
 
     // @since 2023/03/08
@@ -185,22 +184,18 @@ public class UserController {
     @GetMapping("hp/auth")
     public String hpAuthentication(
             Model m,
-            HttpServletRequest req,
-            @RequestParam(defaultValue = "null") String type
+            HttpServletRequest req
     ) {
         log.debug("GET hpAuthentication start...");
-        log.debug(type);
-        if(!"general".equals(type) && !"business".equals(type))
-            return "redirect:/user/join";
 
+        String regType = (String) req.getSession().getAttribute("regType");
         String termsType_no = getTermsAuth(req);
 
-        if(termsType_no == null){
-            return "redirect:/user/terms?type="+type;
+        if((!"general".equals(regType) && !"business".equals(regType)) || termsType_no == null){
+            return "redirect:/user/join";
         }
 
         m.addAttribute("title", environment.getProperty(group));
-        m.addAttribute("type", type);
 
         return "user/hpAuth";
     }
@@ -224,7 +219,6 @@ public class UserController {
     @PostMapping("hp/auth")
     public String hpAuthentication(
             @RequestParam(name = "authcode", defaultValue = "null") Integer code,
-            @RequestParam(defaultValue = "null") String type,
             @RequestParam(defaultValue = "null") String hp,
             Model m,
             HttpServletRequest req
@@ -232,60 +226,58 @@ public class UserController {
         log.debug("POST hpAuthentication start...");
         log.debug("code : " + code.toString());
         log.debug("hp : " + hp);
-        log.debug("type : " + type);
 
-        if(!"general".equals(type) && !"business".equals(type))
-            return "redirect:/user/join";
-
+        String regType = (String) req.getSession().getAttribute("regType");
         String termsType_no = getTermsAuth(req);
-        if(termsType_no == null){
-            return "redirect:/user/terms?type="+type;
+
+        if((!"general".equals(regType) && !"business".equals(regType)) || termsType_no == null){
+            return "redirect:/user/join";
         }
 
         HttpSession session = req.getSession();
         Integer authCode = session.getAttribute("authCode") == null? null:(Integer) session.getAttribute("authCode");
 
         if(hp == null || !Pattern.matches("^01(?:0|1|[6-9])(?:\\d{4})\\d{4}$", hp))
-            return "redirect:/user/hp/auth?error=hp&type="+type;
+            return "redirect:/user/hp/auth?error=hp&type="+regType;
         else if(authCode == null || !authCode.equals(code))
-            return "redirect:/user/hp/auth?error=code&type="+type;
+            return "redirect:/user/hp/auth?error=code&type="+regType;
 
         session.setAttribute("authHp", hp);
         session.removeAttribute("authCode");
         m.addAttribute("title", environment.getProperty(group));
 
-        return "redirect:/user/signup?type=" + type;
+        return "redirect:/user/signup";
     }
 
     // @since 2023/03/10
     @GetMapping("signup")
     public String signup(
-            @RequestParam(defaultValue = "null") String type,
             Model m,
             HttpServletRequest req
     ) {
         log.debug("GET signup start...");
 
-        if(!"general".equals(type) && !"business".equals(type))
+        String regType = (String) req.getSession().getAttribute("regType");
+        String termsType_no = getTermsAuth(req);
+
+        if(!"general".equals(regType) && !"business".equals(regType))
             return "redirect:/user/join";
 
         m.addAttribute("error", "R");
         m.addAttribute("title", environment.getProperty(group));
-        m.addAttribute("type", type);
-        String termsType_no = getTermsAuth(req);
 
         if(termsType_no == null)
-            return "redirect:/user/terms?type="+type;
+            return "redirect:/user/join";
 
         String hp = (String)req.getSession().getAttribute("authHp");
 
         if(hp == null)
-            return  "redirect:/user/hp/auth?type="+type;
+            return  "redirect:/user/hp/auth";
 
-        if("general".equals(type))
+        if("general".equals(regType))
             return "user/signup_general";
 
-        else if("business".equals(type))
+        else if("business".equals(regType))
             return "user/signup_business";
 
         return "error/abnormalAccess";
@@ -296,7 +288,6 @@ public class UserController {
     public String signup(
             @ModelAttribute UserVO userVO,
             @ModelAttribute BusinessInfoVO businessInfoVO,
-            @RequestParam(name = "userType", defaultValue = "null") String type,
             Model m,
             HttpServletRequest req
     ) throws Exception {
@@ -304,21 +295,21 @@ public class UserController {
         log.debug(userVO.toString());
         userVO.setBusinessInfoVO(businessInfoVO);
 
-        if(!"general".equals(type) && !"business".equals(type))
-            return "redirect:/user/join";
-
-        setUserRole(userVO, type);
-
-        m.addAttribute("type", type);
+        String regType = (String) req.getSession().getAttribute("regType");
         String termsType_no = getTermsAuth(req);
 
+        if(!"general".equals(regType) && !"business".equals(regType))
+            return "redirect:/user/join";
+
+        setUserRole(userVO, regType);
+
         if(termsType_no == null)
-            return "redirect:/user/terms?type="+type;
+            return "redirect:/user/join";
 
         String hp = (String)req.getSession().getAttribute("authHp");
 
         if(hp == null)
-            return  "redirect:/user/hp/auth?type="+type;
+            return  "redirect:/user/hp/auth";
 
         setSelectedTerms(userVO, termsType_no);
         userVO.setRegip(RemoteAddrHandler.getRemoteAddr(req));
@@ -523,6 +514,23 @@ public class UserController {
             map.put("status", 0);
 
 
+        return map;
+    }
+
+    // @since 2023/04/14
+    @ResponseBody
+    @PostMapping("bizregnum/duplicate")
+    public Map checkBizRegNum(@RequestBody Map map, HttpServletRequest req) throws Exception {
+        log.debug("POST checkBizRegNum start...");
+        log.debug(map.toString());
+        int result = 0;
+        if(map.get("b_no") != null){
+            result = userService.findByBizRegNum((String)map.get("b_no"));
+        }
+
+        map.put("result", result);
+
+        log.debug("result : " + result);
         return map;
     }
 

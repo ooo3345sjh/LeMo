@@ -136,8 +136,9 @@
                     $('.btn_common.email').attr('disabled', false);
                     emailInput.attr('readonly', false);
                     emailOk = false;
-                    alert('중복확인한 이메일과 다른 이메일주소가 입력되었습니다.\n다시 중복확인을 해주세요.');
+                    getSwal('중복확인한 이메일과 다른 이메일주소가 입력되었습니다.\n다시 중복확인을 해주세요.', "warning");
                     emailInput.focus();
+                    e.preventDefault();
                     return;
                 }
 
@@ -149,32 +150,33 @@
                     if(company_auth !== companyInput.val()){
                         companyInput.attr('readonly', false);
                         companyOk = false;
-                        alert('인증하신 회사명과 다른 회사명이 입력되었습니다.\n다시 인증확인을 해주세요.');
+                        getSwal('인증하신 회사명과 다른 회사명이 입력되었습니다.\n다시 인증확인을 해주세요.', "warning");
                         companyInput.focus();
                     }
 
                     else if(ceo_auth !== ceoInput.val()){
                         ceoInput.attr('readonly', false);
                         ceoOk = false;
-                        alert('인증하신 대표자 이름과 다른 대표자 이름이 입력되었습니다.\n다시 인증확인을 해주세요.');
+                        getSwal('인증하신 대표자 이름과 다른 대표자 이름이 입력되었습니다.\n다시 인증확인을 해주세요.', "warning");
                         ceoInput.focus();
                     }
 
                     else if(openDate_auth !== openDateInput.val()){
                         openDateInput.attr('readonly', false);
                         openDateOk = false;
-                        alert('인증하신 개업일자와 다른 개업일자가 입력되었습니다.\n다시 인증확인을 해주세요.');
+                        getSwal('인증하신 개업일자와 다른 개업일자가 입력되었습니다.\n다시 인증확인을 해주세요.', "warning");
                         openDateInput.focus();
                     }
 
                     else if(bizRegNum_auth !== bizRegNumInput.val()){
                         bizRegNumInput.attr('readonly', false);
                         bizRegNumOk = false;
-                        alert('인증하신 사업자 등록번호와 다른 사업자 등록번호가 입력되었습니다.\n다시 인증확인을 해주세요.');
+                        getSwal('인증하신 사업자 등록번호와 다른 사업자 등록번호가\n입력되었습니다. 다시 인증확인을 해주세요.', "warning");
                         bizRegNumInput.focus();
                     }
                     bizRegCheck = false;
                     bizRegNumBtn.text("인증확인");
+                    bizRegNumBtn.addClass("active");
                     e.preventDefault();
                     return;
                 }

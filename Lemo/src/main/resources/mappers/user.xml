@@ -55,6 +55,9 @@
     <select id="countByNick" resultType="int">
         SELECT COUNT(*) FROM `lemo_member_userinfo` WHERE `nick` = #{nick};
     </select>
+    <select id="countByBizRegNum" resultType="int">
+        SELECT COUNT(*) FROM `lemo_member_businessinfo` WHERE `bis_bizRegNum` = #{bizRegNum};
+    </select>
 
     <!-- update -->
     <update id="usaveUserPw">

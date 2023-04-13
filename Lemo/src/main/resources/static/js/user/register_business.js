@@ -135,11 +135,11 @@ $(function() {
         const openDateReplace = openDate.replaceAll("-", "");
 
         if (bizRegCheck) {
-            alert('이미 인증이 완료되었습니다.\n다시 인증을 원하실 경우 새로고침 후에 시도해주세요.\n※단 지금까지 입력한 정보는 초기화 됩니다.');
+            getSwal('이미 인증이 완료되었습니다.\n다시 인증을 원하실 경우 새로고침 후에 시도해주세요.\n※단 지금까지 입력한 정보는 초기화 됩니다.', "info");
             return;
         }
         if (bizRegOkList.includes(false)) {
-            alert('사업자등록 인증을위해 사업자등록번호에 등록된\n회사명, 대표자이름, 개업일자, 사업자 등록번호 입력이 필요합니다.');
+            getSwal('사업자등록 인증을위해 사업자등록번호에 등록된\n회사명, 대표자이름, 개업일자, 사업자 등록번호\n입력이 필요합니다.', "info");
             if (!companyOk) {
                 $('#bis_company_msg').text('회사 이름을 올바르게 입력해주세요.');
                 companyInput.focus();
@@ -173,47 +173,54 @@ $(function() {
                 }
             ]
         }
-
-        $.ajax({
-            url: "https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=" + url,  // serviceKey 값을 xxxxxx에 입력
-            type: "POST",
-            data: JSON.stringify(jsonData), // json 을 string으로 변환하여 전송
-            dataType: "JSON",
-            contentType: "application/json",
-            accept: "application/json",
-            success: function (result) {
-                console.log(result);
-                const valid_cnt = result.valid_cnt;
-
-                if (valid_cnt !== undefined) {
-                    const b_stt_cd = result.data[0].status.b_stt_cd; // 납세자상태(코드): 01: 계속사업자, 02: 휴업자, 03: 폐업자
-                    if (b_stt_cd === "01") {
-                        bizRegNumBtn.text("인증완료")
-                        bizRegNumBtn.removeClass('active');
-                        companyInput.attr('readonly', true);
-                        ceoInput.attr('readonly', true);
-                        openDateInput.attr('readonly', true);
-                        bizRegNumInput.attr('readonly', true);
-
-                        $('#bis_bizRegNum_msg').text('');
-                        bizRegNumOk = true;
-                        bizRegCheck = true;
-
-                        // 인증완료된 값 저장
-                        company_auth = company;
-                        ceo_auth = ceo;
-                        openDate_auth = openDate;
-                        bizRegNum_auth = bizRegNum;
-                        return;
-                    }
-                }
-
-                $('#bis_bizRegNum_msg').text('등록된 사업자가 없습니다.');
-
-            },
-            error: function (result) {
-                console.log(result.responseText); //responseText의 에러메세지 확인
+        ajaxAPI("user/bizregnum/duplicate", {"b_no": bizRegNum}, "POST").then((response) => {
+            if(response.result != 0){
+                $('#bis_bizRegNum_msg').text('이미 등록된 사업자번호가 있습니다.');
+                return;
             }
+            $.ajax({
+                url: "https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=" + url,  // serviceKey 값을 xxxxxx에 입력
+                type: "POST",
+                data: JSON.stringify(jsonData), // json 을 string으로 변환하여 전송
+                dataType: "JSON",
+                contentType: "application/json",
+                accept: "application/json",
+                success: function (result) {
+                    console.log(result);
+                    const valid_cnt = result.valid_cnt;
+
+                    if (valid_cnt !== undefined) {
+                        const b_stt_cd = result.data[0].status.b_stt_cd; // 납세자상태(코드): 01: 계속사업자, 02: 휴업자, 03: 폐업자
+                        if (b_stt_cd === "01") {
+                            bizRegNumBtn.text("인증완료")
+                            bizRegNumBtn.removeClass('active');
+                            companyInput.attr('readonly', true);
+                            ceoInput.attr('readonly', true);
+                            openDateInput.attr('readonly', true);
+                            bizRegNumInput.attr('readonly', true);
+
+                            $('#bis_bizRegNum_msg').text('');
+                            bizRegNumOk = true;
+                            bizRegCheck = true;
+
+                            // 인증완료된 값 저장
+                            company_auth = company;
+                            ceo_auth = ceo;
+                            openDate_auth = openDate;
+                            bizRegNum_auth = bizRegNum;
+                            return;
+                        }
+                    }
+
+                    $('#bis_bizRegNum_msg').text('등록된 사업자가 없습니다.');
+
+                },
+                error: function (result) {
+                    console.log(result.responseText); //responseText의 에러메세지 확인
+                }
+            });
+        }).catch((errorMsg) => {
+            console.log(errorMsg)
         });
     });
 
