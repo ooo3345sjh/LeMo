@@ -3113,3 +3113,14 @@ main .sg_box {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
+main .sd_msg {
+    font-size: 13px;
+    color: #424242;
+    font-weight: 300;
+    position: absolute;
+    top: 87px;
+}
+main .sd_msg > strong {
+    font-size: 13px;
+    color: #00bbfe;
+}
