@@ -23,7 +23,7 @@
                             </span>
                         </div>
                         <div class="my_pick">
-                            <p th:if="${picks.size() == 0}"> 찜하신 내역이 없습니다. </p>
+                            <p th:if="${picks.size() == 0}" style="text-align: center;"> 찜하신 숙소가 없습니다. </p>
                             <table>
                                 <tbody>
                                     <tr th:each="pick:${picks}">
@@ -131,19 +131,32 @@
                         return false;
                     }
 
-                    if(chkList.length > 0) {
-                        let jsonData = {
-                            "chkList" : chkList
-                        };
+                    Swal.fire({
+                        title: '선택하신 숙소를\n 찜 목록에서 삭제하시겠습니까?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '확인',
+                        cancelButtonText: '취소',
+                        reverseButtons: false,
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            if(chkList.length > 0) {
+                                let jsonData = {
+                                    "chkList" : chkList
+                                };
 
-                        ajaxAPI("my/pick", jsonData, "DELETE").then((response)=>{
-                            if(response.result > 0){
-                                location.reload(true);
-                            }else{
-                                sweetalert("선택한 숙소를 삭제하지 못하였습니다.\n잠시 후 다시 시도해 주세요.","error");
+                                ajaxAPI("my/pick", jsonData, "DELETE").then((response)=>{
+                                    if(response.result > 0){
+                                        location.reload(true);
+                                    }else{
+                                        sweetalert("선택한 숙소를 삭제하지 못하였습니다.\n잠시 후 다시 시도해 주세요.","error");
+                                    }
+                                })
                             }
-                        })
-                    }
+                        }
+                    });
                 });
             })
         </script>
