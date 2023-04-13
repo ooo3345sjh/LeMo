@@ -484,6 +484,7 @@
                         }
                     });
 
+                    // 엔터키 입력으로 form 전송 방지
                     $('#searchAddr').keydown(function(e) {
                         if (event.keyCode === 13) {
                             e.preventDefault();
