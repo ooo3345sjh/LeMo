@@ -597,6 +597,14 @@ button {cursor: pointer;}
     display: block;
     
 }
+
+#diary_content > input {
+    font-size: 18px;
+    font-weight: 500;
+    display: block;
+    width: 490px;
+}
+
 #diary_content > b {display: inline-block;}
 #diary_content > strong {
     display: block;
