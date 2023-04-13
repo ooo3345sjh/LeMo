@@ -39,11 +39,11 @@
                                         <td><input type="checkbox" class="check-qna" th:attr="data-no=${cs.qna_no}"></td>
                                         <td class="no">[[${cs.qna_no}]]</td>
                                         <td class="status">
-                                            <span class="notAnswerYet" th:if="${cs.qna_reply == null}">검토중</span>
-                                            <span class="notAnswerYet" th:if="${cs.qna_reply != null}">답변완료</span>
+                                            <span class="notAnswerYet" th:if="${cs.qna_reply == null}" style="color:#E84545;">검토중</span>
+                                            <span class="notAnswerYet" th:if="${cs.qna_reply != null}" style="color:#00bbfe;">답변완료</span>
                                         </td>
                                         <td><a th:href="@{/product/view?acc_id=}+${cs.acc_id}">[[${cs.acc_name}]]</a></td>
-                                        <td class="tit"><a href="#" th:onclick="popupAnswer([[${cs.qna_no}]])">[[${cs.qna_title}]]</a></td>
+                                        <td class="tit"><a href="javascript:void(0);" th:onclick="popupAnswer([[${cs.qna_no}]])">[[${cs.qna_title}]]</a></td>
                                         <td class="date">[[${cs.qna_rdate.substring(0,10)}]]</td>
                                     </tr>
                                     <tr class="answer" th:id="answer+${cs.qna_no}">
