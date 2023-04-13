@@ -67,9 +67,11 @@
                 <script th:inline="javascript">
                     let markerMap = new Map();
                     const fileMap = new Map();
+                    const overlays = new Map();
                     let reg = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/ ]/gim;
                     let accommoLng = [[${accommo.acc_longtitude}]];
                     let accommoLat = [[${accommo.acc_lattitude}]];
+                    let markerStatCount = 1;
 
                     /**
                         검색된 마크에도 mouseover, mouselevae, click 적용시켰고
@@ -179,22 +181,38 @@
                                 // 생성된 마커를 배열에 추가합니다
                                 markers.push(marker);
 
+                                let content = '<div class="spot_wrap">';
+                                   content += '<div class="spot_title">';
+                                   content += place
+                                   content += '<div class="spot_close" title="닫기"></div>'
+                                   content += '</div>';
+                                   content += '<div class="spot_content">';
+                                   content += '</div>';
+                                   content += '</div>';
+
+                                var overlay = new kakao.maps.CustomOverlay({
+                                    content: content,
+                                    position: marker.getPosition()
+                                });
+
+                                overlays.set(markerStatCount, overlay);
+
+
                                 // 마커에 mouseover 이벤트를 등록합니다
                                 kakao.maps.event.addListener(marker, 'mouseover', function() {
                                     // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-                                    let content = markerOverlay(place, $('.arti_title').text() )
-                                    //overlay.setContent(content);
-                                    //overlay.setPosition(marker.getPosition());
-                                    //overlay.setMap(map);
+                                    overlay.setContent(content);
+                                    overlay.setPosition(marker.getPosition());
+                                    overlay.setMap(map);
 
-                                    infowindow.setContent(content);
-                                    infowindow.open(map, marker);
+<!--                                    infowindow.setContent(content);-->
+<!--                                    infowindow.open(map, marker);-->
                                 });
 
                                 // 마커에 mouseout 이벤트를 등록합니다
                                 kakao.maps.event.addListener(marker, 'mouseout', function() {
-                                    //overlay.setMap(null);
-                                    infowindow.close();
+                                    overlay.setMap(null);
+<!--                                    infowindow.close();-->
                                 });
 
                                                  // #F4
@@ -202,20 +220,22 @@
 
                                 $('.list-area').append(addContent);
 
-                                // 마커에 click이벤트를 등록합니다
-                                kakao.maps.event.addListener(marker, 'click', function() {
-                                    // #F7
-                                    removeAlert(marker, place);
-                                });
+<!--                                // 마커에 click이벤트를 등록합니다-->
+<!--                                kakao.maps.event.addListener(marker, 'click', function() {-->
+<!--                                    // #F7-->
+<!--                                    removeAlert(marker, place, markerStatCount);-->
+<!--                                });-->
 
                                 // markerMap.set(place.replace(reg, ""), marker);
-                                markerMap.set(count++, marker);
+                                markerMap.set(markerStatCount, marker);
                                 console.log(markerMap);
 
                                 Swal.fire({
                                     title: '생성완료!',
                                     text: '마커를 클릭해서도 지우실 수 있습니다.!'
                                 });
+
+                                markerStatCount++;
 
                             }else {
                                 Swal.fire(`장소를 입력하지 않으셨습니다.!`)
@@ -228,16 +248,18 @@
                     function addDiary(place, Lat, Lng){
                         let withoutSpace = place.replace(reg, "");
 
-                        let addContent  = `<div class="place place_D${withoutSpace}" data-no="${count}">`;
+                        let addContent  = `<div class="place place_D${withoutSpace}" data-no="${markerStatCount}">`;
                             addContent +=   '<div class="spot">';
                             addContent +=       '<img src="/Lemo/images/diary/marker7.png" width="30px" height="40px">';
-                            addContent +=       '<span>'+ place +'</span>';
+<!--                            addContent +=       '<span>'+ place +'</span>';-->
+                            addContent +=           '<input type="text" value="'+place+'" readonly placeholder="여행일기 제목을 작성해주세요.">'
                             addContent +=   '</div>';
                             addContent +=   '<img src="/Lemo/images/cs/arr_down.png" class="arrow">';
-                            addContent +=   `<button class="delete_diary" data-place="${withoutSpace}" data-no="${count}">삭제</button>`;
+                            addContent +=   `<button class="delete_diary" data-place="${withoutSpace}" data-no="${markerStatCount}">삭제</button>`;
+                            addContent +=   `<button type="button" data-no="${markerStatCount}" class="modify_diary">수정</button>`
                             addContent +=   '<div class="toggle">';
                             addContent +=       '<div class="image">';
-                            addContent +=           `<input type="file" class="ex_file" data-no="${count}" name="thumb" accept="image/png, image/jpeg" style="display: none;">`;
+                            addContent +=           `<input type="file" class="ex_file" data-no="${markerStatCount}" name="thumb" accept="image/png, image/jpeg" style="display: none;">`;
                             addContent +=           '<img class="inputImage" src="/Lemo/images/diary/imgUpload.png">';
                             addContent +=       '</div>';
                             addContent +=       '<textarea class="contentArea" name="spot_content" placeholder="내용을 입력해주세요." onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)"></textarea>';
@@ -285,8 +307,7 @@
                             markers.splice(count, 1);
 
                             marker.setMap(null);
-                            //overlay.setMap(null);
-                            infowindow.close();
+                            overlay.setMap(null);
 
                             place = place.replace(reg, "");
 
@@ -424,16 +445,16 @@
                             // 마커에 mouseover이벤트를 등록합니다
                             kakao.maps.event.addListener(marker, 'mouseover', function() {
                                 let content = markerOverlay(place.name, " ")
-                                //overlay.setContent(content);
-                                //overlay.setPosition(marker.getPosition());
-                                //overlay.setMap(map);
+<!--                                overlay.setContent(content);-->
+<!--                                overlay.setPosition(marker.getPosition());-->
+<!--                                overlay.setMap(map);-->
                                 infowindow.setContent(content);
                                 infowindow.open(map, marker);
                             });
 
                             // 마커에 mouseout이벤트를 등록합니다
                             kakao.maps.event.addListener(marker, 'mouseout', function() {
-                                //overlay.setMap(null);
+<!--                                overlay.setMap(null);-->
                                 infowindow.close();
                             });
 
@@ -500,9 +521,12 @@
                         let formData = new FormData();
 
                         // file 가져오기
-                        $.each(fileInputList, function (index, el){
-                            formData.append('file', el[0].files[0]);
-                        })
+                        for(const [key, value] of fileMap) {
+                            formData.append('file', value)
+                        }
+<!--                        $.each(fileInputList, function (index, el){-->
+<!--                            formData.append('file', el[0].files[0]);-->
+<!--                        })-->
 
                         let submitSpotTitle = [];
                         let submitSpotContent = [];
@@ -510,8 +534,8 @@
                         let submitLng = [];
 
                         // submitTitle 가져오기
-                        $('.spot > span').each(function(){
-                            submitSpotTitle.push($(this).text());
+                        $('.spot > input').each(function(){
+                            submitSpotTitle.push($(this).val());
                         });
 
                         // submitContent 가져오기
@@ -519,12 +543,21 @@
                             if($(this).val()){ submitSpotContent.push($(this).val()); }
                         });
 
-                        console.log(markers);
+                        let testCount = 0;
 
                         // Lat, Lng 가져오기
                         for(var i=0; i<markers.length; i++){
                             submitLat.push(markers[i].getPosition().getLat());
                             submitLng.push(markers[i].getPosition().getLng());
+                        }
+
+
+                        for( const [ key, value ] of fileMap ) {
+                            console.log(value)
+                            console.log(submitSpotTitle[key-1])
+                            console.log(submitSpotContent[key-1])
+                            console.log(submitLat[key-1])
+                            console.log(submitLng[key-1])
                         }
 
                         let res_no          = getUrlParameter('res_no');
@@ -556,7 +589,7 @@
                         }else if(markers.length != submitSpotContent.length) {
                             sweetAlert('안내', '내용을 입력하지 않으신 <br>여행일기가 있습니다.!');
                             return;
-                        }else if(markers.length != fileInputList.length) {
+                        }else if(markers.length != fileMap.size) {
                             sweetAlert('안내', '사진을 입력하지 않으신 <br>여행일기가 있습니다.!');
                             return;
                         }
@@ -599,25 +632,86 @@
                         e.preventDefault();
 
                         // 서정현 TEST
-                        no = $(this).parent().find('input[type=file]').data('no');
-                        console.log("수정전 : ");
-                        console.log(fileInputList);
-                        let filtered = fileInputList.filter((element) => element.data('no') !== no);
-                        fileInputList = filtered;
-                        console.log("수정후 : ");
-                        console.log(fileInputList);
+<!--                        no = $(this).parent().find('input[type=file]').data('no');-->
+<!--                        console.log("수정전 : ");-->
+<!--                        console.log(fileInputList);-->
+<!--                        let filtered = fileInputList.filter((element) => element.data('no') !== no);-->
+<!--                        fileInputList = filtered;-->
+<!--                        console.log("수정후 : ");-->
+<!--                        console.log(fileInputList);-->
+
+                        let fileNo = $(this).attr('data-no');
+                        fileMap.delete(fileNo);
 
                         let data_place = $(this).attr('data-place');
                         let data_no = $(this).data('no');
-                        console.log(data_place);
-                        console.log(data_no);
-
                         let deleteMarker = markerMap.get(data_no);
-                        console.log(deleteMarker);
-                        console.log(data_place);
 
                         removeAlert(deleteMarker, data_place, data_no);
                     });
+
+                    $(document).on('click', '.modify_diary', function(e){
+                        e.preventDefault();
+
+                        let status = $(this).hasClass('on');
+                        let overlayNo = $(this).attr('data-no');
+                        const spot_title_input = $(this).parent().find('.spot > input');
+
+                        if(status) {
+                            spot_title_input.attr('readonly', true);
+                            spot_title_input.css('border', 'none');
+                            spot_title_input.css('border-radius', '8px');
+                            spot_title_input.css('padding-left', '0');
+                            $(this).css('background-image', 'url(/Lemo/images/diary/edit.png)');
+                            $(this).removeClass('on');
+
+                            let content = '<div class="spot_wrap">';
+                               content += '<div class="spot_title">';
+                               content += spot_title_input.val()
+                               content += '<div class="spot_close" title="닫기"></div>'
+                               content += '</div>';
+                               content += '<div class="spot_content">';
+                               content +=
+                               content += '</div>';
+                               content += '</div>';
+
+                            var overlay = new kakao.maps.CustomOverlay({
+                                content: content,
+                                position: markerMap.get(Number(overlayNo)).getPosition()
+                            });
+
+                            console.log(overlays);
+                            console.log(markerMap)
+                            console.log(Number(overlayNo))
+                            console.log(markerMap.get(Number(overlayNo)))
+
+                            overlays.set(Number(overlayNo), overlay);
+
+                            kakao.maps.event.addListener(markerMap.get(Number(overlayNo)), 'mouseover', function() {
+                                overlays.forEach(function(over){ over.setMap(null); });
+                                overlay.setMap(map);
+                            });
+
+                            kakao.maps.event.addListener(markerMap.get(Number(overlayNo)), 'mouseout', function() {
+                                overlays.forEach(function(over){ over.setMap(null); });
+                                overlay.setMap(null);
+                            });
+
+                        }else {
+                            spot_title_input.attr('readonly', false);
+                            spot_title_input.css('border', '1px solid #a7c5dd');
+                            spot_title_input.css('border-radius', '8px');
+                            spot_title_input.css('padding-left', '10px');
+                            $(this).css('background-image', 'url(/Lemo/images/diary/check.png)');
+                            $(this).addClass('on');
+                        }
+
+                    })
+
+                    $(document).on('click', '.spot > input', function(e){
+                        e.stopPropagation();
+                        e.preventDefault();
+                    })
                 </script>
         </th:block>
 </html>
