@@ -99,19 +99,47 @@ public class AdminController {
         // 당일 누적 판매량
         List<ReservationVO> todaySales = service.findAllTodaySales();
 
-        //log.warn("todaySales: " + todaySales);
-
         // 월별 매출 현황
         List<ReservationVO> statsMonth = service.findAllMonthSales(map);
 
+        //log.warn("hey: " + statsMonth);
+
         List<Double> monthPercentList = new ArrayList<>();
+        int monthSum = 0;
 
         for (ReservationVO vo : statsMonth) {
             double totMonthPercent = vo.getTot_month_percent();
-            log.warn("totMonthPercent: " + totMonthPercent);
+            //log.warn("totMonthPercent: " + totMonthPercent);
             monthPercentList.add(totMonthPercent);
         }
-        log.warn("monthPercentList: " + monthPercentList);
+        for (ReservationVO vo : statsMonth) {
+            log.warn("here : " + vo.getTot_res_price());
+            monthSum += vo.getTot_res_price();
+        }
+        //log.warn("there1 : " + monthSum);
+
+        // 4개월 평균 매출
+        int monthAvg = monthSum / 4;
+
+        //log.warn("there2 : " + monthAvg);
+
+        //log.warn("monthPercentList: " + monthPercentList);
+
+        // 연별 매출 현황
+        List<ReservationVO> yearSales = service.findAllYearSales(map);
+
+        int yearSum = 0;
+
+        for (ReservationVO mAvg : yearSales) {
+            log.warn("here2 : " + mAvg.getTot_res_price());
+            yearSum += mAvg.getTot_res_price();
+        }
+        log.warn("month Sum : " + yearSum);
+
+        // 3년 년평균 매출
+        int yearAvg = yearSum/3;
+
+        log.warn("yearAvg : " + yearAvg);
 
         // 결제 현황
         List<ReservationVO> pays = service.findAllPayment(map);
@@ -138,7 +166,7 @@ public class AdminController {
         //log.warn("statsMonth: " + statsMonth);
         //log.warn("pays: " + pays);
         //log.warn("pays length: " + pays.size());
-        //log.warn("pays map : " + paysMap);
+        log.warn("stats: " + stats);
 
 
         model.addAttribute("stats", stats);
@@ -152,6 +180,10 @@ public class AdminController {
         model.addAttribute("totalUser", totalUser);
         model.addAttribute("avgWeeks", avgWeeks);
         model.addAttribute("todaySales",todaySales);
+        model.addAttribute("monthAvg",monthAvg);
+        model.addAttribute("yearSales",yearSales);
+        model.addAttribute("yearAvg",yearAvg);
+
 
         return "admin/stats";
     }

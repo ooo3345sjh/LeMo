@@ -360,24 +360,31 @@ public class AdminService {
             total += vo.getTot_res_price();
         }
 
-        log.warn("total sales: " + total);
+        //log.warn("total sales: " + total);
 
         for(ReservationVO vo : mp){
             double tot_month_percent = ((vo.getTot_res_price()+0.0)/(total+0.0))*100;
 
-            log.warn("tot_month_percent: " + tot_month_percent);
+            //log.warn("tot_month_percent: " + tot_month_percent);
             vo.setTot_month_percent(tot_month_percent);
         }
 
         // vo 확인용 로그 출력
         for(ReservationVO vo : mp){
             double test = vo.getTot_month_percent();
-            log.warn("test : " + test);
+            //log.warn("test : " + test);
         }
         return mp;
     }
 
-
+    /**
+     * @since 2023/04/13
+     * @param map
+     * @apiNote 관리자 - 통계관리 연 판매량
+     */
+    public List<ReservationVO> findAllYearSales(Map map){
+        return dao.selectYearSales(map);
+    }
 
     /**
     * @since 2023/04/06
