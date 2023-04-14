@@ -55,7 +55,7 @@
                                                     <button class="btnAdminProd" type="submit">수정</button>
                                                 </div>
                                                 <div class="btnSubmit">
-                                                    <button class="btnAdminProd" type="button" th:onclick="@{/admin/cs/faq/list (page=${page})}">목록으로</button>
+                                                    <a th:href="@{/admin/cs/faq/list (page=${page})}" class="btnAdminProd" id="list" type="button">목록으로</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -97,6 +97,7 @@
         const cs_title = document.getElementById('cs_title');
         cs_title.focus();
 
+
         // 수정완료클릭시 확인
         function modifyCheck(e) {
           e.preventDefault(); // form submit 막음
@@ -107,7 +108,7 @@
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: '승인',
+            confirmButtonText: '확인',
             cancelButtonText: '취소',
             reverseButtons: false,
           }).then((result) => {

@@ -39,6 +39,7 @@
                         <div class="col2">
                             <form id="qna_update" th:action="@{/admin/cs/qna/reply}" method="post">
                                 <input type="hidden" name="cs_no" th:value="${cs_no}">
+                                <input type="hidden" name="page" th:value="${page}">
                                 <div class="board_view">
                                     <div class="view_box">
                                         <div class="view_head">
@@ -67,7 +68,7 @@
                                                 <div class="btnSubmit">
                                                     <th:block th:if="${qnaArticle.cs_reply == null}">
                                                         <button class="btnAdminProd" type="submit" id="write" onclick="writeCheck(event)" form="qna_update">등록</button>
-                                                        <button class="btnAdminProd" type="button" onclick="javascript:history.back();">목록으로</button>
+                                                        <a th:herf="@{/admin/cs/qna/list (page=${page})}" class="btnAdminProd" type="button">목록으로</a>
                                                     </th:block>
                                                     <th:block th:if="${qnaArticle.cs_reply != null }">
                                                         <button class="btnAdminProd" type="button" onclick="toggleDisabled()">수정하기</button>

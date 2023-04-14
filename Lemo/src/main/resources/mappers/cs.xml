@@ -133,6 +133,8 @@
         select * from `lemo_member_terms` where `terms_no`=#{terms_no};
     </select>
 
+    <!-- 관리자 -->
+
     <!-- insert -->
         <insert id="insertEventArticle" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="cs_no">
             insert into `lemo_cs` set
