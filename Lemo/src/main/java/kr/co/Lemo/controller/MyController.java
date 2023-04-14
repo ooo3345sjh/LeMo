@@ -12,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -518,16 +520,6 @@ public class MyController {
 
         return result;
     }
-
-    // @since 2023/04/07
-//    @ResponseBody
-//    @DeleteMapping("pick")
-//    public void removePick(
-//            @RequestBody Map map
-//    ) {
-//        log.debug(""+map.get("chkList"));
-//        log.debug(map.get("chkList").getClass().getName());
-//    }
 
     /**
      * @since 2023/03/27
