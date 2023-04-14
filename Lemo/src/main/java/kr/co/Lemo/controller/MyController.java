@@ -510,11 +510,16 @@ public class MyController {
     @ResponseBody
     @Transactional
     @DeleteMapping("reservation")
-    public int reservationDelete(@RequestBody ReservationVO resVO) throws Exception {
+    public int reservationDelete(@RequestBody Map map) throws Exception {
+        int result = 0;
 
-        long res_no = Long.parseLong( String.valueOf(resVO.getRes_no()) );
+        if(map.get("res_no") == null){
+            return result;
+        }
 
-        int result = service.removeUpdateReservation( res_no );
+        long res_no = Long.parseLong((String)map.get("res_no"));
+
+        result = service.removeUpdateReservation( res_no );
 
         return result;
     }

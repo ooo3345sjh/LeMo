@@ -80,7 +80,7 @@
     </th:block>
     <th:block layout:fragment="script">
         <!-- kakaoMap -->
-        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5685a7d59ed7c0a5f62806eae3f98712&libraries=services"></script>
+        <script type="text/javascript" th:src="|//dapi.kakao.com/v2/maps/sdk.js?appkey=${@environment.getProperty('kakaoMap.key')}&libraries=services|"></script>
         <script th:src="@{/js/my/diary_modify.js}"></script>
         <script th:inline="javascript">
             let positionMap = [[${article}]];

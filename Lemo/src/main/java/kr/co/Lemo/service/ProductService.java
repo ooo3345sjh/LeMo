@@ -51,7 +51,7 @@ public class ProductService {
     @Autowired
     private ProductDAO dao;
 
-    @Value("${kakaoMap.AdminKey}")
+    @Value("${kakaoMap.admin.key}")
     private String serviceKey;
 
     @Autowired
