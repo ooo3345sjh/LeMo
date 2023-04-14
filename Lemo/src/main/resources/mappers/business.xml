@@ -175,6 +175,19 @@
         </if>
     </select>
 
+    <!-- 판매자 - 메인 - 일별 누적 판매량 (당일) -->
+    <select id="selectTodaySales" resultType="kr.co.Lemo.domain.ReservationVO">
+        SELECT DATE(a.res_date) AS res_date,
+            COUNT(`res_no`) as count_sales,
+            (SUM(a.res_price - a.res_disPrice)) AS tot_res_price
+        FROM lemo_product_reservation AS a
+            LEFT JOIN lemo_product_accommodation AS b ON a.acc_id = b.acc_id
+        WHERE a.res_state NOT IN (0) AND a.res_checkIn BETWEEN DATE(date_add(now(), INTERVAL 0 DAY))
+            AND DATE(NOW())
+            AND b.user_id=#{user_id}
+        GROUP BY DATE(a.res_date);
+    </select>
+
     <!-- 판매자 - 메인 - 전체 객실 수 -->
     <select id="countRooms" resultType="java.lang.Integer">
         select count(a.`room_id`) from `lemo_product_room` as a

@@ -426,6 +426,22 @@ public class AdminService {
         return dao.selectPayment(map);
     }
 
+     /**
+     * @since 2023/04/13
+     * @param map
+     * @apiNote 관리자 결제방법 결제 현황 (당일)
+     */
+    public List<ReservationVO> findAllPaymentDay(Map map){return dao.selectPaymentDay(map);}
+
+    /**
+     * @since 2023/04/13
+     * @param map
+     * @apiNote 관리자 메인 베스트 숙소
+     */
+    public List<ProductAccommodationVO> findAllBestAcc(Map map){
+        return dao.selectBestAcc(map);
+    }
+
 
     /**
      * @since 2023/03/31
@@ -435,6 +451,8 @@ public class AdminService {
     public List<ReservationVO> findSales(Map map) {
         return dao.selectSales(map);
     }
+
+
 
 
 

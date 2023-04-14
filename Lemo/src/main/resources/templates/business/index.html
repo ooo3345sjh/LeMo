@@ -15,147 +15,138 @@
             <section class="main_content">
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
-                        <div class="col0">
-                            <div class="col4">
-                                <form th:action="@{/business/reservation/timeline}">
-                                   <table class="search_review_table" style="margin-bottom: 50px;">
-                                        <tr>
-                                            <th>숙소 선택</th>
-                                            <td>
-                                                <select id="c_role_type" class="selectAccOwned" name="acc_id">
-                                                    <option value=" ">-숙소 선택-</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        </table>
-                                        <div class="search_btn">
-                                            <button type="submit" class="btnAdminProd3">검색</button>
-                                        </div>
-                                </form>
-                            </div>
-                        </div>
                         <div class="col1">
-                            <div class="today_status">
-                                <!-- single item1 -->
-                                <div class="single_status">
-                                    <p>미배정 객실</p>
-                                    <h3>[[${unAssignedRoom}]] / [[${rooms}]]</h3>
+                            <!-- 오늘 날짜 출력 -->
+                            <div class="today_sales_status">
+                                <p>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</p>
+                            </div>
+                            <p class="tsd_msg">상세 매출 내역은 <strong>통계관리</strong>에서 확인해 주십시오.</p>
+                            <div class="sales_day_status">
+                                <div class="tot_sales_day">
+                                    <div class="tsd_tit1">총매출</div>
+                                    <div class="tsd_tit2">11 <i>건</i></div>
+                                    <div class="tsd_tit3" >1,234,567,89 <i>원</i></div>
                                 </div>
-                                <!-- single item2 -->
-                                <div class="single_status">
-                                    <p>체크인</p>
-                                    <h3>1/1</h3>
-                                </div>
-                                <!-- single item3 -->
-                                <div class="single_status">
-                                    <p>체크아웃</p>
-                                    <h3>2/4</h3>
-                                </div>
-                                <!-- single item4 -->
-                                <div class="single_status">
-                                    <p>예약 요청</p>
-                                    <h3>12</h3>
-                                </div>
-                                <!-- single item5 -->
-                                <div class="single_status">
-                                    <p>취소 예약</p>
-                                    <h3>1</h3>
+                                <div class="tsd_grid">
+                                    <div class="tsd_grid1">
+                                        <div class="tsd_res">
+                                            <p>예약</p>
+                                            <h3>1 <i>건</i></h3>
+                                        </div>
+                                        <div class="tsd_cancel">
+                                            <p>취소</p>
+                                            <h3>2<i>건</i></h3>
+                                        </div>
+                                        <div class="tsd_visit">
+                                            <p>방문자</p>
+                                            <h3>1,234 <i>명</i></h3>
+                                        </div>
+                                    </div>
+                                    <div class="tsd_grid2">
+                                        <div class="tsd_qna">
+                                            <p>미배정 객실</p>
+                                            <h3>[[${unAssignedRoom}]] / [[${rooms}]] <i>건</i></h3>
+                                        </div>
+                                        <div class="tsd_prod">
+                                            <p>체크인</p>
+                                            <h3>4/20 <i>건</i></h3>
+                                        </div>
+                                        <div class="tsd_regi">
+                                            <p>체크아웃</p>
+                                            <h3>5/20 <i>건</i></h3>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="blank30"></div>
-                    <div class="main_content_div">
-                        <div class="col1_2">
-                            <div class="col1_2_header">
-                                <h3>예상 거래액</h3>
-                            </div>
-                                    <div id="donutchart" style="width: 100%; height: 500px;"></div>
-                        </div>
-                        <div class="col1_2">
-                            <div class="col1_2_header">
-                                <h3>객실 점유율</h3>
-                            </div>
-                            <div class="col1_2_graph">
-                                    <div class="sales_table">
-                                        <div class="sales_div">
-                                            <table>
-                                                <tr>
-                                                    <th>객실</th>
-                                                    <th>주문건수</th>
-                                                    <th>매출액</th>
-                                                    <th>비율</th>
-                                                    <th>그래프</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>A룸</td>
-                                                    <td>1</td>
-                                                    <td>123,000</td>
-                                                    <td>36%</td>
-                                                    <td>
-                                                        <progress id="progress1" value="36" min="0" max="100"></progress>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>B룸</td>
-                                                    <td>2</td>
-                                                    <td>234,000</td>
-                                                    <td>52%</td>
-                                                    <td>
-                                                        <progress id="progress1" value="52" min="0" max="100"></progress>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>C룸</td>
-                                                    <td>3</td>
-                                                    <td>123,000</td>
-                                                    <td>16%</td>
-                                                    <td>
-                                                        <progress id="progress1" value="16" min="0" max="100"></progress>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>D룸</td>
-                                                    <td>4</td>
-                                                    <td>123,000</td>
-                                                    <td>76%</td>
-                                                    <td>
-                                                        <progress id="progress1" value="76" min="0" max="100"></progress>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>E룸</td>
-                                                    <td>5</td>
-                                                    <td>123,000</td>
-                                                    <td>36%</td>
-                                                    <td>
-                                                        <progress id="progress1" value="36" min="0" max="100"></progress>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>F룸</td>
-                                                    <td>6</td>
-                                                    <td>123,000</td>
-                                                    <td>12%</td>
-                                                    <td>
-                                                        <progress id="progress1" value="12" min="0" max="100"></progress>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>G룸</td>
-                                                    <td>7</td>
-                                                    <td>123,000</td>
-                                                    <td>36%</td>
-                                                    <td>
-                                                        <progress id="progress1" value="36" min="0" max="100"></progress>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                            </div>
-                        </div>
+                    <div class="blank10"></div>
+                    <div class="tsd_msg2">당일 기준 (<strong>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</strong>)로부터 <strong>6일 전</strong> 데이터가 조회됩니다.</div>
 
+                    <div class="main_content_div" id="main_content_div">
+                        <div class="col1" style="width: 100%">
+                            <div class="col1_graph_chart">
+                                <!-- 결제 현황 -->
+                                <div class="payment_stat_graph">
+                                    <div id="donutchart" style="width: 100%; height: 500px;"></div>
+                                </div>
+                                <!-- 객실 점유율 -->
+                                <div class="graph_inner" style="width:100% ;">
+                                    <table>
+                                        <tr>
+                                            <th>객실</th>
+                                            <th>주문건수</th>
+                                            <th>매출액</th>
+                                            <th>비율</th>
+                                            <th>그래프</th>
+                                        </tr>
+                                        <tr>
+                                            <td>A룸</td>
+                                            <td>1</td>
+                                            <td>123,000</td>
+                                            <td>36%</td>
+                                            <td>
+                                                <progress id="progress1" value="36" min="0" max="100"></progress>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>B룸</td>
+                                            <td>2</td>
+                                            <td>234,000</td>
+                                            <td>52%</td>
+                                            <td>
+                                                <progress id="progress1" value="52" min="0" max="100"></progress>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>C룸</td>
+                                            <td>3</td>
+                                            <td>123,000</td>
+                                            <td>16%</td>
+                                            <td>
+                                                <progress id="progress1" value="16" min="0" max="100"></progress>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>D룸</td>
+                                            <td>4</td>
+                                            <td>123,000</td>
+                                            <td>76%</td>
+                                            <td>
+                                                <progress id="progress1" value="76" min="0" max="100"></progress>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>E룸</td>
+                                            <td>5</td>
+                                            <td>123,000</td>
+                                            <td>36%</td>
+                                            <td>
+                                                <progress id="progress1" value="36" min="0" max="100"></progress>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>F룸</td>
+                                            <td>6</td>
+                                            <td>123,000</td>
+                                            <td>12%</td>
+                                            <td>
+                                                <progress id="progress1" value="12" min="0" max="100"></progress>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>G룸</td>
+                                            <td>7</td>
+                                            <td>123,000</td>
+                                            <td>36%</td>
+                                            <td>
+                                                <progress id="progress1" value="36" min="0" max="100"></progress>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="blank30"></div>
                     <div class="main_content_div2">

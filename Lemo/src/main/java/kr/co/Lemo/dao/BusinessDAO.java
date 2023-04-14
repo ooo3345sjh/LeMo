@@ -77,6 +77,9 @@ public interface BusinessDAO {
     // @since 2023/04/04 판매자 예약 정보 목록 페이징
     public int countReservations(SearchCondition sc);
 
+    // @since 2023/04/14 판매자 - 메인 - 일별 누적 판매량 (당일)
+    public List<ReservationVO> selectTodaySales(Map map);
+
     // @since 2023/04/11 판매자 - 메인 - 미배정 객실/객실
     public int countUnassignedRoom(Map map);
     public int countRooms(Map map);

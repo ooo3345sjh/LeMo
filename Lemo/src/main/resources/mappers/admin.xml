@@ -282,6 +282,14 @@
         order by a.res_payment;
     </select>
 
+    <!-- 관리자 - 결제 방법 결제 현황 (당일) -->
+    <select id="selectPaymentDay" resultType="kr.co.Lemo.domain.ReservationVO">
+        select * from `lemo_product_reservation` as a
+        join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        where a.res_state NOT IN (0) AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL 0 DAY)) AND DATE(NOW())
+        order by a.res_payment;
+    </select>
+
      <!-- 관리자 - 월별 매출 근황 (월별) -->
     <select id="selectMonthSales" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT MONTH(a.res_date) AS res_month, SUM(a.res_price - a.res_disPrice) AS tot_res_price, COUNT(a.`res_checkIn`) AS tot_month_sales
@@ -351,6 +359,24 @@
         select count(`user_id`) from `lemo_member_userinfo`
         where `rdate` BETWEEN DATE(date_add(now(), INTERVAL 0 DAY)) AND DATE(NOW());
     </select>
+
+    <!-- 관리자 - 메인 BEST 숙소 (평점+리뷰수) -->
+    <select id="selectBestAcc" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+        SELECT
+            a.acc_id, a.acc_name, a.user_id, a.acc_rdate, MAX(b.res_no) AS res_no,
+            MAX(revi_rdate) AS revi_rdate, MAX(res_state) AS res_state,
+            MAX(res_date) AS res_date, SUM((acc_rate*10) + acc_review) AS acc_best
+        FROM `lemo_product_accommodation` as a
+        JOIN `lemo_product_reservation` AS b ON a.acc_id=b.acc_id
+        JOIN `lemo_product_review` AS c ON b.res_no=c.res_no
+        WHERE `res_state` NOT IN (0)
+        GROUP BY a.acc_id, a.acc_name, a.user_id, a.acc_rdate
+        ORDER BY `acc_best` desc
+        LIMIT 5;
+    </select>
+
+
+
     <!--
     <select id="selectDaySales" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT DATE(res_date) AS res_date, SUM(res_price) AS total_res_price

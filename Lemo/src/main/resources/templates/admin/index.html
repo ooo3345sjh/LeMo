@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <div class="blank10"></div>
-                    <p class="tsd_msg2">당일 기준 (<strong>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</strong>)로부터 <strong>7일 전</strong> 데이터가 조회됩니다.</p>
+                    <div class="tsd_msg2">당일 기준 (<strong>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</strong>)로부터 <strong>6일 전</strong> 데이터가 조회됩니다.</div>
                     <div class="main_content_div" id="main_content_div">
                         <div class="col1" style="width: 100%">
                             <div class="col1_graph_chart">
@@ -100,6 +100,7 @@
                         <div class="tsd_best_inner">
                             <h3>BEST <i>숙소</i></h3>
                         </div>
+                        <div class="tsd_guide">평점, 리뷰 기준 순위입니다. </div>
                         <div class="col2">
                                 <div class="bestAccList">
                                     <ul>
@@ -109,21 +110,26 @@
                                         <li class="ba_li4">판매자 아이디</li>
                                         <li class="ba_li5">등록일</li>
                                     </ul>
-                                    <ul>
-                                        <li class="ba_li1">1</li>
-                                        <li class="ba_li2">1004590</li>
-                                        <li class="ba_li3">어쩌고 저쩌고 숙박</li>
-                                        <li class="ba_li4">circle@naver.com</li>
-                                        <li class="ba_li5">2023-04-12</li>
+
+                                    <ul th:each="bestAcc,i:${bestAccs}">
+                                        <li class="ba_li1" th:text="${i.index + 1 + '위'}"></li>
+                                        <li class="ba_li2" th:text="${bestAcc.acc_id}">1004590</li>
+                                        <li class="ba_li3" th:value="${bestAcc.acc_id}">
+                                            <a href="#">[[${bestAcc.acc_name}]]</a>
+                                        </li>
+                                        <li class="ba_li4" th:text="${bestAcc.user_id}">circle@naver.com</li>
+                                        <li class="ba_li5" th:text="${bestAcc.acc_rdate.substring(0, 10)}">2023-04-12</li>
                                     </ul>
                                 </div>
                             </div>
                     </div>
+<!--
 
                     <div class="tsd_best">
                         <div class="tsd_best_inner">
                             <h3>BEST <i>객실</i></h3>
                         </div>
+                        <div class="tsd_guide2">예약 기준 순위입니다.</div>
                         <div class="col2">
                                 <div class="bestRoomList">
                                     <ul>
@@ -145,6 +151,7 @@
                                 </div>
                             </div>
                     </div>
+-->
 
 
                     <div class="blank30"></div>
@@ -220,10 +227,6 @@
          // 참조 데이터 준비
         let stats = [[${stats}]];
 
-        console.log(stats);
-        console.log("stats res_price : " + stats[0].res_price);
-
-
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
         // callback 정의 : drawVisualization
@@ -238,8 +241,6 @@
         // 출력 날짜 형태 지정
         date = nowMonth + '/' + nowDate;
 
-        console.log("date : " + date);
-
         // 이전 날짜
         // before[1] = 1일전 , before[2] = 2일전
         let before = new Array();
@@ -247,13 +248,6 @@
             before[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
             before[i] = (before[i].getMonth()+1) + '/' + before[i].getDate();
         }
-        console.log(before[6] + " - " + stats[0].tot_res_price);
-        console.log(before[5] + " - " + stats[1].tot_res_price);
-        console.log(before[4] + " - " + stats[2].tot_res_price);
-        console.log(before[3] + " - " + stats[3].tot_res_price);
-        console.log(before[2] + " - " + stats[4].tot_res_price);
-        console.log(before[1] + " - " + stats[5].tot_res_price);
-        console.log(date + " - " + stats[6].tot_res_price);
 
             function drawVisualization() {
 
@@ -324,22 +318,19 @@
     <script th:inline="javascript">
 
         // 참조 데이터 준비
-        //let paysMap = [[${paysMap}]];
+        let paysMap = [[${paysMap}]];
 
-        //console.log(paysMap);
-        //console.log(paysMap[1][0].res_no);
-        //console.log(paysMap[1].length);
-
+        console.log(paysMap);
 
         google.charts.load("current", {packages:["corechart"]});
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
             ['payment', 'Percent'],
-            ['신용/체크카드', 20],
-            ['토스페이', 30],
-            ['PAYCO', 10],
-            ['카카오페이', 40]
+            ['신용/체크카드', paysMap[1].length],
+            ['토스페이', paysMap[2].length],
+            ['PAYCO', paysMap[3].length],
+            ['카카오페이', paysMap[4].length]
             ]);
 
             var options = {
@@ -363,6 +354,9 @@
             });
 
         }
+    </script>
+    <script th:inline="javascript">
+
     </script>
 </th:block>
 </html>

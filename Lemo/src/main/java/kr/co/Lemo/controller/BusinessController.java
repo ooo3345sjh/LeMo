@@ -57,10 +57,14 @@ public class BusinessController {
         int unAssignedRoom = service.countUnassignedRoom(map);
         int rooms = service.countRooms(map);
 
-        log.warn("rooms : " + rooms);
+        // 당일 누적 판매량
+        List<ReservationVO> todaySales = service.findAllTodaySales(map);
+
+        log.warn("todaySales : " + todaySales);
 
         model.addAttribute("unAssignedRoom", unAssignedRoom);
         model.addAttribute("rooms", rooms);
+        model.addAttribute("todaySales", todaySales);
 
         return "business/index";
     }

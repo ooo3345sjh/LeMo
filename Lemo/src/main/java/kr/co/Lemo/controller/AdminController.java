@@ -60,9 +60,13 @@ public class AdminController {
     ) {
         // 일별 매출 현황
         List<ReservationVO> stats = service.findAllDaySales(map);
-
         // 당일 누적 판매량
         List<ReservationVO> todaySales = service.findAllTodaySales();
+        // best 숙소
+        List<ProductAccommodationVO> bestAccs = service.findAllBestAcc(map);
+        // 결제현황 (당일)
+        List<ReservationVO> pays = service.findAllPaymentDay(map);
+        Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
 
         // 예약건수
         int total = service.countDaySales();
@@ -75,7 +79,6 @@ public class AdminController {
         // 회원가입 수
         int totalUser = service.countDayUser();
 
-        //log.warn("total : " + total);
 
         model.addAttribute("stats", stats);
         model.addAttribute("totalSales", total);
@@ -84,6 +87,8 @@ public class AdminController {
         model.addAttribute("totalQna", totalQna);
         model.addAttribute("totalAcc", totalAcc);
         model.addAttribute("totalUser", totalUser);
+        model.addAttribute("bestAccs", bestAccs);
+        model.addAttribute("paysMap", paysMap);
 
         return "admin/index";
     }
