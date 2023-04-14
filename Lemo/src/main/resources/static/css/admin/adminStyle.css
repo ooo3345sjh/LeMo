@@ -11,7 +11,6 @@ main .main_content .main_content_div {
 main #main_content_div {
     border-top: 1px solid #F3F6F9;
     padding-top: 26px;
-    margin-top: 85px;
     margin-bottom: 34px;
 }
 main .main_content .col1 {
@@ -117,8 +116,7 @@ main .tsd_msg2 {
     font-size: 13px;
     color: #424242;
     font-weight: 300;
-    position: absolute;
-    top: 26%;
+    margin-top: 70px;
 }
 main .tsd_msg2 > strong {
     font-size: 13px;
@@ -287,6 +285,7 @@ main .tsd_best {
     display: flex;
     flex-wrap: wrap;
     padding-top: 22px;
+    position: relative;
 }
 main .tsd_best_inner {
     padding: 2px 20px;
@@ -406,13 +405,44 @@ main .main_content .col2 .bestAccList li {
     text-align: center;
     font-family: 'Noto Sans KR';
     line-height: 32px;
-
 }
 main .ba_li1 { width: 8%; }
 main .ba_li2 { width: 15%; }
 main .ba_li3 { width: 35%; }
 main .ba_li4 { width: 30%; }
 main .ba_li5 { width: 10%; }
+
+main .bestAccList > ul:nth-of-type(2) {
+    background: #fcf951;
+}
+main .bestAccList > ul:nth-of-type(2) > li {}
+
+main .tsd_guide {
+    font-size: 12px;
+    color: #424242;
+    font-weight: 200;
+    position: absolute;
+    top: 44px;
+    right: 14px;
+}
+main .tsd_guide2 {
+    font-size: 12px;
+    color: #424242;
+    font-weight: 200;
+    position: absolute;
+    top: 44px;
+    right: 14px;
+}
+main .ba_li3 > a {
+    font-size: 13px;
+}
+main .ba_li3 > a:hover {
+    text-decoration: underline !important;
+}
+
+
+
+
 
 main .main_content .col2 .bestRoomList {
     border-top: 1px solid #bbb;
@@ -437,6 +467,7 @@ main .br_li3 { width: 30%; }
 main .br_li4 { width: 10%; }
 main .br_li5 { width: 30%; }
 main .br_li6 { width: 8%; }
+
 
 main .paging {
     margin: 15px 0;

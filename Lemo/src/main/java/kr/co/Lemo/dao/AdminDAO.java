@@ -113,11 +113,18 @@ public interface AdminDAO {
     // @since 2023/04/06
     public List<ReservationVO> selectPayment(Map map);
 
+    // @since 2023/04/13
+    public List<ReservationVO> selectPaymentDay(Map map);
+
     // @since 2023/04/06
     public List<ReservationVO> selectMonthSales(Map map);
 
     // @since 2023/04/13
     public List<ReservationVO> selectYearSales(Map map);
+
+    // @since 2023/04/13
+    public List<ProductAccommodationVO> selectBestAcc(Map map);
+
 
     // @since 2023/04/06
     public int countWeeksSales();

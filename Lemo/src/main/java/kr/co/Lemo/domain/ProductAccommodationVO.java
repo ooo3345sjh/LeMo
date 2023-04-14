@@ -91,5 +91,12 @@ public class ProductAccommodationVO {
      * @apiNote 검증시 필요함
      */
     private int res_state;
-            
+
+    /**
+     * @since 2023/04/13
+     * @author 이원정
+     * @apiNote 관리자 메인 BEST 숙소 (리뷰수+평점 합계)
+     */
+    private int acc_best;
+
 }

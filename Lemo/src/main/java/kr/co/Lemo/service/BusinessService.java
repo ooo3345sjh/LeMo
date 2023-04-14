@@ -182,15 +182,23 @@ public class BusinessService {
      }
 
     /**
-     * 판매자 예약 정보 목록
      * @since 2023/04/04
      * @param sc
+     * @apiNote 판매자 예약 정보 목록
      */
      public List<ReservationVO> findAllReservaitons(Admin_SearchVO sc){
          return  dao.selectReservaitons(sc);
      }
      public int countReservations(SearchCondition sc){
          return dao.countReservations(sc);
+     }
+
+     /**
+     * @since 2023/04/14
+     * @apiNote 판매자 - 메인 - 일별 누적 판매량 (당일)
+     */
+     public List<ReservationVO> findAllTodaySales(Map map){
+        return dao.selectTodaySales(map);
      }
 
     /**

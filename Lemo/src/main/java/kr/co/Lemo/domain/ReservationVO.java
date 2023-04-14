@@ -17,7 +17,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ReservationVO {
-    // @since 2023/04/07 @author 이원정 JsonProperty 추가
+    /**
+     * @since 2023/04/07
+     * @author 이원정
+     * @apiNote JsonProperty 추가
+     */
     @JsonProperty("groupId")
     public long res_no;
     private int acc_id;
