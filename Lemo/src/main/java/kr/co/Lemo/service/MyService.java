@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -702,5 +703,18 @@ public class MyService {
      */
     public int removeQna(Map map){
         return dao.deleteQna(map);
+    }
+
+    /**
+     * @since 2023/04/14
+     * @author 박종협
+     * @apiNote point 갱신
+     */
+    
+//    @Scheduled(cron = "0 0 0 1 * *") 매달 1일 00시
+//    @Scheduled(cron = "0 0 0 * * *") 자정
+    @Scheduled(cron = "0 0 0/1 * * *")
+    public void pointUpdate() {
+        log.debug("스케쥴러 사용(1시간)");
     }
 }
