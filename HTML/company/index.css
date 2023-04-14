@@ -53,6 +53,9 @@ header > div > .logo_text {
   left: 38px;
   color: #bbd444;
 }
+header > div > .logo_img {
+  margin-top: 10px;
+}
 header > div > a > img {
   width: 100%;
 }
