@@ -775,6 +775,24 @@ public class AdminController {
     }
 
     /**
+     * @since 2023/03/14
+     * @author 황원진
+     * @apiNote 약관 수정 Get
+     */
+    public String usaveTermArticle(int terms_no, int page, Model model){
+        TermVO termArticle = csService.findTermArticle(terms_no);
+
+        model.addAttribute("mTerm", termArticle);
+        model.addAttribute("terms_no", terms_no);
+        model.addAttribute("page", page);
+
+        return "admim/cs/terms/modify";
+    }
+
+
+
+
+    /**
      * @since 2023/03/15
      * @author 황원진
      *
@@ -938,12 +956,13 @@ public class AdminController {
      * @apiNote term 약관 상세보기
      */
     @GetMapping("cs/terms/view")
-    public String findTermArticle(int terms_no, Model model){
+    public String findTermArticle(int terms_no, int page, Model model){
         log.debug("terms");
         TermVO termArticle = csService.findTermArticle(terms_no);
 
         model.addAttribute("term", termArticle);
         model.addAttribute("terms_no", terms_no);
+        model.addAttribute("page", page);
 
         return "admin/cs/terms/view";
     }
@@ -955,13 +974,13 @@ public class AdminController {
      * @apiNote qna 답글 update
      */
     @PostMapping("cs/qna/reply")
-    public String usaveQnaArticle(String cs_reply, int cs_no){
+    public String usaveQnaArticle(String cs_reply, int cs_no, int page){
         log.info("cs_reply : " + cs_reply);
         log.info("cs_no : " + cs_no);
 
         csService.usaveQnaArticle(cs_reply, cs_no);
 
-        return "redirect:/admin/cs/qna/view?cs_no="+cs_no;
+        return "redirect:/admin/cs/qna/view?cs_no="+cs_no+"&page="+page;
     }
 
 

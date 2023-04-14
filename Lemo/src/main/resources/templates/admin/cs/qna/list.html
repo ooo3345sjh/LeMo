@@ -39,7 +39,7 @@
                                             </li>
                                             <li>[[*{totalCnt-sc.offset} - ${i.index}]]</li>
                                             <li class="title">
-                                                <a th:href="@{/admin/cs/qna/view (cs_no=${qna.cs_no})}">[[${qna.cs_title}]]</a>
+                                                <a th:href="@{/admin/cs/qna/view (cs_no=${qna.cs_no}, page=${ph.sc.page})}">[[${qna.cs_title}]]</a>
                                             </li>
                                             <li>[[${qna.nick}]]</li>
                                             <li>[[${qna.cs_rdate.substring(2, 10)}]]</li>

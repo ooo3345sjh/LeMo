@@ -15,6 +15,8 @@
             <!-- 우측 메인 컨테이너 -->
             <section class="main_content">
                 <div class="main_cotent_inner">
+                    <input type="hidden" name="terms_no" th:value="${terms_no}">
+                    <input type="hidden" name="page" th:value="${page}">
                     <div class="main_content_div">
                         <div class="col_nav">
                             <span>고객센터 ></span>
@@ -39,7 +41,7 @@
 
                             <!-- 버튼 -->
                             <div class="btnAdminProd">
-                                <a th:href="@{/admin/cs/terms/list}">
+                                <a th:href="@{/admin/cs/terms/list (page=${page})}">
                                     약관목록
                                 </a>
                             </div>
