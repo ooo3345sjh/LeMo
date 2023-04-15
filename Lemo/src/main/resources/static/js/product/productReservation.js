@@ -63,10 +63,14 @@ function paymentCard(data) {
 
     var IMP = window.IMP;
 <<<<<<< HEAD
+<<<<<<< HEAD
     IMP.init(code);
 =======
     IMP.init("imp77427884");
 >>>>>>> 810e61216d72591f69bf20479b45ff77e4a77a6d
+=======
+    IMP.init(code);
+>>>>>>> 287dbd98afa20119f801d5c8b265c40ab9b44d9a
 
 	IMP.request_pay({ // param
         pg : data.pg,
