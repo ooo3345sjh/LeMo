@@ -40,5 +40,8 @@ public class ProductRoomVO {
     private int rp_peakSeason_weekend;
     private int province_no;
 
+    // @since 2023/04/16 / 이해빈
+    private String acc_name;
+
 
 }

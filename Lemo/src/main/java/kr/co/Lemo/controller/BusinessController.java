@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -858,4 +859,50 @@ public class BusinessController {
 
         return resultMap;
     }
+
+
+    /**
+     * @since 2023/04/15
+     * @author 이해빈
+     * @apiNote 객실 수정
+     */
+    @GetMapping("room/modify")
+    public String roomInfo_modify(int room_id, Model model) throws Exception {
+
+        // 객실 정보 가져오기
+        ProductRoomVO room = service.findRoom(room_id);
+        model.addAttribute("room", room);
+
+        return "business/room/modify";
+    }
+
+    /**
+     * @since 2023/04/16
+     * @author 이해빈
+     * @apiNote 객실 수정
+     */
+    @ResponseBody
+    @PostMapping("room/modify")
+    public int modifyRoom(
+            @RequestParam Map<String, Object> param,
+            HttpServletRequest req,
+            MultipartHttpServletRequest request
+    ) throws Exception {
+
+        Map<String, MultipartFile> fileMap = request.getFileMap();
+
+        log.info("param : " + param);
+        log.info("fileMap : " + fileMap);
+
+        int result = service.usaveRoom(param, fileMap);
+
+        return result;
+    }
+
+
 }
+
+
+
+
+

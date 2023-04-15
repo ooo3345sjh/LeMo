@@ -5,11 +5,10 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminSubStyle.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
-    <link rel="stylesheet" th:href="@{/css/admin/adminSubStyle.css}">
     <!-- 드래그앤드롭 파일 업로드 -->
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-    <script th:src="@{/js/admin/dragNdrop.js}"></script>
+    <script th:src="@{/js/admin/dragNdropModifyRoom.js}"></script>
     <!-- summernote -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -17,27 +16,6 @@
     <!-- include summernote css/js -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-    <script th:src="@{/js/admin/summernote-ko-KR.js}"></script>
-    <script>
-            $(document).ready(function() {
-                $('#summernote').summernote({
-                    height: 450,
-                    focus: true,
-                    lang : 'ko-KR',
-                    spellCheck: false,
-                    toolbar: [
-                        // [groupName, [list of button]]
-                        ['style', ['bold', 'italic', 'underline', 'clear']],
-                        ['font', ['strikethrough']],
-                        ['fontsize', ['fontsize']],
-                        ['color', ['color']],
-                        ['para', ['ul', 'ol', 'paragraph']],
-                        ['insert', ['table','hr']]
-                    ]
-                });
-                $('#summernote').summernote('fontSize', 14);
-            });
-    </script>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -54,58 +32,82 @@
                         </div>
 
                         <!-- 숙소 등록 폼 -->
-                        <form class="col_register_form" action="#">
-
+                        <form class="col_register_form" th:action="@{/business/room/post}" method="post" enctype="multipart/form-data">
                             <!-- 객실 정보 -->
                             <div class="col_register1">
                                 <div class="stayName">
                                     <div>
-                                        <span>객실 정보</span>
+                                        <span>객실 정보 <i class="essential_tag_guide">* 표기 - 필수 입력 정보</i></span>
                                     </div>
                                 </div>
                                 <table class="input_stayRoomInfo">
+                                    <!--
                                     <tr>
-                                        <td>객실 이름</td>
-                                        <td><input type="text" value="킹 프리미엄 룸 (King Premium Room)"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>객실 수</td>
-                                        <td><input type="number" value="20"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>객실 가격</td>
-                                        <td><input type="number"value="822,224"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>할인율 (%)</td>
-                                        <td><input type="number" value="52"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>할인 가격</td>
-                                        <td><input type="number" value="397,150"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>인원</td>
+                                        <td>숙소 선택 <i class="essential_tag">*</i></td>
                                         <td>
-                                            <input class="input_200" type="number" placeholder="2">/
-                                            <input class="input_200" type="number" placeholder="3">
+                                            <select name="acc_id" id="selectAccOwned">
+                                                <option></option>
+                                            </select>
+                                        </td>
+                                    </tr>-->
+                                    <tr>
+                                        <td>숙소 이름</td>
+                                        <td>[[${room.acc_name}]]</td>
+                                    </tr>
+                                    <tr>
+                                        <td>객실 이름 <i class="essential_tag">*</i></td>
+                                        <td><input name="room_name" type="text" th:value="${room.room_name}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>객실 수 <i class="essential_tag">*</i></td>
+                                        <td>
+                                            <input name="room_stock" type="number" placeholder="동일 유형의 객실 수 설정" th:value="${room.room_stock}"
+                                                   required onkeydown="javascript: return event.keyCode == 69 ? false : true">
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>인원초과가격</td>
-                                        <td><input type="number" placeholder="50,000"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>객실이용안내</td>
+                                        <td>객실 가격 <i class="essential_tag">*</i></td>
                                         <td>
-                                            <textarea class="notice_text" id="summernote"></textarea>
+                                            <input name="room_price" type="number" placeholder="할인 전 기본가격" th:value="${room.room_price}"
+                                                   required onkeydown="javascript: return event.keyCode == 69 ? false : true">
+                                            <span class="result_stayName">
+                                                💡 할인율(할인가)은 숙소 및 시즌 기준으로 일괄 적용됩니다.
+                                            </span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>객실 이미지</td>
+                                        <td>인원 <i class="essential_tag">*</i></td>
                                         <td>
+                                            <input name="room_defNum" class="input60" type="number" placeholder="기준" th:value="${room.room_defNum}"
+                                                   required onkeydown="javascript: return event.keyCode == 69 ? false : true">/
+                                            <input name="room_maxNum" class="input60" type="number" placeholder="최대" th:value="${room.room_maxNum}"
+                                                   required onkeydown="javascript: return event.keyCode == 69 ? false : true">
+                                            <span class="result_stayName">
+                                                💡 미입력 시, '1명'으로 등록됩니다.
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>인원추가가격 <i class="essential_tag">*</i></td>
+                                        <td>
+                                            <input name="room_addPrice" type="number" placeholder="1명 추가 시 가격 (원)" th:value="${room.room_addPrice}">
+                                            <span class="result_stayName">
+                                                💡 미입력 시, '0원'으로 등록됩니다.
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>객실이용안내 <i class="essential_tag">*</i></td>
+                                        <td>
+                                            <textarea name="room_info" class="notice_text" id="summernote" th:utext="${room.room_info}"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>객실사진 <i class="essential_tag">*</i></td>
+                                        <td>
+                                            <!-- 숙소 썸네일 이미지 -->
                                             <div class="stayThumb">
-                                                <div class="dropzone" id="fileDropzone">
+                                                <div class="dropzone" name="files" id="fileDropzone">
                                                     <div>
                                                         <button class="dz-default dz-message" type="button">
                                                             사진을 첨부하시려면 클릭하거나 드로우 앤 드롭해주세요
@@ -115,12 +117,24 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>체크인/체크아웃 시간</td>
+                                        <td>
+                                            <div class="acc_checkTime_div">
+                                                <span class="acc_checkTime_tit">체크인:</span>
+                                                <input type="time" name="room_checkIn" class="acc_checkTime" th:value="${room.room_checkIn}">
+                                            </div>
+                                            <div class="acc_checkTime_div">
+                                                <span class="acc_checkTime_tit">체크아웃:</span>
+                                                <input type="time" name="room_checkOut" class="acc_checkTime" th:value="${room.room_checkOut}">
+                                            </div>
+                                        </td>
+                                    </tr>
+
                                 </table>
                             </div>
-                            <div class="btnAdminProd">
-                                <a href="#">
-                                    수정완료
-                                </a>
+                            <div class="btnAdminProd" id="btnUpload">
+                                <button type="submit" id="btnSubmit">객실수정</button>
                             </div>
                         </form>
                     </div>
@@ -132,5 +146,91 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+    <script th:src="@{/js/admin/summernote-ko-KR.js}"></script>
+    <script th:inline="javascript">
+        let roomThumbs = [[${room.room_thumb}]];
+        let province_no = [[${room.province_no}]];
+        let room_id = [[${room.room_id}]];
+        let acc_id = [[${room.acc_id}]];
+
+        $(document).ready(function() {
+
+            // 써머노트
+            $('#summernote').summernote({
+                height: 450,
+                focus: true,
+                lang : 'ko-KR',
+                spellCheck: false,
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['table','hr']]
+                ]
+            });
+            $('#summernote').summernote('fontSize', 14);
+
+            // 유효성 검사 (제출)
+            let btnSubmit = document.getElementById('btnSubmit');
+            let room_name = $('input[name=room_name]');
+            let room_stock = $('input[name=room_stock]');
+            let room_price = $('input[name=room_price]');
+            let room_defNum = $('input[name=room_defNum]');
+            let room_maxNum = $('input[name=room_maxNum]');
+            let room_addPrice = $('input[name=room_addPrice]');
+            let room_info = $('textarea[name=room_info]');
+            let room_checkIn = $('input[name=room_checkIn]');
+            let room_checkOut = $('input[name=room_checkOut]');
+
+            room_defNum.on("keydown", function(event) {
+                if (event.key === '-' || event.key === '+') {
+                    event.preventDefault();
+                }
+            });
+
+            room_defNum.on("input", function(event) {
+                if (this.value < 0) {
+                    this.value = 0;
+                }
+            });
+
+            room_maxNum.on("keydown", function(event) {
+                if (event.key === '-' || event.key === '+') {
+                    event.preventDefault();
+                }
+            });
+
+            room_maxNum.on("input", function(event) {
+                if (this.value < 0) {
+                    this.value = 0;
+                }
+            });
+
+            room_maxNum.on('focusout', () => {
+                if (parseInt(room_defNum.val()) > parseInt(room_maxNum.val())) {
+                    sweetalert("최대 인원은 기준인원보다 큰 수를 입력해 주십시오.", "warning");
+                    room_maxNum.val('');
+                    return false;
+                }
+            });
+
+            room_addPrice.on("keydown", function(event) {
+                if (event.key === '-' || event.key === '+') {
+                    event.preventDefault();
+                }
+            });
+
+            room_addPrice.on("input", function(event) {
+                if (this.value < 0) {
+                    this.value = 0;
+                }
+            });
+
+        });
+
+    </script>
 </th:block>
 </html>

@@ -15,10 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -643,5 +640,126 @@ public class BusinessService {
      */
     public int usaveQnaUdate(@RequestParam("qna_reply") String qna_reply, @RequestParam("qna_no") int qna_no){
         return dao.updateQnaUdate(qna_reply, qna_no);
+    }
+
+    /**
+     * @since 2023/04/16
+     * @author 이해빈
+     * @apiNote 객실 수정
+     */
+    public int usaveRoom(Map<String, Object> param, Map<String, MultipartFile> fileMap) {
+
+        for(MultipartFile mf : fileMap.values()){
+            log.debug("mf : " + mf.getOriginalFilename());
+        }
+
+        List<String> fileName = checkFile(param, fileMap);
+        if(!fileName.isEmpty()) {
+            String files = String.join("/", fileName);
+            param.put("room_thumb", files);
+        }else {
+            param.put("room_thumb", null);
+        }
+
+        int result = dao.updateRoom(param);
+
+        return result;
+    }
+
+    /**
+     * @since 2023/04/16
+     * @author 이해빈
+     * @apiNote 객실 이미지 파일 검사
+     */
+    public List<String> checkFile(Map<String, Object> param, Map<String, MultipartFile> fileMap){
+
+        String province_no = (String) param.get("province_no");
+        String acc_id = (String) param.get("acc_id");
+
+        String dirPath = new File(uploadPath+"product/"+province_no+"/"+acc_id).getAbsolutePath();
+
+        File dir = new File(dirPath);
+        File Files[] = dir.listFiles();
+
+        List<String> oriRoom = new ArrayList<>();
+        List<String> newRoom = new ArrayList<>();
+        List<String> oriRemoveRoom = new ArrayList<>();
+        List<String> newRemoveRoom = new ArrayList<>();
+
+
+        // 기존 파일 이름
+        String room_thumbs = (String)param.get("room_thumbs");
+        log.info("기존 파일 이름 : " + room_thumbs);
+
+        if (room_thumbs.contains("/")) {
+            // "/" 기준으로 파일 경로를 나누어 파일 이름을 추출
+            String[] fileNames = room_thumbs.split("/");
+            oriRoom.addAll(Arrays.asList(fileNames));
+            oriRemoveRoom.addAll(Arrays.asList(fileNames));
+        } else {
+            // 파일 경로에 "/" 문자가 없으면 파일 이름 하나만 list에 추가
+            oriRoom.add(room_thumbs);
+            oriRemoveRoom.add(room_thumbs);
+        }
+
+        log.info("oriRoom : " + oriRoom);
+        log.info("oriRemoveRoom : " + oriRemoveRoom);
+
+        for(MultipartFile mf : fileMap.values()) {
+            newRoom.add(mf.getOriginalFilename());
+            newRemoveRoom.add(mf.getOriginalFilename());
+        }
+
+        log.info("newRoom : " + newRoom);
+        log.info("newRemoveRoom : " + newRemoveRoom);
+
+
+        // 저장되어질 roomImage
+        newRoom.removeAll(oriRemoveRoom);
+        log.debug("저장 : " + newRoom);
+
+
+        // 삭제되어질 roomImage
+        oriRoom.removeAll(newRemoveRoom);
+        log.debug("삭제 : " + oriRoom);
+
+
+        if(oriRoom.size() != 0) {
+            // 삭제
+            for(String deleteFile : oriRoom) {
+
+                File df = new File(dirPath + "/" + deleteFile);
+                if(df.exists()) { df.delete(); }
+            }
+        }
+
+        List<String> changeSaveFile = new ArrayList<>();
+
+        if(newRoom.size() != 0) {
+            // 저장
+            for(String saveFile : newRoom) {
+                String ext = saveFile.substring(saveFile.indexOf("."));
+                String newName = UUID.randomUUID() + ext;
+                changeSaveFile.add(newName);
+
+                MultipartFile mf = fileMap.get(saveFile);
+
+                try {
+                    mf.transferTo(new File(dirPath, newName));
+                } catch (IllegalStateException e) {
+                    log.error(e.getMessage());
+                } catch (IOException e) {
+                    log.error(e.getMessage());
+                }
+            }
+        }
+
+        // db에 저장될 리스트 이름
+        oriRemoveRoom.removeAll(oriRoom);
+        oriRemoveRoom.addAll(changeSaveFile);
+
+        
+        return oriRemoveRoom;
+
     }
 }
