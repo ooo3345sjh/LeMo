@@ -4,6 +4,9 @@
       layout:decorate="layouts/default-layout">
         <th:block layout:fragment="css-js">
             <link rel="stylesheet" th:href="@{/css/product/product.css}">
+            <script>
+                const imp_code = "[[${@environment.getProperty('import.code')}]]";
+            </script>
             <script th:src="@{/js/product/productReservation.js}"></script>
             <!-- 아임포트 결제 테스트 -->
             <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
