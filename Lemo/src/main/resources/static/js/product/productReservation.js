@@ -62,7 +62,11 @@ function createMerchantUid(){
 function paymentCard(data) {
 
     var IMP = window.IMP;
+<<<<<<< HEAD
     IMP.init(code);
+=======
+    IMP.init("imp77427884");
+>>>>>>> 810e61216d72591f69bf20479b45ff77e4a77a6d
 
 	IMP.request_pay({ // param
         pg : data.pg,
