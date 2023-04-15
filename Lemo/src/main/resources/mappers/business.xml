@@ -542,7 +542,22 @@
         where `qna_no` =#{qna_no};
     </update>
 
-
+    <!-- 판매자 객실 수정-->
+    <update id="updateRoom">
+        UPDATE `lemo_product_room`
+        SET
+        `room_name` = #{room_name},
+        `room_stock` = #{room_stock},
+        `room_defNum` = #{room_defNum},
+        `room_maxNum` = #{room_maxNum},
+        `room_addPrice`= #{room_addPrice},
+        `room_price` = #{room_price},
+        `room_info` = #{room_info},
+        `room_thumb` = #{room_thumb},
+        `room_checkIn` = #{room_checkIn},
+        `room_checkOut` = #{room_checkOut}
+        WHERE `room_id`= #{room_id}
+    </update>
 
     <!-- 공통 키 -->
     <!-- include :: sql 구문 재사용 -->
