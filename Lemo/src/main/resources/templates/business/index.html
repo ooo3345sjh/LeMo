@@ -20,40 +20,42 @@
                             <div class="today_sales_status">
                                 <p>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</p>
                             </div>
-                            <p class="tsd_msg">상세 매출 내역은 <strong>통계관리</strong>에서 확인해 주십시오.</p>
+                            <p class="tsd_msg">당일 기준,
+                                <strong>([[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]])</strong> 데이터가 조회됩니다.</p>
                             <div class="sales_day_status">
                                 <div class="tot_sales_day">
                                     <div class="tsd_tit1">총매출</div>
-                                    <div class="tsd_tit2">11 <i>건</i></div>
-                                    <div class="tsd_tit3" >1,234,567,890 <i>원</i></div>
+                                    <div class="tsd_tit2">[[${todaySales[0].count_sales}]] <i>건</i></div>
+                                    <div class="tsd_tit3" th:text="${#numbers.formatInteger(todaySales[0].tot_res_price, 0, 'COMMA')}"></div>
+                                    <div class="tsd_tit4"><i>원</i></div>
                                 </div>
                                 <div class="tsd_grid">
                                     <div class="tsd_grid1">
                                         <div class="tsd_res">
                                             <p>예약</p>
-                                            <h3>1 <i>건</i></h3>
+                                            <h3>[[${daySales}]] <i>건</i></h3>
                                         </div>
                                         <div class="tsd_cancel">
                                             <p>취소</p>
-                                            <h3>2<i>건</i></h3>
+                                            <h3>[[${dayCanceled}]]<i>건</i></h3>
                                         </div>
                                         <div class="tsd_visit">
                                             <p>방문자</p>
-                                            <h3>1,234 <i>명</i></h3>
+                                            <h3>[[${visitorTotal}]] <i>명</i></h3>
                                         </div>
                                     </div>
                                     <div class="tsd_grid2">
                                         <div class="tsd_qna">
                                             <p>미배정 객실</p>
-                                            <h3>[[${unAssignedRoom}]] / [[${rooms}]] <i>건</i></h3>
+                                            <h3>[[${totalRoom-checkRoom}]] / [[${totalRoom}]] <i>실</i></h3>
                                         </div>
                                         <div class="tsd_prod">
-                                            <p>체크인</p>
-                                            <h3>4/20 <i>건</i></h3>
+                                            <p>문의수</p>
+                                            <h3>[[${dayQna}]] <i>건</i></h3>
                                         </div>
                                         <div class="tsd_regi">
-                                            <p>체크아웃</p>
-                                            <h3>5/20 <i>건</i></h3>
+                                            <p>리뷰수</p>
+                                            <h3>[[${dayReview}]] <i>건</i></h3>
                                         </div>
                                     </div>
                                 </div>
@@ -61,7 +63,7 @@
                         </div>
                     </div>
                     <div class="blank10"></div>
-                    <div class="tsd_msg2">당일 기준 (<strong>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</strong>)로부터 <strong>6일 전</strong> 데이터가 조회됩니다.</div>
+                    <div class="tsd_msg2">당일 기준 <strong>([[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]])</strong> 로부터 <strong> 6일 전</strong> 데이터가 조회됩니다.</div>
 
                     <div class="main_content_div" id="main_content_div">
                         <div class="col1" style="width: 100%">
@@ -80,67 +82,13 @@
                                             <th>비율</th>
                                             <th>그래프</th>
                                         </tr>
-                                        <tr>
-                                            <td>4시간놀자(랜덤객실,비데,무소음 냉장고)</td>
-                                            <td>1</td>
-                                            <td>123,000</td>
-                                            <td>36%</td>
+                                        <tr th:each="room:${roomPercent}">
+                                            <td th:text="${room.room_name}"></td>
+                                            <td th:text="${room.count_sales}">4</td>
+                                            <td th:text="${room.tot_res_price}">123,000</td>
+                                            <td th:text="${room.count_sales/totalRoom*100}">76%</td>
                                             <td>
-                                                <progress id="progress1" value="36" min="0" max="100"></progress>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>B룸</td>
-                                            <td>2</td>
-                                            <td>234,000</td>
-                                            <td>52%</td>
-                                            <td>
-                                                <progress id="progress1" value="52" min="0" max="100"></progress>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>C룸</td>
-                                            <td>3</td>
-                                            <td>123,000</td>
-                                            <td>16%</td>
-                                            <td>
-                                                <progress id="progress1" value="16" min="0" max="100"></progress>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>D룸</td>
-                                            <td>4</td>
-                                            <td>123,000</td>
-                                            <td>76%</td>
-                                            <td>
-                                                <progress id="progress1" value="76" min="0" max="100"></progress>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>E룸</td>
-                                            <td>5</td>
-                                            <td>123,000</td>
-                                            <td>36%</td>
-                                            <td>
-                                                <progress id="progress1" value="36" min="0" max="100"></progress>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>F룸</td>
-                                            <td>6</td>
-                                            <td>123,000</td>
-                                            <td>12%</td>
-                                            <td>
-                                                <progress id="progress1" value="12" min="0" max="100"></progress>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>G룸</td>
-                                            <td>7</td>
-                                            <td>123,000</td>
-                                            <td>36%</td>
-                                            <td>
-                                                <progress id="progress1" value="36" min="0" max="100"></progress>
+                                                <progress id="progress1" th:value="${room.count_sales/totalRoom*100}" min="0" max="100"></progress>
                                             </td>
                                         </tr>
                                     </table>
@@ -185,48 +133,28 @@
                     -->
                     <div class="tsd_best">
                         <div class="tsd_best_inner">
-                            <h3>BEST <i>리뷰</i></h3>
+                            <h3>최신 <i>리뷰</i></h3>
                         </div>
                         <div class="tsd_guide">최신 기준 정렬입니다. </div>
-                    </div>
-
-
-
-
-                    <div class="blank30"></div>
-                    <div class="main_content_div2">
-                        <h3>리뷰</h3>
-                        <a class="more" href="#">> 더보기</a>
                         <div class="col2">
-                            <form action="#">
-                                <div class="noticeList2">
-                                    <ul>
-                                        <li>#</li>
-                                        <li>제목</li>
-                                        <li>닉네임</li>
-                                        <li>작성일</li>
-                                    </ul>
-                                    <ul>
-                                        <li>1</li>
-                                        <li class="noticeTitle">정말 좋았어요</li>
-                                        <li>퉁퉁이</li>
-                                        <li>2023.02.25</li>
-                                    </ul>
-                                    <ul>
-                                        <li>2</li>
-                                        <li class="noticeTitle">방이 깨끗해요</li>
-                                        <li>별이</li>
-                                        <li>2023.02.25</li>
-                                    </ul>
-                                </div>
-                                <div class="paging">
-                                    <div class="opg_1">
-                                        <button type="button"><</button>
-                                        <span><b>1</b>&nbsp;/&nbsp;<s>3</s></span>
-                                        <button type="button">></button>
-                                    </div>
-                                </div>
-                            </form>
+                            <div class="bestReviewList">
+                                <ul>
+                                    <li class="ba_li1">#</li>
+                                    <li class="ba_li2">예약번호</li>
+                                    <li class="ba_li3">제목</li>
+                                    <li class="ba_li4">내용</li>
+                                    <li class="ba_li5">평점</li>
+                                    <li class="ba_li6">등록일</li>
+                                </ul>
+                                <ul th:each="review, i:${reviews}">
+                                    <li class="ba_li1" th:text="${i.index + 1}">#</li>
+                                    <li class="ba_li2" th:text="${review.res_no}">예약번호</li>
+                                    <li class="ba_li3" th:text="${review.revi_title}">제목</li>
+                                    <li class="ba_li4" th:text="${review.revi_content}">내용</li>
+                                    <li class="ba_li5" th:text="${review.revi_rate}">평점</li>
+                                    <li class="ba_li6" th:text="${review.revi_rdate}">등록일</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -238,36 +166,39 @@
 <th:block layout:fragment="script">
     <!-- 구글 차트 -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-            google.charts.load("current", {packages:["corechart"]});
-            google.charts.setOnLoadCallback(drawChart);
-            function drawChart() {
-                var data = google.visualization.arrayToDataTable([
-                ['payment', 'Percent'],
-                ['신용/체크카드', 35],
-                ['간편계좌이체', 8],
-                ['토스페이', 7],
-                ['네이버페이', 3],
-                ['PAYCO', 23],
-                ['법인카드', 2],
-                ['휴대폰결제', 27]
-                ]);
+    <script th:inline="javascript">
 
-                var options = {
-                    title: '결제현황',
-                    titleTextStyle: {fontSize:18, bold: true},
-                    fontSize: 15,
-                    pieHole: 0.3,
-                    legend: {
-                    position: 'bottom',
-                    maxLines: 7
-                    },
-                    colors: ['#4F650D', '#637A15', '#7F9822', '#9CB631', '#BBD444','#D3E570','#E4F28F'],
-                };
+         // 참조 데이터 준비
+        let paysMap = [[${paysMap}]];
 
-                var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-                chart.draw(data, options);
-            }
+        console.log(paysMap);
+
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+            ['payment', 'Percent'],
+            ['신용/체크카드', paysMap[1] ? paysMap[1].length : 0],
+            ['토스페이', paysMap[2] ? paysMap[2].length : 0],
+            ['PAYCO', paysMap[3] ? paysMap[3].length : 0],
+            ['카카오페이', paysMap[4] ? paysMap[4].length : 0]
+            ]);
+
+            var options = {
+                title: '결제현황',
+                titleTextStyle: {fontSize:18, bold: true},
+                fontSize: 15,
+                pieHole: 0.3,
+                legend: {
+                position: 'bottom',
+                maxLines: 7
+                },
+                colors: ['#4F650D', '#637A15', '#7F9822', '#9CB631', '#BBD444','#D3E570','#E4F28F'],
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
     </script>
 </th:block>
 </html>

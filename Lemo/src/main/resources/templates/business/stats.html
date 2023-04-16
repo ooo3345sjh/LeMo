@@ -19,22 +19,79 @@
                             <span>통계관리</span>
                         </div>
                         <div class="col2" style="background: transparent;">
-                            <form action="#">
+                            <form>
+                                <div class="select_acc">
+                                    <ul class="sa_msg">숙소 선택</ul>
+                                    <ul class="sa_select_acc">
+                                        <li>
+                                            <select id="c_role_type" name="acc_id">
+                                                <option>- 전체 -</option>
+                                            </select>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="search_date_sort">
+                                    <ul class="date_msg">기간별 조회</ul>
+                                    <ul class="date_3ea">
+                                        <li>
+                                            <a href="#">당일</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">1개월</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">1년</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="sd_date_box">
+                                        <li class="sd_date">
+                                            <input class="select_date" type="date"> - <input class="select_date" type="date">
+                                        </li>
+                                        <button type="submit" class="sd_submit">조회</button>
+                                        <button type="reset" class="sd_reset">초기화</button>
+                                    </ul>
+                                </div>
+                                <p class="sd_msg">조회 조건 미설정시, <strong>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</strong>로부터 <strong>7일 전</strong> 데이터가 조회됩니다.</p>
                                 <div class="stats_container">
-                                    <!-- 날짜 선택 -->
-                                    <div class="current_date_div">
-                                        <input type="text" id="datepicker" name="dates">
-                                    </div>
-                                    <!-- 총 매출 -->
-                                    <div class="tot_sales">
-                                        <div class="tot_sales_box">
-                                            <div class="ts_tit1">총매출</div>
-                                            <div class="ts_count">[[${totalSales}]]</div>
-                                            <div class="ts_tit2">건</div>
-                                            <div class="ts_price" th:text="${#numbers.formatInteger(stats[0].tot_res_price + stats[1].tot_res_price + stats[2].tot_res_price + stats[3].tot_res_price + stats[4].tot_res_price + stats[5].tot_res_price + stats[6].tot_res_price, 0, 'COMMA')}"></div>
-                                            <div class="ts_tit3">원</div>
+                                    <div class="sales_day_status">
+                                        <div class="tot_sales_day">
+                                            <div class="tsd_tit1">총매출</div>
+                                            <div class="tsd_tit2">[[${totalSales}]] <i>건</i></div>
+                                            <div class="tsd_tit3" th:text="${#numbers.formatInteger(stats[0].tot_res_price + stats[1].tot_res_price + stats[2].tot_res_price + stats[3].tot_res_price + stats[4].tot_res_price + stats[5].tot_res_price + stats[6].tot_res_price, 0, 'COMMA')}">1,234,567,89 <i>원</i></div>
+                                            <i> 원</i>
+                                        </div>
+                                        <div class="tsd_grid">
+                                            <div class="tsd_grid1">
+                                                <div class="tsd_res">
+                                                    <p>예약</p>
+                                                    <h3>[[${totalSales}]] <i>건</i></h3>
+                                                </div>
+                                                <div class="tsd_cancel">
+                                                    <p>취소</p>
+                                                    <h3>[[${totalCanceled}]] <i>건</i></h3>
+                                                </div>
+                                                <div class="tsd_visit">
+                                                    <p>방문자</p>
+                                                    <h3>[[${visitorTotal}]] <i>명</i></h3>
+                                                </div>
+                                            </div>
+                                            <div class="tsd_grid2">
+                                                <div class="tsd_qna">
+                                                    <p>1:1 문의</p>
+                                                    <h3>[[${totalQna}]] <i>건</i></h3>
+                                                </div>
+                                                <div class="tsd_prod">
+                                                    <p>상품등록</p>
+                                                    <h3>[[${totalAcc}]] <i>건</i></h3>
+                                                </div>
+                                                <div class="tsd_regi">
+                                                    <p>리뷰수</p>
+                                                    <h3>[[${totalReview}]] <i>건</i></h3>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="blank10"></div>
                                     <!-- 매출현황 -->
                                     <div class="current_sales_stat">
                                         <!-- 매출 그래프 및 결제 현황-->
@@ -48,44 +105,31 @@
                                                 <div id="donutchart" style="width: 100%; height: 500px;"></div>
                                             </div>
                                         </div>
-                                        <!-- 오늘 현황 -->
-                                        <div class="today_stat">
-                                            <div class="today_div">
-                                                <div class="today_grid">
-                                                    <div class="today_grid_item">
-                                                        <p>예약건수</p>
-                                                        <h3>[[${totalSales}]]</h3>
-                                                    </div>
-                                                    <div class="today_grid_item">
-                                                        <p>취소건수</p>
-                                                        <h3>[[${totalCanceled}]]</h3>
-                                                    </div>
-                                                    <div class="today_grid_item">
-                                                        <p>방문자수</p>
-                                                        <h3>구현예정</h3>
-                                                    </div>
-                                                    <div class="today_grid_item">
-                                                        <p>1:1문의수</p>
-                                                        <h3>[[${totalQna}]]</h3>
-                                                    </div>
-                                                    <div class="today_grid_item">
-                                                        <p>상품등록</p>
-                                                        <h3>[[${totalAcc}]]</h3>
-                                                    </div>
-                                                    <div class="today_grid_item">
-                                                        <p>리뷰수</p>
-                                                        <h3>[[${totalReview}]]</h3>
-                                                    </div>
+
+                                        <div class="sg_hr">
+                                            <p>단위 기간별 매출 현황</p>
+                                        </div>
+
+                                        <div class="sg_box">
+                                            <!-- 일별/주별/연별 매출 그래프 현황 -->
+                                            <div class="sales_stat_chart2">
+                                                <div class="sg_day">
+                                                    <div id="chart_div_day" style="width: 99%; height: 300px;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="sales_stat_chart2">
+                                                <div class="sg_day">
+                                                    <div id="chart_div_month" style="width: 99%; height: 300px;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="sales_stat_chart2">
+                                                <div class="sg_day">
+                                                    <div id="chart_div_year" style="width: 99%; height: 300px;"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- 객실 점유율 -->
-                                        <!-- <div class="sales_room_percent">
-                                            <div class="chart_box">
-                                                <div id="chart_div2"></div>
-                                            </div>
-                                        </div> -->
-                                        <!-- 객실 점유율 -->
+
+
                                         <div class="sales_table">
                                             <div class="sales_div">
                                                 <table>
@@ -193,18 +237,18 @@
 
         // 이전 날짜
         // before[1] = 1일전 , before[2] = 2일전
-        let before = new Array();
+        let Daybefore = new Array();
         for (let i=1; i<7; i++){
-            before[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
-            before[i] = (before[i].getMonth()+1) + '/' + before[i].getDate();
+            Daybefore[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
+            Daybefore[i] = (Daybefore[i].getMonth()+1) + '/' + Daybefore[i].getDate();
         }
 
-        console.log(before[6] + " - " + stats[0].tot_res_price);
-        console.log(before[5] + " - " + stats[1].tot_res_price);
-        console.log(before[4] + " - " + stats[2].tot_res_price);
-        console.log(before[3] + " - " + stats[3].tot_res_price);
-        console.log(before[2] + " - " + stats[4].tot_res_price);
-        console.log(before[1] + " - " + stats[5].tot_res_price);
+        console.log(Daybefore[6] + " - " + stats[0].tot_res_price);
+        console.log(Daybefore[5] + " - " + stats[1].tot_res_price);
+        console.log(Daybefore[4] + " - " + stats[2].tot_res_price);
+        console.log(Daybefore[3] + " - " + stats[3].tot_res_price);
+        console.log(Daybefore[2] + " - " + stats[4].tot_res_price);
+        console.log(Daybefore[1] + " - " + stats[5].tot_res_price);
         console.log(date + " - " + stats[6].tot_res_price);
 
         function drawVisualization() {
@@ -212,12 +256,12 @@
             // 그래프 내용 : drawVisualization 구현
             var data = google.visualization.arrayToDataTable([
                 ['날짜', '일별매출', '누적매출'],
-                [before[6],  stats[6].tot_res_price, stats[6].tot_res_price],
-                [before[5],  stats[5].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price],
-                [before[4],  stats[4].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price],
-                [before[3],  stats[3].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price],
-                [before[2],  stats[2].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price],
-                [before[1],  stats[1].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price + stats[1].tot_res_price],
+                [Daybefore[6],  stats[6].tot_res_price, stats[6].tot_res_price],
+                [Daybefore[5],  stats[5].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price],
+                [Daybefore[4],  stats[4].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price],
+                [Daybefore[3],  stats[3].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price],
+                [Daybefore[2],  stats[2].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price],
+                [Daybefore[1],  stats[1].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price + stats[1].tot_res_price],
                 [date,  stats[0].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[1].tot_res_price + stats[1].tot_res_price + stats[0].tot_res_price]
             ]);
 
@@ -273,52 +317,313 @@
             });
         }
     </script>
-    <!--
-    <script>
+    <!-- 당일 매출 그래프  -->
+    <script th:inline="javascript">
+        // 참조 데이터 준비
+        let todaySales = [[${todaySales}]];
+
+        // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
+        // callback 정의 : drawVisualization
+        google.charts.setOnLoadCallback(drawVisualization);
 
-        function drawChart() {
+        // 오늘 날짜
+        let Dtoday = new Date();
+        // 오늘 날짜 (월)
+        let DnowMonth = Dtoday.getMonth() + 1;
+        // 오늘 날짜 (일)
+        let DnowDate = Dtoday.getDate();
+        // 출력 날짜 형태 지정
+        Ddate = DnowMonth + '/' + DnowDate;
 
-            var data2 = google.visualization.arrayToDataTable([
-                    ['객실유형', '퍼센트', { role: 'style' } ],
-                    ['전체',  44+22+12, 'color: #4F650D'],
-                    ['A룸',  44 , 'color: #BBD444'],
-                    ['B룸',  40, 'color: #BBD444'],
-                    ['C룸',  16, 'color: #BBD444'],
-                    ['D룸',  23, 'color: #BBD444'],
-                    ['E룸',  60, 'color: #BBD444']
-                ]);
+        //console.log("Ddate : " + Ddate);
 
-            var view2 = new google.visualization.DataView(data2);
-            view2.setColumns([0, 1,
+        // 이전 날짜
+        // before[1] = 1일전 , before[2] = 2일전
+        before = new Array();
+        for (let i=1; i<7; i++){
+            before[i] = new Date(Dtoday.getTime()-(i * 24 * 60 * 60 * 1000));
+            before[i] = (before[i].getMonth()+1) + '/' + before[i].getDate();
+        }
+
+        function drawVisualization() {
+
+            // 그래프 내용 : drawVisualization 구현
+            var data = google.visualization.arrayToDataTable([
+                ['날짜', '일별매출', {role: 'style'}],
+                [Ddate,  todaySales[0].tot_res_price, 'color:#A9CB72'],
+            ]);
+
+            // 그래프 주석 표기
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
                             { calc: "stringify",
                                 sourceColumn: 1,
                                 type: "string",
                                 role: "annotation" },
                             2]);
 
+            // 그래프 옵션
             var options = {
-                'title':'객실 점유율 (%)',
-                'width':1200,
-                'height':300,
-                legend: {position: 'none'},
-                isStacked: true,
-                    // 가로축 설정
-                hAxis: {
-                    minValue: 0,
-                    maxValue: 100
+                title : '일별 매출현황',
+                titleTextStyle: {fontSize: 18},
+                bar: {groupWidth: "25%"},       // 그래프 너비
+                animation:{
+                    duration: 1000,
+                    easing: 'in',
                 },
-                format: 'percent'
+                // 세로축 설정
+                vAxis: {
+                    titleTextStyle: {italic: false, bold: true},
+                    textStyle: {
+                        fontSize: 16,
+                        bold: true,
+                        italic: false
+                    },
+                    format: '#,###'                // 숫자 형식 지정
+                },
+                // 가로축 설정
+                hAxis: {
+                    titleTextStyle: {italic: false, bold: true},
+                    textStyle: {
+                        fontSize: 16,
+                        bold: true,
+                        italic: false
+                    }
+                },
+                seriesType: 'bars',             // 베이스 차트 종류
+                series: {
+                    0: {color: '#AACB73', visibleInLegend: false},
+                },                              // 그래프 색상 이름 제거 (default: 자동 생성)
+                colors: ['#AACB73'],            // 베이스 차트 색상
+                chartArea: {
+                    width: '65%',                   // 그래프 영역 크기 조절 (픽셀은 px 표기X, 백분율은 % 표기)
+                    right: '8%'                     // 그래프 영역 위치 이동 (그래프 왼쪽 끝 기준 위치 설정)
+                }
             };
 
+            var chart = new google.visualization.ColumnChart(document.getElementById('chart_div_day'));
+            chart.draw(view, options);
 
-
-            var chart = new google.visualization.BarChart(document.getElementById('chart_div2'));
-            chart.draw(view2, options);
+            $(window).resize(function(){
+                drawVisualization();
+            });
         }
     </script>
-    -->
+
+    <!-- 월별 매출 그래프 -->
+    <script th:inline="javascript">
+    // 참조 데이터 준비
+    let monthAvg = [[${monthAvg}]];
+    let MstatsMonth = [[${statsMonth}]];
+
+    console.log("statsMonth");
+    console.log(MstatsMonth);
+
+    // 구글 열 차트를 로드
+    google.charts.load('current', {'packages':['corechart']});
+
+    // callback 정의 : drawVisualization
+    google.charts.setOnLoadCallback(drawVisualization);
+
+    // 오늘 날짜
+    let Montoday = new Date();
+    // 오늘 날짜 (월)
+    let MonNowMonth = Montoday.getMonth() + 1;
+    // 오늘 날짜 (일)
+    let MonNowDate = Montoday.getDate();
+    // 출력 날짜 형태 지정
+    let MonDate = MonNowMonth;
+    MonDate = MonNowMonth + '월';
+
+    // 이전 날짜
+    // before[1] = 1일전 , before[2] = 2일전
+    monthBefore = new Array();
+    for (let i=1; i<7; i++){
+        const monthAgo = new Date(Montoday.getTime() - (i * 30 * 24 * 60 * 60 * 1000)); // 30일(한달)을 기준으로 계산
+        const Mmonth = monthAgo.toLocaleString('default', { month: 'long' }); // 월을 문자열로 변환
+        monthBefore[i] = Mmonth;
+    }
+
+    function drawVisualization() {
+        // 그래프 내용 : drawVisualization 구현
+        var data = google.visualization.arrayToDataTable([
+            ['날짜', '일별매출', '월매출평균'],
+            [monthBefore[3],  MstatsMonth[0] ? MstatsMonth[0].tot_res_price : 0, monthAvg],
+            [monthBefore[2],  MstatsMonth[1] ? MstatsMonth[1].tot_res_price : 0, monthAvg],
+            [monthBefore[1],  MstatsMonth[2] ? MstatsMonth[2].tot_res_price : 0, monthAvg],
+            [MonDate,  MstatsMonth[3] ? MstatsMonth[3].tot_res_price : 0, monthAvg]
+        ]);
+
+        // 그래프 주석 표기
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, 1,
+                        { calc: "stringify",
+                            sourceColumn: 1,
+                            type: "string",
+                            role: "annotation" },
+                        2]);
+
+        // 그래프 옵션
+        var options = {
+            title : '월별 매출현황',
+            titleTextStyle: {fontSize: 18},
+            animation:{
+                duration: 1000,
+                easing: 'in',
+            },
+            // 세로축 설정
+            vAxis: {
+                titleTextStyle: {italic: false, bold: true},
+                textStyle: {
+                    fontSize: 16,
+                    bold: true,
+                    italic: false
+                }
+            },
+            // 가로축 설정
+            hAxis: {
+                titleTextStyle: {italic: false, bold: true},
+                textStyle: {
+                    fontSize: 16,
+                    bold: true,
+                    italic: false
+                }
+            },
+            format: 'currency',             // 숫자 또는 라벨의 형식 문자열 (currency: 현지 통화)
+            seriesType: 'bars',             // 베이스 차트 종류
+            colors: ['#AACB73'],            // 베이스 차트 색상
+            chartArea: {
+                width: '65%',                   // 그래프 영역 크기 조절 (픽셀은 px 표기X, 백분율은 % 표기)
+                right: '8%'                     // 그래프 영역 위치 이동 (그래프 왼쪽 끝 기준 위치 설정)
+            },
+            pointSize: 5,                   // 라인 포인트
+            crosshair: { trigger: 'both', color: '#FFD4D4', opacity: 0.8 }, // 라인 교차점
+            series: {
+                0: {color: '#AACB73', visibleInLegend: false},  // 막대 그래프 우측 라벨 제거
+                1: { pointShape: 'circle', type: 'line', color: '#FFD4D4', visibleInLegend: false} // 라인
+            }
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div_month'));
+        chart.draw(view, options);
+
+        $(window).resize(function(){
+            drawVisualization();
+        });
+    }
+    </script>
+
+    <!-- 연별 매출 그래프 -->
+    <script th:inline="javascript">
+    // 참조 데이터 준비
+    let yearSales = [[${yearSales}]];
+    let yearAvg = [[${yearAvg}]];
+
+    //console.log("year");
+    //console.log(yearSales);
+
+    // 구글 열 차트를 로드
+    google.charts.load('current', {'packages':['corechart']});
+    // callback 정의 : drawVisualization
+    google.charts.setOnLoadCallback(drawVisualization);
+
+    // 오늘 날짜
+    let Ytoday = new Date();
+    // 오늘 날짜 (년)
+    let YnowYear = Ytoday.getFullYear();
+    // 오늘 날짜 (월)
+    let YnowMonth = Ytoday.getMonth() + 1;
+    // 오늘 날짜 (일)
+    let YnowDate = Ytoday.getDate();
+    // 출력 날짜 형태 지정
+    let Ydate = YnowYear;
+
+    //console.log("Ydate : " + Ydate);
+
+    // 이전 날짜
+    before = new Array();
+    for (let i=1; i<7; i++){
+        const yearAgo = new Date(Ytoday.getTime() - (i * 365 * 24 * 60 * 60 * 1000)); // 1년(365일)을 기준으로 계산
+        const year = yearAgo.getFullYear(); // 연도만 추출
+        before[i] = year;
+    }
+    console.log(before[2] + ":" + yearSales[0].tot_res_price);
+    console.log(before[1] + ":" + yearSales[1].tot_res_price);
+    console.log(Ydate + ":" + yearSales[2].tot_res_price);
+    //console.log( (yearSales[0].tot_res_price+yearSales[1].tot_res_price+yearSales[2].tot_res_price)/3 );
+
+    function drawVisualization() {
+
+        // 그래프 내용 : drawVisualization 구현
+        var data = google.visualization.arrayToDataTable([
+            ['날짜', '연매출', '연매출평균'],
+            [before[2],  yearSales[0].tot_res_price, yearAvg],
+            [before[1],  yearSales[1].tot_res_price, yearAvg],
+            [Ydate,  yearSales[2].tot_res_price, yearAvg]
+        ]);
+
+        // 그래프 주석 표기
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, 1,
+                        { calc: "stringify",
+                            sourceColumn: 1,
+                            type: "string",
+                            role: "annotation" },
+                        2]);
+
+        // 그래프 옵션
+        var options = {
+            title : '연별 매출현황',
+            titleTextStyle: {fontSize: 18},
+            animation:{
+                duration: 1000,
+                easing: 'in',
+            },
+            // 세로축 설정
+            vAxis: {
+                titleTextStyle: {italic: false, bold: true},
+                format: '#,###',             // 숫자 또는 라벨의 형식 문자열 (currency: 현지 통화)
+                textStyle: {
+                    fontSize: 16,
+                    bold: true,
+                    italic: false
+                }
+            },
+            // 가로축 설정
+            hAxis: {
+                titleTextStyle: {italic: false, bold: true},
+                textStyle: {
+                    fontSize: 16,
+                    bold: true,
+                    italic: false
+                },
+                format: '####'                // 숫자 형식 지정
+            },
+            seriesType: 'bars',             // 베이스 차트 종류
+            colors: ['#AACB73'],            // 베이스 차트 색상
+            chartArea: {
+                width: '65%',                   // 그래프 영역 크기 조절 (픽셀은 px 표기X, 백분율은 % 표기)
+                right: '8%'                     // 그래프 영역 위치 이동 (그래프 왼쪽 끝 기준 위치 설정)
+            },
+            pointSize: 5,                   // 라인 포인트
+            crosshair: { trigger: 'both', color: '#FFD4D4', opacity: 0.8 }, // 라인 교차점
+            series: {
+                0: {color: '#AACB73', visibleInLegend: false},  // 막대 그래프 우측 라벨 제거
+                1: { pointShape: 'circle', type: 'line', color: '#FFD4D4', visibleInLegend: false} // 라인
+            }
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('chart_div_year'));
+        chart.draw(view, options);
+
+        $(window).resize(function(){
+            drawVisualization();
+        });
+    }
+    </script>
+
+
     <script th:inline="javascript">
 
          // 참조 데이터 준비
@@ -361,10 +666,36 @@
         }
     </script>
     <script th:inline="javascript">
+    // 쿠폰 목록 (판매자) 소유 숙소 셀렉트 옵션 추가
+    window.onload = function() {
+        let selectAccOwned = document.getElementById("c_role_type");
 
-        let roomPercent = [[${roomPercent}]];
+        ajaxAPI("business/find-acc", null, "GET").then((response)=>{
 
-        console.log(roomPercent);
+            console.log('response1 : %o', response);
+
+            for (let i = 0; i < response.length; i++) {
+                let option = document.createElement("option");
+                option.value = response[i].acc_id;
+                option.text = response[i].acc_name;
+
+
+                // 옵션값 고정
+                if (localStorage.getItem('selectedAccId') == response[i].acc_id) {
+                    option.setAttribute('selected', 'selected');
+                }
+
+                selectAccOwned.add(option);
+            }
+
+            // 옵션 변경 시에도 옵션 고정
+            selectAccOwned.addEventListener('change', function() {
+                localStorage.setItem('selectedAccId', this.value);
+            });
+        }).catch((errorMsg)=>{
+            console.log(errorMsg);
+        });
+    };
     </script>
 </th:block>
 </html>

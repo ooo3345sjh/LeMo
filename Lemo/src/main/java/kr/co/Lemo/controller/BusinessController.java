@@ -2,6 +2,7 @@ package kr.co.Lemo.controller;
 
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.Admin_SearchVO;
+import kr.co.Lemo.repository.VisitorsLogRepo;
 import kr.co.Lemo.service.BusinessService;
 import kr.co.Lemo.utils.PageHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
@@ -41,12 +45,18 @@ public class BusinessController {
     @Autowired
     private BusinessService service;
 
+    @Autowired
+    private VisitorsLogRepo visitorsLogRepo;
+
     @GetMapping(value = {"", "index"})
     public String index_business(Model model,
                                  @AuthenticationPrincipal UserVO myUser,
                                  Map map) {
 
         model.addAttribute("title", environment.getProperty(group));
+
+        LocalDateTime start = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
+        LocalDateTime end = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
 
         String user_id = "";
         if(myUser != null){
@@ -55,17 +65,54 @@ public class BusinessController {
 
         map.put("user_id", user_id);
 
-        int unAssignedRoom = service.countUnassignedRoom(map);
-        int rooms = service.countRooms(map);
+        // 숙소 리스트
+        List<ProductAccommodationVO> accs = service.selectAccsList(map);
+
+        int visitorTotal = 0;
+
+        for (ProductAccommodationVO vo : accs) {
+            log.warn("acc_id : " + vo.getAcc_id());
+            String acc_id = String.valueOf(vo.getAcc_id());
+            // 방문자수
+            int visitorCount = visitorsLogRepo.countVisitors(start, end, acc_id);
+            visitorTotal += visitorCount;
+        }
+
+        log.warn("visitorTotal: " + visitorTotal);
 
         // 당일 누적 판매량
         List<ReservationVO> todaySales = service.findAllTodaySales(map);
+        // 당일 예약 개수
+        int daySales = service.countDaySales(map);
+        // 당일 예약 취소 개수
+        int dayCanceled = service.countDayCancel(map);
+        // 당일 미배정 객실 (전체 객실-체크인 객실/전체 객실)
+        int totalRoom = service.countTotalRoom(map);
+        int checkRoom = service.countCheckInRoom(map);
+        // 당일 판매자 문의수
+        int dayQna = service.countDayQna(map);
+        // 당일 리뷰수
+        int dayReview = service.countDayReview(map);
+        // 최신 리뷰
+        List<ReviewVO> reviews = service.findAllReviewLatest(map);
+        // 결제 수단 현황
+        List<ReservationVO> pays = service.findAllPayment(map);
+        Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
+        // 객실 예약 현황
+        List<ReservationVO> roomPercent = service.selectWeeksRoom(map);
 
-        log.warn("todaySales : " + todaySales);
 
-        model.addAttribute("unAssignedRoom", unAssignedRoom);
-        model.addAttribute("rooms", rooms);
         model.addAttribute("todaySales", todaySales);
+        model.addAttribute("daySales", daySales);
+        model.addAttribute("dayCanceled", dayCanceled);
+        model.addAttribute("totalRoom", totalRoom);
+        model.addAttribute("checkRoom", checkRoom);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("dayQna", dayQna);
+        model.addAttribute("dayReview", dayReview);
+        model.addAttribute("paysMap", paysMap);
+        model.addAttribute("roomPercent", roomPercent);
+        model.addAttribute("visitorTotal", visitorTotal);
 
         return "business/index";
     }
@@ -98,8 +145,6 @@ public class BusinessController {
 
         List<CouponVO> coupons = service.selectCoupon(sc);
 
-        log.info("Selected coupons: " + coupons.toString());
-
         model.addAttribute("coupons", coupons);
         model.addAttribute("ph", pageHandler);
         model.addAttribute("totalCoupons", pageHandler.getTotalCnt());
@@ -123,17 +168,9 @@ public class BusinessController {
 
         model.addAttribute("title", environment.getProperty(group));
 
-        log.warn("hi");
-
         String user_id = myUser.getUser_id();
 
-        log.info("myUser : " + myUser);
-        log.info("user_id : " + user_id);
-
         param.put("user_id", user_id);
-
-        log.warn("acc_id: " + param.get("user_id"));
-        log.info("param : "+param);
 
         service.rsaveCoupon(param);
 
@@ -709,6 +746,12 @@ public class BusinessController {
 
         model.addAttribute("title", environment.getProperty(group));
 
+        LocalDateTime end = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+        LocalDateTime start = end.minusDays(6);
+
+        log.warn("start: " + start);
+        log.warn("end: " + end);
+
         String user_id = "";
         if(myUser != null){
             user_id = myUser.getUser_id();
@@ -716,35 +759,75 @@ public class BusinessController {
 
         map.put("user_id", user_id);
 
+        // 숙소 리스트
+        List<ProductAccommodationVO> accs = service.selectAccsList(map);
+
+        int visitorTotal = 0;
+
+        for (ProductAccommodationVO vo : accs) {
+            log.warn("acc_id : " + vo.getAcc_id());
+            String acc_id = String.valueOf(vo.getAcc_id());
+            // 방문자수
+            int visitorCount = visitorsLogRepo.countVisitors(start, end, acc_id);
+            visitorTotal += visitorCount;
+        }
+
+        log.warn("visitorTotal: " + visitorTotal);
+
+
+
         // 일별 매출 현황
         List<ReservationVO> stats = service.findAllDaySales(map);
-
+        // 당일 누적 판매량
+        List<ReservationVO> todaySales = service.findAllTodaySales(map);
         // 결제 수단 현황
         List<ReservationVO> pays = service.findAllPayment(map);
         Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
-
         // 객실 예약 현황
         List<ReservationVO> roomPercent = service.selectWeeksRoom(map);
-
-
         // 총 매출 건수
         int total = service.countWeeksSales(map);
-
         // 취소 건수
         int totalCanceled = service.countWeeksCancel(map);
-
         // 1:1 문의 수
         int totalQna = service.countWeeksQna(map);
-
         // 상품 등록 수
         int totalAcc = service.countWeeksAcc(map);
-
         // 리뷰 등록 수
         int totalReview = service.countWeeksReview(map);
+        // 월별 매출 현황
+        List<ReservationVO> statsMonth = service.findAllMonthSales(map);
 
-        log.warn("roomPercent: " + roomPercent);
+        List<Double> monthPercentList = new ArrayList<>();
+        int monthSum = 0;
+
+        for (ReservationVO vo : statsMonth) {
+            double totMonthPercent = vo.getTot_month_percent();
+            monthPercentList.add(totMonthPercent);
+        }
+        for (ReservationVO vo : statsMonth) {
+            monthSum += vo.getTot_res_price();
+        }
+        // 4개월 평균 매출
+        int monthAvg = monthSum / 4;
+
+        // 연별 매출 현황
+        List<ReservationVO> yearSales = service.findAllYearSales(map);
+
+        int yearSum = 0;
+
+        for (ReservationVO mAvg : yearSales) {
+            log.warn("here2 : " + mAvg.getTot_res_price());
+            yearSum += mAvg.getTot_res_price();
+        }
+        // 3년 년평균 매출
+        int yearAvg = yearSum/3;
+
+         log.warn("month Sum : " + yearSum);
+         log.warn("yearAvg : " + yearAvg);
 
         model.addAttribute("stats", stats);
+        model.addAttribute("todaySales", todaySales);
         model.addAttribute("paysMap", paysMap);
         model.addAttribute("totalSales", total);
         model.addAttribute("totalCanceled", totalCanceled);
@@ -752,6 +835,11 @@ public class BusinessController {
         model.addAttribute("totalAcc", totalAcc);
         model.addAttribute("totalReview", totalReview);
         model.addAttribute("roomPercent", roomPercent);
+        model.addAttribute("statsMonth", statsMonth);
+        model.addAttribute("monthAvg", monthAvg);
+        model.addAttribute("yearSales",yearSales);
+        model.addAttribute("yearAvg",yearAvg);
+        model.addAttribute("visitorTotal",visitorTotal);
 
 
         return "business/stats";

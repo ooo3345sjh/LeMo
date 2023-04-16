@@ -290,7 +290,7 @@
         order by a.res_payment;
     </select>
 
-     <!-- 관리자 - 월별 매출 근황 (월별) -->
+    <!-- 관리자 - 월별 매출 근황 (월별) -->
     <select id="selectMonthSales" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT MONTH(a.res_date) AS res_month, SUM(a.res_price - a.res_disPrice) AS tot_res_price, COUNT(a.`res_checkIn`) AS tot_month_sales
             FROM lemo_product_reservation AS a

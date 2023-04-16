@@ -48,37 +48,42 @@
                                         <li class="review_list6">답변상태</li>
                                         <li class="review_list7">등록일</li>
                                     </ul>
-                                    <ul th:each="review,i:${reviews}">
-                                        <li class="review_list1">[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
-                                        <li class="review_list2" th:text="${review.res_no}">23</li>
-                                        <li class="prodName" style="width: 33% !important;">
-                                            <span th:if="${review.revi_thumb != null}" class="tag">PHOTO</span>
-                                            <a th:href="@{/business/review/view (revi_id=${review.revi_id})}"
-                                               th:text="${review.revi_title}" class="reviewTitle" th:data-no="${review.revi_id}">title</a>
-                                        </li>
-                                        <li class="review_list4" th:text="${#strings.substringBefore(review.user_id, '@') + '**'}">충치왕김건치</li>
-                                        <li class="review_list5">
-                                            <div class="r_rating">
-                                                <th:block th:if="${review.revi_rate == 5}">
-                                                    <h6 class="rating5mini">&nbsp;</h6>
-                                                </th:block>
-                                                <th:block th:if="${review.revi_rate == 4}">
-                                                    <h6 class="rating4mini">&nbsp;</h6>
-                                                </th:block>
-                                                <th:block th:if="${review.revi_rate == 3}">
-                                                    <h6 class="rating3mini">&nbsp;</h6>
-                                                </th:block>
-                                                <th:block th:if="${review.revi_rate == 2}">
-                                                    <h6 class="rating2mini">&nbsp;</h6>
-                                                </th:block>
-                                                <th:block th:if="${review.revi_rate == 1}">
-                                                    <h6 class="rating1mini">&nbsp;</h6>
-                                                </th:block>
-                                            </div>
-                                        </li>
-                                        <li th:text="${review.revi_reply != null? '답변완료':'대기중'}" th:class="${review.revi_reply != null? 'completeReply':'waitReply'}"></li>
-                                        <li class="review_list7" th:text="${review.revi_rdate}">2023-02-26</li>
-                                    </ul>
+                                    <th:block th:if="${#lists.size(reviews) != 0}">
+                                        <ul th:each="review,i:${reviews}">
+                                            <li class="review_list1">[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
+                                            <li class="review_list2" th:text="${review.res_no}">23</li>
+                                            <li class="prodName" style="width: 33% !important;">
+                                                <span th:if="${review.revi_thumb != null}" class="tag">PHOTO</span>
+                                                <a th:href="@{/business/review/view (revi_id=${review.revi_id})}"
+                                                   th:text="${review.revi_title}" class="reviewTitle" th:data-no="${review.revi_id}">title</a>
+                                            </li>
+                                            <li class="review_list4" th:text="${#strings.substringBefore(review.user_id, '@') + '**'}">충치왕김건치</li>
+                                            <li class="review_list5">
+                                                <div class="r_rating">
+                                                    <th:block th:if="${review.revi_rate == 5}">
+                                                        <h6 class="rating5mini">&nbsp;</h6>
+                                                    </th:block>
+                                                    <th:block th:if="${review.revi_rate == 4}">
+                                                        <h6 class="rating4mini">&nbsp;</h6>
+                                                    </th:block>
+                                                    <th:block th:if="${review.revi_rate == 3}">
+                                                        <h6 class="rating3mini">&nbsp;</h6>
+                                                    </th:block>
+                                                    <th:block th:if="${review.revi_rate == 2}">
+                                                        <h6 class="rating2mini">&nbsp;</h6>
+                                                    </th:block>
+                                                    <th:block th:if="${review.revi_rate == 1}">
+                                                        <h6 class="rating1mini">&nbsp;</h6>
+                                                    </th:block>
+                                                </div>
+                                            </li>
+                                            <li th:text="${review.revi_reply != null? '답변완료':'대기중'}" th:class="${review.revi_reply != null? 'completeReply':'waitReply'}"></li>
+                                            <li class="review_list7" th:text="${review.revi_rdate}">2023-02-26</li>
+                                        </ul>
+                                    </th:block>
+                                    <th:block th:if="${#lists.size(reviews) ==0}">
+                                        <div class="noResult">해당 리뷰가 없습니다.</div>
+                                    </th:block>
                                 </div>
                                 <div class="pagination" th:object="${ph}" th:style="${#lists.size(reviews) == 0 ? 'visibility:hidden;':''}">
 
