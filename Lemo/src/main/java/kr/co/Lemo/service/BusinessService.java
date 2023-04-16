@@ -220,6 +220,13 @@ public class BusinessService {
      public List<ReservationVO> findAllDaySales (Map map){return dao.selectDaySales(map);}
 
     /**
+     * @since 2023/04/16
+     * @param map
+     * @apiNote 판매자 - 통계관리 - 당일 시간대별 판매량
+     */
+    public List<ReservationVO> selectTimeSales(Map map){return dao.selectTimeSales(map);}
+
+    /**
      * @since 2023/04/15
      * @param map
      * @apiNote 판매자 통계관리 월별 누적 판매량 (4달 기준)
@@ -280,7 +287,9 @@ public class BusinessService {
     * @since 2023/04/06
     * @apiNote 판매자 카운트
      */
-    public int countWeeksSales(Map map){return dao.countWeeksSales(map);}
+    public int countWeeksSales(Map map){
+        log.warn("periodType : " + map.get("periodType"));
+        return dao.countWeeksSales(map);}
     public int countDaySales(Map map) { return dao.countDaySales(map); }
     public int countDayCancel(Map map){return dao.countDayCancel(map); }
     public int countWeeksCancel(Map map){ return dao.countWeeksCancel(map); }

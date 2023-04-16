@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * @since 2023/03/14
@@ -33,6 +34,30 @@ public class Admin_SearchVO extends SearchCondition {
     private String searchAccProvince;       // 숙소 검색 (지역)
     private Integer province_no;
     private String user_id;                 // 판매자 - 숙박 목록
+
+    /**
+     * @since 2023/04/16
+     * @apiNote 통계 데이터 기간 조회
+     */
+    private String periodType;              // 판매자 - 통계관리 - 기간별 조회 (기간 설정: 당일, 1개월, 1년)
+    private String dateStart;               // 판매자 - 통계관리 - 기간별 직접 조회
+    private String dateEnd;               // 판매자 - 통계관리 - 기간별 직접 조회
+
+    public String getQueryString(){
+
+        UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
+
+        if(periodType != null){
+            builder.queryParam("periodType", periodType);
+            if("calen".equals(periodType)){
+                builder.queryParam("dateStart", dateStart)
+                        .queryParam("dateEnd", dateEnd);
+
+            }
+        }
+        return builder.toUriString();
+    }
+
 
 
 }

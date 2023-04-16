@@ -2737,7 +2737,7 @@ main .sales_table {
     margin: 5px 0;
 }
 main .sales_table table {
-    width: 96%;
+    width: 100%;
     height: auto;
     border-collapse: collapse;
     margin: 0 auto;
@@ -2914,6 +2914,10 @@ main .date_3ea > li > a {
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
     padding: 4px 12px;
     border-radius: 4px;
+}
+main .date_3ea .on {
+    background: #B5C3D3;
+    color: #fff !important;
 }
 main .select_date {
     font-size: 13px;
