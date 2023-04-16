@@ -192,7 +192,7 @@
                             <div class="footer_block_row">
                                 <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
                                 <div class="row_col_4">
-                                    <a th:href="@{/cs/qna}">고객센터</a>
+                                    <a th:href="@{/cs/notice}">고객센터</a>
                                 </div>
                                 <div class="row_col_5">
                                     070-2023-0223 <br />
@@ -207,7 +207,7 @@
                         <div class="footer_block_row2">
                             <a th:href="@{/cs/terms}">이용약관</a>
                             <span>&nbsp;|&nbsp;</span>
-                            <a th:href="@{/cs/terms?privacy=true}">개인정보처리방침</a>
+                            <a th:href="@{/cs/terms(type=cPrivacy)}">개인정보처리방침</a>
                         </div>
                     </div>
                     <div class="footer_copyright">
