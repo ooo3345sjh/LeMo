@@ -80,13 +80,26 @@ public interface BusinessDAO {
     // @since 2023/04/14 판매자 - 메인 - 일별 누적 판매량 (당일)
     public List<ReservationVO> selectTodaySales(Map map);
 
-    // @since 2023/04/11 판매자 - 메인 - 미배정 객실/객실
-    public int countUnassignedRoom(Map map);
-    public int countRooms(Map map);
+    // @since 2023/04/15 판매자 - 메인 - 최신 리뷰 (당일)
+    public List<ReviewVO> selectReviewLatest(Map map);
 
+    // @since 2023/04/15 판매자 - 메인 - 문의수 (당일)
+    public int countDayQna(Map map);
+
+    // @since 2023/04/15 판매자 - 메인 - 리뷰수 (당일)
+    public int countDayReview(Map map);
+
+    // @since 2023/04/16 판매자 - 메인 - 숙소 리스트
+    public List<ProductAccommodationVO> selectAccsList(Map map);
 
     // @since 2023/04/08 판매자 - 통계관리 - 일별 누적 판매량 (일주일)
     public List<ReservationVO> selectDaySales (Map map);
+
+     // @since 2023/04/015 판매자 - 월별 판매량 (4달 기준)
+    public List<ReservationVO> selectMonthSales(Map map);
+
+    // @since 2023/04/16 판매자 - 연별 판매량 (3년 기준)
+    public List<ReservationVO> selectYearSales(Map map);
 
     // @since 2023/04/08 판매자 - 결제방법 결제 현황 (일주일)
     public List<ReservationVO> selectPayment(Map map);
@@ -94,11 +107,17 @@ public interface BusinessDAO {
     // @since 2023/04/10 판매자 - 객실별 예약 현황 (일주일)
     public List<ReservationVO> selectWeeksRoom(Map map);
 
-    // @since 2023/04/08 판매자 - 예약 건수 (일주일)
+    // @since 2023/04/08 판매자 - 예약 건수 (일주일/당일)
     public int countWeeksSales(Map map);
+    public int countDaySales(Map map);
 
-    // @since 2023/04/09 판매자 - 취소 건수 (일주일)
+    // @since 2023/04/09 판매자 - 취소 건수 (일주일/당일)
     public int countWeeksCancel(Map map);
+    public int countDayCancel(Map map);
+
+    // @since 2023/04/15 판매자 미배정 객실 (전체 객실수/당일)
+    public int countTotalRoom(Map map);
+    public int countCheckInRoom(Map map);
 
      // @since 2023/04/09 판매자 - 1:1 문의수 (일주일)
     public int countWeeksQna(Map map);

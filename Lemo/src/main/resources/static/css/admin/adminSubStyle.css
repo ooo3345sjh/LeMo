@@ -258,6 +258,7 @@ main .main_content .col2 {
     background: #fff;
     border-radius: 0.25rem;
     text-align: center;
+    position: relative;
 }
 main .main_content .col2 .board_list {
     border-top: 1px solid #dbdbdb;
@@ -3113,7 +3114,7 @@ main .sd_msg {
     color: #424242;
     font-weight: 300;
     position: absolute;
-    top: 87px;
+    top: 143px;
 }
 main .sd_msg > strong {
     font-size: 13px;
@@ -3131,4 +3132,39 @@ main .sg_hr > p {
     color: #424242;
     font-weight: 300;
 }
+main .select_acc {
+    clear: both;
+    border: 1px solid #1a367e20;
+    border-left: none;
+    border-right: none;
+    background: #fff;
+    width: 100%;
+    border-top: none;
+    border-bottom: 1px solid #F3F6F9;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+}
+main .sa_msg {
+    text-align: left;
+    background: #f0f0f0;
+    width: 20%;
+    font-size: 13px;
+    padding: 10px 10px;
+    display: inline-block;
+}
+main .sa_select_acc {
+    display: inline-block;
+    width: 79%;
+    text-align: left;
+}
+main .sa_select_acc li {}
+main .sa_select_acc select {
+    font-size: 13px;
+    height: 28px;
+    border: 1px solid #dbdbdb;
+    padding-left: 8px;
+    width: 300px !important;
+    margin-left: 13px;
+}
+main .sa_select_acc option {}
 

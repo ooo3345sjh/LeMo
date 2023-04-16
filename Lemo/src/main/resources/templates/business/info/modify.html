@@ -544,7 +544,7 @@ $(document).ready(function() {
         if(result_help.style.display === 'none'){
             result_help.style.display = 'block';
 
-            ajaxAPI("business/info/findService", null, "GET").then((response)=>{
+            ajaxAPI("business/info/service", null, "GET").then((response)=>{
                 //console.log('response1 : %o', response);
 
                 result_td.innerHTML = "";
@@ -569,7 +569,7 @@ $(document).ready(function() {
     // 편의시설 자동완성
     const search_area = document.getElementById("search_area");
 
-    var service_no = $('input[name=sc_no]').length;
+    var service_no = $('input[name=sc_no]').length; // 기존 태그
     console.log('service_no is here: '+ service_no);
 
     let ref = [];
@@ -581,6 +581,7 @@ $(document).ready(function() {
 
         submitRef = [];
 
+        // 기존 태그 재입력
         for(var i=0; i<service_no; i++){
             console.log('service_no : ' +  $('input[name=sc_no]').eq(i).val());
             submitRef.push($('input[name=sc_no]').eq(i).val());
@@ -593,7 +594,7 @@ $(document).ready(function() {
 
     search_area.addEventListener("click", function(){
 
-        ajaxAPI("business/info/findService", null, "GET").then((response)=>{
+        ajaxAPI("business/info/service", null, "GET").then((response)=>{
             //console.log('response : %o', response);
             ref = response;
             //console.log("ref:  %o", ref);

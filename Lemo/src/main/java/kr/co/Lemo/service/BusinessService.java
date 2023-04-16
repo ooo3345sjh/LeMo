@@ -201,52 +201,98 @@ public class BusinessService {
         return dao.selectTodaySales(map);
      }
 
+     /**
+     * @since 2023/04/15
+     * @apiNote 판매자 - 메인 - 최신 리뷰 (당일)
+     */
+     public List<ReviewVO> findAllReviewLatest(Map map){ return dao.selectReviewLatest(map); }
+
+     /**
+     * @since 2023/04/16
+     * @apiNote 판매자 - 메인 - 숙소 리스트
+     */
+    public List<ProductAccommodationVO> selectAccsList(Map map){return dao.selectAccsList(map);}
+
     /**
      * @since 2023/04/08
      * @param map
      * @apiNote 판매자 - 통계관리 - 일별 누적 판매량 (일주일)
      */
-     public List<ReservationVO> findAllDaySales (Map map){
-         return dao.selectDaySales(map);
-     }
+     public List<ReservationVO> findAllDaySales (Map map){return dao.selectDaySales(map);}
+
+    /**
+     * @since 2023/04/15
+     * @param map
+     * @apiNote 판매자 통계관리 월별 누적 판매량 (4달 기준)
+     */
+    public List<ReservationVO> findAllMonthSales(Map map){
+
+        int total = 0;
+        double percent = 0;
+
+        List<ReservationVO> mp = dao.selectMonthSales(map);
+
+        for(ReservationVO vo : mp){
+            total += vo.getTot_res_price();
+        }
+
+        //log.warn("total sales: " + total);
+
+        for(ReservationVO vo : mp){
+            double tot_month_percent = ((vo.getTot_res_price()+0.0)/(total+0.0))*100;
+
+            //log.warn("tot_month_percent: " + tot_month_percent);
+            vo.setTot_month_percent(tot_month_percent);
+        }
+
+        // vo 확인용 로그 출력
+        for(ReservationVO vo : mp){
+            double test = vo.getTot_month_percent();
+            //log.warn("test : " + test);
+        }
+        return mp;
+    }
+
+    /**
+     * @since 2023/04/16
+     * @param map
+     * @apiNote 판매자 - 통계관리 연 판매량
+     */
+    public List<ReservationVO> findAllYearSales(Map map){
+        return dao.selectYearSales(map);
+    }
+
 
      /**
      * @since 2023/04/08
      * @param map
-     * @apiNote 판매자 - 결제방법 결제 현황
+     * @apiNote 판매자 - 결제방법 결제 현황 (일주일)
      */
-    public List<ReservationVO> findAllPayment(Map map){
-         return dao.selectPayment(map);
-    }
+    public List<ReservationVO> findAllPayment(Map map){return dao.selectPayment(map);}
 
     /**
      * @since 2023/04/10
      * @param map
      * @apiNote 판매자 - 객실별 예약 현황 (일주일)
      */
-    public List<ReservationVO> selectWeeksRoom(Map map){
-        return dao.selectWeeksRoom(map);
-    }
+    public List<ReservationVO> selectWeeksRoom(Map map){return dao.selectWeeksRoom(map);}
 
     /**
     * @since 2023/04/06
     * @apiNote 판매자 카운트
      */
-    public int countWeeksSales(Map map){
-        return dao.countWeeksSales(map);
-    }
+    public int countWeeksSales(Map map){return dao.countWeeksSales(map);}
+    public int countDaySales(Map map) { return dao.countDaySales(map); }
+    public int countDayCancel(Map map){return dao.countDayCancel(map); }
     public int countWeeksCancel(Map map){ return dao.countWeeksCancel(map); }
+     public int countTotalRoom(Map map){return dao.countTotalRoom(map); }
+    public int countCheckInRoom(Map map){return dao.countCheckInRoom(map);}
     public int countWeeksQna(Map map){ return dao.countWeeksQna(map); }
-    public int countWeeksAcc(Map map){
-        return dao.countWeeksAcc(map);
-     }
+    public int countWeeksAcc(Map map){return dao.countWeeksAcc(map);}
     public int countWeeksReview(Map map){return dao.countWeeksReview(map);}
-    public int countUnassignedRoom(Map map){
-        return dao.countUnassignedRoom(map);
-    }
-    public int countRooms(Map map){
-        return dao.countRooms(map);
-    }
+    public int countDayQna(Map map){return dao.countDayQna(map);}
+    public int countDayReview(Map map){return dao.countDayReview(map);}
+
 
     /**
      * @since 2023/04/11
