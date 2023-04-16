@@ -16,20 +16,17 @@ import java.util.Map;
 /**
  * @since 2023/03/19
  * @author 서정현
- * @apiNote 회사 controller
+ * @apiNote 회사소개 controller
  */
 @Slf4j
 @PropertySource(value = "classpath:title.properties", encoding = "UTF-8")
 @RequiredArgsConstructor
-//@RequestMapping("/corp")
+@RequestMapping("/corp")
 @Controller
 public class CompanyController {
 
-    private final Environment environment;
-    private String group = "title.main";
-
-    @GetMapping("/corp")
+    @GetMapping(value = {"", "incex"})
     public String index(){
-        return "vue/index";
+        return "corp/index";
     }
 }

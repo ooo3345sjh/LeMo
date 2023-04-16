@@ -1,0 +1,240 @@
+<!--
+    날짜 : 2023/04/14
+    이름 : 서정현
+    내용 : 회사소개
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+            name="viewport"
+            content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=no"
+    />
+    <title>Lemo 컴퍼니</title>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/corp/index.css}" />
+    <link href="https://webfontworld.github.io/goodchoice/Jalnan.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script>
+        $(function () {
+            const swiper = new Swiper(".swiper", {
+                // Optional parameters
+                direction: "vertical",
+                loop: false,
+                speed: 1000,
+
+                // If we need pagination
+                pagination: {
+                    el: ".swiper-pagination",
+                },
+
+                // Navigation arrows
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+
+                // And if we need scrollbar
+                scrollbar: {
+                    el: ".swiper-scrollbar",
+                    draggable: true,
+                },
+                mousewheel: {
+                    invert: false,
+                },
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="swiper">
+    <header>
+        <div>
+            <a th:href="@{/corp}" class="logo_img"
+            ><img th:src="@{images/corp/lemo_logo.png}" width="200" alt="로고"
+            /></a>
+            <a th:href="@{/corp}" class="logo_text">레모 컴퍼니</a>
+            <div class="buger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <ul>
+                <li><a th:href="@{/corp}">회사소개</a></li>
+                <li><a href="#">팀 문화</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+        <!-- Slides -->
+        <div class="swiper-slide slide1">
+            <p>놀라운 경험이<br />삶에 끊이지 않도록</p>
+            <video
+                    autoplay
+                    loop
+                    muted
+                    src="https://framerusercontent.com/modules/assets/Ah61VZSEziQYKEgtGidGHRQ4kIY~l0CGcg8ExkWKF4VmnZB_feFaCZrPYN9VKzvK39_NV1k.mp4"
+            ></video>
+            <div class="scroll-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="swiper-slide slide2">
+            <section>
+                <div>
+                    <div class="sec2">
+                        <p>LEMO</p>
+                        <video
+                                autoplay
+                                loop
+                                muted
+                                src="https://yanolja.in/static/video/index_platform.mp4"
+                        ></video>
+                    </div>
+                    <div class="sec1">
+                        <h1 class="tit1">Platform business</h1>
+                        <h2 class="tit2">국내의<br />모든 여행</h2>
+                        <p class="desc">
+                            Lemo만 있으면 <br />누구나 언제 어디서든 <br />여행을 즐길 수
+                            있습니다.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="swiper-slide slide3">
+            <section>
+                <div class="sec1">
+                    <video autoplay loop muted th:src="@{/images/corp/Lemo_intro.mp4}"></video>
+                </div>
+                <div class="sec2">
+                    <h2 class="tit2">여행과 블로그를 한번에</h2>
+                    <p class="desc">
+                        당신의 일상에는 항상 여행이 어울립니다.<br />
+                        여행 계획이 복잡하고 번거로운 건 이제 그만!<br />
+                        호텔 예약과 블로그 기능을 합친 Lemo에서<br />
+                        모든 여행 정보를 한 곳에서 확인하세요. <br />
+                        지금 바로 즐거운 여행을 계획하고 예약하세요!
+                    </p>
+                </div>
+            </section>
+        </div>
+        <div class="swiper-slide slide4">
+            <section>
+                <div>
+                    <h2 class="tit1">사업 제휴・입점 문의</h2>
+                    <div class="container">
+                        <div class="item mkt">
+                            <a
+                                    target="_blank"
+                                    rel="noopener"
+                                    href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=mkt@lemo.co.kr"
+                            >
+                                <span class="tit_1">마케팅/사업제휴</span>
+                                <span class="tit_2">mkt@lemo.co.kr</span>
+                                <img th:src="@{/images/corp/img1.jpg}" />
+                            </a>
+                        </div>
+                        <div class="item mkt">
+                            <a
+                                    target="_blank"
+                                    rel="noopener"
+                                    href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=hotel_sales@lemo.co.kr"
+                            >
+                                <span class="tit_1">호텔/리조트</span>
+                                <span class="tit_2">hotel_sales@lemo.co.kr</span>
+                                <img th:src="@{/images/corp/img2.jpg}" />
+                            </a>
+                        </div>
+                        <div class="item mkt">
+                            <a
+                                    target="_blank"
+                                    rel="noopener"
+                                    href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=pension_sales@lemo.co.kr"
+                            >
+                                <span class="tit_1">펜션/갬핑/글램핑/게스트하우스</span>
+                                <span class="tit_2">pension_sales@lemo.co.kr</span>
+                                <img th:src="@{/images/corp/img3.jpg}" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <footer>
+                <div class="footer_inner">
+                    <div class="footer_block">
+                        <div class="footer_block_left">
+                            <div class="footer_block_row">
+                                <!-- 로고 클릭 시 메인으로 이동 -->
+                                <div class="row_col_1"><a th:href="@{/}">LEMO</a></div>
+                                <div class="row_col_2">LETTUCE MEMORIES</div>
+                                <div class="row_col_3">
+                                    주식회사 레모 | CEO 서박이황 | 02-2023-0223 | 부산광역시
+                                    수영구 299 루미너스 빌딩 10층 <br />
+                                    통신판매업신고: 제 2023-레모구-0223호 사업자등록번호:
+                                    123012012345[사업자정보확인] <br />
+                                    E-mail: lemo@gmail.com 국민은행 123-123456-12345
+                                    (주)주식회사 레모
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_block_right">
+                            <div class="footer_block_row">
+                                <!-- 고객센터 클릭 시 고객센터 페이지 이동 -->
+                                <div class="row_col_4">
+                                    <a th:href="@{/cs/qna}">고객센터</a>
+                                </div>
+                                <div class="row_col_5">
+                                    070-2023-0223 <br />
+                                    MON - FRI AM 09:00 - PM 17:00 <br />
+                                    BREAK PM 12:00 - PM 13:00 <br />
+                                    SAT, SUN, HOLIDAY <span>DAY OFF</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer_terms">
+                        <div class="footer_block_row2">
+                            <a th:href="@{/cs/terms}">이용약관</a>
+                            <span>&nbsp;|&nbsp;</span>
+                            <a th:href="@{/cs/terms?privacy=true}">개인정보처리방침</a>
+                        </div>
+                    </div>
+                    <div class="footer_copyright">
+                        <div class="footer_block_row2">
+                            <p>COPYRIGHT (c) 주식회사 레모 ALL RIGHTS RESERVED.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <div class="swiper-pagination"></div>
+</div>
+<script>
+    $(function () {
+        $(".buger").click(function () {
+            $(this).next().slideToggle();
+        });
+
+        $(window).resize(function () {
+            if ($(window).outerWidth(true) >= "1280") {
+                $(".buger").next().show();
+            } else {
+                $(".buger").next().hide();
+            }
+        });
+    });
+</script>
+</body>
+</html>
