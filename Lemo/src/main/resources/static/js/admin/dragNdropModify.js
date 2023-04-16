@@ -1,5 +1,33 @@
-// 드래그앤드롭 파일 업로드
+// imgsrc(경로)를 base64로 인코딩
+const toDataURL = url => fetch(url)
+  .then(response => response.blob())
+  .then(blob => new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onloadend = () => resolve(reader.result)
+    reader.onerror = reject
+    reader.readAsDataURL(blob)
+  }))
 
+// base64를 파일로 변환
+function base64toFile(base_data, filename) {
+    var arr = base_data.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, {type:mime});
+}
+
+// formData 생성
+let usaveFormData = new FormData();
+
+
+// 드래그앤드롭 파일 업로드
 Dropzone.autoDiscover=false;
 $(document).ready(function(){
 
@@ -34,107 +62,189 @@ $(document).ready(function(){
         init: function(){
             var submitButton = document.querySelector("#btnSubmit");
             var myDropzone = this;
-            //const imgElements = document.querySelectorAll('#thumb_temp > img');
-            const imgElements = Array.from(document.getElementsByTagName('p')).filter(p => p.id.startsWith('img'));
-            const imgSrc = Array.from(document.querySelectorAll('#thumb_temp img'));
-            const Count = parseInt(document.getElementById('Count').textContent);
 
-            console.log("here is!!!");
-            console.log("imgElements: " + imgElements.length);
-            console.log("Count: " + Count);
+            if(accThumbs != null) {
 
-            if(imgElements.length != 0){
-            /*
-                imgElements.forEach(img => {
-                    console.log("--------------------------------");
+                const thumbs = accThumbs.split('/');
 
-                });
-                */
-                for(let i=0; i<Count; i++){
-                    const imgName = imgElements[i].textContent;
-                    const img = imgSrc[i].getAttribute('src');
+                for(thumb in thumbs) {
 
-                    console.log("--------------------------------" + (i+1));
-                    console.log("imgName: " + imgName);
-                    console.log("img: " + img);
+                    let imgSrc = '/Lemo/img/product/'+provinceNo+'/'+acc_id+'/'+thumbs[thumb];
+                    let dataURL;
+                    let fileName = thumbs[thumb];
 
+                    var mockFile = {
+                        name: fileName,
+                        size: 100,
+                        type: 'image/jpeg',
+                        url: fileName,
+                        accepted: true
+                    }
 
-                    const mockFile = { name: imgName, size: 0, status: Dropzone.ADDED };
-                    myDropzone.emit("addedfile", mockFile);
-                    myDropzone.emit("thumbnail", mockFile, img);
+                    // imgSrc로 bsse64를 생성하고 base64로 파일을 생성한 다음 formdata에 append
+                    toDataURL(imgSrc).then(dataUrl => {
+                        var oriFile = base64toFile(dataUrl, fileName);
+                        usaveFormData.append(fileName, oriFile);
+                    });
 
+                    // 가지고있는 이미지를 dropzone에 표기
+                    myDropzone.displayExistingFile(mockFile, imgSrc);
+
+                    // files에 push를 해줘야 최대 업로드 수 등등 dropzone 기능 온전히 사용가능
+                    myDropzone.files.push(mockFile);
 
                 }
+
+                // 이미지를 css로 90px로 변경
+                {
+                    $('[data-dz-thumbnail]').css('height', '90');
+                    $('[data-dz-thumbnail]').css('width', '90');
+                    $('[data-dz-thumbnail]').css('object-fit', 'cover');
+                };
+
             }
 
+            // 이미지 추가
+            myDropzone.on("addedfile", function(file) {
+                let fileLength = myDropzone.files.length;
+                if(fileLength <= 5) {
+                    usaveFormData.append(file.name, file);
+                }
+            });
 
-            submitButton.addEventListener("click", function (e) {
+            // 이미지 삭제
+            myDropzone.on("removedfile", function(file) {
+                usaveFormData.delete(file.name);
+            });
 
-                console.log("업로드1", myDropzone.files[0]);
+            // 서버에 제출
+            let btnSubmit = document.getElementById('btnSubmit');
+
+            btnSubmit.addEventListener('click', function (e) {
 
                 e.preventDefault();
 
-                for(var i=0; i<myDropzone.files.length; i++){
-                    console.log("File"+i);
-                    console.log(myDropzone.files[i]);
+                // 추가 input 데이터
+                let myDropzone = $('div.dropzone');
+
+                let acc_name = $('input[name=acc_name]').val();
+                let accType_no = $('select[name="accType_no"]').val();
+                let acc_city = $('input[name="acc_city"]').val();
+                let province_no = $('input[name="province_no"]').val();
+                let acc_zip = $('input[name="acc_zip"]').val();
+                let acc_addr = $('input[name="acc_addr"]').val();
+                let acc_addrDetail = $('input[name=acc_addrDetail]').val();
+                let acc_longtitude = $('input[name="acc_longtitude"]').val();
+                let acc_lattitude = $('input[name="acc_lattitude"]').val();
+                let acc_checkIn = $('input[name=acc_checkIn]').val();
+                let acc_checkOut = $('input[name=acc_checkOut]').val();
+                let sc_no = submitRef.join(',');
+                let acc_mainInfo = $('input[name="acc_mainInfo"]').val()
+                let acc_info = $('textarea[name=acc_info]').val();
+                let acc_comment = $('input[name=acc_comment]').val();
+                let acc_season = $('select[name="acc_season"]').val();
+                let rp_peakSeason_weekday = $('input[name=rp_peakSeason_weekday]').val();
+                let rp_peakSeason_weekend = $('input[name=rp_peakSeason_weekend]').val();
+                let rp_offSeason_weekday = $('input[name=rp_offSeason_weekday]').val();
+                let rp_offSeason_weekend = $('input[name=rp_offSeason_weekend]').val();
+
+
+                // 유효성 검사
+                // 숙소명
+                if(!acc_name) {
+                    sweetalert("숙소명을 입력해 주십시오.", "warning");
+                    return false;
                 }
 
-                // 거부된 파일이 있다면
-                if (myDropzone.getRejectedFiles().length > 0) {
-                    let files = myDropzone.getRejectedFiles();
-                    console.log('거부된 파일이 있습니다.', files);
-                    return;
+                 // 주소
+                if(!acc_addrDetail) {
+                    sweetalert("주소 입력 후 '주소 입력' 버튼을 클릭해 주십시오.", "warning");
+                    return false;
                 }
 
-                myDropzone.processQueue();
+                 // 체크인, 체크아웃
+                if(!acc_checkIn || !acc_checkOut) {
+                    sweetalert("체크인 및 체크아웃 시간을 선택해 주십시오.", "warning");
+                    return false;
+                }
 
-            });
+                // 숙소 이미지
+                if (myDropzone.get(0).dropzone.files == null || myDropzone.get(0).dropzone.files.length == 0) {
+                    sweetalert("사진을 최소 1장 이상 등록해 주십시오.", "warning");
+                    return false;
+                }
+
+                // 숙소 정보
+                if(acc_info == '') {
+                   sweetalert("숙소 정보를 입력해 주십시오.", "warning");
+                   return false;
+                }
+
+                // 사장님 한마디
+                if(!acc_comment) {
+                   sweetalert("사장님 한마디를 입력해 주십시오.", "warning");
+                   return false;
+                }
+
+                // 할인율 적용
+                if (!rp_peakSeason_weekday|| !rp_peakSeason_weekend || !rp_offSeason_weekday || !rp_offSeason_weekend) {
+                    sweetalert("할인율을 입력해 주십시오.", "warning");
+                    return false;
+                }
+
+                // input 데이터 append
+                usaveFormData.append("acc_id", acc_id);
+                usaveFormData.append("acc_name", acc_name);
+                usaveFormData.append("accType_no", accType_no);
+                usaveFormData.append("province_no", province_no);
+                usaveFormData.append("acc_city", acc_city);
+                usaveFormData.append("acc_zip", acc_zip);
+                usaveFormData.append("acc_addr", acc_addr);
+                usaveFormData.append("acc_addrDetail", acc_addrDetail);
+                usaveFormData.append("acc_longtitude", acc_longtitude);
+                usaveFormData.append("acc_lattitude", acc_lattitude);
+                usaveFormData.append("acc_mainInfo", acc_mainInfo);
+                usaveFormData.append("acc_info", acc_info);
+
+                usaveFormData.append("acc_comment", acc_comment);
+                usaveFormData.append("acc_season", acc_season);
+                usaveFormData.append("rp_peakSeason_weekday", rp_peakSeason_weekday);
+                usaveFormData.append("rp_peakSeason_weekend", rp_peakSeason_weekend);
+                usaveFormData.append("rp_offSeason_weekday", rp_offSeason_weekday);
+                usaveFormData.append("rp_offSeason_weekend", rp_offSeason_weekend);
+                usaveFormData.append("sc_no", submitRef.join(','));
+                usaveFormData.append("acc_checkIn", acc_checkIn);
+                usaveFormData.append("acc_checkOut", acc_checkOut);
+
+                usaveFormData.append("provinceNo", provinceNo); // 기존 province_no
+                usaveFormData.append("accThumbs", accThumbs); // 기존 숙소 사진
 
 
-            let btnSubmit = document.getElementById('btnSubmit');
 
-            myDropzone.on("sending", function(file, xhr, formData){
-                formData.append("acc_id", $('input[name="acc_id"]').val());
-                formData.append("acc_name", $('input[name="acc_name"]').val());
-                formData.append("accType_no", $('select[name="accType_no"]').val());
-                formData.append("province_no", $('input[name="province_no"]').val());
-                formData.append("acc_city", $('input[name="acc_city"]').val());
-                formData.append("acc_zip", $('input[name="acc_zip"]').val());
-                formData.append("acc_addr", $('input[name="acc_addr"]').val());
-                formData.append("acc_addrDetail", $('input[name="acc_addrDetail"]').val());
-                formData.append("acc_longtitude", $('input[name="acc_longtitude"]').val());
-                formData.append("acc_lattitude", $('input[name="acc_lattitude"]').val());
-                formData.append("acc_mainInfo", $('input[name="acc_mainInfo"]').val());
-                formData.append("acc_info", $('textarea[name="acc_info"]').val());
+                $.ajax({
+                    url: '/Lemo/business/info/usave',
+                    method: 'POST',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+                    data: usaveFormData,
+                    contentType: false,
+                    processData: false,
+                    enctype : 'multipart/form-data',
+                    success: function(data) {
 
-                console.log("formData: " + $('textarea[name="acc_info"]').val());
-                console.log("formData: " + $('textarea[name="acc_info"]').val());
+                        if(data == 0) {
+                            sweetalert("숙소 수정에 실패하였습니다.\n잠시 후 다시 시도해 주세요.")
+                        }else if(data == 1) {
+                            location.href= "/Lemo/business/info/view?acc_id="+acc_id;
+                        }
+                    }
+                });
 
-
-
-                formData.append("acc_comment", $('input[name="acc_comment"]').val());
-                formData.append("acc_season", $('select[name="acc_season"]').val());
-                formData.append("rp_peakSeason_weekday", $('input[name="rp_peakSeason_weekday"]').val());
-                formData.append("rp_peakSeason_weekend", $('input[name="rp_peakSeason_weekend"]').val());
-                formData.append("rp_offSeason_weekday", $('input[name="rp_offSeason_weekday"]').val());
-                formData.append("rp_offSeason_weekend", $('input[name="rp_offSeason_weekend"]').val());
-                formData.append("sc_no", submitRef.join(',') );
-
-                console.log("submitRef4 : " + submitRef.join(','));
-
-                formData.append("acc_checkIn", $('input[name="acc_checkIn"]').val());
-                formData.append("acc_checkOut", $('input[name="acc_checkOut"]').val());
-            });
-
-
-
-
-            myDropzone.on("success", function(file, response) {
             });
 
         },
 
     });
-
 
 });

@@ -107,6 +107,9 @@ public interface BusinessDAO {
     // @since 2023/04/10 판매자 - 객실별 예약 현황 (일주일)
     public List<ReservationVO> selectWeeksRoom(Map map);
 
+    // @since 2023/04/26 판매자 - 객실 사진 가져오기  // 이해빈
+    public String selectRoomThumb(String room_id);
+
     // @since 2023/04/08 판매자 - 예약 건수 (일주일/당일)
     public int countWeeksSales(Map map);
     public int countDaySales(Map map);

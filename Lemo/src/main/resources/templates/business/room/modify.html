@@ -16,6 +16,36 @@
     <!-- include summernote css/js -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <style>
+        #fileDropzone .dz-image{
+            width: 90px !important;
+            height: 90px !important;
+        }
+        .dropzone .dz-preview .dz-remove {
+            background-image: url('/Lemo/images/admin/x-button.png');
+            background-repeat:no-repeat;
+            background-size: 20px 20px;
+            opacity: 70%;
+            position: absolute;
+            top: -5px;
+            z-index: 999;
+            right: -7px;
+        }
+        .dropzone .dz-preview .dz-remove:hover {
+            opacity: 1;
+        }
+        .dropzone .dz-preview .dz-image img {
+            display: block;
+            width: 90px;
+            height: 90px;
+        }
+        #fileDropzone {
+            height: 160px;
+            white-space: nowrap;
+            overflow-x: scroll;
+            overflow-y: hidden;
+        }
+    </style>
 </th:block>
 <th:block layout:fragment="content">
     <main>

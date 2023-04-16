@@ -21,8 +21,8 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <!-- 할인율 적용 -->
     <script th:src="@{/js/admin/salePercent.js}"></script>
-    <!-- 유효성 검사 -->
-    <script th:src="@{/js/admin/accValidation.js}"></script>
+    <!-- 유효성 검사
+    <script th:src="@{/js/admin/accValidation.js}"></script>-->
     <style>
         #autoMaker{
            position: absolute;
@@ -124,13 +124,13 @@
 
                         <!-- 숙소 등록 폼 -->
                         <form class="col_register_form" th:action="@{/business/info/usave}" method="post" enctype="multipart/form-data">
-                            <input type="text" name="province_no" th:value="${acc.province_no}">
-                            <input type="text" name="acc_city" th:value="${acc.acc_city}">
-                            <input type="text" name="acc_longtitude" th:value="${acc.acc_longtitude}">
-                            <input type="text" name="acc_lattitude" th:value="${acc.acc_lattitude}">
-                            <input type="text" name="acc_id" th:value="${acc.acc_id}">
-                            <input type="text" name="acc_zip" th:value="${acc.acc_zip}">
-                            <input type="text" name="acc_addr" th:value="${acc.acc_addr}">
+
+                            <input type="hidden" name="province_no" th:value="${acc.province_no}">
+                            <input type="hidden" name="acc_city" th:value="${acc.acc_city}">
+                            <input type="hidden" name="acc_longtitude" th:value="${acc.acc_longtitude}">
+                            <input type="hidden" name="acc_lattitude" th:value="${acc.acc_lattitude}">
+                            <input type="hidden" name="acc_id" th:value="${acc.acc_id}">
+
                             <div class="col_register1">
                                 <div class="stayName">
                                     <div>
@@ -180,10 +180,10 @@
                                 </div>
                                 <div class="stayZip">
                                     <button type="button" onclick="postcode()">주소찾기</button>
-                                    <input type="text" id="zip" th:value="${acc.acc_zip}" readonly>
+                                    <input type="text" id="zip" name="acc_zip" th:value="${acc.acc_zip}" readonly>
                                 </div>
                                 <div class="stayAddr1">
-                                    <input type="text" id="addr" th:value="${acc.acc_addr}" readonly>
+                                    <input type="text" id="addr" name="acc_addr" th:value="${acc.acc_addr}" readonly>
                                 </div>
                                 <div class="stayAddr2">
                                     <input type="text" id="addrDetail" name="acc_addrDetail" th:value="${acc.acc_addrDetail}" placeholder="상세주소 입력">
@@ -422,7 +422,10 @@
 </th:block>
 <th:block layout:fragment="script">
 <script th:src="@{/js/admin/summernote-ko-KR.js}"></script>
-<script>
+<script th:inline="javascript">
+    let accThumbs = [[${acc.acc_thumbs}]];
+    let provinceNo = [[${acc.province_no}]];
+    let acc_id = [[${acc.acc_id}]];
 
 $(document).ready(function() {
 
@@ -527,7 +530,7 @@ $(document).ready(function() {
 
             }
         });
-        alert('주소가 입력되었습니다.');
+        sweetalert('주소가 입력되었습니다.', 'success');
 
    });
 
@@ -633,7 +636,7 @@ $(document).ready(function() {
                     let check = submitRef.includes( $(this).attr('sc_no') );
 
                     if( check ) {
-                        alert('이미 등록하신 서비스입니다.');
+                        sweetalert('이미 등록하신 서비스입니다.', 'error');
                         return;
                     }
 

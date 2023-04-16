@@ -300,6 +300,11 @@
             a.`room_id`;
     </select>
 
+    <!-- 객실 이미지 가져오기 -->
+    <select id="selectRoomThumb" resultType="String">
+        SELECT `room_thumb` FROM `lemo_product_room` WHERE `room_id` = #{room_id};
+    </select>
+
     <!-- 판매자 - 예약 건수 (일주일/당일) -->
     <select id="countWeeksSales" resultType="java.lang.Integer">
         select count(a.`res_checkIn`) from `lemo_product_reservation` as a

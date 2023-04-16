@@ -126,6 +126,7 @@ $(document).ready(function(){
                 e.preventDefault();
 
                 // 추가 input 데이터
+                let myDropzone = $('div.dropzone');
                 let room_name = $('input[name="room_name"]').val();
                 let room_stock = $('input[name="room_stock"]').val();
                 let room_price = $('input[name="room_price"]').val();
@@ -165,6 +166,13 @@ $(document).ready(function(){
                     sweetalert("객실 이용안내를 입력해 주십시오.", "warning");
                     return false;
                 }
+
+                // 객실 이미지
+                if (myDropzone.get(0).dropzone.files == null || myDropzone.get(0).dropzone.files.length == 0) {
+                    sweetalert("사진을 최소 1장 이상 등록해 주십시오.", "warning");
+                    return false;
+                }
+
 
                 // 나머지 input value append
                 usaveFormData.append("room_name", room_name);
