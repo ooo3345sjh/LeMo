@@ -161,6 +161,13 @@ public interface BusinessDAO {
     // @since 2023/03/16
     public int updateReply(@Param("revi_reply") String revi_reply, @Param("revi_id") String revi_id);
 
+    /**
+     * @since 2023/04/16
+     * @author 이해빈
+     * @apiNote 객실 수정
+     */
+    public int updateRoom(Map<String, Object> param);
+
     // @since 2023/04/01
     public int deleteServiceRegInfo(Map<String, Object> param);
 
