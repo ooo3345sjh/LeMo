@@ -16,11 +16,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -438,7 +439,7 @@ public class BusinessController {
 
         return "redirect:/business/info/list";
     }
-
+    /*
     @ResponseBody
     @PostMapping("info/usave")
     public String info_usave(@RequestParam Map<String,Object> param,
@@ -484,7 +485,7 @@ public class BusinessController {
 
 
         return "redirect:/business/info/list";
-    }
+    }*/
 
 
     @ResponseBody
@@ -987,7 +988,27 @@ public class BusinessController {
         return result;
     }
 
+    /**
+     * @since 2023/04/16
+     * @author 이해빈
+     * @apiNote 숙소 수정
+     */
 
+    @ResponseBody
+    @PostMapping("info/usave")
+    public int info_usave(@RequestParam Map<String,Object> param,
+                             HttpServletRequest req,
+                             MultipartHttpServletRequest request) throws Exception {
+
+        Map<String, MultipartFile> fileMap = request.getFileMap();
+
+        log.info("param : " + param);
+        log.info("fileMap : " + fileMap);
+
+        int result = service.info_usave(param, fileMap);
+
+        return 1;
+    }
 }
 
 

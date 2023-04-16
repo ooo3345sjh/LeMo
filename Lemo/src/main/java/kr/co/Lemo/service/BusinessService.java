@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 @Slf4j
@@ -489,6 +491,7 @@ public class BusinessService {
      * @param param
      * @param request
      */
+    /*
     public void info_usave(Map<String, Object> param,
                            MultipartHttpServletRequest request){
 
@@ -569,7 +572,7 @@ public class BusinessService {
             dao.insertServiceRegInfo(param);
         }
     }
-
+*/
 
 
     /**
@@ -614,8 +617,35 @@ public class BusinessService {
      * @since 2023/04/04
      * @param room_id
      */
+    @Transactional
     public int removeRoom(String room_id){
-        return dao.deleteRoom(room_id);
+
+        ProductRoomVO room = dao.viewRoom(Integer.parseInt(room_id));
+        String room_thumbs = room.getRoom_thumb();
+        int province_no = room.getProvince_no();
+        int acc_id = room.getAcc_id();
+
+        // 객실 이미지 삭제
+        List<String> images = new ArrayList<>();
+        String dirPath = new File(uploadPath+"product/"+province_no+"/"+acc_id).getAbsolutePath();
+
+        if (room_thumbs.contains("/")) {
+            // "/" 기준으로 파일 경로를 나누어 파일 이름을 추출
+            String[] fileNames = room_thumbs.split("/");
+            images.addAll(Arrays.asList(fileNames));
+        } else {
+            // 파일 경로에 "/" 문자가 없으면 파일 이름 하나만 list에 추가
+            images.add(room_thumbs);
+        }
+
+        for(String deleteFile : images) {
+            File df = new File(dirPath + "/" + deleteFile);
+            if(df.exists()) { df.delete(); }
+        }
+
+        int result = dao.deleteRoom(room_id);
+
+        return result;
     }
 
 
@@ -693,13 +723,15 @@ public class BusinessService {
      * @author 이해빈
      * @apiNote 객실 수정
      */
-    public int usaveRoom(Map<String, Object> param, Map<String, MultipartFile> fileMap) {
+    public int usaveRoom(Map<String, Object> param, Map<String, MultipartFile> fileMap) throws Exception {
 
         for(MultipartFile mf : fileMap.values()){
             log.debug("mf : " + mf.getOriginalFilename());
         }
 
-        List<String> fileName = checkFile(param, fileMap);
+        String thumbType = "room_thumbs";
+
+        List<String> fileName = checkFile(param, fileMap, thumbType);
         if(!fileName.isEmpty()) {
             String files = String.join("/", fileName);
             param.put("room_thumb", files);
@@ -715,64 +747,149 @@ public class BusinessService {
     /**
      * @since 2023/04/16
      * @author 이해빈
-     * @apiNote 객실 이미지 파일 검사
+     * @apiNote 숙소 수정
      */
-    public List<String> checkFile(Map<String, Object> param, Map<String, MultipartFile> fileMap){
+    @Transactional
+    public int info_usave(Map<String, Object> param,
+                           Map<String, MultipartFile> fileMap) throws Exception{
 
+
+        String thumbType = "accThumbs";
+
+        for(MultipartFile mf : fileMap.values()){
+            log.debug("mf : " + mf.getOriginalFilename());
+        }
+
+        List<String> fileName = checkFile(param, fileMap, thumbType);
+        if(!fileName.isEmpty()) {
+            String files = String.join("/", fileName);
+            param.put("acc_thumbs", files);
+        }else {
+            param.put("acc_thumbs", null);
+        }
+
+
+        // 숙소 수정
+        dao.updateInfo(param);
+
+        // lemo_product_ratepolicy (할인율 등록)
+        dao.updateRatePolicy(param);
+
+        String[] service = ((String) param.get("sc_no")).split(",");
+        log.warn("here service1: " + service);
+        log.warn("here service2: " + service.length);
+
+        // 기존 서비스 비우기
+        dao.deleteServiceRegInfo(param);
+
+        for(int i = 0; i< service.length; i++) {
+            log.warn("here service3: " + service[i]);
+            param.put("sc_no", service[i]);
+            log.warn("here service4: " + service[i]);
+
+            dao.insertServiceRegInfo(param);
+        }
+
+        return 1;
+    }
+
+    /**
+     * @since 2023/04/16
+     * @author 이해빈
+     * @apiNote 숙소, 객실 이미지 파일 검사
+     */
+    public List<String> checkFile(Map<String, Object> param,
+                                  Map<String, MultipartFile> fileMap,
+                                  String thumbType) throws Exception {
+
+        String pv_no = (String) param.get("provinceNo");
         String province_no = (String) param.get("province_no");
         String acc_id = (String) param.get("acc_id");
 
         String dirPath = new File(uploadPath+"product/"+province_no+"/"+acc_id).getAbsolutePath();
 
-        File dir = new File(dirPath);
-        File Files[] = dir.listFiles();
 
-        List<String> oriRoom = new ArrayList<>();
-        List<String> newRoom = new ArrayList<>();
-        List<String> oriRemoveRoom = new ArrayList<>();
-        List<String> newRemoveRoom = new ArrayList<>();
+        if (thumbType.equals("accThumbs")) { // 숙소 수정일 경우
+
+            if (!pv_no.equals(province_no)) { // 기존 숙소의 지역과 수정된 숙소의 지역이 다를 경우
+
+                dirPath = new File(uploadPath+"product/"+pv_no+"/"+acc_id).getAbsolutePath();
+
+                File dir = new File(dirPath);
+                File filelist[] = dir.listFiles();
+
+                String newdirPath = new File(uploadPath + "product/" + province_no + "/" + acc_id).getAbsolutePath();
+
+                // 저장 폴더가 없다면 생성
+                File checkFolder = new File(newdirPath);
+                if (!checkFolder.exists()) {
+                    try {
+                        Files.createDirectories(checkFolder.toPath());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                try {
+                    Files.move(dir.toPath(), new File(newdirPath).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    log.info("이동 성공");
+                }catch (IOException e) {
+                    e.printStackTrace();
+                    log.info("이동 실패" + e.getMessage());
+                }
+
+                dirPath = newdirPath; // dirPath 수정
+
+            }
+        }
+
+
+        List<String> oriImage = new ArrayList<>();
+        List<String> newImage = new ArrayList<>();
+        List<String> oriRemoveImage = new ArrayList<>();
+        List<String> newRemoveImage = new ArrayList<>();
 
 
         // 기존 파일 이름
-        String room_thumbs = (String)param.get("room_thumbs");
-        log.info("기존 파일 이름 : " + room_thumbs);
+        String thumbs = (String)param.get(thumbType);
+        log.info("기존 파일 이름 : " + thumbs);
 
-        if (room_thumbs.contains("/")) {
+        if (thumbs.contains("/")) {
             // "/" 기준으로 파일 경로를 나누어 파일 이름을 추출
-            String[] fileNames = room_thumbs.split("/");
-            oriRoom.addAll(Arrays.asList(fileNames));
-            oriRemoveRoom.addAll(Arrays.asList(fileNames));
+            String[] fileNames = thumbs.split("/");
+            oriImage.addAll(Arrays.asList(fileNames));
+            oriRemoveImage.addAll(Arrays.asList(fileNames));
         } else {
             // 파일 경로에 "/" 문자가 없으면 파일 이름 하나만 list에 추가
-            oriRoom.add(room_thumbs);
-            oriRemoveRoom.add(room_thumbs);
+            oriImage.add(thumbs);
+            oriRemoveImage.add(thumbs);
         }
 
-        log.info("oriRoom : " + oriRoom);
-        log.info("oriRemoveRoom : " + oriRemoveRoom);
+        log.info("oriImage : " + oriImage);
+        log.info("oriRemoveImage : " + oriRemoveImage);
 
         for(MultipartFile mf : fileMap.values()) {
-            newRoom.add(mf.getOriginalFilename());
-            newRemoveRoom.add(mf.getOriginalFilename());
+            newImage.add(mf.getOriginalFilename());
+            newRemoveImage.add(mf.getOriginalFilename());
         }
 
-        log.info("newRoom : " + newRoom);
-        log.info("newRemoveRoom : " + newRemoveRoom);
+        log.info("newImage : " + newImage);
+        log.info("newRemoveImage : " + newRemoveImage);
 
 
-        // 저장되어질 roomImage
-        newRoom.removeAll(oriRemoveRoom);
-        log.debug("저장 : " + newRoom);
+        // 저장되어질 이미지
+        newImage.removeAll(oriRemoveImage);
+        log.debug("저장 : " + newImage);
 
 
-        // 삭제되어질 roomImage
-        oriRoom.removeAll(newRemoveRoom);
-        log.debug("삭제 : " + oriRoom);
+        // 삭제되어질 이미지
+        oriImage.removeAll(newRemoveImage);
+        log.debug("삭제 : " + oriImage);
 
 
-        if(oriRoom.size() != 0) {
+        if(oriImage.size() != 0) {
             // 삭제
-            for(String deleteFile : oriRoom) {
+            for(String deleteFile : oriImage) {
 
                 File df = new File(dirPath + "/" + deleteFile);
                 if(df.exists()) { df.delete(); }
@@ -781,9 +898,9 @@ public class BusinessService {
 
         List<String> changeSaveFile = new ArrayList<>();
 
-        if(newRoom.size() != 0) {
+        if(newImage.size() != 0) {
             // 저장
-            for(String saveFile : newRoom) {
+            for(String saveFile : newImage) {
                 String ext = saveFile.substring(saveFile.indexOf("."));
                 String newName = UUID.randomUUID() + ext;
                 changeSaveFile.add(newName);
@@ -801,11 +918,11 @@ public class BusinessService {
         }
 
         // db에 저장될 리스트 이름
-        oriRemoveRoom.removeAll(oriRoom);
-        oriRemoveRoom.addAll(changeSaveFile);
+        oriRemoveImage.removeAll(oriImage);
+        oriRemoveImage.addAll(changeSaveFile);
 
         
-        return oriRemoveRoom;
+        return oriRemoveImage;
 
     }
 }
