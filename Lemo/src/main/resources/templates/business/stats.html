@@ -19,13 +19,14 @@
                             <span>통계관리</span>
                         </div>
                         <div class="col2" style="background: transparent;">
-                            <form>
+                            <form th:achtion="@{/business/stats}">
+                                <input type="text" name="periodType" value="">
                                 <div class="select_acc">
                                     <ul class="sa_msg">숙소 선택</ul>
                                     <ul class="sa_select_acc">
                                         <li>
                                             <select id="c_role_type" name="acc_id">
-                                                <option>- 전체 -</option>
+                                                <option value="">- 전체 -</option>
                                             </select>
                                         </li>
                                     </ul>
@@ -34,18 +35,20 @@
                                     <ul class="date_msg">기간별 조회</ul>
                                     <ul class="date_3ea">
                                         <li>
-                                            <a href="#">당일</a>
+                                            <a href="#" data-value="day">당일</a>
                                         </li>
                                         <li>
-                                            <a href="#">1개월</a>
+                                            <a href="#" data-value="month">1개월</a>
                                         </li>
                                         <li>
-                                            <a href="#">1년</a>
+                                            <a href="#" data-value="year">1년</a>
                                         </li>
                                     </ul>
                                     <ul class="sd_date_box">
                                         <li class="sd_date">
-                                            <input class="select_date" type="date"> - <input class="select_date" type="date">
+                                            <input class="begin" type="date">
+                                            -
+                                            <input class="end" type="date">
                                         </li>
                                         <button type="submit" class="sd_submit">조회</button>
                                         <button type="reset" class="sd_reset">초기화</button>
@@ -106,6 +109,29 @@
                                             </div>
                                         </div>
 
+                                        <div class="sales_table">
+                                            <div class="sales_div">
+                                                <table>
+                                                    <tr>
+                                                        <th>객실</th>
+                                                        <th>주문건수</th>
+                                                        <th>매출액</th>
+                                                        <th>비율</th>
+                                                        <th>그래프</th>
+                                                    </tr>
+                                                    <tr th:each="room:${roomPercent}">
+                                                        <td>[[${room.room_name}]]</td>
+                                                        <td>[[${room.count_sales}]]</td>
+                                                        <td th:text="${#numbers.formatInteger(room.tot_res_price, 0, 'COMMA') + '원'}">36,000</td>
+                                                        <td th:text="${#numbers.formatDecimal(room.room_sales_percent, 2, 0) + '%'}"></td>
+                                                        <td>
+                                                            <progress id="progress1" th:value="${room.room_sales_percent}" min="0" max="100"></progress>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+
                                         <div class="sg_hr">
                                             <p>단위 기간별 매출 현황</p>
                                         </div>
@@ -129,29 +155,6 @@
                                             </div>
                                         </div>
 
-
-                                        <div class="sales_table">
-                                            <div class="sales_div">
-                                                <table>
-                                                    <tr>
-                                                        <th>객실</th>
-                                                        <th>주문건수</th>
-                                                        <th>매출액</th>
-                                                        <th>비율</th>
-                                                        <th>그래프</th>
-                                                    </tr>
-                                                    <tr th:each="room:${roomPercent}">
-                                                        <td>[[${room.room_name}]]</td>
-                                                        <td>[[${room.count_sales}]]</td>
-                                                        <td th:text="${#numbers.formatInteger(room.tot_res_price, 0, 'COMMA') + '원'}">36,000</td>
-                                                        <td th:text="${#numbers.formatDecimal(room.room_sales_percent, 2, 0) + '%'}"></td>
-                                                        <td>
-                                                            <progress id="progress1" th:value="${room.room_sales_percent}" min="0" max="100"></progress>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -216,9 +219,11 @@
         // 참조 데이터 준비
         let stats = [[${stats}]];
 
-        console.log(stats);
+        console.log('stats : ' + stats.length);
 
-
+        if (stats.length != null){
+            console.log("stats isn't empty");
+        }
 
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
@@ -242,28 +247,27 @@
             Daybefore[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
             Daybefore[i] = (Daybefore[i].getMonth()+1) + '/' + Daybefore[i].getDate();
         }
+        console.log('date: ' + date);
+        console.log("Daybefore length : " + Daybefore.length);
 
         console.log(Daybefore[6] + " - " + stats[0].tot_res_price);
-        console.log(Daybefore[5] + " - " + stats[1].tot_res_price);
-        console.log(Daybefore[4] + " - " + stats[2].tot_res_price);
-        console.log(Daybefore[3] + " - " + stats[3].tot_res_price);
-        console.log(Daybefore[2] + " - " + stats[4].tot_res_price);
-        console.log(Daybefore[1] + " - " + stats[5].tot_res_price);
-        console.log(date + " - " + stats[6].tot_res_price);
 
         function drawVisualization() {
-
             // 그래프 내용 : drawVisualization 구현
-            var data = google.visualization.arrayToDataTable([
-                ['날짜', '일별매출', '누적매출'],
-                [Daybefore[6],  stats[6].tot_res_price, stats[6].tot_res_price],
-                [Daybefore[5],  stats[5].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price],
-                [Daybefore[4],  stats[4].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price],
-                [Daybefore[3],  stats[3].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price],
-                [Daybefore[2],  stats[2].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price],
-                [Daybefore[1],  stats[1].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price + stats[1].tot_res_price],
-                [date,  stats[0].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[1].tot_res_price + stats[1].tot_res_price + stats[0].tot_res_price]
-            ]);
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', '날짜');
+            data.addColumn('number', '일별매출');
+            data.addColumn('number', '누적매출');
+
+            let cumulativeTotal = 0;
+            for (var i = Daybefore.length-1; i >= 0; i--) {
+              cumulativeTotal += stats[i].tot_res_price;
+
+              if(i==0) {
+                Daybefore[i] = date;
+              }
+              data.addRow([Daybefore[i], stats[i].tot_res_price, cumulativeTotal]);
+            }
 
             // 그래프 주석 표기
             var view = new google.visualization.DataView(data);
@@ -417,8 +421,8 @@
     let monthAvg = [[${monthAvg}]];
     let MstatsMonth = [[${statsMonth}]];
 
-    console.log("statsMonth");
-    console.log(MstatsMonth);
+    //console.log("statsMonth");
+    //console.log(MstatsMonth);
 
     // 구글 열 차트를 로드
     google.charts.load('current', {'packages':['corechart']});
@@ -548,9 +552,9 @@
         const year = yearAgo.getFullYear(); // 연도만 추출
         before[i] = year;
     }
-    console.log(before[2] + ":" + yearSales[0].tot_res_price);
-    console.log(before[1] + ":" + yearSales[1].tot_res_price);
-    console.log(Ydate + ":" + yearSales[2].tot_res_price);
+    //console.log(before[2] + ":" + yearSales[0].tot_res_price);
+    //console.log(before[1] + ":" + yearSales[1].tot_res_price);
+    //console.log(Ydate + ":" + yearSales[2].tot_res_price);
     //console.log( (yearSales[0].tot_res_price+yearSales[1].tot_res_price+yearSales[2].tot_res_price)/3 );
 
     function drawVisualization() {
@@ -637,10 +641,10 @@
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
             ['payment', 'Percent'],
-            ['신용/체크카드', paysMap[1].length],
-            ['토스페이', paysMap[2].length],
-            ['PAYCO', paysMap[3].length],
-            ['카카오페이', paysMap[4].length]
+            ['신용/체크카드', paysMap[1] ? paysMap[1].length : 0],
+            ['토스페이', paysMap[2] ? paysMap[2].length : 0],
+            ['PAYCO', paysMap[3] ? paysMap[3].length : 0],
+            ['카카오페이', paysMap[4] ? paysMap[4].length : 0]
             ]);
 
             var options = {
@@ -672,7 +676,7 @@
 
         ajaxAPI("business/find-acc", null, "GET").then((response)=>{
 
-            console.log('response1 : %o', response);
+            //console.log('response1 : %o', response);
 
             for (let i = 0; i < response.length; i++) {
                 let option = document.createElement("option");
@@ -696,6 +700,32 @@
             console.log(errorMsg);
         });
     };
+    </script>
+    <script>
+        $(function(){
+
+            // url 주소에서 periodType 파라미터 가져오기
+            let urlParams = new URLSearchParams(window.location.search);
+            let periodTypeParam = urlParams.get('periodType');
+
+            // url 주소에 파라미터가 있다면
+            if(periodTypeParam){
+                $('ul.date_3ea a').removeClass('on');
+                $('ul.date_3ea a[data-value="'+periodTypeParam+'"]').addClass('on');
+            }
+
+            $('ul.date_3ea a').on('click', function(e) {
+                e.preventDefault();
+
+                let periodType = $(this).data('value');
+                alert('click the a in 3ea! : ' + periodType);
+
+                // on 클래스 추가 + input에 값 넣기
+                $('ul.date_3ea a').removeClass('on');
+                $(this).addClass('on');
+                $('input[name="periodType"]').val(periodType);
+            });
+        });
     </script>
 </th:block>
 </html>

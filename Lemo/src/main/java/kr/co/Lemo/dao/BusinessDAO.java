@@ -93,7 +93,10 @@ public interface BusinessDAO {
     public List<ProductAccommodationVO> selectAccsList(Map map);
 
     // @since 2023/04/08 판매자 - 통계관리 - 일별 누적 판매량 (일주일)
-    public List<ReservationVO> selectDaySales (Map map);
+    public List<ReservationVO> selectDaySales(Map map);
+
+    // @since 2023/04/16 판매자 - 통계관리 - 당일 시간대별 판매량
+    public List<ReservationVO> selectTimeSales(Map map);
 
      // @since 2023/04/015 판매자 - 월별 판매량 (4달 기준)
     public List<ReservationVO> selectMonthSales(Map map);

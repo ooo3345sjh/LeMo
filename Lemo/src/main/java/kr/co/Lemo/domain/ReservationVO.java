@@ -98,6 +98,7 @@ public class ReservationVO {
     private int room_stock;
     private int room_sales_percent;
 
+
     // @since 2023/04/06 @author 이해빈;
     private String payment;
     private int cp_disprice;

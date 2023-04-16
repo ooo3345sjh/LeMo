@@ -742,59 +742,104 @@ public class BusinessController {
     @GetMapping("stats")
     public String stats(Model model,
                         @AuthenticationPrincipal UserVO myUser,
-                        Map map){
+                        @RequestParam Map map,
+                        @RequestParam(required = false) String acc_id,
+                        @RequestParam(required = false) String periodType){
 
+        // 타이틀 설정
         model.addAttribute("title", environment.getProperty(group));
 
+        // 방문자수 (기간 설정, 일주일)
         LocalDateTime end = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
         LocalDateTime start = end.minusDays(6);
 
-        log.warn("start: " + start);
-        log.warn("end: " + end);
-
+        // 판매자 아이디 -> map에 저장
         String user_id = "";
         if(myUser != null){
             user_id = myUser.getUser_id();
         }
-
         map.put("user_id", user_id);
 
-        // 숙소 리스트
-        List<ProductAccommodationVO> accs = service.selectAccsList(map);
+        // 숙소 아이디 가져오기 (view -> controller)
+        acc_id = (String) map.get("acc_id");
 
+        //log.warn("map: " + map);
+        //log.warn("get acc_id in map :" + acc_id);
+
+        // 전역변수 선언
         int visitorTotal = 0;
+        int total = 0;
+        int totalCanceled = 0;
+        int sum_res_price = 0;
+        List<ReservationVO> stats = new ArrayList<>();
+        int totalQna = 0;
+        int totalAcc = 0;
+        int totalReview = 0;
+        List<ReservationVO> roomPercent = new ArrayList<>();
+        List<ReservationVO> pays = new ArrayList<>();
+        Map<Integer, List<ReservationVO>> paysMap = new HashMap<>();
+        int visitorCount = 0;
+        periodType = (String) map.get("periodType");
+        log.warn("periodType : " + periodType);
 
-        for (ProductAccommodationVO vo : accs) {
-            log.warn("acc_id : " + vo.getAcc_id());
-            String acc_id = String.valueOf(vo.getAcc_id());
-            // 방문자수
-            int visitorCount = visitorsLogRepo.countVisitors(start, end, acc_id);
-            visitorTotal += visitorCount;
+        // 방문자수 (일주일)
+        if(acc_id == null || acc_id.equals("")){
+             List<ProductAccommodationVO> accs = service.selectAccsList(map);
+            for (ProductAccommodationVO vo : accs) {
+                //log.warn("acc_id : " + vo.getAcc_id());
+                acc_id = String.valueOf(vo.getAcc_id());
+                visitorCount = visitorsLogRepo.countVisitors(start, end, acc_id);
+                visitorTotal += visitorCount;
+            }
+        }else {
+            visitorCount = visitorsLogRepo.countVisitors(start, end, acc_id);
+            visitorTotal = visitorCount;
         }
 
-        log.warn("visitorTotal: " + visitorTotal);
+        // 기간 미 설정시 기본 -> 일주일
+        if(periodType == null){
+            map.put("periodType", "week");
+
+            // 총 매출 건수 (일주일)
+            total = service.countWeeksSales(map);
+
+        // 기간 설정 시 -> 기간 설정에 따른 데이터 조회
+        }else if(periodType != null){
+            map.put("periodType", periodType);
+            log.warn("periodType put map: " + periodType);
+
+            // 총 매출 건수 (일주일)
+            total = service.countWeeksSales(map);
+        }
+        // 취소 건수 (일주일)
+        totalCanceled = service.countWeeksCancel(map);
+        // 일별 매출 현황 (일주일)
+        stats = service.findAllDaySales(map);
+
+        for ( int i=0; i<stats.size(); i++ ){
+            //log.warn("stats during : " + i);
+            //log.warn("" + stats.get(i).getTot_res_price());
+            sum_res_price += stats.get(i).getTot_res_price();
+        }
+
+        //log.warn("sum_res_price : " + sum_res_price);
+
+        // 1:1 문의 수 (일주일)
+        totalQna = service.countWeeksQna(map);
+        // 상품 등록 수  (일주일)
+        totalAcc = service.countWeeksAcc(map);
+        // 리뷰 등록 수  (일주일)
+        totalReview = service.countWeeksReview(map);
+        // 객실 예약 현황  (일주일)
+        roomPercent = service.selectWeeksRoom(map);
+        // 결제 수단 현황
+        pays = service.findAllPayment(map);
+        paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
 
 
-
-        // 일별 매출 현황
-        List<ReservationVO> stats = service.findAllDaySales(map);
+        // 단위 기간별 매출현황 (기간 검색 미적용, 숙소선택 적용)
         // 당일 누적 판매량
         List<ReservationVO> todaySales = service.findAllTodaySales(map);
-        // 결제 수단 현황
-        List<ReservationVO> pays = service.findAllPayment(map);
-        Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
-        // 객실 예약 현황
-        List<ReservationVO> roomPercent = service.selectWeeksRoom(map);
-        // 총 매출 건수
-        int total = service.countWeeksSales(map);
-        // 취소 건수
-        int totalCanceled = service.countWeeksCancel(map);
-        // 1:1 문의 수
-        int totalQna = service.countWeeksQna(map);
-        // 상품 등록 수
-        int totalAcc = service.countWeeksAcc(map);
-        // 리뷰 등록 수
-        int totalReview = service.countWeeksReview(map);
         // 월별 매출 현황
         List<ReservationVO> statsMonth = service.findAllMonthSales(map);
 
@@ -808,8 +853,7 @@ public class BusinessController {
         for (ReservationVO vo : statsMonth) {
             monthSum += vo.getTot_res_price();
         }
-        // 4개월 평균 매출
-        int monthAvg = monthSum / 4;
+        int monthAvg = monthSum / 4;     // 4개월 평균 매출
 
         // 연별 매출 현황
         List<ReservationVO> yearSales = service.findAllYearSales(map);
@@ -817,14 +861,12 @@ public class BusinessController {
         int yearSum = 0;
 
         for (ReservationVO mAvg : yearSales) {
-            log.warn("here2 : " + mAvg.getTot_res_price());
+            //log.warn("here2 : " + mAvg.getTot_res_price());
             yearSum += mAvg.getTot_res_price();
         }
-        // 3년 년평균 매출
-        int yearAvg = yearSum/3;
 
-         log.warn("month Sum : " + yearSum);
-         log.warn("yearAvg : " + yearAvg);
+        int yearAvg = yearSum/3;          // 3년 년평균 매출
+
 
         model.addAttribute("stats", stats);
         model.addAttribute("todaySales", todaySales);
