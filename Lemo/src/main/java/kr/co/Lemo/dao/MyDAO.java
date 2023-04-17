@@ -120,4 +120,9 @@ public interface MyDAO {
 
     public int updateDiarySpot(DiarySpotVO spotVO);
 
+    // @since 2023/04/15
+    public int insertSelectPointExpire();
+    public List<PointVO> selectAvailablePoint();
+    public int updateAvailablePoint();
+
 }

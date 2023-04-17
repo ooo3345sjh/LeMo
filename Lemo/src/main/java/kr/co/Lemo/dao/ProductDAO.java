@@ -144,4 +144,12 @@ public interface ProductDAO {
     // @since 2023/03/24
     public int deleteProductPick(Map map);
 
+    /**
+     * @since 2023/04/16
+     * @author 박종협
+     * @apiNote 소멸기간이 다가온 point select
+     */
+    public List<PointVO> shortestPointExpiration(OrderInfoVO vo);
+    public int insertPoint(PointVO vo);
+
 }

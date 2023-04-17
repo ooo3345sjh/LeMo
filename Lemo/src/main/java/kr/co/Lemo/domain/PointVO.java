@@ -18,11 +18,16 @@ import lombok.NoArgsConstructor;
 public class PointVO {
     private int poi_id;
     private String user_id;
-    private int res_no;
+    private long res_no;
     private String poi_content;
     private int poi_point;
     private String poi_maximum;
     private int poi_state;
     private String poi_rdate;
+
+    // @since 2023/04/17
+    private int poi_parent;
+    private int usedExpirationPoint;
+    private int insertPoint;
 
 }

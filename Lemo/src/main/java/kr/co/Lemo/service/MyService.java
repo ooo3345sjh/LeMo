@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,6 +30,7 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -713,8 +715,15 @@ public class MyService {
     
 //    @Scheduled(cron = "0 0 0 1 * *") 매달 1일 00시
 //    @Scheduled(cron = "0 0 0 * * *") 자정
-    @Scheduled(cron = "0 0 0/1 * * *")
+//    @Scheduled(cron = "0 0 0 * * *")
+//    @Scheduled(cron = "0 0 0/1 * * *") // 1시간 마다
+//    @Scheduled(cron = "0 0/5 * * * ?") // 5분마다 
+    @Scheduled(cron = "0 0 0 * * *")
     public void pointUpdate() {
-        log.debug("스케쥴러 사용(1시간)");
+        log.debug("**************************포인트 스케쥴러 사용(1일 자정)****************************************");
+        // 매일 자정 만료시간이 된 point를 member_point에 insert select
+        dao.insertSelectPointExpire();
+        // point 다시 계산
+        dao.updateAvailablePoint();
     }
 }

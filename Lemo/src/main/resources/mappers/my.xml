@@ -261,6 +261,21 @@
             `revi_thumb`   = #{revi_thumb}
     </insert>
 
+    <insert id="insertSelectPointExpire">
+        INSERT INTO `lemo_member_point_log`
+            (`user_id`, `res_no`, `poi_content`, `poi_point`, `poi_maximum`, `poi_state`, `poi_rdate`, `poi_parent`)
+        SELECT `user_id`, `res_no`, '포인트 소멸', IFNULL((`poi_point` - `totalPoint`), `poi_point`) AS `poi_point`, `poi_maximum`, 0, NOW(), `poi_id`  FROM (
+            (SELECT * FROM `lemo_member_point_log`
+            <![CDATA[
+            WHERE `poi_state` = 1 AND `poi_maximum` <= NOW() AND
+            ]]>
+            `poi_id` NOT IN ((SELECT `poi_parent` FROM `lemo_member_point_log` WHERE `poi_state` = 0))) AS a LEFT JOIN
+            (SELECT `poi_parent`, SUM(`poi_point`) AS `totalPoint` FROM `lemo_member_point_log` WHERE `poi_state` = 2 GROUP BY `poi_parent`) AS b
+            ON a.`poi_id` = b.`poi_parent`
+            )
+            WHERE NOT `poi_point` = `totalPoint` OR `totalPoint` IS null
+    </insert>
+
     <!-- update -->
     <update id="updateProductCoupon">
         UPDATE `lemo_product_coupon` SET
@@ -302,6 +317,21 @@
             `spot_content`    = #{spot_content},
             `spot_thumb`      = #{spot_thumb}
         WHERE `spot_no` = #{spot_no};
+    </update>
+
+    <update id="updateAvailablePoint">
+        UPDATE `lemo_member_userinfo` userinfo
+            JOIN (
+                SELECT IFNULL((a.`poi_point` - b.`poi_point`), a.`poi_point`) AS `poi_point`, a.`user_id` FROM (
+                    (SELECT SUM(`poi_point`) AS `poi_point`, `user_id` FROM `lemo_member_point_log`
+                    WHERE `poi_state` = 1 AND `poi_maximum` > NOW()
+                    GROUP BY `user_id`) AS a LEFT JOIN
+                    (SELECT SUM(`poi_point`) AS `poi_point`, `user_id` FROM `lemo_member_point_log`
+                    WHERE `poi_state` = 2
+                    GROUP BY `user_id`) AS b ON a.`user_id` = b.`user_id`
+                )
+            ) vals ON userinfo.user_id = vals.user_id
+        SET userinfo.`point` = vals.poi_point;
     </update>
 
     <!--
