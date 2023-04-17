@@ -86,6 +86,23 @@
         `poi_rdate` = NOW()
     </insert>
 
+    <!--
+        날짜 : 2023/04/16
+        이름 : 박종협
+        내용 : 포인트 사용 로그 입력
+    -->
+    <insert id="insertPoint" parameterType="kr.co.Lemo.domain.PointVO">
+        INSERT INTO `lemo_member_point_log` SET
+            `user_id` = #{user_id},
+            `res_no` = #{res_no},
+            `poi_content` = '포인트 사용',
+            `poi_point` = #{insertPoint},
+            `poi_maximum` = NOW(),
+            `poi_rdate` = NOW(),
+            `poi_state` = 2,
+            `poi_parent`= #{poi_id}
+    </insert>
+
     <!-- select-->
     <select id="selectAccommodations" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
 
@@ -282,6 +299,22 @@
         LEFT JOIN `lemo_member_coupon_log` AS e
         ON a.res_no = e.res_no
         WHERE a.`res_no`=#{res_no}
+    </select>
+    
+    <!--
+        날짜 : 2023/04/16
+        이름 : 박종협
+        내용 : 소멸기간이 다가온 point select
+    -->
+    <select id="shortestPointExpiration" resultType="kr.co.Lemo.domain.PointVO">
+        SELECT
+            a.*, IFNULL(b.`poi_point`,0) AS `usedExpirationPoint`
+        FROM
+            `lemo_member_point_log` AS a LEFT JOIN
+            (SELECT `poi_parent`, SUM(`poi_point`) AS `poi_point` FROM `lemo_member_point_log` WHERE `poi_state` = 2 AND `user_id` = #{user_id} GROUP BY `poi_parent`) AS b
+            on a.`poi_id` = b.`poi_parent`
+        WHERE a.`user_id` = #{user_id} AND a.`poi_state` = 1 AND a.`poi_maximum` > NOW()
+        ORDER BY `poi_maximum` ASC
     </select>
 
     <!-- update -->
