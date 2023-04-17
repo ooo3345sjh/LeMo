@@ -306,14 +306,6 @@ public class CsService {
     public int usaveFaqArticle(CsVO vo){
         return dao.updateFaqArticle(vo);
     }
-    //@since 2023/03/17
-    public int usaveOnEvent(@RequestParam("cs_no") int cs_no){
-        return dao.updateOnEvent(cs_no);
-    }
-    //@since 2023/03/17
-    public int usaveEndEvent(@RequestParam("cs_no") int cs_no){
-        return dao.updateEndEvent(cs_no);
-    }
 
     //@since 2023/03/29 메인베너 게시 ON/OFF
     public int usaveMainBanner(@RequestParam("cs_eventMainBannerState") int cs_eventMainBannerState, @RequestParam("cs_no") int cs_no){
@@ -323,6 +315,11 @@ public class CsService {
     public int usaveEventBanner(@RequestParam("cs_eventBannerState") int cs_eventBannerState, @RequestParam("cs_no") int cs_no){
         return dao.updateEventBanner(cs_eventBannerState, cs_no);
     }
+    //@since 2023/04/15 약관 수정
+    public int usaveTermArticle(TermVO vo){
+        return dao.updateTerms(vo);
+    }
+
 
 
     /** delete **/

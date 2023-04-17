@@ -3,84 +3,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/admin-layout}">
 <th:block layout:fragment="css-js">
-    <link rel="stylesheet" th:href="@{/css/admin/adminNotice.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/adminTerm.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
     <style>
-        main .main_content .col2 .board_list li:nth-of-type(1) {width: 5%;}
-        main .main_content .col2 .board_list li:nth-of-type(2) {width: 20%;}
-        main .main_content .col2 .board_list li:nth-of-type(3) {width: 54%;}
-        main .main_content .col2 .board_list li:nth-of-type(4) {
-            width: 14%;
-        }
-
-
-        main .search_review_tit {
-            width: 100%;
-            display: block;
-            text-align: left;
-            font-size: 17px;
-            margin: 10px;
-            font-weight: 500;
-        }
-
-        main .search_review_table {
-            width: 100%;
-            border-collapse: collapse;
-            border-top: 1px solid #dbdbdb;
-        }
-
-        main .search_review_table tr {
-            height: 43px;
-        }
-
-        main .search_review_table th {
-            text-align: left;
-            border-bottom: 1px solid #dbdbdb;
-            padding-left: 0px;
-            padding: 0 10px;
-            background: #f0f0f0;
-            width: 17% !important;
-            font-size: 13px;
-        }
-        main .search_review_table td {
-            font-size: 13px;
-            text-align: left;
-            border-bottom: 1px solid #dbdbdb;
-            border-left: 1px solid #dbdbdb;
-            padding-left: 17px;
-        }
-        main #c_role_type {
-            border: 1px solid #dcdcdc;
-            padding: 1px 20px 1px 4px;
-            max-width: 100%;
-            text-decoration: none;
-            font-size: 13px;
-            height: 30px;
-        }
-
-        main .main_content .btnAdminProd3 {
-            margin: 15px 0;
-            margin-left: 8px;
-            box-shadow: inset 0px 1px 0px 0px #ffffff;
-            background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-            background-color: #f9f9f9;
-            border-radius: 6px;
-            border: 1px solid #dcdcdc;
-            display: inline-block;
-            cursor: pointer;
-            color: #666666;
-            font-size: 13px;
-            font-weight: 500;
-            padding: 10px 32px;
-            text-decoration: none;
-            text-shadow: 0px 1px 0px #ffffff;
-        }
-
-        .show_list #nonData {
-            width: 100% !important;
-            margin-bottom: 9px;
-            font-size: 24px;
-        }
     </style>
 </th:block>
 <th:block layout:fragment="content">
@@ -133,7 +58,7 @@
                                             </li>
                                             <li class="prodBtn">
                                                 <a class="btnTermDelete" th:data-no="${term.terms_no}">삭제</a>
-                                                <a th:href="@{#}" class="btnModify">수정</a>
+                                                <a th:href="@{/admin/cs/terms/modify (terms_no=${term.terms_no}, page=${ph.sc.page})}" class="btnModify">수정</a>
                                             </li>
                                         </ul>
                                     </th:block>
@@ -206,8 +131,13 @@
                                     });
 
                             }else {
-                                alert('error');
-                                location.replace("/Lemo/admin/cs/terms/list");
+                                Swal.fire({
+                                        title : '게시글을 삭제하는데 실패하였습니다.',
+                                        icon : 'error',
+                                        confirmButtonText : '확인'
+                                    }).then(function(){
+                                        location.replace("/Lemo/admin/cs/terms/list");
+                                    });
                             }
                         }).catch((errMsg) => {
                             console.log(errMsg);

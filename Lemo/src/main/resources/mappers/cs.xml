@@ -130,7 +130,9 @@
 
     <!-- 관리자 약관 상세보기-->
     <select id="selectTermArticle" resultType="kr.co.Lemo.domain.TermVO">
-        select * from `lemo_member_terms` where `terms_no`=#{terms_no};
+        SELECT a.*, b.`termsType_type_ko` FROM `lemo_member_terms` AS a
+        JOIN `lemo_member_termstype` AS b ON a.termsType_no=b.termsType_no
+        where a.`terms_no`=#{terms_no};
     </select>
 
     <!-- 관리자 -->
@@ -197,6 +199,8 @@
             `terms_content` =#{terms_content};
         </insert>
 
+
+
     <!-- update -->
     <update id="updateQnaArticle">
         update `lemo_cs` set
@@ -249,6 +253,18 @@
         `cs_rdate`=NOW()
         WHERE `cs_no`=#{cs_no};
     </update>
+
+    <!-- 약관 업데이트 -->
+    <update id="updateTerms">
+        update `lemo_member_terms` set
+        `termsType_no` =#{termsType_no},
+        `terms_title` =#{terms_title},
+        `terms_content` =#{terms_content}
+        where `terms_no`=#{terms_no};
+
+    </update>
+
+
 
     <!-- delete -->
     <!-- 공통 단일 게시물 삭제 -->

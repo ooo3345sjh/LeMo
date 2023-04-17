@@ -639,4 +639,72 @@ main .insert_faq_tit {
     padding-right: 30px;
 }
 
+/** 자주묻는질문 목록 **/
+.faq_list .tb_board {
+    /* margin-top: 20px; */
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #a4a9b0;
+    border-bottom: 1px solid #ececec;
+}
+.tb_board thead {
+    background: #fafafa;
+}
+.tb_board thead th{
+    font-size: 14px;
+    padding: 9px 0;
+}
+.tb_board thead th:nth-child(1) {
+    width: 12%;
+}.tb_board thead th:nth-child(2) {
+    width: 68%;
+}
+.tb_board thead th:nth-child(3) {
+    width: 20%;
+}
+
+.tb_board td {
+    padding: 16px 0 16px 0;
+    border-top: 1px solid #ececec;
+    font-size: 17px;
+    line-height: 14px;
+    text-align: center;
+    color: #5e636d;
+    word-wrap: break-word;
+}
+
+.tb_board td:nth-child(2) {text-align : left;}
+
+
+.tb_board .qt_tit a {
+    font-size: 16px;
+    color: #5e636d;
+    cursor: pointer;
+}
+
+
+/* 문의 답변 */
+.tb_board .answerwrap {
+    display: none;
+    word-break: break-all;
+}
+
+
+.tb_board.tb_qna tr.answerwrap td {
+    padding: 16px 22px 16px 214px;
+    text-align: left;
+    background: #fafafa;
+    color: #5e636d;
+    font-size: 14px;
+    line-height: 22px;
+    border-top: none;
+}
+
+.tb_board .answerwrap .qt {
+    display: table-row;
+    position: relative;
+    padding: 0 14px 0 24px;
+    font-size: 14px;
+}
 
