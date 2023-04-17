@@ -340,7 +340,7 @@ p.desc {
 .slide2 > section > div > div.sec2 {
   top: 15px;
   float: right;
-  width: 615px;
+  width: 550px;
   border-radius: 80px;
   position: relative;
 }
@@ -539,10 +539,10 @@ main > .content > p {
     font-size: 2.4vw;
   }
   .slide2 > section > div > div.sec2 > p {
-    font-size: 15vw;
+    font-size: 14vw;
   }
   .slide2 > section > div > div.sec2 {
-    width: 48vw;
+    width: 46vw;
   }
   h2.tit2 {
     font-size: 4vw;
@@ -747,7 +747,6 @@ main > .content > p {
     height: 200px;
   }
   .slide2 > section > div > div.sec2 {
-    height: 35vh;
   }
 
   .slide4 > section > div > .container {
