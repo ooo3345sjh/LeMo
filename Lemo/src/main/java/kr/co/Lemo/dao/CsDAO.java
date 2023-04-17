@@ -75,14 +75,12 @@ public interface CsDAO {
     public int updateAdminNotice(CsVO vo);
     //@since 2023/03/16
     public int updateFaqArticle(CsVO vo);
-    //@since 2023/03/17
-    public int updateOnEvent(@Param("cs_no") int cs_no);
-    //@since 2023/03/17
-    public int updateEndEvent(@Param("cs_no") int cs_no);
     //@since 2023/03/29
     public int updateMainBanner(@Param("cs_eventMainBannerState") int cs_eventMainBannerState, @Param("cs_no") int cs_no);
     //@since 2023/03/30
     public int updateEventBanner(@Param("cs_eventBannerState") int cs_eventBannerState, @Param("cs_no") int cs_no);
+    //@since 2023/04/15 약관 수정
+    public int updateTerms(TermVO vo);
 
 
     /** delete **/

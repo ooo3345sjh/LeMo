@@ -730,7 +730,7 @@ public class AdminController {
     /**
      * @since 2023/03/14
      * @author 황원진
-     *
+     * @apiNote cs 수정
      */
     @GetMapping("cs/{cs_cate}/modify")
     public String usaveCsArticle(@PathVariable("cs_cate") String cs_cate,
@@ -738,6 +738,9 @@ public class AdminController {
                                  Model model,
                                  int page,
                                  HttpServletRequest request){
+
+        model.addAttribute("title", environment.getProperty(group));
+
         if("notice".equals(cs_cate)){
             log.info("noticeModify");
             CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
@@ -780,18 +783,31 @@ public class AdminController {
     }
 
     /**
-     * @since 2023/03/14
+     * @since 2023/04/13
      * @author 황원진
      * @apiNote 약관 수정 Get
      */
-    public String usaveTermArticle(int terms_no, int page, Model model){
+    @GetMapping("cs/terms/modify")
+    public String usaveTermArticle(int terms_no,
+                                   int page,
+                                   Model model,
+                                   HttpServletRequest request){
         TermVO termArticle = csService.findTermArticle(terms_no);
+        String uri = request.getHeader("referer");
+        String  regexUri = request.getContextPath() + "/admin/cs/terms/list";
+
+        if(uri.contains(regexUri)){
+            model.addAttribute("reUri", 1);
+        }else {
+            model.addAttribute("reUri", 2);
+        }
 
         model.addAttribute("mTerm", termArticle);
+        log.info("termType_ko : " +termArticle.getTermsType_type_ko());
         model.addAttribute("terms_no", terms_no);
         model.addAttribute("page", page);
 
-        return "admim/cs/terms/modify";
+        return "admin/cs/terms/modify";
     }
 
 
@@ -827,6 +843,21 @@ public class AdminController {
         return "redirect:/admin/cs/faq/list?page="+page;
     }
 
+    /**
+     * @since 2023/03/15
+     * @author 황원진
+     *
+     */
+    @PostMapping("cs/terms/modify")
+    public String usaveTermArticle(TermVO vo, int page, String reUri){
+        csService.usaveTermArticle(vo);
+        if(reUri.equals("1")){
+            return "redirect:/admin/cs/terms/list?page="+page;
+        }else{
+            return "redirect:/admin/cs/terms/view?terms_no="+vo.getTerms_no()+"&page="+page;
+        }
+
+    }
 
 
     /**
@@ -834,7 +865,10 @@ public class AdminController {
      * @author 황원진
      */
     @GetMapping("cs/{cs_cate}/write")
-    public String notice_write(@PathVariable("cs_cate") String cs_cate){
+    public String notice_write(@PathVariable("cs_cate") String cs_cate, Model model) {
+
+        model.addAttribute("title", environment.getProperty(group));
+
         if("faq".equals(cs_cate)){
             return "admin/cs/faq/write";
         }else if("notice".equals(cs_cate)){
@@ -922,6 +956,7 @@ public class AdminController {
                                      int page,
                                      Model model){
         log.info("cs_view Start");
+        model.addAttribute("title", environment.getProperty(group));
 
         if("qna".equals(cs_cate)){
             CsVO qnaArticle = csService.findAdminCsArticle(cs_cate, cs_no);

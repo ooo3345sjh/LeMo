@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/admin-layout}">
 <th:block layout:fragment="css-js">
-    <link rel="stylesheet" th:href="@{/css/admin/adminNotice.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/adminTerm.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
 </th:block>
 <!DOCTYPE html>
@@ -46,7 +46,7 @@
                                 </a>
                             </div>
                             <div class="btnAdminProd">
-                                <a th:href="@{#}">
+                                <a th:href="@{/admin/cs/terms/modify (terms_no=${term.terms_no}, page=${page})}">
                                     약관수정
                                 </a>
                             </div>
