@@ -725,10 +725,6 @@ public class BusinessService {
      */
     public int usaveRoom(Map<String, Object> param, Map<String, MultipartFile> fileMap) throws Exception {
 
-        for(MultipartFile mf : fileMap.values()){
-            log.debug("mf : " + mf.getOriginalFilename());
-        }
-
         String thumbType = "room_thumbs";
 
         List<String> fileName = checkFile(param, fileMap, thumbType);
@@ -753,12 +749,7 @@ public class BusinessService {
     public int info_usave(Map<String, Object> param,
                            Map<String, MultipartFile> fileMap) throws Exception{
 
-
         String thumbType = "accThumbs";
-
-        for(MultipartFile mf : fileMap.values()){
-            log.debug("mf : " + mf.getOriginalFilename());
-        }
 
         List<String> fileName = checkFile(param, fileMap, thumbType);
         if(!fileName.isEmpty()) {
@@ -768,9 +759,8 @@ public class BusinessService {
             param.put("acc_thumbs", null);
         }
 
-
         // 숙소 수정
-        dao.updateInfo(param);
+        int result = dao.updateInfo(param);
 
         // lemo_product_ratepolicy (할인율 등록)
         dao.updateRatePolicy(param);
@@ -790,7 +780,7 @@ public class BusinessService {
             dao.insertServiceRegInfo(param);
         }
 
-        return 1;
+        return result;
     }
 
     /**
