@@ -2926,6 +2926,22 @@ main .select_date {
     padding-left: 8px;
     width: 120px !important;
 }
+main .begin {
+    font-size: 13px;
+    height: 28px;
+    border: 1px solid #dbdbdb;
+    padding-left: 8px;
+    width: 120px !important;
+    line-height: 28px;
+}
+main .end {
+    font-size: 13px;
+    height: 28px;
+    border: 1px solid #dbdbdb;
+    padding-left: 8px;
+    width: 120px !important;
+    line-height: 28px;
+}
 main .sd_date_box {
     width: 60%;
     text-align: left;

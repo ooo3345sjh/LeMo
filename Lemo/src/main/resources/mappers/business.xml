@@ -155,14 +155,15 @@
     <!-- 판매자 - 예약정보 목록 -->
     <select id="selectReservaitons" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ReservationVO">
         select * from `lemo_product_reservation` as a
-        inner join `lemo_product_room` as b on a.room_id=b.room_id
-        inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id
+            inner join `lemo_product_room` as b on a.room_id=b.room_id
+            inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id
         where c.`user_id`=#{user_id}
         <if test="acc_id != null">
             and a.`acc_id`=#{acc_id}
         </if>
         order by `res_state` asc limit ${offset}, 10;
     </select>
+
 
     <!-- 판매자 - 예약정보 목록 페이징 -->
     <select id="countReservations"  parameterType="kr.co.Lemo.utils.SearchCondition" resultType="java.lang.Integer">
@@ -224,7 +225,7 @@
         where `user_id`=#{user_id};
     </select>
 
-    <!-- 판매자 - 통계관리 - 일별 누적 판매량 (일주일/당일) -->
+    <!-- 판매자 - 통계관리 - 일별 누적 판매량 -->
     <select id="selectDaySales" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT DATE(a.res_date) AS res_date,
             MAX(a.res_state) AS res_state,
@@ -234,14 +235,27 @@
             FROM lemo_product_reservation AS a
         LEFT JOIN lemo_product_accommodation AS b ON a.acc_id = b.acc_id
         WHERE a.res_state NOT IN (0)
-        	AND a.res_checkIn BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
-        	AND DATE(NOW())
+        	<if test="periodType == 'week'">
+                AND a.`res_checkIn` <include refid="latestWeek"/>
+            </if>
+            <if test="periodType == 'day'">
+                AND a.`res_checkIn` <include refid="latestDay"/>
+            </if>
+            <if test="periodType == 'month'">
+                AND a.`res_checkIn` <include refid="latestMonth"/>
+            </if>
+            <if test="periodType == 'year'">
+                AND a.`res_checkIn` <include refid="latestYear"/>
+            </if>
+            <if test="dateStart != null and dateEnd != null">
+                AND a.`res_checkIn` <include refid="searchDate"/>
+            </if>
         	AND b.user_id=#{user_id}
             <if test="acc_id != null">
                 AND a.acc_id=#{acc_id}
             </if>
         GROUP BY DATE(a.res_date)
-        ORDER BY `res_date` desc limit 7;
+        ORDER BY `res_date` desc;
     </select>
 
     <!-- 판매자 - 통계관리 - 당일 시간대별 판매량 -->
@@ -276,13 +290,26 @@
         ORDER BY YEAR(a.res_date);
     </select>
 
-    <!-- 판매자 - 결제방법 결제 현황 (일주일) -->
+    <!-- 판매자 - 결제방법 결제 현황 -->
     <select id="selectPayment" resultType="kr.co.Lemo.domain.ReservationVO">
         select * from `lemo_product_reservation` as a
         join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         where a.res_state NOT IN (0)
-            AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
-            AND DATE(NOW())
+            <if test="periodType == 'week'">
+                AND a.`res_checkIn` <include refid="latestWeek"/>
+            </if>
+            <if test="periodType == 'day'">
+                AND a.`res_checkIn` <include refid="latestDay"/>
+            </if>
+            <if test="periodType == 'month'">
+                AND a.`res_checkIn` <include refid="latestMonth"/>
+            </if>
+            <if test="periodType == 'year'">
+                AND a.`res_checkIn` <include refid="latestYear"/>
+            </if>
+            <if test="dateStart != null and dateEnd != null">
+                AND a.`res_checkIn` <include refid="searchDate"/>
+            </if>
             AND b.user_id=#{user_id}
             <if test="acc_id != null">
                 AND a.acc_id=#{acc_id}
@@ -314,15 +341,29 @@
             b.`room_name`,
             COUNT(a.`room_id`) as count_sales,
             SUM(a.`res_price` - a.`res_disPrice`) as tot_res_price,
-            b.`room_stock`,
-            FORMAT(COUNT(a.`room_id`) / (b.`room_stock` * 7) * 100, 0) AS room_sales_percent
+            b.`room_stock`
         from
             `lemo_product_reservation` as a
             inner join `lemo_product_room` as b on a.room_id=b.room_id
             inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id
         where
             a.res_state NOT IN (0)
-            and a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY)) and DATE(NOW())
+            <if test="periodType == 'week'">
+                AND a.`res_checkIn` <include refid="latestWeek"/>
+            </if>
+            <if test="periodType == 'day'">
+                AND a.`res_checkIn` <include refid="latestDay"/>
+            </if>
+            <if test="periodType == 'month'">
+                AND a.`res_checkIn` <include refid="latestMonth"/>
+            </if>
+            <if test="periodType == 'year'">
+                AND a.`res_checkIn` <include refid="latestYear"/>
+            </if>
+            <if test="dateStart != null and dateEnd != null">
+                AND a.`res_checkIn` <include refid="searchDate"/>
+            </if>
+
             and c.`user_id`=#{user_id}
             <if test="acc_id != null">
                 and a.`acc_id`=#{acc_id}
@@ -346,6 +387,15 @@
             </if>
             <if test="periodType == 'day'">
                 AND a.`res_checkIn` <include refid="latestDay"/>
+            </if>
+            <if test="periodType == 'month'">
+                AND a.`res_checkIn` <include refid="latestMonth"/>
+            </if>
+            <if test="periodType == 'year'">
+                AND a.`res_checkIn` <include refid="latestYear"/>
+            </if>
+            <if test="dateStart != null and dateEnd != null">
+                AND res_checkIn <include refid="searchDate"/>
             </if>
             AND b.user_id=#{user_id}
             <if test="acc_id != null">
@@ -388,6 +438,15 @@
             <if test="periodType == 'day'">
                 AND a.`res_checkIn` <include refid="latestDay"/>
             </if>
+            <if test="periodType == 'month'">
+                AND a.`res_checkIn` <include refid="latestMonth"/>
+            </if>
+            <if test="periodType == 'year'">
+                AND a.`res_checkIn` <include refid="latestYear"/>
+            </if>
+            <if test="dateStart != null and dateEnd != null">
+                AND a.`res_checkIn` <include refid="searchDate"/>
+            </if>
             AND b.user_id=#{user_id}
             <if test="acc_id != null">
                 AND a.acc_id=#{acc_id};
@@ -423,9 +482,22 @@
     <select id="countWeeksQna" resultType="java.lang.Integer">
         select count(`qna_no`) from `lemo_product_qna` as a
             join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
-        where `qna_rdate` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY))
-            and DATE(NOW())
-            and b.user_id=#{user_id}
+        where b.`user_id`=#{user_id}
+            <if test="periodType == 'week'">
+                AND `qna_rdate` <include refid="latestWeek"/>
+            </if>
+            <if test="periodType == 'day'">
+                AND `qna_rdate` <include refid="latestDay"/>
+            </if>
+            <if test="periodType == 'month'">
+                AND `qna_rdate` <include refid="latestMonth"/>
+            </if>
+            <if test="periodType == 'year'">
+                AND `qna_rdate` <include refid="latestYear"/>
+            </if>
+            <if test="dateStart != null and dateEnd != null">
+                AND `qna_rdate` <include refid="searchDate"/>
+            </if>
             <if test="acc_id != null">
                 AND a.acc_id=#{acc_id};
             </if>
@@ -435,19 +507,45 @@
     <select id="countWeeksAcc" resultType="java.lang.Integer">
         SELECT count(acc_id)
             FROM `lemo_product_accommodation`
-        WHERE DATE(`acc_rdate`) BETWEEN DATE(date_add(NOW(), INTERVAL -6 DAY))
-            AND DATE(NOW())
-            AND user_id=#{user_id};
+        WHERE user_id=#{user_id}
+        <if test="periodType == 'week'">
+            AND `acc_rdate` <include refid="latestWeek"/>
+        </if>
+        <if test="periodType == 'day'">
+            AND `acc_rdate` <include refid="latestDay"/>
+        </if>
+        <if test="periodType == 'month'">
+            AND `acc_rdate` <include refid="latestMonth"/>
+        </if>
+        <if test="periodType == 'year'">
+            AND `acc_rdate` <include refid="latestYear"/>
+        </if>
+        <if test="acc_id != null">
+            AND acc_id=#{acc_id};
+        </if>
     </select>
 
-    <!-- 판매자 - 등록 리뷰 수 (일주일) -->
+    <!-- 판매자 - 등록 리뷰 수 (일주일) revi_rdate -->
     <select id="countWeeksReview" resultType="java.lang.Integer">
         select count(revi_id) from `lemo_product_review` as a
             join `lemo_product_reservation` as b on a.res_no=b.res_no
             join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
         where c.`user_id`=#{user_id}
-            and DATE(`revi_rdate`) BETWEEN DATE(date_add(NOW(), INTERVAL -6 DAY))
-            and DATE(NOW())
+            <if test="periodType == 'week'">
+                AND `revi_rdate` <include refid="latestWeek"/>
+            </if>
+            <if test="periodType == 'day'">
+                AND `revi_rdate` <include refid="latestDay"/>
+            </if>
+            <if test="periodType == 'month'">
+                AND `revi_rdate` <include refid="latestMonth"/>
+            </if>
+            <if test="periodType == 'year'">
+                AND `revi_rdate` <include refid="latestYear"/>
+            </if>
+            <if test="dateStart != null and dateEnd != null">
+                AND `revi_rdate` <include refid="searchDate"/>
+            </if>
             <if test="acc_id != null">
                 AND b.acc_id=#{acc_id};
             </if>
@@ -465,6 +563,14 @@
             <if test="acc_id != null">
                 and c.`acc_id`=#{acc_id}
             </if>
+    </select>
+
+    <!-- 판매자 타임라인 - 모달 이벤트 -->
+    <select id="selectReservation" resultType="kr.co.Lemo.domain.ReservationVO">
+        select * from `lemo_product_reservation` as a
+            inner join `lemo_product_room` as b on a.room_id=b.room_id
+            inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id
+        where `res_no`=#{res_no};
     </select>
 
 
