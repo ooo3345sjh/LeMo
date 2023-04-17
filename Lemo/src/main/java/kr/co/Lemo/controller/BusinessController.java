@@ -1121,12 +1121,9 @@ public class BusinessController {
 
         Map<String, MultipartFile> fileMap = request.getFileMap();
 
-        log.info("param : " + param);
-        log.info("fileMap : " + fileMap);
-
         int result = service.info_usave(param, fileMap);
 
-        return 1;
+        return result;
     }
 }
 
