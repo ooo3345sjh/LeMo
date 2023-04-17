@@ -134,6 +134,9 @@ public interface BusinessDAO {
     // @since 2023/04/11 판매자 - 타임라인
     public List<ReservationVO> selectTimeline(Map map);
 
+    // @since 2023/04/17 판매자 타임라인 - 모달 이벤트
+    public List<ReservationVO> selectReservation(Map map);
+
     // @since 2023/03/13 판매자 쿠폰 등록
     public void insertCoupon(Map<String, Object> param);
 

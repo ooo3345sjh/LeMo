@@ -21,6 +21,7 @@
                         </div>
                         <div class="col2">
                             <form th:action="@{/business/reservation/timeline}">
+                                <input type="text" name="res_no" class="res_param" value="">
                                 <span class="search_reservation_tit">타임라인 검색</span>
                                 <table class="search_review_table" style="margin-bottom: 50px;">
                                     <tr>
@@ -196,8 +197,24 @@
                 eventRemove: function(obj){
                     console.log(obj);
                 },
-                eventClick:function(event){
+                eventClick:function(info){
+                    let res_no = info.event.groupId;
+                    console.log('res_no: ' + res_no);
+                    $('.res_param').val(res_no);
+                    const jsonData = {"res_no_temp": res_no};
+
+                    ajaxAPI("business/reservation/timeline_reservation", jsonData, "GET").then((response)=>{
+
+                        console.log('response1 : %o', response);
+
+                    }).catch((errorMsg)=>{
+                        console.log(errorMsg);
+                    });
+
                     d_Detail.showModal();
+
+
+
                 },
                 datesRender: function(info) {
                     $('.fc-prev-button').click(function() {

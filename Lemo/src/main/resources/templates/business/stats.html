@@ -20,7 +20,7 @@
                         </div>
                         <div class="col2" style="background: transparent;">
                             <form th:achtion="@{/business/stats}">
-                                <input type="text" name="periodType" value="">
+                                <input type="hidden" name="periodType" value="">
                                 <div class="select_acc">
                                     <ul class="sa_msg">숙소 선택</ul>
                                     <ul class="sa_select_acc">
@@ -46,21 +46,21 @@
                                     </ul>
                                     <ul class="sd_date_box">
                                         <li class="sd_date">
-                                            <input class="begin" type="date">
+                                            <input class="begin" name="dateStart" type="date">
                                             -
-                                            <input class="end" type="date">
+                                            <input class="end" name="dateEnd" type="date">
                                         </li>
                                         <button type="submit" class="sd_submit">조회</button>
-                                        <button type="reset" class="sd_reset">초기화</button>
+                                        <button type="button" class="sd_reset" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
                                     </ul>
                                 </div>
-                                <p class="sd_msg">조회 조건 미설정시, <strong>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</strong>로부터 <strong>7일 전</strong> 데이터가 조회됩니다.</p>
+                                <p class="sd_msg">조회 조건 미설정시, <strong>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</strong>로부터 <strong>6일 전</strong> 데이터가 조회됩니다.</p>
                                 <div class="stats_container">
                                     <div class="sales_day_status">
                                         <div class="tot_sales_day">
                                             <div class="tsd_tit1">총매출</div>
                                             <div class="tsd_tit2">[[${totalSales}]] <i>건</i></div>
-                                            <div class="tsd_tit3" th:text="${#numbers.formatInteger(stats[0].tot_res_price + stats[1].tot_res_price + stats[2].tot_res_price + stats[3].tot_res_price + stats[4].tot_res_price + stats[5].tot_res_price + stats[6].tot_res_price, 0, 'COMMA')}">1,234,567,89 <i>원</i></div>
+                                            <div class="tsd_tit3" th:text="${#numbers.formatInteger(sum_res_price, 0, 'COMMA')}">1,234,567,89 <i>원</i></div>
                                             <i> 원</i>
                                         </div>
                                         <div class="tsd_grid">
@@ -85,7 +85,7 @@
                                                 </div>
                                                 <div class="tsd_prod">
                                                     <p>상품등록</p>
-                                                    <h3>[[${totalAcc}]] <i>건</i></h3>
+                                                    <h3>미정 <i>건</i></h3>
                                                 </div>
                                                 <div class="tsd_regi">
                                                     <p>리뷰수</p>
@@ -123,9 +123,9 @@
                                                         <td>[[${room.room_name}]]</td>
                                                         <td>[[${room.count_sales}]]</td>
                                                         <td th:text="${#numbers.formatInteger(room.tot_res_price, 0, 'COMMA') + '원'}">36,000</td>
-                                                        <td th:text="${#numbers.formatDecimal(room.room_sales_percent, 2, 0) + '%'}"></td>
+                                                        <td th:text="${#numbers.formatDecimal(room.tot_res_price/sum_res_price *100, 2, 0) + '%'}"></td>
                                                         <td>
-                                                            <progress id="progress1" th:value="${room.room_sales_percent}" min="0" max="100"></progress>
+                                                            <progress id="progress1" th:value="${room.tot_res_price/sum_res_price *100}" min="0" max="100"></progress>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -218,12 +218,17 @@
 
         // 참조 데이터 준비
         let stats = [[${stats}]];
+        let avg_res_price = [[${avg_res_price}]];
+        let dateStart = [[${dateStart}]];
+        let dateEnd = [[${dateEnd}]];
 
-        console.log('stats : ' + stats.length);
+        console.log(stats);
+        console.log(stats[0].res_date);
 
-        if (stats.length != null){
-            console.log("stats isn't empty");
-        }
+        console.log('stats length: ' + stats.length);
+        console.log('avg_res_price: ' + avg_res_price);
+        console.log('dateStart: ' + dateStart);
+        console.log('dateEnd: ' + dateEnd);
 
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
@@ -241,33 +246,40 @@
 
 
         // 이전 날짜
-        // before[1] = 1일전 , before[2] = 2일전
         let Daybefore = new Array();
-        for (let i=1; i<7; i++){
+        for (let i=0; i<stats.length; i++){
             Daybefore[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
             Daybefore[i] = (Daybefore[i].getMonth()+1) + '/' + Daybefore[i].getDate();
         }
-        console.log('date: ' + date);
-        console.log("Daybefore length : " + Daybefore.length);
+        // 기간 선택시
 
-        console.log(Daybefore[6] + " - " + stats[0].tot_res_price);
+
+        console.log("Daybefore length : " + Daybefore.length);
+        console.log('today date: ' + date);
 
         function drawVisualization() {
             // 그래프 내용 : drawVisualization 구현
             var data = new google.visualization.DataTable();
             data.addColumn('string', '날짜');
-            data.addColumn('number', '일별매출');
-            data.addColumn('number', '누적매출');
+            data.addColumn('number', '매출');
+            data.addColumn('number', '평균');
 
-            let cumulativeTotal = 0;
-            for (var i = Daybefore.length-1; i >= 0; i--) {
-              cumulativeTotal += stats[i].tot_res_price;
-
-              if(i==0) {
-                Daybefore[i] = date;
-              }
-              data.addRow([Daybefore[i], stats[i].tot_res_price, cumulativeTotal]);
+            if (dateStart == null && dateEnd == null){
+                console.log("null");
+                for (var i = Daybefore.length-1; i >= 0; i--) {
+                    if(i==0) {
+                        Daybefore[i] = date;
+                    }
+                    data.addRow([Daybefore[i], stats[i].tot_res_price, avg_res_price]);
+                }
+            }else {
+                console.log("not null");
+                for (var i = Daybefore.length-1; i >= 0; i--) {
+                    data.addRow([stats[i].res_date, stats[i].tot_res_price, avg_res_price]);
+                }
             }
+
+
 
             // 그래프 주석 표기
             var view = new google.visualization.DataView(data);
@@ -325,6 +337,7 @@
     <script th:inline="javascript">
         // 참조 데이터 준비
         let todaySales = [[${todaySales}]];
+        console.log('todaySales : ' + todaySales);
 
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
@@ -562,9 +575,9 @@
         // 그래프 내용 : drawVisualization 구현
         var data = google.visualization.arrayToDataTable([
             ['날짜', '연매출', '연매출평균'],
-            [before[2],  yearSales[0].tot_res_price, yearAvg],
-            [before[1],  yearSales[1].tot_res_price, yearAvg],
-            [Ydate,  yearSales[2].tot_res_price, yearAvg]
+            [before[2],  yearSales[0] ? yearSales[0].tot_res_price : 0, yearAvg],
+            [before[1],  yearSales[0] ? yearSales[1].tot_res_price : 0, yearAvg],
+            [Ydate,  yearSales[0] ? yearSales[2].tot_res_price : 0, yearAvg]
         ]);
 
         // 그래프 주석 표기
@@ -704,9 +717,15 @@
     <script>
         $(function(){
 
-            // url 주소에서 periodType 파라미터 가져오기
+            // url 주소에서 periodType, 기간 파라미터 가져오기
             let urlParams = new URLSearchParams(window.location.search);
             let periodTypeParam = urlParams.get('periodType');
+            let dateStart = urlParams.get('dateStart');
+            let dateEnd = urlParams.get('dateEnd');
+
+            // 선택값 유지
+            $('.begin').val(dateStart);
+            $('.end').val(dateEnd);
 
             // url 주소에 파라미터가 있다면
             if(periodTypeParam){
@@ -725,6 +744,70 @@
                 $(this).addClass('on');
                 $('input[name="periodType"]').val(periodType);
             });
+
+            // 기간 관련 변수 선언
+            const $beginInput = $('.begin');
+            const $endInput = $('.end');
+            const $submitBtn = $('.sd_submit');
+            const $dateLinks = $('ul.date_3ea a');
+            var startDate = $("input[name='dateStart']").val();
+            var endDate = $("input[name='dateEnd']").val();
+
+
+
+            // 오늘 날짜
+            const today = new Date().toISOString().split('T')[0];
+
+            // end input 요소의 최대 선택값을 오늘 날짜로 설정
+            $beginInput.attr('max', today);
+            $endInput.attr('max', today);
+
+            // input 요소에서 날짜를 선택할 때마다 실행되는 함수
+            const handleDateChange = (event) => {
+                const $input = $(event.target);
+                const selectedDate = $input.val();
+
+                // 선택된 날짜를 data-value 속성에 저장
+                $input.attr('data-value', selectedDate);
+
+                if ($input.hasClass('begin')) {
+                    // start input 요소의 값이 변경된 경우, end input 요소의 최소 선택값을 start input 요소의 값으로 설정
+                    const $endInput = $('.end');
+                    $endInput.attr('min', selectedDate);
+                }else {
+                    // end input 요소의 값이 변경된 경우, // start input 요소의 최대 선택값을 end input 요소의 값으로 설정
+                    const $beginInput = $('.begin');
+                    $beginInput.attr('max', selectedDate);
+
+                    // end input 요소의 값이 start input 요소의 값보다 큰지 검사
+                    const beginDate = $beginInput.val();
+                    if (beginDate && selectedDate < beginDate) {
+                        sweetalert("종료 날짜는 시작 날짜와 같거나 이후의 날짜여야 합니다.", "warning");
+                        $input.val('').attr('data-value', '');
+                        $beginInput.val($beginInput.attr('data-value'));
+                    }
+                }
+
+            };
+
+            // submit 버튼을 클릭할 때 실행
+            const handleSubmit = (event) => {
+                // input 태그 모두가 선택되지 않은 경우
+                if (!$beginInput.val() && !$endInput.val()) {
+                    event.preventDefault();
+                    $("input[name='dateStart']").removeAttr("name");
+                    $("input[name='dateEnd']").removeAttr("name");
+                    sweetalert("기간을 선택해주세요.", "warning");
+                    return false;
+                }
+
+
+            };
+
+            // 이벤트 처리 함수
+            $beginInput.on('input', handleDateChange);
+            $endInput.on('input', handleDateChange);
+            $submitBtn.on('click', handleSubmit);
         });
     </script>
 </th:block>
