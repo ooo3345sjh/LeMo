@@ -11,7 +11,7 @@
           </a>
         </li>
         <li>
-          <a href="#" onclick="window.open('https://talk.naver.com/ct/w40prq', 'talktalk', 'width=471, height=640');return false;" target="_blank" rel="noopener noreferrer" title="새창으로 열기">
+          <a href="#" th:onclick="window.open([[${@environment.getProperty('naver.talktalk')}]], 'talktalk', 'width=471, height=640');return false;" target="_blank" rel="noopener noreferrer" title="새창으로 열기">
             <img th:src="@{/images/index/naver_quick.png}">
           </a>
         </li>

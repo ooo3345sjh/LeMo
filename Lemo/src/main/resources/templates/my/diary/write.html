@@ -62,8 +62,6 @@
             </main>
         </th:block>
         <th:block layout:fragment="script">
-                <!-- kakaoMap -->
-                <script type="text/javascript" th:src="|//dapi.kakao.com/v2/maps/sdk.js?appkey=${@environment.getProperty('kakaoMap.key')}&libraries=services|"></script>
                 <script th:inline="javascript">
                     let markerMap = new Map();
                     const fileMap = new Map();
