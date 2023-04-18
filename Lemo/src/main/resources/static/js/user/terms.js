@@ -1,6 +1,17 @@
  $(function(){
 let isChecked = [false, false, false];
 
+$(document).ready(function() {
+    $('.required').each(function(i){
+        isChecked[i] = $(this).is(':checked');
+     });
+
+    if(!isChecked.includes(false)){
+        $("#terms_agree_btn").attr("disabled", false);
+        $("#terms_agree_btn").addClass("on")
+    }
+})
+
 // 필수 약관동의 체크 확인 함수
 const reqChk = function (){
     $('.required').each(function(i){

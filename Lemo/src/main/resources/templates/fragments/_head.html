@@ -28,22 +28,26 @@
         <script th:src="@{/js/common/commonJS.js}"></script>
         <script th:src="@{/js/common/ajaxAPI.js}"></script>
 
+        <!-- kakaoMap -->
+        <script type="text/javascript" th:src="|//dapi.kakao.com/v2/maps/sdk.js?appkey=${@environment.getProperty('kakao.javascript.key')}&libraries=services|"></script>
+
         <link href="https://webfontworld.github.io/goodchoice/Jalnan.css" rel="stylesheet">
         <script>
             const contextPath = "[[@{/}]]";
             const token = document.head.querySelector("meta[name='_csrf']").content;
             const header = document.head.querySelector("meta[name='_csrf_header']").content;
             // SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해야 합니다.
-            Kakao.init('d253dce9587286f1cce73660b6540fba');
+            Kakao.init("[[${@environment.getProperty('kakao.javascript.key')}]]");
 
             // SDK 초기화 여부를 판단합니다.
             Kakao.isInitialized();
 
+            const channel_id = "[[${@environment.getProperty('kakao.channel.id')}]]";
             $(function (){
 
                 $('#kakaoChat').click(function (){
                     Kakao.Channel.chat({
-                        channelPublicId: '_qFjLxj' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
+                        channelPublicId: channel_id // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
                     });
                 })
 

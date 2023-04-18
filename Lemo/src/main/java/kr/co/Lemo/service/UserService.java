@@ -101,7 +101,6 @@ public class UserService {
         } else {
             nick = "오류";
         }
-        System.out.println("nick = " + nick);
         return nick.replaceAll("[^a-zA-Z0-9가-힣]", "").replaceAll(" ", "");
     }
 
@@ -115,7 +114,8 @@ public class UserService {
         user.setPass(passwordEncoder.encode(user.getPass()));
         log.debug(user.toString());
         int result = 0;
-        result = userDAO.rsaveUserInfo(user);
+
+        userDAO.rsaveUserInfo(user);
         result = userDAO.rsaveHomeUser(user.getUser_id(), user.getPass());
 
         if("BUSINESS".equals(user.getRole())){

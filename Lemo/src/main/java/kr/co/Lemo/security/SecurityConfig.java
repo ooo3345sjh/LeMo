@@ -54,14 +54,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                                 .antMatchers("/my/**").authenticated()
                                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                                 .antMatchers("/business/**").hasAnyRole("BUSINESS")
-//                        .mvcMatchers(
-//                                "/user/terms", "/user/login", "/user/error", "/user/join", "/user/hp/auth", "/user/social/**",
-//                                "/user/signup", "/user/pw/reset", "/user/email/send"
-//                        ).hasRole("ANONYMOUS")
-//                        .mvcMatchers("/admin/**").hasRole("ADMIN")
-//                        .mvcMatchers("/business/**").hasRole("BUSINESS")
-//                        .mvcMatchers("/", "/index", "/auth", "/cs/**", "/diary/**", "/user/**", "/product/**").permitAll()
-//                        .anyRequest().authenticated()
+
                 )
 
                 // 로그인 설정
