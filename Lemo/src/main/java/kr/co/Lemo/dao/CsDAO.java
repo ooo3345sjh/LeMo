@@ -68,7 +68,7 @@ public interface CsDAO {
 
     /** update **/
     // @since 2023/04/07
-    public int updateEventArticle(Map<String, Object> parameter);
+    public int updateEventArticle(Map<String, Object> param);
     //@since 2023/03/14
     public int updateQnaArticle(@Param("cs_reply") String cs_reply, @Param("cs_no") int cs_no);
     //@since 2023/03/14

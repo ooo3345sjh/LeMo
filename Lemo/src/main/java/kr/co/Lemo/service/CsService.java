@@ -294,6 +294,45 @@ public class CsService {
     }
 
     /** update **/
+    // @since 2023/04/18
+    public String usaveEventArticle(Map<String, Object> param, Map<String, MultipartFile> fileMap){
+
+
+        for(MultipartFile mf: fileMap.values()) {
+            log.debug("mf : " +mf.getOriginalFilename());
+        }
+
+        List<String> fileName = checkEventFile(param, fileMap);
+        if(!fileName.isEmpty()) {
+            String bannerNewName = new String(fileName.get(0).getBytes());
+            String mainBannerNewName = new String(fileName.get(1).getBytes());
+
+            param.put("cs_eventbannerImg", bannerNewName);
+            param.put("cs_eventMainBannerImg", mainBannerNewName);
+
+            fileName.remove(0);
+            fileName.remove(0);
+
+            String files = String.join("/", fileName);
+            param.put("cs_eventViewImg", files);
+        }else{
+            param.put("cs_eventViewImg", null);
+        }
+
+        int result = dao.updateEventArticle(param);
+        String success = "usaveEventFail";
+        switch (result) {
+            case 1 :
+                success = "usaveEventSuccess";
+                break;
+            case 0 :
+                success = "usaveEventFail";
+                break;
+        }
+        return success;
+    }
+
+
     //@since 2023/03/14
     public int usaveQnaArticle(@RequestParam("cs_reply") String cs_reply, @RequestParam("cs_no") int cs_no){
         return dao.updateQnaArticle(cs_reply, cs_no);
@@ -320,6 +359,7 @@ public class CsService {
         return dao.updateTerms(vo);
     }
 
+    //@since 2023/04/17 관리자 이벤트 수정
 
 
     /** delete **/
@@ -421,16 +461,99 @@ public class CsService {
         return finalResult;
     }
 
-    /*fileMap에서 파일 정보 추출*/
-    private HashMap<String, Object> getUploadedFileInfo(MultipartFile multipartFile){
+    public List<String> checkEventFile(Map<String, Object> param, Map<String, MultipartFile> fileMap){
 
-        HashMap<String, Object> fileInfo = new HashMap<String, Object>();
-        fileInfo.put("fileName",multipartFile.getOriginalFilename());
-        fileInfo.put("fileSize",multipartFile.getSize());
-        fileInfo.put("fileContentType",multipartFile.getContentType());
+        String cs_no = (String) param.get("cs_no");
 
-        log.info("fileSize" + multipartFile.getSize());
+        String dirPath = new File(uploadPath+"cs/"+cs_no).getAbsolutePath();
 
-        return fileInfo;
+        log.info(dirPath);
+
+       File dir = new File(dirPath);
+       File Files[] = dir.listFiles();
+
+       List<String> oriEvent = new ArrayList<>();
+       List<String> newEvent = new ArrayList<>();
+       List<String> oriRemoveEvent = new ArrayList<>();
+       List<String> newRemoveEvent = new ArrayList<>();
+
+       for(File fname : Files){
+           oriEvent.add(fname.getName());
+           oriRemoveEvent.add(fname.getName());
+       }
+
+       for(MultipartFile mf : fileMap.values()){
+           newEvent.add(mf.getOriginalFilename());
+           newRemoveEvent.add(mf.getOriginalFilename());
+       }
+
+       // 저장되어질 eventImage
+       newEvent.removeAll(oriRemoveEvent);
+
+       // 삭제되어질 eventImage
+        oriEvent.removeAll(newRemoveEvent);
+
+        if(oriEvent.size() != 0){
+            for(String deleteFile : oriEvent){
+                File df = new File(dirPath + "/" + deleteFile);
+                if(df.exists()) { df.delete();}
+            }
+        }
+
+        List<String> changeSaveFile = new ArrayList<>();
+
+        if(newEvent.size() != 0) {
+            for(String saveFile : newEvent) {
+                String ext = saveFile.substring(saveFile.indexOf("."));
+                String newName = UUID.randomUUID() + ext;
+                changeSaveFile.add(newName);
+
+                MultipartFile mf = fileMap.get(saveFile);
+
+                try {
+                    mf.transferTo(new File(dirPath, newName));
+                }catch (IllegalStateException e) {
+                    log.error(e.getMessage());
+                } catch (IOException e) {
+                    log.error(e.getMessage());
+                }
+            }
+        }
+
+        // db에 저장될 리스트 이름
+        oriRemoveEvent.removeAll(oriEvent);
+        oriRemoveEvent.addAll(changeSaveFile);
+
+        return oriRemoveEvent;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    /*fileMap에서 파일 정보 추출*/
+//    private HashMap<String, Object> getUploadedFileInfo(MultipartFile multipartFile){
+//
+//        HashMap<String, Object> fileInfo = new HashMap<String, Object>();
+//        fileInfo.put("fileName",multipartFile.getOriginalFilename());
+//        fileInfo.put("fileSize",multipartFile.getSize());
+//        fileInfo.put("fileContentType",multipartFile.getContentType());
+//
+//        log.info("fileSize" + multipartFile.getSize());
+//
+//        return fileInfo;
+//    }
 }
