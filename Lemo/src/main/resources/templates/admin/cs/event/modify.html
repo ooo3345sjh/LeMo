@@ -189,8 +189,8 @@
                                 </table>
                             </div>
                             <div class="btnAdminProd">
-                                <a type="submit" id="btnUpload">
-                                    이벤트등록
+                                <a type="submit" id="btnModify">
+                                    이벤트수정
                                 </a>
                             </div>
                         </form>
@@ -203,8 +203,34 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
-    <script th:src="@{/js/admin/dragNdrop.js}"></script>
-    <script>
+    <script th:src="@{/js/admin/event_modify.js}"></script>
+    <script th:inline="javascript">
+        let viewThumbs = [[${mEvent.cs_eventViewImg}]];  // dropzone 이미지
+        let cs_no = [[${mEvent.cs_no}]];
+        let page = [[${page}]];
+
+        let cs_eventMainBannerImg = '/Lemo/img/cs/'+cs_no+'/' + [[${mEvent.cs_eventMainBannerImg}]];
+        let cs_eventbannerImg = '/Lemo/img/cs/'+cs_no+'/' + [[${mEvent.cs_eventbannerImg}]];
+
+        console.log(cs_eventMainBannerImg)
+        console.log(cs_eventbannerImg)
+
+        // formData 생성
+        let usaveFormData = new FormData();
+
+        // imgSrc로 bsse64를 생성하고 base64로 파일을 생성한 다음 formdata에 append
+        toDataURL(cs_eventMainBannerImg).then(dataUrl => {
+            var oriFile = base64toFile(dataUrl, 'main');
+            console.log(oriFile)
+            usaveFormData.append('main', oriFile);
+        });
+
+        toDataURL(cs_eventbannerImg).then(dataUrl => {
+            var oriFile = base64toFile(dataUrl, 'eventBanner');
+            console.log(oriFile)
+            usaveFormData.append('eventBanner', oriFile);
+        });
+
         let mainBannerFile; // 메인베너 파일
         const mainBannerImg = $('#mainImage'); // 메인베너 이미지
         let eventBannerFile ; // 이벤트베너 파일
@@ -257,35 +283,7 @@
                 const mainDOM = document.querySelector('#main_file');
                 const preview = document.querySelector('#mainImage');
 
-                // 이 주석은 삭제 예정
-                // $(document).on('click', '#main_file', function(e){
-                //     e.stopPropagation();
-                //
-                //     $(this).change(function(file){
-                //         const reader = new FileReader();
-                //
-                //         console.log($(this)[0].files);
-                //         if($(this)[0].files){
-                //             reader.readAsDataURL(mainDOM.files[0]);
-                //             reader.onload = ({ target }) => {
-                //                 var image = new Image();
-                //                 image.src = target.result;
-                //                 image.onload = function() {
-                //                     if (image.width < 1000 || image.height > 300 || image.height < 200) {
-                //                         alert("이미지 크기가 올바르지 않습니다. (가로는 1000px 이상, 세로는 200px 이상, 300px 이하)");
-                //                     }
-                //                     else {
-                //                         console.log("3");
-                //                         mainBannerImg.attr('src', target.result);
-                //                         mainBannerImg.show();
-                //                         document.querySelector('#main_zone').style.display = 'none';
-                //                         mainBannerFile = $(this)[0].files;
-                //                    }
-                //                 };
-                //             };
-                //         };
-                //     });
-                // });
+
 
                 preview.addEventListener('click', () => {
                     $('input#main_file').click();
@@ -303,16 +301,7 @@
                 const previews = document.querySelector('#image');
 
 
-                //fileDOM.addEventListener('change', () => {
-                //
-                //    const reader = new FileReader();
-                //    reader.onload = ({ target }) => {
-                //        previews.src = target.result;
-                //        previews.style.display= 'block';
-                //        document.querySelector('#att_zone').style.display='none';
-                //    };
-                //    reader.readAsDataURL(fileDOM.files[0]);
-                //});
+
 
                 previews.addEventListener('click', () => {
                     $('input#ex_file').click();
@@ -367,10 +356,17 @@
                                 })
                             } else {
                                 console.log("start...");
+                                console.log(e.target.result)
+                                usaveFormData.delete('main');
+                                var oriFile = base64toFile(e.target.result, 'main');
+                                usaveFormData.append('main', oriFile);
+                                console.log(oriFile);
+                                console.log("메인베너");
                                 mainBannerImg.attr('src', e.target.result);
                                 mainBannerImg.show();
                                 $('#main_zone').hide();
                                 mainBannerFile = input.files[0];
+                                console.log("메인베너 수정완료");
                             }
                         }
                     };
@@ -413,7 +409,12 @@
                                 })
                             } else {
                                 console.log("start...");
+                                usaveFormData.delete('eventBanner');
+                                var oriFile = base64toFile(e.target.result, 'eventBanner');
+                                usaveFormData.append('eventBanner', oriFile);
+                                console.log(oriFile);
                                 eventBannerImg.attr('src', e.target.result);
+                                console.log(e.target.result)
                                 eventBannerImg.show();
                                 $('#att_zone').hide();
                                 eventBannerFile = input.files[0];

@@ -863,13 +863,15 @@ public class AdminController {
      * @aythor 황원진
      * @apiNote 이벤트 수정
      */
+    @ResponseBody
+    @PostMapping("cs/event/modify")
     public String usaveEventArticle(
                     @AuthenticationPrincipal UserVO myUser,
                     @RequestPart(value = "cs_eventBanner", required = false) MultipartFile cs_eventBanner,
                     @RequestParam Map<String, Object> param,
                     MultipartHttpServletRequest request,
                     HttpServletRequest req){
-
+        log.debug("eventModify");
         param.put("user_id", myUser.getUser_id());
         param.put("cs_regip", req.getRemoteAddr());
 
