@@ -27,177 +27,179 @@
                             <span>통계관리</span>
                         </div>
                         <div class="col2" style="background: transparent; position: relative;" >
-                            <div class="search_date_sort">
-                                <ul class="date_msg">기간별 조회</ul>
-                                <ul class="date_3ea">
-                                    <li>
-                                        <a href="#">당일</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">1개월</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">1년</a>
-                                    </li>
-                                </ul>
-                                <ul class="sd_date_box">
-                                    <li class="sd_date">
-                                        <input class="select_date" type="date"> - <input class="select_date" type="date">
-                                    </li>
-                                    <button type="submit" class="sd_submit">조회</button>
-                                    <button type="reset" class="sd_reset">초기화</button>
-                                </ul>
-                            </div>
-                            <p class="sd_msg">조회 조건 미설정시, <strong>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</strong>로부터 <strong>7일 전</strong> 데이터가 조회됩니다.</p>
-
-                            <form action="#">
-                            <div class="stats_container">
-                                <div class="sales_day_status">
-                                    <div class="tot_sales_day">
-                                        <div class="tsd_tit1">총매출</div>
-                                        <div class="tsd_tit2">[[${totalSales}]] <i>건</i></div>
-                                        <div class="tsd_tit3" th:text="${#numbers.formatInteger(stats[0].tot_res_price + stats[1].tot_res_price + stats[2].tot_res_price + stats[3].tot_res_price + stats[4].tot_res_price + stats[5].tot_res_price + stats[6].tot_res_price, 0, 'COMMA')}">1,234,567,89 <i>원</i></div>
-                                        <i> 원</i>
-                                    </div>
-                                    <div class="tsd_grid">
-                                        <div class="tsd_grid1">
-                                            <div class="tsd_res">
-                                                <p>예약</p>
-                                                <h3>[[${totalSales}]] <i>건</i></h3>
-                                            </div>
-                                            <div class="tsd_cancel">
-                                                <p>취소</p>
-                                                <h3>[[${totalCanceled}]] <i>건</i></h3>
-                                            </div>
-                                            <div class="tsd_visit">
-                                                <p>방문자</p>
-                                                <h3>1,234 <i>명</i></h3>
-                                            </div>
-                                        </div>
-                                        <div class="tsd_grid2">
-                                            <div class="tsd_qna">
-                                                <p>1:1 문의</p>
-                                                <h3>[[${totalQna}]] <i>건</i></h3>
-                                            </div>
-                                            <div class="tsd_prod">
-                                                <p>상품등록</p>
-                                                <h3>[[${totalAcc}]] <i>건</i></h3>
-                                            </div>
-                                            <div class="tsd_regi">
-                                                <p>회원가입</p>
-                                                <h3>[[${totalUser}]] <i>건</i></h3>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <form th:action="@{/admin/stats}">
+                                <div class="search_date_sort">
+                                    <ul class="date_msg">기간별 조회</ul>
+                                    <ul class="date_3ea">
+                                        <li>
+                                            <a href="#" data-value="day">당일</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" data-value="month">1개월</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" data-value="year">1년</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="sd_date_box">
+                                        <li class="sd_date">
+                                            <input class="select_date" name="dateStart"  type="date">
+                                            -
+                                            <input class="select_date" name="dateEnd" type="date">
+                                        </li>
+                                        <button type="submit" class="sd_submit">조회</button>
+                                        <button type="reset" class="sd_reset" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
+                                    </ul>
                                 </div>
-                                <div class="blank10"></div>
-                                <!-- 매출현황 -->
-                                <div class="current_sales_stat">
-                                    <!-- 매출 그래프 및 결제 현황-->
-                                    <div class="sales_stat_chart">
-                                        <!-- 매출 현황 -->
-                                        <div class="sales_graph">
-                                            <div id="chart_div" style="width: 99%; height: 500px;"></div>
+                                <p class="sd_msg">조회 조건 미설정시, <strong>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</strong>로부터 <strong>7일 전</strong> 데이터가 조회됩니다.</p>
+
+                                <div class="stats_container">
+                                    <div class="sales_day_status">
+                                        <div class="tot_sales_day">
+                                            <div class="tsd_tit1">총매출</div>
+                                            <div class="tsd_tit2">[[${totalSales}]] <i>건</i></div>
+                                            <div class="tsd_tit3" th:text="${#numbers.formatInteger(stats[0].tot_res_price + stats[1].tot_res_price + stats[2].tot_res_price + stats[3].tot_res_price + stats[4].tot_res_price + stats[5].tot_res_price + stats[6].tot_res_price, 0, 'COMMA')}">1,234,567,89 <i>원</i></div>
+                                            <i> 원</i>
                                         </div>
-                                         <!-- 결제 현황 -->
-                                        <div class="payment_stat_graph">
-                                            <div id="donutchart" style="width: 100%; height: 500px;"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="sg_hr">
-                                        <p>단위 기간별 매출 현황</p>
-                                    </div>
-
-
-                                    <div class="sg_box">
-                                        <!-- 일별/주별/연별 매출 그래프 현황 -->
-                                        <div class="sales_stat_chart2">
-                                            <div class="sg_day">
-                                                <div id="chart_div_day" style="width: 99%; height: 300px;"></div>
+                                        <div class="tsd_grid">
+                                            <div class="tsd_grid1">
+                                                <div class="tsd_res">
+                                                    <p>예약</p>
+                                                    <h3>[[${totalSales}]] <i>건</i></h3>
+                                                </div>
+                                                <div class="tsd_cancel">
+                                                    <p>취소</p>
+                                                    <h3>[[${totalCanceled}]] <i>건</i></h3>
+                                                </div>
+                                                <div class="tsd_visit">
+                                                    <p>방문자</p>
+                                                    <h3>1,234 <i>명</i></h3>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="sales_stat_chart2">
-                                            <div class="sg_day">
-                                                <div id="chart_div_month" style="width: 99%; height: 300px;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="sales_stat_chart2">
-                                            <div class="sg_day">
-                                                <div id="chart_div_year" style="width: 99%; height: 300px;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                    <!-- 오늘 현황 -->
-                                    <!--
-                                    <div class="today_stat">
-                                        <div class="today_div">
-                                            <div class="today_grid">
-                                                <div class="today_grid_item">
-                                                    <p>예약건수</p>
-                                                    <h3>[[${totalSales}]]</h3>
+                                            <div class="tsd_grid2">
+                                                <div class="tsd_qna">
+                                                    <p>1:1 문의</p>
+                                                    <h3>[[${totalQna}]] <i>건</i></h3>
                                                 </div>
-                                                <div class="today_grid_item">
-                                                    <p>취소건수</p>
-                                                    <h3>[[${totalCanceled}]]</h3>
-                                                </div>
-                                                <div class="today_grid_item">
-                                                    <p>방문자수</p>
-                                                    <h3>구현예정</h3>
-                                                </div>
-                                                <div class="today_grid_item">
-                                                    <p>1:1문의수</p>
-                                                    <h3>[[${totalQna}]]</h3>
-                                                </div>
-                                                <div class="today_grid_item">
+                                                <div class="tsd_prod">
                                                     <p>상품등록</p>
-                                                    <h3>[[${totalAcc}]]</h3>
+                                                    <h3>[[${totalAcc}]] <i>건</i></h3>
                                                 </div>
-                                                <div class="today_grid_item">
+                                                <div class="tsd_regi">
                                                     <p>회원가입</p>
-                                                    <h3>[[${totalUser}]]</h3>
+                                                    <h3>[[${totalUser}]] <i>건</i></h3>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    -->
-                                    <!-- 객실 점유율 -->
-                                    <!-- <div class="sales_room_percent">
-                                        <div class="chart_box">
-                                            <div id="chart_div2"></div>
+                                    <div class="blank10"></div>
+                                    <!-- 매출현황 -->
+                                    <div class="current_sales_stat">
+                                        <!-- 매출 그래프 및 결제 현황-->
+                                        <div class="sales_stat_chart">
+                                            <!-- 매출 현황 -->
+                                            <div class="sales_graph">
+                                                <div id="chart_div" style="width: 99%; height: 500px;"></div>
+                                            </div>
+                                             <!-- 결제 현황 -->
+                                            <div class="payment_stat_graph">
+                                                <div id="donutchart" style="width: 100%; height: 500px;"></div>
+                                            </div>
                                         </div>
-                                    </div> -->
-                                    <!-- 월별 매출액 그래프 -->
-                                    <div class="sales_table">
-                                        <div class="sales_div">
-                                            <table>
-                                                <tr>
-                                                    <th>월별</th>
-                                                    <th>주문건수</th>
-                                                    <th>매출액</th>
-                                                    <th>비율</th>
-                                                    <th>그래프</th>
-                                                </tr>
-                                                <tr th:each="vo, i:${statsMonth}">
-                                                    <td>[[${vo.res_month}]]월</td>
-                                                    <td>[[${vo.tot_month_sales}]]건</td>
-                                                    <!--/* <td>[[${monthSalesList}]]</td>  */-->
-                                                    <td th:text="${#numbers.formatInteger(vo.tot_res_price, 0, 'COMMA') + '원'}">36,000</td>
-                                                    <td th:text="${#numbers.formatDecimal(vo.tot_month_percent, 2, 2) + '%'}"></td>
-                                                    <td>
-                                                        <progress id="progress1" th:value="${vo.tot_month_percent}" min="0" max="100"></progress>
-                                                    </td>
-                                                </tr>
+
+                                        <div class="sg_hr">
+                                            <p>단위 기간별 매출 현황</p>
+                                        </div>
 
 
-                                            </table>
+                                        <div class="sg_box">
+                                            <!-- 일별/주별/연별 매출 그래프 현황 -->
+                                            <div class="sales_stat_chart2">
+                                                <div class="sg_day">
+                                                    <div id="chart_div_day" style="width: 99%; height: 300px;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="sales_stat_chart2">
+                                                <div class="sg_day">
+                                                    <div id="chart_div_month" style="width: 99%; height: 300px;"></div>
+                                                </div>
+                                            </div>
+                                            <div class="sales_stat_chart2">
+                                                <div class="sg_day">
+                                                    <div id="chart_div_year" style="width: 99%; height: 300px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <!-- 오늘 현황 -->
+                                        <!--
+                                        <div class="today_stat">
+                                            <div class="today_div">
+                                                <div class="today_grid">
+                                                    <div class="today_grid_item">
+                                                        <p>예약건수</p>
+                                                        <h3>[[${totalSales}]]</h3>
+                                                    </div>
+                                                    <div class="today_grid_item">
+                                                        <p>취소건수</p>
+                                                        <h3>[[${totalCanceled}]]</h3>
+                                                    </div>
+                                                    <div class="today_grid_item">
+                                                        <p>방문자수</p>
+                                                        <h3>구현예정</h3>
+                                                    </div>
+                                                    <div class="today_grid_item">
+                                                        <p>1:1문의수</p>
+                                                        <h3>[[${totalQna}]]</h3>
+                                                    </div>
+                                                    <div class="today_grid_item">
+                                                        <p>상품등록</p>
+                                                        <h3>[[${totalAcc}]]</h3>
+                                                    </div>
+                                                    <div class="today_grid_item">
+                                                        <p>회원가입</p>
+                                                        <h3>[[${totalUser}]]</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        -->
+                                        <!-- 객실 점유율 -->
+                                        <!-- <div class="sales_room_percent">
+                                            <div class="chart_box">
+                                                <div id="chart_div2"></div>
+                                            </div>
+                                        </div> -->
+                                        <!-- 월별 매출액 그래프 -->
+                                        <div class="sales_table">
+                                            <div class="sales_div">
+                                                <table>
+                                                    <tr>
+                                                        <th>월별</th>
+                                                        <th>주문건수</th>
+                                                        <th>매출액</th>
+                                                        <th>비율</th>
+                                                        <th>그래프</th>
+                                                    </tr>
+                                                    <tr th:each="vo, i:${statsMonth}">
+                                                        <td>[[${vo.res_month}]]월</td>
+                                                        <td>[[${vo.tot_month_sales}]]건</td>
+                                                        <!--/* <td>[[${monthSalesList}]]</td>  */-->
+                                                        <td th:text="${#numbers.formatInteger(vo.tot_res_price, 0, 'COMMA') + '원'}">36,000</td>
+                                                        <td th:text="${#numbers.formatDecimal(vo.tot_month_percent, 2, 2) + '%'}"></td>
+                                                        <td>
+                                                            <progress id="progress1" th:value="${vo.tot_month_percent}" min="0" max="100"></progress>
+                                                        </td>
+                                                    </tr>
+
+
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             </form>
                         </div>
                     </div>
