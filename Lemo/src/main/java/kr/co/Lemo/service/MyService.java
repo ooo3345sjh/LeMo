@@ -728,6 +728,7 @@ public class MyService {
         // 매일 자정 만료시간이 된 point를 member_point에 insert select
         dao.insertSelectPointExpire();
         dao.updateAvailablePoiUsed();
+
         // point 다시 계산
         dao.updateAvailablePoint();
     }

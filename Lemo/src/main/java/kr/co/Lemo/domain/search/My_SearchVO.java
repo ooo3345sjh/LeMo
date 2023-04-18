@@ -20,7 +20,9 @@ public class My_SearchVO extends SearchCondition {
 
     private String user_id;
     private String myCate;
-
     private int reviewStat;
+    private String orderByOption;
+    private String keyword;
+    private String orderBySearchType;
 
 }

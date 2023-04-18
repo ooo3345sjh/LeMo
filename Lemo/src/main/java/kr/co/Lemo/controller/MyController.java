@@ -132,8 +132,6 @@ public class MyController {
 
                 PageHandler qnaPageHandler = new PageHandler(totalQna, vo);
 
-                log.debug("ph : " + qnaPageHandler);
-
                 List<ProductQnaVO> csVO = service.findDiaryQna(vo);
                 m.addAttribute("cses", csVO);
                 m.addAttribute("ph", qnaPageHandler);

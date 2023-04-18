@@ -4,6 +4,7 @@ import kr.co.Lemo.domain.ArticleDiaryVO;
 import kr.co.Lemo.domain.DiaryCommentVO;
 import kr.co.Lemo.domain.DiarySpotVO;
 import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.utils.SearchCondition;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.parameters.P;
@@ -66,4 +67,7 @@ public interface DiaryDAO {
     // @since 2023/03/31
     public int updateArticleCommentPlus(DiaryCommentVO commentVO);
     public int updateArticleCommentMinus(int arti_no);
+
+    // @since 2023/04/18
+    public int selectTotalDiarys(SearchCondition sc);
 }
