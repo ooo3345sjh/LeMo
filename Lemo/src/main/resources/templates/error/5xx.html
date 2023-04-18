@@ -8,11 +8,11 @@
 <body>
 <div id="wrapper">
 	<div id="error">
-		<!-- 에러 번호 -->
-		<span th:if="${status == 501 or status == 502 or status == 503 or status == 504}">[[${status}]]</span>
-		<span th:unless="${status == 501 or status == 502 or status == 503 or status == 504}">500</span>
-		<img th:src="@{/images/index/lemon1.png}" />
-
+		<!-- 에러 이미지 -->
+		<img th:src="@{/images/error/__${status}__.png}" class="errorImg"
+			 th:if="${status == 501 or status == 502 or status == 503 or status == 504}"/>
+		<img th:src="@{/images/error/error.png}" class="errorImg else"
+			 th:unless="${status == 501 or status == 502 or status == 503 or status == 504}"/>
 		<!-- 에러 문구 -->
 		<th:block th:switch="${status}">
 			<th:block th:case="501">
