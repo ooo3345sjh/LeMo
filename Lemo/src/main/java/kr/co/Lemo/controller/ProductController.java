@@ -406,7 +406,7 @@ public class ProductController {
         vo.setAmount(amount);
 
         // 데이터 검증
-        vo.setUser_point(myUser.getPoint()); // 실제 유저가 가지고 있는 포인트
+        vo.setUser_point(service.findUser(user_id).getPoint()); // 실제 유저가 가지고 있는 포인트
         vo = service.dataValidation(vo, session);
 
         int status = vo.getStatus();

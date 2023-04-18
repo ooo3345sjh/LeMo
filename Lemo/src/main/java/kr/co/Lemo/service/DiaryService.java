@@ -5,6 +5,7 @@ import kr.co.Lemo.domain.ArticleDiaryVO;
 import kr.co.Lemo.domain.DiaryCommentVO;
 import kr.co.Lemo.domain.DiarySpotVO;
 import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -174,5 +175,10 @@ public class DiaryService {
         int result = dao.deleteDiaryArticle(arti_no);
         dao.updateArticleCommentMinus(arti_no);
         return result;
+    }
+
+    // @since 2023/04/18
+    public int findTotalDiarys(SearchCondition sc) {
+        return dao.selectTotalDiarys(sc);
     }
 }

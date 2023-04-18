@@ -4,7 +4,9 @@ import kr.co.Lemo.domain.ArticleDiaryVO;
 import kr.co.Lemo.domain.DiaryCommentVO;
 import kr.co.Lemo.domain.DiarySpotVO;
 import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.domain.search.My_SearchVO;
 import kr.co.Lemo.service.DiaryService;
+import kr.co.Lemo.utils.PageHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
@@ -41,13 +43,22 @@ public class DiaryController {
     @GetMapping("list")
     public String list(
             Model m,
-            @RequestParam Map options
+            @RequestParam Map options,
+            @ModelAttribute My_SearchVO vo
     ){
         log.debug("GET list start");
         m.addAttribute("title", environment.getProperty(diaryGroup));
+        vo.setMap(options);
+
+        int totalDiary = service.findTotalDiarys(vo);
+        int totalDiaryPage = (int)Math.ceil(totalDiary / (double)vo.getPageSize());
+        if(vo.getPage() > totalDiaryPage) vo.setPage(totalDiaryPage);
+
+        PageHandler qnaPageHandler = new PageHandler(totalDiary, vo);
 
         List<ArticleDiaryVO> articles = service.findDairyArticles(options);
         m.addAttribute("articles", articles);
+        m.addAttribute("ph", qnaPageHandler);
 
         return "diary/list";
     }

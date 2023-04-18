@@ -150,10 +150,8 @@ public interface ProductDAO {
      * @apiNote 소멸기간이 다가온 point select
      */
     public List<PointVO> shortestPointExpiration(OrderInfoVO vo);
-    public int insertPoint(PointVO vo);
 
     // @since 2023/04/17
-    public int usedTotalPoint();
     public int updateMemberPoint(@Param("poi_id") int poi_id, @Param("poi_used") int poi_used);
 
 }

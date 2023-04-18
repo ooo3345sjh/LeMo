@@ -738,87 +738,15 @@ public class ProductService {
                         dao.updateMemberPoint(poi_id, poi_point);
                     }
                 }else {
-                    if( ( poi_point-poi_used ) >= usedPoint) {
+                    if( ( poi_point-poi_used ) > usedPoint) {
                         dao.updateMemberPoint(poi_id, usedPoint);
                         break;
 
-                    }else if( ( poi_point-poi_used ) < usedPoint) {
+                    }else if( ( poi_point-poi_used ) <= usedPoint) {
                         usedPoint = usedPoint - ( poi_point-poi_used );
                         dao.updateMemberPoint( poi_id, poi_point );
                     }
                 }
-
-
-//                // 소멸임박 포인트
-//                int expirationPoint     = point.getPoi_point();
-//
-//                // 사용된 소멸임박 포인트
-//                int usedExpirationPoint = point.getUsedExpirationPoint();
-//
-//                // 소멸임박 포인트를 전부 사용했을 때 다음 소별임박 포인트로 넘기기 위한 비교문
-//                if(expirationPoint == usedExpirationPoint) {
-//                    continue;
-//                }
-//
-//                // 소멸임박 포인트를 단 한번도 사용하지 않았을 때
-//                if(usedExpirationPoint == 0) {
-//                    // 소멸임박 포인트가 사용한 포인트랑 같을때
-//                    if (expirationPoint == usedPoint) {
-//                        // db에 들어갈 포인트 = 사용한 포인트
-//                        int insertPoint =  usedPoint;
-//                        point.setInsertPoint(insertPoint);
-//                        dao.insertPoint(point);
-//
-//                        break;
-//
-//                    // 소멸임박 포인트가 사용한 포인트보다 클 때
-//                    }else if(expirationPoint > usedPoint) {
-//                        // db에 들어갈 포인트 = 사용한 포인트
-//                        int insertPoint =  usedPoint;
-//                        point.setInsertPoint(insertPoint);
-//                        dao.insertPoint(point);
-//
-//                        break;
-//
-//                    }else {
-//                        // db에 들어갈 포인트 = 소멸임박 포인트
-//                        int insertPoint = expirationPoint;
-//                        point.setInsertPoint(insertPoint);
-//                        dao.insertPoint(point);
-//
-//                        // 사용한 포인트 최신화 = 사용한 포인트 - 소멸임박 포인트 => 다음 소멸 임박 포인트로 넘기기
-//                        usedPoint = usedPoint - expirationPoint;
-//                        log.debug("usedPoint : " + usedPoint);
-//                    }
-//                // 소멸임박 포인트를 한번이라도 사용 했을 때
-//                }else {
-//                    // 소멸 임박 포인트가 (사용한 포인트 + 사용된 포인트) 랑 같을 때
-//                    if (expirationPoint == (usedPoint+usedExpirationPoint)) {
-//                        // db에 들어갈 포인트 = 사용한 포인트 + 사용된 포인트
-//                        int insertPoint =  usedPoint;
-//                        point.setInsertPoint(insertPoint);
-//                        dao.insertPoint(point);
-//
-//                        break;
-//                    // 소멸 임박 포인트가 (사용한 포인트 + 사용된 포인트) 보다 클 때
-//                    }else if(expirationPoint > (usedPoint+usedExpirationPoint)) {
-//                        // db에 들어갈 포인트 = 사용한 포인트 + 사용된 포인트
-//                        int insertPoint =  usedPoint;
-//                        point.setInsertPoint(insertPoint);
-//                        dao.insertPoint(point);
-//
-//                        break;
-//                    // 소멸 임박 포인트가 (사용한 포인트 + 사용된 포인트) 보다 작을 때
-//                    }else if(expirationPoint < (usedPoint+usedExpirationPoint)) {
-//                        // db에 들어갈 포인트 = 소멸 임박 포인트 - 사용된 포인트 => 남은 소멸임박 포인트
-//                        int insertPoint = (expirationPoint-usedExpirationPoint);
-//                        point.setInsertPoint(insertPoint);
-//                        dao.insertPoint(point);
-//
-//                        // 사용한 포인트 최신화 = 사용한포인트 - (남은 포인트) =>
-//                        usedPoint = usedPoint - insertPoint;
-//                    }
-//                }
             }
 
             // 유저 정보에 포인트 업데이트
