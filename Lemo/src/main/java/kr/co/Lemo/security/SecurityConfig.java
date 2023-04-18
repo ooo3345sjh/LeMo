@@ -162,15 +162,4 @@ public class SecurityConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/img/**")
                 .addResourceLocations(resourceLoader.getResource("file:img/"));
     }
-    
-    // @since 2023/03/31 이해빈 / double slash를 허용해주는 설정
-//    public void configure(WebSecurity web) throws Exception {
-//        web.httpFirewall(defaultHttpFirewall());
-//    }
-//
-//    @Bean
-//    public HttpFirewall defaultHttpFirewall() {
-//        return new DefaultHttpFirewall();
-//    }
-
 }
