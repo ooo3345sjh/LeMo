@@ -38,30 +38,13 @@ body {
   padding: 30px;
   text-align: center;
 }
-/*
-#error > img {
-  position: absolute;
-  width: 170px;
-  display: block;
-  float: left;
-  transform: rotate(158deg);
-  top: 113px;
-  left: 513px;
-}*/
 
 #error > strong {
   display: block;
   font-size: 40px;
 }
-/*
+
 #error > span:nth-of-type(1) {
-  display: block;
-  font-size: 250px;
-  font-weight: 800;
-  text-align: center;
-  color: #fef951;
-}*/
-#error > span:nth-of-type(2) {
   display: block;
   font-size: 20px;
   color: #8d8a8a;
@@ -98,7 +81,7 @@ body {
   background: #dadada;
 }
 
-
+/*
 #error > img {
   position: absolute;
   width: 151px;
@@ -107,12 +90,24 @@ body {
   transform: rotate(158deg);
   top: 97px;
   left: 522px;
-}
-
+}*/
+/*
 #error > span:nth-of-type(1) {
 display: block;
 font-size: 180px;
 font-weight: 800;
 text-align: center;
 color: #000000;
+}*/
+
+#error > .errorImg {
+    width: 550px;
+    position: relative;
+    left: -10px;
+}
+
+#error > .errorImg.else {
+    width: 600px;
+    position: relative;
+    left: 0px;
 }
