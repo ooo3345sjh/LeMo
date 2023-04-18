@@ -741,16 +741,16 @@ public class BusinessController {
 
     @GetMapping("reservation/timeline_reservation")
     @ResponseBody
-    public List<ReservationVO> timeline_reservation(@RequestParam(required = false) Integer res_no_temp){
+    public List<ReservationVO> timeline_reservation(@RequestParam(required = false, value = "resNo") Integer resNo){
 
-        log.warn("res_no_temp : " + res_no_temp);
+        log.warn("resNo : " + resNo);
 
         Map<String, Object> map = new HashMap<>();
-        map.put("res_no", res_no_temp);
+        map.put("res_no", resNo);
 
         // ㅠㅠ
 
-        log.warn("timeline map : " + map);
+        //log.warn("timeline map : " + map);
 
         List<ReservationVO> rv = service.findReservation(map);
 
