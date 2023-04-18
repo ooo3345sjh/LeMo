@@ -19,11 +19,11 @@
                     <div class="main_content_div">
                         <div class="col_nav">
                             <span>고객센터 ></span>
-                            <span>약관 목록</span>
+                            <span>약관 및 정책 목록</span>
                         </div>
                         <div class="col2">
                             <form action="#">
-                                <span class="search_review_tit">약관유형검색</span>
+                                <span class="search_review_tit">약관 및 정책 유형검색</span>
                                 <table class="search_review_table">
                                     <tr>
                                         <th>유형 선택</th>
@@ -46,7 +46,7 @@
                                     </ul>
                                     <ul class="show_list" th:if="${terms.size() == 0}">
                                         <li id="nonData" colspan="6">
-                                            등록된 약관이 없습니다.
+                                            등록된 약관 및 정책이 없습니다.
                                         </li>
                                     </ul>
                                     <th:block th:each="term,i:${terms}">
@@ -82,7 +82,7 @@
                                 </div>
                                 <div class="btnAdminProd">
                                     <a th:href="@{/admin/cs/terms/write}">
-                                        약관등록
+                                        등록
                                     </a>
                                 </div>
                             </form>

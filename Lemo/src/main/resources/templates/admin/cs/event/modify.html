@@ -103,6 +103,7 @@
             <th:block th:replace="~{fragments/_aside::adminFragment}"></th:block>
             <!-- 우측 메인 컨테이너 -->
             <section class="main_content">
+                <input type="hidden" name="page" th:value="${page}">
                 <div class="main_cotent_inner">
                     <div class="main_content_div">
                         <div class="col_nav">
@@ -181,7 +182,7 @@
                                     <tr>
                                         <td>이벤트 내용</td>
                                         <td>
-                                            <textarea id="summernote" name="cs_content" placeholder="이벤트 내용을 작성해 주세요" required></textarea>
+                                            <textarea id="summernote" name="cs_content" placeholder="이벤트 내용을 작성해 주세요" required th:utext="${mEvent.cs_content}"></textarea>
                                         </td>
                                     </tr>
 

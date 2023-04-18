@@ -20,7 +20,7 @@
                     <div class="main_content_div">
                         <div class="col_nav">
                             <span>고객센터 ></span>
-                            <span>약관 보기</span>
+                            <span>약관 및 정책 보기</span>
                         </div>
 
                         <!-- 공지 보기 폼 -->
@@ -41,13 +41,13 @@
 
                             <!-- 버튼 -->
                             <div class="btnAdminProd">
-                                <a th:href="@{/admin/cs/terms/list (page=${page})}">
-                                    약관목록
+                                <a th:href="@{/admin/cs/terms/modify (terms_no=${term.terms_no}, page=${page})}">
+                                    수정
                                 </a>
                             </div>
                             <div class="btnAdminProd">
-                                <a th:href="@{/admin/cs/terms/modify (terms_no=${term.terms_no}, page=${page})}">
-                                    약관수정
+                                <a th:href="@{/admin/cs/terms/list (page=${page})}">
+                                    목록으로
                                 </a>
                             </div>
                         </div>

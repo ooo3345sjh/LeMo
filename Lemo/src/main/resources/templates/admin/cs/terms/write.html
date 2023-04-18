@@ -28,7 +28,7 @@
                     <div class="main_content_div">
                         <div class="col_nav">
                             <span>고객센터 ></span>
-                            <span>약관 등록</span>
+                            <span>약관 및 정책 등록</span>
                         </div>
 
                         <!-- 약관 등록 폼 -->
@@ -38,15 +38,15 @@
                             <div class="col_register1">
                                 <div class="stayName">
                                     <div>
-                                        <span>약관 정보</span>
+                                        <span>약관 및 정책 정보</span>
                                     </div>
                                 </div>
                                 <table class="input_stayRoomInfo">
                                     <tr>
-                                        <td>약관 선택</td>
+                                        <td>약관 및 정책 유형선택</td>
                                         <td>
                                             <select name="termsType_no" id="termsType_no">
-                                                <option value="0">약관선택</option>
+                                                <option value="0">유형선택</option>
                                                 <option value="1">이용약관</option>
                                                 <option value="2">만 14세 이상 확인</option>
                                                 <option value="3">개인정보 수집 및 이용</option>
@@ -60,13 +60,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>약관 제목</td>
+                                        <td>제목</td>
                                         <td>
-                                            <input type="text" name="terms_title" placeholder="약관제목을 입력해주세요">
+                                            <input type="text" name="terms_title" placeholder="제목을 입력해주세요">
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>약관 내용</td>
+                                        <td>내용</td>
                                         <td>
                                             <textarea id="summernote" name="terms_content"></textarea>
                                         </td>
@@ -135,7 +135,7 @@
               $('#terms_typeForm').submit(function(e){
                 if( terms_type == '0'){
                         Swal.fire({
-                             title : '약관을 선택해주세요',
+                             title : '유형을 선택해주세요',
                              icon : 'error',
                              confirmButtonText : '확인'
                          })

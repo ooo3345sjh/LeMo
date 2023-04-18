@@ -856,9 +856,29 @@ public class AdminController {
         }else{
             return "redirect:/admin/cs/terms/view?terms_no="+vo.getTerms_no()+"&page="+page;
         }
-
     }
 
+    /**
+     * @since 2023/04/18
+     * @aythor 황원진
+     * @apiNote 이벤트 수정
+     */
+    public String usaveEventArticle(
+                    @AuthenticationPrincipal UserVO myUser,
+                    @RequestPart(value = "cs_eventBanner", required = false) MultipartFile cs_eventBanner,
+                    @RequestParam Map<String, Object> param,
+                    MultipartHttpServletRequest request,
+                    HttpServletRequest req){
+
+        param.put("user_id", myUser.getUser_id());
+        param.put("cs_regip", req.getRemoteAddr());
+
+        Map<String, MultipartFile> fileMap = request.getFileMap();
+
+        String result = csService.usaveEventArticle(param, fileMap);
+
+        return result;
+    }
 
     /**
      * @since 2023/03/16
@@ -943,6 +963,8 @@ public class AdminController {
 
         return "redirect:/admin/cs/event/list";
     }
+
+
 
 
 
