@@ -414,10 +414,14 @@ public class MyService {
     }
 
     // @since 2023/04/06
-
     public String findCheckReviewId(long res_no) {
         return dao.selectCheckReviewId(res_no);
     }
+
+    // @since 2023/04/17
+    public int findMemberPoint(String user_id) {
+        return dao.selectMemberPoint(user_id);
+    };
 
     public String usaveReview(Map<String, Object> param, Map<String, MultipartFile> fileMap) {
         for(MultipartFile mf : fileMap.values()) {
@@ -718,11 +722,12 @@ public class MyService {
 //    @Scheduled(cron = "0 0 0 * * *")
 //    @Scheduled(cron = "0 0 0/1 * * *") // 1시간 마다
 //    @Scheduled(cron = "0 0/5 * * * ?") // 5분마다 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0/5 * * * ?")
     public void pointUpdate() {
         log.debug("**************************포인트 스케쥴러 사용(1일 자정)****************************************");
         // 매일 자정 만료시간이 된 point를 member_point에 insert select
         dao.insertSelectPointExpire();
+        dao.updateAvailablePoiUsed();
         // point 다시 계산
         dao.updateAvailablePoint();
     }

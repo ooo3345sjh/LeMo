@@ -26,7 +26,7 @@ public class PointVO {
     private String poi_rdate;
 
     // @since 2023/04/17
-    private int poi_parent;
+    private int poi_used;
     private int usedExpirationPoint;
     private int insertPoint;
 

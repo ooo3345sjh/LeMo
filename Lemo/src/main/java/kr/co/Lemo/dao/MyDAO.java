@@ -125,4 +125,10 @@ public interface MyDAO {
     public List<PointVO> selectAvailablePoint();
     public int updateAvailablePoint();
 
+    // @since 2023/04/17
+    public int selectMemberPoint(String user_id);
+
+    // @since 2023/04/18
+    public int updateAvailablePoiUsed();
+
 }

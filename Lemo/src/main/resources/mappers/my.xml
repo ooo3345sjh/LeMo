@@ -198,6 +198,10 @@
         SELECT `user_id` FROM `lemo_product_review` WHERE `res_no` = #{res_no}
     </select>
 
+    <select id="selectMemberPoint" resultType="int">
+        SELECT `point` FROM `lemo_member_userinfo` WHERE `user_id` = #{user_id};
+    </select>
+
     <!--
         날짜 : 2023/04/11
         이름 : 서정현
@@ -263,17 +267,12 @@
 
     <insert id="insertSelectPointExpire">
         INSERT INTO `lemo_member_point_log`
-            (`user_id`, `res_no`, `poi_content`, `poi_point`, `poi_maximum`, `poi_state`, `poi_rdate`, `poi_parent`)
-        SELECT `user_id`, `res_no`, '포인트 소멸', IFNULL((`poi_point` - `totalPoint`), `poi_point`) AS `poi_point`, `poi_maximum`, 0, NOW(), `poi_id`  FROM (
-            (SELECT * FROM `lemo_member_point_log`
+            (`user_id`, `res_no`, `poi_content`, `poi_point`, `poi_maximum`, `poi_state`, `poi_rdate`, `poi_used`)
+            SELECT `user_id`, `res_no`, '포인트 소멸', (`poi_point` - `poi_used`), `poi_maximum`, 0, NOW(), 0 FROM
+            `lemo_member_point_log`
             <![CDATA[
-            WHERE `poi_state` = 1 AND `poi_maximum` <= NOW() AND
+            WHERE `poi_state` = 1 AND `poi_maximum` <= NOW()
             ]]>
-            `poi_id` NOT IN ((SELECT `poi_parent` FROM `lemo_member_point_log` WHERE `poi_state` = 0))) AS a LEFT JOIN
-            (SELECT `poi_parent`, SUM(`poi_point`) AS `totalPoint` FROM `lemo_member_point_log` WHERE `poi_state` = 2 GROUP BY `poi_parent`) AS b
-            ON a.`poi_id` = b.`poi_parent`
-            )
-            WHERE NOT `poi_point` = `totalPoint` OR `totalPoint` IS null
     </insert>
 
     <!-- update -->
@@ -322,16 +321,21 @@
     <update id="updateAvailablePoint">
         UPDATE `lemo_member_userinfo` userinfo
             JOIN (
-                SELECT IFNULL((a.`poi_point` - b.`poi_point`), a.`poi_point`) AS `poi_point`, a.`user_id` FROM (
-                    (SELECT SUM(`poi_point`) AS `poi_point`, `user_id` FROM `lemo_member_point_log`
-                    WHERE `poi_state` = 1 AND `poi_maximum` > NOW()
-                    GROUP BY `user_id`) AS a LEFT JOIN
-                    (SELECT SUM(`poi_point`) AS `poi_point`, `user_id` FROM `lemo_member_point_log`
-                    WHERE `poi_state` = 2
-                    GROUP BY `user_id`) AS b ON a.`user_id` = b.`user_id`
-                )
+                SELECT (SUM(`poi_point`)-SUM(`poi_used`)) AS `poi_point`, `user_id` FROM `lemo_member_point_log` WHERE `poi_state` = 1 GROUP BY `user_id`
             ) vals ON userinfo.user_id = vals.user_id
         SET userinfo.`point` = vals.poi_point;
+    </update>
+
+    <update id="updateAvailablePoiUsed">
+        UPDATE `lemo_member_point_log` point_log
+            JOIN (
+                SELECT * FROM
+                    `lemo_member_point_log`
+                <![CDATA[
+                WHERE `poi_state` = 1 AND `poi_maximum` <= NOW() AND NOT `poi_point` = `poi_used`
+                ]]>
+            ) vals ON point_log.poi_id = vals.poi_id
+        SET point_log.`poi_used` = vals.poi_point;
     </update>
 
     <!--
