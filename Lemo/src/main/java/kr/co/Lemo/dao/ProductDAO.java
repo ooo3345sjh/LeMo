@@ -152,4 +152,8 @@ public interface ProductDAO {
     public List<PointVO> shortestPointExpiration(OrderInfoVO vo);
     public int insertPoint(PointVO vo);
 
+    // @since 2023/04/17
+    public int usedTotalPoint();
+    public int updateMemberPoint(@Param("poi_id") int poi_id, @Param("poi_used") int poi_used);
+
 }

@@ -107,6 +107,8 @@ public class MyController {
             case "point" :
                 m.addAttribute("cate", "point");
 
+                int point = service.findMemberPoint(user_id);
+
                 // 페이징
                 int totalPoint = service.findTotalPoints(vo);
                 int totalPointPage = (int)Math.ceil(totalPoint / (double)vo.getPageSize());
@@ -117,6 +119,7 @@ public class MyController {
                 List<PointVO> points = service.findPoints(vo);
                 m.addAttribute("points", points);
                 m.addAttribute("ph", pointPageHandler);
+                m.addAttribute("point", point);
 
                 return "my/point";
             case "qna" :

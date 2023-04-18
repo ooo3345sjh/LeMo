@@ -307,14 +307,24 @@
         내용 : 소멸기간이 다가온 point select
     -->
     <select id="shortestPointExpiration" resultType="kr.co.Lemo.domain.PointVO">
-        SELECT
-            a.*, IFNULL(b.`poi_point`,0) AS `usedExpirationPoint`
-        FROM
-            `lemo_member_point_log` AS a LEFT JOIN
-            (SELECT `poi_parent`, SUM(`poi_point`) AS `poi_point` FROM `lemo_member_point_log` WHERE `poi_state` = 2 AND `user_id` = #{user_id} GROUP BY `poi_parent`) AS b
-            on a.`poi_id` = b.`poi_parent`
-        WHERE a.`user_id` = #{user_id} AND a.`poi_state` = 1 AND a.`poi_maximum` > NOW()
+
+        SELECT * FROM
+            `lemo_member_point_log`
+        WHERE `poi_state` = 1 AND `poi_maximum` > NOW() AND NOT `poi_point` = `poi_used`
         ORDER BY `poi_maximum` ASC
+
+<!--        SELECT-->
+<!--            a.*, IFNULL(b.`poi_point`,0) AS `usedExpirationPoint`-->
+<!--        FROM-->
+<!--            `lemo_member_point_log` AS a LEFT JOIN-->
+<!--            (SELECT `poi_parent`, SUM(`poi_point`) AS `poi_point` FROM `lemo_member_point_log` WHERE `poi_state` = 2 AND `user_id` = #{user_id} GROUP BY `poi_parent`) AS b-->
+<!--            on a.`poi_id` = b.`poi_parent`-->
+<!--        WHERE a.`user_id` = #{user_id} AND a.`poi_state` = 1 AND a.`poi_maximum` > NOW()-->
+<!--        ORDER BY `poi_maximum` ASC-->
+    </select>
+
+    <select id="usedTotalPoint" resultType="int">
+        SELECT SUM(`poi_point`) FROM `lemo_member_point_log` WHERE `poi_state` = 2;
     </select>
 
     <!-- update -->
@@ -335,6 +345,12 @@
         SET
         `point` = `point` - #{point}
         WHERE `user_id` = #{user_id}
+    </update>
+    
+    <update id="updateMemberPoint">
+        UPDATE `lemo_member_point_log` SET
+            `poi_used` = #{poi_used}
+        WHERE `poi_id` = #{poi_id};
     </update>
 
     <!--
