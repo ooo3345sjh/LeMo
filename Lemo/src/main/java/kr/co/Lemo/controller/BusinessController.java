@@ -724,7 +724,7 @@ public class BusinessController {
 
         map.put("user_id", user_id);
 
-        log.warn("acc_id : " + map.get("acc_id"));
+        //log.warn("acc_id : " + map.get("acc_id"));
 
         List<ReservationVO> timelines = service.findAllTimeline(map);
 
@@ -732,7 +732,7 @@ public class BusinessController {
 
         List<ProductAccommodationVO> accs = service.findAllAccOwnedForInfo(user_id);
         model.addAttribute("accs", accs);
-        log.warn(""+accs);
+        //log.warn(""+accs);
 
         //log.warn("Timelines after model add : " + timelines);
 
@@ -741,18 +741,16 @@ public class BusinessController {
 
     @GetMapping("reservation/timeline_reservation")
     @ResponseBody
-    public List<ReservationVO> timeline_reservation(@RequestParam(required = false, value = "resNo") Integer resNo){
+    public List<ReservationVO> timeline_reservation(@RequestParam(value = "res_no") String res_no){
 
-        log.warn("resNo : " + resNo);
+        log.warn("here");
+        log.warn("res_no : " + res_no);
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("res_no", resNo);
 
-        // ㅠㅠ
+        List<ReservationVO> rv = service.findReservation(res_no);
 
-        //log.warn("timeline map : " + map);
+        log.warn("rv: " + rv);
 
-        List<ReservationVO> rv = service.findReservation(map);
 
         return rv;
     }

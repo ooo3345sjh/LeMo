@@ -21,7 +21,7 @@
                         </div>
                         <div class="col2">
                             <form th:action="@{/business/reservation/timeline}">
-                                <input type="text" name="res_no" class="res_param" value="">
+                                <input type="hidden" name="res_no" class="res_param" value="">
                                 <span class="search_reservation_tit">타임라인 검색</span>
                                 <table class="search_review_table" style="margin-bottom: 50px;">
                                     <tr>
@@ -66,10 +66,10 @@
                                             <nav class="d_sub_tit">
                                                 <div class="d_b1">
                                                     <span>예약번호:
-                                                        <i>2303011856123456</i>
+                                                        <i id="d_b_res_no">2303011856123456</i>
                                                     </span>
                                                     <span>&nbsp;&nbsp;예약일자:
-                                                        <i>23.03.01</i>
+                                                        <i id="d_b_res_date">23.03.01</i>
                                                     </span>
                                                 </div>
                                             </nav>
@@ -83,15 +83,15 @@
                                                         <div class="d_b3_2">
                                                             <div class="d_b_name">
                                                                 <div>숙소정보</div>
-                                                                <div>이비스 앰배서더 부산 해운대 [레이트버드-18시 체크인] 스탠다드 더블/1박</div>
+                                                                <div id="m_room_name">이비스 앰배서더 부산 해운대 [레이트버드-18시 체크인] 스탠다드 더블/1박</div>
                                                             </div>
                                                             <div class="d_b_name">
                                                                 <div>체크인</div>
-                                                                <div>2023.03.01 15:00</div>
+                                                                <div id="m_room_checkIn">2023.03.01 15:00</div>
                                                             </div>
                                                             <div class="d_b_name">
                                                                 <div>체크아웃</div>
-                                                                <div>2023.03.02 12:00</div>
+                                                                <div id="m_room_checkOut">2023.03.02 12:00</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -105,11 +105,11 @@
                                                         <div class="d_b3_2">
                                                             <div class="d_b_name">
                                                                 <div>예약자명</div>
-                                                                <div>이동글</div>
+                                                                <div id="m_res_name">이동글</div>
                                                             </div>
                                                             <div class="d_b_name">
                                                                 <div>휴대폰번호</div>
-                                                                <div>010-2023-0301</div>
+                                                                <div id="m_res_hp">010-2023-0301</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -123,15 +123,15 @@
                                                         <div class="d_b3_2">
                                                             <div class="d_b_name">
                                                                 <div>결제방법</div>
-                                                                <div>신용/체크카드</div>
+                                                                <div id="m_res_payment">신용/체크카드</div>
                                                             </div>
                                                             <div class="d_b_name">
                                                                 <div>예약번호</div>
-                                                                <div>2303011931123456</div>
+                                                                <div id="m_res_no">2303011931123456</div>
                                                             </div>
                                                             <div class="d_b_name2">
                                                                 <div>최종결제금액 <i>(VAT포함)</i></div>
-                                                                <div>52,800원</div>
+                                                                <div id="m_tot_res_price">52,800원</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -163,7 +163,7 @@
         document.addEventListener('DOMContentLoaded', function() {
 
             const timelines = [[${timelines}]];
-            console.log('timelines: %o', timelines);
+            //console.log('timelines: %o', timelines);
 
             // 예약 상세 정보 팝업
             const d_Detail = document.getElementById('d_Detail');
@@ -186,7 +186,7 @@
                 navLinks: true,
                 editable: false,
                 fixedWeekCount:false,
-                // eventLimit: true,
+                eventLimit: true,
                 locale: 'ko',
                 eventAdd: function(obj) {
                     console.log(obj);
@@ -199,16 +199,39 @@
                 },
                 eventClick:function(info){
                     let res_no = info.event.groupId;
-                    console.log('res_no: ' + res_no);
+                    console.log('res_no: ' + typeof res_no);
                     $('.res_param').val(res_no);
 
                     const jsonData = {"resNo": res_no};
 
                     console.log(jsonData);
 
-                    ajaxAPI("business/reservation/timeline_reservation", jsonData, "GET").then((response)=>{
+                    ajaxAPI("business/reservation/timeline_reservation?res_no="+res_no, null, "GET").then((response)=>{
+                        console.log('response1 : ', response[0]);
+                        console.log('response2 : ', (response[0].res_price - response[0].res_disPrice));
 
-                        console.log('response1 : %o', response);
+                        $('#d_b_res_no').text(response[0].groupId);
+
+                        $('#m_room_name').text(response[0].room_name);
+                        $('#m_room_checkIn').text(response[0].start + '\u00A0\u00A0\u00A0' +  response[0].room_checkIn);
+                        $('#m_room_checkOut').text(response[0].end + '\u00A0\u00A0\u00A0' + response[0].room_checkOut);
+                        $('#m_res_name').text(response[0].title);
+                        //$('#m_res_hp').text(response[0].res_hp);
+                        $('#m_res_hp').text(response[0].res_hp.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, '$1-$2-$3'));
+                        if(response[0].res_payment == 1){
+                            $('#m_res_payment').text("신용·체크카드");
+                        }else if(response[0].res_payment == 2){
+                            $('#m_res_payment').text("토스페이");
+                        }else if(response[0].res_payment == 3){
+                            $('#m_res_payment').text("페이코");
+                        }else if(response[0].res_payment == 4){
+                            $('#m_res_payment').text("카카오페이");
+                        }
+                        $('#m_res_no').text(response[0].groupId);
+                        $('#m_tot_res_price').text((response[0].res_price - response[0].res_disPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                        $('#d_b_res_date').text(response[0].res_date);
+
+
 
                     }).catch((errorMsg)=>{
                         console.log(errorMsg);

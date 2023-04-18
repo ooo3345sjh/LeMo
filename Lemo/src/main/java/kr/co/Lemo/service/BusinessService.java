@@ -313,10 +313,9 @@ public class BusinessService {
 
     /**
      * @since 2023/04/17
-     * @param map
      * @apiNote 판매자 타임라인 - 모달 이벤트
      */
-    public List<ReservationVO> findReservation(Map map){ return dao.selectReservation(map); }
+    public List<ReservationVO> findReservation(String res_no){ return dao.selectReservation(res_no); }
 
     /**
      * 판매자 쿠폰 - 쿠폰 등록

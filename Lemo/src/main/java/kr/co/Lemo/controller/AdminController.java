@@ -98,6 +98,9 @@ public class AdminController {
     public String stats(Model model,
                         Map map) {
 
+        // 타이틀 설정
+        model.addAttribute("title", environment.getProperty(group));
+
         // 일별 매출 현황
         List<ReservationVO> stats = service.findAllDaySales(map);
 
