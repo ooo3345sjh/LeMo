@@ -722,7 +722,7 @@ public class MyService {
 //    @Scheduled(cron = "0 0 0 * * *")
 //    @Scheduled(cron = "0 0 0/1 * * *") // 1시간 마다
 //    @Scheduled(cron = "0 0/5 * * * ?") // 5분마다 
-    @Scheduled(cron = "0 0/5 * * * ?")
+    @Scheduled(cron = "0 0 0 * * *")
     public void pointUpdate() {
         log.debug("**************************포인트 스케쥴러 사용(1일 자정)****************************************");
         // 매일 자정 만료시간이 된 point를 member_point에 insert select
