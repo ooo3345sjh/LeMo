@@ -201,7 +201,10 @@
                     let res_no = info.event.groupId;
                     console.log('res_no: ' + res_no);
                     $('.res_param').val(res_no);
-                    const jsonData = {"res_no_temp": res_no};
+
+                    const jsonData = {"resNo": res_no};
+
+                    console.log(jsonData);
 
                     ajaxAPI("business/reservation/timeline_reservation", jsonData, "GET").then((response)=>{
 
