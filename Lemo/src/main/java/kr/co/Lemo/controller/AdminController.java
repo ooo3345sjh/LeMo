@@ -68,6 +68,12 @@ public class AdminController {
         List<ReservationVO> pays = service.findAllPaymentDay(map);
         Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
 
+        // 공지사항 황원진
+        List<CsVO> notice = csService.findNoticeArticle();
+        // 1:1문의 황원진
+        List<CsVO> qnaArticles = csService.findQnaArticles();
+
+
         // 예약건수
         int total = service.countDaySales();
         // 취소 건수
@@ -89,6 +95,8 @@ public class AdminController {
         model.addAttribute("totalUser", totalUser);
         model.addAttribute("bestAccs", bestAccs);
         model.addAttribute("paysMap", paysMap);
+        model.addAttribute("notice", notice);
+        model.addAttribute("qnaArticles", qnaArticles);
 
         return "admin/index";
     }
@@ -881,6 +889,8 @@ public class AdminController {
         Map<String, MultipartFile> fileMap = request.getFileMap();
 
         String result = csService.usaveEventArticle(param, fileMap);
+
+        log.debug("controller : " + result);
 
         return result;
     }
