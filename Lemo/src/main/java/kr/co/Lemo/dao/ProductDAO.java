@@ -42,6 +42,9 @@ public interface ProductDAO {
     //@since 2023/03/31
     public int insertMemberPointLog(OrderInfoVO vo);
 
+    //@since 2023/04/19
+    public void insertSavePointLog();
+
 
     // select
     public int countTotal(SearchCondition sc);
@@ -153,5 +156,11 @@ public interface ProductDAO {
 
     // @since 2023/04/17
     public int updateMemberPoint(@Param("poi_id") int poi_id, @Param("poi_used") int poi_used);
+
+    // @since 2023/04/19
+    public void updateMemberSavePoint();
+
+    // @since 2023/04/19
+    public void updateProductReservation();
 
 }
