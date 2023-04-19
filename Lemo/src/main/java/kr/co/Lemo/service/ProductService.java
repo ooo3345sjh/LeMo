@@ -143,6 +143,12 @@ public class ProductService {
     // @since 2023/03/17
     public List<ProductAccommodationVO> findAccommodation(int acc_id, String checkIn, String checkOut) throws Exception {
 
+        // 체크인 체크아웃 날짜가 null 인경우 체크인, 체크아웃 날짜를 오늘- 내일로 설정
+        if(checkIn == null || checkOut == null){
+            checkIn = String.valueOf(LocalDate.now());
+            checkOut = String.valueOf(LocalDate.now().plusDays(1));
+        }
+
         Product_SearchVO sc = new Product_SearchVO();
         sc.setCheckIn(checkIn);
         sc.setCheckOut(checkOut);

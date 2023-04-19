@@ -28,19 +28,19 @@
         }
     
         .paging .prev {
-            background: url('../img/csImg/ico_paging_arr1.png') 50% 50% no-repeat;
+            background: url('../../images/cs/ico_paging_arr1.png') 50% 50% no-repeat;
             background-size: 10px auto;
             margin-right: 5px;
             position: relative;
-            top: 12px;
+            /*top: 12px;*/
         }
     
         .paging .next {
-            background: url('../img/csImg/ico_paging_arr2.png') 50% 50% no-repeat;
+            background: url('../../images/cs/ico_paging_arr2.png') 50% 50% no-repeat;
             background-size: 10px auto;
             margin-left: 5px;
             position: relative;
-            top: 12px;
+            /*top: 12px;*/
         }
     
         .paging .on{
