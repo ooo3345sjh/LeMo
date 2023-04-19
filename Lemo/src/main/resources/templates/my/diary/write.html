@@ -707,6 +707,9 @@
                     })
 
                     $(document).on('click', '.spot > input', function(e){
+
+                        const arrowCheck = $(this).next().hasClass('on');
+                        
                         e.stopPropagation();
                         e.preventDefault();
                     })

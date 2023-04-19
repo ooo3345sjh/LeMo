@@ -1022,3 +1022,60 @@ button {cursor: pointer;}
     position: relative;
     right: 25px;
 }
+
+.diaryEmpty {
+    font-size: 18px;
+    text-align: center;
+}
+
+/* 페이징 스타일 공통 */
+.paging{
+    border-top: none;
+    padding: 0 0 32px 0;
+    display: block;
+    text-align: center;
+}
+
+.paging span {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    box-sizing: inherit;
+    border-radius: 3px;
+    border: none;
+    box-shadow: none;
+    background: none;
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+    line-height: 32px;
+}
+
+.paging span > a {
+    padding: 9px;
+}
+
+.paging .prev {
+    background: url('../img/csImg/ico_paging_arr1.png') 50% 50% no-repeat;
+    background-size: 10px auto;
+    margin-right: 5px;
+    position: relative;
+    top: 12px;
+}
+
+.paging .next {
+    background: url('../img/csImg/ico_paging_arr2.png') 50% 50% no-repeat;
+    background-size: 10px auto;
+    margin-left: 5px;
+    position: relative;
+    top: 12px;
+}
+
+.paging .on{
+    border: 1px solid rgba(0,0,0,0.27);
+    border-radius: 4px;
+    color: rgba(0,0,0,0.87);
+}
+.paging .on a {
+    font-weight: bold;
+}

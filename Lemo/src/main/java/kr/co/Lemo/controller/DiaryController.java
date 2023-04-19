@@ -56,7 +56,7 @@ public class DiaryController {
 
         PageHandler qnaPageHandler = new PageHandler(totalDiary, vo);
 
-        List<ArticleDiaryVO> articles = service.findDairyArticles(options);
+        List<ArticleDiaryVO> articles = service.findDairyArticles(vo);
         m.addAttribute("articles", articles);
         m.addAttribute("ph", qnaPageHandler);
 
