@@ -24,7 +24,7 @@ import java.util.Map;
 public interface DiaryDAO {
 
     // @since 2023/03/14
-    public List<ArticleDiaryVO> selectDiaryArticles(Map options);
+    public List<ArticleDiaryVO> selectDiaryArticles(SearchCondition sc);
 
     public List<DiarySpotVO> selectDiarySpots();
 

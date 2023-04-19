@@ -37,8 +37,8 @@ public class DiaryService {
     private DiaryDAO dao;
 
     // @since 2023/03/14
-    public List<ArticleDiaryVO> findDairyArticles(Map options) {
-        List<ArticleDiaryVO> articles = dao.selectDiaryArticles(options);
+    public List<ArticleDiaryVO> findDairyArticles(SearchCondition sc) {
+        List<ArticleDiaryVO> articles = dao.selectDiaryArticles(sc);
         List<DiarySpotVO> spots = dao.selectDiarySpots();
         Map<Integer, List<DiarySpotVO>> map = spots.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
 
