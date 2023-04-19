@@ -112,16 +112,13 @@ public class AdminController {
     // 관리자 - 통계 관리
     @GetMapping("stats")
     public String stats(Model model,
-                        @RequestParam Map map,
-                        @RequestParam(required = false) String periodType,
-                        @RequestParam(required = false) String dateStart,
-                        @RequestParam(required = false) String dateEnd) {
+                        @RequestParam Map map
+                        ) {
 
         // 타이틀 설정
         model.addAttribute("title", environment.getProperty(group));
 
-        log.warn("dateStart : " + map.get("dateStart"));
-        log.warn("dateEnd : " + map.get("dateEnd"));
+
 
         // 전역변수 선언
         int total = 0;
@@ -132,13 +129,34 @@ public class AdminController {
         List<ReservationVO> stats = new ArrayList<>();
         int sum_res_price = 0;
         int avg_res_price = 0;
-        dateStart = (String) map.get("dateStart");
-        dateEnd = (String) map.get("dateEnd");
+        String periodType = (String) map.get("periodType");
+        if(map.get("dateStart") == null || map.get("dateStart") == ""){
+            log.debug("dateStart : " + map.get("dateStart"));
+            log.debug("dateStart null");
+            map.put("dateStart", null);
+            map.put("dateEnd", null);
+        }else{
+            log.debug("dateStart : " + map.get("dateStart"));
+            log.debug("dateStart null X");
+        }
+        String dateStart = (String) map.get("dateStart");
+        String dateEnd = (String) map.get("dateEnd");
         List<ReservationVO> pays = new ArrayList<>();
         Map<Integer, List<ReservationVO>> paysMap = new HashMap<>();
 
+        if(dateStart == null){
+            log.warn("date Start is null");
+        }
+
+        log.warn("periodType : " + periodType);
+
+        log.warn("1-dateStart : " + map.get("dateStart"));
+        log.warn("1-dateEnd : " + map.get("dateEnd"));
+        log.warn("2-dateStart : " + dateStart);
+        log.warn("2-dateEnd : " + dateEnd);
+
         // 기간 미 설정시 기본 -> 일주일
-        if(periodType == null){
+        if(map.get("periodType") == null){
             log.warn("periodType is null");
 
             map.put("periodType", "week");
@@ -146,7 +164,7 @@ public class AdminController {
             log.warn("periodType in map: " + map.get("periodType"));
 
         // 기간 설정 시 -> 기간 설정에 따른 데이터 조회
-        }else if(periodType != null){
+        }else if(map.get("periodType") != null){
             log.warn("periodType is not null");
 
             map.put("periodType", periodType);
@@ -154,7 +172,7 @@ public class AdminController {
         }
 
         log.warn("periodType result in map: " + map.get("periodType"));
-
+        log.warn("map : " + map);
         // 예약 건수
         total = service.countWeeksSales(map);
         // 취소 건수
@@ -168,10 +186,12 @@ public class AdminController {
         // 매출 현황 그래프
         stats = service.findAllDaySales(map);
 
-        for ( int i=0; i<stats.size(); i++ ){
-            sum_res_price += stats.get(i).getTot_res_price();
-        }
-        avg_res_price = sum_res_price / stats.size();
+        log.debug("sdfs"+stats);
+
+//        for ( int i=0; i<stats.size(); i++ ){
+//            sum_res_price += stats.get(i).getTot_res_price();
+//        }
+//        avg_res_price = sum_res_price / stats.size();
         // 결제 수단 현황
         pays = service.findAllPayment(map);
         paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
@@ -214,6 +234,7 @@ public class AdminController {
         model.addAttribute("totalAcc", totalAcc);
         model.addAttribute("totalRegister", totalRegister);
         model.addAttribute("stats", stats);
+        model.addAttribute("sum_res_price",sum_res_price);
         model.addAttribute("avg_res_price", avg_res_price);
         model.addAttribute("dateStart",dateStart);
         model.addAttribute("dateEnd",dateEnd);

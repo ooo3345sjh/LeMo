@@ -299,7 +299,7 @@
 
 
     <!-- 관리자 - 통계관리 - 예약 건수 (기간 변동, 기본: 일주일) -->
-    <select id="countWeeksSales" resultType="java.lang.Integer">
+    <select id="countWeeksSales" parameterType="hashMap" resultType="java.lang.Integer">
         select count(a.`res_checkIn`) from `lemo_product_reservation` as a
             join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         where a.res_state NOT IN (0)
@@ -315,13 +315,13 @@
         <if test="periodType == 'year'">
             AND `res_checkIn` <include refid="latestYear"/>
         </if>
-        <if test="dateStart != null and dateEnd != null ">
-            AND res_checkIn <include refid="searchDate"/>
+        <if test="dateStart != '' and dateEnd != ''">
+            AND `res_checkIn` <include refid="searchDate"/>
         </if>
     </select>
 
     <!-- 관리자 - 통계관리 - 취소 건수 (기간 변동, 기본: 일주일) -->
-    <select id="countWeeksCancel" resultType="java.lang.Integer">
+    <select id="countWeeksCancel" parameterType="hashMap" resultType="java.lang.Integer">
         select count(a.`res_checkIn`) from `lemo_product_reservation` as a
             join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         where a.res_state=0
@@ -337,13 +337,13 @@
         <if test="periodType == 'year'">
             AND a.`res_checkIn` <include refid="latestYear"/>
         </if>
-        <if test="dateStart != null and dateEnd != null">
+        <if test="dateStart != '' and dateEnd != ''">
             AND a.`res_checkIn` <include refid="searchDate"/>
         </if>
     </select>
 
     <!-- 관리자 - 통계관리 - 1:1 문의수 (기간 변동, 기본: 일주일) -->
-    <select id="countWeeksQna" resultType="java.lang.Integer">
+    <select id="countWeeksQna" parameterType="hashMap" resultType="java.lang.Integer">
         select count(`cs_no`) from `lemo_cs`
         where `cs_cate`='qna'
         <if test="periodType == 'week'">
@@ -358,13 +358,13 @@
         <if test="periodType == 'year'">
             AND `cs_rdate` <include refid="latestYear"/>
         </if>
-        <if test="dateStart != null and dateEnd != null">
+        <if test="dateStart != '' and dateEnd != ''">
             AND `cs_rdate` <include refid="searchDate"/>
         </if>
     </select>
 
      <!-- 관리자 - 통계관리 - 상품 등록 수 (기간 변동, 기본: 일주일) -->
-    <select id="countWeeksAcc" resultType="java.lang.Integer">
+    <select id="countWeeksAcc" parameterType="hashMap" resultType="java.lang.Integer">
         select count(`acc_id`) from `lemo_product_accommodation`
         where 1=1
         <if test="periodType == 'week'">
@@ -379,13 +379,13 @@
         <if test="periodType == 'year'">
             AND `acc_rdate` <include refid="latestYear"/>
         </if>
-        <if test="dateStart != null and dateEnd != null">
+        <if test="dateStart != '' and dateEnd != ''">
             AND `acc_rdate` <include refid="searchDate"/>
         </if>
     </select>
 
     <!-- 관리자 - 통계관리 - 회원가입 수 (기간 변동, 기본: 일주일) -->
-    <select id="countWeeksUser" resultType="java.lang.Integer">
+    <select id="countWeeksUser" parameterType="hashMap" resultType="java.lang.Integer">
         select count(`user_id`) from `lemo_member_userinfo`
         where 1=1
         <if test="periodType == 'week'">
@@ -400,13 +400,13 @@
         <if test="periodType == 'year'">
             AND `rdate` <include refid="latestYear"/>
         </if>
-        <if test="dateStart != null and dateEnd != null">
+        <if test="dateStart != '' and dateEnd != ''">
             AND `rdate` <include refid="searchDate"/>
         </if>
     </select>
 
     <!-- 관리자 - 통계관리 - 일별 누적 판매량 그래프 (기간 변동) -->
-    <select id="selectDaySales" resultType="kr.co.Lemo.domain.ReservationVO">
+    <select id="selectDaySales" parameterType="hashMap" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT DATE(a.res_date) AS res_date,
             MAX(a.res_state) AS res_state,
             SUM(a.res_price) AS res_price,
@@ -435,7 +435,7 @@
     </select>
 
     <!-- 관리자 - 통계관리 - 결제방법 결제 현황 (기간 변동) -->
-    <select id="selectPayment" resultType="kr.co.Lemo.domain.ReservationVO">
+    <select id="selectPayment" parameterType="hashMap" resultType="kr.co.Lemo.domain.ReservationVO">
         select * from `lemo_product_reservation` as a
         join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         where a.res_state NOT IN (0)
@@ -451,7 +451,7 @@
         <if test="periodType == 'year'">
             AND a.`res_checkIn` <include refid="latestYear"/>
         </if>
-        <if test="dateStart != null and dateEnd != null">
+        <if test="dateStart != '' and dateEnd != ''">
             AND a.`res_checkIn` <include refid="searchDate"/>
         </if>
         order by a.res_payment;
