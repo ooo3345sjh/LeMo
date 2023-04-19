@@ -62,18 +62,14 @@
                         </div>
                         <!-- 페이징 -->
                         <div class="paging" th:object="${ph}" th:unless="${reviews.size() == 0}">
-                            <span th:if="*{showPrev}">
-                                <a th:href="@{/my/review/list} + ${ph.sc.getQueryString(ph.beginPage-1)}">
-                                    <img th:src="@{/images/product/left.png}" alt="previous">
-                                </a>
+                            <span th:if="*{showPrev}" class="prev">
+                                <a th:href="@{/my/review/list} + ${ph.sc.getQueryString(ph.beginPage-1)}"></a>
                             </span>
                             <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
                                 <a th:href="@{/my/review/list} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
                             </span>
-                            <span th:if="*{showNext}">
-                                <a th:href="@{/my/review/list} + ${ph.sc.getQueryString(ph.endPage+1)}">
-                                    <img th:src="@{/images/product/right.png}" alt="next">
-                                </a>
+                            <span th:if="*{showNext}" class="next">
+                                <a th:href="@{/my/review/list} + ${ph.sc.getQueryString(ph.endPage+1)}"></a>
                             </span>
                         </div>
                     </div>  
