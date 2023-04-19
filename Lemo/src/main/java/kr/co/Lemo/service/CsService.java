@@ -309,14 +309,19 @@ public class CsService {
         int cs_no = Integer.parseInt(String.valueOf(param.get("cs_no")));
         param.put("cs_no", cs_no);
 
+//        List<MultipartFile> fileList = new ArrayList<>(fileMap.values());
+//        for (MultipartFile mf : fileList) {
+//            log.debug("mf : " + mf.getOriginalFilename());
+//        }
+
         for(MultipartFile mf: fileMap.values()) {
             log.debug("mf : " +mf.getOriginalFilename());
         }
 
         List<String> fileName = checkEventFile(param, fileMap);
         if(!fileName.isEmpty()) {
-            String bannerNewName = new String(fileName.get(1).getBytes());
-            String mainBannerNewName = new String(fileName.get(0).getBytes());
+            String bannerNewName = new String(fileName.get(fileName.size() - 1).getBytes());
+            String mainBannerNewName = new String(fileName.get(fileName.size() - 2).getBytes());
 
             log.debug("bannerImg : " + bannerNewName);
             log.debug("mainImg : " + mainBannerNewName);
@@ -324,8 +329,8 @@ public class CsService {
             param.put("cs_eventbannerImg", bannerNewName);
             param.put("cs_eventMainBannerImg", mainBannerNewName);
 
-            fileName.remove(0);
-            fileName.remove(0);
+            fileName.remove(fileName.size() - 1);
+            fileName.remove(fileName.size() - 1);
 
             String files = String.join("/", fileName);
             param.put("cs_eventViewImg", files);
@@ -487,6 +492,14 @@ public class CsService {
         log.info(dirPath);
 
        File dir = new File(dirPath);
+
+        try {
+            FileUtils.cleanDirectory(dir);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
        File Files[] = dir.listFiles();
 
        List<String> oriEvent = new ArrayList<>();
@@ -498,6 +511,8 @@ public class CsService {
            oriEvent.add(fname.getName());
            oriRemoveEvent.add(fname.getName());
        }
+
+       log.debug(String.valueOf(fileMap.get("main.png")));
 
        for(MultipartFile mf : fileMap.values()){
            newEvent.add(mf.getOriginalFilename());

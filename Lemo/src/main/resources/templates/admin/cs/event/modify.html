@@ -213,6 +213,7 @@
         let viewThumbs = [[${mEvent.cs_eventViewImg}]];  // dropzone 이미지
         let cs_no = [[${mEvent.cs_no}]];
         let page = [[${page}]];
+        const fileMap = new Map();
 
         let main = [[${mEvent.cs_eventMainBannerImg}]];
         let event = [[${mEvent.cs_eventbannerImg}]];
@@ -231,19 +232,27 @@
         // formData 생성
         let usaveFormData = new FormData();
 
+        let mainOriFile;
+        let bannerOriFile;
+        let chkMainOriFile;
+        let chkBannerOriFile;
+
+
         // imgSrc로 bsse64를 생성하고 base64로 파일을 생성한 다음 formdata에 append
         toDataURL(cs_eventMainBannerImg).then(dataUrl => {
-            var oriFile = base64toFile(dataUrl, 'main'+mainImgType);
-            console.log(oriFile)
-            usaveFormData.append('main'+mainImgType, oriFile);
+            mainOriFile = base64toFile(dataUrl, 'main'+mainImgType);
+            console.log(mainOriFile)
+<!--            usaveFormData.append('main'+mainImgType, mainOriFile);-->
         });
 
         toDataURL(cs_eventbannerImg).then(dataUrl => {
-            var oriFile = base64toFile(dataUrl, 'eventBanner'+bannerImgType);
-            console.log(oriFile)
+            bannerOriFile = base64toFile(dataUrl, 'eventBanner'+bannerImgType);
+            console.log(bannerOriFile)
             console.log('eventBanner'+bannerImgType)
-            usaveFormData.append('eventBanner'+bannerImgType, oriFile);
+<!--            usaveFormData.append('eventBanner'+bannerImgType, bannerOriFile);-->
         });
+
+        console.log(fileMap);
 
         let mainBannerFile; // 메인베너 파일
         const mainBannerImg = $('#mainImage'); // 메인베너 이미지
@@ -372,8 +381,8 @@
                                 console.log("start...");
                                 console.log(e.target.result)
                                 usaveFormData.delete('main'+mainImgType);
-                                var oriFile = base64toFile(e.target.result, 'main'+mainImgType);
-                                usaveFormData.append('main'+mainImgType, oriFile);
+                                chkMainOriFile = base64toFile(e.target.result, 'main'+mainImgType);
+<!--                                usaveFormData.append('main'+mainImgType, chkMainOriFile);-->
                                 console.log(oriFile);
                                 console.log("메인베너");
                                 mainBannerImg.attr('src', e.target.result);
@@ -424,8 +433,8 @@
                             } else {
                                 console.log("start...");
                                 usaveFormData.delete('eventBanner'+bannerImgType);
-                                var oriFile = base64toFile(e.target.result, 'eventBanner'+bannerImgType);
-                                usaveFormData.append('eventBanner'+bannerImgType, oriFile);
+                                chkBannerOriFile = base64toFile(e.target.result, 'eventBanner'+bannerImgType);
+<!--                                usaveFormData.append('eventBanner'+bannerImgType, chkBannerOriFile);-->
                                 console.log('eventBanner'+bannerImgType)
                                 console.log(oriFile);
                                 console.log('이벤트베너 확인')

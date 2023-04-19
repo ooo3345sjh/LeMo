@@ -134,8 +134,8 @@ function base64toFile(base_data, filename) {
             let cs_content = $('textarea[name="cs_content"]').val();
             let cs_eventStart = $('input[name="cs_eventStart"]').val();
             let cs_eventEnd = $('input[name="cs_eventEnd"]').val();
-//            let cs_eventBanner = fileInput[0].files[0];
-//            let cs_eventMainBanner =  mainInput[0].files[0];
+            let cs_eventBanner = fileInput[0].files[0];
+            let cs_eventMainBanner =  mainInput[0].files[0];
 
 
             console.log("업로드1", myDropzone.files);
@@ -160,25 +160,7 @@ function base64toFile(base_data, filename) {
                 return;
             }
 
-            if(eventBanner.files.length === 0){
-                Swal.fire({
-                    title : '이벤트 배너 이미지를 선택해주세요',
-                    icon : 'error',
-                    confirmButtonText : '확인'
-                })
-                eventBanner.focus();
-                return;
-            }
 
-            if(MainBanner.files.length === 0){
-                Swal.fire({
-                    title : '메인 배너 이미지를 선택해주세요',
-                    icon : 'error',
-                    confirmButtonText : '확인'
-                })
-                MainBanner.focus();
-                return;
-            }
 
             // 거부된 파일이 있다면
             if (myDropzone.getRejectedFiles().length > 0) {
@@ -192,6 +174,17 @@ function base64toFile(base_data, filename) {
             usaveFormData.append("cs_eventStart", cs_eventStart);
             usaveFormData.append("cs_eventEnd", cs_eventEnd);
             usaveFormData.append("cs_no", cs_no);
+            if(MainBanner.files.length === 0){
+                usaveFormData.append('main'+mainImgType, mainOriFile); // 기존 main 파일
+            }else{
+                usaveFormData.append('main'+mainImgType, chkMainOriFile);  // 수정 main 파일
+            }
+            if(eventBanner.files.length === 0){
+                usaveFormData.append('eventBanner'+bannerImgType, bannerOriFile);  // 기존 banner 파일
+            }else{
+                usaveFormData.append('eventBanner'+bannerImgType, chkBannerOriFile);  // 수정 banner 파일
+            }
+
 
 
             $.ajax({
