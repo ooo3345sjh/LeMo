@@ -38,18 +38,24 @@
                                 </div>
                             </div>
                              */-->
-                            <p class="tsd_msg">상세 매출 내역은 <strong>통계관리</strong>에서 확인해 주십시오.</p>
+                            <p class="tsd_msg">
+                                <strong>([[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]])</strong> 데이터가 조회됩니다.</p>
+                            </p>
                             <div class="sales_day_status">
                                 <div class="tot_sales_day">
                                     <div class="tsd_tit1">총매출</div>
-                                    <div class="tsd_tit2">11 <i>건</i></div>
-                                    <div class="tsd_tit3" >1,234,567,89 <i>원</i></div>
+                                    <div class="tsd_tit2">[[${todaySales[0].count_sales}]] <i>건</i></div>
+                                    <div class="tsd_tit_3_4">
+                                        <div class="tsd_tit3" th:text="${#numbers.formatInteger(todaySales[0].tot_res_price, 0, 'COMMA')}"></div>
+                                        <i>원</i>
+                                    </div>
+
                                 </div>
                                 <div class="tsd_grid">
                                     <div class="tsd_grid1">
                                         <div class="tsd_res">
                                             <p>예약</p>
-                                            <h3>[[${totalSales}]] <i>건</i></h3>
+                                            <h3>[[${todaySales[0].count_sales}]] <i>건</i></h3>
                                         </div>
                                         <div class="tsd_cancel">
                                             <p>취소</p>
@@ -123,37 +129,6 @@
                                 </div>
                             </div>
                     </div>
-<!--
-
-                    <div class="tsd_best">
-                        <div class="tsd_best_inner">
-                            <h3>BEST <i>객실</i></h3>
-                        </div>
-                        <div class="tsd_guide2">예약 기준 순위입니다.</div>
-                        <div class="col2">
-                                <div class="bestRoomList">
-                                    <ul>
-                                        <li class="br_li1">#</li>
-                                        <li class="br_li2">숙빅번호</li>
-                                        <li class="br_li3">숙박명</li>
-                                        <li class="br_li4">객실아이디</li>
-                                        <li class="br_li5">객실명</li>
-                                        <li class="br_li6">판매자 아이디</li>
-                                    </ul>
-                                    <ul>
-                                        <li class="br_li1">1</li>
-                                        <li class="br_li2">1004590</li>
-                                        <li class="br_li3">어쩌고 저쩌고 숙박</li>
-                                        <li class="br_li4">1016538</li>
-                                        <li class="br_li5">더블 트윈</li>
-                                        <li class="br_li6">circle@naver.com</li>
-                                    </ul>
-                                </div>
-                            </div>
-                    </div>
--->
-
-
                     <div class="blank30"></div>
                     <div class="main_content_div2">
                         <div class="tsd_best_inner">
@@ -220,6 +195,10 @@
     <script th:inline="javascript">
          // 참조 데이터 준비
         let stats = [[${stats}]];
+        let avg_res_price = [[${avg_res_price}]];
+
+        console.log(stats);
+        console.log("avg_res_price: " + avg_res_price);
 
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
@@ -249,14 +228,14 @@
 
                 // 그래프 내용 : drawVisualization 구현
                 var data = google.visualization.arrayToDataTable([
-                    ['날짜', '일별매출', '누적매출'],
-                    [before[6],  stats[6].tot_res_price, stats[6].tot_res_price],
-                    [before[5],  stats[5].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price],
-                    [before[4],  stats[4].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price],
-                    [before[3],  stats[3].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price],
-                    [before[2],  stats[2].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price],
-                    [before[1],  stats[1].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[2].tot_res_price + stats[1].tot_res_price],
-                    [date,  stats[0].tot_res_price, stats[6].tot_res_price + stats[5].tot_res_price + stats[4].tot_res_price + stats[3].tot_res_price + stats[1].tot_res_price + stats[1].tot_res_price + stats[0].tot_res_price]
+                    ['날짜', '일별매출', '평균매출'],
+                    [before[6],  stats[0].tot_res_price, avg_res_price],
+                    [before[5],  stats[1].tot_res_price, avg_res_price],
+                    [before[4],  stats[2].tot_res_price, avg_res_price],
+                    [before[3],  stats[3].tot_res_price, avg_res_price],
+                    [before[2],  stats[4].tot_res_price, avg_res_price],
+                    [before[1],  stats[5].tot_res_price, avg_res_price],
+                    [date,  stats[6].tot_res_price, avg_res_price]
                 ]);
 
                 // 그래프 주석 표기

@@ -327,28 +327,46 @@ public class AdminService {
         return dao.deleteReview(revi_id);
     }
 
-    /**
-     * @since 2023/04/11
-     * @apiNote 관리자 - 메인 - 일별 누적 판매량 (당일)
-     */
-     public List<ReservationVO> findAllTodaySales(){
-        return dao.selectTodaySales();
-     }
 
-    /**
-     * @since 2023/04/05
-     * @param map
-     * @apiNote 관리자 통계관리 일별 누적 판매량
-     */
-    public List<ReservationVO> findAllDaySales(Map map){
-        return dao.selectDaySales(map);
+    // 관리자 메인
+    // 관리자 - 메인 - 일별 누적 판매량 (당일)
+    public List<ReservationVO> findAllTodaySales(Map map){return dao.selectTodaySales(map);}
+    // 관리자 - 메인 - 취소 건수 (당일)
+    public int countDayCancel() {return dao.countDayCancel();}
+    // 관리자 - 메인 - 1:1문의
+    public int countDayQna(){return dao.countDayQna();}
+    // 관리자 - 메인 - 상품등록
+    public int countDayAcc() {return dao.countDayAcc();}
+    // 관리자 - 메인 - 회원가입
+    public int countDayUser(){return dao.countDayUser(); }
+    // 관리자 - 메인 - 판매량 그래프 (기간 고정)
+    public List<ReservationVO> findAllDaySale(){return dao.selectDaySale();}
+    //  관리자 - 메인 - 결제 방법 결제 현황
+    public List<ReservationVO> findAllPaymentDay(Map map){return dao.selectPaymentDay(map);}
+    // 관리자  - 메인 - 베스트 숙소
+    public List<ProductAccommodationVO> findAllBestAcc(Map map){return dao.selectBestAcc(map);}
+
+
+
+    // 관리자 - 통계관리 - 예약 건수 (기간 변동, 기본: 일주일)
+    public int countWeeksSales(Map map){return dao.countWeeksSales(map);}
+    // 관리자 - 취소 건수 (기간 변동, 기본: 일주일)
+    public int countWeeksCancel(Map map){
+    return dao.countWeeksCancel(map);
     }
-
-    /**
-     * @since 2023/04/06
-     * @param map
-     * @apiNote 관리자 통계관리 월별 누적 판매량
-     */
+    // 관리자 - 통계관리 - 1:1 문의수 (기간 변동, 기본: 일주일)
+    public int countWeeksQna(Map map){
+        return dao.countWeeksQna(map);
+     }
+    // 관리자 - 통계관리 - 상품 등록 수 (기간 변동, 기본: 일주일)
+    public int countWeeksAcc(Map map){ return dao.countWeeksAcc(map); }
+    // 관리자 - 회원가입 수 (기간 변동, 기본: 일주일)
+    public int countWeeksUser(Map map){ return dao.countWeeksUser(map); }
+    // 관리자 - 통계관리 - 일별 누적 판매량 (일주일)
+    public List<ReservationVO> findAllDaySales(Map map){ return dao.selectDaySales(map); }
+    // 관리자 - 통계관리 - 결제방법 결제 현황 (기간 변동)
+    public List<ReservationVO> findAllPayment(Map map){ return dao.selectPayment(map); }
+    // 관리자 - 월별 매출 근황 그래프(기간 고정, 4month)
     public List<ReservationVO> findAllMonthSales(Map map){
 
         int total = 0;
@@ -377,70 +395,30 @@ public class AdminService {
         return mp;
     }
 
-    /**
-     * @since 2023/04/13
-     * @param map
-     * @apiNote 관리자 - 통계관리 연 판매량
-     */
-    public List<ReservationVO> findAllYearSales(Map map){
-        return dao.selectYearSales(map);
-    }
+    // 관리자 - 통계관리 연 판매량 그래프 (기간 고정, 1year)
+    public List<ReservationVO> findAllYearSales(Map map){return dao.selectYearSales(map); }
 
-    /**
-    * @since 2023/04/06
-    * @apiNote 관리자 카운트
-     */
-     public int countWeeksSales(){
-        return dao.countWeeksSales();
-    }
-     public int countDaySales() {return dao.countDaySales();}
 
-     public int countWeeksCancel(){
-        return dao.countWeeksCancel();
-     }
-     public int countDayCancel() {return dao.countDayCancel();}
 
-     public int countWeeksQna(){
-        return dao.countWeeksQna();
-     }
-     public int countDayQna(){return dao.countDayQna();}
 
-     public int countWeeksAcc(){
-        return dao.countWeeksAcc();
-     }
-     public int countDayAcc() {return dao.countDayAcc();}
 
-     public int countWeeksUser(){
-        return dao.countWeeksUser();
-     }
-     public int countDayUser(){return dao.countDayUser(); }
 
-    public int selectWeekAvg(){ return dao.selectWeekAvg(); }
 
-    /**
-     * @since 2023/04/06
-     * @param map
-     * @apiNote 관리자 결제방법 결제 현황
-     */
-    public List<ReservationVO> findAllPayment(Map map){
-        return dao.selectPayment(map);
-    }
 
-     /**
-     * @since 2023/04/13
-     * @param map
-     * @apiNote 관리자 결제방법 결제 현황 (당일)
-     */
-    public List<ReservationVO> findAllPaymentDay(Map map){return dao.selectPaymentDay(map);}
 
-    /**
-     * @since 2023/04/13
-     * @param map
-     * @apiNote 관리자 메인 베스트 숙소
-     */
-    public List<ProductAccommodationVO> findAllBestAcc(Map map){
-        return dao.selectBestAcc(map);
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**
