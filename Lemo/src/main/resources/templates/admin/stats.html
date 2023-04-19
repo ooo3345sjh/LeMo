@@ -59,7 +59,7 @@
                                         <div class="tot_sales_day">
                                             <div class="tsd_tit1">총매출</div>
                                             <div class="tsd_tit2">[[${totalSales}]]<i>건</i></div>
-                                            <div class="tsd_tit3" >1,234,567,890 <i>원</i></div>
+                                            <div class="tsd_tit3" th:text="${#numbers.formatInteger(sum_res_price, 0, 'COMMA')}">1,234,567,89 <i>원</i></div>
                                             <i> 원</i>
                                         </div>
                                         <div class="tsd_grid">
@@ -619,6 +619,38 @@
                 drawVisualization();
             });
         }
+    </script>
+    <script>
+        $(function(){
+            // url 주소에서 periodType, 기간 파라미터 가져오기
+            let urlParams = new URLSearchParams(window.location.search);
+            let periodTypeParam = urlParams.get('periodType');
+            let dateStart = urlParams.get('dateStart');
+            let dateEnd = urlParams.get('dateEnd');
+
+            // 선택값 유지
+            $('.begin').val(dateStart);
+            $('.end').val(dateEnd);
+
+            // url 주소에 파라미터가 있다면
+            if(periodTypeParam){
+                $('ul.date_3ea a').removeClass('on');
+                $('ul.date_3ea a[data-value="'+periodTypeParam+'"]').addClass('on');
+            }
+
+            $('ul.date_3ea a').on('click', function(e) {
+                e.preventDefault();
+
+                let periodType = $(this).data('value');
+                alert('click the a in 3ea! : ' + periodType);
+
+                // on 클래스 추가 + input에 값 넣기
+                $('ul.date_3ea a').removeClass('on');
+                $(this).addClass('on');
+                $('input[name="periodType"]').val(periodType);
+            });
+
+        });
     </script>
 </th:block>
 </html>

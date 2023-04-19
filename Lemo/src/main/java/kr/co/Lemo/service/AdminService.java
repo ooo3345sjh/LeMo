@@ -349,7 +349,11 @@ public class AdminService {
 
 
     // 관리자 - 통계관리 - 예약 건수 (기간 변동, 기본: 일주일)
-    public int countWeeksSales(Map map){return dao.countWeeksSales(map);}
+    public int countWeeksSales(Map map){
+
+        log.warn("service map: " + map);
+
+        return dao.countWeeksSales(map);}
     // 관리자 - 취소 건수 (기간 변동, 기본: 일주일)
     public int countWeeksCancel(Map map){
     return dao.countWeeksCancel(map);
