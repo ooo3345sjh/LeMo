@@ -66,6 +66,14 @@ public class AdminController {
 
         // 일별 누적 판매량 (당일)
         List<ReservationVO> todaySales = service.findAllTodaySales(map);
+        // 공지사항 황원진
+        List<CsVO> notice = csService.findNoticeArticle();
+        // 1:1문의 황원진
+        List<CsVO> qnaArticles = csService.findQnaArticles();
+
+
+        // 예약건수
+        int total = service.countDaySales();
         // 취소 건수
         int totalCanceled = service.countDayCancel();
         // 1:1 문의 수
@@ -99,6 +107,8 @@ public class AdminController {
         model.addAttribute("avg_res_price", avg_res_price);
         model.addAttribute("paysMap", paysMap);
         model.addAttribute("bestAccs", bestAccs);
+        model.addAttribute("notice", notice);
+        model.addAttribute("qnaArticles", qnaArticles);
 
         return "admin/index";
     }
@@ -889,19 +899,23 @@ public class AdminController {
      * @aythor 황원진
      * @apiNote 이벤트 수정
      */
+    @ResponseBody
+    @PostMapping("cs/event/modify")
     public String usaveEventArticle(
                     @AuthenticationPrincipal UserVO myUser,
                     @RequestPart(value = "cs_eventBanner", required = false) MultipartFile cs_eventBanner,
                     @RequestParam Map<String, Object> param,
                     MultipartHttpServletRequest request,
                     HttpServletRequest req){
-
+        log.debug("eventModify");
         param.put("user_id", myUser.getUser_id());
         param.put("cs_regip", req.getRemoteAddr());
 
         Map<String, MultipartFile> fileMap = request.getFileMap();
 
         String result = csService.usaveEventArticle(param, fileMap);
+
+        log.debug("controller : " + result);
 
         return result;
     }

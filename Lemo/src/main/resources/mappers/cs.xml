@@ -135,7 +135,25 @@
         where a.`terms_no`=#{terms_no};
     </select>
 
-    <!-- 관리자 -->
+    <!-- 관리자 메인 공지사항 -->
+    <select id="selectAdminNoticeArticle" resultType="kr.co.Lemo.domain.CsVO">
+        SELECT * FROM `lemo_cs`
+        WHERE `cs_cate`='notice'
+        ORDER BY `cs_rdate` DESC
+        LIMIT 5;
+    </select>
+
+    <!-- 관리자 메인 1:1문의 -->
+    <select id="selectMainQnaArticles" resultType="kr.co.Lemo.domain.CsVO">
+        SELECT a.*, b.`nick` FROM `lemo_cs` AS a
+        JOIN `lemo_member_userinfo` AS b
+        ON a.user_id = b.user_id
+        WHERE a.`cs_cate` = 'qna'
+        order by `cs_no` DESC
+        LIMIT 5;
+    </select>
+
+
 
     <!-- insert -->
         <insert id="insertEventArticle" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="cs_no">
@@ -209,12 +227,13 @@
         where `cs_no` =#{cs_no};
     </update>
 
-    <update id="updateEventArticle" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="cs_no">
-        insert into `lemo_cs` set
+    <update id="updateEventArticle">
+        update `lemo_cs` set
         `cs_title`=#{cs_title},
         `cs_content`=#{cs_content},
         `cs_regip`=#{cs_regip},
         `cs_rdate`=NOW(),
+        `cs_eventMainBannerImg`=#{cs_eventMainBannerImg},
         `cs_eventbannerImg`=#{cs_eventbannerImg},
         `cs_eventViewImg`=#{cs_eventViewImg},
         `cs_eventStart`=#{cs_eventStart},

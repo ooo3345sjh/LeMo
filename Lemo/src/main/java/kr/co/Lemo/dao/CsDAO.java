@@ -53,7 +53,10 @@ public interface CsDAO {
     public List<TermVO> selectAdminTermsType();
     //@since 2023/04/12 관리자 - 약관 상세보기
     public TermVO selectTermArticle(@Param("terms_no") int terms_no);
-
+    //@since 2023/04/19 관리자 - 메인 공지사항 목록
+    public List<CsVO> selectAdminNoticeArticle();
+    //@since 2023/04/19 관리자 - 메인 1:1문의사항 목록
+    public List<CsVO> selectMainQnaArticles();
 
     /** insert **/
     // @since 2023/03/09

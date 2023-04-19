@@ -27,7 +27,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.awt.*;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -848,6 +847,28 @@ public class ProductService {
             device = "PC";
 
         return device;
+    }
+
+
+
+
+    //    @Scheduled(cron = "0 0 0 1 * *") 매달 1일 00시
+    //    @Scheduled(cron = "0 0 0 * * *") 자정
+    //    @Scheduled(cron = "0 0 0/1 * * *") // 1시간 마다
+    //    @Scheduled(cron = "0 0/5 * * * ?") // 5분마다
+    //    @Scheduled(cron = "0 * * * * *") 1분마다
+
+    // @since 2023/04/29
+    @Scheduled(cron = "0 0 0 * * *")
+    public void updateReservationAndPoint() {
+        log.debug("**************************숙박완료, 포인트 적립 스케쥴러 사용(매일 자정)****************************************");
+        
+        // 적립된 포인트 userinfo에 업데이트
+        dao.updateMemberSavePoint();
+        // 적립퇸 포인트 포인트 로그테이블에 추가
+        dao.insertSavePointLog();
+        // 숙박 완료 상태로 업데이트
+        dao.updateProductReservation();
     }
     
 }
