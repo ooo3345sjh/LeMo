@@ -70,10 +70,6 @@ public class AdminController {
         List<CsVO> notice = csService.findNoticeArticle();
         // 1:1문의 황원진
         List<CsVO> qnaArticles = csService.findQnaArticles();
-
-
-        // 예약건수
-        int total = service.countDaySales();
         // 취소 건수
         int totalCanceled = service.countDayCancel();
         // 1:1 문의 수
