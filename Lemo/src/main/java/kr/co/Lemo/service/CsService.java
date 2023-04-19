@@ -219,7 +219,15 @@ public class CsService {
         return dao.selectTermArticle(terms_no);
     }
 
+    // @since 2023/04/19 관리자 메인 공지사항 목록
+    public List<CsVO> findNoticeArticle(){
+        return dao.selectAdminNoticeArticle();
+    }
 
+    // @since 2023/04/19 관리자 메인 1:1문의 목록
+    public List<CsVO> findQnaArticles(){
+        return dao.selectMainQnaArticles();
+    }
 
     /** insert **/
     public int rsaveEventArticle(MultipartHttpServletRequest request, Map<String, Object> parameter, MultipartFile cs_eventBanner) {
@@ -297,6 +305,9 @@ public class CsService {
     // @since 2023/04/18
     public String usaveEventArticle(Map<String, Object> param, Map<String, MultipartFile> fileMap){
 
+        log.debug((String) param.get("cs_no"));
+        int cs_no = Integer.parseInt(String.valueOf(param.get("cs_no")));
+        param.put("cs_no", cs_no);
 
         for(MultipartFile mf: fileMap.values()) {
             log.debug("mf : " +mf.getOriginalFilename());
@@ -304,8 +315,11 @@ public class CsService {
 
         List<String> fileName = checkEventFile(param, fileMap);
         if(!fileName.isEmpty()) {
-            String bannerNewName = new String(fileName.get(0).getBytes());
-            String mainBannerNewName = new String(fileName.get(1).getBytes());
+            String bannerNewName = new String(fileName.get(1).getBytes());
+            String mainBannerNewName = new String(fileName.get(0).getBytes());
+
+            log.debug("bannerImg : " + bannerNewName);
+            log.debug("mainImg : " + mainBannerNewName);
 
             param.put("cs_eventbannerImg", bannerNewName);
             param.put("cs_eventMainBannerImg", mainBannerNewName);
@@ -320,6 +334,7 @@ public class CsService {
         }
 
         int result = dao.updateEventArticle(param);
+        log.debug(String.valueOf(result));
         String success = "usaveEventFail";
         switch (result) {
             case 1 :
@@ -329,6 +344,7 @@ public class CsService {
                 success = "usaveEventFail";
                 break;
         }
+        log.debug(success);
         return success;
     }
 
@@ -411,7 +427,7 @@ public class CsService {
     @Value("${spring.servlet.multipart.location}")
     private String uploadPath;
 
-
+    // 이벤트 작성 이미지 저장
     public int uploadFile(ArrayList<String> newArrFilesInfo, Map<String, MultipartFile> fileMap, String bannerNewName, MultipartFile cs_eventBanner, String cs_no) {
         log.info("newArrFilesInfo : "+newArrFilesInfo.size());
         log.info("fileMap : "+fileMap.size());
@@ -461,9 +477,10 @@ public class CsService {
         return finalResult;
     }
 
+    // 이벤트 수정 이미지 저장
     public List<String> checkEventFile(Map<String, Object> param, Map<String, MultipartFile> fileMap){
 
-        String cs_no = (String) param.get("cs_no");
+        String cs_no = String.valueOf(param.get("cs_no"));
 
         String dirPath = new File(uploadPath+"cs/"+cs_no).getAbsolutePath();
 
@@ -489,9 +506,11 @@ public class CsService {
 
        // 저장되어질 eventImage
        newEvent.removeAll(oriRemoveEvent);
+       log.debug("저장 : " + newEvent);
 
        // 삭제되어질 eventImage
         oriEvent.removeAll(newRemoveEvent);
+        log.debug("삭제 : " + oriEvent);
 
         if(oriEvent.size() != 0){
             for(String deleteFile : oriEvent){
@@ -502,8 +521,10 @@ public class CsService {
 
         List<String> changeSaveFile = new ArrayList<>();
 
+
         if(newEvent.size() != 0) {
             for(String saveFile : newEvent) {
+                log.debug("saveFile : " + saveFile);
                 String ext = saveFile.substring(saveFile.indexOf("."));
                 String newName = UUID.randomUUID() + ext;
                 changeSaveFile.add(newName);
@@ -523,37 +544,9 @@ public class CsService {
         // db에 저장될 리스트 이름
         oriRemoveEvent.removeAll(oriEvent);
         oriRemoveEvent.addAll(changeSaveFile);
+        log.debug("DB : " +oriRemoveEvent);
 
         return oriRemoveEvent;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    /*fileMap에서 파일 정보 추출*/
-//    private HashMap<String, Object> getUploadedFileInfo(MultipartFile multipartFile){
-//
-//        HashMap<String, Object> fileInfo = new HashMap<String, Object>();
-//        fileInfo.put("fileName",multipartFile.getOriginalFilename());
-//        fileInfo.put("fileSize",multipartFile.getSize());
-//        fileInfo.put("fileContentType",multipartFile.getContentType());
-//
-//        log.info("fileSize" + multipartFile.getSize());
-//
-//        return fileInfo;
-//    }
 }

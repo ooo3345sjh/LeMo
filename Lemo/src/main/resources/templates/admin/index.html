@@ -159,7 +159,7 @@
                         <div class="tsd_best_inner">
                             <h3>공지사항</h3>
                         </div>
-                        <a class="more" href="#">> 더보기</a>
+                        <a class="more" th:href="@{/admin/cs/notice/list}">> 더보기</a>
                         <div class="col2">
                             <form action="#">
                                 <div class="noticeList">
@@ -168,15 +168,13 @@
                                         <li>제목</li>
                                         <li>등록일</li>
                                     </ul>
-                                    <ul>
-                                        <li>1</li>
-                                        <li class="noticeTitle">이용약관 개정 안내</li>
-                                        <li>2023.02.25</li>
-                                    </ul>
-                                    <ul>
-                                        <li>2</li>
-                                        <li class="noticeTitle">이용약관 개정 안내</li>
-                                        <li>2023.02.25</li>
+
+                                    <ul th:each="notice,i:${notice}">
+                                        <li th:text="${i.index + 1}"></li>
+                                        <li class="noticeTitle">
+                                            <a th:href="@{/admin/cs/notice/view (cs_no=${notice.cs_no}, page=1)}">[[${notice.cs_title}]]</a>
+                                        </li>
+                                        <li th:text="${notice.cs_rdate.substring(0, 10)}"></li>
                                     </ul>
                                 </div>
                             </form>
@@ -198,17 +196,13 @@
                                         <li>닉네임</li>
                                         <li>작성일</li>
                                     </ul>
-                                    <ul>
-                                        <li>1</li>
-                                        <li class="noticeTitle">회원가입 문의</li>
-                                        <li>퉁퉁이</li>
-                                        <li>2023.02.25</li>
-                                    </ul>
-                                    <ul>
-                                        <li>2</li>
-                                        <li class="noticeTitle">이용문의</li>
-                                        <li>별이</li>
-                                        <li>2023.02.25</li>
+                                    <ul th:each="qna,i:${qnaArticles}">
+                                        <li th:text="${i.index + 1}"></li>
+                                        <li class="noticeTitle">
+                                            <a th:href="@{/admin/cs/qna/view (cs_no=${qna.cs_no}, page=1)}">[[${qna.cs_title}]]</a>
+                                        </li>
+                                        <li th:text="${qna.nick}"></li>
+                                        <li th:text="${qna.cs_rdate.substring(0, 10)}"></li>
                                     </ul>
                                 </div>
                             </form>

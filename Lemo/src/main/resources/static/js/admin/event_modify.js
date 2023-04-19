@@ -208,7 +208,7 @@ function base64toFile(base_data, filename) {
 
                     if(data == 'usaveEventFail') {
                         location.href = '/Lemo/admin/cs/event/list';
-                    }else if(data == 'usaveImageSuccess') {
+                    }else if(data == 'usaveEventSuccess') {
                         location.href= "/Lemo/admin/cs/event/view?cs_no="+cs_no+"&page="+page;
                     }
                 }
