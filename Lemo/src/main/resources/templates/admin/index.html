@@ -27,39 +27,37 @@
                             <div class="today_sales_status">
                                 <p>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</p>
                             </div>
-                            <!--/*
-                            <div class="tot_sales">
-                                <div class="tot_sales_box">
-                                    <div class="ts_tit1">총매출</div>
-                                    <div class="ts_count">[[${todaySales[0].count_sales}]]</div>
-                                    <div class="ts_tit2">건</div>
-                                    <div class="ts_price" th:text="${#numbers.formatInteger(todaySales[0].tot_res_price, 0, 'COMMA')}">36,000</div>
-                                    <div class="ts_tit3">원</div>
-                                </div>
-                            </div>
-                             */-->
                             <p class="tsd_msg">
                                 <strong>([[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]])</strong> 데이터가 조회됩니다.</p>
                             </p>
                             <div class="sales_day_status">
-                                <div class="tot_sales_day">
-                                    <div class="tsd_tit1">총매출</div>
-                                    <div class="tsd_tit2">[[${todaySales[0].count_sales}]] <i>건</i></div>
-                                    <div class="tsd_tit_3_4">
-                                        <div class="tsd_tit3" th:text="${#numbers.formatInteger(todaySales[0].tot_res_price, 0, 'COMMA')}"></div>
-                                        <i>원</i>
+                                <th:block th:if="${#lists.size(todaySales) == 0}">
+                                    <div class="tot_sales_day">
+                                        <div class="tsd_tit1">총매출</div>
+                                        <div class="tsd_tit2">0 <i>건</i></div>
+                                        <div class="tsd_tit3">0</div>
+                                        <div class="tsd_tit4"><i>원</i></div>
                                     </div>
-
-                                </div>
+                                </th:block>
+                                <th:block th:if="${#lists.size(todaySales) != 0}">
+                                    <div class="tot_sales_day">
+                                        <div class="tsd_tit1">총매출</div>
+                                        <div class="tsd_tit2">[[${todaySales[0].count_sales}]] <i>건</i></div>
+                                        <div class="tsd_tit3" th:text="${#numbers.formatInteger(todaySales[0].tot_res_price, 0, 'COMMA')}"></div>
+                                        <div class="tsd_tit4"><i>원</i></div>
+                                    </div>
+                                </th:block>
                                 <div class="tsd_grid">
                                     <div class="tsd_grid1">
                                         <div class="tsd_res">
                                             <p>예약</p>
-                                            <h3>[[${todaySales[0].count_sales}]] <i>건</i></h3>
+                                            <h3 th:if="${#lists.size(todaySales) == 0}">0 <i>건</i></h3>
+                                            <h3 th:unless="${#lists.size(todaySales) == 0}">[[${todaySales[0].count_sales}]] <i>건</i></h3>
                                         </div>
                                         <div class="tsd_cancel">
                                             <p>취소</p>
-                                            <h3>[[${totalCanceled}]] <i>건</i></h3>
+                                            <h3 th:if="${#lists.size(totalCanceled) == 0}">0 <i>건</i></h3>
+                                            <h3 th:unless="${#lists.size(totalCanceled) == 0}">[[${totalCanceled}]] <i>건</i></h3>
                                         </div>
                                         <div class="tsd_visit">
                                             <p>방문자</p>
@@ -116,16 +114,22 @@
                                         <li class="ba_li4">판매자 아이디</li>
                                         <li class="ba_li5">등록일</li>
                                     </ul>
-
-                                    <ul th:each="bestAcc,i:${bestAccs}">
-                                        <li class="ba_li1" th:text="${i.index + 1 + '위'}"></li>
-                                        <li class="ba_li2" th:text="${bestAcc.acc_id}">1004590</li>
-                                        <li class="ba_li3" th:value="${bestAcc.acc_id}">
-                                            <a href="#">[[${bestAcc.acc_name}]]</a>
-                                        </li>
-                                        <li class="ba_li4" th:text="${bestAcc.user_id}">circle@naver.com</li>
-                                        <li class="ba_li5" th:text="${bestAcc.acc_rdate.substring(0, 10)}">2023-04-12</li>
-                                    </ul>
+                                    <th:block th:if="${#lists.size(bestAccs) != 0}">
+                                        <ul th:each="bestAcc,i:${bestAccs}">
+                                            <li class="ba_li1" th:text="${i.index + 1 + '위'}"></li>
+                                            <li class="ba_li2" th:text="${bestAcc.acc_id}">1004590</li>
+                                            <li class="ba_li3" th:value="${bestAcc.acc_id}">
+                                                <a href="#">[[${bestAcc.acc_name}]]</a>
+                                            </li>
+                                            <li class="ba_li4" th:text="${bestAcc.user_id}">circle@naver.com</li>
+                                            <li class="ba_li5" th:text="${bestAcc.acc_rdate.substring(0, 10)}">2023-04-12</li>
+                                        </ul>
+                                    </th:block>
+                                    <th:block th:if="${#lists.size(bestAccs) == 0}">
+                                        <ul>
+                                            <li class="list_null">등록된 숙박이 없습니다.</li>
+                                        </ul>
+                                    </th:block>
                                 </div>
                             </div>
                     </div>
@@ -144,16 +148,22 @@
                                         <li>제목</li>
                                         <li>등록일</li>
                                     </ul>
-
-                                    <ul th:each="notice,i:${notice}">
+                                    <th:block th:if="${#lists.size(notice) != 0}">
+                                        <ul th:each="notice,i:${notice}">
                                         <li th:text="${i.index + 1}"></li>
                                         <li th:text="${#strings.equals(notice.cs_type, 'notice')? '공지사항':'이벤트당첨자안내' }"></li>
                                         <li class="noticeTitle">
-<!--                                            <i>[[${#strings.equals(notice.cs_type, "notice")? "공지사항":"이벤트당첨자안내" }]]</i>-->
+                                            <!-- <i>[[${#strings.equals(notice.cs_type, "notice")? "공지사항":"이벤트당첨자안내" }]]</i>-->
                                             <a th:href="@{/admin/cs/notice/view (cs_no=${notice.cs_no}, page=1)}">[[${notice.cs_title}]]</a>
                                         </li>
                                         <li th:text="${notice.cs_rdate.substring(0, 10)}"></li>
                                     </ul>
+                                    </th:block>
+                                    <th:block th:if="${#lists.size(notice) == 0}">
+                                        <ul>
+                                            <li class="list_null">등록된 공지사항이 없습니다.</li>
+                                        </ul>
+                                    </th:block>
                                 </div>
                             </form>
                         </div>
@@ -174,14 +184,21 @@
                                         <li>닉네임</li>
                                         <li>작성일</li>
                                     </ul>
-                                    <ul th:each="qna,i:${qnaArticles}">
-                                        <li th:text="${i.index + 1}"></li>
-                                        <li class="noticeTitle">
-                                            <a th:href="@{/admin/cs/qna/view (cs_no=${qna.cs_no}, page=1)}">[[${qna.cs_title}]]</a>
-                                        </li>
-                                        <li th:text="${qna.nick}"></li>
-                                        <li th:text="${qna.cs_rdate.substring(0, 10)}"></li>
-                                    </ul>
+                                    <th:block th:if="${#lists.size(qnaArticles) != 0}">
+                                        <ul th:each="qna,i:${qnaArticles}">
+                                            <li th:text="${i.index + 1}"></li>
+                                            <li class="noticeTitle">
+                                                <a th:href="@{/admin/cs/qna/view (cs_no=${qna.cs_no}, page=1)}">[[${qna.cs_title}]]</a>
+                                            </li>
+                                            <li th:text="${qna.nick}"></li>
+                                            <li th:text="${qna.cs_rdate.substring(0, 10)}"></li>
+                                        </ul>
+                                    </th:block>
+                                    <th:block th:if="${#lists.size(qnaArticles) == 0}">
+                                        <ul>
+                                            <li class="list_null">등록된 1:1문의글이 없습니다.</li>
+                                        </ul>
+                                    </th:block>
                                 </div>
                             </form>
                         </div>

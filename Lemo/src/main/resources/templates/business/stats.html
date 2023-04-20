@@ -54,7 +54,7 @@
                                         <button type="button" class="sd_reset" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
                                     </ul>
                                 </div>
-                                <p class="sd_msg">조회 조건 미설정시, <strong>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</strong>로부터 <strong>6일 전</strong> 데이터가 조회됩니다.</p>
+                                <p class="sd_msg" style="top: 144px !important;">조회 조건 미설정시, <strong>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</strong>로부터 <strong>6일 전</strong> 데이터가 조회됩니다.</p>
                                 <div class="stats_container">
                                     <div class="sales_day_status">
                                         <div class="tot_sales_day">
@@ -215,20 +215,11 @@
     <!-- 구글 차트 -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script th:inline="javascript">
-
         // 참조 데이터 준비
         let stats = [[${stats}]];
         let avg_res_price = [[${avg_res_price}]];
         let dateStart = [[${dateStart}]];
         let dateEnd = [[${dateEnd}]];
-
-        console.log(stats);
-        console.log(stats[0].res_date);
-
-        console.log('stats length: ' + stats.length);
-        console.log('avg_res_price: ' + avg_res_price);
-        console.log('dateStart: ' + dateStart);
-        console.log('dateEnd: ' + dateEnd);
 
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
@@ -244,18 +235,12 @@
         // 출력 날짜 형태 지정
         date = nowMonth + '/' + nowDate;
 
-
         // 이전 날짜
         let Daybefore = new Array();
         for (let i=0; i<stats.length; i++){
             Daybefore[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
             Daybefore[i] = (Daybefore[i].getMonth()+1) + '/' + Daybefore[i].getDate();
         }
-        // 기간 선택시
-
-
-        console.log("Daybefore length : " + Daybefore.length);
-        console.log('today date: ' + date);
 
         function drawVisualization() {
             // 그래프 내용 : drawVisualization 구현
@@ -265,7 +250,6 @@
             data.addColumn('number', '평균');
 
             if (dateStart == null && dateEnd == null){
-                console.log("null");
                 for (var i = Daybefore.length-1; i >= 0; i--) {
                     if(i==0) {
                         Daybefore[i] = date;
@@ -273,7 +257,6 @@
                     data.addRow([Daybefore[i], stats[i].tot_res_price, avg_res_price]);
                 }
             }else {
-                console.log("not null");
                 for (var i = Daybefore.length-1; i >= 0; i--) {
                     data.addRow([stats[i].res_date, stats[i].tot_res_price, avg_res_price]);
                 }

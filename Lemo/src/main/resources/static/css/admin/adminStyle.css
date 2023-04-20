@@ -138,6 +138,7 @@ main .tot_sales_day {
     background: #FBFBFD;
     border: 1px solid #e1e1e1;
     padding: 24px;
+    text-align: center;
 }
 main .tot_sales_day > div {
     text-align: center;
@@ -508,6 +509,10 @@ main .br_li4 { width: 10%; }
 main .br_li5 { width: 30%; }
 main .br_li6 { width: 8%; }
 
+main .list_null {
+    width: 100% !important;
+    margin: 10px 0 10px 0 !important;
+}
 
 main .paging {
     margin: 15px 0;
