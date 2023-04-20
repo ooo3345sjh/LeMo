@@ -67,21 +67,21 @@
                                 </ul>
                             </div>
                             <!-- 페이징 -->
-                            <div class="paging" th:object="${ph}" th:unless="${articles.size() == 0}">
-                                <span th:if="*{showPrev}">
-                                    <a th:href="@{/diary/list} + ${ph.sc.getQueryString(ph.beginPage-1)}">
-                                        <img th:src="@{/images/product/left.png}" alt="previous">
-                                    </a>
-                                </span>
-                                <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
-                                    <a th:href="@{/diary/list} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
-                                </span>
-                                <span th:if="*{showNext}">
-                                    <a th:href="@{/diary/list} + ${ph.sc.getQueryString(ph.endPage+1)}">
-                                        <img th:src="@{/images/product/right.png}" alt="next">
-                                    </a>
-                                </span>
-                            </div>
+                                                    <div class="paging" th:object="${ph}" th:unless="${articles.size() == 0}">
+                                                        <span th:if="*{showPrev}">
+                                                            <a th:href="@{/diary/list} + ${ph.sc.getQueryString(ph.beginPage-1)}">
+                                                                <img th:src="@{/images/product/left.png}" alt="previous">
+                                                            </a>
+                                                        </span>
+                                                        <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
+                                                            <a th:href="@{/diary/list} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
+                                                        </span>
+                                                        <span th:if="*{showNext}">
+                                                            <a th:href="@{/diary/list} + ${ph.sc.getQueryString(ph.endPage+1)}">
+                                                                <img th:src="@{/images/product/right.png}" alt="next">
+                                                            </a>
+                                                        </span>
+                                                    </div>
                         </div>
 
                         <!-- 지도 -->
