@@ -177,7 +177,6 @@ main > #cs {
     background-size: 10px auto;
     margin-right: 5px;
     position: relative;
-    top: 12px;
 }
 
 .paging .next {
@@ -185,7 +184,6 @@ main > #cs {
     background-size: 10px auto;
     margin-left: 5px;
     position: relative;
-    top: 12px;
 }
 
 .paging .on{
