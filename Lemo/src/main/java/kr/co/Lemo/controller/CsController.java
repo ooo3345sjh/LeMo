@@ -64,11 +64,9 @@ public class CsController {
             service.findTerms(map);
 
             model.addAttribute("map", map);
-            return "cs/terms";
-        }else if("faq".equals(cs_cate)){
 
         }
-        return "cs/faq/event";
+        return "cs/terms";
     }
 
     // @since 2023/03/11
