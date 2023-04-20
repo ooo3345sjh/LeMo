@@ -118,10 +118,12 @@ public class UserController {
         if(authentication != null){
             new SecurityContextLogoutHandler().logout(req,resp,authentication);
 
-            // DB remember-me 쿠키 삭제
-            JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
-            repository.setDataSource(dataSource);
-            repository.removeUserTokens(userVO.getUsername());
+            if(userVO != null){
+                // DB remember-me 쿠키 삭제
+                JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
+                repository.setDataSource(dataSource);
+                repository.removeUserTokens(userVO.getUsername());
+            }
         }
         String fromUri = req.getHeader("Referer");
 
