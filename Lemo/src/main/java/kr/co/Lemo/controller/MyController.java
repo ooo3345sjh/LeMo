@@ -326,16 +326,23 @@ public class MyController {
     @GetMapping("diary/list")
     public String diary_list(
             @AuthenticationPrincipal UserVO myUser,
+            @ModelAttribute My_SearchVO vo,
             Model m
     ) {
         log.debug("GET diary/list start");
         m.addAttribute("title", environment.getProperty(diaryGroup));
         m.addAttribute("cate", "diary");
+        vo.setUser_id(myUser.getUser_id());
 
-        String user_id = myUser.getUser_id();
+        int totalDiary = service.findTotalDiary(vo);
+        int totalDiaryPage = (int)Math.ceil(totalDiary / (double)vo.getPageSize());
+        if(vo.getPage() > totalDiaryPage) vo.setPage(totalDiaryPage);
 
-        Map<Integer, List<DiarySpotVO>> map = service.findDiaryArticle(user_id);
-        m.addAttribute("map", map);
+        PageHandler qnaPageHandler = new PageHandler(totalDiary, vo);
+
+        List<ArticleDiaryVO> articles = service.findDiaryArticles(vo);
+        m.addAttribute("articles", articles);
+        m.addAttribute("ph", qnaPageHandler);
 
         return "my/diary/list";
     }

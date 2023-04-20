@@ -323,13 +323,12 @@
         height: 31px;
         margin: 4px 0px 4px 2px;
         padding: 3px 0px 0px 4px;
-        background: linear-gradient(to bottom, #fffec2 5%, #fcf951 100%);
-        background-color: #f9f9f9;
+        background: #bbd444;
         border-radius: 6px;
-        border: 1px solid #dcdcdc;
+        border: none;
         display: inline-block;
         cursor: pointer;
-        color: #666666;
+        color: #fff;
         font-size: 15px;
         text-align: center;
         font-weight: 300;
@@ -337,8 +336,6 @@
     }
 
     .reserve_info .my_review_write.on:hover {
-        background: linear-gradient(to bottom, #bbf5cd 5%, #79f39f 100%);
-        background-color:#f6f6f6;
     }
 
     .reserve_info .myDiary.on {
@@ -349,21 +346,19 @@
         height: 31px;
         margin: 4px 0px 4px 2px;
         padding: 3px 0px 0px 4px;
-        background: linear-gradient(to bottom, #fffec2 5%, #fcf951 100%);
-        background-color: #f9f9f9;
+        background: #bbd444;
         border-radius: 6px;
-        border: 1px solid #dcdcdc;
+        border: noen;
         display: inline-block;
         cursor: pointer;
-        color: #666666;
+        color: #fff;
         font-size: 15px;
         text-align: center;
         font-weight: 300;
         text-decoration: none;
     }
     .reserve_info .myDiary.on:hover {
-        background: linear-gradient(to bottom, #bbf5cd 5%, #79f39f 100%);
-        background-color:#f6f6f6;
+
     }
 
 
@@ -1550,11 +1545,15 @@
         margin: 0 auto;
     }
     .my_review_view .my_review_tit {
-        margin: 11px 0 0 0;
+        margin: 0 auto;
+        width: 600px;
         padding: 40px 0px 0px 0px;
         font-size: 25px;
         font-weight: 500;
         text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     
     .my_review_view .my_review_rating {
@@ -1619,6 +1618,16 @@
         border-radius: 23px;
         text-align: center;
         padding: 34px 59px 35px 59px;
+    }
+
+    .my_review_view .my_review_text > textarea {
+        font-size: 19px;
+        outline: none;
+        width: 100%;
+        height: auto;
+        border: none;
+        overflow: hidden;
+        resize: none;
     }
 
     .review_swiper-container {
