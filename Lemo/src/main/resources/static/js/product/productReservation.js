@@ -264,22 +264,6 @@ $(function(){
             }
         }
 
-        /*
-        switch(payment) {
-            case 1:
-                pg = 'html5_inicis.INIpayTest';
-                break;
-            case 2:
-                pg = 'tosspay';
-                break;
-            case 3:
-                pg = 'payco.AUTOPAY';
-                break;
-            case 4:
-                pg = 'kakaopay.TC0ONETIME';
-                break;
-        }*/
-
         if(payment == 1){
             pg = 'html5_inicis.INIpayTest';
         }else if(payment == 2) {

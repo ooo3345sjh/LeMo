@@ -73,7 +73,7 @@
                                                     <th:block th:if="${qnaArticle.cs_reply != null }">
                                                         <button class="btnAdminProd" type="button" onclick="toggleDisabled()">수정하기</button>
                                                         <button class="btnAdminProd" type="submit" style="display:none;" id="modify" onclick="modifyCheck(event)" form="qna_update">수정</button>
-                                                        <button class="btnAdminProd" type="button" onclick="javascript:history.back();">목록으로</button>
+                                                        <button class="btnAdminProd" type="button" onclick="location.href='/Lemo/admin/cs/qna/list';">목록으로</button>
                                                         <button class="btnAdminProd" type="button" onclick="toggleDisabled()" style="display:none">취소</button>
                                                     </th:block>
 

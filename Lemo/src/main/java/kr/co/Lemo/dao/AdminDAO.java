@@ -104,45 +104,79 @@ public interface AdminDAO {
     // @since 2023/03/15
     public int deleteReview(@Param("revi_id") String revi_id);
 
-     // @since 2023/04/11 관리자 - 메인 - 일별 누적 판매량 (당일)
-    public List<ReservationVO> selectTodaySales();
 
-    // @since 2023/04/05 관리자 - 통계관리 - 일별 누적 판매량 (일주일)
-    public List<ReservationVO> selectDaySales(Map map);
 
-    // @since 2023/04/06
-    public List<ReservationVO> selectPayment(Map map);
 
-    // @since 2023/04/13
+
+    // 관리자 - 메인 - 일별 누적 판매량 (당일)
+    public List<ReservationVO> selectTodaySales(Map map);
+    // 관리자 - 메인 - 취소 건수 (당일)
+    public int countDayCancel();
+    // 관리자 - 메인 - 1:1문의
+    public int countDayQna();
+    // 관리자 - 메인 - 상품등록
+    public int countDayAcc();
+    // 관리자 - 메인 - 회원가입
+    public int countDayUser();
+    // 관리자 - 메인 - 판매량 그래프 (기간 고정)
+    public List<ReservationVO> selectDaySale();
+    //  관리자 - 메인 - 결제 방법 결제 현황
     public List<ReservationVO> selectPaymentDay(Map map);
-
-    // @since 2023/04/06
-    public List<ReservationVO> selectMonthSales(Map map);
-
-    // @since 2023/04/13
-    public List<ReservationVO> selectYearSales(Map map);
-
-    // @since 2023/04/13
+    // 관리자  - 메인 - 베스트 숙소
     public List<ProductAccommodationVO> selectBestAcc(Map map);
 
 
-    // @since 2023/04/06
-    public int countWeeksSales();
-    public int countDaySales();
+    // 관리자 - 통계관리 - 예약 건수 (기간 변동, 기본: 일주일)
+    public int countWeeksSales(Map map);
+    // 관리자 - 통계관리 - 취소 건수 (기간 변동, 기본: 일주일)
+    public int countWeeksCancel(Map map);
+    // 관리자 - 통계관리 - 1:1 문의수 (기간 변동, 기본: 일주일)
+    public int countWeeksQna(Map map);
+    // 관리자 - 통계관리 - 상품 등록 수 (기간 변동, 기본: 일주일)
+    public int countWeeksAcc(Map map);
+    // 관리자 - 회원가입 수 (기간 변동, 기본: 일주일)
+    public int countWeeksUser(Map map);
+    // 관리자 - 통계관리 - 일별 누적 판매량 (일주일)
+    public List<ReservationVO> selectDaySales(Map map);
+    // 관리자 - 통계관리 - 결제방법 결제 현황 (기간 변동)
+    public List<ReservationVO> selectPayment(Map map);
+    // 관리자 - 월별 매출 근황 그래프(기간 고정, 4month)
+    public List<ReservationVO> selectMonthSales(Map map);
+    // 관리자 - 통계관리 연 판매량 그래프 (기간 고정, 1year)
+    public List<ReservationVO> selectYearSales(Map map);
 
-    public int countWeeksCancel();
-    public int countDayCancel();
 
-    public int countWeeksQna();
-    public int countDayQna();
 
-    public int countWeeksAcc();
-    public int countDayAcc();
 
-    public int countWeeksUser();
-    public int countDayUser();
 
-    public int selectWeekAvg();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**

@@ -28,6 +28,7 @@
                         </div>
                         <div class="col2" style="background: transparent; position: relative;" >
                             <form th:action="@{/admin/stats}">
+                                <input type="text" name="periodType" value="">
                                 <div class="search_date_sort">
                                     <ul class="date_msg">기간별 조회</ul>
                                     <ul class="date_3ea">
@@ -43,9 +44,9 @@
                                     </ul>
                                     <ul class="sd_date_box">
                                         <li class="sd_date">
-                                            <input class="select_date" name="dateStart"  type="date">
+                                            <input class="begin" name="dateStart" type="date">
                                             -
-                                            <input class="select_date" name="dateEnd" type="date">
+                                            <input class="end" name="dateEnd" type="date">
                                         </li>
                                         <button type="submit" class="sd_submit">조회</button>
                                         <button type="reset" class="sd_reset" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
@@ -57,8 +58,8 @@
                                     <div class="sales_day_status">
                                         <div class="tot_sales_day">
                                             <div class="tsd_tit1">총매출</div>
-                                            <div class="tsd_tit2">[[${totalSales}]] <i>건</i></div>
-                                            <div class="tsd_tit3" th:text="${#numbers.formatInteger(stats[0].tot_res_price + stats[1].tot_res_price + stats[2].tot_res_price + stats[3].tot_res_price + stats[4].tot_res_price + stats[5].tot_res_price + stats[6].tot_res_price, 0, 'COMMA')}">1,234,567,89 <i>원</i></div>
+                                            <div class="tsd_tit2">[[${totalSales}]]<i>건</i></div>
+                                            <div class="tsd_tit3" th:text="${#numbers.formatInteger(sum_res_price, 0, 'COMMA')}">1,234,567,89 <i>원</i></div>
                                             <i> 원</i>
                                         </div>
                                         <div class="tsd_grid">
@@ -87,7 +88,7 @@
                                                 </div>
                                                 <div class="tsd_regi">
                                                     <p>회원가입</p>
-                                                    <h3>[[${totalUser}]] <i>건</i></h3>
+                                                    <h3>[[${totalRegister}]] <i>건</i></h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -130,49 +131,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
-
-                                        <!-- 오늘 현황 -->
-                                        <!--
-                                        <div class="today_stat">
-                                            <div class="today_div">
-                                                <div class="today_grid">
-                                                    <div class="today_grid_item">
-                                                        <p>예약건수</p>
-                                                        <h3>[[${totalSales}]]</h3>
-                                                    </div>
-                                                    <div class="today_grid_item">
-                                                        <p>취소건수</p>
-                                                        <h3>[[${totalCanceled}]]</h3>
-                                                    </div>
-                                                    <div class="today_grid_item">
-                                                        <p>방문자수</p>
-                                                        <h3>구현예정</h3>
-                                                    </div>
-                                                    <div class="today_grid_item">
-                                                        <p>1:1문의수</p>
-                                                        <h3>[[${totalQna}]]</h3>
-                                                    </div>
-                                                    <div class="today_grid_item">
-                                                        <p>상품등록</p>
-                                                        <h3>[[${totalAcc}]]</h3>
-                                                    </div>
-                                                    <div class="today_grid_item">
-                                                        <p>회원가입</p>
-                                                        <h3>[[${totalUser}]]</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        -->
-                                        <!-- 객실 점유율 -->
-                                        <!-- <div class="sales_room_percent">
-                                            <div class="chart_box">
-                                                <div id="chart_div2"></div>
-                                            </div>
-                                        </div> -->
                                         <!-- 월별 매출액 그래프 -->
+                                        <!--/*
                                         <div class="sales_table">
                                             <div class="sales_div">
                                                 <table>
@@ -183,14 +143,14 @@
                                                         <th>비율</th>
                                                         <th>그래프</th>
                                                     </tr>
-                                                    <tr th:each="vo, i:${statsMonth}">
-                                                        <td>[[${vo.res_month}]]월</td>
-                                                        <td>[[${vo.tot_month_sales}]]건</td>
-                                                        <!--/* <td>[[${monthSalesList}]]</td>  */-->
-                                                        <td th:text="${#numbers.formatInteger(vo.tot_res_price, 0, 'COMMA') + '원'}">36,000</td>
-                                                        <td th:text="${#numbers.formatDecimal(vo.tot_month_percent, 2, 2) + '%'}"></td>
+                                                    <tr>
+                                                        <td>asdf월</td>
+                                                        <td>111건</td>
+                                                        <td>[[${monthSalesList}]]</td>
+                                                        <td >36,000</td>
+                                                        <td></td>
                                                         <td>
-                                                            <progress id="progress1" th:value="${vo.tot_month_percent}" min="0" max="100"></progress>
+                                                            <progress id="progress1" value="30" min="0" max="100"></progress>
                                                         </td>
                                                     </tr>
 
@@ -198,6 +158,7 @@
                                                 </table>
                                             </div>
                                         </div>
+                                        */-->
                                     </div>
                                 </div>
                             </form>
@@ -216,53 +177,14 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <script>
-        $(document).ready(function() {
-            let now        = new Date();
-            let nowYear    = now.getFullYear();
-            let nowMonth   = now.getMonth() + 1;
-            let nowDate    = now.getDate();
-            let date       = nowYear + '-' + nowMonth + '-' + nowDate;
-
-            /** Jquery UI Date Picker */
-            $('input[name="dates"]').daterangepicker({
-                "maxSpan": {
-                    "days": 7
-                },
-                "locale": {
-                    "format": "YYYY-MM-DD",
-                    "separator": " ~ ",
-                    "applyLabel": "확인",
-                    "cancelLabel": "취소",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"],
-                    "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-                    "firstDay": 1
-                },
-                // "startDate": moment().startOf('hour'),
-                // "endDate": moment().startOf('hour').add(168, 'hour'),
-                "startDate": moment().startOf('hour').subtract(168, 'hour'),
-                "endDate": moment().startOf('hour'),
-                "maxDate": moment().startOf('hour'),
-                "drops": "down",
-                "opens": "center"
-            }, function (start, end, label) {
-                alert(start.format('YYYY-MM-DD')+"~"+end.format('YYYY-MM-DD'));
-            });
-
-        });
-    </script>
-    <!-- 일별 매출 현황 -->
+    <!-- 기간별 매출 그래프 (기간 변동) -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script th:inline="javascript">
         // 참조 데이터 준비
         let stats = [[${stats}]];
-
-        console.log("stats");
-        console.log(stats);
+        let avg_res_price = [[${avg_res_price}]];
+        let dateStart = [[${dateStart}]];
+        let dateEnd = [[${dateEnd}]];
 
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
@@ -270,39 +192,42 @@
         google.charts.setOnLoadCallback(drawVisualization);
 
         // 오늘 날짜
-        let todayM = new Date();
+        let today = new Date();
         // 오늘 날짜 (월)
-        let nowMonthM = todayM.getMonth() + 1;
+        nowMonth = today.getMonth() + 1;
         // 오늘 날짜 (일)
-        let nowDateM = todayM.getDate();
+        nowDate = today.getDate();
         // 출력 날짜 형태 지정
-        Mdate = nowMonthM + '/' + nowDateM;
+        date = nowMonth + '/' + nowDate;
 
         // 이전 날짜
-        // before[1] = 1일전 , before[2] = 2일전
-        let Mbefore = new Array();
-        for (let i=1; i<7; i++){
-            Mbefore[i] = new Date(todayM.getTime()-(i * 24 * 60 * 60 * 1000));
-            Mbefore[i] = (Mbefore[i].getMonth()+1) + '/' + Mbefore[i].getDate();
+        let Daybefore = new Array();
+        for (let i=0; i<stats.length; i++){
+            Daybefore[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
+            Daybefore[i] = (Daybefore[i].getMonth()+1) + '/' + Daybefore[i].getDate();
         }
 
-
-
-        let avgWeeks = [[${avgWeeks}]];
-
         function drawVisualization() {
-
             // 그래프 내용 : drawVisualization 구현
-            var data = google.visualization.arrayToDataTable([
-                ['날짜', '일별매출', '주매출평균'],
-                [Mbefore[6],  stats[6].tot_res_price, avgWeeks],
-                [Mbefore[5],  stats[5].tot_res_price, avgWeeks],
-                [Mbefore[4],  stats[4].tot_res_price, avgWeeks],
-                [Mbefore[3],  stats[3].tot_res_price, avgWeeks],
-                [Mbefore[2],  stats[2].tot_res_price, avgWeeks],
-                [Mbefore[1],  stats[1].tot_res_price, avgWeeks],
-                [Mdate,  stats[0].tot_res_price, avgWeeks]
-            ]);
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', '날짜');
+            data.addColumn('number', '매출');
+            data.addColumn('number', '평균');
+
+            if (dateStart == null && dateEnd == null){
+                for (var i = Daybefore.length-1; i >= 0; i--) {
+                    if(i==0) {
+                        Daybefore[i] = date;
+                    }
+                    data.addRow([Daybefore[i], stats[i].tot_res_price, avg_res_price]);
+                }
+            }else {
+                for (var i = Daybefore.length-1; i >= 0; i--) {
+                    data.addRow([stats[i].res_date, stats[i].tot_res_price, avg_res_price]);
+                }
+            }
+
+
 
             // 그래프 주석 표기
             var view = new google.visualization.DataView(data);
@@ -356,6 +281,44 @@
             });
         }
     </script>
+    <!-- 기간별 결제 수단 현황 그래프 (기간 변동) -->
+    <script th:inline="javascript">
+        // 참조 데이터 준비
+        let paysMap = [[${paysMap}]];
+
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+            ['payment', 'Percent'],
+            ['신용/체크카드', paysMap[1] ? paysMap[1].length : 0],
+            ['토스페이', paysMap[2] ? paysMap[2].length : 0],
+            ['PAYCO', paysMap[3] ? paysMap[3].length : 0],
+            ['카카오페이', paysMap[4] ? paysMap[4].length : 0]
+            ]);
+
+            var options = {
+                title: '결제현황',
+                titleTextStyle: {fontSize:18, bold: true},
+                width: '100%',
+                fontSize: 15,
+                pieHole: 0.3,
+                legend: {
+                position: 'bottom',
+                maxLines: 7
+                },
+                colors: ['#4F650D', '#7F9822', '#BBD444','#D3E570'],
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+
+            $(window).resize(function(){
+                drawChart();
+            });
+
+        }
+    </script>
     <!-- 당일 매출 그래프  -->
     <script th:inline="javascript">
         // 참조 데이터 준비
@@ -374,8 +337,6 @@
         let DnowDate = Dtoday.getDate();
         // 출력 날짜 형태 지정
         Ddate = DnowMonth + '/' + DnowDate;
-
-        //console.log("Ddate : " + Ddate);
 
         // 이전 날짜
         // before[1] = 1일전 , before[2] = 2일전
@@ -449,7 +410,6 @@
             });
         }
     </script>
-
     <!-- 월별 매출 그래프 -->
     <script th:inline="javascript">
         // 참조 데이터 준비
@@ -488,10 +448,10 @@
             // 그래프 내용 : drawVisualization 구현
             var data = google.visualization.arrayToDataTable([
                 ['날짜', '일별매출', '월매출평균'],
-                [monthBefore[3],  MstatsMonth[0].tot_res_price, monthAvg],
-                [monthBefore[2],  MstatsMonth[1].tot_res_price, monthAvg],
-                [monthBefore[1],  MstatsMonth[2].tot_res_price, monthAvg],
-                [MonDate,  MstatsMonth[3].tot_res_price, monthAvg]
+                [monthBefore[3],  MstatsMonth[0] ? MstatsMonth[0].tot_res_price : 0, monthAvg],
+                [monthBefore[2],  MstatsMonth[1] ? MstatsMonth[1].tot_res_price : 0, monthAvg],
+                [monthBefore[1],  MstatsMonth[2] ? MstatsMonth[2].tot_res_price : 0, monthAvg],
+                [MonDate,  MstatsMonth[3] ? MstatsMonth[3].tot_res_price : 0, monthAvg]
             ]);
 
             // 그래프 주석 표기
@@ -552,7 +512,6 @@
             });
         }
     </script>
-
     <!-- 연별 매출 그래프 -->
     <script th:inline="javascript">
         // 참조 데이터 준비
@@ -587,9 +546,9 @@
             const year = yearAgo.getFullYear(); // 연도만 추출
             before[i] = year;
         }
-        console.log(before[2] + ":" + yearSales[0].tot_res_price);
-        console.log(before[1] + ":" + yearSales[1].tot_res_price);
-        console.log(Ydate + ":" + yearSales[2].tot_res_price);
+        //console.log(before[2] + ":" + yearSales[0].tot_res_price);
+        //console.log(before[1] + ":" + yearSales[1].tot_res_price);
+        //console.log(Ydate + ":" + yearSales[2].tot_res_price);
         //console.log( (yearSales[0].tot_res_price+yearSales[1].tot_res_price+yearSales[2].tot_res_price)/3 );
 
         function drawVisualization() {
@@ -597,9 +556,9 @@
             // 그래프 내용 : drawVisualization 구현
             var data = google.visualization.arrayToDataTable([
                 ['날짜', '연매출', '연매출평균'],
-                [before[2],  yearSales[0].tot_res_price, yearAvg],
-                [before[1],  yearSales[1].tot_res_price, yearAvg],
-                [Ydate,  yearSales[2].tot_res_price, yearAvg]
+                [before[2],  yearSales[0] ? yearSales[0].tot_res_price : 0, yearAvg],
+                [before[1],  yearSales[0] ? yearSales[1].tot_res_price : 0, yearAvg],
+                [Ydate,  yearSales[0] ? yearSales[2].tot_res_price : 0, yearAvg]
             ]);
 
             // 그래프 주석 표기
@@ -661,68 +620,37 @@
             });
         }
     </script>
+    <script>
+        $(function(){
+            // url 주소에서 periodType, 기간 파라미터 가져오기
+            let urlParams = new URLSearchParams(window.location.search);
+            let periodTypeParam = urlParams.get('periodType');
+            let dateStart = urlParams.get('dateStart');
+            let dateEnd = urlParams.get('dateEnd');
 
-    <script th:inline="javascript">
-        // 참조 데이터 준비
-        let statsMonth = [[${statsMonth}]];
+            // 선택값 유지
+            $('.begin').val(dateStart);
+            $('.end').val(dateEnd);
 
-        //console.log(statsMonth);
-        //console.log('statsMonth.length : ' + statsMonth.length);
+            // url 주소에 파라미터가 있다면
+            if(periodTypeParam){
+                $('ul.date_3ea a').removeClass('on');
+                $('ul.date_3ea a[data-value="'+periodTypeParam+'"]').addClass('on');
+            }
 
-        for(var vo of statsMonth) {
-            //console.log( vo.res_month + "=" + vo.tot_res_price);
-        }
-        //console.log( statsMonth[0].res_month + "=" + statsMonth[0].tot_res_price);
-        //console.log( statsMonth[1].res_month + "=" + statsMonth[1].tot_res_price);
-        //console.log( statsMonth[2].res_month + "=" + statsMonth[2].tot_res_price);
+            $('ul.date_3ea a').on('click', function(e) {
+                e.preventDefault();
 
-        let monthPercentList = [[${monthPercentList}]];
+                let periodType = $(this).data('value');
+                alert('click the a in 3ea! : ' + periodType);
 
-        //console.log(monthPercentList);
-        //console.log(monthPercentList[0]);
-    </script>
-    <script th:inline="javascript">
-
-        // 참조 데이터 준비
-        let paysMap = [[${paysMap}]];
-
-        //console.log(paysMap);
-        //console.log(paysMap[1][0].res_no);
-        //console.log(paysMap[1].length);
-
-
-        google.charts.load("current", {packages:["corechart"]});
-        google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-            ['payment', 'Percent'],
-            ['신용/체크카드', paysMap[1].length],
-            ['토스페이', paysMap[2].length],
-            ['PAYCO', paysMap[3].length],
-            ['카카오페이', paysMap[4].length]
-            ]);
-
-            var options = {
-                title: '결제현황',
-                titleTextStyle: {fontSize:18, bold: true},
-                width: '100%',
-                fontSize: 15,
-                pieHole: 0.3,
-                legend: {
-                position: 'bottom',
-                maxLines: 7
-                },
-                colors: ['#4F650D', '#7F9822', '#BBD444','#D3E570'],
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-            chart.draw(data, options);
-
-            $(window).resize(function(){
-                drawChart();
+                // on 클래스 추가 + input에 값 넣기
+                $('ul.date_3ea a').removeClass('on');
+                $(this).addClass('on');
+                $('input[name="periodType"]').val(periodType);
             });
 
-        }
+        });
     </script>
 </th:block>
 </html>

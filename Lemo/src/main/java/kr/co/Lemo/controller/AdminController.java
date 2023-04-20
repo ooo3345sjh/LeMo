@@ -56,20 +56,20 @@ public class AdminController {
     @GetMapping(value = {"", "index"})
      public String index_admin(
             Model model,
-            Map map
-    ) {
-        // 일별 매출 현황
-        List<ReservationVO> stats = service.findAllDaySales(map);
-        // 당일 누적 판매량
-        List<ReservationVO> todaySales = service.findAllTodaySales();
-        // best 숙소
-        List<ProductAccommodationVO> bestAccs = service.findAllBestAcc(map);
-        // 결제현황 (당일)
-        List<ReservationVO> pays = service.findAllPaymentDay(map);
-        Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
+            Map map) {
 
-        // 예약건수
-        int total = service.countDaySales();
+        model.addAttribute("title", environment.getProperty(group));
+
+        // 전역변수 선언
+        int sum_res_price = 0;
+        int avg_res_price = 0;
+
+        // 일별 누적 판매량 (당일)
+        List<ReservationVO> todaySales = service.findAllTodaySales(map);
+        // 공지사항 황원진
+        List<CsVO> notice = csService.findNoticeArticle();
+        // 1:1문의 황원진
+        List<CsVO> qnaArticles = csService.findQnaArticles();
         // 취소 건수
         int totalCanceled = service.countDayCancel();
         // 1:1 문의 수
@@ -78,17 +78,33 @@ public class AdminController {
         int totalAcc = service.countDayAcc();
         // 회원가입 수
         int totalUser = service.countDayUser();
+        // 판매량 그래프
+        List<ReservationVO> stats = service.findAllDaySale();
 
+        for (int i=0; i<stats.size(); i++) {
+            sum_res_price += stats.get(i).getTot_res_price();
+        }
+        avg_res_price = sum_res_price / stats.size();
 
-        model.addAttribute("stats", stats);
-        model.addAttribute("totalSales", total);
+        log.warn("avg_res_price = " + avg_res_price);
+        // 결제 방법 결제 현황
+        List<ReservationVO> pays = service.findAllPaymentDay(map);
+        Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
+        // 베스트 숙소
+        List<ProductAccommodationVO> bestAccs = service.findAllBestAcc(map);
+
+        // 모델 전송
         model.addAttribute("todaySales", todaySales);
         model.addAttribute("totalCanceled", totalCanceled);
         model.addAttribute("totalQna", totalQna);
         model.addAttribute("totalAcc", totalAcc);
         model.addAttribute("totalUser", totalUser);
-        model.addAttribute("bestAccs", bestAccs);
+        model.addAttribute("stats", stats);
+        model.addAttribute("avg_res_price", avg_res_price);
         model.addAttribute("paysMap", paysMap);
+        model.addAttribute("bestAccs", bestAccs);
+        model.addAttribute("notice", notice);
+        model.addAttribute("qnaArticles", qnaArticles);
 
         return "admin/index";
     }
@@ -96,42 +112,108 @@ public class AdminController {
     // 관리자 - 통계 관리
     @GetMapping("stats")
     public String stats(Model model,
-                        Map map) {
+                        @RequestParam Map map
+                        ) {
 
         // 타이틀 설정
         model.addAttribute("title", environment.getProperty(group));
 
-        // 일별 매출 현황
-        List<ReservationVO> stats = service.findAllDaySales(map);
 
+
+        // 전역변수 선언
+        int total = 0;
+        int totalCanceled = 0;
+        int totalQna = 0;
+        int totalAcc = 0;
+        int totalRegister = 0;
+        List<ReservationVO> stats = new ArrayList<>();
+        int sum_res_price = 0;
+        int avg_res_price = 0;
+        String periodType = (String) map.get("periodType");
+        if(map.get("dateStart") == null || map.get("dateStart") == ""){
+            log.debug("dateStart : " + map.get("dateStart"));
+            log.debug("dateStart null");
+            map.put("dateStart", null);
+            map.put("dateEnd", null);
+        }else{
+            log.debug("dateStart : " + map.get("dateStart"));
+            log.debug("dateStart null X");
+        }
+        String dateStart = (String) map.get("dateStart");
+        String dateEnd = (String) map.get("dateEnd");
+        List<ReservationVO> pays = new ArrayList<>();
+        Map<Integer, List<ReservationVO>> paysMap = new HashMap<>();
+
+        if(dateStart == null){
+            log.warn("date Start is null");
+        }
+
+        log.warn("periodType : " + periodType);
+
+        log.warn("1-dateStart : " + map.get("dateStart"));
+        log.warn("1-dateEnd : " + map.get("dateEnd"));
+        log.warn("2-dateStart : " + dateStart);
+        log.warn("2-dateEnd : " + dateEnd);
+
+        // 기간 미 설정시 기본 -> 일주일
+        if(map.get("periodType") == null){
+            log.warn("periodType is null");
+
+            map.put("periodType", "week");
+
+            log.warn("periodType in map: " + map.get("periodType"));
+
+        // 기간 설정 시 -> 기간 설정에 따른 데이터 조회
+        }else if(map.get("periodType") != null){
+            log.warn("periodType is not null");
+
+            map.put("periodType", periodType);
+            log.warn("periodType put map: " + periodType);
+        }
+
+        log.warn("periodType result in map: " + map.get("periodType"));
+        log.warn("map : " + map);
+        // 예약 건수
+        total = service.countWeeksSales(map);
+        // 취소 건수
+        totalCanceled = service.countWeeksCancel(map);
+        // 1:1 문의 수
+        totalQna = service.countWeeksQna(map);
+        // 상품 등록 수
+        totalAcc = service.countWeeksAcc(map);
+        // 회원가입 수
+        totalRegister = service.countWeeksUser(map);
+        // 매출 현황 그래프
+        stats = service.findAllDaySales(map);
+
+        log.debug("sdfs"+stats);
+
+//        for ( int i=0; i<stats.size(); i++ ){
+//            sum_res_price += stats.get(i).getTot_res_price();
+//        }
+//        avg_res_price = sum_res_price / stats.size();
+        // 결제 수단 현황
+        pays = service.findAllPayment(map);
+        paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
+
+        // 단위 기간별 매출현황 (기간 검색 미적용)
         // 당일 누적 판매량
-        List<ReservationVO> todaySales = service.findAllTodaySales();
+        List<ReservationVO> todaySales = service.findAllTodaySales(map);
 
         // 월별 매출 현황
         List<ReservationVO> statsMonth = service.findAllMonthSales(map);
-
-        //log.warn("hey: " + statsMonth);
 
         List<Double> monthPercentList = new ArrayList<>();
         int monthSum = 0;
 
         for (ReservationVO vo : statsMonth) {
             double totMonthPercent = vo.getTot_month_percent();
-            //log.warn("totMonthPercent: " + totMonthPercent);
             monthPercentList.add(totMonthPercent);
         }
         for (ReservationVO vo : statsMonth) {
-            log.warn("here : " + vo.getTot_res_price());
             monthSum += vo.getTot_res_price();
         }
-        //log.warn("there1 : " + monthSum);
-
-        // 4개월 평균 매출
-        int monthAvg = monthSum / 4;
-
-        //log.warn("there2 : " + monthAvg);
-
-        //log.warn("monthPercentList: " + monthPercentList);
+        int monthAvg = monthSum / 4;     // 4개월 평균 매출
 
         // 연별 매출 현황
         List<ReservationVO> yearSales = service.findAllYearSales(map);
@@ -139,61 +221,29 @@ public class AdminController {
         int yearSum = 0;
 
         for (ReservationVO mAvg : yearSales) {
-            log.warn("here2 : " + mAvg.getTot_res_price());
+            //log.warn("here2 : " + mAvg.getTot_res_price());
             yearSum += mAvg.getTot_res_price();
         }
-        log.warn("month Sum : " + yearSum);
 
-        // 3년 년평균 매출
-        int yearAvg = yearSum/3;
-
-        log.warn("yearAvg : " + yearAvg);
-
-        // 결제 현황
-        List<ReservationVO> pays = service.findAllPayment(map);
-        Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
-
-        // 총 매출 건수
-        int total = service.countWeeksSales();
-
-        // 취소 건수
-        int totalCanceled = service.countWeeksCancel();
-
-        // 1:1 문의 수
-        int totalQna = service.countWeeksQna();
-
-        // 상품 등록 수
-        int totalAcc = service.countWeeksAcc();
-
-        // 회원가입 수
-        int totalUser = service.countWeeksUser();
-
-        // 주별 평균 매출
-        int avgWeeks = service.selectWeekAvg();
-
-        //log.warn("statsMonth: " + statsMonth);
-        //log.warn("pays: " + pays);
-        //log.warn("pays length: " + pays.size());
-        //log.warn("stats: " + stats);
-
-        log.debug(""+statsMonth);
+        int yearAvg = yearSum/3;          // 3년 년평균 매출
 
 
-        model.addAttribute("stats", stats);
-        model.addAttribute("statsMonth", statsMonth);
-        model.addAttribute("monthPercentList", monthPercentList);
-        model.addAttribute("paysMap", paysMap);
         model.addAttribute("totalSales", total);
         model.addAttribute("totalCanceled", totalCanceled);
         model.addAttribute("totalQna", totalQna);
         model.addAttribute("totalAcc", totalAcc);
-        model.addAttribute("totalUser", totalUser);
-        model.addAttribute("avgWeeks", avgWeeks);
-        model.addAttribute("todaySales",todaySales);
-        model.addAttribute("monthAvg",monthAvg);
+        model.addAttribute("totalRegister", totalRegister);
+        model.addAttribute("stats", stats);
+        model.addAttribute("sum_res_price",sum_res_price);
+        model.addAttribute("avg_res_price", avg_res_price);
+        model.addAttribute("dateStart",dateStart);
+        model.addAttribute("dateEnd",dateEnd);
+        model.addAttribute("paysMap", paysMap);
+        model.addAttribute("todaySales", todaySales);
+        model.addAttribute("statsMonth", statsMonth);
+        model.addAttribute("monthAvg", monthAvg);
         model.addAttribute("yearSales",yearSales);
         model.addAttribute("yearAvg",yearAvg);
-
 
         return "admin/stats";
     }
@@ -881,6 +931,8 @@ public class AdminController {
         Map<String, MultipartFile> fileMap = request.getFileMap();
 
         String result = csService.usaveEventArticle(param, fileMap);
+
+        log.debug("controller : " + result);
 
         return result;
     }

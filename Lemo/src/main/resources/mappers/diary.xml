@@ -38,6 +38,7 @@
         <if test="orderByOption == 'reply'">
             ORDER BY a.`arti_comment` DESC
         </if>
+        LIMIT #{offset}, 10;
     </select>
 
     <select id="selectTotalDiarys" resultType="int">

@@ -156,15 +156,23 @@ main .tot_sales_day > .tsd_tit2 {
     padding-top: 10px;
     color: #424242;
 }
-main .tot_sales_day > .tsd_tit3 {
+main .tot_sales_day .tsd_tit3 {
     font-size: 27px;
     padding-top: 12px;
     color: #424242;
+    display: inline-block;
+}
+main .tot_sales_day > .tsd_tit4 {
+    font-size: 20px;
+    padding-top: 10px;
+    color: #424242;
+    display: inline-block;
 }
 main .tot_sales_day i {
     font-style: normal;
     color: #8a8989;
     font-size: 13px;
+    display: inline-block;
 }
 main .tsd_grid {
     display: inline-block;
@@ -342,6 +350,13 @@ main .main_content .col2 .noticeList li {
 main .main_content .col2 .noticeList .noticeTitle {
     text-align: left;
     padding-left: 21px;
+}
+main .main_content .col2 .noticeList .noticeTitle a {
+    text-align: left;
+    padding-left: 21px;
+    display: inline-block;
+    height: 32px;
+    font-size: 13px;
 }
 main .main_content .col2 .noticeList li:nth-of-type(1) {
     width: 4%;

@@ -823,7 +823,7 @@ public class BusinessController {
             totalAcc = service.countWeeksAcc(map);
             // 리뷰 등록 수  (일주일)
             totalReview = service.countWeeksReview(map);
-            // 일별 매출 현황 (일주일)
+            // 일별 매출 현황 그래프 (일주일)
             stats = service.findAllDaySales(map);
 
             for ( int i=0; i<stats.size(); i++ ){
