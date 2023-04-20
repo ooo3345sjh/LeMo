@@ -67,21 +67,17 @@
                                 </ul>
                             </div>
                             <!-- 페이징 -->
-                                                    <div class="paging" th:object="${ph}" th:unless="${articles.size() == 0}">
-                                                        <span th:if="*{showPrev}">
-                                                            <a th:href="@{/diary/list} + ${ph.sc.getQueryString(ph.beginPage-1)}">
-                                                                <img th:src="@{/images/product/left.png}" alt="previous">
-                                                            </a>
-                                                        </span>
-                                                        <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
-                                                            <a th:href="@{/diary/list} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
-                                                        </span>
-                                                        <span th:if="*{showNext}">
-                                                            <a th:href="@{/diary/list} + ${ph.sc.getQueryString(ph.endPage+1)}">
-                                                                <img th:src="@{/images/product/right.png}" alt="next">
-                                                            </a>
-                                                        </span>
-                                                    </div>
+                            <div class="paging" th:object="${ph}" th:unless="${articles.size() == 0}">
+                                <span class="prev" th:if="*{showPrev}">
+                                    <a th:href="@{/diary/list} + ${ph.sc.getQueryString(ph.beginPage-1)}"></a>
+                                </span>
+                                <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
+                                    <a th:href="@{/diary/list} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
+                                </span>
+                                <span class="next" th:if="*{showNext}">
+                                    <a th:href="@{/diary/list} + ${ph.sc.getQueryString(ph.endPage+1)}"></a>
+                                </span>
+                            </div>
                         </div>
 
                         <!-- 지도 -->
@@ -101,8 +97,6 @@
                 let overlays = new Map();
                 var markers = [];
                 let articles = [[${articles}]];
-
-                console.log(articles);
 
                 const arrObj = articles.reduce((newObj, obj) => {
                     newObj[obj.arti_no] = obj;
@@ -214,10 +208,14 @@
 
                             overlays.set(arrObj[key].spotVO[position].spot_no, overlay);
 
-                            kakao.maps.event.addListener(marker, 'click', function() {
+                            kakao.maps.event.addListener(marker, 'mouseover', function() {
                                 overlays.forEach(function(over){ over.setMap(null); });
                                 let overlayT = overlays.get(arrObj[key].spotVO[position].spot_no);
                                 overlayT.setMap(map);
+                            });
+
+                            kakao.maps.event.addListener(marker, 'mouseout', function() {
+                                closeOverlay(arrObj[key].spotVO[position].spot_no);
                             });
 
                             // 맵에 key값으로 분류되는 value로 넣기 위한 배열

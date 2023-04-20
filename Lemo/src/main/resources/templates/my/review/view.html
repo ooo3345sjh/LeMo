@@ -43,7 +43,7 @@
                             </div>
                             <div class="my_review_textbox">
                                 <div class="my_review_text">
-                                    [[${review.revi_content}]]
+                                    <textarea class="my_review_textarea">[[${review.revi_content}]]</textarea>
                                 </div>
                             </div>
                             <div class="review_swiper-container">
@@ -110,6 +110,13 @@
                 <script>
                     const urlParams = new URLSearchParams(window.location.search);
                     const res_no = urlParams.get('res_no');
+
+                    const reviewTextarea     = document.querySelectorAll('.my_review_textarea');
+
+                    reviewTextarea.forEach(function(textarea){
+                        textarea.style.height = 'auto';
+                        textarea.style.height = textarea.scrollHeight + 25 +'px';
+                    });
 
                     $(function(){
                         /** Swiper Slider **/

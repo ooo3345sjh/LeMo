@@ -25,7 +25,7 @@ public interface MyDAO {
     // @since 2023/03/13
     public List<ArticleDiaryVO> selectDiaryArticle(String uid);
     public List<DiarySpotVO> selectDiarySpot(int arti_no);
-    public List<DiarySpotVO> selectDiary(String user_id);
+    public List<DiarySpotVO> selectDiary(SearchCondition sc);
 
     // @since 2023/03/24
     public List<ProductAccommodationVO> selectPicks(SearchCondition sc);
@@ -56,6 +56,9 @@ public interface MyDAO {
     public int deleteReservation(long res_no);
     public int selectCheckReview(long res_no);
     public int selectCheckDiary(long res_no);
+
+    // @since 2023/04/120
+    public int selectTotalDiary(SearchCondition sc);
 
 
     /**
@@ -130,5 +133,9 @@ public interface MyDAO {
 
     // @since 2023/04/18
     public int updateAvailablePoiUsed();
+
+    // @since 2023/04/20
+    public List<ArticleDiaryVO> selectDiaryArticles(SearchCondition sc);
+    public List<DiarySpotVO> selectDiarySpots();
 
 }

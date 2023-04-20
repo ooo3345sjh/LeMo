@@ -152,9 +152,27 @@
         SELECT COUNT(`arti_no`) FROM `lemo_diary_article` WHERE `res_no`=#{res_no};
     </select>
 
+    <select id="selectDiaryArticles" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
+        SELECT
+            a.`arti_no`, a.`arti_title`, b.`user_id`
+        FROM
+            `lemo_diary_article` AS a LEFT JOIN
+            `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
+            `lemo_product_reservation` AS c ON a.`res_no` = c.`res_no` LEFT JOIN
+            `lemo_product_accommodation` AS d ON c.`acc_id` = d.`acc_id`
+        WHERE a.`user_id` = #{user_id}
+        ORDER BY a.`arti_rdate` DESC
+        LIMIT #{offset}, 10;
+    </select>
+
     <select id="selectDiarySpot" resultType="kr.co.Lemo.domain.DiarySpotVO">
         SELECT * FROM `lemo_diary_spot` WHERE `arti_no`=#{arti_no};
     </select>
+
+    <select id="selectDiarySpots" resultType="kr.co.Lemo.domain.DiarySpotVO">
+        SELECT * FROM `lemo_diary_spot`;
+    </select>
+
 
     <select id="selectDiary" resultType="kr.co.Lemo.domain.DiarySpotVO">
         SELECT
@@ -162,7 +180,13 @@
         FROM
             `lemo_diary_article` AS a JOIN
             `lemo_diary_spot` AS b ON a.`arti_no` = b.`arti_no`
-        WHERE `user_id`=#{user_id};
+        WHERE `user_id`=#{user_id}
+        LIMIT #{offset}, 10;
+    </select>
+
+    <select id="selectTotalDiary" resultType="int">
+        SELECT COUNT(`arti_title`) FROM `lemo_diary_article`
+        WHERE `user_id`= #{user_id};
     </select>
 
     <select id="selectProvinceAddr" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
@@ -188,6 +212,7 @@
         ON a.`acc_id` = b.`acc_id`
         WHERE a.`user_id` = #{user_id}
         ORDER BY `qna_no` DESC
+        LIMIT #{offset}, 10;
     </select>
 
     <select id="selectDiaryQnaCnt" resultType="int">
