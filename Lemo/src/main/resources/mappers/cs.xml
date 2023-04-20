@@ -244,8 +244,7 @@
     <update id="updateAdminNotice">
         update `lemo_cs` set
             `cs_title` =#{cs_title},
-            `cs_content` =#{cs_content},
-            `cs_rdate`=NOW()
+            `cs_content` =#{cs_content}
             where `cs_no`=#{cs_no};
     </update>
 

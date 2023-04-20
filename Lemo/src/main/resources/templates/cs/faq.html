@@ -81,7 +81,7 @@
                 <div class="paging" th:object="${ph}" th:style="${#lists.size(csArticles) == 0 ? 'visibility:hidden;':''}">
                     <th:block th:if="*{showPrev}">
                         <span class="prev">
-                            <a th:href="@{/cs/faq/} + ${ph.sc.cs_type + ph.sc.getQueryString(ph.beginPage-1)}"><<</a>
+                            <a th:href="@{/cs/faq/} + ${ph.sc.cs_type + ph.sc.getQueryString(ph.beginPage-1)}"></a>
                         </span>
                     </th:block>
 
@@ -90,7 +90,7 @@
                     </th:block>
 
                     <th:block th:if="*{showNext}">
-                        <span class="next"><a th:href="@{/cs/faq/} + ${ph.sc.cs_type + ph.sc.getQueryString(ph.endPage+1}"> >> </a></span>
+                        <span class="next"><a th:href="@{/cs/faq/} + ${ph.sc.cs_type + ph.sc.getQueryString(ph.endPage+1)}"> </a></span>
                     </th:block>
                 </div>
 
