@@ -45,6 +45,7 @@ public class CsService {
 
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
+        log.info(pageHandler.toString());
 
         List<CsVO> eventArticles = dao.selectCsArticles(sc);
 
