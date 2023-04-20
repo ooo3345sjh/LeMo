@@ -121,7 +121,7 @@ public class CsService {
        return qnaArticles;
     }
 
-    // @since 23/03/11
+    // @since 23/03/11 자주묻는 질문 목록
     public List<CsVO> findAllFaqArticles(Cs_SearchVO sc, Model model){
 
         log.info("cs_faq : " + sc.getCs_cate());
