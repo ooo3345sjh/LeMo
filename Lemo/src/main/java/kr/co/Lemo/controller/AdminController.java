@@ -81,12 +81,18 @@ public class AdminController {
         // 판매량 그래프
         List<ReservationVO> stats = service.findAllDaySale();
 
-        for (int i=0; i<stats.size(); i++) {
-            sum_res_price += stats.get(i).getTot_res_price();
+        if(stats.size() != 0) {
+            for (int i=0; i<stats.size(); i++) {
+                sum_res_price += stats.get(i).getTot_res_price();
+            }
+            avg_res_price = sum_res_price / stats.size();
+        }else if (stats.size() == 0) {
+            sum_res_price = 0;
+            avg_res_price = 0;
         }
-        avg_res_price = sum_res_price / stats.size();
 
         log.warn("avg_res_price = " + avg_res_price);
+
         // 결제 방법 결제 현황
         List<ReservationVO> pays = service.findAllPaymentDay(map);
         Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
