@@ -790,24 +790,10 @@
 
             };
 
-            // submit 버튼을 클릭할 때 실행
-            const handleSubmit = (event) => {
-                // input 태그 모두가 선택되지 않은 경우
-                if (!$beginInput.val() && !$endInput.val()) {
-                    event.preventDefault();
-                    $("input[name='dateStart']").removeAttr("name");
-                    $("input[name='dateEnd']").removeAttr("name");
-                    sweetalert("기간을 선택해주세요.", "warning");
-                    return false;
-                }
-
-
-            };
 
             // 이벤트 처리 함수
             $beginInput.on('input', handleDateChange);
             $endInput.on('input', handleDateChange);
-            $submitBtn.on('click', handleSubmit);
         });
     </script>
 </th:block>

@@ -112,8 +112,7 @@ public class AdminController {
     // 관리자 - 통계 관리
     @GetMapping("stats")
     public String stats(Model model,
-                        @RequestParam Map map
-                        ) {
+                        @RequestParam Map<String, String> map) {
 
         // 타이틀 설정
         model.addAttribute("title", environment.getProperty(group));
@@ -129,50 +128,48 @@ public class AdminController {
         List<ReservationVO> stats = new ArrayList<>();
         int sum_res_price = 0;
         int avg_res_price = 0;
-        String periodType = (String) map.get("periodType");
-        if(map.get("dateStart") == null || map.get("dateStart") == ""){
-            log.debug("dateStart : " + map.get("dateStart"));
-            log.debug("dateStart null");
-            map.put("dateStart", null);
-            map.put("dateEnd", null);
-        }else{
-            log.debug("dateStart : " + map.get("dateStart"));
-            log.debug("dateStart null X");
-        }
-        String dateStart = (String) map.get("dateStart");
-        String dateEnd = (String) map.get("dateEnd");
+        String periodType = map.get("periodType");
+        String dateStart = map.get("dateStart");
+        String dateEnd = map.get("dateEnd");
         List<ReservationVO> pays = new ArrayList<>();
         Map<Integer, List<ReservationVO>> paysMap = new HashMap<>();
 
-        if(dateStart == null){
-            log.warn("date Start is null");
+
+        /**
+         * dateStart, dateEnd 어떻게 받는지 확인
+         * 1. 첫 페이지 로딩, 폼 전송X - map : {}
+         * 2. 폼 전송 (periodType) - map : {periodType=day, dateStart=, dateEnd=}
+         * 3. 폼 전송 (date)       - map : {periodType=, dateStart=2023-04-17, dateEnd=2023-04-20}
+         */
+        log.warn("map : " + map);
+
+
+        /**
+        * 1. 첫 페이지 로딩, 폼 전송X - dateStart: null
+        * 2. 폼 전송 (periodType) - dateStart:
+        * 3. 폼 전송 (date)       - dateStart type: java.lang.String
+        * 결론 - mapper의 조건 !=null을 만족시키기 위해서는 null의 경우, 빈 문자열의 경우 -> 확실하게 null을 입력
+        */
+        if (map.get("dateStart") == null || map.get("dateStart").isBlank() && map.get("dateEnd") == null || map.get("dateEnd").isBlank()) {
+            log.warn("dateStart: " + map.get("dateStart"));
+
+            map.put("dateStart",null);
+            map.put("dateEnd",null);
+        }else {
+            log.warn("dateStart type: " + dateStart.getClass().getName());
         }
 
-        log.warn("periodType : " + periodType);
 
-        log.warn("1-dateStart : " + map.get("dateStart"));
-        log.warn("1-dateEnd : " + map.get("dateEnd"));
-        log.warn("2-dateStart : " + dateStart);
-        log.warn("2-dateEnd : " + dateEnd);
 
         // 기간 미 설정시 기본 -> 일주일
         if(map.get("periodType") == null){
-            log.warn("periodType is null");
-
             map.put("periodType", "week");
-
-            log.warn("periodType in map: " + map.get("periodType"));
 
         // 기간 설정 시 -> 기간 설정에 따른 데이터 조회
         }else if(map.get("periodType") != null){
-            log.warn("periodType is not null");
-
             map.put("periodType", periodType);
-            log.warn("periodType put map: " + periodType);
         }
 
-        log.warn("periodType result in map: " + map.get("periodType"));
-        log.warn("map : " + map);
         // 예약 건수
         total = service.countWeeksSales(map);
         // 취소 건수
@@ -186,12 +183,12 @@ public class AdminController {
         // 매출 현황 그래프
         stats = service.findAllDaySales(map);
 
-        log.debug("sdfs"+stats);
+        log.warn("stats size :" + stats.size());
 
-//        for ( int i=0; i<stats.size(); i++ ){
-//            sum_res_price += stats.get(i).getTot_res_price();
-//        }
-//        avg_res_price = sum_res_price / stats.size();
+        for ( int i=0; i<stats.size(); i++ ){
+            sum_res_price += stats.get(i).getTot_res_price();
+        }
+        avg_res_price = sum_res_price / stats.size();
         // 결제 수단 현황
         pays = service.findAllPayment(map);
         paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));

@@ -194,8 +194,8 @@
                                 </a>
                             </div>
                             <div class="btnAdminProd">
-                                <a th:href="@{/admin/cs/event/list (page=${page})}">
-                                    목록으로
+                                <a th:href="@{/admin/cs/event/view (cs_no=${mEvent.cs_no}, page=${page})}">
+                                    취소
                                 </a>
                             </div>
                         </form>
@@ -383,7 +383,7 @@
                                 usaveFormData.delete('main'+mainImgType);
                                 chkMainOriFile = base64toFile(e.target.result, 'main'+mainImgType);
 <!--                                usaveFormData.append('main'+mainImgType, chkMainOriFile);-->
-                                console.log(oriFile);
+<!--                                console.log(oriFile);-->
                                 console.log("메인베너");
                                 mainBannerImg.attr('src', e.target.result);
                                 mainBannerImg.show();
@@ -436,7 +436,7 @@
                                 chkBannerOriFile = base64toFile(e.target.result, 'eventBanner'+bannerImgType);
 <!--                                usaveFormData.append('eventBanner'+bannerImgType, chkBannerOriFile);-->
                                 console.log('eventBanner'+bannerImgType)
-                                console.log(oriFile);
+<!--                                console.log(oriFile);-->
                                 console.log('이벤트베너 확인')
                                 eventBannerImg.attr('src', e.target.result);
                                 console.log(e.target.result)

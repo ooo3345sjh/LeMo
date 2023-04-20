@@ -315,7 +315,7 @@
         <if test="periodType == 'year'">
             AND `res_checkIn` <include refid="latestYear"/>
         </if>
-        <if test="dateStart != '' and dateEnd != ''">
+        <if test="dateStart != null or dateEnd != null">
             AND `res_checkIn` <include refid="searchDate"/>
         </if>
     </select>
@@ -337,7 +337,7 @@
         <if test="periodType == 'year'">
             AND a.`res_checkIn` <include refid="latestYear"/>
         </if>
-        <if test="dateStart != '' and dateEnd != ''">
+        <if test="dateStart != null or dateEnd != null">
             AND a.`res_checkIn` <include refid="searchDate"/>
         </if>
     </select>
@@ -358,7 +358,7 @@
         <if test="periodType == 'year'">
             AND `cs_rdate` <include refid="latestYear"/>
         </if>
-        <if test="dateStart != '' and dateEnd != ''">
+        <if test="dateStart != null or dateEnd != null">
             AND `cs_rdate` <include refid="searchDate"/>
         </if>
     </select>
@@ -379,7 +379,7 @@
         <if test="periodType == 'year'">
             AND `acc_rdate` <include refid="latestYear"/>
         </if>
-        <if test="dateStart != '' and dateEnd != ''">
+        <if test="dateStart != null or dateEnd != null">
             AND `acc_rdate` <include refid="searchDate"/>
         </if>
     </select>
@@ -400,7 +400,7 @@
         <if test="periodType == 'year'">
             AND `rdate` <include refid="latestYear"/>
         </if>
-        <if test="dateStart != '' and dateEnd != ''">
+        <if test="dateStart != null or dateEnd != null">
             AND `rdate` <include refid="searchDate"/>
         </if>
     </select>
@@ -427,7 +427,7 @@
             <if test="periodType == 'year'">
                 AND a.`res_checkIn` <include refid="latestYear"/>
             </if>
-            <if test="dateStart != null and dateEnd != null">
+            <if test="dateStart != null or dateEnd != null">
                 AND a.`res_checkIn` <include refid="searchDate"/>
             </if>
         GROUP BY DATE(a.res_date)
@@ -451,7 +451,7 @@
         <if test="periodType == 'year'">
             AND a.`res_checkIn` <include refid="latestYear"/>
         </if>
-        <if test="dateStart != '' and dateEnd != ''">
+        <if test="dateStart != null or dateEnd != null">
             AND a.`res_checkIn` <include refid="searchDate"/>
         </if>
         order by a.res_payment;
@@ -490,33 +490,6 @@
         ORDER BY YEAR(a.res_date);
     </select>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!--
-    <select id="selectDaySales" resultType="kr.co.Lemo.domain.ReservationVO">
-        SELECT DATE(res_date) AS res_date, SUM(res_price) AS total_res_price
-        FROM lemo_product_reservation
-        GROUP BY DATE(res_date)
-        order by `res_date` asc;
-    </select>
-    -->
     <!-- 관리자 - 쿠폰 등록  -->
     <insert id="insertCoupon">
         INSERT INTO `lemo_product_coupon` (

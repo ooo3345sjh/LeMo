@@ -140,13 +140,16 @@
                                 <div class="noticeList">
                                     <ul>
                                         <li>#</li>
+                                        <li>유형</li>
                                         <li>제목</li>
                                         <li>등록일</li>
                                     </ul>
 
                                     <ul th:each="notice,i:${notice}">
                                         <li th:text="${i.index + 1}"></li>
+                                        <li th:text="${#strings.equals(notice.cs_type, 'notice')? '공지사항':'이벤트당첨자안내' }"></li>
                                         <li class="noticeTitle">
+<!--                                            <i>[[${#strings.equals(notice.cs_type, "notice")? "공지사항":"이벤트당첨자안내" }]]</i>-->
                                             <a th:href="@{/admin/cs/notice/view (cs_no=${notice.cs_no}, page=1)}">[[${notice.cs_title}]]</a>
                                         </li>
                                         <li th:text="${notice.cs_rdate.substring(0, 10)}"></li>
@@ -161,7 +164,7 @@
                         <div class="tsd_best_inner">
                             <h3>1:1 문의</h3>
                         </div>
-                        <a class="more" href="#">> 더보기</a>
+                        <a class="more" th:href="@{/admin/cs/qna/list}">> 더보기</a>
                         <div class="col2">
                             <form action="#">
                                 <div class="noticeList2">
