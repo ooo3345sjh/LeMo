@@ -39,7 +39,7 @@
                         <div class="col2">
                             <form id="qna_update" th:action="@{/admin/cs/qna/reply}" method="post">
                                 <input type="hidden" name="cs_no" th:value="${cs_no}">
-                                <input type="hidden" name="page" th:value="${page}">
+                                <input type="hidden" id="page" name="page" th:value="${page}">
                                 <div class="board_view">
                                     <div class="view_box">
                                         <div class="view_head">
@@ -73,7 +73,7 @@
                                                     <th:block th:if="${qnaArticle.cs_reply != null }">
                                                         <button class="btnAdminProd" type="button" onclick="toggleDisabled()">수정하기</button>
                                                         <button class="btnAdminProd" type="submit" style="display:none;" id="modify" onclick="modifyCheck(event)" form="qna_update">수정</button>
-                                                        <button class="btnAdminProd" type="button" onclick="location.href='/Lemo/admin/cs/qna/list';">목록으로</button>
+                                                        <button class="btnAdminProd" type="button" onclick="goToQnaList()">목록으로</button>
                                                         <button class="btnAdminProd" type="button" onclick="toggleDisabled()" style="display:none">취소</button>
                                                     </th:block>
 
@@ -119,6 +119,12 @@
         // 답변 포커스
         const cs_reply = document.getElementById('cs_reply');
         cs_reply.focus();
+
+        // 목록이동 함수
+        function goToQnaList() {
+          var page = document.getElementById("page").value;
+          location.href = "/Lemo/admin/cs/qna/list?page=" + page;
+        }
 
         // 수정하기 버튼 클릭시 disabled 변경
         let oriContent = document.getElementById("cs_reply").value;
