@@ -1,6 +1,7 @@
 #productResult { 
     min-width: 1200px; 
     padding: 20px 30px;
+    margin-bottom: 100px;
 }
 
 #result { 
@@ -93,6 +94,7 @@
     width: 25%;
     height: 100%;
     opacity: 0.4;
+    cursor: pointer;
 }
 
 .mySwiper .swiper-slide-thumb-active {
@@ -108,6 +110,27 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+/* 숙소 보기 숙소 사진 추가 css */
+.swiper-button-prev:after {
+    content: '';
+}
+
+.swiper-button-next:after {
+    content: '';
+}
+
+
+.swiper-button-prev {left: 0;}
+.swiper-button-next {right:0;}
+
+.swiper-button-next, .swiper-button-prev {
+    position: absolute;
+    top: 0;
+    margin-top: 0;
+    height: 100%;
+    width: 40px;
 }
 
 /** View 상단 info */
@@ -1624,6 +1647,7 @@ margin-left: 25px;
 .list > .list-area .stage-info > p:nth-child(2) {font-size: 20px;}
 .list > .list-area .stage-info > p:nth-child(2) > b { font-size: 20px; color: rgba(255,92,92,1); font-weight: 800;}
 
+/*
 .list > .list-area .paging { margin-top: 30px; text-align: center; }
 
 .list > .list-area .paging > span > a { padding-left: 10px; font-size: 20px; }
@@ -1635,6 +1659,57 @@ margin-left: 25px;
 
 .list > .list-area .paging > span.on > a {
     color : #bbd444;
+    font-weight: bold;
+}*/
+
+
+.list > .list-area .paging{
+    border-top: none;
+    padding: 32px 0 0 0;
+    display: block;
+    text-align: center;
+}
+
+.list > .list-area .paging span {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    box-sizing: inherit;
+    border-radius: 3px;
+    border: none;
+    box-shadow: none;
+    background: none;
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+    line-height: 32px;
+
+}
+
+.list > .list-area .paging span > a {
+    padding : 8px 11px;
+}
+
+.list > .list-area .paging .prev {
+    background: url('../../images/cs/ico_paging_arr1.png') 50% 50% no-repeat;
+    background-size: 10px auto;
+    margin-right: 5px;
+    position: relative;
+}
+
+.list > .list-area .paging .next {
+    background: url('../../images/cs/ico_paging_arr2.png') 50% 50% no-repeat;
+    background-size: 10px auto;
+    margin-left: 5px;
+    position: relative;
+}
+
+.list > .list-area .paging .on{
+    border: 1px solid rgba(0,0,0,0.27);
+    border-radius: 4px;
+    color: rgba(0,0,0,0.87);
+}
+.list > .list-area .paging .on a.on {
     font-weight: bold;
 }
 
@@ -1654,7 +1729,7 @@ margin-left: 25px;
 
     height: 700px;
     box-shadow: 0 10px 10px 0 rgb(0 0 0 / 15%);
-    border-radius: 20px;
+    border-radius: 5px;
 }
 
 #listMap > p {
