@@ -329,8 +329,12 @@ public class CsService {
             param.put("cs_eventbannerImg", bannerNewName);
             param.put("cs_eventMainBannerImg", mainBannerNewName);
 
+            log.debug("fileName size : " + fileName.size());
+
             fileName.remove(fileName.size() - 1);
             fileName.remove(fileName.size() - 1);
+
+            log.debug("fileName : " + fileName);
 
             String files = String.join("/", fileName);
             param.put("cs_eventViewImg", files);
@@ -493,12 +497,11 @@ public class CsService {
 
        File dir = new File(dirPath);
 
-        try {
-            FileUtils.cleanDirectory(dir);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+//        try {
+//            FileUtils.cleanDirectory(dir);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
        File Files[] = dir.listFiles();
 
