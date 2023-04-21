@@ -423,7 +423,7 @@ public class UserController {
     // @since 2023/03/25
     @GetMapping("expired-pw/reset")
     public String resetExpiredPw(Model m, @AuthenticationPrincipal UserVO user) {
-        if(user.getType() != 1)
+        if(user == null || user.getType() != 1)
             return "redirect:/index";
 
         m.addAttribute("title", environment.getProperty(group));

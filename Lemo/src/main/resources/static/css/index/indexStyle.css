@@ -309,6 +309,7 @@ main .main_best_table {
     gap: 20px;
     grid-template-columns: repeat(3, 1fr);
 }
+main .main_best_table span {font-size: 13px; line-height: 100px;}
 main .main_best_table > .main_best_item1 {
     padding: 6px;
 }
