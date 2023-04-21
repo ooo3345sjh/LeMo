@@ -19,81 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script th:src="@{/js/admin/summernote-ko-KR.js}"></script>
     <style>
-        .preview {
-            width: 100px;
-            height: 100px;
-            background-size: cover;
-            background-repeat: no-repeat;
-            z-index: 999;
-            background-position: center;
-            pointer-events: none;
-            background-image: url(https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg);
-        }
-        .event_write_img{
-            cursor: pointer;
-        }
-        .event_write_bannerImg > #image {
-            height: 181px;
-            width: 1100px;
-            margin: auto;
-        }
-        #fileDropzone > #ex_file {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0,0,0,0);
-            border: 0;
-        }
-        #fileDropzone #att_zone{
-            padding-top: 25px;
-        }
-        #fileDropzone #att_zone:empty::before{
-            content: attr(data-placeholder);
-            color: #999;
-            font-size: 26px;
-        }
 
-
-        /** 메인 베너 **/
-        #fileDropzone1 {
-            width: 99%;
-            min-height: 95px;
-            background-color: white;
-            border-radius: 6px;
-            padding: 4px 0;
-            text-align: center;
-            font-size: 24px;
-            border: none;
-            border: 2px dashed #e3e3e3;
-            display: table-cell;
-        }
-         .event_write_mainImg > #mainImage {
-            height: 440px;
-            width: 1100px;
-            margin: auto;
-        }
-        #fileDropzone1 #main_zone{
-            padding-top: 129px;
-            height: 304px;
-        }
-        #fileDropzone1 #main_zone:empty::before{
-            content: attr(data-placeholder);
-            color: #999;
-            font-size: 37px;
-        }
-        #fileDropzone1 > #main_file {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0,0,0,0);
-            border: 0;
-        }
     </style>
 </th:block>
 <th:block layout:fragment="content">
@@ -190,6 +116,11 @@
                             <div class="btnAdminProd">
                                 <a type="submit" id="btnUpload">
                                     이벤트등록
+                                </a>
+                            </div>
+                            <div class="btnAdminProd">
+                                <a th:href="@{/admin/cs/event/list}">
+                                    취소
                                 </a>
                             </div>
                         </form>

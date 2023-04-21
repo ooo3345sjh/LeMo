@@ -5,6 +5,13 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminQna.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
+    <style>
+        .show_list #nonData {
+            width: 100% !important;
+            margin-bottom: 9px;
+            font-size: 17px;
+        }
+    </style>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -31,6 +38,11 @@
                                         <li>작성자</li>
                                         <li>작성일</li>
                                         <li>상태</li>
+                                    </ul>
+                                    <ul class="show_list" th:if="${AdminQnaArticles.size() == 0}">
+                                        <li id="nonData" colspan="6">
+                                            등록된 문의글이 없습니다.
+                                        </li>
                                     </ul>
                                     <th:block th:each="qna,i:${AdminQnaArticles}">
                                         <ul>
