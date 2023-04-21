@@ -744,7 +744,7 @@ public class ProductService {
                     }
                 }else {
                     if( ( poi_point-poi_used ) > usedPoint) {
-                        dao.updateMemberPoint(poi_id, usedPoint);
+                        dao.updateMemberPoint(poi_id, (usedPoint+poi_used));
                         break;
 
                     }else if( ( poi_point-poi_used ) <= usedPoint) {
