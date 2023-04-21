@@ -320,7 +320,6 @@
     <script th:inline="javascript">
         // 참조 데이터 준비
         let todaySales = [[${todaySales}]];
-        console.log('todaySales : ' + todaySales);
 
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
@@ -520,8 +519,8 @@
     let yearSales = [[${yearSales}]];
     let yearAvg = [[${yearAvg}]];
 
-    //console.log("year");
-    //console.log(yearSales);
+    console.log("year");
+    console.log(yearSales);
 
     // 구글 열 차트를 로드
     google.charts.load('current', {'packages':['corechart']});
@@ -548,9 +547,9 @@
         const year = yearAgo.getFullYear(); // 연도만 추출
         before[i] = year;
     }
-    //console.log(before[2] + ":" + yearSales[0].tot_res_price);
-    //console.log(before[1] + ":" + yearSales[1].tot_res_price);
-    //console.log(Ydate + ":" + yearSales[2].tot_res_price);
+    console.log(before[2] + ":" + yearSales[0].tot_res_price);
+    console.log(before[1] + ":" + yearSales[1].tot_res_price);
+    console.log(Ydate + ":" + yearSales[1].tot_res_price);
     //console.log( (yearSales[0].tot_res_price+yearSales[1].tot_res_price+yearSales[2].tot_res_price)/3 );
 
     function drawVisualization() {
@@ -559,8 +558,8 @@
         var data = google.visualization.arrayToDataTable([
             ['날짜', '연매출', '연매출평균'],
             [before[2],  yearSales[0] ? yearSales[0].tot_res_price : 0, yearAvg],
-            [before[1],  yearSales[0] ? yearSales[1].tot_res_price : 0, yearAvg],
-            [Ydate,  yearSales[0] ? yearSales[2].tot_res_price : 0, yearAvg]
+            [before[1],  yearSales[1] ? yearSales[1].tot_res_price : 0, yearAvg],
+            [Ydate,  yearSales[2] ? yearSales[2].tot_res_price : 0, yearAvg]
         ]);
 
         // 그래프 주석 표기
@@ -726,6 +725,15 @@
                 $('ul.date_3ea a').removeClass('on');
                 $(this).addClass('on');
                 $('input[name="periodType"]').val(periodType);
+
+                // url dateStart, dateEnd 값 삭제
+                let url = new URL(window.location.href);
+                url.searchParams.delete('dateStart');
+                url.searchParams.delete('dateEnd');
+                window.location.href = url.toString();
+
+                // 바로 전송
+                $('.sd_submit').click();
             });
 
             // 기간 관련 변수 선언

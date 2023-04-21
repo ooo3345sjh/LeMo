@@ -288,7 +288,6 @@ public class BusinessService {
     * @apiNote 판매자 카운트
      */
     public int countWeeksSales(Map map){
-        log.warn("periodType : " + map.get("periodType"));
         return dao.countWeeksSales(map);}
     public int countDaySales(Map map) { return dao.countDaySales(map); }
     public int countDayCancel(Map map){return dao.countDayCancel(map); }
