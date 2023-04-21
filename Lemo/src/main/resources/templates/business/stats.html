@@ -173,45 +173,6 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <script>
-        $(document).ready(function() {
-            let now        = new Date();
-            let nowYear    = now.getFullYear();
-            let nowMonth   = now.getMonth() + 1;
-            let nowDate    = now.getDate();
-            let date       = nowYear + '-' + nowMonth + '-' + nowDate;
-
-            /** Jquery UI Date Picker */
-            $('input[name="dates"]').daterangepicker({
-                "maxSpan": {
-                    "days": 7
-                },
-                "locale": {
-                    "format": "YYYY-MM-DD",
-                    "separator": " ~ ",
-                    "applyLabel": "확인",
-                    "cancelLabel": "취소",
-                    "fromLabel": "From",
-                    "toLabel": "To",
-                    "customRangeLabel": "Custom",
-                    "weekLabel": "W",
-                    "daysOfWeek": ["월", "화", "수", "목", "금", "토", "일"],
-                    "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-                    "firstDay": 1
-                },
-                // "startDate": moment().startOf('hour'),
-                // "endDate": moment().startOf('hour').add(168, 'hour'),
-                "startDate": moment().startOf('hour').subtract(168, 'hour'),
-                "endDate": moment().startOf('hour'),
-                "maxDate": moment().startOf('hour'),
-                "drops": "down",
-                "opens": "center"
-            }, function (start, end, label) {
-                alert(start.format('YYYY-MM-DD')+"~"+end.format('YYYY-MM-DD'));
-            });
-
-        });
-    </script>
     <!-- 구글 차트 -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script th:inline="javascript">
@@ -350,7 +311,7 @@
             // 그래프 내용 : drawVisualization 구현
             var data = google.visualization.arrayToDataTable([
                 ['날짜', '일별매출', {role: 'style'}],
-                [Ddate,  todaySales[0].tot_res_price, 'color:#A9CB72'],
+                [Ddate,  todaySales[0]? todaySales[0].tot_res_price : 0, 'color:#A9CB72'],
             ]);
 
             // 그래프 주석 표기

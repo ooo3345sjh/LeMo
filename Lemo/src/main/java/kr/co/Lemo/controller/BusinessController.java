@@ -881,10 +881,19 @@ public class BusinessController {
         // 일별 매출 현황 (대표 그래프)
         stats = service.findAllDaySales(map);
 
-        for ( int i=0; i<stats.size(); i++ ){
-            sum_res_price += stats.get(i).getTot_res_price();
+        log.warn("stats: " + stats.size());
+
+        if(stats.size() == 0) {
+            sum_res_price = 0;
+            avg_res_price = 0;
+        }else {
+                for ( int i=0; i<stats.size(); i++ ){
+                sum_res_price += stats.get(i).getTot_res_price();
+            }
+            avg_res_price = sum_res_price / stats.size();
         }
-        avg_res_price = sum_res_price / stats.size();
+
+
         // 결제 수단 현황 (일주일)
         pays = service.findAllPayment(map);
         paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
