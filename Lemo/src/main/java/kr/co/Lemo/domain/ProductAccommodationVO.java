@@ -99,4 +99,12 @@ public class ProductAccommodationVO {
      */
     private int acc_best;
 
+    /**
+     * @since 2023/04/21
+     * @author 박종협
+     * @apiNote res_checkIn , res_checkOut 추가
+     */
+    private String res_checkIn;
+    private String res_checkOut;
+
 }

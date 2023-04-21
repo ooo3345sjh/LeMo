@@ -48,7 +48,7 @@
                                         <div th:each="spot, i:${article}" th:class="${'place '+'place_D'+spot.spot_title}" th:data-no="${i.count}">
                                             <div class="spot">
                                                 <img src="/Lemo/images/diary/marker7.png" width="30px" height="40px">
-                                                <input type="text" th:value="${spot.spot_title}" readonly placeholder="여행일기 제목을 작성해주세요.">
+                                                <input type="text" class="diaryModifyInput" th:value="${spot.spot_title}" readonly placeholder="여행일기 제목을 작성해주세요.">
                                             </div>
                                             <img src="/Lemo/images/cs/arr_down.png" class="arrow">
                                             <button class="delete_diary" th:data-place="${spot.spot_title}" th:data-no="${i.count}">삭제</button>
@@ -749,6 +749,8 @@
             $(document).on('click', '.modify_diary', function(e){
                 e.preventDefault();
 
+                const diaryModifyInput = $(this).parent().find('.diaryModifyInput');
+
                 let status = $(this).hasClass('on');
                 let overlayNo = $(this).attr('data-no');
                 const spot_title_input = $(this).parent().find('.spot > input');
@@ -760,6 +762,7 @@
                     spot_title_input.css('padding-left', '0');
                     $(this).css('background-image', 'url(/Lemo/images/diary/edit.png)');
                     $(this).removeClass('on');
+                    diaryModifyInput.removeClass('on');
 
                     let content = '<div class="spot_wrap">';
                        content += '<div class="spot_title">';
@@ -799,6 +802,7 @@
                     spot_title_input.css('padding-left', '10px');
                     $(this).css('background-image', 'url(/Lemo/images/diary/check.png)');
                     $(this).addClass('on');
+                    diaryModifyInput.addClass('on');
                 }
 
             })
@@ -839,6 +843,19 @@
                     }
                 });
             });
+
+            $(document).on('click', '.spot > input', function(e){
+
+                const status = $(this).hasClass('on');
+
+                if(status) {
+                    console.log('test1');
+                    e.stopPropagation();
+                    e.preventDefault();
+                }else {
+                    console.log('test2');
+                }
+            })
         </script>
     </th:block>
 </html>

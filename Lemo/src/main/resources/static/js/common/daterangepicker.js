@@ -1,5 +1,3 @@
-let diary_start = date;
-let diary_end = date;
 $(function(){
     /** Jquery UI Date Picker */
     $('#daterange').daterangepicker({
@@ -16,7 +14,7 @@ $(function(){
             "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
             "firstDay": 1
         },
-        "minDate" : date,
+        "minDate" : diary_start,
         "startDate": diary_start,
         "endDate": diary_end,
         "selectBackward": false,

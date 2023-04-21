@@ -44,11 +44,14 @@ public class DiaryController {
     public String list(
             Model m,
             @RequestParam Map options,
-            @ModelAttribute My_SearchVO vo
+            @ModelAttribute My_SearchVO vo,
+            @AuthenticationPrincipal UserVO myUser
     ){
         log.debug("GET list start");
         m.addAttribute("title", environment.getProperty(diaryGroup));
+        if(myUser != null) { vo.setUser_id(myUser.getUser_id()); }
         vo.setMap(options);
+
 
         int totalDiary = service.findTotalDiarys(vo);
         int totalDiaryPage = (int)Math.ceil(totalDiary / (double)vo.getPageSize());
