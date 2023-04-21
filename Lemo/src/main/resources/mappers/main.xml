@@ -26,13 +26,8 @@
     </select>
 
     <select id="selectBestDiary" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
-        SELECT a.*, s.*, i.`nick` as 'user_nick' FROM `lemo_diary_article` a
+        SELECT a.*, i.`nick` as 'user_nick' FROM `lemo_diary_article` a
         JOIN `lemo_member_userinfo` i ON a.`user_id` = i.`user_id`
-        JOIN (
-            SELECT *, ROW_NUMBER() OVER(PARTITION BY arti_no) 'top'
-            FROM `lemo_diary_spot`
-        ) s ON a.arti_no = s.arti_no
-        WHERE s.top = 1
         ORDER BY `arti_like` DESC
         LIMIT 3;
     </select>
