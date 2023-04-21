@@ -13,7 +13,7 @@
     <!-- cs 목록 공통 -->
     <select id="selectCsArticles" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.CsVO">
         SELECT * FROM `lemo_cs` WHERE `cs_cate` =#{cs_cate}
-        order by `cs_eventBannerState` DESC, `cs_no` DESC
+        order by `cs_eventBannerState` DESC, `cs_rdate` DESC
         limit #{offset}, 10;
     </select>
 
@@ -222,8 +222,7 @@
     <!-- update -->
     <update id="updateQnaArticle">
         update `lemo_cs` set
-        `cs_reply`=#{cs_reply},
-        `cs_reply_date`=NOW()
+        `cs_reply`=#{cs_reply}
         where `cs_no` =#{cs_no};
     </update>
 
@@ -232,7 +231,6 @@
         `cs_title`=#{cs_title},
         `cs_content`=#{cs_content},
         `cs_regip`=#{cs_regip},
-        `cs_rdate`=NOW(),
         `cs_eventMainBannerImg`=#{cs_eventMainBannerImg},
         `cs_eventbannerImg`=#{cs_eventbannerImg},
         `cs_eventViewImg`=#{cs_eventViewImg},
@@ -252,23 +250,20 @@
         update `lemo_cs` set
             `cs_type` =#{cs_type},
             `cs_title` =#{cs_title},
-            `cs_content` =#{cs_content},
-            `cs_rdate` =NOW()
+            `cs_content` =#{cs_content}
             where `cs_no`=#{cs_no};
     </update>
 
 
     <update id="updateMainBanner">
         UPDATE `lemo_cs` SET
-        `cs_eventMainBannerState`=#{cs_eventMainBannerState},
-        `cs_rdate`=NOW()
+        `cs_eventMainBannerState`=#{cs_eventMainBannerState}
         WHERE `cs_no`=#{cs_no};
     </update>
 
     <update id="updateEventBanner">
         UPDATE `lemo_cs` SET
-        `cs_eventBannerState`=#{cs_eventBannerState},
-        `cs_rdate`=NOW()
+        `cs_eventBannerState`=#{cs_eventBannerState}
         WHERE `cs_no`=#{cs_no};
     </update>
 

@@ -6,7 +6,11 @@
     <link rel="stylesheet" th:href="@{/css/admin/adminEvent.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
     <style>
-
+        .show_list #nonData {
+            width: 100% !important;
+            margin-bottom: 9px;
+            font-size: 17px;
+        }
     </style>
 </th:block>
 <th:block layout:fragment="content">
@@ -32,6 +36,11 @@
                                                 <li>메인베너</li>
                                                 <li>이벤트베너</li>
                                             </ul>
+                                            <ul class="show_list" th:if="${adminEventArticles.size() == 0}">
+                                                <li id="nonData" colspan="6">
+                                                    등록된 이벤트가 없습니다.
+                                                </li>
+                                            </ul>
                                             <th:block th:each="article,i:${adminEventArticles}">
                                             <ul>
                                                 <li>[[*{totalCnt-sc.offset} - ${i.index}]]</li>
@@ -54,7 +63,7 @@
                                             </ul>
                                             </th:block>
                                         </div>
-                                        <div class="pagination" th:object="${ph}">
+                                        <div class="pagination" th:object="${ph}" th:style="${#lists.size(adminEventArticles) == 0 ? 'visibility:hidden;':''}">
 
                                             <th:block th:if="*{showPrev}">
                                                 <a th:href="@{/admin/cs/event/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>

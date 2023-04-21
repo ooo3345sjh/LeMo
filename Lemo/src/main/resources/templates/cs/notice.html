@@ -5,6 +5,19 @@
       layout:decorate="layouts/default-layout">
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/cs/cs.css}">
+    <style>
+        .show_list li #nonData {
+            overflow: visible;
+            white-space: normal;
+            text-overflow: initial;
+            line-height: normal;
+            word-wrap: break-word;
+            font-size: 19px;
+            width: 100%;
+            padding: 14px 0;
+            text-align: center;
+        }
+    </style>
 </th:block>
 <th:block layout:fragment="content">
     <!-- 메인 -->
@@ -23,6 +36,11 @@
                 <!-- 공지사항 목록 -->
                 <div class="tab_each">
                     <ul id="notices" class="show_list open_list">
+                        <li th:if="${csArticles.size() == 0}">
+                            <p colspan="6" id="nonData">
+                                등록된 공지사항이 없습니다.
+                            </p>
+                        </li>
                         <th:block th:each="notice:${csArticles}">
                             <li>
                                 <a th:href="'#'+${notice.cs_no}" th:id="${notice.cs_no}" class="list_n">
@@ -37,7 +55,7 @@
                     </ul>
                 </div>
                 <!-- 페이징 -->
-                <div class="paging" th:object="${ph}">
+                <div class="paging" th:object="${ph}" th:style="${#lists.size(csArticles) == 0 ? 'visibility:hidden;':''}">
                     <th:block th:if="*{showPrev}">
                         <span class="prev">
                             <a th:href="@{/cs/notice} + ${ph.sc.getQueryString(ph.beginPage-1)}"></a>

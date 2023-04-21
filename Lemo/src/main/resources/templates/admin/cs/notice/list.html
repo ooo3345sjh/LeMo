@@ -5,7 +5,13 @@
 <th:block layout:fragment="css-js">
     <link rel="stylesheet" th:href="@{/css/admin/adminNotice.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
-
+    <style>
+        .show_list #nonData {
+            width: 100% !important;
+            margin-bottom: 9px;
+            font-size: 17px;
+        }
+    </style>
 </th:block>
 <th:block layout:fragment="content">
     <main>
@@ -30,9 +36,9 @@
                                         <li>작성일</li>
                                         <li>비고</li>
                                     </ul>
-                                    <ul th:if="${csArticles.size() == 0}">
-                                        <li colspan="6">
-                                            등록된 문의글이 없습니다.
+                                    <ul class="show_list" th:if="${csArticles.size() == 0}">
+                                        <li id="nonData" colspan="6">
+                                            등록된 공지사항이 없습니다.
                                         </li>
                                     </ul>
                                     <th:block th:each="notice,i:${csArticles}">
