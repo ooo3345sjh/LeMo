@@ -11,34 +11,68 @@
 
     <!-- select -->
     <select id="selectDiaryArticles" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
-        SELECT
-            a.`arti_no`, a.`arti_title`, b.`user_id`
-        FROM
-            `lemo_diary_article` AS a LEFT JOIN
-            `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
-            `lemo_product_reservation` AS c ON a.`res_no` = c.`res_no` LEFT JOIN
-            `lemo_product_accommodation` AS d ON c.`acc_id` = d.`acc_id`
-        <choose>
-            <when test="orderBySearchType == 'addr'">
-                WHERE d.`acc_addr` LIKE CONCAT('%', #{keyword} , '%')
-            </when>
-            <when test="orderBySearchType == 'title_content'">
-                WHERE a.`arti_title` LIKE CONCAT('%', #{keyword} ,'%')
-            </when>
-        </choose>
-        <if test="orderByOption == null">
-            ORDER BY a.`arti_no` DESC
+        <if test="user_id != null">
+            SELECT
+               a.`arti_no`, a.`arti_title`, b.`user_id`
+            FROM
+               `lemo_diary_article` AS a LEFT JOIN
+               `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
+               `lemo_product_reservation` AS c ON a.`res_no` = c.`res_no` LEFT JOIN
+               `lemo_product_accommodation` AS d ON c.`acc_id` = d.`acc_id`
+            WHERE (b.`user_id` = 'lazca7@naver.com' OR b.`user_id` Is null)
+            <choose>
+                <when test="orderBySearchType == 'addr'">
+                    and d.`acc_addr` LIKE CONCAT('%', #{keyword} , '%')
+                </when>
+                <when test="orderBySearchType == 'title_content'">
+                    and a.`arti_title` LIKE CONCAT('%', #{keyword} ,'%')
+                </when>
+            </choose>
+            <if test="orderByOption == null">
+                ORDER BY a.`arti_no` DESC
+            </if>
+            <if test="orderByOption == 'recent'">
+                ORDER BY a.`arti_rdate` DESC
+            </if>
+            <if test="orderByOption == 'heart'">
+                ORDER BY a.`arti_like` DESC
+            </if>
+            <if test="orderByOption == 'reply'">
+                ORDER BY a.`arti_comment` DESC
+            </if>
+            LIMIT #{offset}, 10;
         </if>
-        <if test="orderByOption == 'recent'">
-            ORDER BY a.`arti_rdate` DESC
+        <if test="user_id == null">
+            SELECT
+               a.`arti_no`, a.`arti_title`, COUNT(b.`user_id`)
+            FROM
+               `lemo_diary_article` AS a LEFT JOIN
+               `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
+               `lemo_product_reservation` AS c ON a.`res_no` = c.`res_no` LEFT JOIN
+               `lemo_product_accommodation` AS d ON c.`acc_id` = d.`acc_id`
+            <choose>
+                <when test="orderBySearchType == 'addr'">
+                    WHERE d.`acc_addr` LIKE CONCAT('%', #{keyword} , '%')
+                </when>
+                <when test="orderBySearchType == 'title_content'">
+                    WHERE a.`arti_title` LIKE CONCAT('%', #{keyword} ,'%')
+                </when>
+            </choose>
+            GROUP BY a.`arti_no`
+            <if test="orderByOption == null">
+                ORDER BY a.`arti_no` DESC
+            </if>
+            <if test="orderByOption == 'recent'">
+                ORDER BY a.`arti_rdate` DESC
+            </if>
+            <if test="orderByOption == 'heart'">
+                ORDER BY a.`arti_like` DESC
+            </if>
+            <if test="orderByOption == 'reply'">
+                ORDER BY a.`arti_comment` DESC
+            </if>
+            LIMIT #{offset}, 10;
         </if>
-        <if test="orderByOption == 'heart'">
-            ORDER BY a.`arti_like` DESC
-        </if>
-        <if test="orderByOption == 'reply'">
-            ORDER BY a.`arti_comment` DESC
-        </if>
-        LIMIT #{offset}, 10;
     </select>
 
     <select id="selectTotalDiarys" resultType="int">

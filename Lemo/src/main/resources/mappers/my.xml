@@ -134,7 +134,7 @@
     </select>
 
     <select id="selectReviewAccommodation" resultType="kr.co.Lemo.domain.ReviewVO">
-        SELECT a.`acc_name`, b.`res_checkIn`, b.`res_checkOut`, b.`user_id` FROM
+        SELECT a.`acc_name`, b.`res_checkIn`, b.`res_checkOut`, b.`user_id`  FROM
             `lemo_product_accommodation` AS a LEFT JOIN
             `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id`
         WHERE b.`res_no` = #{res_no} AND b.`user_id` = #{user_id};
@@ -200,7 +200,7 @@
     </select>
 
     <select id="selectDiaryXY" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
-        SELECT b.`acc_name`, b.`acc_longtitude`, b.`acc_lattitude`, a.`user_id`, a.`res_state` FROM
+        SELECT b.`acc_name`, b.`acc_longtitude`, b.`acc_lattitude`, a.`user_id`, a.`res_state`, a.`res_checkIn`, a.`res_checkOut` FROM
             `lemo_product_reservation` AS a LEFT JOIN
             `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
         WHERE a.`res_no` = #{res_no};

@@ -18,6 +18,22 @@ $(function(){
         }
     });
 
+    $(document).on('click', '.arrow', function(e){
+        e.stopPropagation();
+
+        $(this).parent().find('.toggle').slideToggle(600);
+
+        let currentPosition = parseInt($('#listMap').css('top'));
+
+        /** 토글 + 화살표 변경 */
+        const arrow = $(this).parent().find('.arrow');
+        if(arrow.attr('class') == 'arrow'){
+            arrow.addClass('on');
+        }else if(arrow.attr('class') == 'arrow on'){
+            arrow.removeClass('on');
+        }
+    });
+
     /* 내용 input */
     $(document).on('click', '.place > .toggle > .contentArea', function(e){
         e.preventDefault();

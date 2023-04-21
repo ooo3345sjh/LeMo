@@ -70,6 +70,9 @@
                     let accommoLng = [[${accommo.acc_longtitude}]];
                     let accommoLat = [[${accommo.acc_lattitude}]];
                     let markerStatCount = 1;
+                    console.log([[${accommo.res_checkIn}]]);
+                    let diary_start = [[${accommo.res_checkIn}]];
+                    let diary_end   = [[${accommo.res_checkOut}]];
 
                     /**
                         검색된 마크에도 mouseover, mouselevae, click 적용시켰고
@@ -250,7 +253,7 @@
                             addContent +=   '<div class="spot">';
                             addContent +=       '<img src="/Lemo/images/diary/marker7.png" width="30px" height="40px">';
 <!--                            addContent +=       '<span>'+ place +'</span>';-->
-                            addContent +=           '<input type="text" value="'+place+'" readonly placeholder="여행일기 제목을 작성해주세요.">'
+                            addContent +=           '<input type="text" class="diaryWriteInput" value="'+place+'" readonly placeholder="여행일기 제목을 작성해주세요.">'
                             addContent +=   '</div>';
                             addContent +=   '<img src="/Lemo/images/cs/arr_down.png" class="arrow">';
                             addContent +=   `<button class="delete_diary" data-place="${withoutSpace}" data-no="${markerStatCount}">삭제</button>`;
@@ -651,6 +654,8 @@
                     $(document).on('click', '.modify_diary', function(e){
                         e.preventDefault();
 
+                        const diaryWriteInput = $(this).parent().find('.diaryWriteInput');
+
                         let status = $(this).hasClass('on');
                         let overlayNo = $(this).attr('data-no');
                         const spot_title_input = $(this).parent().find('.spot > input');
@@ -662,6 +667,7 @@
                             spot_title_input.css('padding-left', '0');
                             $(this).css('background-image', 'url(/Lemo/images/diary/edit.png)');
                             $(this).removeClass('on');
+                            diaryWriteInput.removeClass('on');
 
                             let content = '<div class="spot_wrap">';
                                content += '<div class="spot_title">';
@@ -702,16 +708,22 @@
                             spot_title_input.css('padding-left', '10px');
                             $(this).css('background-image', 'url(/Lemo/images/diary/check.png)');
                             $(this).addClass('on');
+                            diaryWriteInput.addClass('on');
                         }
 
                     })
 
                     $(document).on('click', '.spot > input', function(e){
 
-                        const arrowCheck = $(this).next().hasClass('on');
+                        const status = $(this).hasClass('on');
 
-                        e.stopPropagation();
-                        e.preventDefault();
+                        if(status) {
+                            console.log('test1');
+                            e.stopPropagation();
+                            e.preventDefault();
+                        }else {
+                            console.log('test2');
+                        }
                     })
                 </script>
         </th:block>
