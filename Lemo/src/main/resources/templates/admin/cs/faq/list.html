@@ -6,8 +6,6 @@
     <link rel="stylesheet" th:href="@{/css/admin/adminFaq.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
     <style>
-
-
     </style>
 </th:block>
 
@@ -88,7 +86,7 @@
                                     <div class="pagination" th:object="${ph}" th:style="${#lists.size(csArticles) == 0 ? 'visibility:hidden;':''}">
 
                                         <th:block th:if="*{showPrev}">
-                                            <a th:href="@{/admin/cs/faq/list} + ${ph.sc.cs_type + ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
+                                            <a th:href="@{/admin/cs/faq/list} + ${ph.sc.getQueryString(ph.beginPage-1)}" class="prev">< </a>
                                         </th:block>
 
 
@@ -100,7 +98,7 @@
 
 
                                         <th:block th:if="*{showNext}">
-                                            <a th:href="@{/admin/cs/faq/list} + ${ph.sc.cs_type + ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
+                                            <a th:href="@{/admin/cs/faq/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
                                         </th:block>
 
                                     </div>

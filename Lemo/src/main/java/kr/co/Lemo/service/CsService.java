@@ -45,6 +45,7 @@ public class CsService {
 
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
+        log.info(pageHandler.toString());
 
         List<CsVO> eventArticles = dao.selectCsArticles(sc);
 
@@ -121,7 +122,7 @@ public class CsService {
        return qnaArticles;
     }
 
-    // @since 23/03/11
+    // @since 23/03/11 자주묻는 질문 목록
     public List<CsVO> findAllFaqArticles(Cs_SearchVO sc, Model model){
 
         log.info("cs_faq : " + sc.getCs_cate());
@@ -329,8 +330,12 @@ public class CsService {
             param.put("cs_eventbannerImg", bannerNewName);
             param.put("cs_eventMainBannerImg", mainBannerNewName);
 
+            log.debug("fileName size : " + fileName.size());
+
             fileName.remove(fileName.size() - 1);
             fileName.remove(fileName.size() - 1);
+
+            log.debug("fileName : " + fileName);
 
             String files = String.join("/", fileName);
             param.put("cs_eventViewImg", files);
@@ -493,12 +498,11 @@ public class CsService {
 
        File dir = new File(dirPath);
 
-        try {
-            FileUtils.cleanDirectory(dir);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+//        try {
+//            FileUtils.cleanDirectory(dir);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
        File Files[] = dir.listFiles();
 

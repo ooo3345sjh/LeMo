@@ -54,12 +54,30 @@ public class MyService {
     private PaymentService paymentservice;
 
     // @since 2023/03/13
-    public Map<Integer, List<DiarySpotVO>> findDiaryArticle(String user_id) {
+    public Map<Integer, List<DiarySpotVO>> findDiaryArticle(SearchCondition sc) {
+        List<DiarySpotVO> spotVO = dao.selectDiary(sc);
 
-        List<DiarySpotVO> spotVO = dao.selectDiary(user_id);
+
         Map<Integer, List<DiarySpotVO>> map = spotVO.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
 
         return map;
+    }
+
+    public List<ArticleDiaryVO> findDiaryArticles(SearchCondition sc) {
+        List<ArticleDiaryVO> articles = dao.selectDiaryArticles(sc);
+        List<DiarySpotVO> spots = dao.selectDiarySpots();
+        Map<Integer, List<DiarySpotVO>> maps = spots.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
+
+        for(ArticleDiaryVO artiVO : articles) {
+            artiVO.setSpotVO(maps.get(artiVO.getArti_no()));
+        }
+
+        return articles;
+    }
+
+    // @since 2023/04/20
+    public int findTotalDiary(SearchCondition sc) {
+        return dao.selectTotalDiary(sc);
     }
 
     // @since 2023/03/10

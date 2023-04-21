@@ -683,3 +683,8 @@ main .select_acc {
     margin-top: -7px;
     border-top: none;
 }
+
+main .null_list {
+    text-align: center;
+    margin: 20px 0 10px 0;
+}

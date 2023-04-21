@@ -256,35 +256,7 @@
                 const mainDOM = document.querySelector('#main_file');
                 const preview = document.querySelector('#mainImage');
 
-                // 이 주석은 삭제 예정
-                // $(document).on('click', '#main_file', function(e){
-                //     e.stopPropagation();
-                //
-                //     $(this).change(function(file){
-                //         const reader = new FileReader();
-                //
-                //         console.log($(this)[0].files);
-                //         if($(this)[0].files){
-                //             reader.readAsDataURL(mainDOM.files[0]);
-                //             reader.onload = ({ target }) => {
-                //                 var image = new Image();
-                //                 image.src = target.result;
-                //                 image.onload = function() {
-                //                     if (image.width < 1000 || image.height > 300 || image.height < 200) {
-                //                         alert("이미지 크기가 올바르지 않습니다. (가로는 1000px 이상, 세로는 200px 이상, 300px 이하)");
-                //                     }
-                //                     else {
-                //                         console.log("3");
-                //                         mainBannerImg.attr('src', target.result);
-                //                         mainBannerImg.show();
-                //                         document.querySelector('#main_zone').style.display = 'none';
-                //                         mainBannerFile = $(this)[0].files;
-                //                    }
-                //                 };
-                //             };
-                //         };
-                //     });
-                // });
+
 
                 preview.addEventListener('click', () => {
                     $('input#main_file').click();
@@ -302,16 +274,7 @@
                 const previews = document.querySelector('#image');
 
 
-                //fileDOM.addEventListener('change', () => {
-                //
-                //    const reader = new FileReader();
-                //    reader.onload = ({ target }) => {
-                //        previews.src = target.result;
-                //        previews.style.display= 'block';
-                //        document.querySelector('#att_zone').style.display='none';
-                //    };
-                //    reader.readAsDataURL(fileDOM.files[0]);
-                //});
+
 
                 previews.addEventListener('click', () => {
                     $('input#ex_file').click();

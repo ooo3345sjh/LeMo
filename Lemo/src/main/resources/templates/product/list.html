@@ -156,18 +156,19 @@
                                         </article>
                                     </li>
                                 </ul>
+                                <!-- 페이징 -->
                                 <div class="paging" th:object="${ph}" th:unless="${accs.size() == 0}">
-                                    <span th:if="*{showPrev}">
+                                    <span th:if="*{showPrev}" class="prev">
                                         <a th:href="@{/product/list} + ${ph.sc.getQueryString(ph.beginPage-1)}">
-                                            <img th:src="@{/images/product/left.png}" alt="previous">
+                                            <!--<img th:src="@{/images/product/left.png}" alt="previous">-->
                                         </a>
                                     </span>
                                     <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
                                         <a th:href="@{/product/list} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
                                     </span>
-                                    <span th:if="*{showNext}">
+                                    <span th:if="*{showNext}" class="next">
                                         <a th:href="@{/product/list} + ${ph.sc.getQueryString(ph.endPage+1)}">
-                                            <img th:src="@{/images/product/right.png}" alt="next">
+                                            <!--<img th:src="@{/images/product/right.png}" alt="next">-->
                                         </a>
                                     </span>
                                 </div>

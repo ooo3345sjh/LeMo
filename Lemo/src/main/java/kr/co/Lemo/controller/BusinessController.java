@@ -83,6 +83,13 @@ public class BusinessController {
 
         // 당일 누적 판매량
         List<ReservationVO> todaySales = service.findAllTodaySales(map);
+
+        log.warn("todaySales size: " + todaySales.size());
+
+        if(todaySales.size() == 0){
+
+        }
+
         // 당일 예약 개수
         int daySales = service.countDaySales(map);
         // 당일 예약 취소 개수
