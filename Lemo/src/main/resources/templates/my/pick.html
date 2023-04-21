@@ -23,7 +23,10 @@
                             </span>
                         </div>
                         <div class="my_pick">
-                            <p th:if="${picks.size() == 0}" style="text-align: center;"> 찜하신 숙소가 없습니다. </p>
+                            <th:block th:if="${picks.size() == 0}">
+                                <img th:src="@{/images/index/pick_empty.jpg}" alt="찜한 숙소가 없음" style="width: 231px;margin: 0 auto;display: block;}">
+                                <p style="text-align: center;"> 찜하신 숙소가 없습니다. </p>
+                            </th:block>
                             <table>
                                 <tbody>
                                     <tr th:each="pick:${picks}">
