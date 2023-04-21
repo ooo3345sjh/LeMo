@@ -529,8 +529,8 @@
             var data = google.visualization.arrayToDataTable([
                 ['날짜', '연매출', '연매출평균'],
                 [before[2],  yearSales[0] ? yearSales[0].tot_res_price : 0, yearAvg],
-                [before[1],  yearSales[0] ? yearSales[1].tot_res_price : 0, yearAvg],
-                [Ydate,  yearSales[0] ? yearSales[2].tot_res_price : 0, yearAvg]
+                [before[1],  yearSales[1] ? yearSales[1].tot_res_price : 0, yearAvg],
+                [Ydate,  yearSales[2] ? yearSales[2].tot_res_price : 0, yearAvg]
             ]);
 
             // 그래프 주석 표기

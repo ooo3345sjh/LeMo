@@ -192,14 +192,14 @@
         GROUP BY DATE(a.res_date);
     </select>
 
-    <!-- 판매자 - 메인 - 최신 리뷰 (당일) -->
-    <select id="selectReviewLatest" resultType="kr.co.Lemo.domain.ReviewVO">
-        select a.`res_no`, `revi_title`, `revi_content`, `revi_rate`, `revi_rdate`, c.`acc_id`, c.`user_id` from `lemo_product_review` as a
-            join `lemo_product_reservation` as b on a.res_no=b.res_no
-            join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
-        where c.`user_id`=#{user_id}
-        order by `revi_rdate` desc
-        limit 5;
+    <!-- 판매자 - 메인 - 취소 건수 (당일) -->
+     <select id="countDayCancel" resultType="java.lang.Integer">
+        select count(a.`res_checkIn`) from `lemo_product_reservation` as a
+            join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
+        where a.res_state = 0
+            AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL 0 DAY))
+            AND DATE(NOW())
+            AND b.user_id=#{user_id};
     </select>
 
     <!-- 판매자 - 메인 - 문의수 (당일) -->
@@ -208,6 +208,16 @@
             join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         where b.`user_id`='b267@naver.com'
             AND DATE(qna_rdate) = CURDATE();
+    </select>
+
+    <!-- 판매자 - 메인 - 최신 리뷰 (당일) -->
+    <select id="selectReviewLatest" resultType="kr.co.Lemo.domain.ReviewVO">
+        select a.`res_no`, `revi_title`, `revi_content`, `revi_rate`, `revi_rdate`, c.`acc_id`, c.`user_id` from `lemo_product_review` as a
+            join `lemo_product_reservation` as b on a.res_no=b.res_no
+            join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
+        where c.`user_id`=#{user_id}
+        order by `revi_rdate` desc
+        limit 5;
     </select>
 
     <!-- 판매자 - 메인 - 리뷰 수 (당일) -->
@@ -225,8 +235,8 @@
         where `user_id`=#{user_id};
     </select>
 
-    <!-- 판매자 - 통계관리 - 일별 누적 판매량 -->
-    <select id="selectDaySales" resultType="kr.co.Lemo.domain.ReservationVO">
+    <!-- 판매자 - 통계관리 - 일별 누적 판매량 (기간 변동) -->
+    <select id="selectDaySales" parameterType="hashMap" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT DATE(a.res_date) AS res_date,
             MAX(a.res_state) AS res_state,
             SUM(a.res_price) AS res_price,
@@ -273,25 +283,42 @@
 
     <!-- 판매자 - 통계관리 연 판매량 -->
     <select id="selectYearSales" resultType="kr.co.Lemo.domain.ReservationVO">
-        SELECT YEAR(a.res_date) AS res_date,
+    SELECT
+        yrs.res_date,
+        COALESCE(yrs.res_state, 0) AS res_state,
+        COALESCE(yrs.res_price, 0) AS res_price,
+        COALESCE(yrs.res_disPrice, 0) AS res_disPrice,
+        COALESCE(yrs.tot_res_price, 0) AS tot_res_price
+    FROM (
+        SELECT
+            YEAR(CURDATE() - INTERVAL 2 YEAR) AS res_date
+        UNION SELECT
+            YEAR(CURDATE() - INTERVAL 1 YEAR) AS res_date
+        UNION SELECT
+            YEAR(CURDATE()) AS res_date
+    ) AS years
+    LEFT JOIN (
+        SELECT
+            YEAR(a.res_date) AS res_date,
             MAX(a.res_state) AS res_state,
             SUM(a.res_price) AS res_price,
             SUM(a.res_disPrice) AS res_disPrice,
             (SUM(a.res_price - a.res_disPrice)) AS tot_res_price
-            FROM lemo_product_reservation AS a
-        LEFT JOIN lemo_product_accommodation AS b ON a.acc_id = b.acc_id
-        WHERE b.`user_id`=#{user_id}
-            AND a.res_state NOT IN (0) AND a.res_checkIn BETWEEN DATE(date_add(now(), INTERVAL -2 YEAR))
-            AND DATE(NOW())
-            <if test="acc_id != null">
-                AND b.acc_id=#{acc_id}
-            </if>
-        GROUP BY YEAR(a.res_date)
-        ORDER BY YEAR(a.res_date);
+        FROM lemo_product_reservation AS a
+    LEFT JOIN lemo_product_accommodation AS b ON a.acc_id = b.acc_id
+    WHERE b.`user_id`=#{user_id}
+        AND a.res_state NOT IN (0)
+        AND a.res_checkIn BETWEEN DATE(date_add(now(), INTERVAL -2 YEAR)) AND DATE(NOW())
+        <if test="acc_id != null">
+            AND b.acc_id=#{acc_id}
+        </if>
+    GROUP BY YEAR(a.res_date)
+    ) AS yrs ON years.res_date = yrs.res_date
+    ORDER BY years.res_date;
     </select>
 
     <!-- 판매자 - 결제방법 결제 현황 -->
-    <select id="selectPayment" resultType="kr.co.Lemo.domain.ReservationVO">
+    <select id="selectPayment" parameterType="hashMap" resultType="kr.co.Lemo.domain.ReservationVO">
         select * from `lemo_product_reservation` as a
         join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         where a.res_state NOT IN (0)
@@ -320,18 +347,27 @@
     <!-- 판매자 - 월별 매출 근황 (월별 4달 기준) -->
     <select id="selectMonthSales" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT
-            MONTH(a.res_date) AS res_month, SUM(a.res_price - a.res_disPrice) AS tot_res_price,
-            COUNT(a.`res_checkIn`) AS tot_month_sales
+            months.res_month, COALESCE(totals.tot_res_price, 0) AS tot_res_price,
+            COALESCE(totals.tot_month_sales, 0) AS tot_month_sales
+        FROM (
+            SELECT 1 AS res_month UNION SELECT 2 UNION SELECT 3 UNION SELECT 4
+        ) AS months
+        LEFT JOIN (
+            SELECT
+                MONTH(a.res_date) AS res_month,
+                SUM(a.res_price - a.res_disPrice) AS tot_res_price,
+                COUNT(a.`res_checkIn`) AS tot_month_sales
             FROM lemo_product_reservation AS a
             LEFT JOIN lemo_product_accommodation AS b ON a.acc_id = b.acc_id
-        WHERE b.`user_id`=#{user_id}
-            AND a.res_state NOT IN (0) AND a.res_checkIn BETWEEN DATE(date_add(now(), INTERVAL -4 MONTH))
-            AND DATE(NOW())
-            <if test="acc_id != null">
-                AND b.acc_id=#{acc_id}
-            </if>
-        GROUP BY MONTH(a.res_date)
-        ORDER BY MONTH(a.res_date);
+            WHERE b.`user_id`=#{user_id}
+                AND a.res_state NOT IN (0) AND a.res_checkIn BETWEEN DATE(date_add(now(), INTERVAL -4 MONTH))
+                AND DATE(NOW())
+                <if test="acc_id != null">
+                    AND b.acc_id=#{acc_id}
+                </if>
+            GROUP BY MONTH(a.res_date)
+        ) AS totals ON months.res_month = totals.res_month
+        ORDER BY months.res_month;
     </select>
 
     <!-- 판매자 - 객실별 예약 현황 (일주일) -->
@@ -363,7 +399,6 @@
             <if test="dateStart != null and dateEnd != null">
                 AND a.`res_checkIn` <include refid="searchDate"/>
             </if>
-
             and c.`user_id`=#{user_id}
             <if test="acc_id != null">
                 and a.`acc_id`=#{acc_id}
@@ -377,8 +412,8 @@
         SELECT `room_thumb` FROM `lemo_product_room` WHERE `room_id` = #{room_id};
     </select>
 
-    <!-- 판매자 - 예약 건수 (일주일/당일) -->
-    <select id="countWeeksSales" resultType="java.lang.Integer">
+    <!-- 판매자 - 통계관리 - 예약 건수 (기간 변동, 기본: 일주일) -->
+    <select id="countWeeksSales" parameterType="hashMap" resultType="java.lang.Integer">
         select count(a.`res_checkIn`) from `lemo_product_reservation` as a
             join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         where a.res_state NOT IN (0)
@@ -428,8 +463,8 @@
     </sql>
 
 
-    <!-- 판매자 - 취소 건수 (일주일/당일) -->
-    <select id="countWeeksCancel"  resultType="java.lang.Integer">
+    <!-- 판매자 - 통계관리 - 취소 건수 (기간 변동, 기본: 일주일) -->
+    <select id="countWeeksCancel" parameterType="hashMap"  resultType="java.lang.Integer">
         select count(a.`res_checkIn`) from `lemo_product_reservation` as a
             join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         where a.res_state=0
@@ -453,14 +488,7 @@
                 AND a.acc_id=#{acc_id};
             </if>
     </select>
-    <select id="countDayCancel" resultType="java.lang.Integer">
-        select count(a.`res_checkIn`) from `lemo_product_reservation` as a
-            join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
-        where a.res_state = 0
-            AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL 0 DAY))
-            AND DATE(NOW())
-            AND b.user_id=#{user_id};
-    </select>
+
 
     <!-- 판매자 미배정 객실 (전체 객실수/당일 체크인 객실 수 ) -->
     <select id="countTotalRoom" resultType="java.lang.Integer">
@@ -479,8 +507,8 @@
 
 
 
-    <!-- 판매자 - 1:1 문의수 (일주일) -->
-    <select id="countWeeksQna" resultType="java.lang.Integer">
+    <!-- 판매자 - 통계관리 - 1:1 문의수 (기간 변동, 기본: 일주일) -->
+    <select id="countWeeksQna" parameterType="hashMap" resultType="java.lang.Integer">
         select count(`qna_no`) from `lemo_product_qna` as a
             join `lemo_product_accommodation` as b on a.acc_id=b.acc_id
         where b.`user_id`=#{user_id}
@@ -526,8 +554,8 @@
         </if>
     </select>
 
-    <!-- 판매자 - 등록 리뷰 수 (일주일) revi_rdate -->
-    <select id="countWeeksReview" resultType="java.lang.Integer">
+    <!-- 판매자  - 통계관리 - 등록 리뷰 수  (기간 변동, 기본: 일주일) -->
+    <select id="countWeeksReview" parameterType="hashMap" resultType="java.lang.Integer">
         select count(revi_id) from `lemo_product_review` as a
             join `lemo_product_reservation` as b on a.res_no=b.res_no
             join `lemo_product_accommodation` as c on b.acc_id=c.acc_id
