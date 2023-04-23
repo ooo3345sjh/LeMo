@@ -307,6 +307,7 @@ public class BusinessService {
      * @apiNote 판매자 타임라인
      */
     public List<ReservationVO> findAllTimeline(Map map){
+        log.warn("map : " + map);
         return dao.selectTimeline(map);
     }
 

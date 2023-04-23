@@ -719,8 +719,9 @@ public class BusinessController {
     @GetMapping("reservation/timeline")
     public String reservation_timeline(Model model,
                                        @AuthenticationPrincipal UserVO myUser,
-                                       @RequestParam Map map,
-                                       @RequestParam(required = false) Integer acc_id){
+                                       @RequestParam Map<String, String> map,
+                                       @RequestParam(required = false) Integer acc_id,
+                                       @RequestParam(required = false) String cal_date){
 
         model.addAttribute("title", environment.getProperty(group));
 
@@ -731,9 +732,30 @@ public class BusinessController {
 
         map.put("user_id", user_id);
 
-        //log.warn("acc_id : " + map.get("acc_id"));
+        if (cal_date != null) {
+
+            log.warn("cal_date is not null");
+
+            log.warn("year: " + cal_date.substring(0,4));
+            log.warn("month: " + cal_date.substring(5,7));
+
+            String cal_year = cal_date.substring(0, 4);
+            String cal_month = cal_date.substring(5, 7);
+
+            map.put("cal_year", cal_year);
+            map.put("cal_month", cal_month);
+        }else {
+
+            log.warn("cal_date is null");
+
+            map.put("cal_year", "null");
+            map.put("cal_month", "null");
+        }
+
 
         List<ReservationVO> timelines = service.findAllTimeline(map);
+
+        log.warn("timelines size: " + timelines.size());
 
         model.addAttribute("timelines", timelines);
 

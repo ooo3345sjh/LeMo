@@ -158,6 +158,10 @@
     <script th:src='@{/js/admin/packages/interaction/main.js}'></script>
     <script th:src='@{/js/admin/packages/daygrid/main.js}'></script>
     <script th:inline="javascript">
+         // h2 태그를 찾아서 name 속성 추가
+         $(function(){
+            $('.fc-center h2').attr('name', 'cal_date');
+         });
 
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -243,11 +247,54 @@
 
                 },
                 datesRender: function(info) {
+
+                    // 이번 달 정보 가져오기
+                    var cal_date = info.view.title;
+                    var year = cal_date.substr(0,4);
+                    var month = cal_date.substr(6,1);
+
+                    console.log("year : " + year);
+                    console.log("month : " + month);
+
+
                     $('.fc-prev-button').click(function() {
                         alert('prev 버튼 클릭');
+                        $('.fc-center h2').attr('name', 'cal_date');
+                        // 이전 달 정보 가져오기
+                        var prev_year = year;
+                        var prev_month = month-1;
+                        if (prev_month == 0) {
+                            prev_month = 12;
+                            prev_year -= 1;
+                        }
+                        // 월을 두 자리로 출력하기 위해 toString() 함수 사용
+                        prev_month = prev_month.toString().padStart(2, '0');
+
+                        ajaxAPI("business/reservation/timeline?cal_date=" + cal_date, null, "GET").then((response)=>{
+                            console.log("success ajax - prev ");
+                        });
+
+
                     });
+
+
                     $('.fc-next-button').click(function() {
                         alert('next 버튼 클릭');
+                        $('.fc-center h2').attr('name', 'cal_date');
+                        // 다음 달 정보 가져오기
+                        var next_year = year;
+                        var next_month = month+1;
+                        if(next_month == 13) {
+                            next_month = 1;
+                            next_year += 1;
+                        }
+
+                        // 월을 두 자리로 출력하기 위해 toString() 함수 사용
+                        next_month = next_month.toString().padStart(2, '0');
+
+                        ajaxAPI("business/reservation/timeline?cal_date=" + cal_date, null, "GET").then((response)=>{
+                            console.log("success ajax - next ");
+                        });
                     });
                 },
                 events: timelines
