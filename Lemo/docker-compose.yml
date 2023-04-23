@@ -48,6 +48,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./img:/img
+      - ./log:/log
     ports:
       - 80:80
     depends_on:
