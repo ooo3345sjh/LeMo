@@ -1,0 +1,59 @@
+version: "3.7"
+
+services:
+  lemo_db:
+    image: mysql:8.0.3
+    container_name: lemo_db
+    restart: always
+    cap_add:
+      - SYS_NICE
+    environment:
+      MYSQL_DATABASE: lemo
+      MYSQL_USER: user1
+      MYSQL_PASSWORD: Girc@!23
+      MYSQL_ROOT_PASSWORD: Girc@!23
+    ports:
+      - 3308:3306
+    volumes:
+      - ./db/mysql:/docker-entrypoint-initdb.d
+      - ./db/mysql/data:/var/lib/mysql
+    command: [ "mysqld",
+               "--character-set-server=utf8mb4",
+               "--collation-server=utf8mb4_unicode_ci",
+               "--default_authentication_plugin=mysql_native_password" ]
+    networks:
+      - springboot-mysql-net
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - 27018:27017
+    volumes:
+      - ./db/mongo/data:/data/db/
+      - ./db/mongo/log:/var/log/mongodb/
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user1
+      - MONGO_INITDB_ROOT_PASSWORD=Girc@!23
+      - MONGO_INITDB_DATABASE=admin
+    networks:
+      - springboot-mysql-net
+
+  lemo_app:
+    restart: always
+    container_name: lemo_app
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 9090:80
+    depends_on:
+      - lemo_db
+      - mongodb
+    networks:
+      - springboot-mysql-net
+
+networks:
+  springboot-mysql-net:
+    driver: bridge
