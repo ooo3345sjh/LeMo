@@ -37,3 +37,5 @@ Lemo/src/main/resources/application.properties
 Lemo/log/
 Lemo/img/
 .DS_Store
+Lemo/db/mongo
+Lemo/db/mysql/data
