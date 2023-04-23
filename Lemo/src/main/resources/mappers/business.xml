@@ -582,16 +582,19 @@
 
     <!-- 판매자 타임라인 -->
     <select id="selectTimeline"  resultType="kr.co.Lemo.domain.ReservationVO">
-        select * from `lemo_product_reservation` as a
-            inner join `lemo_product_room` as b on a.room_id=b.room_id
-            inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id
-        where
-            month(a.`res_checkIn`) = month(current_date())
+        select *
+    from `lemo_product_reservation` as a
+        inner join `lemo_product_room` as b on a.room_id=b.room_id
+        inner join `lemo_product_accommodation` as c on a.acc_id=c.acc_id
+    where
+        c.`user_id`=#{user_id}
+        <if test="cal_year == null">
+            and month(a.`res_checkIn`) = month(current_date())
             and year(a.`res_checkIn`) = year(current_date())
-            and c.`user_id`=#{user_id}
-            <if test="acc_id != null">
-                and c.`acc_id`=#{acc_id}
-            </if>
+        </if>
+        <if test="acc_id != null">
+            and c.`acc_id`=#{acc_id}
+        </if>
     </select>
 
     <!-- 판매자 타임라인 - 모달 이벤트 -->
