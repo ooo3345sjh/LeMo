@@ -33,11 +33,9 @@
                                                         <option value="event">이벤트</option>
                                                         <option value="payment">예약/결제</option>
                                                         <option value="cancel">취소/환불</option>
-                                                        <option value="benefit">혜택받기</option>
                                                         <option value="use">이용문의</option>
                                                         <option value="info">회원정보</option>
                                                         <option value="review">리뷰</option>
-                                                        <option value="refund">환불신청</option>
                                                         <option value="point">쿠폰/포인트</option>
                                                     </select>
                                                 </p>
@@ -61,12 +59,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- <div class="btnAdminProd4">
-                                    <a href="#">
-                                        선택삭제
-                                    </a>
-                                </div> -->
                             </form>
                         </div>
                     </div>
@@ -78,8 +70,15 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
-    <script th:src="@{/js/cs/cs_type-form.js}"></script>
+    <script th:src="@{/js/cs/cs_type_form.js}"></script>
     <script>
+        // enter 키 작동금지
+        document.addEventListener("keydown", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+            }
+        });
+
         // 로드시 셀렉트박스 옵션선택
         document.addEventListener("DOMContentLoaded", function() {
           var mFaq = "[[${mFaq.cs_type}]]";
@@ -117,7 +116,6 @@
             }
           });
         }
-
     </script>
 </th:block>
 </html>

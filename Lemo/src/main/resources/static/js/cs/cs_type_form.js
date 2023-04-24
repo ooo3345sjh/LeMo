@@ -7,7 +7,7 @@ $(document).ready(function(){
 
                     if( cs_type == '0'){
                             Swal.fire({
-                                title : '답변내용을 입력해 주세요',
+                                title : '유형을 선택해주세요',
                                 icon : 'error',
                                 confirmButtonText : '확인'
                             })
@@ -22,7 +22,7 @@ $(document).ready(function(){
 
                     if( cs_type == '0'){
                             Swal.fire({
-                                title : '답변내용을 입력해 주세요',
+                                title : '유형을 선택해주세요',
                                 icon : 'error',
                                 confirmButtonText : '확인'
                             })

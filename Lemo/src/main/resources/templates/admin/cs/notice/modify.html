@@ -143,6 +143,13 @@
 </th:block>
 <th:block layout:fragment="script">
     <script>
+        // enter 키 작동금지
+        document.addEventListener("keydown", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+            }
+        });
+
         // 로드시 셀렉트박스 옵션선택
         document.addEventListener("DOMContentLoaded", function() {
           var mNotice = "[[${mNotice.cs_type}]]";
