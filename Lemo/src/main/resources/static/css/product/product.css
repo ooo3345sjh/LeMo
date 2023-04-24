@@ -1593,9 +1593,11 @@ margin-left: 25px;
 }
 
 .list > .list-area > div.noResult {
-    min-height:690px;
+    margin-top: 100px;
+    min-height: 690px;
     font-size: 16px;
     text-align: center;
+}
 }
 
 .list > .list-area .stage-name {  }
