@@ -259,7 +259,7 @@ $(function(){
 
         for(let i=0; i < checkboxes.length; i++){
             if(!checkboxes[i].checked){
-                sweetalert("필수 동의항목에 동의를 하셔야 합니다.");
+                sweetalert("필수 동의항목에 동의를 하셔야 합니다.", "warning");
                 return false;
             }
         }

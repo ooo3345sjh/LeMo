@@ -903,6 +903,7 @@
         height: 100%;
         border-radius: 71px;
         border: 1px solid #e9e9e9;
+        object-fit: cover;
     }
     .login_info .my_profile_box{
         width: 80px;
@@ -913,7 +914,7 @@
         display: inline-block;
     }
     .login_info > form > label {
-        width: 21px;
+        width: 22px;
         height: 22px;
         margin: -1px 0px 17px 58px;
         background: linear-gradient(to bottom, #CCCCCD 5%, #CCCCCD 100%);
@@ -928,6 +929,7 @@
         left: 5px;
         bottom: 0px;
         text-align: center;
+        line-height: 22px;
     }
     .login_info > form > input[type="file"] {
         position: absolute;
