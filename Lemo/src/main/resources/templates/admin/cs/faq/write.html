@@ -31,11 +31,9 @@
                                                         <option value="event">이벤트</option>
                                                         <option value="payment">예약/결제</option>
                                                         <option value="cancel">취소/환불</option>
-                                                        <option value="benefit">혜택받기</option>
                                                         <option value="use">이용문의</option>
                                                         <option value="info">회원정보</option>
                                                         <option value="review">리뷰</option>
-                                                        <option value="refund">환불신청</option>
                                                         <option value="point">쿠폰/포인트</option>
                                                     </select>
                                                 </p>
@@ -52,16 +50,13 @@
                                                 <div class="btnSubmit">
                                                     <button class="btnAdminProd" type="submit">등록</button>
                                                 </div>
+                                                <div class="btnSubmit">
+                                                    <a th:href="@{/admin/cs/faq/list}" class="btnAdminProd" id="list" type="button">목록으로</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- <div class="btnAdminProd4">
-                                    <a href="#">
-                                        선택삭제
-                                    </a>
-                                </div> -->
                             </form>
                         </div>
                     </div>
@@ -73,8 +68,15 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
-    <script th:src="@{/js/cs/cs_type-form.js}"></script>
+    <script th:src="@{/js/cs/cs_type_form.js}"></script>
     <script>
+        // enter 키 작동금지
+            document.addEventListener("keydown", function(event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                }
+            });
+
         // 타이틀 포커스
         const cs_title = document.getElementById('cs_title');
         cs_title.focus();

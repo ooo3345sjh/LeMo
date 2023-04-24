@@ -49,6 +49,10 @@
             text-shadow: 0px 1px 0px #ffffff;
             float: right;
         }
+        .btnAdminnProd > #modifyComplete:hover{
+            background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	        background-color:#f6f6f6;
+        }
     </style>
 </th:block>
 <th:block layout:fragment="content">
@@ -99,10 +103,16 @@
                             </div>
 
                             <!-- 버튼 -->
+
                             <div class="btnAdminnProd">
                                 <button id="modifyComplete" type="submit">
                                     공지등록
                                 </button>
+                            </div>
+                            <div class="btnAdminProd">
+                                <a th:href="@{/admin/cs/notice/list}">
+                                    목록으로
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -115,6 +125,13 @@
     </th:block>
     <th:block layout:fragment="script">
         <script>
+            // enter 키 작동금지
+            document.addEventListener("keydown", function(event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                }
+            });
+
              $(document).ready(function() {
                 $('#summernote').summernote({
                     height: 450,

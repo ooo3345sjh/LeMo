@@ -29,6 +29,21 @@
             color: black;
         }
 
+        .show_list li .toggleArea {
+            display: none;
+            margin-bottom: 12px;
+            padding: 20px 20px;
+            border-radius: 4px;
+            background: #f6f5f5;
+            font-size: 14px;
+            line-height: 22px;
+            box-sizing: border-box;
+            overflow: hidden;
+            width: 100%;
+            border: none;
+            resize: none;
+        }
+
     </style>
 </th:block>
 <th:block layout:fragment="content">
@@ -50,11 +65,9 @@
                     <li><a th:href="@{/cs/faq/event}" th:class="${cs_type == 'event'} ? 'on' : ''">이벤트</a></li>
                     <li><a th:href="@{/cs/faq/payment}" th:class="${cs_type == 'payment'} ? 'on' : ''">예약/결제</a></li>
                     <li><a th:href="@{/cs/faq/cancel}" th:class="${cs_type == 'cancel'} ? 'on' : ''">취소/환불</a></li>
-                    <li><a th:href="@{/cs/faq/benefit}" th:class="${cs_type == 'benefit'} ? 'on' : ''">혜택받기</a></li>
                     <li><a th:href="@{/cs/faq/use}" th:class="${cs_type == 'use'} ? 'on' : ''">이용문의</a></li>
                     <li><a th:href="@{/cs/faq/info}" th:class="${cs_type == 'info'} ? 'on' : ''">회원정보</a></li>
                     <li><a th:href="@{/cs/faq/review}" th:class="${cs_type == 'review'} ? 'on' : ''">리뷰</a></li>
-                    <li><a th:href="@{/cs/faq/refund}" th:class="${cs_type == 'refund'} ? 'on' : ''">환불신청</a></li>
                     <li><a th:href="@{/cs/faq/point}" th:class="${cs_type == 'point'} ? 'on' : ''">쿠폰/포인트</a></li>
                 </div>
                 <!-- 자주묻는 질문 목록 -->
@@ -70,9 +83,9 @@
                                 <a href="#" class="list_n">
                                     <span class="${faq.cs_type}" th:text="|[${faq.cs_type_ko}]|"></span> &nbsp&nbsp&nbsp <span>[[${faq.cs_title}]]</span>
                                 </a>
-                                <div class="toggle">
-                                    [[${faq.cs_content}]]
-                                </div>
+                                <textarea class="toggleArea" th:text="${faq.cs_content}" readonly>
+
+                                </textarea>
                             </li>
                         </th:block>
                     </ul>
@@ -100,8 +113,14 @@
 </th:block>
 
 <th:block layout:fragment="script">
-    <script th:src="@{/js/cs/toggle.js}"></script>
     <script>
+        /* 글 보기 */
+        $('.show_list > li').on('click', function(e){
+            e.preventDefault();
+            $(this).find('.toggleArea').slideToggle();
+            $(this).find('.list_n').toggleClass('open');
+        });
+
         $(document).on('load', function(){
             var faqType = document.getElementsByClassName('faqType').innerHTML;
 

@@ -27,21 +27,17 @@
                                             <option th:value="@{/admin/cs/faq/list (cs_type= 'event')}" th:selected="${ph.sc.cs_type == 'event'}">이벤트</option>
                                             <option th:value="@{/admin/cs/faq/list (cs_type= 'payment')}" th:selected="${ph.sc.cs_type == 'payment'}">예약/결제</option>
                                             <option th:value="@{/admin/cs/faq/list (cs_type= 'cancel')}" th:selected="${ph.sc.cs_type == 'cancel'}">취소/환불</option>
-                                            <option th:value="@{/admin/cs/faq/list (cs_type= 'benefit')}" th:selected="${ph.sc.cs_type == 'benefit'}">혜택받기</option>
                                             <option th:value="@{/admin/cs/faq/list (cs_type= 'use')}" th:selected="${ph.sc.cs_type == 'use'}">이용문의</option>
                                             <option th:value="@{/admin/cs/faq/list (cs_type= 'info')}" th:selected="${ph.sc.cs_type == 'info'}">회원정보</option>
                                             <option th:value="@{/admin/cs/faq/list (cs_type= 'review')}" th:selected="${ph.sc.cs_type == 'review'}">리뷰</option>
-                                            <option th:value="@{/admin/cs/faq/list (cs_type= 'refund')}" th:selected="${ph.sc.cs_type == 'refund'}">환불신청</option>
                                             <option th:value="@{/admin/cs/faq/list (cs_type= 'point')}" th:selected="${ph.sc.cs_type == 'point'}">쿠폰/포인트</option>
                                         </select>
                                     </div>
                                 </form>
                             </div>
-
                             <div class="col_nav">
                                 <span>고객센터 ></span>
                                 <span>자주묻는질문</span>
-
                             </div>
                             <div class="col2">
                                 <form action="#">
@@ -80,8 +76,6 @@
                                             </tr>
                                             </tbody>
                                         </table>
-
-
                                     </div>
                                     <div class="pagination" th:object="${ph}" th:style="${#lists.size(csArticles) == 0 ? 'visibility:hidden;':''}">
 
@@ -100,7 +94,6 @@
                                         <th:block th:if="*{showNext}">
                                             <a th:href="@{/admin/cs/faq/list} + ${ph.sc.getQueryString(ph.endPage+1)}" class="next"> ></a>
                                         </th:block>
-
                                     </div>
                                     <div class="btnAdminProd4">
                                         <a th:href="@{/admin/cs/faq/write}">

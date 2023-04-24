@@ -79,6 +79,7 @@
 <th:block layout:fragment="script">
     <script th:src="@{/js/cs/toggle.js}"></script>
     <script>
+
         $(document).ready(function () {
             const cs_no = "[[${param.cs_no}]]"|| null;
             if(cs_no != null){

@@ -131,7 +131,7 @@ main > #cs {
     background-position: 0 -9px;
 }
 
-.show_list li div {
+.show_list li .toggle {
     display: none;
     margin-bottom: 12px;
     padding: 20px 20px;
