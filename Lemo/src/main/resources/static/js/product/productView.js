@@ -79,8 +79,12 @@ function reserv(obj){
        return;
     }
 
-    let CI = startDate;
-    let CO = endDate;
+    //let CI = startDate;
+    //let CO = endDate;
+
+    let CI = checkIn;
+    let CO = checkOut;
+
     let room_id = $(obj).parent().attr('data-room_id');
 
     jsonData = {
