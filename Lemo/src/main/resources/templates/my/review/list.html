@@ -54,7 +54,7 @@
                                         </div>
                                         <div>
                                             <a th:href="@{/my/review/write ( res_no = ${review.res_no}, acc_id= ${review.acc_id} )}" class="review_btn"  th:if="${review.reviewStat == 0}">리뷰작성</a>
-                                            <a th:href="@{/my/review/view  ( res_no = ${review.res_no} )}" class="review_btn2" th:if="${review.reviewStat != 0}">리뷰보기</a>
+                                            <a th:href="@{/my/review/view  ( res_no = ${review.res_no} )}" class="review_btn2" th:if="${review.reviewStat == 1}">리뷰보기</a>
                                         </div>
                                     </div>
                                 </div>
