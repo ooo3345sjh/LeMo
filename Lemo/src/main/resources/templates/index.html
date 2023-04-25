@@ -88,7 +88,7 @@
             <div class="main_top_container">
                 <div class="main_top_tit"># <i>BEST</i></div>
                 <div class="main_top_box">
-                    <div class="main_top_table">
+                    <div class="main_top_table best">
                         <th:block th:each="best:${map.best}">
                             <div class="main_top_item1">
                                 <a th:href="@{/product/view?acc_id=} + ${best.acc_id}">
@@ -134,11 +134,11 @@
             <div class="main_top_container">
                 <div class="main_top_tit"># 재방문<i> 100%</i></div>
                 <div class="main_top_box">
-                    <div class="main_top_table">
+                    <div class="main_top_table re">
                         <th:block th:each="re:${map.revisit}">
                             <div class="main_top_item1">
                                 <a th:href="@{/product/view?acc_id=} + ${re.acc_id}">
-                                    <div class="main_top_item1_click">
+                                    <div th:class="'main_top_item1_click ' + ${#lists.size(map.revisit) lt 4? 'noFull':''}">
                                         <div class="main_top_item1_img">
                                             <img th:src="@{/img/product/} + ${re.province_no} + '/' + ${re.acc_id} + '/' + ${re.acc_thumbs.split('/')[0]}" alt="메인 아이템">
                                         </div>
@@ -263,5 +263,8 @@
 </th:block>
 
 <th:block layout:fragment="script">
+    <script>
+        const revisitCnt = "[[${#lists.size(map.revisit)}]]";
+    </script>
     <script th:src="@{/js/index.js}"></script>
 </th:block>

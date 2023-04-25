@@ -16,7 +16,7 @@ public class SearchCondition {
     private Integer no = 0;
     private String searchField;
     private String searchWord;
-    private Map<String, String> map;
+    protected Map<String, String> map;
 
 
     public String getQueryString(Integer page){
