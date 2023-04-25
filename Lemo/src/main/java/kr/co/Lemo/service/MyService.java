@@ -447,6 +447,7 @@ public class MyService {
         }
 
         List<String> fileName = checkReivewFile(param, fileMap);
+
         if(!fileName.isEmpty()) {
             String files = String.join("/", fileName);
             param.put("revi_thumb", files);
@@ -509,7 +510,7 @@ public class MyService {
 
     public int reviewUpload(Map<String, MultipartFile> fileMap, Map<String, Object> param, List<String> newNames) {
 
-        String path = new File(uploadPath+"review/"+param.get("acc_id")).getAbsolutePath();
+        String path = new File(uploadPath+"review/"+param.get("res_no")).getAbsolutePath();
 
         // 저장 폴더가 없다면 생성
         File checkFolder = new File(path);
@@ -540,7 +541,7 @@ public class MyService {
 
     public List<String> checkReivewFile(Map<String, Object> param, Map<String, MultipartFile> fileMap) {
 
-        String dirPath = new File(uploadPath+"review/"+param.get("acc_id")).getAbsolutePath();
+        String dirPath = new File(uploadPath+"review/"+param.get("res_no")).getAbsolutePath();
 
         File dir = new File(dirPath);
         File Files[] = dir.listFiles();

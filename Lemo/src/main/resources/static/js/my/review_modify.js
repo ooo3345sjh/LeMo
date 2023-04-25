@@ -75,7 +75,7 @@ $(function(){
                 const thumbs = reviewThumbs.split('/');
 
                 for(thumb in thumbs) {
-                    let imgSrc = '/Lemo/img/review/'+acc_id+'/'+thumbs[thumb];
+                    let imgSrc = '/Lemo/img/review/'+res_no+'/'+thumbs[thumb];
                     let dataURL;
                     let fileName = thumbs[thumb];
 
