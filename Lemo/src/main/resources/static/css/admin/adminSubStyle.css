@@ -89,7 +89,21 @@ main .rating1mini {
     margin-top: 9px;
     background-position: -88px 0px;
 }
-
+main .rating_5 > img {
+    width: 35px;
+}
+main .rating_4 > img {
+    width: 35px;
+}
+main .rating_3 > img {
+    width: 35px;
+}
+main .rating_2 > img {
+    width: 35px;
+}
+main .rating_1 > img {
+    width: 35px;
+}
 main .main_content .main_content_div {
     justify-content: space-evenly;
     border: 1px solid transparent;
@@ -280,6 +294,7 @@ main .main_content .col2 .board_list li {
     text-align: center;
     line-height: 40px;
     vertical-align: middle;
+    font-family: 'Noto Sans KR';
 }
 main .main_content .col2 .board_list .prodName {
     text-align: left;
@@ -2155,10 +2170,12 @@ main .col2_r_box .r_content_tit {
     font-size: 22px;
     font-weight: 600;
     margin-bottom: 19px;
+    color: #424242;
 }
 main .col2_r_box .r_content_txt {
     font-size: 15px;
     text-align: center;
+    color: #424242;
 }
 
 /* 모달 (admin - review - view) */
