@@ -170,11 +170,13 @@
         JOIN `lemo_product_accommodation` AS c
         ON b.acc_id = c.acc_id
         WHERE b.`acc_id` = #{acc_id}
+        ORDER BY a.`arti_rdate` DESC
         LIMIT #{offset}, 10;
     </select>
 
     <select id="selectProductReviews" resultType="kr.co.Lemo.domain.ReviewVO">
         <include refid="commonProductReview"/>
+        ORDER BY `revi_id` DESC
         LIMIT #{offset}, 10;
     </select>
 
