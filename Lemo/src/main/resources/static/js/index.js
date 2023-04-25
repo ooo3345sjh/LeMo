@@ -13,11 +13,18 @@ $(document).ready(function(){
     } );
 
     $( document ).ready( function() {
-        $( '.main_top_table' ).slick( {
+        $( '.main_top_table.best' ).slick( {
             slidesToShow: 4,
             slidesToScroll: 1,
             autoplay: true,
             autoplaySpeed: 2000,
+        } );
+        $( '.main_top_table.re' ).slick( {
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            autoplay: Number(revisitCnt) > 4,
+            autoplaySpeed: 2000,
+            variableWidth:Number(revisitCnt) < 4
         } );
     } );
 

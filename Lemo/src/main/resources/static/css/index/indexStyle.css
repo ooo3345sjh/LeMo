@@ -180,6 +180,10 @@ main .main_top_container .main_top_table .main_top_item1_click {
     display: flex;
     flex-wrap: wrap;
 }
+main .main_top_container .main_top_table .main_top_item1_click.noFull {
+    display: block;
+    margin-right: 14px;
+}
 main .main_top_container .main_top_table .main_top_item1_img {
     position: relative;
 }
