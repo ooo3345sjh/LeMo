@@ -57,7 +57,6 @@ public class MyService {
     public Map<Integer, List<DiarySpotVO>> findDiaryArticle(SearchCondition sc) {
         List<DiarySpotVO> spotVO = dao.selectDiary(sc);
 
-
         Map<Integer, List<DiarySpotVO>> map = spotVO.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
 
         return map;
@@ -66,10 +65,17 @@ public class MyService {
     public List<ArticleDiaryVO> findDiaryArticles(SearchCondition sc) {
         List<ArticleDiaryVO> articles = dao.selectDiaryArticles(sc);
         List<DiarySpotVO> spots = dao.selectDiarySpots();
-        Map<Integer, List<DiarySpotVO>> maps = spots.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
+        List<ArticleDiaryVO> picks = diaryDAO.selectDiaryLikes(sc);
+
+
+        Map<Integer, List<DiarySpotVO>> map = spots.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
+        Map<Integer, List<ArticleDiaryVO>> maps = picks.stream().collect(Collectors.groupingBy(ArticleDiaryVO::getArti_no));
 
         for(ArticleDiaryVO artiVO : articles) {
-            artiVO.setSpotVO(maps.get(artiVO.getArti_no()));
+            artiVO.setSpotVO(map.get(artiVO.getArti_no()));
+            if(maps.get(artiVO.getArti_no()) != null) {
+                artiVO.setUser_id(maps.get(artiVO.getArti_no()).get(0).getUser_id());
+            }
         }
 
         return articles;
@@ -172,13 +178,6 @@ public class MyService {
             HttpServletRequest req,
             String user_id
     ) {
-// 파일 이름 수정 -> 이걸 먼저하는 이유는
-        // 파일 업로드 시 경로는 img/diary/arti_no/파일 이름 이고
-        // arti_no를 얻기 위해선 먼저 diary_article에 데이터를 입력해줘야됨
-        // 따라서 먼저 이름을 수정함
-        // 만약 파일 경로를 arti_no로 안한다면 fileUpload 함수에 포함시켜 한번에 처리할 수 있음
-        // diary_spot 입력 데이터 분류
-
         int finalResult = 0;
         // 데이터 검증(필수로 입력되어야하는 부분이라 길이가 모두 똑같아야함)
         String[] title   = ((String) param.get("diarySpotTitle")).split("/");
@@ -193,7 +192,6 @@ public class MyService {
             finalResult = 2;
             return finalResult;
         }
-
 
         List<String> fileRenames = new ArrayList<>();
 
@@ -242,7 +240,6 @@ public class MyService {
                                 .province_name(accommo.getProvince_name())
                                 .spot_addr(accommo.getAcc_addr()).build();
 
-            // diary_spot 테이블 입력
             dao.insertDiarySpot(spotVO);
         }
 
@@ -358,7 +355,6 @@ public class MyService {
         List<String> oriNames = new ArrayList<>();
 
         for (MultipartFile multipartFile : fileMap.values()) {
-            //파일 이름 추출 (확장자 제거)
             String fName = multipartFile.getOriginalFilename();
             String ext = fName.substring(fName.indexOf("."));
             String newName = UUID.randomUUID() + ext;
@@ -442,10 +438,6 @@ public class MyService {
     };
 
     public String usaveReview(Map<String, Object> param, Map<String, MultipartFile> fileMap) {
-        for(MultipartFile mf : fileMap.values()) {
-            log.debug("mf : " + mf.getOriginalFilename());
-        }
-
         List<String> fileName = checkReivewFile(param, fileMap);
 
         if(!fileName.isEmpty()) {
@@ -484,7 +476,6 @@ public class MyService {
 
         String path = new File(uploadPath+"diary/"+arti_no).getAbsolutePath();
 
-        // 저장 폴더가 없다면 생성
         File checkFolder = new File(path);
         if(!checkFolder.exists()){
             try {
@@ -512,7 +503,6 @@ public class MyService {
 
         String path = new File(uploadPath+"review/"+param.get("res_no")).getAbsolutePath();
 
-        // 저장 폴더가 없다면 생성
         File checkFolder = new File(path);
         if(!checkFolder.exists()){
             try {
@@ -525,7 +515,6 @@ public class MyService {
         int count = 0;
 
         for (MultipartFile mf : fileMap.values()) {
-            // 파일 저장
             try {
                 mf.transferTo(new File(path, newNames.get(count)));
                 count ++;
@@ -735,16 +724,9 @@ public class MyService {
      * @author 박종협
      * @apiNote point 갱신
      */
-    
-//    @Scheduled(cron = "0 0 0 1 * *") 매달 1일 00시
-//    @Scheduled(cron = "0 0 0 * * *") 자정
-//    @Scheduled(cron = "0 0 0 * * *")
-//    @Scheduled(cron = "0 0 0/1 * * *") // 1시간 마다
-//    @Scheduled(cron = "0 0/5 * * * ?") // 5분마다 
     @Scheduled(cron = "0 0 0 * * *")
     public void pointUpdate() {
-        log.debug("**************************포인트 스케쥴러 사용(1일 자정)****************************************");
-        // 매일 자정 만료시간이 된 point를 member_point에 insert select
+        log.info("**************************포인트 스케쥴러 사용(1일 자정)****************************************");
         dao.insertSelectPointExpire();
         dao.updateAvailablePoiUsed();
 

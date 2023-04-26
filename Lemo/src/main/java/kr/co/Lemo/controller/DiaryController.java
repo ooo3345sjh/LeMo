@@ -47,7 +47,7 @@ public class DiaryController {
             @ModelAttribute My_SearchVO vo,
             @AuthenticationPrincipal UserVO myUser
     ){
-        log.debug("GET list start");
+        log.info("GET list start");
         m.addAttribute("title", environment.getProperty(diaryGroup));
         if(myUser != null) { vo.setUser_id(myUser.getUser_id()); }
         vo.setMap(options);
@@ -71,7 +71,7 @@ public class DiaryController {
     public String view(Model m,
                        @RequestParam(defaultValue = "0") int arti_no
     ){
-        log.debug("GET view start");
+        log.info("GET view start");
         m.addAttribute("title", environment.getProperty(diaryGroup));
 
         if(arti_no == 0) { return "redirect:/diary/list"; }
@@ -99,7 +99,7 @@ public class DiaryController {
             @AuthenticationPrincipal UserVO myUser,
             HttpServletRequest req
     ){
-        log.debug("POST "+ commentType +" start");
+        log.info("POST "+ commentType +" start");
         commentVO.setUser_id( myUser.getUser_id() );
         commentVO.setCom_replyId( myUser.getUser_id() );
         commentVO.setCom_regip(req.getRemoteAddr());
@@ -145,7 +145,7 @@ public class DiaryController {
     @ResponseBody
     @DeleteMapping("{commentType}")
     public ResponseEntity<Integer> removeComment(@RequestBody DiaryCommentVO commentVO) {
-        log.debug("DELETE comment start");
+        log.info("DELETE comment start");
 
         int result = service.removeComment(commentVO.getCom_no());
 
@@ -160,7 +160,7 @@ public class DiaryController {
             @RequestBody DiaryCommentVO commentVO,
             HttpServletRequest req
     ) {
-        log.debug("PATCH "+commentType+" start");
+        log.info("PATCH "+commentType+" start");
 
         if(commentType.equals("comment")) {
 
@@ -189,6 +189,8 @@ public class DiaryController {
             @RequestBody ArticleDiaryVO diaryVO,
             @AuthenticationPrincipal UserVO myUser
     ) {
+        log.info("PATCH like start");
+
         int arti_no = diaryVO.getArti_no();
         Boolean status = diaryVO.getStatus();
         String user_id = myUser.getUser_id();
@@ -221,6 +223,8 @@ public class DiaryController {
             @RequestBody ArticleDiaryVO diaryVO,
             @AuthenticationPrincipal UserVO myUser
     ) {
+        log.info("PATCH article start");
+
         int arti_no = diaryVO.getArti_no();
 
         int result = service.removeDiary(arti_no);

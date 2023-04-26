@@ -154,14 +154,15 @@
 
     <select id="selectDiaryArticles" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
         SELECT
-            a.`arti_no`, a.`arti_title`, b.`user_id`
+           a.`arti_no`, a.`arti_title`, COUNT(b.`user_id`)
         FROM
-            `lemo_diary_article` AS a LEFT JOIN
-            `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
-            `lemo_product_reservation` AS c ON a.`res_no` = c.`res_no` LEFT JOIN
-            `lemo_product_accommodation` AS d ON c.`acc_id` = d.`acc_id`
+           `lemo_diary_article` AS a LEFT JOIN
+           `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
+           `lemo_product_reservation` AS c ON a.`res_no` = c.`res_no` LEFT JOIN
+           `lemo_product_accommodation` AS d ON c.`acc_id` = d.`acc_id`
         WHERE a.`user_id` = #{user_id}
-        ORDER BY a.`arti_rdate` DESC
+        GROUP BY a.`arti_no`
+        ORDER BY a.`arti_no` DESC
         LIMIT #{offset}, 10;
     </select>
 

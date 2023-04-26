@@ -1,10 +1,7 @@
 package kr.co.Lemo.service;
 
 import kr.co.Lemo.dao.DiaryDAO;
-import kr.co.Lemo.domain.ArticleDiaryVO;
-import kr.co.Lemo.domain.DiaryCommentVO;
-import kr.co.Lemo.domain.DiarySpotVO;
-import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.domain.*;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +37,16 @@ public class DiaryService {
     public List<ArticleDiaryVO> findDairyArticles(SearchCondition sc) {
         List<ArticleDiaryVO> articles = dao.selectDiaryArticles(sc);
         List<DiarySpotVO> spots = dao.selectDiarySpots();
+        List<ArticleDiaryVO> picks = dao.selectDiaryLikes(sc);
+
         Map<Integer, List<DiarySpotVO>> map = spots.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
+        Map<Integer, List<ArticleDiaryVO>> maps = picks.stream().collect(Collectors.groupingBy(ArticleDiaryVO::getArti_no));
 
         for(ArticleDiaryVO artiVO : articles) {
             artiVO.setSpotVO(map.get(artiVO.getArti_no()));
+            if(maps.get(artiVO.getArti_no()) != null) {
+                artiVO.setUser_id(maps.get(artiVO.getArti_no()).get(0).getUser_id());
+            }
         }
         return articles;
     }
@@ -85,20 +88,14 @@ public class DiaryService {
                 long diff = d1.getTime() - d2.getTime();
 
                 if(diff > 86400000) {
-                    //log.debug("24시간 이후 작성");
                     vo.setBefore24H(vo.getCom_rdate().substring(0,10));
                 }else if(diff < 86400000 && diff >= 3600000) {
-                    //log.debug("24시간 이전 작성");
                     long diffHours = diff / (60 * 60 * 1000);
-                    //log.debug(diffHours  + "시간 전");
                     vo.setBefore24H(diffHours  + "시간 전");
                 }else if(diff < 3600000 && diff >= 60000) {
-                    //log.debug("1시간 이전 작성");
                     long diffMinutes = diff / (60 * 1000);
-                    //log.debug(diffMinutes + "분 전");
                     vo.setBefore24H(diffMinutes + "분 전");
                 }else {
-                    //log.debug("diff"+diff);
                     vo.setBefore24H("방금 전");
                 }
             }

@@ -56,7 +56,6 @@ $(function(){
             var oFile = $(this)[0].files;
 
             if(oFile.length < 1){
-                // preview.attr('src', '/Lemo/images/diary/imgUpload.png');
             }else {
                 fileMap.set(fileNo, e.target.files[0]);
                 reader.readAsDataURL(e.target.files[0]);

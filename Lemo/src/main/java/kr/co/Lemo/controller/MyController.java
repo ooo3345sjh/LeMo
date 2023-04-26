@@ -66,7 +66,7 @@ public class MyController {
             @ModelAttribute My_SearchVO vo,
             Model m
     ) {
-        log.debug("GET " + myCate + " start");
+        log.info("GET " + myCate + " start");
         m.addAttribute("title", environment.getProperty(myGroup));
         String user_id = myUser.getUser_id();
         vo.setUser_id( myUser.getUser_id() );
@@ -146,6 +146,8 @@ public class MyController {
     @ResponseBody
     @PostMapping("coupon")
     public int rsaveCoupon(@RequestBody CouponVO coupon, @AuthenticationPrincipal UserVO myUser) {
+        log.info("POST coupon start");
+
         coupon.setUser_id(myUser.getUser_id());
         CouponVO cnt = service.findProductCouponCnt(coupon);
 
@@ -164,6 +166,8 @@ public class MyController {
             @ModelAttribute My_SearchVO vo,
             Model m
     ) {
+        log.info("GET review/list start");
+
         m.addAttribute("title", environment.getProperty(myGroup));
         m.addAttribute("cate", "review");
 
@@ -193,6 +197,8 @@ public class MyController {
             @AuthenticationPrincipal UserVO myUser,
             Model m
     ) {
+        log.info("GET review/view start");
+
         m.addAttribute("title", environment.getProperty(myGroup));
         m.addAttribute("cate", "review");
         if(res_no == 0) { return "redirect:/my/review/list"; }
@@ -219,6 +225,8 @@ public class MyController {
             @AuthenticationPrincipal UserVO myUser,
             Model m
     ) {
+        log.info("GET review/write start");
+
         m.addAttribute("title", environment.getProperty(myGroup));
         m.addAttribute("cate", "review");
 
@@ -251,6 +259,8 @@ public class MyController {
             HttpServletRequest req,
             @AuthenticationPrincipal UserVO myUser
     ) {
+        log.info("POST review/wrtie start");
+
         param.put("user_id", myUser.getUser_id());
         param.put("revi_regip", req.getRemoteAddr());
 
@@ -265,6 +275,8 @@ public class MyController {
             Model m,
             @RequestParam(defaultValue = "0") long res_no
     ) {
+        log.info("GET review/modify start");
+
         m.addAttribute("title", environment.getProperty(myGroup));
         m.addAttribute("cate", "review");
 
@@ -290,6 +302,8 @@ public class MyController {
             @AuthenticationPrincipal UserVO myUser,
             MultipartHttpServletRequest request
     ) {
+        log.info("POST review/usave start");
+
         Map<String, MultipartFile> fileMap = request.getFileMap();
         param.put("revi_regip", req.getRemoteAddr());
 
@@ -311,6 +325,8 @@ public class MyController {
             @RequestBody Map map,
             @AuthenticationPrincipal UserVO myUser
     ) {
+        log.info("DELETE review start");
+
         long res_no = Long.parseLong(String.valueOf(map.get("res_no")));
         String user_id = myUser.getUser_id();
         String review_id = service.findCheckReviewId(res_no);
@@ -329,7 +345,7 @@ public class MyController {
             @ModelAttribute My_SearchVO vo,
             Model m
     ) {
-        log.debug("GET diary/list start");
+        log.info("GET diary/list start");
         m.addAttribute("title", environment.getProperty(diaryGroup));
         m.addAttribute("cate", "diary");
         vo.setUser_id(myUser.getUser_id());
@@ -354,7 +370,7 @@ public class MyController {
             @RequestParam(value = "res_no", defaultValue = "0") long res_no,
             Model m
     ) {
-        log.debug("GET diary/write start");
+        log.info("GET diary/write start");
 
         if(res_no == 0) { return "redirect:/my/reservation/list"; }
 
@@ -379,6 +395,8 @@ public class MyController {
             @RequestParam(defaultValue = "0") int arti_no,
             Model m
     ) {
+        log.info("GET diary/modify start");
+
         m.addAttribute("title", environment.getProperty(diaryGroup));
 
         if(arti_no == 0) { return "redirect:/my/reservation/list"; }
@@ -403,7 +421,7 @@ public class MyController {
             @RequestPart(value = "file", required = false) List<MultipartFile> fileList,
             HttpServletRequest req
     ) throws Exception {
-        log.debug("POST diary/rsave start");
+        log.info("POST diary/rsave start");
         log.debug(param.toString());
         log.debug(fileList.toString());
         // 이후에 principal로 대체
@@ -426,7 +444,7 @@ public class MyController {
             @RequestPart(value = "file", required = false) List<MultipartFile> fileList,
             HttpServletRequest req
     ) {
-        log.debug("POST diary/usave start");
+        log.info("POST diary/usave start");
 
         String user_id = myUser.getUser_id();
 
@@ -454,6 +472,8 @@ public class MyController {
             @ModelAttribute My_SearchVO vo,
             Model m
     ) {
+        log.info("GET reservation/list start");
+
         m.addAttribute("cate", "reservation");
         vo.setMap(map);
         vo.setUser_id(myUser.getUser_id());
@@ -481,6 +501,8 @@ public class MyController {
             @RequestParam(defaultValue = "0") long res_no,
             @AuthenticationPrincipal UserVO myUser
     ) {
+        log.info("GET reservation/view start");
+
         m.addAttribute("cate", "reservation");
 
         if(res_no == 0) { return "redirect:/my/reservation/list"; }
@@ -524,6 +546,8 @@ public class MyController {
     @Transactional
     @DeleteMapping("reservation")
     public int reservationDelete(@RequestBody Map map) throws Exception {
+        log.info("DELETE reservation start");
+
         int result = 0;
 
         if(map.get("res_no") == null){
