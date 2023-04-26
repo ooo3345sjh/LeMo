@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
  * @author 서정현
  * @apiNote RemembermeService
  */
-@Slf4j
 @AllArgsConstructor
 @Service
 public class RemembermeService implements UserDetailsService {

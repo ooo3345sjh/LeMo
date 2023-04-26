@@ -59,21 +59,25 @@ public class UserService {
 
     // @since 2023/03/16
     public int countByEmail(String email) throws Exception{
+        log.info("Myservice countByEmail");
         return userDAO.countByEmail(email);
     }
 
     // @since 2023/03/26
     public int countByEmailAndType1(String email) throws Exception{
+        log.info("Myservice countByEmailAndType1");
         return userDAO.countByEmailAndType1(email);
     }
 
     // @since 2023/03/26
     public UserInfoEntity findByEmailAndType1(String email) throws Exception{
+        log.info("Myservice findByEmailAndType1");
         return userDAO.findByEmailAndType1(email);
     }
 
     // @since 2023/03/16
     public String getNick() throws JsonProcessingException {
+        log.info("Myservice getNick");
         String apiURL = "https://nickname.hwanmoo.kr/";
 
         URI uri = UriComponentsBuilder
@@ -106,13 +110,17 @@ public class UserService {
 
     // @since 2023/03/16
     public int countByNick(String nick) throws Exception {
+        log.info("Myservice countByNick");
         return userDAO.countByNick(nick);
     }
 
     // @since 2023/03/18
     public int rsaveUser(UserVO user) throws Exception {
+        log.info("Myservice rsaveUser");
         user.setPass(passwordEncoder.encode(user.getPass()));
+
         log.debug(user.toString());
+
         int result = 0;
 
         userDAO.rsaveUserInfo(user);
@@ -127,11 +135,13 @@ public class UserService {
 
     // @since 2023/03/18
     public SocialEntity rsaveSocial(SocialEntity socialEntity){
+        log.info("Myservice rsaveSocial");
         return socialRepo.save(socialEntity);
     }
 
     // @since 2023/03/25
     public int usaveUserPw(String username, String password) throws Exception {
+        log.info("Myservice usaveUserPw");
         password = passwordEncoder.encode(password);
         return userDAO.usaveUserPw(username, password);
     }
@@ -144,6 +154,7 @@ public class UserService {
      * @apiNote UserEntity -> UserVO 객체로 변환한 객체를 반환
      */
     public UserVO userVoConvert(Object principal) {
+        log.info("Myservice userVoConvert");
         if(principal instanceof  UserEntity){
             UserEntity user = (UserEntity) principal;
             UserInfoEntity userInfo = user.getUserInfoEntity();
@@ -223,7 +234,7 @@ public class UserService {
 
     // @since 2023/03/27
     public String getUploadPath(String pathDir)throws Exception{
-        log.debug("Myservice getUploadPath...");
+        log.info("Myservice getUploadPath...");
 
         File profileDir = new File(uploadPath+"/"+pathDir);
         if(!profileDir.exists())
@@ -234,7 +245,7 @@ public class UserService {
 
     // @since 2023/03/27
     public int usaveProfile(MultipartFile photo, UserVO userVO) {
-        log.debug("Myservice usaveProfile...");
+        log.info("Myservice usaveProfile...");
 
         int result = 0;
         String newName = null;
@@ -264,6 +275,7 @@ public class UserService {
 
     // @since 2023/03/27
     public int removeProfile(UserVO userVO) {
+        log.info("Myservice removeProfile");
         int result = 0;
         try{
             result = userDAO.updateProfile(null, userVO.getUser_id());
@@ -287,7 +299,7 @@ public class UserService {
 
     // @since 2023/03/27
     public void removeFile(String fileName) throws Exception {
-        log.debug("Myservice removeFile...");
+        log.info("Myservice removeFile...");
 
         if(fileName != null){
             // 시스템 경로
@@ -299,7 +311,7 @@ public class UserService {
 
     // @since 2023/03/27
     public int usaveNick(String nick, UserVO userVO) throws Exception {
-        log.debug("Myservice usaveNick...");
+        log.info("Myservice usaveNick...");
 
 
         int result = userDAO.updateNick(nick, userVO.getUser_id());
@@ -316,7 +328,7 @@ public class UserService {
 
     // @since 2023/03/28
     public int usaveHp(String hp, UserVO userVO) throws Exception {
-        log.debug("Myservice usaveHp...");
+        log.info("Myservice usaveHp...");
 
         int result = userDAO.updateHp(hp, userVO.getUser_id());
 
@@ -332,7 +344,7 @@ public class UserService {
 
     // @since 2023/03/28
     public int usaveIsNoticeEnabled(int isNoticeEnabled, UserVO userVO) throws Exception {
-        log.debug("Myservice usaveIsNoticeEnabled...");
+        log.info("Myservice usaveIsNoticeEnabled...");
 
         int result = userDAO.updateIsNoticeEnabled(isNoticeEnabled, userVO.getUser_id());
 
@@ -348,6 +360,7 @@ public class UserService {
 
     // @since 2023/03/28
     public int findByBizRegNum(String bizRegNum) throws Exception {
+        log.info("Myservice findByBizRegNum");
         return userDAO.countByBizRegNum(bizRegNum);
     }
 
@@ -358,7 +371,7 @@ public class UserService {
      */
     @Scheduled(cron = "0 0 0/1 * * * ")
     public void usaveWithdrawUserId() throws Exception {
-        log.debug("usaveWithdrawUserId start...");
+        log.info("usaveWithdrawUserId start...");
         userDAO.updateWithdrawUserId(UUID.randomUUID().toString());
     }
 }

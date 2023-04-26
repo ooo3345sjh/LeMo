@@ -573,7 +573,7 @@ public class MyController {
             @RequestPart(value = "profileFile") MultipartFile photo,
             @AuthenticationPrincipal UserVO userVO
     ) throws  Exception {
-        log.debug("MyService PATCH uploadProfile start...");
+        log.info("MyController PATCH uploadProfile start...");
         int result = userService.usaveProfile(photo, userVO);
         return result+"";
     }
@@ -588,7 +588,7 @@ public class MyController {
     public Map removeProfile(
             @AuthenticationPrincipal UserVO userVO
     ) {
-        log.debug("MyService DELETE deleteProfile start...");
+        log.info("MyController DELETE deleteProfile start...");
         Map map = new HashMap();
         map.put("result", userService.removeProfile(userVO));
         return map;
@@ -605,7 +605,7 @@ public class MyController {
             @AuthenticationPrincipal UserVO userVO,
             @RequestBody Map map
     ) throws  Exception {
-        log.debug("MyService PATCH updateNick start...");
+        log.info("MyController PATCH updateNick start...");
 
         String nick = (String)map.get("nick");
         int result = 0;
@@ -626,7 +626,7 @@ public class MyController {
             @AuthenticationPrincipal UserVO userVO,
             @RequestBody Map map
     ) throws  Exception {
-        log.debug("MyService PATCH updateHp start...");
+        log.info("MyController PATCH updateHp start...");
 
         String hp = (String) map.get("hp");
         int result = 0;
@@ -649,7 +649,7 @@ public class MyController {
             @AuthenticationPrincipal UserVO userVO,
             @RequestBody Map map
     ) throws  Exception {
-        log.debug("MyService PATCH notification start...");
+        log.info("MyController PATCH notification start...");
 
         Integer isNoticeEnabled = (Integer) map.get("isNoticeEnabled");
         int result = 0;
@@ -668,7 +668,7 @@ public class MyController {
      */
     @GetMapping("withdraw")
     public String withdrawUser(@AuthenticationPrincipal UserVO user, Model m){
-        log.debug("MyService GET withdrawUser start...");
+        log.info("MyController GET withdrawUser start...");
         service.findUserPointAndCouponCnt(m, user.getUser_id());
         return "my/withdraw";
     }
@@ -685,7 +685,7 @@ public class MyController {
             @RequestBody Map map,
             HttpServletRequest req
     ){
-        log.debug("MyService POST withdrawUser start...");
+        log.info("MyController POST withdrawUser start...");
         
         // 회원 탈퇴 처리(포인트 소멸, 쿠폰 삭제 및 userinfo.isEnabled = 0 처리)
         int result = service.usaveWithdrawUser(user.getUser_id());
