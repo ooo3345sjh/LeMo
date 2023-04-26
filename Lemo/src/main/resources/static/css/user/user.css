@@ -738,3 +738,241 @@ main > section .signup > .sub_title {
 .checknick .inp_type2 {
     width: 238px;
 }
+
+
+/* 회원탈퇴 */
+#withdraw {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    margin-top: 60px;
+    margin-bottom: 150px;
+    width: 500px;
+}
+
+.wd_wrap {
+    width: 100%;
+}
+.wd_wrap > .wd_tit {
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+    position: relative;
+}
+.wd_wrap > .wd_tit > span {
+    font-size: 24px;
+}
+.wd_wrap > .wd_tit > a {
+    float: right;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.wd_wrap > .wd_tit img {
+    width: 15px;
+}
+
+/* 회원탈퇴 - 내용 */
+.wd_wrap > .wd_content > .wd_survey_tit{
+    margin: 50px 0;
+    text-align: center;
+}
+.wd_wrap > .wd_content > .wd_survey_tit span {
+    font-family: 'jalnan';
+    font-size: 24px;
+}
+
+.wd_wrap > .wd_content > .wd_survey_tit span:nth-of-type(1) {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.wd_wrap > .wd_content > .wd_survey_tit b{
+    font-family: 'jalnan';
+    font-size: 24px;
+    color: #bbd444;
+}
+
+.wd_wrap > .wd_content > .radio_li {}
+.wd_wrap > .wd_content > .radio_li > .radio_li_item {}
+.wd_wrap > .wd_content > .radio_li > .radio_li_item > .select_item_area{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 48px;
+    cursor: pointer;
+}
+.wd_wrap > .wd_content > .radio_li > .radio_li_item > .select_item_area > div {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    border: 1px solid #cccccc;
+    margin: 0px 10px;
+}
+
+.wd_wrap > .wd_content > .radio_li > .radio_li_item > .select_item_area > div.on {
+    background: rgba(255,0,85,1);
+    border: 1px solid rgba(255,0,85,1);
+    scale: 1.1;
+}
+.wd_wrap > .wd_content > .radio_li > .radio_li_item > .select_item_area > span {
+    font-size: 15px;
+    color: #575757
+}
+
+/* 탈퇴 이유 */
+.wd_wrap > .wd_content > .radio_li > .radio_li_item > .reason_content {
+    max-height: 1000px;
+    opacity: 1;
+    transition: opacity .3s ease-in-out,max-height .2s ease-in-out;
+    padding: 0px 20px;
+}
+.wd_wrap > .wd_content > .radio_li > .radio_li_item > .reason_content > textarea {
+    display: block;
+    padding: 14px 16px 18px;
+    margin-bottom: 10px;
+    resize: none;
+    width: 100%;
+    height: 92px;
+    border: none;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    line-height: 1.5;
+    color: rgba(0,0,0,.56);
+    font-size: 13px;
+}
+
+/* 버튼 */
+.wd_wrap .next {
+    height: 56px;
+    font-size: 16px;
+    line-height: 56px;
+    display: inline-block;
+    width: 47%;
+    margin-top: 16px;
+    border-radius: 6px;
+    text-align: center;
+    border: none;
+    background: #ebebeb;
+    color:rgba(0,0,0,0.56);
+    font-weight: bold;
+}
+
+.wd_wrap .next:nth-of-type(1){margin-right:20px;}
+
+.wd_wrap .next.on {
+    color: #fff;
+    background: linear-gradient(to right, rgba(255,0,85,1) 1%,rgba(230,34,67,1) 100%);
+}
+
+/* step2 */
+.wd_wrap > .wd_content.step2 > .wd_survey_tit {
+    margin: 50px 0px 20px;
+}
+.wd_wrap > .wd_content > .wd_survey_sub_title {
+    margin-bottom: 40px;
+    text-align: center;
+    color: rgba(0,0,0,.56);
+    word-break: break-all;
+    font-size: 15px;
+    font-weight: 500;
+}
+.wd_wrap > .wd_content > .asset-list {
+    position: relative;
+    margin-bottom: 32px;
+}
+.wd_wrap > .wd_content > .asset-list > .asset-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px 24px;
+    color: rgba(0,0,0,.56);
+    line-height: 1.38;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 16px 0 rgb(0 0 0 / 8%);
+}
+.wd_wrap > .wd_content > .asset-list > .asset-item:first-child {
+    margin-bottom: 20px;
+}
+
+.wd_wrap > .wd_content > .asset-list > .asset-item >.left {
+    display: flex;
+    flex-wrap: wrap;
+    line-height: 1.38;
+}
+.wd_wrap > .wd_content > .asset-list > .asset-item >.left > div:first-child{
+    padding-right: 6px;
+    font-size: 15px;
+}
+.wd_wrap > .wd_content > .asset-list > .asset-item >.left > div:last-child{
+    font-size: 15px;
+    font-weight: bold;
+    color: #eb4242;
+}
+.wd_wrap > .wd_content > .asset-list > .asset-item >.right {
+    font-size: 15px;
+    color: #eb4242;
+}
+
+/* 고지사항 */
+.wd_wrap > .wd_content > .info-list{}
+.wd_wrap > .wd_content > .info-list > li{
+    position: relative;
+    margin-bottom: 9px;
+    color: rgba(0,0,0,.56);
+    line-height: 1.53;
+    font-size: 14px;
+    font-weight: 400;
+    list-style: disc;
+    margin-left: 24px;
+}
+.wd_wrap > .wd_content > .info-list > li >b{
+    position: relative;
+    margin-bottom: 9px;
+    color: rgba(0,0,0,.56);
+    line-height: 1.53;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* 탈퇴 동의 div */
+.wd_wrap > .wd_content > .withdraw-agree{
+    display: flex;
+    align-items: center;
+    height: 36px;
+    cursor: pointer;
+    margin-top: 50px;
+}
+.wd_wrap > .wd_content > .withdraw-agree > div:first-child{
+    border: 2px solid #cbcbcb;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    margin-right: 10px;
+}
+.wd_wrap > .wd_content > .withdraw-agree > div:first-child.on{
+    border: 2px solid #eb4242;
+    background-color: #eb4242;
+}
+
+
+.wd_wrap > .wd_content > .withdraw-agree > div:first-child > img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.wd_wrap > .wd_content > .withdraw-agree > div:last-child{
+    font-size: 14px;
+    color: rgba(0,0,0,1.56);
+    font-weight: bold;
+}
+
+.wd_wrap > .wd_content.step1{display: block;}
+.wd_wrap > .wd_content.step2{display: block;}
+
+.btn_move-link {
+    text-align: center;
+}
