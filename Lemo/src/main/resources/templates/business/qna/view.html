@@ -6,30 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/admin/adminQna.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminCommon.css}">
     <style>
-        main .business_reply {
-            text-align: left;
-            padding: 10px 2px 4px 8px;
-            margin-bottom: 6px;
-        }
-        main .business_reply .business {
-            border-radius: 11px;
-            padding: 3px 9px;
-            background: #bbd444;
-            font-size: 13px;
-            color: white;
-        }
-        main .business_reply .business_date {
-            font-size: 14px;
-        }
 
-        main .business_reply .uDate {
-            border-radius: 6px;
-            padding: 3px 5px;
-            background: #fcf951;
-            font-size: 13px;
-            color: #252525;
-            margin-left: 4px;
-        }
     </style>
 </th:block>
 <th:block layout:fragment="content">
@@ -92,12 +69,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- <div class="btnAdminProd4">
-                                    <a href="#">
-                                        선택삭제
-                                    </a>
-                                </div> -->
                             </form>
                         </div>
                     </div>
@@ -136,7 +107,7 @@
             var textarea = document.getElementById("qna_reply"); // textarea 요소 가져오기
             console.log("text : " +textarea.text);
             console.log("value : " +textarea.value);
-<!--            oriContent = textarea.value; // 기존의 값 저장-->
+
             if (textarea.disabled) {
                 textarea.disabled = false; // disabled 속성 제거하여 편집 가능하도록 함
                 textarea.style.backgroundColor = "#ececec";
@@ -225,9 +196,7 @@
 
         });
 
-
-
-        });
+    });
     </script>
 </th:block>
 </html>
