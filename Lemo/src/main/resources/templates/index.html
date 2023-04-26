@@ -197,14 +197,14 @@
                                                     <span class="nick">[[${diary.user_nick}]]</span>
                                                 </div>
                                                 <div class="item_right">
+                                                <span class="date">
+                                                    [[${#strings.substring(diary.arti_rdate, 2, 10)}]]
+                                                </span>
                                                 <span class="heart">
                                                     <img th:src="@{/images/index/full-heart.png}">
                                                     <p>[[${diary.arti_like}]]</p>
                                                 </span>
-                                                    <span class="date">
-                                                    [[${#strings.substring(diary.arti_rdate, 2, 10)}]]
-                                                </span>
-                                                    <span class="replyCount">
+                                                <span class="replyCount">
                                                     <img th:src="@{/images/index/comment.png}">
                                                     <p>[[${diary.arti_comment}]]</p>
                                                 </span>
