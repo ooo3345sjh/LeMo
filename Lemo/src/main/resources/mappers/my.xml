@@ -31,7 +31,7 @@
            `lemo_product_room`          AS c ON b.`room_id` = c.`room_id` LEFT JOIN
            `lemo_diary_article`         AS d ON b.`res_no` = d.`res_no` LEFT JOIN
            `lemo_product_review`        AS e ON b.`res_no` = e.`res_no`
-        WHERE b.`user_id` = 'user1@lemo.com'
+        WHERE b.`user_id` = #{user_id}
         ORDER BY b.`res_date` DESC
         LIMIT #{offset}, 10;
     </select>
