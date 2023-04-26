@@ -1683,3 +1683,149 @@ main .btnSubmit > button {}
     border: 1px solid #dfdfdf;
     border-radius: 5px;
 }
+
+/** 관리자 답변 & 수정 **/
+main .business_reply {
+    text-align: left;
+    padding: 10px 2px 4px 8px;
+    margin-bottom: 6px;
+}
+main .business_reply .business {
+    border-radius: 11px;
+    padding: 3px 9px;
+    background: #bbd444;
+    font-size: 13px;
+    color: white;
+}
+main .business_reply .business_date {
+    font-size: 14px;
+}
+
+main .business_reply .uDate {
+    border-radius: 6px;
+    padding: 3px 5px;
+    background: #fcf951;
+    font-size: 13px;
+    color: #252525;
+    margin-left: 4px;
+}
+
+/** business qna list **/
+main .main_content .col2 .board_list3 {
+    border-top: 1px solid #dbdbdb;
+    border-collapse: collapse;
+    color: #505050;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+main .main_content .col2 .board_list3 ul {
+    border-bottom: 1px solid #dbdbdb;
+}
+main .main_content .col2 .board_list3 ul:first-child {
+    background: #F7F7F7;
+}
+main .main_content .col2 .board_list3 li {
+    display: inline-block;
+    height: 32px;
+    font-size: 14px;
+    padding-top: 7px;
+    padding-bottom: 28px;
+    text-align: center;
+    height: 30px;
+    font-size: 14px;
+    text-align: center;
+}
+main .main_content .col2 .board_list3 .title {
+    text-align: left;
+    padding-left: 13px;
+}
+
+main .main_content .col2 .board_list3 .title > a {
+    font-size: 14px;
+}
+main .main_content .col2 .board_list3 li:nth-of-type(1) {width: 5%;}
+main .main_content .col2 .board_list3 li:nth-of-type(2) {width: 5%;}
+main .main_content .col2 .board_list3 li:nth-of-type(3) {width: 14%;}
+main .main_content .col2 .board_list3 li:nth-of-type(4) {width: 40%;}
+main .main_content .col2 .board_list3 li:nth-of-type(5) {
+     width: 14%;
+ }
+main .main_content .col2 .board_list3 li:nth-of-type(6) {width: 10%; font-family: 'NOTO SANS KR';}
+main .main_content .col2 .board_list3 li:nth-of-type(7) {width: 10%;}
+
+
+main .main_content .col2 .board_list3 .prodBtn > span {
+    box-shadow: inset 0px 1px 0px 0px #ffffff;
+    background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+    background-color: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    font-size: 13px;
+    padding: 2px 8px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+
+
+main .main_content .col2 .board_list3 .prodBtn > span:hover {
+    background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	background-color:#f6f6f6;
+}
+main .main_content .col2 .board_list3 .prodBtn > span:active {
+    position:relative;
+	top:1px;
+}
+
+main #c_role_type {
+    border: 1px solid #dcdcdc;
+    padding: 1px 20px 1px 4px;
+    max-width: 100%;
+    text-decoration: none;
+    font-size: 13px;
+    height: 30px;
+}
+
+main .search_review_tit {
+    width: 100%;
+    display: block;
+    text-align: left;
+    font-size: 17px;
+    margin: 10px;
+    font-weight: 500;
+}
+
+main .search_review_table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #dbdbdb;
+}
+
+main .search_review_table tr {
+    height: 43px;
+}
+
+main .search_review_table th {
+    text-align: left;
+    border-bottom: 1px solid #dbdbdb;
+    padding-left: 0px;
+    padding: 0 10px;
+    background: #f0f0f0;
+    width: 17% !important;
+    font-size: 13px;
+}
+main .search_review_table td {
+    font-size: 13px;
+    text-align: left;
+    border-bottom: 1px solid #dbdbdb;
+    border-left: 1px solid #dbdbdb;
+    padding-left: 17px;
+}
+
+.show_list #nonData {
+    width: 100% !important;
+    margin-bottom: 9px;
+    font-size: 17px;
+}

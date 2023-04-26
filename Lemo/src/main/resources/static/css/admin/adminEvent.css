@@ -2144,7 +2144,8 @@ main .main_content .btnAdminnProd > #writeComplete:hover {
 }
 
 // 이벤트 작성 & 수정 공통
-.event_write_bannerImg > #image {
+#fileDropzone .event_write_bannerImg{}
+#fileDropzone .event_write_bannerImg > #image {
     height: 181px;
     width: 1100px;
     margin: auto;
@@ -2205,4 +2206,11 @@ main .main_content .btnAdminnProd > #writeComplete:hover {
     overflow: hidden;
     clip: rect(0,0,0,0);
     border: 0;
+}
+
+/** 데이터 없음*/
+.show_list #nonData {
+    width: 100% !important;
+    margin-bottom: 9px;
+    font-size: 17px;
 }
