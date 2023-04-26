@@ -38,6 +38,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=user1
       - MONGO_INITDB_ROOT_PASSWORD=Girc@!23
       - MONGO_INITDB_DATABASE=admin
+      - TZ=Asia/Seoul
     networks:
       - springboot-mysql-net
 
