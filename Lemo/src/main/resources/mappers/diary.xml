@@ -19,7 +19,7 @@
                `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
                `lemo_product_reservation` AS c ON a.`res_no` = c.`res_no` LEFT JOIN
                `lemo_product_accommodation` AS d ON c.`acc_id` = d.`acc_id`
-            WHERE (b.`user_id` = 'lazca7@naver.com' OR b.`user_id` Is null)
+            WHERE (b.`user_id` = #{user_id} OR b.`user_id` Is null)
             <choose>
                 <when test="orderBySearchType == 'addr'">
                     and d.`acc_addr` LIKE CONCAT('%', #{keyword} , '%')
