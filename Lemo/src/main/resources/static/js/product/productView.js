@@ -79,11 +79,8 @@ function reserv(obj){
        return;
     }
 
-    //let CI = startDate;
-    //let CO = endDate;
-
-    let CI = checkIn;
-    let CO = checkOut;
+    let CI = startDate;
+    let CO = endDate;
 
     let room_id = $(obj).parent().attr('data-room_id');
 
@@ -157,8 +154,6 @@ $(function(){
             });
             mySliders.push(mySlider);
             mySlider.reloadSlider();
-            console.log(count);
-            console.log(mySliders);
         }
     }); 
 
@@ -180,8 +175,6 @@ $(function(){
                 let htmlAcc = "";
 
                 for(let i = 0; i < response.length; i++) {
-
-                    console.log(response[i].mcp_id);
 
                     if(response[i].cp_group != null){ // 전체 발급용 쿠폰
                         htmlAll += '<li>' + response[i].cp_subject;
@@ -271,8 +264,7 @@ $(function(){
         
         mySliders[count].destroySlider();
         mySliders.splice(count, 1);
-        console.log(count);
-        console.log(mySliders);
+
     });
 
     /** 객실안내/예약 팝업 */
@@ -384,7 +376,6 @@ $(function(){
             "status" : status
         }
 
-        console.log(jsonData);
 
         ajaxAPI("product/pick", jsonData, "POST").then((response) => {
             if(response.result > 0 ) {

@@ -286,13 +286,4 @@ $(function(){
     // 영역정보를 문자열로 얻어옵니다. ((남,서), (북,동)) 형식입니다
     var boundsStr = bounds.toString();
 
-/*
-
-    console.log('남서쪽 ' + swLatLng.getLat());
-    console.log('남서쪽 ' + swLatLng.getLng());
-    console.log('북동쪽 ' + neLatLng.getLat());
-    console.log('북동쪽 ' + neLatLng.getLng());
-    console.log(boundsStr);
-
-*/
 

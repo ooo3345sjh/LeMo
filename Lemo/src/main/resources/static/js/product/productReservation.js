@@ -80,7 +80,7 @@ function paymentCard(data) {
   	},
 	function (rsp) { // callback
 		if (rsp.success) {
-            console.log(rsp);
+            //console.log(rsp);
             data.imp_uid = rsp.imp_uid;
 
             completePayment(data);
@@ -274,9 +274,6 @@ $(function(){
             pg = 'kakaopay.TC0ONETIME';
         }
 
-        console.log("payment : " + payment);
-        console.log("pg : " + pg);
-
         jsonData = {
             "point" : point,
             "cp_id" : cp_id,
@@ -288,9 +285,7 @@ $(function(){
             "pg" : pg
         }
 
-        console.log(jsonData);
-
-        //completePayment(jsonData);
+        //console.log(jsonData);
 
         paymentCard(jsonData);
 
@@ -307,7 +302,6 @@ $(function(){
 
         ajaxAPI("product/terms", jsonData, "POST").then((response) => {
 
-            console.log(response);
             let html = "";
 
             html += '<div><div class="fix_title">'
@@ -316,8 +310,6 @@ $(function(){
             html += '<div class="iscroll_cp" style="touch-action: none;">'
             html += '<div class="content" style="transform: translate(0px, 0px) translateZ(0px);">'
             html += response.terms_content+'</div></div></div>'
-
-            console.log(html);
 
             $('.popup_terms').text("");
             $('.popup_terms').append(html);

@@ -57,6 +57,8 @@ $(function(){
 
             let newUrl = '/Lemo/product/view?acc_id='+acc_id+'&checkIn=' + checkIn + '&checkOut='+checkOut;
 
+            startDate = checkIn;
+            endDate = checkOut;
             // URL 파라미터 값 변경
             urlParams.set("checkIn", checkIn);
             urlParams.set("checkOut", checkOut);
