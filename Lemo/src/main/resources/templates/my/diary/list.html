@@ -116,7 +116,6 @@
 
                     function resizeMap() {
                         var container = document.getElementById('my_diary_listMap');
-                        // container.style.marginLeft = '100px';
                         container.style.width = '618px';
                     }
 
@@ -126,9 +125,6 @@
                         $('#my_diary_listMap').css({ 'margin-left' : '0' });
                         $('.foldMap').css({ 'display' : 'none' });
                         $('.foldMap').css({ 'cursor' : 'pointer' });
-                        //bounds.extend(new kakao.maps.LatLng(36.3504119, 127.3845475));
-                        //map.setBounds(bounds);
-                        //map.setLevel(13);
                     }
 
                     // 마커 이미지 변경하는 공통 함수
@@ -152,7 +148,6 @@
                     }
 
                     function sortPosition(arti_no) {
-                        // 카카오맵 resize
                         resizeMap();
 
                         // 여행일기 목록 크기 변경

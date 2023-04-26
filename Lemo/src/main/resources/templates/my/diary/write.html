@@ -70,7 +70,6 @@
                     let accommoLng = [[${accommo.acc_longtitude}]];
                     let accommoLat = [[${accommo.acc_lattitude}]];
                     let markerStatCount = 1;
-                    console.log([[${accommo.res_checkIn}]]);
                     let diary_start = [[${accommo.res_checkIn}]];
                     let diary_end   = [[${accommo.res_checkOut}]];
 
@@ -205,15 +204,11 @@
                                     overlay.setContent(content);
                                     overlay.setPosition(marker.getPosition());
                                     overlay.setMap(map);
-
-<!--                                    infowindow.setContent(content);-->
-<!--                                    infowindow.open(map, marker);-->
                                 });
 
                                 // 마커에 mouseout 이벤트를 등록합니다
                                 kakao.maps.event.addListener(marker, 'mouseout', function() {
                                     overlay.setMap(null);
-<!--                                    infowindow.close();-->
                                 });
 
                                                  // #F4
@@ -221,15 +216,8 @@
 
                                 $('.list-area').append(addContent);
 
-<!--                                // 마커에 click이벤트를 등록합니다-->
-<!--                                kakao.maps.event.addListener(marker, 'click', function() {-->
-<!--                                    // #F7-->
-<!--                                    removeAlert(marker, place, markerStatCount);-->
-<!--                                });-->
-
                                 // markerMap.set(place.replace(reg, ""), marker);
                                 markerMap.set(markerStatCount, marker);
-                                console.log(markerMap);
 
                                 Swal.fire({
                                     title: '생성완료!',
@@ -252,7 +240,6 @@
                         let addContent  = `<div class="place place_D${withoutSpace}" data-no="${markerStatCount}">`;
                             addContent +=   '<div class="spot">';
                             addContent +=       '<img src="/Lemo/images/diary/marker7.png" width="30px" height="40px">';
-<!--                            addContent +=       '<span>'+ place +'</span>';-->
                             addContent +=           '<input type="text" class="diaryWriteInput" value="'+place+'" readonly placeholder="여행일기 제목을 작성해주세요.">'
                             addContent +=   '</div>';
                             addContent +=   '<img src="/Lemo/images/cs/arr_down.png" class="arrow">';
@@ -446,16 +433,12 @@
                             // 마커에 mouseover이벤트를 등록합니다
                             kakao.maps.event.addListener(marker, 'mouseover', function() {
                                 let content = markerOverlay(place.name, " ")
-<!--                                overlay.setContent(content);-->
-<!--                                overlay.setPosition(marker.getPosition());-->
-<!--                                overlay.setMap(map);-->
                                 infowindow.setContent(content);
                                 infowindow.open(map, marker);
                             });
 
                             // 마커에 mouseout이벤트를 등록합니다
                             kakao.maps.event.addListener(marker, 'mouseout', function() {
-<!--                                overlay.setMap(null);-->
                                 infowindow.close();
                             });
 
@@ -525,9 +508,6 @@
                         for(const [key, value] of fileMap) {
                             formData.append('file', value)
                         }
-<!--                        $.each(fileInputList, function (index, el){-->
-<!--                            formData.append('file', el[0].files[0]);-->
-<!--                        })-->
 
                         let submitSpotTitle = [];
                         let submitSpotContent = [];
@@ -550,15 +530,6 @@
                         for(var i=0; i<markers.length; i++){
                             submitLat.push(markers[i].getPosition().getLat());
                             submitLng.push(markers[i].getPosition().getLng());
-                        }
-
-
-                        for( const [ key, value ] of fileMap ) {
-                            console.log(value)
-                            console.log(submitSpotTitle[key-1])
-                            console.log(submitSpotContent[key-1])
-                            console.log(submitLat[key-1])
-                            console.log(submitLng[key-1])
                         }
 
                         let res_no          = getUrlParameter('res_no');
@@ -632,15 +603,6 @@
                         e.stopPropagation();
                         e.preventDefault();
 
-                        // 서정현 TEST
-<!--                        no = $(this).parent().find('input[type=file]').data('no');-->
-<!--                        console.log("수정전 : ");-->
-<!--                        console.log(fileInputList);-->
-<!--                        let filtered = fileInputList.filter((element) => element.data('no') !== no);-->
-<!--                        fileInputList = filtered;-->
-<!--                        console.log("수정후 : ");-->
-<!--                        console.log(fileInputList);-->
-
                         let fileNo = $(this).attr('data-no');
                         fileMap.delete(fileNo);
 
@@ -684,11 +646,6 @@
                                 position: markerMap.get(Number(overlayNo)).getPosition()
                             });
 
-                            console.log(overlays);
-                            console.log(markerMap)
-                            console.log(Number(overlayNo))
-                            console.log(markerMap.get(Number(overlayNo)))
-
                             overlays.set(Number(overlayNo), overlay);
 
                             kakao.maps.event.addListener(markerMap.get(Number(overlayNo)), 'mouseover', function() {
@@ -718,11 +675,9 @@
                         const status = $(this).hasClass('on');
 
                         if(status) {
-                            console.log('test1');
                             e.stopPropagation();
                             e.preventDefault();
                         }else {
-                            console.log('test2');
                         }
                     })
                 </script>

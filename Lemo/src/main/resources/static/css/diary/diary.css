@@ -189,6 +189,8 @@ h3 {
 
 .list ul li .img_slider img {
     object-fit: cover;
+    width: 100%;
+    height: 100%;
 }
 
 .list .heart {

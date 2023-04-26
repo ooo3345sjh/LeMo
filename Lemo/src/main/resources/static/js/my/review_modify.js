@@ -165,11 +165,6 @@ $(function(){
                 });
 
             });
-
-//            myDropzone.on("complete", function(file) {
-//                location.href= "/Lemo/my/review/view?res_no="+res_no;
-//            });
-
         },
     });
 

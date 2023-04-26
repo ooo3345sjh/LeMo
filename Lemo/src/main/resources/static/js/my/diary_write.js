@@ -57,7 +57,6 @@ $(function(){
             var oFile = $(this)[0].files;
 
             if(oFile.length < 1){
-                // preview.attr('src', '/Lemo/images/diary/imgUpload.png');
             }else {
                 // 서정현 TEST
                 fileInputList.push($(this).clone());

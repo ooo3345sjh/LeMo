@@ -1,9 +1,6 @@
 package kr.co.Lemo.dao;
 
-import kr.co.Lemo.domain.ArticleDiaryVO;
-import kr.co.Lemo.domain.DiaryCommentVO;
-import kr.co.Lemo.domain.DiarySpotVO;
-import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.domain.*;
 import kr.co.Lemo.utils.SearchCondition;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -70,4 +67,7 @@ public interface DiaryDAO {
 
     // @since 2023/04/18
     public int selectTotalDiarys(SearchCondition sc);
+
+    // @since 2023/04/26
+    public List<ArticleDiaryVO> selectDiaryLikes(SearchCondition sc);
 }
