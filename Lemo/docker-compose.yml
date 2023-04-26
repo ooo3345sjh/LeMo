@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   lemo_db:
-    image: mysql:8.0.3
+    image: mysql
     container_name: lemo_db
     restart: always
     cap_add:
