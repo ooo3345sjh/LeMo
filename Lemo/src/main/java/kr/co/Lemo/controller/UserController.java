@@ -68,7 +68,7 @@ public class UserController {
     // @since 2023/03/08
     @GetMapping("login")
     public String login(Model m, HttpServletRequest req) {
-        log.debug("GET login start...");
+        log.info("GET login start...");
         
         // 회원가입 페이지로부터 로그인 페이지로 온 경우 실행
         String referer = req.getHeader("Referer");
@@ -93,7 +93,7 @@ public class UserController {
             HttpServletRequest req,
             HttpSession session
     ) {
-        log.debug("POST login error start...");
+        log.info("POST login error start...");
 
         String username = req.getParameter("username");
         Object uri = req.getAttribute("toUri");
@@ -112,7 +112,7 @@ public class UserController {
             HttpServletResponse resp,
             @AuthenticationPrincipal UserVO userVO
     ) {
-        log.debug("GET logout start...");
+        log.info("GET logout start...");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null){
@@ -140,7 +140,7 @@ public class UserController {
             @RequestParam(defaultValue = "null") String type,
             HttpSession session
     ) {
-        log.debug("GET terms start...");
+        log.info("GET terms start...");
 
         if("social".equals(type)){}
         else if(!"general".equals(type) && !"business".equals(type))
@@ -161,7 +161,7 @@ public class UserController {
             String termsType_no,
             HttpServletRequest req
     ){
-        log.debug("POST terms start...");
+        log.info("POST terms start...");
         HttpSession session = req.getSession();
         String regType = (String)session.getAttribute("regType");
 
@@ -175,7 +175,7 @@ public class UserController {
     // @since 2023/03/08
     @GetMapping("join")
     public String join(Model m) {
-        log.debug("GET join start...");
+        log.info("GET join start...");
 
         m.addAttribute("title", environment.getProperty(group));
 
@@ -188,7 +188,7 @@ public class UserController {
             Model m,
             HttpServletRequest req
     ) {
-        log.debug("GET hpAuthentication start...");
+        log.info("GET hpAuthentication start...");
 
         String regType = (String) req.getSession().getAttribute("regType");
         String termsType_no = getTermsAuth(req);
@@ -205,7 +205,7 @@ public class UserController {
     // @since 2023/03/21
     @GetMapping("social/signup")
     public String singnup_social(Model m, HttpServletRequest req){
-        log.debug("GET singnup_social start...");
+        log.info("GET singnup_social start...");
         HttpSession session = req.getSession();
         Object principal = session.getAttribute("principal");
 
@@ -225,9 +225,9 @@ public class UserController {
             Model m,
             HttpServletRequest req
     ) {
-        log.debug("POST hpAuthentication start...");
-        log.debug("code : " + code.toString());
-        log.debug("hp : " + hp);
+        log.info("POST hpAuthentication start...");
+        log.info("code : " + code.toString());
+        log.info("hp : " + hp);
 
         String regType = (String) req.getSession().getAttribute("regType");
         String termsType_no = getTermsAuth(req);
@@ -257,7 +257,7 @@ public class UserController {
             Model m,
             HttpServletRequest req
     ) {
-        log.debug("GET signup start...");
+        log.info("GET signup start...");
 
         String regType = (String) req.getSession().getAttribute("regType");
         String termsType_no = getTermsAuth(req);
@@ -293,8 +293,8 @@ public class UserController {
             Model m,
             HttpServletRequest req
     ) throws Exception {
-        log.debug("POST signup start...");
-        log.debug(userVO.toString());
+        log.info("POST signup start...");
+        log.info(userVO.toString());
         userVO.setBusinessInfoVO(businessInfoVO);
 
         String regType = (String) req.getSession().getAttribute("regType");
@@ -318,7 +318,7 @@ public class UserController {
         userVO.setHp(hp);
         userService.rsaveUser(userVO);
 
-        log.debug(termsType_no);
+        log.info(termsType_no);
         return "redirect:/user/login";
     }
 
@@ -326,7 +326,7 @@ public class UserController {
     @ResponseBody
     @PostMapping("social/signup")
     public Map signup_social(@RequestBody Map map, HttpServletRequest req, HttpServletResponse resp){
-        log.debug("POST signup_social start...");
+        log.info("POST signup_social start...");
         HttpSession session = req.getSession();
         Object principal = session.getAttribute("principal");
 
@@ -357,7 +357,7 @@ public class UserController {
     @ResponseBody
     @GetMapping("nick/create")
     public Map createNick() throws Exception {
-        log.debug("GET createNick start...");
+        log.info("GET createNick start...");
         String nick = null;
         try {
             nick = userService.getNick();
@@ -380,7 +380,7 @@ public class UserController {
     @ResponseBody
     @GetMapping("nick/duplicate")
     public Map checkNick(@RequestParam String nick) throws Exception {
-        log.debug("GET checkNick start...");
+        log.info("GET checkNick start...");
         int result = 0;
         try {
             result = userService.countByNick(nick);
@@ -399,12 +399,12 @@ public class UserController {
     @ResponseBody
     @GetMapping("email/duplicate")
     public Map checkEmail(@RequestParam String email) {
-        log.debug("GET checkEmail start...");
-        log.debug(email);
+        log.info("GET checkEmail start...");
+        log.info(email);
         int result = 0;
         try {
             result = userService.countByEmail(email);
-            log.debug(String.valueOf(result));
+            log.info(String.valueOf(result));
         } catch (Exception e){
             result = -99999;
         }
@@ -437,7 +437,7 @@ public class UserController {
             @AuthenticationPrincipal UserVO user,
             @RequestBody Map map
     ) throws Exception {
-        log.debug("PATCH resetExpiredPw start...");
+        log.info("PATCH resetExpiredPw start...");
 
         if(user.getType() != 1)
             return map;
@@ -453,8 +453,8 @@ public class UserController {
     @ResponseBody
     @PatchMapping("pw/reset")
     public Map resetPw(@RequestBody Map map, HttpServletRequest req) throws Exception {
-        log.debug("PATCH resetPw start...");
-        log.debug(map.toString());
+        log.info("PATCH resetPw start...");
+        log.info(map.toString());
         Object email = map.get("email");
         Object code = map.get("code");
         Object authCode = req.getSession().getAttribute("authEmailCode");
@@ -484,7 +484,7 @@ public class UserController {
     @PostMapping("sms/send")
     @ResponseBody
     public Map sendSms(@RequestBody MessageVO messageVO, HttpServletRequest req) throws Exception {
-        log.debug("POST sendSms start...");
+        log.info("POST sendSms start...");
         Map map = new HashMap();
         try {
             SmsResponseVO response = smsService.sendSms(messageVO);
@@ -492,7 +492,7 @@ public class UserController {
             HttpSession session = req.getSession();
             session.setAttribute("authCode", response.getCode());
 
-            log.debug(response.toString());
+            log.info(response.toString());
             map.put("result", response);
         } catch (Exception e){
             log.error(e.getMessage());
@@ -506,7 +506,7 @@ public class UserController {
     @ResponseBody
     @PostMapping("email/send")
     public Map sendEmail(@RequestBody Map map, HttpServletRequest req) throws Exception {
-        log.debug("POST sendEmail start...");
+        log.info("POST sendEmail start...");
         if(map.get("email") != null){
             emailService.emailAuth(map);
             req.getSession().setAttribute("authEmailCode", map.get("code"));
@@ -523,8 +523,8 @@ public class UserController {
     @ResponseBody
     @PostMapping("bizregnum/duplicate")
     public Map checkBizRegNum(@RequestBody Map map, HttpServletRequest req) throws Exception {
-        log.debug("POST checkBizRegNum start...");
-        log.debug(map.toString());
+        log.info("POST checkBizRegNum start...");
+        log.info(map.toString());
         int result = 0;
         if(map.get("b_no") != null){
             result = userService.findByBizRegNum((String)map.get("b_no"));
@@ -532,7 +532,7 @@ public class UserController {
 
         map.put("result", result);
 
-        log.debug("result : " + result);
+        log.info("result : " + result);
         return map;
     }
 

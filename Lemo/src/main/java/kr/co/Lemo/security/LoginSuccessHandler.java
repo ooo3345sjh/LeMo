@@ -3,6 +3,7 @@ package kr.co.Lemo.security;
 import kr.co.Lemo.entity.SocialEntity;
 import kr.co.Lemo.entity.UserEntity;
 import kr.co.Lemo.entity.UserInfoEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,6 +32,7 @@ import java.util.List;
  * @author 서정현
  * @apiNote LoginSuccessHandler
  */
+@Slf4j
 @Component
 public class LoginSuccessHandler {
 
@@ -63,8 +65,8 @@ public class LoginSuccessHandler {
          * Security Filter가 인터셉트하여 savedRequest에 세션 저장
          */
 
-        System.out.println("savedRequest = " + savedRequest);
-        System.out.println("prevPage = " + prevPage);
+        log.debug("savedRequest = " + savedRequest);
+        log.debug("prevPage = " + prevPage);
         if (savedRequest != null) {
             if (savedRequest.getRedirectUrl().contains("/my/withdraw"))
                 uri = "/my/info";
@@ -87,7 +89,7 @@ public class LoginSuccessHandler {
             request.getSession().removeAttribute("fromSignup");
         }
 
-        System.out.println("uri = " + uri);
+        log.debug("uri = " + uri);
         return uri;
 
     }

@@ -30,9 +30,9 @@ public class SocialUserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         String provider = userRequest.getClientRegistration().getRegistrationId();
         SocialEntity socialEntity = null;
-        log.info("userRequest : "+userRequest.toString());
-        log.info("oAuth2User : "+oAuth2User.toString());
-        log.info("provider : "+provider);
+        log.debug("userRequest : "+userRequest.toString());
+        log.debug("oAuth2User : "+oAuth2User.toString());
+        log.debug("provider : "+provider);
         switch (provider){
             case "google":
                 socialEntity = SocialEntity.Provider.google.convert(oAuth2User);
@@ -71,7 +71,7 @@ public class SocialUserService extends DefaultOAuth2UserService {
                                             .build();
                     return  socialRepo.save(newUser);
                 });
-        log.info("dbUser : "+dbUser.toString());
+        log.debug("dbUser : "+dbUser.toString());
         return dbUser;
     }
 
