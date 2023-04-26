@@ -183,15 +183,16 @@
                             var positionMarker = [];
 
                             for(let position in arrObj[key].spotVO) {
+                                const objMarker = arrObj[key].spotVO[position];
 
                                 var marker = new kakao.maps.Marker({
-                                    position : new kakao.maps.LatLng(arrObj[key].spotVO[position].spot_lattitude, arrObj[key].spotVO[position].spot_longtitude)
+                                    position : new kakao.maps.LatLng(objMarker.spot_lattitude, objMarker.spot_longtitude)
                                 });
 
                                 let contents = '<div class="spot_wrap">';
                                    contents += '<div class="spot_title">';
-                                   contents += arrObj[key].spotVO[position].spot_title
-                                   contents += '<div class="spot_close" title="닫기" onclick="closeOverlay('+arrObj[key].spotVO[position].spot_no+')"></div>'
+                                   contents += objMarker.spot_title
+                                   contents += '<div class="spot_close" title="닫기" onclick="closeOverlay('+objMarker.spot_no+')"></div>'
                                    contents += '</div>';
                                    contents += '<div class="spot_content">';
                                    contents += arrObj[key].arti_title
@@ -203,16 +204,16 @@
                                     position: marker.getPosition()
                                 });
 
-                                overlays.set(arrObj[key].spotVO[position].spot_no, overlay);
+                                overlays.set(objMarker.spot_no, overlay);
 
                                 kakao.maps.event.addListener(marker, 'mouseover', function() {
                                     overlays.forEach(function(over){ over.setMap(null); });
-                                    let overlayT = overlays.get(arrObj[key].spotVO[position].spot_no);
+                                    let overlayT = overlays.get(objMarker.spot_no);
                                     overlayT.setMap(map);
                                 });
 
                                 kakao.maps.event.addListener(marker, 'mouseout', function() {
-                                    closeOverlay(arrObj[key].spotVO[position].spot_no);
+                                    closeOverlay(objMarker.spot_no);
                                 });
 
                                 // 맵에 key값으로 분류되는 value로 넣기 위한 배열

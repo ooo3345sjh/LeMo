@@ -129,7 +129,8 @@ public class ProductService {
 
         // 숙박 업소 가져오기
         List<ProductAccommodationVO> accs = dao.selectAccommodations(sc);
-        
+
+        log.debug(accs.toString());
         // 가격 데이터 가공
         accs = setAvgPrice(sc, accs);
 
