@@ -298,8 +298,6 @@ public class ProductService {
             result = 3;
         }
 
-        log.info("result : " + result);
-
         return result;
     }
 
@@ -867,7 +865,7 @@ public class ProductService {
     // @since 2023/04/29
     @Scheduled(cron = "0 0 0 * * *")
     public void updateReservationAndPoint() {
-        log.debug("**************************숙박완료, 포인트 적립 스케쥴러 사용(매일 자정)****************************************");
+        log.info("**************************숙박완료, 포인트 적립 스케쥴러 사용(매일 자정)****************************************");
         
         // 적립된 포인트 userinfo에 업데이트
         dao.updateMemberSavePoint();

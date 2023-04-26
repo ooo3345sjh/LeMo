@@ -359,7 +359,6 @@ public class ProductController {
         log.debug("Get product coupon start");
 
         List<CouponVO> coupons = service.findAllCoupons(map);
-        log.info("coupons : " + coupons);
 
         return coupons;
     }
