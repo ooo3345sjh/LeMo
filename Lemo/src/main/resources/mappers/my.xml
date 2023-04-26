@@ -96,7 +96,7 @@
     </select>
 
     <select id="selectReviews" resultType="kr.co.Lemo.domain.ReservationVO">
-        SELECT a.`province_no`, a.`acc_name`, a.`acc_id`, a.`acc_thumbs`,  b.`res_checkIn`, b.`res_checkOut`, b.`res_date`, b.`res_no`, IFNULL(c.`revi_id`, 0) AS reviewStat FROM
+        SELECT a.`province_no`, a.`acc_name`, a.`acc_id`, a.`acc_thumbs`,  b.`res_checkIn`, b.`res_checkOut`, b.`res_date`, b.`res_no`, IF(c.`revi_id` IS NULL, 0, 1) AS reviewStat FROM
             `lemo_product_accommodation` AS a LEFT JOIN
             `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
             `lemo_product_review`        AS c ON b.`res_no` = c.`res_no`
