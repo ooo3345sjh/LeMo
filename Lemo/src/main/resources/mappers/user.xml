@@ -113,6 +113,25 @@
          ]]>
     </update>
 
+    <!--
+      날짜 : 2023/04/28
+      이름 : 서정현
+      내용 : 매일 자정 숙박완료 10회이상 회원 level 업데이트 쿼리문
+   -->
+    <update id="usaveLevel">
+        <![CDATA[
+            UPDATE `lemo_member_userinfo` u
+            JOIN (
+               SELECT `user_id`, COUNT(`user_id`) FROM `lemo_product_reservation`
+               WHERE `res_state` = 2
+               GROUP BY `user_id`
+               HAVING COUNT(`user_id`) >= 10
+            ) vals ON u.user_id = vals.user_id
+            SET
+                u.`level`=2;
+        ]]>
+    </update>
+
     <!-- delete -->
 
     <!-- 공통 키 -->
