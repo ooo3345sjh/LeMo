@@ -677,33 +677,39 @@ public class AdminController {
                                  @RequestParam Map map,
                                  @ModelAttribute Cs_SearchVO sc){
 
-        log.info("admin/cs/.../list...");
 
         sc.setMap(map);
         model.addAttribute("title", environment.getProperty(group));
 
         if("event".equals(cs_cate)){
-            log.info("admin/cs/event/list");
+            log.info("GET EventList start....");
 
             csService.findAllEventArticles(sc, model);
             return "admin/cs/event/list";
         }else if("notice".equals(cs_cate)) {
+            log.info("GET NoticeList start....");
 
             csService.findAllCsArticles(sc, model);
             return "admin/cs/notice/list";
         }else if("qna".equals(cs_cate)){
+            log.info("GET QnaList start....");
 
             csService.findAllAdminQnaArticles(sc, model);
             return "admin/cs/qna/list";
         }else if("faq".equals(cs_cate)){
             if(cs_type != null){
+                log.info("GET FaqAllList start....");
+
                 csService.findAllFaqArticles(sc, model);
                 return "admin/cs/faq/list";
             }else {
+                log.info("GET FaqTypeList start....");
+
                 csService.findAllCsArticles(sc, model);
             }
             return "admin/cs/faq/list";
         }else if("terms".equals(cs_cate)){
+            log.info("GET TermsListStart");
             csService.findAllAdminTerms(sc, model);
         }
         return "admin/cs/terms/list";
@@ -731,7 +737,7 @@ public class AdminController {
     @ResponseBody
     @DeleteMapping("cs/term")
     public Map<String, Integer> removeTerm(@RequestBody Map map){
-        log.debug("term");
+        log.info("termRemoveStart...");
         log.debug((String) map.get("terms_no"));
 
         int terms_no = Integer.parseInt(String.valueOf(map.get("term_no")));
@@ -753,6 +759,8 @@ public class AdminController {
     @DeleteMapping("cs/{cs_cate}/article")
     public Map<String, Integer> removeAdminArticle(@PathVariable("cs_cate") String cs_cate, @RequestBody Map map) throws Exception {
 
+        log.info("removeArticleStart");
+
         int cs_no = Integer.parseInt(String.valueOf(map.get("cs_no")));
 
         int result = csService.removeAdminArticle(cs_no);
@@ -771,8 +779,8 @@ public class AdminController {
     @ResponseBody
     @DeleteMapping("cs/qna")
     public Map removeQnaList(@RequestBody Map<String, List<String>> data){
-        log.info("listRemoveStart");
-//        log.debug(map.toString());
+        log.info("listRemoveStart...");
+
         List<String> checkList = data.get("checkList");
        int result = csService.removeQnaList(checkList);
 
@@ -798,7 +806,8 @@ public class AdminController {
         model.addAttribute("title", environment.getProperty(group));
 
         if("notice".equals(cs_cate)){
-            log.info("noticeModify");
+            log.info("GET NoticeModifyStart....");
+
             CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
             String uri =  request.getHeader("referer");
             String regexUri = request.getContextPath() + "/admin/cs/notice/list";
@@ -815,10 +824,8 @@ public class AdminController {
             return "admin/cs/notice/modify";
 
         }else if("faq".equals(cs_cate)){
-            log.info("faqModify");
+            log.info("GET FaqModifyStart...");
             CsVO faqArticle = csService.findAdminCsArticle(cs_cate, cs_no);
-            log.info("faqContent : " +faqArticle.getCs_content());
-            log.info("faqTitle : " +faqArticle.getCs_title());
 
             model.addAttribute("mFaq", faqArticle);
             model.addAttribute("cs_no", cs_no);
@@ -826,10 +833,8 @@ public class AdminController {
 
             return "admin/cs/faq/modify";
         }else if("event".equals(cs_cate)){
-            log.info("eventModify");
+            log.info("GET EventModifyStart....");
             CsVO eventArticle = csService.findAdminEventArticle(cs_cate, cs_no);
-            log.info("eventContent : " +eventArticle.getCs_content());
-            log.info("eventTitle : " +eventArticle.getCs_title());
 
             model.addAttribute("mEvent", eventArticle);
             model.addAttribute("cs_no", cs_no);
@@ -848,6 +853,8 @@ public class AdminController {
                                    int page,
                                    Model model,
                                    HttpServletRequest request){
+        log.info("GET TermsModifyStart");
+
         TermVO termArticle = csService.findTermArticle(terms_no);
         String uri = request.getHeader("referer");
         String  regexUri = request.getContextPath() + "/admin/cs/terms/list";
@@ -859,7 +866,6 @@ public class AdminController {
         }
 
         model.addAttribute("mTerm", termArticle);
-        log.info("termType_ko : " +termArticle.getTermsType_type_ko());
         model.addAttribute("terms_no", terms_no);
         model.addAttribute("page", page);
 
@@ -881,7 +887,7 @@ public class AdminController {
                                    int page,
                                    String reUri){
         if ("notice".equals(cs_cate)) {
-            log.info("modifyNoticeStart");
+            log.info("POST NoticeModifyStart");
             log.debug(reUri);
 
             csService.usaveAdminNotice(vo);
@@ -893,7 +899,7 @@ public class AdminController {
             }
 
         }else if("faq".equals(cs_cate)){
-            log.info("modifyFaqStart");
+            log.info("POST FaqModifyStart");
             csService.usaveFaqArticle(vo);
         }
         return "redirect:/admin/cs/faq/list?page="+page;
@@ -906,6 +912,8 @@ public class AdminController {
      */
     @PostMapping("cs/terms/modify")
     public String usaveTermArticle(TermVO vo, int page, String reUri){
+        log.info("POST TermsModifyStart");
+
         csService.usaveTermArticle(vo);
         if(reUri.equals("1")){
             return "redirect:/admin/cs/terms/list?page="+page;
@@ -917,7 +925,7 @@ public class AdminController {
     /**
      * @since 2023/04/18
      * @aythor 황원진
-     * @apiNote 이벤트 수정
+     * @apiNote 이벤트 수정  (multipart 문제)
      */
     @ResponseBody
     @PostMapping("cs/event/modify")
@@ -927,7 +935,9 @@ public class AdminController {
                     @RequestParam Map<String, Object> param,
                     MultipartHttpServletRequest request,
                     HttpServletRequest req){
-        log.debug("eventModify");
+
+        log.info("POST EventModifyStart");
+
         param.put("user_id", myUser.getUser_id());
         param.put("cs_regip", req.getRemoteAddr());
 
@@ -950,13 +960,19 @@ public class AdminController {
         model.addAttribute("title", environment.getProperty(group));
 
         if("faq".equals(cs_cate)){
+            log.info("GET faqWriteStart..");
+
             return "admin/cs/faq/write";
         }else if("notice".equals(cs_cate)){
+            log.info("GET noticeWriteStart..");
+
             return "admin/cs/notice/write";
         }else if("event".equals(cs_cate)){
+            log.info("GET eventWriteStart..");
+
             return "admin/cs/event/write";
         }else if("terms".equals(cs_cate)){
-
+            log.info("GET termsWriteStart..");
         }
         return "admin/cs/terms/write";
     }
@@ -974,6 +990,8 @@ public class AdminController {
                                      HttpServletRequest req) {
 
         if("notice".equals(cs_cate)){
+            log.info("POST noticeWriteStart..");
+
             vo.setUser_id(myUser.getUser_id());
             vo.setCs_regip(RemoteAddrHandler.getRemoteAddr(req));
 
@@ -981,12 +999,16 @@ public class AdminController {
             return "redirect:/admin/cs/notice/list";
 
         }else if("faq".equals(cs_cate)){
+            log.info("POST faqWriteStart..");
+
             vo.setUser_id(myUser.getUser_id());
             vo.setCs_regip(RemoteAddrHandler.getRemoteAddr(req));
 
             csService.rsaveFaqArticle(vo);
             return "redirect:/admin/cs/faq/list";
         }else if("terms".equals(cs_cate)){
+            log.info("POST termsWriteStart..");
+
             csService.rsaveTermArticle(termVO);
         }
         return "redirect:/admin/cs/terms/write";
@@ -1011,8 +1033,6 @@ public class AdminController {
             parameter.put("cs_regip", req.getRemoteAddr());
             parameter.put("cs_cate", "event");
 
-            log.info("param : " + parameter);
-            log.info("cs_eventBanner : " + cs_eventBanner);
 
             Map<String, MultipartFile> fileMap = request.getFileMap();
             for (MultipartFile multipartFile : fileMap.values()) {
@@ -1037,10 +1057,12 @@ public class AdminController {
                                      int cs_no,
                                      int page,
                                      Model model){
-        log.info("cs_view Start");
+
         model.addAttribute("title", environment.getProperty(group));
 
         if("qna".equals(cs_cate)){
+            log.info("GET qnaViewStart..");
+
             CsVO qnaArticle = csService.findAdminCsArticle(cs_cate, cs_no);
             model.addAttribute("qnaArticle", qnaArticle);
             model.addAttribute("cs_no", cs_no);
@@ -1048,7 +1070,7 @@ public class AdminController {
             return "admin/cs/qna/view";
 
         }else if("notice".equals(cs_cate)) {
-            log.info("here2 notice");
+            log.info("GET noticeViewStart..");
             CsVO noticeArticle = csService.findAdminCsArticle(cs_cate, cs_no);
             log.info("noticeArticle" + noticeArticle.getCs_title());
             log.info("noticeArticle" + noticeArticle.getCs_content());
@@ -1059,10 +1081,9 @@ public class AdminController {
             return "admin/cs/notice/view";
 
         }else if("event".equals(cs_cate)){
-            log.info("admin/event");
-            log.info("page : " +page);
+            log.info("POST eventViewStart..");
             CsVO eventArticle = csService.findAdminCsArticle(cs_cate, cs_no);
-            log.info("eventArticle viewImg : " + eventArticle.getCs_eventViewImg());
+
             model.addAttribute("event", eventArticle);
             model.addAttribute("cs_no", cs_no);
             model.addAttribute("cs_cate", cs_cate);
@@ -1079,7 +1100,7 @@ public class AdminController {
      */
     @GetMapping("cs/terms/view")
     public String findTermArticle(int terms_no, int page, Model model){
-        log.debug("terms");
+        log.info("GET termsViewStart..");
         TermVO termArticle = csService.findTermArticle(terms_no);
 
         model.addAttribute("term", termArticle);
@@ -1097,8 +1118,6 @@ public class AdminController {
      */
     @PostMapping("cs/qna/reply")
     public String usaveQnaArticle(String cs_reply, int cs_no, int page){
-        log.info("cs_reply : " + cs_reply);
-        log.info("cs_no : " + cs_no);
 
         csService.usaveQnaArticle(cs_reply, cs_no);
 

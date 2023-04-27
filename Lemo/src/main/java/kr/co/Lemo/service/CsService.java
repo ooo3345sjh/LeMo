@@ -39,26 +39,28 @@ public class CsService {
     /** select **/
     public List<CsVO> findAllCsArticles(Cs_SearchVO sc, Model model){
 
-        log.info("cs_cate : " + sc.getCs_cate());
+        log.info("findAllCsArticles");
         int totalCnt = dao.countEventArticles(sc.getCs_cate());
         int totalPage = (int) Math.ceil(totalCnt / (double)sc.getPageSize());
 
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
-        log.info(pageHandler.toString());
 
-        List<CsVO> eventArticles = dao.selectCsArticles(sc);
 
-        model.addAttribute("csArticles", eventArticles);
+        List<CsVO> csArticles = dao.selectCsArticles(sc);
+
+        model.addAttribute("csArticles", csArticles);
         model.addAttribute("ph", pageHandler);
         model.addAttribute("totalCnt", totalCnt);
         model.addAttribute("sc", sc);
 
-        return eventArticles;
+        return csArticles;
     }
 
     // @since 2023/04/10 관리자 - 이벤트 리스트
     public List<CsVO> findAllEventArticles(Cs_SearchVO sc, Model model){
+
+        log.info("findAllEventArticles");
         int totalCnt = dao.countEventArticles(sc.getCs_cate());
         int totalPage = (int) Math.ceil(totalCnt / (double)sc.getPageSize());
 
@@ -116,7 +118,7 @@ public class CsService {
                                         Model model) {
         vo.setUser_id(myUser.getUser_id());
        List<CsVO> qnaArticles = dao.selectQnaArticles(vo);
-        log.info("qnaSize : " + qnaArticles.size());
+
        model.addAttribute("qnaArticles", qnaArticles);
 
        return qnaArticles;
@@ -125,10 +127,9 @@ public class CsService {
     // @since 23/03/11 자주묻는 질문 목록
     public List<CsVO> findAllFaqArticles(Cs_SearchVO sc, Model model){
 
-        log.info("cs_faq : " + sc.getCs_cate());
-        log.info("faqCs_type : " + sc.getCs_type());
+
         int totalCnt = dao.countFaqArticles(sc.getCs_cate(), sc.getCs_type());
-        log.info("total : " + totalCnt);
+
         int totalPage = (int) Math.ceil(totalCnt / (double)sc.getPageSize());
 
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
@@ -241,21 +242,19 @@ public class CsService {
         for (MultipartFile multipartFile : fileMap.values()) {
             //파일 이름 추출 (확장자 제거)
             String fName = multipartFile.getOriginalFilename();
-            log.info("fName : " + fName);
+
 
             String ext = fName.substring(fName.indexOf("."));
-            log.info("ext : " + ext);
+
 
             String newName = UUID.randomUUID().toString() + ext;
-            log.info("newName : " + newName);
+
 
             arrFilesInfo.add(newName);
             newArrFilesInfo.add(newName);
         }
 
-        log.info("filemap size : " + fileMap.size());
-        log.info("arrFilesInfo size : " + arrFilesInfo.size());
-        log.info("newArrFilesInfo size : " + newArrFilesInfo.size());
+
 
         String bannerNewName = new String(arrFilesInfo.get(0).getBytes());
         String mainBannerNewName = new String(arrFilesInfo.get(1).getBytes());
@@ -265,7 +264,7 @@ public class CsService {
 
         arrFilesInfo.remove(0);
         arrFilesInfo.remove(0);
-        log.info("arrFilesInfo size : " + arrFilesInfo.size());
+
 
         String newName = String.join("/", arrFilesInfo);
 
@@ -310,10 +309,7 @@ public class CsService {
         int cs_no = Integer.parseInt(String.valueOf(param.get("cs_no")));
         param.put("cs_no", cs_no);
 
-//        List<MultipartFile> fileList = new ArrayList<>(fileMap.values());
-//        for (MultipartFile mf : fileList) {
-//            log.debug("mf : " + mf.getOriginalFilename());
-//        }
+
 
         for(MultipartFile mf: fileMap.values()) {
             log.debug("mf : " +mf.getOriginalFilename());
@@ -399,13 +395,12 @@ public class CsService {
        if(file.getCs_eventViewImg() != null){
 
            String path = new File("C:/Users/hwangwonjin/Desktop/workspace/LeMo/Lemo/img/cs/"+delCs_no ).getAbsolutePath();
-           log.info("path : " + path);
+
 
            File deleteFile = new File(path);
            if(deleteFile.exists()) {
 
-               log.info("deleteFile delete!!!");
-               //deleteFile.delete();
+
                FileUtils.deleteDirectory(deleteFile);
            }
        }
@@ -439,12 +434,12 @@ public class CsService {
 
     // 이벤트 작성 이미지 저장
     public int uploadFile(ArrayList<String> newArrFilesInfo, Map<String, MultipartFile> fileMap, String bannerNewName, MultipartFile cs_eventBanner, String cs_no) {
-        log.info("newArrFilesInfo : "+newArrFilesInfo.size());
-        log.info("fileMap : "+fileMap.size());
+        log.info("updateFileStart...");
+
         // 사진 저장
         String path = new File(uploadPath+"cs/"+cs_no ).getAbsolutePath();
 
-        log.info(path);
+
         // 폴더 존재 여부 검사
         File checkFolder = new File(path);
         if(!checkFolder.exists()){
@@ -481,8 +476,6 @@ public class CsService {
             }
         }
 
-        log.info("arrFileInfo" + newArrFilesInfo);
-
 
         return finalResult;
     }
@@ -494,15 +487,11 @@ public class CsService {
 
         String dirPath = new File(uploadPath+"cs/"+cs_no).getAbsolutePath();
 
-        log.info(dirPath);
+        log.info("checkEventFile...");
 
        File dir = new File(dirPath);
 
-//        try {
-//            FileUtils.cleanDirectory(dir);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+
 
        File Files[] = dir.listFiles();
 
@@ -543,7 +532,7 @@ public class CsService {
 
         if(newEvent.size() != 0) {
             for(String saveFile : newEvent) {
-                log.debug("saveFile : " + saveFile);
+
                 String ext = saveFile.substring(saveFile.indexOf("."));
                 String newName = UUID.randomUUID() + ext;
                 changeSaveFile.add(newName);
