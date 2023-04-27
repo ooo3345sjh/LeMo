@@ -49,6 +49,7 @@ public class CsController {
         sc.setMap(map);
         model.addAttribute("title", environment.getProperty(group));
         if("notice".equals(cs_cate)) {
+            log.info("GET noticeListStart..");
 
             service.findAllCsArticles(sc, model);
 
@@ -57,10 +58,14 @@ public class CsController {
             if (myUser == null || myUser.getUser_id() == null) {
                 return "redirect:/user/login";
             }
+            log.info("GET qnaListStart..");
+
             service.findAllQnaArticles(vo, myUser, model);
 
             return "cs/qna";
         }else if("terms".equals(cs_cate)){
+            log.info("GET termsListStart..");
+
             service.findTerms(map);
 
             model.addAttribute("map", map);
@@ -82,6 +87,7 @@ public class CsController {
         sc.setMap(map);
         model.addAttribute("title", environment.getProperty(group));
 
+        log.info("GET faqListStart..");
         service.findAllFaqArticles(sc, model);
         model.addAttribute("type", cs_type);
         return "cs/faq";
@@ -98,26 +104,13 @@ public class CsController {
         vo.setUser_id(myUser.getUser_id());
         vo.setCs_regip(req.getRemoteAddr());
 
+        log.info("POST qnaWriteStart..");
 
         service.rsaveArticleQna(vo);
 
         return "redirect:/cs/qna";
     }
 
-    // @since 2023/04/04
-//    @GetMapping("terms")
-//    public String terms(Model model){
-//        model.addAttribute("title", environment.getProperty(group));
-//        List<TermVO> terms =service.findTerm();
-//        List<TermVO> location =service.findLocation();
-//        TermVO privacy = service.findPrivacy();
-//
-//        model.addAttribute("terms", terms);
-//        model.addAttribute("location", location);
-//        model.addAttribute("privacy", privacy);
-//
-//        return "cs/terms";
-//    }
 
     // @since 2023/03/08
     @GetMapping("event/list")
@@ -125,10 +118,13 @@ public class CsController {
                                     Model model,
                                     @RequestParam Map map,
                                     @ModelAttribute Cs_SearchVO sc){
+
         sc.setMap(map);
         sc.setCs_cate("event");
         model.addAttribute("title", environment.getProperty(group));
         model.addAttribute("cs_cate", "event");
+
+        log.info("GET eventListStart..");
 
         service.findAllCsArticles(sc, model);
 
@@ -138,17 +134,13 @@ public class CsController {
     // @since 2023/03/08
     @GetMapping("event/view")
     public String event_view( int cs_no, Model model){
-        log.info("no : " + cs_no);
+        log.info("GET eventViewStart..");
 
         String cs_cate = "event";
 
         CsVO eventView = service.findCsArticle(cs_no);
         CsVO eventPrev = service.findEventPrev(cs_cate, cs_no);
         CsVO eventNext = service.findEventNext(cs_cate, cs_no);
-
-        //log.info("prevCs_cate : " + eventPrev.getCs_cate());
-        //log.info("nextCs_cate : " + eventNext.getCs_cate());
-
 
         model.addAttribute("title", environment.getProperty(group));
         model.addAttribute("cs_no", cs_no);
@@ -160,11 +152,6 @@ public class CsController {
 
         return "cs/event/view";
     }
-
-
-
-    /** update **/
-
 
 
 
