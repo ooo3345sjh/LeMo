@@ -39,7 +39,10 @@ $(function(){
             let rating  = document.querySelector('input[name="revi_rate"]');
 
             myDropzone.on("addedfile", function(file) {
-                reviewFormData.append(file.name, file);
+                let fileLength = myDropzone.files.length;
+                if(fileLength <= 5) {
+                    reviewFormData.append(file.name, file);
+                }
             });
 
             myDropzone.on("removedfile", function(file) {

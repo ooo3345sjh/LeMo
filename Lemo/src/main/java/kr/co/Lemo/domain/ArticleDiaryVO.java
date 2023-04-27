@@ -52,4 +52,6 @@ public class ArticleDiaryVO {
     private String user_nick;
     private String spot_content;
     private Boolean status;
+
+    private String nick;
 }

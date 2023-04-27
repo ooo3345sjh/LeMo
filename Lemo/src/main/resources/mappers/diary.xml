@@ -12,12 +12,13 @@
     <!-- select -->
     <select id="selectDiaryArticles" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
         SELECT
-           a.`arti_no`, a.`arti_title`, COUNT(b.`user_id`)
+            a.`arti_no`, a.`arti_title`, COUNT(b.`user_id`), e.`nick`
         FROM
-           `lemo_diary_article` AS a LEFT JOIN
-           `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
-           `lemo_product_reservation` AS c ON a.`res_no` = c.`res_no` LEFT JOIN
-           `lemo_product_accommodation` AS d ON c.`acc_id` = d.`acc_id`
+            `lemo_diary_article` AS a LEFT JOIN
+            `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
+            `lemo_product_reservation` AS c ON a.`res_no` = c.`res_no` LEFT JOIN
+            `lemo_product_accommodation` AS d ON c.`acc_id` = d.`acc_id` LEFT JOIN
+            `lemo_member_userinfo` AS e ON a.`user_id` = e.`user_id`
         <choose>
             <when test="orderBySearchType == 'addr'">
                 WHERE d.`acc_addr` LIKE CONCAT('%', #{keyword} , '%')
