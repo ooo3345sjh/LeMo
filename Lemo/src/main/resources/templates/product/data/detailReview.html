@@ -38,7 +38,7 @@
             <div class="gallery_re" th:if="${review.revi_thumb != null && review.revi_thumb !=''}">
                 <div class="gallerySlider">
                     <div th:each="img, i : ${#strings.arraySplit(review.revi_thumb, '/')}">
-                        <img th:src="|@{/}img/review/${review.acc_id}/${img}|">
+                        <img th:src="|@{/}img/review/${review.res_no}/${img}|">
                     </div>
                 </div>
             </div>

@@ -415,7 +415,7 @@
     </sql>
 
     <sql id="commonProductReview">
-        SELECT a.*, b.acc_id, b.res_checkIn, c.room_name, d.acc_review, d.acc_rate,e.photo
+        SELECT a.*, b.acc_id, b.res_checkIn, b.res_no, c.room_name, d.acc_review, d.acc_rate,e.photo
         FROM `lemo_product_review` AS a
         JOIN `lemo_product_reservation` AS b
         ON a.res_no = b.res_no

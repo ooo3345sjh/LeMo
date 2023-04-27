@@ -46,11 +46,10 @@
                                     <textarea class="my_review_textarea">[[${review.revi_content}]]</textarea>
                                 </div>
                             </div>
-                            <div class="review_swiper-container">
+                            <div class="review_swiper-container" th:if="${review.thumbs != null}">
                                 <!-- swiper Slider -->
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide" th:if="${review.thumbs != null}" th:each="image:${review.thumbs}"><img th:src="@{/img/review/__${review.res_no}__/__${image}__}" alt="#" /></div>
-                                    <div class="swiper-slide" th:if="${review.thumbs == null}"><img th:src="@{/images/my/no-photo.png}" alt="#" /></div>
+                                    <div class="swiper-slide" th:each="image:${review.thumbs}"><img th:src="@{/img/review/__${review.res_no}__/__${image}__}" alt="#" /></div>
                                 </div>
                                 <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>

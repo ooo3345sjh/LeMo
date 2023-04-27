@@ -5,6 +5,8 @@ const res_no = urlParams.get('res_no');
 
 Dropzone.autoDiscover=false;
 
+const reviewFormData = new FormData();
+
 $(function(){
     const myDropzone = new Dropzone('div.dropzone', {
 
@@ -36,25 +38,61 @@ $(function(){
             let content = document.querySelector('textarea[name="revi_content"]');
             let rating  = document.querySelector('input[name="revi_rate"]');
 
-            myDropzone.on("sending", function(file, xhr, formData){
-                formData.append("revi_title", title.value);
-                formData.append("revi_content", content.value);
-                formData.append("revi_rate", rating.value);
-                formData.append("acc_id", acc_id);
-                formData.append("res_no", res_no);
+            myDropzone.on("addedfile", function(file) {
+                reviewFormData.append(file.name, file);
+            });
+
+            myDropzone.on("removedfile", function(file) {
+                reviewFormData.delete(file.name);
             });
 
             // 서버에 제출 submit 버튼 이벤트 등록
             document.querySelector('#btn_dropzone').addEventListener('click', function (e) {
+                reviewFormData.append("revi_title", title.value);
+                reviewFormData.append("revi_content", content.value);
+                reviewFormData.append("revi_rate", rating.value);
+                reviewFormData.append("acc_id", acc_id);
+                reviewFormData.append("res_no", res_no);
 
-                myDropzone.processQueue();
+                //myDropzone.processQueue();
+
+                $.ajax({
+                    url: '/Lemo/my/review/write',
+                    method: 'POST',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+                    data: reviewFormData,
+                    contentType: false,
+                    processData: false,
+                    enctype : 'multipart/form-data',
+                    success: function(data) {
+                        if(data.result == 'usavaWriteSuccess') {
+                            Swal.fire({
+                                title: '작성 되었습니다.',
+                                icon: 'info',
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: '확인',
+                                reverseButtons: false,
+                            }).then(result => {
+                                location.href = "/Lemo/my/review/view?res_no="+res_no
+                            });
+                        }else {
+                            Swal.fire({
+                                title: '새로고침 후 다시 시도해주세요.',
+                                icon: 'info',
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: '확인',
+                                reverseButtons: false,
+                            }).then(result => {
+                            });
+                        }
+
+                    }
+                });
             });
-
-            myDropzone.on("complete", function(file) {
-                console.log('test');
-                location.href= "/Lemo/my/review/view?res_no="+res_no;
-            });
-
         },
     });
 

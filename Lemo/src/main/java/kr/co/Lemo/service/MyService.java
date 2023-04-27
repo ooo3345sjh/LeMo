@@ -53,6 +53,10 @@ public class MyService {
     @Autowired
     private PaymentService paymentservice;
 
+    // @since 2023/03/12
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadPath;
+
     // @since 2023/03/13
     public Map<Integer, List<DiarySpotVO>> findDiaryArticle(SearchCondition sc) {
         List<DiarySpotVO> spotVO = dao.selectDiary(sc);
@@ -348,28 +352,48 @@ public class MyService {
     public ReviewVO findReviewAccommodation(long res_no, String user_id) {
         return dao.selectReviewAccommodation(res_no, user_id);
     }
-    public void rsavsReview(MultipartHttpServletRequest request, Map<String, Object> param) {
+    public int rsavsReview(MultipartHttpServletRequest request, Map<String, Object> param) {
         Map<String, MultipartFile> fileMap = request.getFileMap();
 
-        List<String> newNames = new ArrayList<>();
-        List<String> oriNames = new ArrayList<>();
+        int insertResult = 0;
 
-        for (MultipartFile multipartFile : fileMap.values()) {
-            String fName = multipartFile.getOriginalFilename();
-            String ext = fName.substring(fName.indexOf("."));
-            String newName = UUID.randomUUID() + ext;
-            newNames.add(newName);
-            oriNames.add(fName);
+        if(!fileMap.isEmpty()) {
+            List<String> newNames = new ArrayList<>();
+            List<String> oriNames = new ArrayList<>();
+
+            for (MultipartFile multipartFile : fileMap.values()) {
+                String fName = multipartFile.getOriginalFilename();
+                String ext = fName.substring(fName.indexOf("."));
+                String newName = UUID.randomUUID() + ext;
+                newNames.add(newName);
+                oriNames.add(fName);
+            }
+
+            String dbNames = String.join("/", newNames);
+            param.put("revi_thumb", dbNames);
+
+            insertResult = dao.insertReview(param);
+
+            if(insertResult == 1) {
+                reviewUpload(fileMap, param, newNames);
+            }
+        }else {
+            param.put("revi_thumb", null);
+            insertResult = dao.insertReview(param);
+
+            String path = new File(uploadPath+"review/"+param.get("res_no")).getAbsolutePath();
+
+            File checkFolder = new File(path);
+            if(!checkFolder.exists()){
+                try {
+                    Files.createDirectories(checkFolder.toPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
-        String dbNames = String.join("/", newNames);
-        param.put("revi_thumb", dbNames);
-
-        int insertResult = dao.insertReview(param);
-
-        if(insertResult == 1) {
-            reviewUpload(fileMap, param, newNames);
-        }
+        return insertResult;
 
     }
 
@@ -462,14 +486,23 @@ public class MyService {
     }
 
     public int removeReview(long res_no) {
+
+        String path = new File(uploadPath+"review/"+res_no).getAbsolutePath();
+
+        File deleteFolder = new File(path);
+
+        try {
+            FileUtils.cleanDirectory(deleteFolder);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        deleteFolder.delete();
+
         return dao.deleteReview(res_no);
     }
 
     // 기능
-
-    // @since 2023/03/12
-    @Value("${spring.servlet.multipart.location}")
-    private String uploadPath;
 
     // @since 2023/03/12
     public int fileUpload(List<MultipartFile> fileList, List<String> fileRenames, int arti_no) {
