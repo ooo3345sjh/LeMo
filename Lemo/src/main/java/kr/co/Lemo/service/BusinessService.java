@@ -219,6 +219,8 @@ public class BusinessService {
      */
      public List<ReservationVO> findAllDaySales (Map map){return dao.selectDaySales(map);}
 
+
+
     /**
      * @since 2023/04/16
      * @param map
@@ -282,6 +284,12 @@ public class BusinessService {
      * @apiNote 판매자 - 객실별 예약 현황 (일주일)
      */
     public List<ReservationVO> selectWeeksRoom(Map map){return dao.selectWeeksRoom(map);}
+
+    // @since 2023/04/27 판매자 - 통계관리 - 평점
+    public List<ProductAccommodationVO> findAllRates(Map map){
+        return dao.selectRates(map);
+    }
+
 
     /**
     * @since 2023/04/06

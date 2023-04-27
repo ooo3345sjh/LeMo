@@ -556,7 +556,7 @@ public class BusinessController {
         sc.setMap(map);
         sc.setUser_id(user_id);
 
-        int totalCnt = service.countAcc(sc);
+        int totalCnt = service.countRoom(sc);
         int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
 
@@ -565,6 +565,7 @@ public class BusinessController {
         List<ProductRoomVO> rooms = service.findAllRoom(sc);
 
         log.warn("rooms: " + rooms.toString());
+        log.warn("totalCnt: " + totalCnt);
 
         model.addAttribute("rooms", rooms);
         model.addAttribute("ph", pageHandler);
@@ -828,8 +829,28 @@ public class BusinessController {
         String periodType = map.get("periodType");
         String dateStart = map.get("dateStart");
         String dateEnd = map.get("dateEnd");
+        List<ProductAccommodationVO> rates = new ArrayList<>();
+
+        rates = service.findAllRates(map);
+        float reteSum = 0;
+        float rateAvg = 0;
+
+        log.warn("rates: " + rates);
+        log.warn("rates: " + rates.size());
+        log.warn("rate: " + rates.get(0).getAcc_rate());
+
+        int rates_sum = 0;
+
+        for (int i = 0; i < rates.size(); i++) {
+            reteSum += rates.get(i).getAcc_rate();
+        }
+        rateAvg = reteSum / rates.size();
 
 
+
+
+        log.warn("rateSum: " + reteSum);
+        log.warn("rateAvg: " + rateAvg);
 
         if (map.get("dateStart") == null || map.get("dateStart").isBlank() && map.get("dateEnd") == null || map.get("dateEnd").isBlank()) {
             map.put("dateStart",null);
@@ -890,6 +911,8 @@ public class BusinessController {
 
         }
 
+
+
          // 총 매출 건수
         total = service.countWeeksSales(map);
          // 취소 건수 (일주일)
@@ -921,6 +944,8 @@ public class BusinessController {
         paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
         // 객실 예약 현황  (일주일)
         roomPercent = service.selectWeeksRoom(map);
+
+        log.warn("RoomPercent : " + roomPercent);
 
         // 단위 기간별 매출현황 (기간 검색 미적용, 숙소선택 적용)
         // 당일 누적 판매량
@@ -960,6 +985,8 @@ public class BusinessController {
         log.warn("yearAvg : " + yearAvg);
 
 
+
+
         model.addAttribute("stats", stats);
         model.addAttribute("todaySales", todaySales);
         model.addAttribute("paysMap", paysMap);
@@ -978,6 +1005,7 @@ public class BusinessController {
         model.addAttribute("avg_res_price",avg_res_price);
         model.addAttribute("dateStart",dateStart);
         model.addAttribute("dateEnd",dateEnd);
+        model.addAttribute("rateAvg",rateAvg);
 
 
         return "business/stats";

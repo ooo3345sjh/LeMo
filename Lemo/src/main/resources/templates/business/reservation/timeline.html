@@ -315,6 +315,8 @@
         if (localStorage.getItem('selectedAccId')) {
             selectAccOwned.value = localStorage.getItem('selectedAccId');
         }
+
+        // submit 제출
         selectAccOwned.addEventListener('change', function() {
             localStorage.setItem('selectedAccId', this.value);
             searchButton.click();

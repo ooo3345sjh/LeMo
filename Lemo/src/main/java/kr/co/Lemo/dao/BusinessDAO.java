@@ -131,6 +131,9 @@ public interface BusinessDAO {
     // @since 2023/04/09 판매자 - 상품 등록 건수
     public int countWeeksAcc(Map map);
 
+    // @since 2023/04/27 판매자 - 통계관리 - 평점
+    public List<ProductAccommodationVO> selectRates(Map map);
+
     // @since 2023/04/09 판매자 - 등록 리뷰 수 (일주일)
     public int countWeeksReview(Map map);
 

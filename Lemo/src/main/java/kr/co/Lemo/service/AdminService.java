@@ -32,8 +32,6 @@ public class AdminService {
 
         PageHandler pageHandler = new PageHandler(totalCnt, sc); // 페이징 처리
 
-        log.info("select User Service: "+sc.toString());
-
         List<UserVO> users = dao.selectUser(sc);
 
 
@@ -57,11 +55,7 @@ public class AdminService {
 
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
 
-        //log.info("select Coupon Service: " + sc.toString());
-
         List<CouponVO> coupons = dao.selectCoupon(sc);
-
-        //log.info("Selected coupons: " + coupons.toString());
 
         model.addAttribute("coupons", coupons);
         model.addAttribute("ph", pageHandler);
@@ -76,9 +70,6 @@ public class AdminService {
      * @param user_id
      */
     public List<CouponVO> findAccOwned(String user_id){
-
-        log.warn("service findAccOwned");
-
         return dao.selectAccOwned(user_id);
     }
 
@@ -96,10 +87,6 @@ public class AdminService {
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
 
         List<ReviewVO> reviews = dao.selectReview(sc);
-
-        log.warn("Selected reviews: " + reviews.toString());
-
-        log.warn("ph : " + pageHandler.getTotalCnt());
 
         model.addAttribute("reviews", reviews);
         model.addAttribute("ph", pageHandler);
@@ -133,9 +120,6 @@ public class AdminService {
 
         List<ProductRoomVO> rooms = dao.selectRoom(sc);
 
-        log.warn("Selected rooms: " + rooms.toString());
-        log.warn("ph : " + pageHandler.getTotalCnt());
-
         model.addAttribute("rooms", rooms);
         model.addAttribute("ph", pageHandler);
         model.addAttribute("totalRoom", pageHandler.getTotalCnt());
@@ -167,9 +151,6 @@ public class AdminService {
 
         List<ProductAccommodationVO> accs = dao.selectAccs(sc);
 
-        log.warn("Selected accs: " + accs.toString());
-        log.warn("ph : " + pageHandler.getTotalCnt());
-
         model.addAttribute("accs", accs);
         model.addAttribute("ph", pageHandler);
         model.addAttribute("totalAccs", pageHandler.getTotalCnt());
@@ -198,9 +179,6 @@ public class AdminService {
      * @param acc_id
      */
      public List<ServicereginfoVO> findServiceInAcc(Integer acc_id){
-
-         log.warn("서비스 카테 here2");
-
          return dao.selectServiceInAcc(acc_id);
      }
 
@@ -219,9 +197,6 @@ public class AdminService {
 
          List<ReservationVO> reservations = dao.selectReservaitons(sc);
 
-         log.warn("Selected reservations: " + reservations.toString());
-         log.warn("ph : " + pageHandler.getTotalCnt());
-
          model.addAttribute("reservations", reservations);
          model.addAttribute("ph", pageHandler);
          model.addAttribute("totalReservations", pageHandler.getTotalCnt());
@@ -232,10 +207,7 @@ public class AdminService {
      public List<ReservationVO> findAllTimeline(Model model){
          List<ReservationVO> timelines = dao.selectTimeline();
 
-         //log.warn("timelines : " + timelines);
-
          model.addAttribute("timelines", timelines);
-         log.warn("timelines : " + timelines);
          return timelines;
      }
 
@@ -313,9 +285,6 @@ public class AdminService {
      * @param cp_id
      */
     public int removeCoupon(String cp_id){
-
-        log.warn("here4 service");
-
         return dao.deleteCoupon(cp_id);
     }
 
@@ -350,9 +319,6 @@ public class AdminService {
 
     // 관리자 - 통계관리 - 예약 건수 (기간 변동, 기본: 일주일)
     public int countWeeksSales(Map map){
-
-        log.warn("map in service: " + map);
-
         return dao.countWeeksSales(map);
     }
     // 관리자 - 취소 건수 (기간 변동, 기본: 일주일)
@@ -383,19 +349,16 @@ public class AdminService {
             total += vo.getTot_res_price();
         }
 
-        //log.warn("total sales: " + total);
 
         for(ReservationVO vo : mp){
             double tot_month_percent = ((vo.getTot_res_price()+0.0)/(total+0.0))*100;
 
-            //log.warn("tot_month_percent: " + tot_month_percent);
             vo.setTot_month_percent(tot_month_percent);
         }
 
         // vo 확인용 로그 출력
         for(ReservationVO vo : mp){
             double test = vo.getTot_month_percent();
-            //log.warn("test : " + test);
         }
         return mp;
     }

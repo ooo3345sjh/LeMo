@@ -106,8 +106,10 @@
     <!-- 판매자 소유 숙박 목록 -->
     <select id="selectAccOwnedForInfo" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
         select * from `lemo_product_accommodation`
-        where `user_id`=#{user_id};
+        where `user_id`=#{user_id}
+        and `acc_state`!=2;
     </select>
+
 
     <!-- 판매자 숙박 보기 -->
     <select id="viewAcc" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
@@ -549,6 +551,16 @@
         <if test="periodType == 'year'">
             AND `acc_rdate` <include refid="latestYear"/>
         </if>
+        <if test="acc_id != null">
+            AND acc_id=#{acc_id};
+        </if>
+    </select>
+
+    <!-- 판매자 - 통계관리 - 평점 -->
+    <select id="selectRates" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
+        select acc_rate from `lemo_product_accommodation`
+        where `user_id`=#{user_id}
+        and `acc_state`!=2
         <if test="acc_id != null">
             AND acc_id=#{acc_id};
         </if>
