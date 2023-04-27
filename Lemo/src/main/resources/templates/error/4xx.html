@@ -15,7 +15,7 @@
 		<!-- 에러 이미지 -->
 		<img th:src="@{/images/error/__${status}__.png}" class="errorImg"
 			 th:if="${status == 400 or status == 401 or status == 403 or status == 404 or status == 405 or status == 408}"/>
-		<img th:src="@{/images/error/Error.png}" class="errorImg else"
+		<img th:src="@{/images/error/error.png}" class="errorImg else"
              th:unless="${status == 400 or status == 401 or status == 403 or status == 404 or status == 405 or status == 408}"/>
 		<!-- 에러 문구 -->
 		<th:block th:switch="${status}">
