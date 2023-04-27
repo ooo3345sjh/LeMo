@@ -16,7 +16,7 @@
 
         saleOptionInput.on('input', function() {
             if (discountRadio.is(':checked') && (isNaN(saleOptionInput.val()) || saleOptionInput.val() < 0 || saleOptionInput.val() > 100)) {
-                alert('0과 100사이의 할인율을 입력하십시오.');
+                sweetalert("0과 100사이의 할인율을 입력하십시오.", "warning");
                 saleOptionInput.val(0);
             } else if (discountPriceRadio.is(':checked') && (isNaN(saleOptionInput.val()) || saleOptionInput.val() < 0)) {
                 alert('0보다 큰 할인금액을 입력하십시오.');
@@ -26,14 +26,14 @@
 
         discountRadio.on('change', function() {
             if (discountRadio.is(':checked') && (saleOptionInput.val() < 0 || saleOptionInput.val() > 101 || isNaN(saleOptionInput.val()))) {
-                alert('0과 100사이의 할인율을 입력하십시오.');
+                sweetalert("0과 100사이의 할인율을 입력하십시오.", "warning");
                 saleOptionInput.val(0);
             }
         });
 
         discountPriceRadio.on('change', function() {
             if (discountPriceRadio.is(':checked') && (saleOptionInput.val() < 0 || isNaN(saleOptionInput.val()))) {
-                alert('0보다 큰 할인금액을 입력하십시오.');
+                sweetalert("0보다 큰 할인금액을 입력하십시오.", "warning");
                 saleOptionInput.val(0);
             }
         });
@@ -52,6 +52,7 @@
                 $('#cp_maximum').prop('readonly', true);
                 $('#cp_maximum').css('background', '#e9e9e9');
                 $('#cp_maximum').css('opacity', '50%');
+                $('#cp_maximum').attr('value', '0');
                 $('.msg_condition_price').css('display', 'inline-block');
             }
         });
@@ -94,11 +95,11 @@
 
         noLimitedCoupon.addEventListener('click', function() {
             if (noLimitedCoupon.checked) {
-                alert('hi');
+
                 insertSaleCount.style.display = 'none';
                 insertSaleCount.value = '1';
             }else {
-                alert('bye');
+
                 insertSaleCount.style.display = 'inline-block';
                 insertSaleCount.value = '';
             }
@@ -132,7 +133,7 @@
             const cpMaximum = parseFloat(cpMaximumInput.value);
 
             if (cpMinimum > cpMaximum) {
-                alert('최대주문금액은 최소주문금액보다 큰 수를 입력해 주십시오');
+                sweetalert("최대주문금액은 최소주문금액보다 큰 수를 입력해 주십시오", "warning");
                 cpMaximumInput.value = ''; // Clear the value of cp_maximum input
                 return false;
             }
@@ -246,7 +247,7 @@
                                 </table>
                             </div>
                             <div class="btnAdminProd">
-                                <button type="submit">
+                                <button type="submit" id="btnSubmit">
                                     쿠폰등록
                                 </button>
                             </div>

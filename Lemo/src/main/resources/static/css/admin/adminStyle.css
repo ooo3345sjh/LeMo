@@ -77,6 +77,9 @@ main .main_content .main_content_div2 .more {
     font-weight: 200;
     cursor: pointer;
 }
+main .main_content .main_content_div2 .more:hover {
+    text-decoration: underline !important;
+}
 main .today_sales_status {
     background: #fff;
     position: relative;

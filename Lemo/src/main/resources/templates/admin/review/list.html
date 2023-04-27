@@ -63,9 +63,10 @@
                                             <!--<span class="tag">PHOTO</span>-->
                                             <!--/*<a th:href="@{/admin/review/view} + ${ph.sc.getQueryString(ph.sc.page, review.revi_id)}"
                                                th:text="${review.revi_title}" class="reviewTitle" th:data-no="${review.revi_id}">title</a>*/-->
+                                            <span th:if="${review.revi_thumb != null}" class="tag">PHOTO</span>
                                             <a th:href="@{/admin/review/view (revi_id=${review.revi_id})}"
                                                th:text="${review.revi_title}" class="reviewTitle" th:data-no="${review.revi_id}">title</a>
-                                            <span th:if="${review.revi_thumb != null}" class="tag">PHOTO</span>
+
                                         </li>
                                         <li class="review_li2" th:text="${review.acc_name}">숙소명</li>
                                         <!-- <li th:text="${#strings.substringBefore(review.user_id, '@') + '**'}">충치왕김건치</li> -->

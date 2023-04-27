@@ -34,13 +34,13 @@ $(function(){
 
          // 주소
         if(!acc_addrDetail.val()) {
-            sweetalert("주소 입력 후 '주소 입력' 버튼을 클릭해 주십시오.", "warning");
+            sweetalert("주소 입력 후 \n '주소 입력' 버튼을 클릭해 주십시오.", "warning");
             return false;
         }
 
          // 체크인, 체크아웃
         if(!acc_checkIn.val() || !acc_checkOut.val()) {
-            sweetalert("체크인 및 체크아웃 시간을 선택해 주십시오.", "warning");
+            sweetalert("체크인 및 체크아웃 시간을 \n 선택해 주십시오.", "warning");
             return false;
         }
 

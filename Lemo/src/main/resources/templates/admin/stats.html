@@ -323,7 +323,7 @@
             // 그래프 내용 : drawVisualization 구현
             var data = google.visualization.arrayToDataTable([
                 ['날짜', '일별매출', {role: 'style'}],
-                [Ddate,  todaySales[0].tot_res_price, 'color:#A9CB72'],
+                [Ddate,  todaySales[0]? todaySales[0].tot_res_price:0, 'color:#A9CB72'],
             ]);
 
             // 그래프 주석 표기

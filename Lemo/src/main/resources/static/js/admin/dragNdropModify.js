@@ -234,9 +234,12 @@ $(document).ready(function(){
                     success: function(data) {
 
                         if(data == 0) {
-                            sweetalert("숙소 수정에 실패하였습니다.\n잠시 후 다시 시도해 주세요.")
+                            sweetalert("숙소 수정에 실패하였습니다.\n잠시 후 다시 시도해 주세요.", "warning");
                         }else if(data == 1) {
-                            location.href= "/Lemo/business/info/view?acc_id="+acc_id;
+                            sweetalert("숙소가 성공적으로 수정되었습니다.", "success");
+                            setTimeout(function(){
+                                location.href= "/Lemo/business/info/view?acc_id="+acc_id;
+                            }, 2000); // 2초 후에 페이지 이동
                         }
                     }
                 });

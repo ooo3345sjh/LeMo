@@ -56,7 +56,7 @@
                                                 <a th:href="@{/business/info/view (acc_id=${acc.acc_id})}">[[${acc.acc_name}]]</a>
                                             </li>
                                             <li class="accList4">
-                                                <div class="r_rating">
+                                                <div class="r_rating" style="margin: 0 22%;">
                                                     <th:block th:if="${acc.acc_rate == 5}">
                                                         <h6 class="rating5mini">&nbsp;</h6>
                                                     </th:block>
@@ -78,7 +78,10 @@
                                             <!-- th:text="${#strings.substring(acc.acc_rdate, 0, 10)}" -->
                                             <li  class="accList6">
                                                 <button th:if="${acc.acc_state != 2}" type="button" class="btnDelete" th:data-no="${acc.acc_id}">삭제</button>
-                                                <button type="button" class="btnModify" th:data-no="${acc.acc_id}">수정</button>
+                                                <a th:href="@{/business/info/modify (acc_id=${acc.acc_id})}">
+                                                    <button type="button" class="btnModify" th:data-no="${acc.acc_id}">수정</button>
+                                                </a>
+
                                             </li>
                                         </ul>
                                     </th:block>

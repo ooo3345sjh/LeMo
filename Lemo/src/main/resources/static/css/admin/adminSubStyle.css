@@ -292,17 +292,21 @@ main .main_content .col2 .board_list li {
     height: 40px;
     font-size: 14px;
     text-align: center;
-    line-height: 40px;
+    line-height: 36px;
     vertical-align: middle;
     font-family: 'Noto Sans KR';
+    border-right: 1px solid #ededed;
 }
 main .main_content .col2 .board_list .prodName {
     text-align: left;
     padding-left: 13px;
-    width: 25% !important;
+    width: 28% !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+main .main_content .col2 .board_list .prodName:hover {
+    text-decoration: underline;
 }
 main .main_content .col2 .board_list .prodName > a {
     font-size: 14px;
@@ -315,13 +319,13 @@ main .userId_li {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 20% !important;
+    width: 13% !important;
     font-family: 'Noto Sans KR';
     text-align: left !important;
     padding-left: 21px;
 }
 main .review_li1 {
-    width: 7% !important;
+    width: 10% !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -341,17 +345,21 @@ main .review_li2 {
     text-overflow: ellipsis;
 }
 main .review_li3 {
-    width: 20% !important;
+    width: 13% !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-main .review_li4 {width: 25% !important;}
-main .review_li5 {width: 10% !important;}
+main .review_li4 {width: 28% !important;}
+main .review_li5 {width: 12% !important;}
+main .review_li5 > div {
+    margin: 0 16%;
+}
 main .review_li6 {width: 10% !important;}
 main .review_li7 {
     font-family: 'Noto Sans KR';
     width: 10% !important;
+    border-right: none !important;
 }
 main .review_li8 {width: 11% !important;}
 main .msg_condition_price {
@@ -482,7 +490,12 @@ main .search_reservation_tit {
 main .main_content .col2 .board_list li:nth-of-type(1) {width: 5%;}
 main .main_content .col2 .board_list li:nth-of-type(2) {width: 10%;}
 main .main_content .col2 .board_list li:nth-of-type(3) {width: 40%;}
-main .main_content .col2 .board_list li:nth-of-type(4) {width: 10%;}
+main .main_content .col2 .board_list li:nth-of-type(4) {
+    width: 10%;
+}
+main .main_content .col2 .board_list li:nth-of-type(4):hover {
+    text-decoration: underline;
+}
 main .main_content .col2 .board_list li:nth-of-type(5) {width: 10%;}
 main .main_content .col2 .board_list li:nth-of-type(6) {width: 10%;}
 main .main_content .col2 .board_list li:nth-of-type(7) {width: 12%;}
@@ -874,8 +887,8 @@ main .roomInfo_name {
 main .roomInfo_name > a {
     font-size: 14px;
 }
-main .roomInfo_li1 {width: 5% !important; font-family: 'Noto Sans KR';}
-main .roomInfo_li2 {width: 12% !important; font-family: 'Noto Sans KR';}
+main .roomInfo_li1 {width: 7% !important; font-family: 'Noto Sans KR';}
+main .roomInfo_li2 {width: 10% !important; font-family: 'Noto Sans KR';}
 main .roomInfo_li3 {width: 10% !important; }
 main .roomInfo_li4 {width: 30% !important;}
 main .roomInfo_li5 {width: 9% !important;}
@@ -902,6 +915,7 @@ main .roomInfo_li8 {
 main .roomInfo_li9 {
     width: 8% !important;
     font-family: 'Noto Sans KR';
+    border-right: none !important;
 }
 main .noResult {
     padding-top: 50px;
@@ -1606,16 +1620,19 @@ main .info_list4 > a:hover {
     text-decoration: underline !important;
 }
 main .info_list3 {
-    width: 28% !important;
+    width: 20% !important;
     font-family: 'Noto Sans KR';
     padding-left: 30px;
 }
 main .info_list5 {
-    width: 11% !important;
+    width: 18% !important;
     font-family: 'Noto Sans KR';
 }
 main .info_list6 {width: 10% !important;}
-
+main .prodBtn {
+    width: 10% !important;
+    border-right: none !important;
+}
 main .res_list1 {width: 5% !important; font-family: 'Noto Sans KR';}
 main .res_list2 {width: 8% !important;}
 main .res_list3 {width: 10% !important; }
@@ -1624,7 +1641,10 @@ main .res_list5 {width: 10% !important; font-family: 'Noto Sans KR';}
 main .res_list6 {width: 8% !important;}
 main .res_list7 {width: 10% !important;}
 main .res_list8 {width: 15% !important; font-family: 'Noto Sans KR';}
-main .res_list9 {width: 15% !important;}
+main .res_list9 {
+    width: 15% !important;
+    border-right: none !important;
+}
 
 main .res_li1 {width: 5% !important;  font-family: 'Noto Sans KR';}
 main .res_li2 {width: 10% !important;  font-family: 'Noto Sans KR';}
@@ -1654,14 +1674,20 @@ main .res_list_name {width: 8% !important;}
 
 main .accList1 {width: 5% !important; font-family: 'Noto Sans KR';}
 main .accList2 {width: 10% !important; font-family: 'Noto Sans KR';}
-main .accList3 {width: 30% !important; }
+main .accList3 {width: 34% !important; }
+main .accList3:hover {
+    text-decoration: underline;
+}
 main .accList3 > a {
     font-size: 14px;
     color: #505050 !important;
 }
 main .accList4 {width: 15% !important;}
 main .accList5 {width: 18% !important; font-family: 'Noto Sans KR';}
-main .accList6 {width: 20% !important;}
+main .accList6 {
+    width: 15% !important;
+    border-right: none !important;
+}
 
 
 
