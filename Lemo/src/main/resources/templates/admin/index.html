@@ -28,7 +28,7 @@
                                 <p>[[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]]</p>
                             </div>
                             <p class="tsd_msg">
-                                <strong>([[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]])</strong> 데이터가 조회됩니다.</p>
+                                금일 <strong>([[${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}]])</strong> 데이터가 조회됩니다.</p>
                             </p>
                             <div class="sales_day_status">
                                 <th:block th:if="${#lists.size(todaySales) == 0}">
@@ -249,13 +249,13 @@
                 // 그래프 내용 : drawVisualization 구현
                 var data = google.visualization.arrayToDataTable([
                     ['날짜', '일별매출', '평균매출'],
-                    [before[6],  stats[0].tot_res_price, avg_res_price],
-                    [before[5],  stats[1].tot_res_price, avg_res_price],
-                    [before[4],  stats[2].tot_res_price, avg_res_price],
-                    [before[3],  stats[3].tot_res_price, avg_res_price],
-                    [before[2],  stats[4].tot_res_price, avg_res_price],
-                    [before[1],  stats[5].tot_res_price, avg_res_price],
-                    [date,  stats[6].tot_res_price, avg_res_price]
+                    [before[6],  stats[0]? stats[0].tot_res_price:0, avg_res_price],
+                    [before[5],  stats[1]? stats[1].tot_res_price:0, avg_res_price],
+                    [before[4],  stats[2]? stats[2].tot_res_price:0, avg_res_price],
+                    [before[3],  stats[3]? stats[3].tot_res_price:0, avg_res_price],
+                    [before[2],  stats[4]? stats[4].tot_res_price:0, avg_res_price],
+                    [before[1],  stats[5]? stats[5].tot_res_price:0, avg_res_price],
+                    [date,  stats[6]? stats[6].tot_res_price:0, avg_res_price]
                 ]);
 
                 // 그래프 주석 표기

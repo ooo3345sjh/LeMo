@@ -69,18 +69,18 @@
                                         </div>
                                     </th:block>
                                     <th:block th:if="${review.revi_rate == 3}">
-                                        <h6 class="rating_3">
+                                        <div class="rating_3">
                                             <th:block th:each="i : ${#numbers.sequence(1,3)}">
                                                 <img th:src="@{/images/admin/full_star.png}">
                                             </th:block>
-                                        </h6>
+                                        </div>
                                     </th:block>
                                     <th:block th:if="${review.revi_rate == 2}">
-                                        <h6 class="rating_2">
+                                        <div class="rating_2">
                                             <th:block th:each="i : ${#numbers.sequence(1,2)}">
                                                 <img th:src="@{/images/admin/full_star.png}">
                                             </th:block>
-                                        </h6>
+                                        </div>
                                     </th:block>
                                     <th:block th:if="${review.revi_rate == 1}">
                                         <div class="rating_1">

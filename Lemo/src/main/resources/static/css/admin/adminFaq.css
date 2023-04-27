@@ -678,10 +678,12 @@ main .insert_faq_tit {
 
 
 .tb_board .qt_tit a {
-    font-size: 16px;
+    font-size: 14px;
     color: #5e636d;
     cursor: pointer;
 }
+
+.qt_num {}
 
 
 /* 문의 답변 */

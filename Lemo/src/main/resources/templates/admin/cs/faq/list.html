@@ -57,7 +57,7 @@
                                             </tr>
                                             <tbody  th:each="faq,i:${csArticles}">
                                             <tr>
-                                                <td>[[*{totalCnt-sc.offset} - ${i.index}]]</td>
+                                                <td class="qt_num">[[*{totalCnt-sc.offset} - ${i.index}]]</td>
                                                 <td class="qt_tit">
                                                     <a class="qt_title" >[[${faq.cs_title}]]
                                                     </a>

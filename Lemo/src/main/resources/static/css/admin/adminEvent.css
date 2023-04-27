@@ -341,13 +341,11 @@ main .main_content .col2 .board_list ul:first-child {
 }
 main .main_content .col2 .board_list li {
     display: inline-block;
-    height: 32px;
-    font-size: 14px;
+    height: 32px !important;
+    font-size: 14px !important;
     padding-top: 7px;
     padding-bottom: 28px;
-    text-align: center;
-    height: 30px;
-    font-size: 14px;
+    height: 30px !ip;
     text-align: center;
 }
 
@@ -360,7 +358,7 @@ main .main_content .col2 .board_list .title > a {
     font-size: 14px;
 }
 main .main_content .col2 .board_list li:nth-of-type(1) {width: 6%;}
-main .main_content .col2 .board_list li:nth-of-type(2) {width: 44%;}
+main .main_content .col2 .board_list li:nth-of-type(2) {width: 47%;}
 main .main_content .col2 .board_list li:nth-of-type(3) {
     width: 20%;
     font-family: 'NOTO SANS KR';
@@ -436,6 +434,7 @@ main .main_content .btnAdminProd {
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
     float: right;
+    margin-right: 17px;
 }
 main .main_content .btnAdminProd:hover {
     background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);

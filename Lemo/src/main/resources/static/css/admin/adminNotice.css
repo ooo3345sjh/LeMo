@@ -202,13 +202,13 @@ main .main_content .col2 .board_list .title > a {
     font-size: 14px;
 }
 main .main_content .col2 .board_list li:nth-of-type(1) {width: 5%;}
-main .main_content .col2 .board_list li:nth-of-type(2) {width: 10%;}
-main .main_content .col2 .board_list li:nth-of-type(3) {width: 50%;}
+main .main_content .col2 .board_list li:nth-of-type(2) {width: 14%;}
+main .main_content .col2 .board_list li:nth-of-type(3) {width: 55%;}
 main .main_content .col2 .board_list li:nth-of-type(4) {
     width: 14%;
     font-family: 'NOTO SANS KR';
 }
-main .main_content .col2 .board_list li:nth-of-type(5) {width: 14%;}
+main .main_content .col2 .board_list li:nth-of-type(5) {width: 10%;}
 
 main .main_content .col2 .board_list .prodBtn > a {
         display: inline-block;
@@ -268,6 +268,7 @@ main .main_content .btnAdminProd {
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
     float: right;
+    margin-right: 17px;
 }
 main .main_content .btnAdminProd:hover {
     background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
