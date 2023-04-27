@@ -84,8 +84,8 @@
                                                     <h3>[[${totalQna}]] <i>건</i></h3>
                                                 </div>
                                                 <div class="tsd_prod">
-                                                    <p>상품등록</p>
-                                                    <h3>미정 <i>건</i></h3>
+                                                    <p>평점</p>
+                                                    <h3>[[${rateAvg}]] <i>점</i></h3>
                                                 </div>
                                                 <div class="tsd_regi">
                                                     <p>리뷰수</p>
@@ -113,20 +113,20 @@
                                             <div class="sales_div">
                                                 <table>
                                                     <tr>
+                                                        <th>#</th>
+                                                        <th>객실아이디</th>
                                                         <th>객실</th>
                                                         <th>주문건수</th>
                                                         <th>매출액</th>
-                                                        <th>비율</th>
-                                                        <th>그래프</th>
+
                                                     </tr>
-                                                    <tr th:each="room:${roomPercent}">
+                                                    <tr th:each="room, i:${roomPercent}">
+                                                        <th th:text="${i.index + 1}">#</th>
+                                                        <td>[[${room.room_id}]]</td>
                                                         <td>[[${room.room_name}]]</td>
                                                         <td>[[${room.count_sales}]]</td>
                                                         <td th:text="${#numbers.formatInteger(room.tot_res_price, 0, 'COMMA') + '원'}">36,000</td>
-                                                        <td th:text="${#numbers.formatDecimal(room.tot_res_price/sum_res_price *100, 2, 0) + '%'}"></td>
-                                                        <td>
-                                                            <progress id="progress1" th:value="${room.tot_res_price/sum_res_price *100}" min="0" max="100"></progress>
-                                                        </td>
+
                                                     </tr>
                                                 </table>
                                             </div>
@@ -629,6 +629,8 @@
     // 쿠폰 목록 (판매자) 소유 숙소 셀렉트 옵션 추가
     window.onload = function() {
         let selectAccOwned = document.getElementById("c_role_type");
+        let searchButton = document.querySelector('.sd_submit');
+        let sd_reset = document.querySelector('.sd_reset');
 
         ajaxAPI("business/find-acc", null, "GET").then((response)=>{
 
@@ -651,7 +653,15 @@
             // 옵션 변경 시에도 옵션 고정
             selectAccOwned.addEventListener('change', function() {
                 localStorage.setItem('selectedAccId', this.value);
+                searchButton.click();
             });
+
+            // 초기화 버튼 클릭 시, 옵션 초기화
+            sd_reset.addEventListener('click', function(){
+                localStorage.removeItem('selectedAccId');
+                selectAccOwned.option[0].selected = true;
+            });
+
         }).catch((errorMsg)=>{
             console.log(errorMsg);
         });
@@ -748,5 +758,6 @@
             $endInput.on('input', handleDateChange);
         });
     </script>
+
 </th:block>
 </html>

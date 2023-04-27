@@ -60,6 +60,8 @@ public class AdminController {
 
         model.addAttribute("title", environment.getProperty(group));
 
+        log.debug("GET index...");
+
         // 전역변수 선언
         int sum_res_price = 0;
         int avg_res_price = 0;
@@ -91,8 +93,6 @@ public class AdminController {
             avg_res_price = 0;
         }
 
-        log.warn("avg_res_price = " + avg_res_price);
-
         // 결제 방법 결제 현황
         List<ReservationVO> pays = service.findAllPaymentDay(map);
         Map<Integer, List<ReservationVO>> paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
@@ -123,7 +123,7 @@ public class AdminController {
         // 타이틀 설정
         model.addAttribute("title", environment.getProperty(group));
 
-
+        log.debug("GET stats...");
 
         // 전역변수 선언
         int total = 0;
@@ -147,7 +147,6 @@ public class AdminController {
          * 2. 폼 전송 (periodType) - map : {periodType=day, dateStart=, dateEnd=}
          * 3. 폼 전송 (date)       - map : {periodType=, dateStart=2023-04-17, dateEnd=2023-04-20}
          */
-        log.warn("map : " + map);
 
 
         /**
@@ -157,12 +156,12 @@ public class AdminController {
         * 결론 - mapper의 조건 !=null을 만족시키기 위해서는 null의 경우, 빈 문자열의 경우 -> 확실하게 null을 입력
         */
         if (map.get("dateStart") == null || map.get("dateStart").isBlank() && map.get("dateEnd") == null || map.get("dateEnd").isBlank()) {
-            log.warn("dateStart: " + map.get("dateStart"));
+            log.debug("dateStart: " + map.get("dateStart"));
 
             map.put("dateStart",null);
             map.put("dateEnd",null);
         }else {
-            log.warn("dateStart type: " + dateStart.getClass().getName());
+            log.debug("dateStart type: " + dateStart.getClass().getName());
         }
 
 
@@ -188,8 +187,6 @@ public class AdminController {
         totalRegister = service.countWeeksUser(map);
         // 매출 현황 그래프
         stats = service.findAllDaySales(map);
-
-        log.warn("stats size :" + stats.size());
 
         for ( int i=0; i<stats.size(); i++ ){
             sum_res_price += stats.get(i).getTot_res_price();
@@ -224,7 +221,7 @@ public class AdminController {
         int yearSum = 0;
 
         for (ReservationVO mAvg : yearSales) {
-            //log.warn("here2 : " + mAvg.getTot_res_price());
+
             yearSum += mAvg.getTot_res_price();
         }
 
@@ -256,7 +253,10 @@ public class AdminController {
     public String user(Model model,
                        @RequestParam Map map,
                        @ModelAttribute Admin_SearchVO sc) {
-        log.warn("GET user start...");
+
+        log.debug("GET user...");
+
+        model.addAttribute("title", environment.getProperty(group));
 
         sc.setMap(map);
 
@@ -274,8 +274,10 @@ public class AdminController {
                      @RequestParam(required = false, value = "sorted") String sorted,
                      @ModelAttribute Admin_SearchVO sc) {
 
-        log.warn("sorted : " + sorted);
-        log.warn("sc : " + sc);
+        log.debug("GET users");
+
+        log.debug("sorted : " + sorted);
+        log.debug("sc : " + sc);
 
         sc.setMap(map);
 
@@ -296,13 +298,10 @@ public class AdminController {
         }else if(sorted.equals("11")){
             sc.setSort("rdateOff");
         }
-        //sc.setSort(sort);
 
         List<UserVO> users = service.selectUser(model, sc);
-        log.warn("GET users : " + users);
 
         PageHandler ph = (PageHandler) model.getAttribute("ph");
-        log.warn("ph : " + ph.getTotalCnt());
 
         map.put("users", users);
         map.put("totalCnt", ph.getTotalCnt());
@@ -320,7 +319,8 @@ public class AdminController {
     @ResponseBody
     @PostMapping("user/memo")
     public Map<String, Integer> updateMemo(@RequestBody Map map) throws Exception {
-        log.warn(map.toString());
+
+        log.debug("POST user memo...");
 
         String user_id = (String) map.get("user_id");
         String memo = (String) map.get("memo");
@@ -337,7 +337,8 @@ public class AdminController {
     @ResponseBody
     @PostMapping("reservation/memo")
     public Map<String, Integer> usaveMemoInRes(@RequestBody Map map) throws Exception {
-        log.warn(map.toString());
+
+        log.debug("POST reservation memo...");
 
         String res_no = (String) map.get("res_no");
         String res_memo = (String) map.get("res_memo");
@@ -354,6 +355,9 @@ public class AdminController {
     @ResponseBody
     @PostMapping("user/block")
     public Map<String, Integer> updateIsLocked(@RequestBody Map map) throws Exception {
+
+        log.debug("POST user block...");
+
         String user_id = (String) map.get("user_id");
         int result = service.updateIsLocked(user_id);
 
@@ -366,6 +370,9 @@ public class AdminController {
     @ResponseBody
     @PostMapping("user/unblock")
     public Map<String, Integer> usaveClear(@RequestBody Map map) throws Exception {
+
+        log.debug("POST user unblock...");
+
         String user_id = (String) map.get("user_id");
         int result = service.usaveClear(user_id);
 
@@ -379,6 +386,9 @@ public class AdminController {
     @ResponseBody
     @PostMapping("/info/block")
     public Map<String, Integer> usaveDropAcc(@RequestBody Map map) throws Exception {
+
+        log.debug("POST info block...");
+
         String acc_id = (String) map.get("acc_id");
         int result = service.usaveDropAcc(acc_id);
 
@@ -392,7 +402,10 @@ public class AdminController {
     @ResponseBody
     @PostMapping("/info/unblock")
     public Map<String, Integer> usaveClearAcc(@RequestBody Map map) throws Exception {
-         String acc_id = (String) map.get("acc_id");
+
+        log.debug("POST info unblock...");
+
+        String acc_id = (String) map.get("acc_id");
         int result = service.usaveClearAcc(acc_id);
 
         Map<String, Integer> resultMap = new HashMap<>();
@@ -404,7 +417,8 @@ public class AdminController {
 
     // @since 2023/03/11
     @GetMapping("coupon/coupon")
-    public String coupon() {
+    public String coupon(Model model) {
+        model.addAttribute("title", environment.getProperty(group));
         return "admin/coupon/coupon";
     }
 
@@ -412,19 +426,7 @@ public class AdminController {
     @PostMapping("coupon/post")
     public String rsaveCupon(CouponVO vo, RedirectAttributes redirectAttributes) throws Exception {
 
-        log.warn("rsaveCupon : " + vo);
-
-        log.warn("쿠폰명 :" + vo.getCp_subject());
-        log.warn("쿠폰적용그룹 :" + vo.getCp_group());
-        log.warn("쿠폰타입 :" + vo.getCp_type());
-        log.warn("할인율 :" + vo.getCp_rate());
-        log.warn("할인타입 :" + vo.getCp_disType());
-        log.warn("발급수량 :" + vo.getCp_limitedIssuance());
-        log.warn("최소주문금액: "+ vo.getCp_minimum());
-        log.warn("최대주문금액: "+ vo.getCp_maximum());
-        log.warn("배포시작일: "+vo.getCp_start());
-        log.warn("배포시작일: "+vo.getCp_end());
-        log.warn("이용가능일수:" + vo.getCp_daysAvailable());
+        log.debug("POST coupon...");
 
         service.rsaveCupon(vo);
         redirectAttributes.addFlashAttribute("successMessage", "쿠폰이 등록되었습니다.");
@@ -433,9 +435,12 @@ public class AdminController {
 
     @GetMapping("coupon/list")
     public String list(Model model,
-                               @RequestParam Map map,
-                               @ModelAttribute Admin_SearchVO sc) {
-        log.warn("GET manage Coupon...");
+                       @RequestParam Map map,
+                       @ModelAttribute Admin_SearchVO sc) {
+
+        model.addAttribute("title", environment.getProperty(group));
+
+        log.debug("GET coupon...");
 
         sc.setMap(map);
         service.selectCoupon(model, sc);
@@ -443,40 +448,15 @@ public class AdminController {
         return "admin/coupon/list";
     }
 
-    // @since 2023/03/11
-    /*
-    @GetMapping("coupon/findAccOwned")
-    public String findAccOwned(String user_id, Model model){
-        List<CouponVO> accs = service.findAccOwned(user_id);
-        model.addAttribute("accs", accs);
-
-        return "redirect:/admin/coupon/manageCoupon";
-    }
-     */
-/*
-
-    @GetMapping("coupon/findAccOwned")
-    public ResponseEntity<List<String>> findAccOwned(String user_id) {
-
-        log.warn("GET findAccOwned...");
-
-        // stream().map().collect(): 이름들만 모아서 새로운 String 리스트를 만들어 낸다
-        List<String> accs = service.findAccOwned(user_id).stream().map(CouponVO::getAcc_name).collect(Collectors.toList());
-        return ResponseEntity.ok(accs);
-    }
-*/
-
     @ResponseBody
     @DeleteMapping("coupon/delete")
     public Map<String, Integer> removeCoupon(@RequestBody Map map) throws Exception {
 
         String cp_id = (String) map.get("cp_id");
 
-        log.warn("GET remove Coupon");
+        log.debug("GET coupon delete...");
 
         int result = service.removeCoupon(cp_id);
-
-        log.warn("after service : " + result);
 
         Map<String, Integer> resultMap = new HashMap<>();
         resultMap.put("result", result);
@@ -489,12 +469,13 @@ public class AdminController {
     public String review_list(Model model,
                               @RequestParam Map map,
                               @ModelAttribute SearchCondition sc){
+
+        log.debug("GET review list...");
+
+        model.addAttribute("title", environment.getProperty(group));
+
         sc.setMap(map);
         service.findAllReview(model, sc);
-
-        //PageHandler ph = (PageHandler) model.getAttribute("ph");
-        //log.debug("ph : " + ph.getTotalCnt());
-
 
 
         return "admin/review/list";
@@ -504,35 +485,17 @@ public class AdminController {
     @GetMapping("review/view")
     public String review_view(Model model, @RequestParam("revi_id") Integer revi_id) throws Exception{
 
-        ReviewVO review = service.findReview(revi_id);
+        log.debug("GET review view...");
 
-        //log.warn("selected review: " + review);
+        model.addAttribute("title", environment.getProperty(group));
+
+        ReviewVO review = service.findReview(revi_id);
 
         model.addAttribute("review", review);
         model.addAttribute("revi_id", revi_id);
 
         return "admin/review/view";
     }
-/*
-
-    // @since 2023/03/15 관리자 쿠폰 답변 작성
-    @ResponseBody
-    @PostMapping("usaveReply")
-    public Map<String, Integer> usaveReply(@RequestBody Map map) throws Exception {
-        log.warn(map.toString());
-
-        String revi_id = (String)map.get("revi_id");
-        String revi_reply = (String)map.get("revi_reply");
-
-        int result = service.usaveReply(revi_reply, revi_id);
-
-        Map resultMap = new HashMap<>();
-        resultMap.put("result", result);
-
-        return resultMap;
-
-    }
-*/
 
 
     // @since 2023/03/15 관리자 리뷰 삭제
@@ -554,7 +517,7 @@ public class AdminController {
     public String roomInfo_list(Model model,
                                 @RequestParam Map map,
                                 @ModelAttribute Admin_SearchVO sc){
-
+        model.addAttribute("title", environment.getProperty(group));
         sc.setMap(map);
         service.findAllRoom(model, sc);
 
@@ -568,7 +531,7 @@ public class AdminController {
 
         ProductRoomVO room = service.findRoom(room_id);
 
-        log.warn("selected room: " + room);
+        model.addAttribute("title", environment.getProperty(group));
 
         model.addAttribute("room", room);
         model.addAttribute("room_id", room_id);
@@ -576,23 +539,13 @@ public class AdminController {
        return "admin/room/view";
     }
 
-    /* (확인 후 삭제 예정)
-    @GetMapping("room/modify")
-    public String roomInfo_modify(){
-       return "admin/room/modify";
-    }
-    */
 
-    /* (확인 후 삭제 예정)
-    @GetMapping("roomInfo/write")
-    public String roomInfo_write(){
-       return "admin/roomInfo/write";
-    }
-    */
     @GetMapping("info/list")
     public String info_list(Model model,
                             @RequestParam Map map,
                             @ModelAttribute Admin_SearchVO sc){
+
+        model.addAttribute("title", environment.getProperty(group));
 
         sc.setMap(map);
         service.findAllAccs(model, sc);
@@ -612,7 +565,8 @@ public class AdminController {
     }
 
     @GetMapping("info/modify")
-    public String info_modify(){
+    public String info_modify(Model model){
+        model.addAttribute("title", environment.getProperty(group));
         return "admin/info/modify";
     }
 
@@ -623,10 +577,8 @@ public class AdminController {
         ProductAccommodationVO acc = service.findAcc(acc_id);
 
         List<ServicereginfoVO> servicereginfos = service.findServiceInAcc(acc_id);
-        log.warn("selected acc service: " + servicereginfos);
 
-        //log.warn("selected acc: " + acc);
-
+        model.addAttribute("title", environment.getProperty(group));
         model.addAttribute("acc", acc);
         model.addAttribute("acc_id", acc_id);
         model.addAttribute("serviceInfo", servicereginfos);
@@ -637,7 +589,8 @@ public class AdminController {
 
 
     @GetMapping("info/write")
-    public String info_write(){
+    public String info_write(Model model){
+        model.addAttribute("title", environment.getProperty(group));
         return "admin/info/write";
     }
 
@@ -646,7 +599,7 @@ public class AdminController {
     public String reservation_list(Model model,
                                    @RequestParam Map map,
                                    @ModelAttribute Admin_SearchVO sc){
-
+        model.addAttribute("title", environment.getProperty(group));
         sc.setMap(map);
         service.findAllReservaitons(model, sc);
 
@@ -655,11 +608,8 @@ public class AdminController {
 
     @GetMapping("reservation/timeline")
     public String reservation_timeline(Model model){
-
+        model.addAttribute("title", environment.getProperty(group));
         service.findAllTimeline(model);
-
-
-
         return "admin/reservation/timeline";
     }
 

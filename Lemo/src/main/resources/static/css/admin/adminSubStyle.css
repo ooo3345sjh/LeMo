@@ -1649,11 +1649,17 @@ main .res_list9 {
 main .res_li1 {width: 5% !important;  font-family: 'Noto Sans KR';}
 main .res_li2 {width: 10% !important;  font-family: 'Noto Sans KR';}
 main .res_li3 {width: 10% !important;  font-family: 'Noto Sans KR';}
-main .res_li4 {width: 15% !important;}
+main .res_li4 {
+    width: 25% !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 13px;
+}
 main .res_li5 {width: 10% !important;}
 main .res_li6 {width: 10% !important;}
-main .res_li7 {width: 20% !important;  font-family: 'Noto Sans KR';}
-main .res_li8 {width: 18% !important;  font-family: 'Noto Sans KR';}
+main .res_li7 {width: 15% !important;  font-family: 'Noto Sans KR';}
+main .res_li8 {width: 13% !important;  font-family: 'Noto Sans KR';}
 
 main .cancel_res {
     width: 10% !important;
@@ -2795,17 +2801,31 @@ main .sales_table th {
     font-size: 13px;
     padding: 10px 0;
     background: #F7F7F7;
+    border-right: 1px solid #ededed
 }
-main .sales_table th:nth-of-type(1) {width: 9%;}
-main .sales_table th:nth-of-type(2) {width: 10%;}
-main .sales_table th:nth-of-type(3) {width: 17%;}
-main .sales_table th:nth-of-type(4) {width: 15%;}
-main .sales_table th:nth-of-type(5) {}
+main .sales_table th:nth-of-type(1) {width: 3%;}
+main .sales_table th:nth-of-type(2) {width: 7%;}
+main .sales_table th:nth-of-type(3) {width: 20%;}
+main .sales_table th:nth-of-type(4) {width: 3%;}
+main .sales_table th:nth-of-type(5) {
+    border-right: none !important;
+}
+main .sales_table td:nth-of-type(2) {width: 10%;}
+main .sales_table td:nth-of-type(3) {width: 10%;}
+main .sales_table td:nth-of-type(4) {
+    width: 10%;
+    border-right: none !important;
+}
+main .sales_table td:nth-of-type(5) {
+    width: 10%;
+
+}
 main .sales_table td {
     padding: 10px 0;
     font-size: 14px;
     font-family: 'Noto Sans KR';
     font-weight: 300;
+    border-right: 1px solid #ededed
 }
 main #progress1 {
     text-align: left;
