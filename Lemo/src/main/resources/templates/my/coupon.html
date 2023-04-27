@@ -141,13 +141,13 @@
 
                 const interval = setInterval(function(){
                     scrollP.scrollLeft(scroll);
-                    scroll = scroll + 1
+                    scroll = scroll + 0.8
 
                     if(scroll >= 100) {
                         clearInterval(interval)
                         scroll = 0;
                     }
-                }, 10);
+                }, 12.5);
 
                 $(document).on('mouseout', '.coupon_item_tit > p', function(){
                     clearInterval(interval)
