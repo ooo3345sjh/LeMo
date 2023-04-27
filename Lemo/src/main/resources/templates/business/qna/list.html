@@ -63,7 +63,7 @@
                                             <li>[[*{totalCnt-sc.offset} - ${i.index}]]</li>
                                             <li>[[${qnaArticle.acc_id}]]</li>
                                             <li class="title">
-                                                <a th:href="@{/business/qna/view (qna_no=${qnaArticle.qna_no})}">[[${qnaArticle.qna_title}]]</a>
+                                                <a th:href="@{/business/qna/view (qna_no=${qnaArticle.qna_no}, page=${ph.sc.page})}">[[${qnaArticle.qna_title}]]</a>
                                             </li>
                                             <li>[[${qnaArticle.nick}]]</li>
                                             <li>[[${qnaArticle.qna_rdate.substring(2, 10)}]]</li>
@@ -160,6 +160,9 @@
 
         $(document).ready(function() {
             $('#asideReview').click(function(){
+                window.localStorage.clear();
+            });
+            $('#asideQna').click(function(){
                 window.localStorage.clear();
             });
         });
