@@ -62,7 +62,6 @@
                                                         <button class="btnAdminProd" type="button" onclick="goToQnaList()">목록으로</button>
                                                         <button class="btnAdminProd" type="button" onclick="toggleDisabled()" style="display:none">취소</button>
                                                     </th:block>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -81,20 +80,6 @@
 <th:block layout:fragment="script">
     <script>
 
-        // cs_type 선택
-        $(document).ready(function(){
-            let cs_reply = document.querySelector('textarea[name="cs_reply"]');
-            $('#qna_update').submit(function(e){
-                if( cs_reply.value.trim() == ''){
-                    Swal.fire({
-                         title : '답변내용을 입력해 주세요',
-                         icon : 'error',
-                         confirmButtonText : '확인'
-                     })
-                    e.preventDefault();
-                }
-            });
-        });
 
         // 답변 포커스
         const cs_reply = document.getElementById('cs_reply');
@@ -112,7 +97,7 @@
             var textarea = document.getElementById("cs_reply"); // textarea 요소 가져오기
             console.log("text : " +textarea.text);
             console.log("value : " +textarea.value);
-<!--            oriContent = textarea.value; // 기존의 값 저장-->
+
             if (textarea.disabled) {
                 textarea.disabled = false; // disabled 속성 제거하여 편집 가능하도록 함
                 textarea.style.backgroundColor = "#ececec";
@@ -135,23 +120,32 @@
         // 작성시 확인
         function writeCheck(e) {
             e.preventDefault(); // form submit 막음
-            console.log("1");
+
+              if( cs_reply.value.trim() == ''){
                 Swal.fire({
-                title: '등록하시겠습니까?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '확인',
-                cancelButtonText: '취소',
-                reverseButtons: false,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        const form = document.getElementById('qna_update');
-                        form.submit(); // 폼 제출 실행
-                    }
-                });
+                     title : '답변내용을 입력해 주세요',
+                     icon : 'error',
+                     confirmButtonText : '확인'
+                 })
+                return;
             }
+
+            Swal.fire({
+            title: '등록하시겠습니까?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소',
+            reverseButtons: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.getElementById('qna_update');
+                    form.submit(); // 폼 제출 실행
+                }
+            });
+        }
 
         // 수정시 확인
         function modifyCheck(e) {

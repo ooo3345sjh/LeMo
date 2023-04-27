@@ -8,8 +8,15 @@
             $('input[name=qna_no]:checked').each(function(){checkList.push($(this).val()); });
 
             if(checkList == ''){
-                alert('선택된 상품이 없습니다');
-
+                Swal.fire({
+                    title : '선택된 글이 없습니다',
+                    icon : 'error',
+                    confirmButtonText : '확인'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                      location.replace("");
+                    }
+                  });
                 return;
             }
 

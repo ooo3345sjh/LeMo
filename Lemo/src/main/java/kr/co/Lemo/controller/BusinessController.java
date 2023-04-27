@@ -1052,20 +1052,21 @@ public class BusinessController {
 
     // @since 2023/04/08 황원진 상품목록 상세보기
     @GetMapping("qna/view")
-    public String findQnaArticle(int qna_no, Model model){
+    public String findQnaArticle(int qna_no, int page, Model model){
        ProductQnaVO qnaArticle = service.findQnaArticle(qna_no);
 
        model.addAttribute("qnaArticle", qnaArticle);
        model.addAttribute("qna_no", qna_no);
+       model.addAttribute("page", page);
 
         return "business/qna/view";
     }
 
     // @since 2023/04/08 황원진 상품목록 답변등록
     @PostMapping("qna/view")
-    public String usaveQnaReply(String qna_reply, int qna_no){
+    public String usaveQnaReply(String qna_reply, int qna_no, int page){
         service.usaveQnaReply(qna_reply, qna_no);
-        return "redirect:/business/qna/view?qna_no="+qna_no;
+        return "redirect:/business/qna/view?qna_no="+qna_no+"&page="+page;
     }
 
     // @since 2023/04/08 황원진 상품목록 답변수정

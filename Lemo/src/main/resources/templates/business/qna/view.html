@@ -25,6 +25,7 @@
                         <div class="col2">
                             <form id="qna_update" th:action="@{/business/qna/view}" method="post">
                                 <input type="hidden" id="qna_no" name="qna_no" th:value="${qna_no}">
+                                <input type="hidden" id="page" name="page" th:value="${page}">
                                 <div class="board_view">
                                     <div class="view_box">
                                         <div class="view_head">
@@ -56,12 +57,12 @@
                                                 <div class="btnSubmit">
                                                     <th:block th:if="${qnaArticle.qna_reply == null}">
                                                         <button class="btnAdminProd" type="submit" id="write" onclick="writeCheck(event)" form="qna_update">등록</button>
-                                                        <button class="btnAdminProd" type="button" onclick="javascript:history.back();">목록으로</button>
+                                                        <button class="btnAdminProd" type="button" onclick="goToQnaList();">목록으로</button>
                                                     </th:block>
                                                     <th:block th:if="${qnaArticle.qna_reply != null }">
                                                         <button class="btnAdminProd" type="button" onclick="toggleDisabled()">수정하기</button>
                                                         <button class="btnAdminProd" type="button" style="display:none;" id="bntModify">수정</button>
-                                                        <button class="btnAdminProd" type="button" onclick="javascript:history.back();">목록으로</button>
+                                                        <button class="btnAdminProd" type="button" onclick="goToQnaList();">목록으로</button>
                                                         <button class="btnAdminProd" type="button" onclick="toggleDisabled()" style="display:none">취소</button>
                                                     </th:block>
                                                 </div>
@@ -82,24 +83,16 @@
 <th:block layout:fragment="script">
     <script>
 
-        // cs_type 선택
-        $(document).ready(function(){
-            let qna_reply = document.querySelector('textarea[name="qna_reply"]');
-            $('#qna_update').submit(function(e){
-                if( qna_reply.value.trim() == ''){
-                    Swal.fire({
-                         title : '답변내용을 입력해 주세요',
-                         icon : 'error',
-                         confirmButtonText : '확인'
-                     })
-                    e.preventDefault();
-                }
-            });
-        });
 
         // 답변 포커스
         const qna_reply = document.getElementById('qna_reply');
         qna_reply.focus();
+
+        // 목록이동 함수
+        function goToQnaList() {
+          var page = document.getElementById("page").value;
+          location.href = "/Lemo/business/qna/list?page=" + page;
+        }
 
         // 수정하기 버튼 클릭시 disabled 변경
         let oriContent = document.getElementById("qna_reply").value;
@@ -127,10 +120,21 @@
             }
           }
 
+
         // 작성시 확인
         function writeCheck(e) {
             e.preventDefault(); // form submit 막음
             console.log("1");
+
+            if( qna_reply.value.trim() == ''){
+                Swal.fire({
+                     title : '답변내용을 입력해 주세요',
+                     icon : 'error',
+                     confirmButtonText : '확인'
+                 })
+                return;
+            }
+
                 Swal.fire({
                 title: '등록하시겠습니까?',
                 icon: 'question',
@@ -153,6 +157,17 @@
 
         $('#bntModify').click(function(e){
             e.preventDefault();
+
+
+            if( qna_reply.value.trim() == ''){
+                Swal.fire({
+                     title : '답변내용을 입력해 주세요',
+                     icon : 'error',
+                     confirmButtonText : '확인'
+                 })
+                return;
+            }
+
                 Swal.fire({
                     title: '해당 글을 수정하시겠습니까?',
                     icon: 'question',
@@ -168,6 +183,7 @@
                     if(result.isConfirmed){
                         let reply = $('textarea[name=qna_reply]').val();
                         let no = $('input[name=qna_no]').val();
+                        let page = $('input[name=page]').val();
 
                         console.log(reply);
                         console.log(no);
@@ -182,11 +198,11 @@
                         ajaxAPI("business/qna/udate", jsonData, "PATCH").then((response) => {
                             if(response.result > 0) {
                                 console.log("성공");
-                                location.replace("/Lemo/business/qna/view?qna_no=" + no);
+                                location.replace("/Lemo/business/qna/view?qna_no=" + no + "&page=" + page);
 
                             }else {
                                 alert('error');
-                                location.replace("/Lemo/admin/cs/notice/list");
+                                location.replace("/Lemo/business/qna/list");
                             }
                         }).catch((errMsg) => {
                             console.log(errMsg);

@@ -33,7 +33,6 @@
                             <span>고객센터 ></span>
                             <span>공지사항 등록</span>
                         </div>
-
                         <!-- 공지 보기 폼 -->
                         <form class="col_register_form" id="cs_typeForm" th:action="@{/admin/cs/notice/write}" method="post">
                             <!-- 공지제목 등록 -->
@@ -66,8 +65,6 @@
 
                                 </textarea>
                             </div>
-
-                            <!-- 버튼 -->
 
                             <div class="btnAdminnProd">
                                 <button id="modifyComplete" type="submit">
@@ -158,9 +155,13 @@
         // 유효성 검사
         $(document).ready(function(){
             let cs_title = document.querySelector('input[name="cs_title"]');
+            let cs_content = $('#summernote').summernote('getText');
+
 
             // 제목 유효성 검사
             $('#cs_typeForm').submit(function(e){
+                console.log(cs_content);
+
                 if( cs_title.value.trim() == ''){
                     Swal.fire({
                          title : '제목을 입력해 주세요',
@@ -169,24 +170,20 @@
                      })
                     e.preventDefault();
                 }
-            });
-        });
 
-        $(document).ready(function(){
-            let cs_content = document.querySelector('textarea[name="cs_content"]').val;
-
-            // 내용 유효성 검사
-            $('#cs_typeForm').submit(function(e){
-                if( cs_content.value.trim() == ''){
-                    Swal.fire({
-                         title : '내용을 입력해 주세요',
-                         icon : 'error',
-                         confirmButtonText : '확인'
-                     })
-                    e.preventDefault();
-                }
-            });
+             // 내용 유효성 검사
+            if( cs_content.trim() === ''){
+                Swal.fire({
+                    title : '내용을 입력해 주세요',
+                    icon : 'error',
+                    confirmButtonText : '확인'
+                })
+                e.preventDefault();
+            }
         });
+    });
+
+
         </script>
     </th:block>
 </html>

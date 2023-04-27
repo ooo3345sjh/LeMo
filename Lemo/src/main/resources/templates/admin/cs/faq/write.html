@@ -40,12 +40,12 @@
                                             </div>
                                         </div>
                                         <div class="view_content">
-                                            <textarea placeholder="자주 묻는 질문의 질문 내용을 작성해 주세요" name="cs_title" id="cs_title" required></textarea>
+                                            <textarea placeholder="자주 묻는 질문의 질문 내용을 작성해 주세요" name="cs_title" id="cs_title"></textarea>
                                         </div>
                                         <div class="view_recomment">
                                             <div class="write_recomment">
                                                 <div class="inner_txt">
-                                                    <textarea placeholder="자주 묻는 질문의 답변 내용을 작성해 주세요" name="cs_content" required></textarea>
+                                                    <textarea placeholder="자주 묻는 질문의 답변 내용을 작성해 주세요" name="cs_content"></textarea>
                                                 </div>
                                                 <div class="btnSubmit">
                                                     <button class="btnAdminProd" type="submit">등록</button>
@@ -80,6 +80,35 @@
         // 타이틀 포커스
         const cs_title = document.getElementById('cs_title');
         cs_title.focus();
+
+        // 유효성 검사
+        $(document).ready(function(){
+            let cs_title = document.querySelector('textarea[name="cs_title"]');
+            let cs_content = document.querySelector('textarea[name="cs_content"]');
+
+            $('#cs_typeForm').submit(function(e){
+
+                // 내용 유효성 검사
+                if( cs_content.value.trim() == ''){
+                    Swal.fire({
+                        title : '내용을 입력해 주세요',
+                        icon : 'error',
+                        confirmButtonText : '확인'
+                    })
+                    e.preventDefault();
+                }
+
+                // 제목 유효성 검사
+                if( cs_title.value.trim() == ''){
+                    Swal.fire({
+                         title : '제목을 입력해 주세요',
+                         icon : 'error',
+                         confirmButtonText : '확인'
+                     })
+                    e.preventDefault();
+                }
+        });
+    });
     </script>
 </th:block>
 </html>

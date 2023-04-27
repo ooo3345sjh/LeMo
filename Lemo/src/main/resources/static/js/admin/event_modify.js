@@ -208,11 +208,6 @@ function base64toFile(base_data, filename) {
             });
 
         });
-
-//            myDropzone.on('success', function (file, responseText) {
-//
-//                location.href = "/Lemo/admin/cs/event/list";
-//            });
         },
     });
 });
