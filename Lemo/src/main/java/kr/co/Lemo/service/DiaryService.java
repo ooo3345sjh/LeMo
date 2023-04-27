@@ -4,10 +4,14 @@ import kr.co.Lemo.dao.DiaryDAO;
 import kr.co.Lemo.domain.*;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -32,6 +36,9 @@ public class DiaryService {
     // @since 2023/03/14
     @Autowired
     private DiaryDAO dao;
+
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadPath;
 
     // @since 2023/03/14
     public List<ArticleDiaryVO> findDairyArticles(SearchCondition sc) {
@@ -171,6 +178,19 @@ public class DiaryService {
         dao.deleteDiaryLikes(arti_no);
         int result = dao.deleteDiaryArticle(arti_no);
         dao.updateArticleCommentMinus(arti_no);
+
+        String path = new File(uploadPath+"diary/"+arti_no).getAbsolutePath();
+
+        File deleteFolder = new File(path);
+
+        try {
+            FileUtils.cleanDirectory(deleteFolder);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        deleteFolder.delete();
+
         return result;
     }
 

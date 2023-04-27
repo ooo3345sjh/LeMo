@@ -24,10 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @since 2023/03/07
@@ -252,8 +249,9 @@ public class MyController {
     }
 
     // @since 2023/03/29
+    @ResponseBody
     @PostMapping("review/write")
-    public void reviewWrite(
+    public Map<String, String> reviewWrite(
             @RequestParam Map<String, Object> param,
             MultipartHttpServletRequest request,
             HttpServletRequest req,
@@ -264,8 +262,19 @@ public class MyController {
         param.put("user_id", myUser.getUser_id());
         param.put("revi_regip", req.getRemoteAddr());
 
-        service.rsavsReview(request, param);
+        int result = service.rsavsReview(request, param);
 
+        Map<String, String> map = new HashMap<>();
+
+        String finalResult = "usaveWriteFail";
+
+        if(result == 1) {
+            finalResult = "usavaWriteSuccess";
+        }
+
+        map.put("result", finalResult);
+
+        return map;
     }
 
     // @since 2023/03/08

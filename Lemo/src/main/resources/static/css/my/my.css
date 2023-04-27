@@ -646,23 +646,19 @@
         line-height: 28px;
         margin-bottom: 26px;
         font-weight: 500;
-        overflow-wrap: break-word;
         width: 160px;
+    }
+
+    .my_Coupon .coupon_item_tit > p::-webkit-scrollbar{
+        display: none;
+    }
+
+    .my_Coupon .coupon_item_tit > p {
+        font-size: 18px;
+        line-height: 28px;
+        font-weight: 500;
         white-space: nowrap;
-    }
-
-    .my_Coupon .coupon_item_tit:hover {
-        animation: flow 10s;
-        linear: infinite;
-    }
-
-    @keyframes flow {
-      0% { left: 0; }
-      100% { left: -100%; }
-    }
-
-    .my_Coupon .coupon_item_tit:hover {
-
+        overflow: scroll;
     }
 
     .my_Coupon .coupon_item_price {

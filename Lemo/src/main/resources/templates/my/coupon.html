@@ -35,7 +35,7 @@
                             <div class="consent" th:if="${members.size() != 0 }">
                                 <div class="coupon_item" th:each="member:${members}" th:if="${#authentication.principal.user_id == member.user_id}">
                                     <div class="coupon_item_tit">
-                                        [[${member.cp_subject}]]
+                                        <p>[[${member.cp_subject}]]</p>
                                     </div>
                                     <div class="coupon_item_price">
                                         <th:block th:if="${member.cp_disType == 1}">
@@ -67,7 +67,7 @@
                             <div class="un_1" th:if="${products.size() != 0}" >
                                 <div class="coupon_item" th:each="product:${products}" th:id="rCoupon__${product.cp_id}__">
                                     <div class="coupon_item_tit">
-                                        [[${product.cp_subject}]]
+                                        <p>[[${product.cp_subject}]]</p>
                                     </div>
                                     <div class="coupon_item_price">
                                         <th:block th:if="${product.cp_disType == 1}">
@@ -134,6 +134,26 @@
                     }
                 });
             }
+
+            $(document).on('mouseover', '.coupon_item_tit > p', function(){
+                let scroll = 0;
+                let scrollP = $(this);
+
+                const interval = setInterval(function(){
+                    scrollP.scrollLeft(scroll);
+                    scroll = scroll + 1
+
+                    if(scroll >= 100) {
+                        clearInterval(interval)
+                        scroll = 0;
+                    }
+                }, 10);
+
+                $(document).on('mouseout', '.coupon_item_tit > p', function(){
+                    clearInterval(interval)
+                    scrollP.scrollLeft(0);
+                });
+            });
         </script>
     </th:block>
 </html>
