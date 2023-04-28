@@ -128,7 +128,11 @@
                 };
                     reader.readAsDataURL(file);
             } else {
-                alert("파일을 선택하세요.");
+                Swal.fire({
+                        title : '파일을 선택해 주세요',
+                        icon : 'error',
+                        confirmButtonText : '확인'
+                    })
             }
         });
 

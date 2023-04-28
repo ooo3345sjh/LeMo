@@ -57,7 +57,7 @@ function base64toFile(base_data, filename) {
             var submitButton = document.querySelector("#btnModify");
             // 최초 dropzone 설정시 init을 통해 호출
             console.log('최초 실행');
-            let myDropzone = this; // closure 변수 (화살표 함수 쓰지않게 주의)
+            var myDropzone = this; // closure 변수 (화살표 함수 쓰지않게 주의)
 
             if(viewThumbs != null) {
                 const thumbs = viewThumbs.split('/');
@@ -130,6 +130,7 @@ function base64toFile(base_data, filename) {
 
             e.preventDefault();
 
+            let myDropzone = $('div.dropzone');
             let cs_title = $('input[name="cs_title"]').val();
             let cs_content = $('textarea[name="cs_content"]').val();
             let cs_eventStart = $('input[name="cs_eventStart"]').val();
