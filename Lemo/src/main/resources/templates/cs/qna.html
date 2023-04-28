@@ -82,7 +82,7 @@
 
                 <!-- 문의 작성 -->
                 <div id="qna_write" style="display: none;">
-                    <form name="qna-form" id="qna_form" method="post" th:action="@{/cs/qna}">
+                    <form name="qna-form" id="qna_form" method="post" th:action="@{/cs/qna}" onsubmit="writeCheck(event);">
                         <div class="alert_top">
                             <p>LEMO를 이용 중 불편하신 점을 문의주시면 최대한 빠른 시일내에 답변 드리겠습니다.</p>
                         </div>
@@ -211,6 +211,25 @@
               });
         });
 
+        // 작성완료 클릭시 확인
+        function writeCheck(e) {
+          e.preventDefault(); // form submit 막음
+          console.log("1");
+          Swal.fire({
+            title: '정말 등록하시겠습니까?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소',
+            reverseButtons: false,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              e.target.submit(); // form submit 실행
+            }
+          });
+        }
 
     </script>
 </th:block>
