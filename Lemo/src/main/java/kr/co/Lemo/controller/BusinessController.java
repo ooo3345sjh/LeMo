@@ -1081,6 +1081,8 @@ public class BusinessController {
     // @since 2023/04/08 황원진 상품목록 상세보기
     @GetMapping("qna/view")
     public String findQnaArticle(int qna_no, int page, Model model){
+        model.addAttribute("title", environment.getProperty(group));
+
        ProductQnaVO qnaArticle = service.findQnaArticle(qna_no);
 
        model.addAttribute("qnaArticle", qnaArticle);

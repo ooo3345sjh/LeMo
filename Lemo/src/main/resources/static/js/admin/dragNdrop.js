@@ -30,6 +30,7 @@
             console.log('최초 실행');
 
             let myDropzone = this; // closure 변수 (화살표 함수 쓰지않게 주의)
+            let myViewZone = $('div.dropzone');
             let title = document.querySelector('input[name="cs_title"]');
             let content = document.querySelector('textarea[name="cs_content"]');
             let eventBanner = document.querySelector('input[name="eventbannerImg[]"]');
@@ -55,85 +56,107 @@
 
             console.log("업로드1", myDropzone.files);
 
-            if(title.value.trim() === ''){
-                Swal.fire({
-                    title : '제목을 입력해주세요',
-                    icon : 'error',
-                    confirmButtonText : '확인'
-                })
-                title.focus();
-                return;
-            }
+            e.preventDefault(); // form submit 막음
+              console.log("1");
+              Swal.fire({
+                title: '정말 등록하시겠습니까?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소',
+                reverseButtons: false,
+              }).then((result) => {
+                if (result.isConfirmed) {
 
-            if(content.value.trim() === ''){
-                Swal.fire({
-                    title : '내용을 입력해주세요',
-                    icon : 'error',
-                    confirmButtonText : '확인'
-                })
-                content.focus();
-                return;
-            }
+                  if(title.value.trim() === ''){
+                      Swal.fire({
+                          title : '제목을 입력해주세요',
+                          icon : 'warning',
+                          confirmButtonText : '확인'
+                      })
+                      title.focus();
+                      return;
+                  }
 
-            if(eventBanner.files.length === 0){
-                Swal.fire({
-                    title : '이벤트 배너 이미지를 선택해주세요',
-                    icon : 'error',
-                    confirmButtonText : '확인'
-                })
-                eventBanner.focus();
-                return;
-            }
+                  if(content.value.trim() === ''){
+                      Swal.fire({
+                          title : '내용을 입력해주세요',
+                          icon : 'warning',
+                          confirmButtonText : '확인'
+                      })
+                      content.focus();
+                      return;
+                  }
 
-            if(MainBanner.files.length === 0){
-                Swal.fire({
-                    title : '메인 배너 이미지를 선택해주세요',
-                    icon : 'error',
-                    confirmButtonText : '확인'
-                })
-                MainBanner.focus();
-                return;
-            }
+                  if(eventBanner.files.length === 0){
+                      Swal.fire({
+                          title : '이벤트 배너 이미지를 선택해주세요',
+                          icon : 'warning',
+                          confirmButtonText : '확인'
+                      })
+                      eventBanner.focus();
+                      return;
+                  }
 
-            // 거부된 파일이 있다면
-            if (myDropzone.getRejectedFiles().length > 0) {
-                let files = myDropzone.getRejectedFiles();
-                console.log('거부된 파일이 있습니다.', files);
-                return;
-            }
+                  if(MainBanner.files.length === 0){
+                      Swal.fire({
+                          title : '메인 배너 이미지를 선택해주세요',
+                          icon : 'warning',
+                          confirmButtonText : '확인'
+                      })
+                      MainBanner.focus();
+                      return;
+                  }
+
+                  // 이벤트 뷰
+                  if (myViewZone.get(0).dropzone.files == null || myViewZone.get(0).dropzone.files.length == 0) {
+                      sweetalert("사진을 최소 1장 이상 등록해 주십시오.", "warning");
+                      return;
+                  }
+
+                  // 거부된 파일이 있다면
+                  if (myDropzone.getRejectedFiles().length > 0) {
+                      let files = myDropzone.getRejectedFiles();
+                      sweetalert("거부된 파일이 있습니다.", "warning");
+                      return;
+                  }
 
 
-            var img = document.getElementById("image");
-            var file = document.getElementById("ex_file").files[0];
-            var result;
+                  var img = document.getElementById("image");
+                  var file = document.getElementById("ex_file").files[0];
+                  var result;
 
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function() {
-                    var image = new Image();
-                    image.src = reader.result;
-                    image.onload = function() {
-                        console.log("width1 : " + image.width);
-                        console.log("height1 : " + image.height);
-                        if (image.width < 800 || image.width > 1100 || image.height > 300 || image.height < 200) {
-                            console.log("width2 : " + image.width);
-                            console.log("height2 : " + image.height);
-                            alert("베너이미지 크기(가로 800px 이상, 1100px 이하 세로 200px 이상 300px 이하)에 맞춰서 올려주세요.");
-                            return;
-                        }else{
-                            img.src = reader.result;
-                            myDropzone.processQueue();
-                        }
-                    };
-                };
-                    reader.readAsDataURL(file);
-            } else {
-                Swal.fire({
-                        title : '파일을 선택해 주세요',
-                        icon : 'error',
-                        confirmButtonText : '확인'
-                    })
-            }
+                  if (file) {
+                      var reader = new FileReader();
+                      reader.onload = function() {
+                          var image = new Image();
+                          image.src = reader.result;
+                          image.onload = function() {
+                              console.log("width1 : " + image.width);
+                              console.log("height1 : " + image.height);
+                              if (image.width < 800 || image.width > 1100 || image.height > 300 || image.height < 200) {
+                                  console.log("width2 : " + image.width);
+                                  console.log("height2 : " + image.height);
+                                  alert("베너이미지 크기(가로 800px 이상, 1100px 이하 세로 200px 이상 300px 이하)에 맞춰서 올려주세요.");
+                                  return;
+                              }else{
+                                  img.src = reader.result;
+                                  myDropzone.processQueue();
+                              }
+                          };
+                      };
+                          reader.readAsDataURL(file);
+                  } else {
+                      Swal.fire({
+                              title : '파일을 선택해 주세요',
+                              icon : 'error',
+                              confirmButtonText : '확인'
+                          })
+                      }
+                   }
+              });
         });
 
             myDropzone.on('success', function (file, responseText) {

@@ -57,7 +57,7 @@ function base64toFile(base_data, filename) {
             var submitButton = document.querySelector("#btnModify");
             // 최초 dropzone 설정시 init을 통해 호출
             console.log('최초 실행');
-            var myDropzone = this; // closure 변수 (화살표 함수 쓰지않게 주의)
+            let myDropzone = this; // closure 변수 (화살표 함수 쓰지않게 주의)
 
             if(viewThumbs != null) {
                 const thumbs = viewThumbs.split('/');
@@ -112,7 +112,7 @@ function base64toFile(base_data, filename) {
             });
 
 
-
+            let myViewZone = $('div.dropzone');
             let title = document.querySelector('input[name="cs_title"]');
             let content = document.querySelector('textarea[name="cs_content"]');
             let eventBanner = document.querySelector('input[name="eventbannerImg[]"]');
@@ -130,7 +130,6 @@ function base64toFile(base_data, filename) {
 
             e.preventDefault();
 
-            let myDropzone = $('div.dropzone');
             let cs_title = $('input[name="cs_title"]').val();
             let cs_content = $('textarea[name="cs_content"]').val();
             let cs_eventStart = $('input[name="cs_eventStart"]').val();
@@ -144,7 +143,7 @@ function base64toFile(base_data, filename) {
             if(title.value.trim() === ''){
                 Swal.fire({
                     title : '제목을 입력해주세요',
-                    icon : 'error',
+                    icon : 'warning',
                     confirmButtonText : '확인'
                 })
                 title.focus();
@@ -154,19 +153,24 @@ function base64toFile(base_data, filename) {
             if(content.value.trim() === ''){
                 Swal.fire({
                     title : '내용을 입력해주세요',
-                    icon : 'error',
+                    icon : 'warning',
                     confirmButtonText : '확인'
                 })
                 content.focus();
                 return;
             }
 
+            // 이벤트 뷰
+            if (myViewZone.get(0).dropzone.files == null || myViewZone.get(0).dropzone.files.length == 0) {
+                sweetalert("사진을 최소 1장 이상 등록해 주십시오.", "warning");
+                return;
+            }
 
 
             // 거부된 파일이 있다면
             if (myDropzone.getRejectedFiles().length > 0) {
                 let files = myDropzone.getRejectedFiles();
-                console.log('거부된 파일이 있습니다.', files);
+                sweetalert("거부된 파일이 있습니다.", "warning");
                 return;
             }
 

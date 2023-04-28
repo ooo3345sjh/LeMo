@@ -94,18 +94,16 @@
                                 <option value="event">이벤트</option>
                                 <option value="payment">예약/결제</option>
                                 <option value="cancel">취소/환불</option>
-                                <option value="benefit">혜택받기</option>
                                 <option value="use">이용문의</option>
                                 <option value="info">회원정보</option>
                                 <option value="review">리뷰</option>
-                                <option value="refund">환불신청</option>
                                 <option value="other">기타</option>
                             </select>
 
 
                             <div class="phone-block">
                                 <b>제목</b>
-                                <p class="qna_wrap"><input type="text" name="cs_title" placeholder="제목을 입력해주세요" required></p>
+                                <p class="qna_wrap"><input type="text" name="cs_title" placeholder="제목을 입력해주세요"></p>
                             </div>
 
                             <div class="phone-block">
@@ -123,7 +121,7 @@
                         <section class="text_wrap">
                             <b>문의내용</b>
                             <div>
-                                <textarea name="cs_content" id="questionTextarea" placeholder="문의하실 내용을 10자이상 입력해주세요."  required></textarea>
+                                <textarea name="cs_content" id="questionTextarea" placeholder="문의하실 내용을 10자이상 입력해주세요."></textarea>
                             </div>
                         </section>
 
@@ -159,10 +157,33 @@
             }
 
         $(document).ready(function(){
-              let cs_type = $('.info_wrap').find("select[name=cs_type]").val();
-              console.log(cs_type);
+            let cs_type = $('.info_wrap').find("select[name=cs_type]").val();
+            let cs_title = document.querySelector('input[name="cs_title"]');
+            let cs_content = document.querySelector('textarea[name="cs_content"]');
+            console.log(cs_type);
 
               $('#qna_form').submit(function(e){
+                    // 내용 유효성 검사
+                    if( cs_content.value.trim() == ''){
+                        Swal.fire({
+                            title : '내용을 입력해 주세요',
+                            icon : 'error',
+                            confirmButtonText : '확인'
+                        })
+                        e.preventDefault();
+                    }
+
+                    // 제목 유효성 검사
+                    if( cs_title.value.trim() == ''){
+                        Swal.fire({
+                             title : '제목을 입력해 주세요',
+                             icon : 'error',
+                             confirmButtonText : '확인'
+                         })
+                        e.preventDefault();
+                    }
+
+                    // 유형 유효성 검사
                     if(cs_type == '0'){
                        Swal.fire({
                            title : '유형을 선택해주세요.',
@@ -189,6 +210,7 @@
                     });
               });
         });
+
 
     </script>
 </th:block>
