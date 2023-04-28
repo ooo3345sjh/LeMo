@@ -65,6 +65,4 @@ public interface UserDAO {
      * @apiNote 매일 자정 숙박완료 10회이상 회원 level 업데이트
      */
     int usaveLevel() throws Exception;
-
-
 }
