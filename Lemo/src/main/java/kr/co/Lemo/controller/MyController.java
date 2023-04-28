@@ -367,8 +367,6 @@ public class MyController {
 
         List<ArticleDiaryVO> articles = service.findDiaryArticles(vo);
 
-        log.debug(articles.get(0).getNick());
-
         m.addAttribute("articles", articles);
         m.addAttribute("ph", qnaPageHandler);
 
