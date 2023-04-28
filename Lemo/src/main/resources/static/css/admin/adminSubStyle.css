@@ -295,12 +295,10 @@ main .main_content .col2 .board_list li {
     line-height: 36px;
     vertical-align: middle;
     font-family: 'Noto Sans KR';
-    border-right: 1px solid #ededed;
 }
 main .main_content .col2 .board_list .prodName {
     text-align: left;
-    padding-left: 13px;
-    width: 28% !important;
+    width: 34% !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -321,8 +319,6 @@ main .userId_li {
     text-overflow: ellipsis;
     width: 13% !important;
     font-family: 'Noto Sans KR';
-    text-align: left !important;
-    padding-left: 21px;
 }
 main .review_li1 {
     width: 10% !important;
@@ -339,7 +335,7 @@ main .review_li1 > a {
     font-family: 'Noto Sans KR';
 }
 main .review_li2 {
-    width: 15% !important;
+    width: 11% !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -350,7 +346,7 @@ main .review_li3 {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-main .review_li4 {width: 28% !important;}
+main .review_li4 {width: 34% !important;}
 main .review_li5 {width: 12% !important;}
 main .review_li5 > div {
     margin: 0 16%;
@@ -358,7 +354,7 @@ main .review_li5 > div {
 main .review_li6 {width: 10% !important;}
 main .review_li7 {
     font-family: 'Noto Sans KR';
-    width: 10% !important;
+    width: 8% !important;
     border-right: none !important;
 }
 main .review_li8 {width: 11% !important;}
@@ -1597,7 +1593,7 @@ main .province_list li:hover {
     color: #252525;
 }
 main .info_list1 {
-    width: 9% !important;
+    width: 6% !important;
     font-family: 'Noto Sans KR';
 }
 main .info_list2 {
@@ -1605,7 +1601,7 @@ main .info_list2 {
     font-family: 'Noto Sans KR';
 }
 main .info_list4 {
-    width: 30% !important;
+    width: 33% !important;
     padding-left: 13px;
     white-space: nowrap;
     overflow: hidden;
@@ -1614,6 +1610,7 @@ main .info_list4 {
 main .info_list4 > a {
     font-size: 14px;
     color: #505050 !important;
+    font-family: 'Noto Sans KR';
 }
 main .info_list4 > a:hover {
     color: #252525 !important;
@@ -1622,7 +1619,6 @@ main .info_list4 > a:hover {
 main .info_list3 {
     width: 20% !important;
     font-family: 'Noto Sans KR';
-    padding-left: 30px;
 }
 main .info_list5 {
     width: 18% !important;
@@ -1634,13 +1630,13 @@ main .prodBtn {
     border-right: none !important;
 }
 main .res_list1 {width: 5% !important; font-family: 'Noto Sans KR';}
-main .res_list2 {width: 8% !important;}
-main .res_list3 {width: 10% !important; }
+main .res_list2 {width: 11% !important;}
+main .res_list3 {width: 8% !important; }
 main .res_list4 {width: 17% !important;}
 main .res_list5 {width: 10% !important; font-family: 'Noto Sans KR';}
 main .res_list6 {width: 8% !important;}
-main .res_list7 {width: 10% !important;}
-main .res_list8 {width: 15% !important; font-family: 'Noto Sans KR';}
+main .res_list7 {width: 7% !important;}
+main .res_list8 {width: 17% !important; font-family: 'Noto Sans KR';}
 main .res_list9 {
     width: 15% !important;
     border-right: none !important;
@@ -1650,31 +1646,31 @@ main .res_li1 {width: 5% !important;  font-family: 'Noto Sans KR';}
 main .res_li2 {width: 10% !important;  font-family: 'Noto Sans KR';}
 main .res_li3 {width: 10% !important;  font-family: 'Noto Sans KR';}
 main .res_li4 {
-    width: 25% !important;
+    width: 20% !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     padding: 0 13px;
 }
 main .res_li5 {width: 10% !important;}
-main .res_li6 {width: 10% !important;}
-main .res_li7 {width: 15% !important;  font-family: 'Noto Sans KR';}
-main .res_li8 {width: 13% !important;  font-family: 'Noto Sans KR';}
+main .res_li6 {width: 7% !important;}
+main .res_li7 {width: 18% !important;  font-family: 'Noto Sans KR';}
+main .res_li8 {width: 18% !important;  font-family: 'Noto Sans KR';}
 
 main .cancel_res {
     width: 10% !important;
     color: #f2552c;
 }
 main .complete_res {
-    width: 10% !important;
+    width: 7% !important;
     color: #00bbfe;
 }
 main .complete_acc {
-    width: 10% !important;
+    width: 7% !important;
     color: #bbd444;
 }
-main .res_list_no {width: 8% !important; font-family: 'Noto Sans KR';}
-main .res_list_accId {width: 10% !important; font-family: 'Noto Sans KR';}
+main .res_list_no {width: 11% !important; font-family: 'Noto Sans KR';}
+main .res_list_accId {width: 8% !important; font-family: 'Noto Sans KR';}
 main .res_list_accName {width: 17% !important;}
 main .res_list_name {width: 8% !important;}
 

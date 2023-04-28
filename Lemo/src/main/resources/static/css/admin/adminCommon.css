@@ -56,28 +56,27 @@ main .essential_tag {
 }
 
   /* 하이라이터 */
-  .highlight {
-       color: #3FC1C9;
-       background: #F1F7B5;
-       font-size: 16px;
-  }
+.highlight {
+    font-size: 14px;
+    font-weight: 700;
+}
 
   /* 여백 */
-  .blank10 {
-      height: 10px;
-  }
-  .blank30 {
-      height: 30px;
-  }
-  .blank60 {
-      height: 60px;
-  }
-  .blank80 {
-      height: 80px;
-  }
-  .blank120 {
-      height: 120px;
-  }
+.blank10 {
+  height: 10px;
+}
+.blank30 {
+  height: 30px;
+}
+.blank60 {
+  height: 60px;
+}
+.blank80 {
+  height: 80px;
+}
+.blank120 {
+  height: 120px;
+}
 
 /* 메인 죄측 사이드바 */
 main {
