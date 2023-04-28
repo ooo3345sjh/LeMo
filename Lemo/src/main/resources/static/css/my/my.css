@@ -1726,6 +1726,7 @@
         position: relative;
         width: 90%;
         margin: 0 auto;
+        margin-top: 50px;
     }
     .my_review_view .my_review_tit {
         margin: 0 auto;
@@ -1742,52 +1743,33 @@
     .my_review_view .my_review_rating {
         padding-top: 28px;
     }
-    .my_review_rating .star-ratings {
-        color: #aaa9a9;
-        unicode-bidi: bidi-override;
-        width: max-content;
-        -webkit-text-fill-color: transparent;
-        -webkit-text-stroke-width: 0.2px;
-        -webkit-text-stroke-color: #2b2a29;
 
-    }
+   .my_review_rating .star-ratings {
+        text-align: center;
+   }
+   .my_review_rating .star-ratings span{
+        background-image: url(/Lemo/images/my/star.png);
+        width: 41px;
+        display: inline-block;
+        height: 35px;
+        background-size: 35px;
+        background-repeat: no-repeat;
+   }
 
-    .my_review_rating .star-ratings .star-ratings-fill {
-        color: #fff58c;
-        padding: 0px;
-        position: absolute;
-        z-index: 1;
-        display: flex;
-        top: 85px;
-        right: 42%;
-        overflow: hidden;
-        -webkit-text-fill-color: gold;
-    }
-    .my_review_rating .star-ratings .star-ratings-fill > span {
-        font-size: 27px;
 
-    }
-    .my_review_rating .star-ratings-base {
-        z-index: 0;
-        padding: 0;
-        position: absolute;
-        top: 85px;
-        right: 42%;
-    }
-    .my_review_rating .star-ratings-base > span {
-        font-size: 27px;
-    }
     .my_review_view .my_review_days{
         text-align: center;
-        margin-top: 60px;
+        margin-top: 27px;
+        margin-bottom: 27px;
     }
+    
     .my_review_view .my_review_days > span {
-        font-weight: 200;
-        font-size: 15px;
+        /*font-weight: 200;*/
+        font-size: 17px;
     }
     .my_review_view .my_review_days > p {
         font-weight: 200;
-        font-size: 15px;
+        font-size: 17px;
     }
     .my_review_view .my_review_textbox {
         width: 540px;
@@ -1798,13 +1780,13 @@
     .my_review_view .my_review_text {
         background-color: white;
         font-size: 19px;
-        border-radius: 23px;
+        border-radius: 10px;
         text-align: center;
-        padding: 34px 59px 35px 59px;
+        padding: 30px;
     }
 
     .my_review_view .my_review_text > textarea {
-        font-size: 19px;
+        font-size: 16px;
         outline: none;
         width: 100%;
         height: auto;
@@ -1820,16 +1802,27 @@
         position: relative;
         margin: 17px auto;
         padding: 0 22px 0 20px;
-        }
-        .review_swiper-container .swiper-button-next {
-            color: #bbd444;
-            right: 19px;
-            bottom: 33px;
-        }
-        .review_swiper-container .swiper-button-prev {
-            color: #bbd444;
-            left: 16px;
-        }
+    }
+
+    .review_swiper-container .swiper-button-next {
+        color: #bbd444;
+        right: 105px;
+        bottom: 33px;
+    }
+    .review_swiper-container .swiper-button-prev {
+        color: #bbd444;
+        left: 105px;
+    }
+
+    /* 스타일 수정
+    .review_swiper-container .swiper-button-prev:after {
+        content: "";
+    }
+    .review_swiper-container .swiper-button-next:after {
+        content: "";
+    }*/
+
+
 
         .swiper-slide {
         text-align: center;
@@ -1872,20 +1865,27 @@
 
 
     .my_review_view .review_comment{
-        width: 386px;
-        margin-left: 230px;
+        width: 540px;
+        /*margin-left: 230px;*/
+        margin: 0 auto;
         margin-top: 13px;
         border-radius: 23px;
     }
     .review_comment .review_commentarea{
         position: relative;
         background-color: #eff0f6;
-        font-size: 18px;
+        font-size: 16px;
         border-radius: 5px;
         min-height: 141px;
         padding: 14px 15px 20px 21px;
-        font-weight: 200;
     }
+
+    .review_comment .review_commentarea > span {
+        font-size: 16px;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
     .review_comment .review_commentarea::after{
         content: "";
         position: absolute;
