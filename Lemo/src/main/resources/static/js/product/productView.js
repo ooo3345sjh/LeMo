@@ -176,7 +176,7 @@ $(function(){
 
                 for(let i = 0; i < response.length; i++) {
 
-                    if(response[i].cp_group != null){ // 전체 발급용 쿠폰
+                    if(response[i].cp_group != 'NULL'){ // 전체 발급용 쿠폰
                         htmlAll += '<li>' + response[i].cp_subject;
                         if(response[i].cp_limitedIssuance - response[i].cp_IssuedCnt > 0){ // 발급 수량이 남아있는 경우
                             if(response[i].mcp_id > 0){
