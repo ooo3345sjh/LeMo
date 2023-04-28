@@ -34,7 +34,7 @@
                             <span>공지사항 등록</span>
                         </div>
                         <!-- 공지 보기 폼 -->
-                        <form class="col_register_form" id="cs_typeForm" th:action="@{/admin/cs/notice/write}" method="post">
+                        <form class="col_register_form" id="cs_typeForm" th:action="@{/admin/cs/notice/write}" method="post" onsubmit="writeCheck(event);">
                             <!-- 공지제목 등록 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -182,6 +182,26 @@
             }
         });
     });
+
+    // 작성완료 클릭시 확인
+        function writeCheck(e) {
+          e.preventDefault(); // form submit 막음
+          console.log("1");
+          Swal.fire({
+            title: '정말 등록하시겠습니까?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소',
+            reverseButtons: false,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              e.target.submit(); // form submit 실행
+            }
+          });
+        }
 
 
         </script>

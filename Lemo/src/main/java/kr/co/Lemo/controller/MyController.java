@@ -366,6 +366,7 @@ public class MyController {
         PageHandler qnaPageHandler = new PageHandler(totalDiary, vo);
 
         List<ArticleDiaryVO> articles = service.findDiaryArticles(vo);
+
         m.addAttribute("articles", articles);
         m.addAttribute("ph", qnaPageHandler);
 
@@ -495,8 +496,6 @@ public class MyController {
         PageHandler ReservationPageHandler = new PageHandler(totalReservation, vo);
 
         List<ReservationVO> reservations = service.findReservations(vo);
-
-        log.debug(""+reservations.get(0).getReviewStat());
 
         m.addAttribute("reservations", reservations);
         m.addAttribute("ph", ReservationPageHandler);
@@ -709,6 +708,25 @@ public class MyController {
         withdrawLogEntity = withdrawLogRepo.save(withdrawLogEntity);
 
         map.put("result", result);
+        return map;
+    }
+
+    /**
+     * @since 2023/04/28
+     * @author 서정현
+     * @apiNote 회원의 숙박완료 건수 조회
+     */
+    @ResponseBody
+    @GetMapping("reservation-cnt")
+    public Map countUserReservation(@AuthenticationPrincipal UserVO user){
+        int count = 0;
+
+        if(user != null){
+            count = service.countUserReservation(user.getUser_id());
+        }
+
+        Map map = new HashMap();
+        map.put("count", count);
         return map;
     }
 

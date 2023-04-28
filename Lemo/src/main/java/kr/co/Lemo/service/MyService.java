@@ -724,6 +724,15 @@ public class MyService {
     }
 
     /**
+     * @since 2023/04/28
+     * @author 서정현
+     * @apiNote 회원의 숙박완료 건수 조회
+     */
+    public int countUserReservation(String user_id){
+        return dao.selectUserReservation(user_id);
+    }
+
+    /**
      * @since 2023/04/11
      * @author 서정현
      * @apiNote 회원 탈퇴 업데이트

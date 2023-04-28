@@ -23,7 +23,7 @@
                             </span>
                         </div>
                         <div class="my_Review_List">
-                            <div class="selectReview">
+                            <div class="selectReview" th:if="${reviews.size() != 0}">
                                 <select name="reviewStat" aria-label="State">
                                     <option value="0">전체보기</option>
                                     <option value="1">작성한 리뷰</option>

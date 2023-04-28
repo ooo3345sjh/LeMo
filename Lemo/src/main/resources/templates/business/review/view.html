@@ -26,7 +26,7 @@
                                     <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
                                         <div class="swiper-wrapper">
                                             <th:block th:each="img:${#strings.arraySplit(review.revi_thumb, '/')}">
-                                                <div class="swiper-slide"><img th:src="|@{/}img/review/${review.acc_id}/${img}|"/></div>
+                                                <div class="swiper-slide"><img th:src="|@{/}img/review/${review.res_no}/${img}|"/></div>
                                             </th:block>
                                         </div>
                                         <div class="swiper-button-next"></div>
@@ -35,7 +35,7 @@
                                     <div thumbsSlider="" class="swiper mySwiper">
                                         <div class="swiper-wrapper">
                                             <th:block th:each="img:${#strings.arraySplit(review.revi_thumb, '/')}">
-                                                <div class="swiper-slide"><img th:src="|@{/}img/review/${review.acc_id}/${img}|"/></div>
+                                                <div class="swiper-slide"><img th:src="|@{/}img/review/${review.res_no}/${img}|"/></div>
                                             </th:block>
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                         <form method="dialog">
                             <nav class="rr_nav">
                                 <h1>리뷰 답변</h1>
-                                <input type="text" class="rp_revi_id">
+                                <input type="hidden" class="rp_revi_id">
                             </nav>
                             <div class="rr_box">
                                 <section class="rr_content">

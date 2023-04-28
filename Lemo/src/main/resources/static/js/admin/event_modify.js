@@ -112,7 +112,7 @@ function base64toFile(base_data, filename) {
             });
 
 
-
+            let myViewZone = $('div.dropzone');
             let title = document.querySelector('input[name="cs_title"]');
             let content = document.querySelector('textarea[name="cs_content"]');
             let eventBanner = document.querySelector('input[name="eventbannerImg[]"]');
@@ -143,7 +143,7 @@ function base64toFile(base_data, filename) {
             if(title.value.trim() === ''){
                 Swal.fire({
                     title : '제목을 입력해주세요',
-                    icon : 'error',
+                    icon : 'warning',
                     confirmButtonText : '확인'
                 })
                 title.focus();
@@ -153,19 +153,24 @@ function base64toFile(base_data, filename) {
             if(content.value.trim() === ''){
                 Swal.fire({
                     title : '내용을 입력해주세요',
-                    icon : 'error',
+                    icon : 'warning',
                     confirmButtonText : '확인'
                 })
                 content.focus();
                 return;
             }
 
+            // 이벤트 뷰
+            if (myViewZone.get(0).dropzone.files == null || myViewZone.get(0).dropzone.files.length == 0) {
+                sweetalert("사진을 최소 1장 이상 등록해 주십시오.", "warning");
+                return;
+            }
 
 
             // 거부된 파일이 있다면
             if (myDropzone.getRejectedFiles().length > 0) {
                 let files = myDropzone.getRejectedFiles();
-                console.log('거부된 파일이 있습니다.', files);
+                sweetalert("거부된 파일이 있습니다.", "warning");
                 return;
             }
 

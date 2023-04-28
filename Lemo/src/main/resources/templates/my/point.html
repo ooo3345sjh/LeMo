@@ -48,9 +48,9 @@
                                             </div>
                                             <ul class="mph_6">
                                                 <!--<li>[HEM] 헥사 인센스 스틱</li>-->
-                                                <li th:if="${point.poi_state == 0}">유효기간: [[${point.poi_maximum.substring(0,10)}]] 소멸</li>
-                                                <li th:if="${point.poi_state == 1}">유효기간: [[${point.poi_maximum.substring(0,10)}]] 적립</li>
-                                                <li th:if="${point.poi_state == 2}">유효기간: [[${point.poi_maximum.substring(0,10)}]] 사용</li>
+                                                <li th:if="${point.poi_state == 0}">소멸: [[${point.poi_maximum.substring(0,10)}]]</li>
+                                                <li th:if="${point.poi_state == 1}">유효기간: [[${point.poi_maximum.substring(0,10)}]] 까지</li>
+                                                <li th:if="${point.poi_state == 2}">사용: [[${point.poi_maximum.substring(0,10)}]]</li>
                                             </ul>
                                         </div>
                                         <div class="mph_7">

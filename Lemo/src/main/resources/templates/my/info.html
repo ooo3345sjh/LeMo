@@ -49,10 +49,18 @@
                                     <li>
                                         <div class="info_nick">
                                             <div>
-                                                <span class="nick_text">[[${#authentication.principal.nick}]]</span>
+                                                <span class="nick_text">[[${#authentication.principal.nick}]]
+                                                    <th:block th:if="${#authentication.principal.level eq 2}">
+                                                        <i id="user_level">엘리트회원</i>
+                                                    </th:block>
+                                                    <th:block th:unless="${#authentication.principal.level eq 2}">
+                                                        <i id="user_level" class="general">일반회원</i>
+                                                    </th:block>
+                                                </span>
                                                 <button type="button" class="btn_edit nick">
                                                     <span class="text">수정</span>
                                                 </button>
+
                                             </div>
                                             <section id="section1">
                                                 <div class="inp_type2 form-errors">
@@ -103,11 +111,62 @@
                 </div>
             </section>
         </main>
+        <div class="modal__overlay">
+            <div class="modal">
+                <h2 class="title">회원등급 안내</h2>
+                <button id="modal_close"></button>
+                <section class="sec1">
+                        <h3 class="sub_title"><b>[[${#authentication.principal.nick}]]</b>님의 회원등급</h3>
+                    <th:block th:if="${#authentication.principal.level eq 2}">
+                        <h3 class="level_title elite">엘리트</h3>
+                    </th:block>
+                    <th:block th:unless="${#authentication.principal.level eq 2}">
+                        <h3 class="level_title general">일반</h3>
+                        <div class="level_content">
+                            <p>앞으로 <b id="res_cnt">3회</b> 숙박완료를 하시면 <b>엘리트</b>등급으로 승급됩니다.</p>
+                        </div>
+                    </th:block>
+                </section>
+                <section class="sec2">
+                    <h3 class="sub_title">엘리트 등급 안내</h3>
+                    <ul>
+                        <li><div>기준 : 숙소완료 &nbsp;<b>10회</b>이상 </div></li>
+                        <li><div>혜택 : 실결제 금액의&nbsp;<b>3%</b> 포인트 적립</div></li>
+                    </ul>
+                </section>
+                <section class="sec3">
+                    <ul>
+                        <li><p>회원등급은 매일 자정 숙박완료 실적이 집계되어 변경됩니다.</p></li>
+                        <li><p>회원등급 기준 및 혜택은 LEMO 운영 정책에 따라 변경될 수 있습니다.</p></li>
+                        <li><p>혜택은 숙박완료시 적립되며, 상품 실제 결제금액 = 상품금액 - 상품 할인금액 - 쿠폰 할인금액 - 포인트 사용금액.</p></li>
+                    </ul>
+                </section>
+            </div>
+        </div>
 </th:block>
 <th:block layout:fragment="script">
     <script th:src="@{/js/my/info.js}"></script>
     <script>
-        let principalNick = "[[${#authentication.principal.nick}]]";
+        const principalNick = "[[${#authentication.principal.nick}]]";
+        const user_level = "[[${#authentication.principal.level}]]";
+
+        $(function(){
+            $("#user_level").click(function() {
+                if(user_level == 1){
+                    ajaxAPI("my/reservation-cnt", null,"get").then((response) => {
+                        const count = 10 - Number(response.count);
+                        $('#res_cnt').text(count + "회");
+                    }).catch((errorMsg) => {
+                        console.log(errorMsg)
+                    });
+                }
+
+                $('.modal__overlay').show();
+            })
+            $('#modal_close').click(function() {
+                $('.modal__overlay').hide();
+            })
+        })
     </script>
 </th:block>
 </html>

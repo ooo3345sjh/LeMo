@@ -222,7 +222,8 @@
     <!-- update -->
     <update id="updateQnaArticle">
         update `lemo_cs` set
-        `cs_reply`=#{cs_reply}
+        `cs_reply`=#{cs_reply},
+        `cs_reply_date`=NOW()
         where `cs_no` =#{cs_no};
     </update>
 

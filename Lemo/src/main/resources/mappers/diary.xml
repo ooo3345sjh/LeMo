@@ -12,7 +12,7 @@
     <!-- select -->
     <select id="selectDiaryArticles" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
         SELECT
-            a.`arti_no`, a.`arti_title`, COUNT(b.`user_id`), e.`nick`
+            a.`arti_no`, a.`arti_title`, COUNT(b.`user_id`), e.`nick`, a.`res_no`
         FROM
             `lemo_diary_article` AS a LEFT JOIN
             `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN

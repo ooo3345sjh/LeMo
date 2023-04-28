@@ -357,14 +357,14 @@ main .main_content .col2 .board_list .title {
 main .main_content .col2 .board_list .title > a {
     font-size: 14px;
 }
-main .main_content .col2 .board_list li:nth-of-type(1) {width: 6%;}
-main .main_content .col2 .board_list li:nth-of-type(2) {width: 47%;}
+main .main_content .col2 .board_list li:nth-of-type(1) {width: 99px;}
+main .main_content .col2 .board_list li:nth-of-type(2) {width: 505px;}
 main .main_content .col2 .board_list li:nth-of-type(3) {
-    width: 20%;
+    width: 200px;
     font-family: 'NOTO SANS KR';
 }
-main .main_content .col2 .board_list li:nth-of-type(4) {width: 13%;}
-main .main_content .col2 .board_list li:nth-of-type(5) {width: 13%;}
+main .main_content .col2 .board_list li:nth-of-type(4) {width: 160px;}
+main .main_content .col2 .board_list li:nth-of-type(5) {width: 156px;}
 
 main .main_content .col2 .board_list .prodBtn > span {
     box-shadow: inset 0px 1px 0px 0px #ffffff;

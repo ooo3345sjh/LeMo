@@ -53,7 +53,7 @@ $(function(){
             document.querySelector('#btn_dropzone').addEventListener('click', function (e) {
                 reviewFormData.append("revi_title", title.value);
                 reviewFormData.append("revi_content", content.value);
-                reviewFormData.append("revi_rate", rating.value);
+                reviewFormData.append("revi_rate", reviewScore);
                 reviewFormData.append("acc_id", acc_id);
                 reviewFormData.append("res_no", res_no);
 

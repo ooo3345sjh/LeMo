@@ -60,7 +60,9 @@ public interface UserDAO {
      */
     int updateWithdrawUserId(@Param("username")String username) throws Exception;
 
-    // delete
-
-
+    /**
+     * @since 2023/04/28
+     * @apiNote 매일 자정 숙박완료 10회이상 회원 level 업데이트
+     */
+    int usaveLevel() throws Exception;
 }
