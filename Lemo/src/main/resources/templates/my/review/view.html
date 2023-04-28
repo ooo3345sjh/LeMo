@@ -29,22 +29,25 @@
                             <div class="my_review_rating">
                                 <!-- 임시 평점 -->
                                 <div class="star-ratings">
+                                    <span th:each="i:${#numbers.sequence(0, review.revi_rate-1)}">
+
+                                    </span>
+                                </div>
+
+
+                                <!-- 임시 평점
+                                <div class="star-ratings">
                                     <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
                                         <span th:each="i:${#numbers.sequence(0, review.revi_rate-1)}">★</span>
                                     </div>
                                     <div class="star-ratings-base space-x-2 text-lg">
                                         <span th:each="i:${#numbers.sequence(0, review.revi_rate-1)}">★</span>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="my_review_days">
                                 <span>[[${review.acc_name}]]</span>
                                 <p>[[${review.res_checkIn}]] ~ [[${review.res_checkOut}]]</p>
-                            </div>
-                            <div class="my_review_textbox">
-                                <div class="my_review_text">
-                                    <textarea class="my_review_textarea">[[${review.revi_content}]]</textarea>
-                                </div>
                             </div>
                             <div class="review_swiper-container" th:if="${review.thumbs != null}">
                                 <!-- swiper Slider -->
@@ -54,8 +57,14 @@
                                 <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>
                             </div>
+                            <div class="my_review_textbox">
+                                <div class="my_review_text">
+                                    <textarea class="my_review_textarea">[[${review.revi_content}]]</textarea>
+                                </div>
+                            </div>
                             <div class="review_comment">
                                 <div class="review_commentarea">
+                                    <span>판매자 답변</span>
                                     <th:block th:if="${review.revi_reply != null}">[[${review.revi_reply}]]</th:block>
                                     <th:block th:if="${review.revi_reply == null}">등록된 답글이 없습니다.</th:block>
                                 </div>
