@@ -497,8 +497,6 @@ public class MyController {
 
         List<ReservationVO> reservations = service.findReservations(vo);
 
-        log.debug(""+reservations.get(0).getReviewStat());
-
         m.addAttribute("reservations", reservations);
         m.addAttribute("ph", ReservationPageHandler);
 
