@@ -39,7 +39,7 @@ dependencies {
 	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
 	implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
 	implementation ('org.springframework.boot:spring-boot-starter-data-mongodb')
-	compile 'com.google.apis:google-api-services-analyticsreporting:v4-rev20211020-1.32.1'
+	compileOnly 'com.google.apis:google-api-services-analyticsreporting:v4-rev20211020-1.32.1'
 }
 
 

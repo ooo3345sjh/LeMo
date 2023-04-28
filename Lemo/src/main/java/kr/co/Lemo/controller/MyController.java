@@ -714,6 +714,25 @@ public class MyController {
     }
 
     /**
+     * @since 2023/04/28
+     * @author 서정현
+     * @apiNote 회원의 숙박완료 건수 조회
+     */
+    @ResponseBody
+    @GetMapping("reservation-cnt")
+    public Map countUserReservation(@AuthenticationPrincipal UserVO user){
+        int count = 0;
+
+        if(user != null){
+            count = service.countUserReservation(user.getUser_id());
+        }
+
+        Map map = new HashMap();
+        map.put("count", count);
+        return map;
+    }
+
+    /**
      * @since 2023/04/11
      * @author 이해빈
      * @apiNote 찜한 숙소 삭제

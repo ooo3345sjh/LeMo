@@ -247,6 +247,15 @@
         `lemo_member_coupon` c ON u.user_id = c.user_id
         WHERE u.`user_id`= #{user_id};
     </select>
+    <!--
+        날짜 : 2023/04/28
+        이름 : 서정현
+        내용 : 회원의 숙박완료 건수 조회
+    -->
+    <select id="selectUserReservation" resultType="int">
+        SELECT COUNT(*) FROM `lemo_product_reservation`
+        WHERE `user_id`=#{user_id} AND `res_state`=2;
+    </select>
 
     <!-- insert -->
     <insert id="insertDiaryArticle" parameterType="kr.co.Lemo.domain.ArticleDiaryVO" useGeneratedKeys="true" keyProperty="arti_no">
