@@ -61,9 +61,7 @@
                                         <span>내용</span>
                                     </div>
                                 </div>
-                                <textarea class="notice_text" id="summernote" name="cs_content">
-
-                                </textarea>
+                                <textarea class="notice_text" id="summernote" name="cs_content"></textarea>
                             </div>
 
                             <div class="btnAdminnProd">
@@ -120,7 +118,6 @@
             // cs_type 선택
             $(document).ready(function(){
               let cs_type = $('.stayName').find("select[name=cs_type]").val();
-              // = document.getElementById('faqCs_type').value;
               console.log(cs_type);
 
               $('#cs_typeForm').submit(function(e){
@@ -155,12 +152,28 @@
         // 유효성 검사
         $(document).ready(function(){
             let cs_title = document.querySelector('input[name="cs_title"]');
-            let cs_content = $('#summernote').summernote('getText');
+            let cs_content = document.getElementById('summernote').textContent;
+            let newCs_content = cs_content.replace(/<\/span>\n\s+<\/p>/gm, '</span></p>').trim();
+
+
 
 
             // 제목 유효성 검사
             $('#cs_typeForm').submit(function(e){
-                console.log(cs_content);
+                console.log("cs_title : " +cs_title.value);
+                console.log("cs_date : " + cs_content);
+                console.log("cs_content : " + newCs_content.replace(/<[^>]*>?/g, ''));
+
+                // 내용 유효성 검사
+                if( newCs_content.replace(/<[^>]*>?/g, '') === ''){
+                    Swal.fire({
+                        title : '내용을 입력해 주세요',
+                        icon : 'error',
+                        confirmButtonText : '확인'
+                    })
+                    e.preventDefault();
+                }
+
 
                 if( cs_title.value.trim() == ''){
                     Swal.fire({
@@ -171,15 +184,7 @@
                     e.preventDefault();
                 }
 
-             // 내용 유효성 검사
-            if( cs_content.trim() === ''){
-                Swal.fire({
-                    title : '내용을 입력해 주세요',
-                    icon : 'error',
-                    confirmButtonText : '확인'
-                })
-                e.preventDefault();
-            }
+
         });
     });
 
