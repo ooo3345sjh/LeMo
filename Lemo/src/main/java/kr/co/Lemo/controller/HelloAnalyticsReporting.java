@@ -21,7 +21,7 @@ public class HelloAnalyticsReporting {
   private static final String APPLICATION_NAME = "Hello Analytics Reporting";
   private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
   private static final String KEY_FILE_LOCATION = "/Users/yiwonjeong/Desktop/Workspace/LeMo/lemo-380900-4e255865e24b.json";
-  private static final String VIEW_ID = "289377499";
+  private static final String VIEW_ID = "289346090";
   public static void main(String[] args) {
     try {
       AnalyticsReporting service = initializeAnalyticsReporting();
