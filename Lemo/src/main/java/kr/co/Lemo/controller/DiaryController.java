@@ -1,14 +1,13 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.domain.ArticleDiaryVO;
-import kr.co.Lemo.domain.DiaryCommentVO;
-import kr.co.Lemo.domain.DiarySpotVO;
-import kr.co.Lemo.domain.UserVO;
+import kr.co.Lemo.domain.*;
 import kr.co.Lemo.domain.search.My_SearchVO;
 import kr.co.Lemo.service.DiaryService;
+import kr.co.Lemo.service.MyService;
 import kr.co.Lemo.utils.PageHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +38,8 @@ public class DiaryController {
     private String diaryGroup = "title.diary";
     // @since 2023/03/14
     private final DiaryService service;
+    @Autowired
+    private MyService myService;
 
     // @since 2023/03/14
     @GetMapping("list")
@@ -61,6 +62,7 @@ public class DiaryController {
         PageHandler qnaPageHandler = new PageHandler(totalDiary, vo);
 
         List<ArticleDiaryVO> articles = service.findDairyArticles(vo);
+
         m.addAttribute("articles", articles);
         m.addAttribute("ph", qnaPageHandler);
 
@@ -70,7 +72,8 @@ public class DiaryController {
     // @since 2023/03/14
     @GetMapping("view")
     public String view(Model m,
-                       @RequestParam(defaultValue = "0") int arti_no
+                       @RequestParam(defaultValue = "0") int arti_no,
+                       @RequestParam(defaultValue = "0") long res_no
     ){
         log.info("GET view start");
         m.addAttribute("title", environment.getProperty(diaryGroup));
@@ -83,6 +86,9 @@ public class DiaryController {
 
         Map<Integer, List<DiaryCommentVO>> map = service.findDiaryComment(arti_no);
         m.addAttribute("map", map);
+
+        ProductAccommodationVO accommo = myService.findeDiaryXY(res_no);
+        m.addAttribute("accommo", accommo);
 
         int mapTotal = 0;
         for(int total : map.keySet()) { mapTotal += map.get(total).size(); }
