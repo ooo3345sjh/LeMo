@@ -77,5 +77,20 @@
                 </section>
             </main>
             </th:block>
-            <th:block layout:fragment="script"></th:block>
+            <th:block layout:fragment="script">
+                <script>
+                    // rating 변경
+                    let rating  = document.querySelector('input[name="revi_rate"]');
+                    let reviewScore = 0;
+
+                    // rating 변경
+                    // modify 화면 불러올 시 value값에 해당하는 input에 cheked 걸어버리기 때문에
+                    // 변경 시 checked를 풀어줘야함
+                    $('input[name="revi_rate"]').click(function(){
+                        $('input[name="revi_rate"]').attr("checked", false);
+                        $(this).attr("checked", true);
+                        reviewScore = $(this).val();
+                    });
+                </script>
+            </th:block>
 </html>
