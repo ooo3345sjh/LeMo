@@ -73,6 +73,13 @@ public interface MyDAO {
      * @apiNote 회원 쿠폰 갯수 조회
      */
     int selectUserCoupon (@Param("user_id")String user_id);
+
+    /**
+     * @since 2023/04/28
+     * @author 서정현
+     * @apiNote 회원의 숙박완료 건수 조회
+     */
+    int selectUserReservation(@Param("user_id")String user_id);
     /**
      * @since 2023/04/11
      * @author 서정현
