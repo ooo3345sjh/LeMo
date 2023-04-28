@@ -261,7 +261,7 @@
 
                     ajaxAPI("admin/removeReview", jsonData, "POST").then((response) => {
                         if(response.result > 0) {
-                            alert('해당 리뷰가 삭제되었습니다.');
+                            sweetalert("해당 리뷰가 삭제되었습니다.", "success");
                         } else {
                             alert('error');
                         }

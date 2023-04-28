@@ -127,20 +127,11 @@
               }
             }
 
-            // 페이지 로드 시 함수 호출
-            $(function() {
-              highlightSearchKeyword();
-            });
-
             // 검색 후 함수 호출
             $('form[name=userSearchForm]').submit(function(event) {
               highlightSearchKeyword();
             });
 
-            // 검색 키워드가 변경 시 함수 호출
-            $('input[name=searchWord]').on('input', function() {
-              highlightSearchKeyword();
-            });
 
             // URL로부터 parameter 가져오기
             const urlParams = new URLSearchParams(window.location.search);

@@ -42,8 +42,8 @@
                                     <ul>
                                         <li class="review_list1">#</li>
                                         <li class="review_list2">예약번호</li>
-                                        <li class="review_list3">제목</li>
                                         <li class="review_list4">아이디</li>
+                                        <li class="review_list3">제목</li>
                                         <li class="review_list5">평점</li>
                                         <li class="review_list6">답변상태</li>
                                         <li class="review_list7">등록일</li>
@@ -52,12 +52,12 @@
                                         <ul th:each="review,i:${reviews}">
                                             <li class="review_list1">[[${ph.totalCnt - ph.sc.offset - i.index}]]</li>
                                             <li class="review_list2" th:text="${review.res_no}">23</li>
+                                            <li class="review_list4" th:text="${#strings.substringBefore(review.user_id, '@') + '**'}">충치왕김건치</li>
                                             <li class="prodName" style="width: 33% !important;">
                                                 <span th:if="${review.revi_thumb != null}" class="tag">PHOTO</span>
                                                 <a th:href="@{/business/review/view (revi_id=${review.revi_id})}"
                                                    th:text="${review.revi_title}" class="reviewTitle" th:data-no="${review.revi_id}">title</a>
                                             </li>
-                                            <li class="review_list4" th:text="${#strings.substringBefore(review.user_id, '@') + '**'}">충치왕김건치</li>
                                             <li class="review_list5">
                                                 <div class="r_rating">
                                                     <th:block th:if="${review.revi_rate == 5}">

@@ -287,10 +287,10 @@
 
                 ajaxAPI("admin/reservation/memo", jsonData, "POST").then((response) => {
                     if (response.result > 0) {
-                      alert('메모 작성이 완료되었습니다.');
-                      $(this).closest('li').find('#d_Memo').hide();
+                        sweetalert("메모 작성이 완료되었습니다.", "success");
+                        $(this).closest('li').find('#d_Memo').hide();
                     } else {
-                      alert('error');
+                        alert('error');
                     }
                 }).catch((errorMsg) => {
                     console.log(errorMsg);
@@ -324,10 +324,7 @@
                 highlightSearchKeyword();
             });
 
-            // 검색 키워드가 변경 시 함수 호출
-            $('input[name=searchWord]').on('input', function() {
-                highlightSearchKeyword();
-            });
+
 
             // URL로부터 parameter 가져오기
             const urlParams = new URLSearchParams(window.location.search);

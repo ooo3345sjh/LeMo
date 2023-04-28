@@ -107,6 +107,7 @@
         $(document).ready(function () {
             // 지역 선택 옵션 출력
             var province_select = document.getElementById("province_select");
+            let resetOption = document.querySelector('.resetOption');
 
             ajaxAPI("admin/info/province", null, "GET").then((response)=>{
                 //console.log('response1 : %o', response);
@@ -122,18 +123,18 @@
                         option.setAttribute('selected', 'selected');
                     }
 
-                    //option.setAttribute('selected', '${ph.sc.searchField == '+response[i].province_no+'}');
-                    //if (typeof ph !== 'undefined' && ph.sc && ph.sc.searchField == response[i].province_no) {
-                    //  option.setAttribute('selected', 'selected');
-                    //}
-
-
                     province_select.appendChild(option);
                 }
 
                 // 옵션 변경 시에도 옵션 고정
                 province_select.addEventListener('change', function() {
                     localStorage.setItem('selectedProvince', this.value);
+                });
+
+                // 초기화 버튼 클릭 시, 옵션 초기화
+                resetOption.addEventListener('click', function(){
+                    localStorage.removeItem('selectedProvince');
+                    province_select.option[0].selected = true;
                 });
 
             }).catch((errorMsg)=>{
