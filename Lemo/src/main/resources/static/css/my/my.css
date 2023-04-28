@@ -2486,7 +2486,10 @@
         margin-left: 50px;
     }
 
-    .my_diary_list .diary_content button a {color: #515050;}
+    .my_diary_list .diary_content button a {
+        color: #515050;
+        padding: 8px 28px 8px 28px;
+    }
 
     .diary_content.on {
         z-index: 10;

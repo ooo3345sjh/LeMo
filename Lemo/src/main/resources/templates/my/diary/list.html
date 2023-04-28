@@ -50,7 +50,7 @@
                                                     <b class="location" th:each="spot:${article.spotVO}">#[[${spot.spot_title}]] </b>
                                                 </p>
                                             </div>
-                                            <button><a th:href="@{/diary/view (arti_no=${article.arti_no}) }">여행일기 보러가기</a></button>
+                                            <button><a th:href="@{/diary/view (arti_no=${article.arti_no}, res_no=${article.res_no}) }">여행일기 보러가기</a></button>
                                         </div>
                                     </li>
                                 </ul>

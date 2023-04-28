@@ -10,6 +10,19 @@ var options = { //지도를 생성할 때 필요한 기본 옵션
 
 var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
 map.setZoomable(false);
+
+var accommoSrc = '/Lemo/images/diary/hotel.png', // 마커이미지의 주소입니다
+accommoSize = new kakao.maps.Size(35, 40), // 마커이미지의 크기입니다
+accommoOption = {offset: new kakao.maps.Point(30, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+var accommoImage = new kakao.maps.MarkerImage(accommoSrc, accommoSize, accommoOption);
+
+var marker = new kakao.maps.Marker({
+    map : map,
+    position: new kakao.maps.LatLng(accommoLat, accommoLng),
+    image: accommoImage
+});
+
 function setZoomable(zoomable) {
     // 마우스 휠로 지도 확대,축소 가능여부를 설정합니다
     map.setZoomable(zoomable);
