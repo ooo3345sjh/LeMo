@@ -1,26 +1,18 @@
 package kr.co.Lemo.controller;
 
-import kr.co.Lemo.domain.UserVO;
-import kr.co.Lemo.entity.VisitorsLogEntity;
 import kr.co.Lemo.repository.VisitorsLogRepo;
 import kr.co.Lemo.service.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * @since 2023/03/19
@@ -44,6 +36,7 @@ public class MainController {
         mainService.findMain(map);
         m.addAttribute("title", environment.getProperty(group));
         m.addAttribute("map", map);
+
         return "index";
     }
 

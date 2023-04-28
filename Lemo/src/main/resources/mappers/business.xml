@@ -742,7 +742,10 @@
 
     <!-- business - review - reply -->
     <update id="updateReply">
-        update `lemo_product_review` set `revi_reply`=#{revi_reply} where `revi_id`=#{revi_id};
+        update `lemo_product_review` set
+        `revi_reply`=#{revi_reply},
+        `revi_reply_rdate`=NOW()
+        where `revi_id`=#{revi_id};
     </update>
 
      <!-- 판매자 숙소 삭제  -->

@@ -254,7 +254,7 @@ public class BusinessController {
         return "business/review/list";
     }
 
-    // 판매자 리뷰 보기
+    // 판매자 기
     @GetMapping("review/view")
     public String review_view(Model model, @RequestParam("revi_id") Integer revi_id) throws Exception{
 
