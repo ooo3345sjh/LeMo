@@ -376,15 +376,4 @@ public class UserService {
         log.info("usaveWithdrawUserId start...");
         userDAO.updateWithdrawUserId(UUID.randomUUID().toString());
     }
-
-    /**
-     * @since 2023/04/28
-     * @author 서정현
-     * @apiNote 매일 자정 숙박완료 10회이상 회원 level 업데이트
-     */
-    @Scheduled(cron = "0 0 0 * * *")
-    public void usaveLevel() throws Exception {
-        log.info("usaveLevel start...");
-        userDAO.usaveLevel();
-    }
 }
