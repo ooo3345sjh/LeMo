@@ -54,13 +54,13 @@
 
                             <!-- 버튼 -->
                             <div class="btnAdminProd">
-                                <a th:href='@{/admin/cs/event/list (page=${page})}'>
-                                    이벤트목록
+                                <a th:href="@{/admin/cs/event/modify (cs_no=${event.cs_no}, page=${page})}">
+                                    이벤트수정
                                 </a>
                             </div>
                             <div class="btnAdminProd">
-                                <a th:href="@{/admin/cs/event/modify (cs_no=${event.cs_no}, page=${page})}">
-                                    이벤트수정
+                                <a th:href='@{/admin/cs/event/list (page=${page})}'>
+                                    이벤트목록
                                 </a>
                             </div>
                             <div class="btnAdminProd">

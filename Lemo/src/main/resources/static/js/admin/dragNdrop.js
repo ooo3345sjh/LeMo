@@ -32,7 +32,6 @@
             let myDropzone = this; // closure 변수 (화살표 함수 쓰지않게 주의)
             let myViewZone = $('div.dropzone');
             let title = document.querySelector('input[name="cs_title"]');
-            let content = document.querySelector('textarea[name="cs_content"]');
             let eventBanner = document.querySelector('input[name="eventbannerImg[]"]');
             let MainBanner = document.querySelector('input[name="eventMainImg[]"]');
 
@@ -53,6 +52,11 @@
 
         // 서버에 제출 submit 버튼 이벤트 등록
         document.querySelector('#btnUpload').addEventListener('click', function (e) {
+            let cs_content = document.getElementById('summernote').value;
+            let newCs_content = cs_content
+                            .replace(/<\/span>\n\s+<\/p>/gm, '</span></p>')
+                            .replace(/<[^>]*>?/g, '')
+                            .replace(/&nbsp;/g, '');
 
             console.log("업로드1", myDropzone.files);
 
@@ -80,27 +84,17 @@
                       return;
                   }
 
-                  if(content.value.trim() === ''){
+
+                  if( newCs_content.trim() == ''){
                       Swal.fire({
-                          title : '내용을 입력해주세요',
-                          icon : 'warning',
-                          confirmButtonText : '확인'
-                      })
-                      content.focus();
+                      title : '내용을 입력해 주세요',
+                      icon : 'warning',
+                      confirmButtonText : '확인'
+                  })
                       return;
                   }
 
-                  if(eventBanner.files.length === 0){
-                      Swal.fire({
-                          title : '이벤트 배너 이미지를 선택해주세요',
-                          icon : 'warning',
-                          confirmButtonText : '확인'
-                      })
-                      eventBanner.focus();
-                      return;
-                  }
-
-                  if(MainBanner.files.length === 0){
+                if(MainBanner.files.length === 0){
                       Swal.fire({
                           title : '메인 배너 이미지를 선택해주세요',
                           icon : 'warning',
@@ -110,9 +104,19 @@
                       return;
                   }
 
+                  if(eventBanner.files.length === 0){
+                      Swal.fire({
+                          title : '배너 이미지를 선택해주세요',
+                          icon : 'warning',
+                          confirmButtonText : '확인'
+                      })
+                      eventBanner.focus();
+                      return;
+                  }
+
                   // 이벤트 뷰
                   if (myViewZone.get(0).dropzone.files == null || myViewZone.get(0).dropzone.files.length == 0) {
-                      sweetalert("사진을 최소 1장 이상 등록해 주십시오.", "warning");
+                      sweetalert("이벤트 이미지를 선택해주세요", "warning");
                       return;
                   }
 

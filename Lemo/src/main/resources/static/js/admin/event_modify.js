@@ -24,7 +24,7 @@ function base64toFile(base_data, filename) {
 }
 
 
-// 드롭존 부분
+    // 드롭존 부분
     Dropzone.autoDiscover=false;
 
     $(function(){
@@ -114,7 +114,6 @@ function base64toFile(base_data, filename) {
 
             let myViewZone = $('div.dropzone');
             let title = document.querySelector('input[name="cs_title"]');
-            let content = document.querySelector('textarea[name="cs_content"]');
             let eventBanner = document.querySelector('input[name="eventbannerImg[]"]');
             let MainBanner = document.querySelector('input[name="eventMainImg[]"]');
 
@@ -128,6 +127,12 @@ function base64toFile(base_data, filename) {
         // 서버에 제출 submit 버튼 이벤트 등록
         document.querySelector('#btnModify').addEventListener('click', function (e) {
 
+            let mCs_content = document.getElementById('summernote').value;
+            let newCs_content = mCs_content
+                            .replace(/<\/span>\n\s+<\/p>/gm, '</span></p>')
+                            .replace(/<[^>]*>?/g, '')
+                            .replace(/&nbsp;/g, '');
+
             e.preventDefault();
 
             let cs_title = $('input[name="cs_title"]').val();
@@ -140,75 +145,88 @@ function base64toFile(base_data, filename) {
 
             console.log("업로드1", myDropzone.files);
 
-            if(title.value.trim() === ''){
-                Swal.fire({
-                    title : '제목을 입력해주세요',
-                    icon : 'warning',
-                    confirmButtonText : '확인'
-                })
-                title.focus();
-                return;
-            }
+            Swal.fire({
+                title: '정말 수정하시겠습니까?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소',
+                reverseButtons: false,
+              }).then((result) => {
+                if (result.isConfirmed) {
 
-            if(content.value.trim() === ''){
-                Swal.fire({
-                    title : '내용을 입력해주세요',
-                    icon : 'warning',
-                    confirmButtonText : '확인'
-                })
-                content.focus();
-                return;
-            }
-
-            // 이벤트 뷰
-            if (myViewZone.get(0).dropzone.files == null || myViewZone.get(0).dropzone.files.length == 0) {
-                sweetalert("사진을 최소 1장 이상 등록해 주십시오.", "warning");
-                return;
-            }
-
-
-            // 거부된 파일이 있다면
-            if (myDropzone.getRejectedFiles().length > 0) {
-                let files = myDropzone.getRejectedFiles();
-                sweetalert("거부된 파일이 있습니다.", "warning");
-                return;
-            }
-
-            usaveFormData.append("cs_title", cs_title);
-            usaveFormData.append("cs_content", cs_content);
-            usaveFormData.append("cs_eventStart", cs_eventStart);
-            usaveFormData.append("cs_eventEnd", cs_eventEnd);
-            usaveFormData.append("cs_no", cs_no);
-            if(MainBanner.files.length === 0){
-                usaveFormData.append('main'+mainImgType, mainOriFile); // 기존 main 파일
-            }else{
-                usaveFormData.append('main'+mainImgType, chkMainOriFile);  // 수정 main 파일
-            }
-            if(eventBanner.files.length === 0){
-                usaveFormData.append('eventBanner'+bannerImgType, bannerOriFile);  // 기존 banner 파일
-            }else{
-                usaveFormData.append('eventBanner'+bannerImgType, chkBannerOriFile);  // 수정 banner 파일
-            }
-
-
-
-            $.ajax({
-                url: '/Lemo/admin/cs/event/modify',
-                method: 'POST',
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(header, token);
-                },
-                data: usaveFormData,
-                contentType: false,
-                processData: false,
-                enctype : 'multipart/form-data',
-                success: function(data) {
-
-                    if(data == 'usaveEventFail') {
-                        location.href = '/Lemo/admin/cs/event/list';
-                    }else if(data == 'usaveEventSuccess') {
-                        location.href= "/Lemo/admin/cs/event/view?cs_no="+cs_no+"&page="+page;
+                    if(title.value.trim() === ''){
+                        Swal.fire({
+                            title : '제목을 입력해주세요',
+                            icon : 'warning',
+                            confirmButtonText : '확인'
+                        })
+                        title.focus();
+                        return;
                     }
+
+                    if( newCs_content.trim() == ''){
+                        Swal.fire({
+                        title : '내용을 입력해 주세요',
+                        icon : 'warning',
+                        confirmButtonText : '확인'
+                    })
+                        return;
+                    }
+
+                    // 이벤트 뷰
+                    if (myViewZone.get(0).dropzone.files == null || myViewZone.get(0).dropzone.files.length == 0) {
+                        sweetalert("이벤트 이미지를 선택해 주세요", "warning");
+                        return;
+                    }
+
+
+                    // 거부된 파일이 있다면
+                    if (myDropzone.getRejectedFiles().length > 0) {
+                        let files = myDropzone.getRejectedFiles();
+                        sweetalert("거부된 파일이 있습니다.", "warning");
+                        return;
+                    }
+
+                    usaveFormData.append("cs_title", cs_title);
+                    usaveFormData.append("cs_content", cs_content);
+                    usaveFormData.append("cs_eventStart", cs_eventStart);
+                    usaveFormData.append("cs_eventEnd", cs_eventEnd);
+                    usaveFormData.append("cs_no", cs_no);
+                    if(MainBanner.files.length === 0){
+                        usaveFormData.append('main'+mainImgType, mainOriFile); // 기존 main 파일
+                    }else{
+                        usaveFormData.append('main'+mainImgType, chkMainOriFile);  // 수정 main 파일
+                    }
+                    if(eventBanner.files.length === 0){
+                        usaveFormData.append('eventBanner'+bannerImgType, bannerOriFile);  // 기존 banner 파일
+                    }else{
+                        usaveFormData.append('eventBanner'+bannerImgType, chkBannerOriFile);  // 수정 banner 파일
+                    }
+
+
+
+                    $.ajax({
+                        url: '/Lemo/admin/cs/event/modify',
+                        method: 'POST',
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader(header, token);
+                        },
+                        data: usaveFormData,
+                        contentType: false,
+                        processData: false,
+                        enctype : 'multipart/form-data',
+                        success: function(data) {
+
+                            if(data == 'usaveEventFail') {
+                                location.href = '/Lemo/admin/cs/event/list';
+                            }else if(data == 'usaveEventSuccess') {
+                                location.href= "/Lemo/admin/cs/event/view?cs_no="+cs_no+"&page="+page;
+                            }
+                        }
+                    });
                 }
             });
 

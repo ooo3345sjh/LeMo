@@ -805,6 +805,8 @@ public class AdminController {
                                    HttpServletRequest request){
         log.info("GET TermsModifyStart");
 
+        model.addAttribute("title", environment.getProperty(group));
+
         TermVO termArticle = csService.findTermArticle(terms_no);
         String uri = request.getHeader("referer");
         String  regexUri = request.getContextPath() + "/admin/cs/terms/list";
@@ -961,7 +963,7 @@ public class AdminController {
 
             csService.rsaveTermArticle(termVO);
         }
-        return "redirect:/admin/cs/terms/write";
+        return "redirect:/admin/cs/terms/list";
     }
 
     /**
@@ -1050,6 +1052,8 @@ public class AdminController {
      */
     @GetMapping("cs/terms/view")
     public String findTermArticle(int terms_no, int page, Model model){
+        model.addAttribute("title", environment.getProperty(group));
+
         log.info("GET termsViewStart..");
         TermVO termArticle = csService.findTermArticle(terms_no);
 
