@@ -87,9 +87,14 @@
     </insert>
 
     <insert id="insertSavePointLog">
-        INSERT INTO lemo_member_point_log (`user_id`, `res_no`, `poi_point`, `poi_content`,`poi_maximum`, `poi_state`, `poi_rdate`)
-        SELECT `user_id`, `res_no`, ROUND(`res_price` * 0.01), '포인트 적립', DATE_ADD(DATE(NOW()), INTERVAL 1 YEAR), 1, NOW()
-        FROM lemo_product_reservation
+        INSERT INTO lemo_member_point_log
+        (`user_id`, `res_no`, `poi_point`, `poi_content`,`poi_maximum`, `poi_state`, `poi_rdate`)
+        SELECT
+        u.`user_id`, `res_no`,
+        if (u.`level` = 1, ROUND(`res_price` * 0.01), ROUND(`res_price` * 0.03)),
+        '포인트 적립', DATE_ADD(DATE(NOW()), INTERVAL 3 MONTH), 1, NOW()
+        FROM `lemo_product_reservation` r JOIN	`lemo_member_userinfo` u
+        ON r.user_id = u.user_id
         WHERE res_state = 1 AND DATE(res_checkOut) = DATE(NOW() - INTERVAL 1 DAY);
     </insert>
 
@@ -354,20 +359,6 @@
      -->
     <update id="usaveResNo">
         ALTER TABLE `lemo_product_reservation` auto_increment = #{res_no};
-    </update>
-
-
-    <update id="updateMemberSavePoint">
-        UPDATE `lemo_member_userinfo` a
-        SET `point` = `point` +
-        (SELECT ROUND(SUM(`res_price`) * 0.01)
-        FROM `lemo_product_reservation` b
-        WHERE `res_state` = 1 AND DATE(`res_checkOut`) = DATE(NOW() - INTERVAL 1 DAY) AND b.`user_id` = a.`user_id`)
-        WHERE EXISTS (
-        SELECT 1
-        FROM `lemo_product_reservation` c
-        WHERE `res_state` = 1 AND DATE(`res_checkOut`) = DATE(NOW() - INTERVAL 1 DAY) AND  c.`user_id` = a.`user_id`
-        )
     </update>
 
     <update id="updateProductReservation">
