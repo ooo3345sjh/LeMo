@@ -123,18 +123,15 @@
                     ['insert', ['table','hr']]
                 ]
             });
-
             $('#summernote').summernote('fontSize', 14);
 
-            let btnAdd = $('.btnAdminProd.add');
-            btnAdd.on('click', function(){
-                alert('wow');
+            // 타이틀 포커스
+            let cs_title = document.getElementById('terms_title');
+            cs_title.focus();
 
-            });
 
             // 약관 유형 선택
               let terms_type = $('.input_stayRoomInfo').find("select[name=termsType_no]").val();
-              // = document.getElementById('faqCs_type').value;
               console.log(terms_type);
 
               $('#terms_typeForm').submit(function(e){
@@ -163,37 +160,35 @@
                     }
                 });
               });
-        });
 
-        $(document).ready(function() {
-            // 타이틀 포커스
-            const term_title = document.getElementById('terms_title');
-            term_title.focus();
-       });
 
-       // 유효성 검사
-        $(document).ready(function(){
-        let cs_title = document.querySelector('input[name="terms_title"]');
-        let cs_content = document.querySelector('textarea[name="terms_content"]');
+        // 유효성 검사
+        cs_title = document.querySelector('input[name="terms_title"]');
+        $('#terms_typeForm').submit(function(e){
 
-        // 제목 유효성 검사
-        $('#cs_typeForm').submit(function(e){
+            let cs_content = document.getElementById('summernote').value;
+            let newCs_content = cs_content
+                                    .replace(/<\/span>\n\s+<\/p>/gm, '</span></p>')
+                                    .replace(/<[^>]*>?/g, '')
+                                    .replace(/&nbsp;/g, '');
+
+            // 내용
+            if( newCs_content.trim() == ''){
+                Swal.fire({
+                title : '내용을 입력해 주세요',
+                icon : 'error',
+                confirmButtonText : '확인'
+            })
+                e.preventDefault();
+            }
+
+            // 제목
             if( cs_title.value.trim() == ''){
                 Swal.fire({
                      title : '제목을 입력해 주세요',
                      icon : 'error',
                      confirmButtonText : '확인'
                  })
-                e.preventDefault();
-            }
-
-             // 내용 유효성 검사
-            if( cs_content.value.trim() == ''){
-                Swal.fire({
-                    title : '내용을 입력해 주세요',
-                    icon : 'error',
-                    confirmButtonText : '확인'
-                })
                 e.preventDefault();
             }
 

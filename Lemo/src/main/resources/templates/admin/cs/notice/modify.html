@@ -132,71 +132,76 @@
 
         // cs_type 선택
         $(document).ready(function(){
-              let cs_type = $('.stayName').find("select[name=cs_type]").val();
-              // = document.getElementById('faqCs_type').value;
-              console.log(cs_type);
+            let cs_type = $('.stayName').find("select[name=cs_type]").val();
+            console.log(cs_type);
 
-              $('#modifyNotice').submit(function(e){
+            $('#modifyNotice').submit(function(e){
                 if( cs_type == '0'){
-                        Swal.fire({
-                             title : '유형을 선택해주세요',
-                             icon : 'success',
-                             confirmButtonText : '확인'
-                         })
-                        e.preventDefault();
-                    }
-              });
+                    Swal.fire({
+                    title : '유형을 선택해주세요',
+                    icon : 'success',
+                    confirmButtonText : '확인'
+                })
+                    e.preventDefault();
+                }
+            });
 
             $('select[name=cs_type]').change(function(){
                 console.log("select 값 확인" +$(this).val());
                 cs_type = $(this).val();
                 $('#modifyNotice').submit(function(e){
                     if( cs_type == '0'){
-                            Swal.fire({
-                                 title : '유형을 선택해주세요',
-                                 icon : 'success',
-                                 confirmButtonText : '확인'
-                             })
-                            e.preventDefault();
-                        }
+                        Swal.fire({
+                         title : '유형을 선택해주세요',
+                         icon : 'success',
+                         confirmButtonText : '확인'
+                    })
+                        e.preventDefault();
+                    }
                 });
             });
-        });
 
-       $(document).ready(function() {
             // 타이틀 포커스
-            const cs_title = document.getElementById('cs_title');
+            let cs_title = document.getElementById('cs_title');
             cs_title.focus();
-       });
 
-        // 유효성 검사
-        $(document).ready(function(){
-            let cs_title = document.querySelector('input[name="cs_title"]');
-            let cs_content = document.querySelector('textarea[name="cs_content"]');
 
-            // 제목 유효성 검사
-            $('#cs_typeForm').submit(function(e){
-                if( cs_title.value.trim() == ''){
+            //유효성 검사
+            $('#modifyNotice').submit(function(e){
+
+                cs_title = document.querySelector('input[name="cs_title"]');
+                let cs_content = document.getElementById('summernote').value;
+                let newCs_content = cs_content
+                .replace(/<\/span>\n\s+<\/p>/gm, '</span></p>')
+                .replace(/<[^>]*>?/g, '')
+                .replace(/&nbsp;/g, '');
+
+                console.log("cs_title : " +cs_title.value);
+                console.log("cs_date : " + cs_content);
+                console.log("newCS_content: " + newCs_content);
+                console.log("cs_content : " + newCs_content);
+
+                // 내용
+                if( newCs_content.trim() == ''){
                     Swal.fire({
-                         title : '제목을 입력해 주세요',
-                         icon : 'error',
-                         confirmButtonText : '확인'
-                     })
+                        title : '내용을 입력해 주세요',
+                        icon : 'error',
+                        confirmButtonText : '확인'
+                    })
                     e.preventDefault();
                 }
 
-             // 내용 유효성 검사
-            if( cs_content.value.trim() == ''){
-                Swal.fire({
-                    title : '내용을 입력해 주세요',
-                    icon : 'error',
-                    confirmButtonText : '확인'
-                })
-                e.preventDefault();
-            }
-
+                // 제목
+                if( cs_title.value.trim() == ''){
+                    Swal.fire({
+                        title : '제목을 입력해 주세요',
+                        icon : 'error',
+                        confirmButtonText : '확인'
+                    })
+                        e.preventDefault();
+                }
+            });
         });
-    });
 
        // 수정완료클릭시 확인
         function modifyCheck(e) {
