@@ -6,11 +6,9 @@ import kr.co.Lemo.domain.*;
 import kr.co.Lemo.utils.RemoteAddrHandler;
 import kr.co.Lemo.utils.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,11 +16,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,7 +26,6 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.*;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -412,7 +407,7 @@ public class MyService {
         return resVO;
     }
 
-    public int removeUpdateReservation(long res_no) throws Exception {
+    public int removeUpdateReservation(long res_no, String user_id) throws Exception {
         int result = 0;
 
         /* 토큰 발행 */
@@ -425,6 +420,18 @@ public class MyService {
         result = dao.deleteReservation(res_no);
 
         if(result == 1) { result = dao.updateReservationState(res_no); }
+
+        /**
+         * @since 2023/04/29
+         * @author 이해빈
+         * @apiNote 포인트, 쿠폰 원상복구
+         */
+        // 예약 내역 가져오기
+        ReservationVO vo = dao.selectReservation(res_no, user_id);
+
+        log.info("예약 내역 vo : " + vo);
+
+
 
         return result;
     }
@@ -761,18 +768,4 @@ public class MyService {
         return dao.deleteQna(map);
     }
 
-    /**
-     * @since 2023/04/14
-     * @author 박종협
-     * @apiNote point 갱신
-     */
-    @Scheduled(cron = "0 0 0 * * *")
-    public void pointUpdate() {
-        log.info("**************************포인트 스케쥴러 사용(1일 자정)****************************************");
-        dao.insertSelectPointExpire();
-        dao.updateAvailablePoiUsed();
-
-        // point 다시 계산
-        dao.updateAvailablePoint();
-    }
 }

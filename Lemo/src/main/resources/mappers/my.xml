@@ -307,7 +307,7 @@
             SELECT `user_id`, `res_no`, '포인트 소멸', (`poi_point` - `poi_used`), `poi_maximum`, 0, NOW(), 0 FROM
             `lemo_member_point_log`
             <![CDATA[
-            WHERE `poi_state` = 1 AND `poi_maximum` <= NOW() AND NOT `poi_point` = `poi_used`
+            WHERE `poi_state` = 1 AND `poi_maximum` < NOW() AND NOT `poi_point` = `poi_used`
             ]]>
     </insert>
 
@@ -368,7 +368,7 @@
                 SELECT * FROM
                     `lemo_member_point_log`
                 <![CDATA[
-                WHERE `poi_state` = 1 AND `poi_maximum` <= NOW() AND NOT `poi_point` = `poi_used`
+                WHERE `poi_state` = 1 AND `poi_maximum` < NOW() AND NOT `poi_point` = `poi_used`
                 ]]>
             ) vals ON point_log.poi_id = vals.poi_id
         SET point_log.`poi_used` = vals.poi_point;

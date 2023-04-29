@@ -12,9 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +22,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @since 2023/03/07
@@ -553,7 +554,7 @@ public class MyController {
     @ResponseBody
     @Transactional
     @DeleteMapping("reservation")
-    public int reservationDelete(@RequestBody Map map) throws Exception {
+    public int reservationDelete(@RequestBody Map map, @AuthenticationPrincipal UserVO myUser) throws Exception {
         log.info("DELETE reservation start");
 
         int result = 0;
@@ -564,7 +565,7 @@ public class MyController {
 
         long res_no = Long.parseLong((String)map.get("res_no"));
 
-        result = service.removeUpdateReservation( res_no );
+        result = service.removeUpdateReservation( res_no, myUser.getUser_id() );
 
         return result;
     }

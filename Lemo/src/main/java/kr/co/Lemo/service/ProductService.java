@@ -2,6 +2,7 @@ package kr.co.Lemo.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.co.Lemo.dao.MyDAO;
 import kr.co.Lemo.dao.ProductDAO;
 import kr.co.Lemo.dao.UserDAO;
 import kr.co.Lemo.domain.*;
@@ -60,6 +61,9 @@ public class ProductService {
 
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private MyDAO myDAO;
 
     // insert
     // @since 2023/03/21
@@ -871,13 +875,25 @@ public class ProductService {
     @Scheduled(cron = "0 0 0 * * *")
     public void updateReservationAndPoint() throws Exception {
         log.info("**************************숙박완료, 포인트 적립 스케쥴러 사용(매일 자정)****************************************");
-        
-        // 적립된 포인트 userinfo에 업데이트
-        dao.updateMemberSavePoint();
+
         // 적립퇸 포인트 포인트 로그테이블에 추가
         dao.insertSavePointLog();
         // 숙박 완료 상태로 업데이트
         dao.updateProductReservation();
+
+        /**
+         * @since 2023/04/14
+         * @author 박종협
+         * @apiNote point 갱신
+         */
+
+        log.info("**************************포인트 스케쥴러 사용(1일 자정)****************************************");
+        myDAO.insertSelectPointExpire();
+        myDAO.updateAvailablePoiUsed();
+
+        // point 다시 계산
+        myDAO.updateAvailablePoint();
+
         /**
          * @since 2023/04/28
          * @author 서정현
