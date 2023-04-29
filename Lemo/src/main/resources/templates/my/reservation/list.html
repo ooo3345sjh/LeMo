@@ -62,7 +62,7 @@
                                 </div>
                                 <th:block th:if="${reserv.res_state == 2}">
                                     <a th:href="@{/my/diary/write ( res_no=${reserv.res_no} )}" class="myDiary" th:if="${reserv.diaryStat == 0}">여행일기작성</a>
-                                    <a th:href="@{/diary/view ( arti_no=${reserv.diaryStat} )}" class="myDiary on" th:if="${reserv.diaryStat != 0}">여행일기보기</a>
+                                    <a th:href="@{/diary/view ( arti_no=${reserv.diaryStat}, res_no=${reserv.res_no} )}" class="myDiary on" th:if="${reserv.diaryStat != 0}">여행일기보기</a>
                                     <a th:href="@{/my/review/write ( res_no=${reserv.res_no}, acc_id=${reserv.acc_id} )}" class="my_review_write" th:if="${reserv.reviewStat == 0}">리뷰작성</a>
                                     <a th:href="@{/my/review/view ( res_no=${reserv.res_no} )}" class="my_review_write on" th:if="${reserv.reviewStat != 0}">리뷰보기</a>
                                 </th:block>
