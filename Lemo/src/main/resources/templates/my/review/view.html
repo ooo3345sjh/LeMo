@@ -50,6 +50,7 @@
                             <div class="my_review_textbox">
                                 <div class="my_review_text">
                                     <textarea class="my_review_textarea">[[${review.revi_content}]]</textarea>
+                                    <b>작성일 [[${review.revi_rdate}]]</b>
                                 </div>
                             </div>
                             <div class="review_comment">
@@ -57,6 +58,7 @@
                                     <span>판매자 답변</span>
                                     <th:block th:if="${review.revi_reply != null}">[[${review.revi_reply}]]</th:block>
                                     <th:block th:if="${review.revi_reply == null}">등록된 답글이 없습니다.</th:block>
+                                    <b th:if="${review.revi_reply != null}">답변일 [[${review.revi_reply_rdate}]]</b>
                                 </div>
                             </div>
                             <div class="blank30"></div>
