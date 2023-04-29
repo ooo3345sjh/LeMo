@@ -1724,7 +1724,7 @@
         background-color: #F5F5F5;
         border-radius: 6px;
         position: relative;
-        width: 90%;
+        width: 80%;
         margin: 0 auto;
         margin-top: 50px;
     }
@@ -1783,6 +1783,7 @@
         border-radius: 10px;
         text-align: center;
         padding: 30px;
+        border: 1px solid #e9e9e9;
     }
 
     .my_review_view .my_review_text > textarea {
@@ -1796,31 +1797,51 @@
     }
 
     .review_swiper-container {
-        width: 79%;
+        width: 520px;
         height: 303px;
         overflow: hidden;
         position: relative;
         margin: 17px auto;
-        padding: 0 22px 0 20px;
+        margin-bottom: 30px;
     }
 
     .review_swiper-container .swiper-button-next {
         color: #bbd444;
-        right: 105px;
         bottom: 33px;
+        right: 0;
     }
     .review_swiper-container .swiper-button-prev {
         color: #bbd444;
-        left: 105px;
+        left: 0;
     }
 
-    /* 스타일 수정
+    /* 스타일 수정 2023/04/29 이해빈 */
+
+    .review_swiper-container .swiper-slide {
+        border: 1px solid red;
+    }
+
+    .review_swiper-container .swiper-slide > img {
+        width: 520px;
+        height: auto;
+    }
+
+    .review_swiper-container .swiper-button-prev, .review_swiper-container .swiper-button-next {
+        height: 100%;
+        top: 22px;
+        width: 40px;
+    }
+
     .review_swiper-container .swiper-button-prev:after {
         content: "";
     }
     .review_swiper-container .swiper-button-next:after {
         content: "";
-    }*/
+    }
+
+    .review_swiper-container .swiper-pagination-bullet-active {
+        background: #dfdfdf;
+    }
 
 
 
@@ -1869,6 +1890,7 @@
         /*margin-left: 230px;*/
         margin: 0 auto;
         margin-top: 13px;
+        margin-bottom: 20px;
         border-radius: 23px;
     }
     .review_comment .review_commentarea{
@@ -1878,6 +1900,7 @@
         border-radius: 5px;
         min-height: 141px;
         padding: 14px 15px 20px 21px;
+        border: 1px solid #e0e2eb;
     }
 
     .review_comment .review_commentarea > span {
@@ -1886,6 +1909,7 @@
         margin-right: 10px;
     }
 
+    /*
     .review_comment .review_commentarea::after{
         content: "";
         position: absolute;
@@ -1895,6 +1919,7 @@
         border-bottom: 20px solid transparent;
         border-left: 30px solid #eff0f6;
     }
+    */
 
     .blank30{
         height: 30px;

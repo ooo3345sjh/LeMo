@@ -33,17 +33,6 @@
 
                                     </span>
                                 </div>
-
-
-                                <!-- 임시 평점
-                                <div class="star-ratings">
-                                    <div class="star-ratings-fill space-x-2 text-lg":style="{ width: ratingToPercent + '%' }">
-                                        <span th:each="i:${#numbers.sequence(0, review.revi_rate-1)}">★</span>
-                                    </div>
-                                    <div class="star-ratings-base space-x-2 text-lg">
-                                        <span th:each="i:${#numbers.sequence(0, review.revi_rate-1)}">★</span>
-                                    </div>
-                                </div>-->
                             </div>
                             <div class="my_review_days">
                                 <span>[[${review.acc_name}]]</span>
@@ -54,6 +43,7 @@
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide" th:each="image:${review.thumbs}"><img th:src="@{/img/review/__${review.res_no}__/__${image}__}" alt="#" /></div>
                                 </div>
+                                <div class="swiper-pagination"></div>
                                 <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>
                             </div>
@@ -116,6 +106,10 @@
                             centeredSlides: false,
                             // 페이지 전환효과 slidesPerView효과와 같이 사용 불가
                             // effect: 'fade',
+
+                            pagination: {
+                              el: '.swiper-pagination',
+                            },
 
                             //방향표
                             navigation: {
