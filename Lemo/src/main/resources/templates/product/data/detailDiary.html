@@ -5,7 +5,7 @@
     </div>
     <ul class="diary_list">
         <li th:each="diary : ${diaries}" th:attr="data-page=${ph.sc.page},data-endpage=${ph.totalPage}">
-            <a th:href="@{/diary/view(arti_no=${diary.arti_no})}">
+            <a th:href="@{/diary/view(arti_no=${diary.arti_no}, res_no=${diary.res_no})}">
                 <img th:if="${not #strings.contains(diary.arti_thumb,'/')}"
                      th:src="|@{/}img/diary/${diary.arti_no}/c9e52daa-7cf5-4cb7-ae91-26f26ef6c12c.jpg|">
                 <img th:if="${#strings.contains(diary.arti_thumb,'/')}"
