@@ -22,6 +22,7 @@
 - Mongodb
 
 ### ERD
+<img src="https://github.com/ooo3345sjh/LeMo/issues/794#issue-1689954303"  width="700" height="370">
 
 ### 특징적 기술 Key Features
 
