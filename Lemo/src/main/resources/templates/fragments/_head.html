@@ -70,13 +70,13 @@
         </script>
         <!-- End Google Tag Manager -->
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5D3C0EPW6W"></script>
+        <script async th:src="|https://www.googletagmanager.com/gtag/js?id=${@environment.getProperty('analytics.measurement')}|"></script>
         <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', 'G-5D3C0EPW6W');
+          gtag('config', "[[${@environment.getProperty('analytics.measurement')}]]");
         </script>
     </head>
 </th:block>
