@@ -24,6 +24,9 @@ Blog type Hotel Booking Site
 <img src="https://user-images.githubusercontent.com/111489860/235360856-a1b334c3-2f4d-46f8-b773-19782486cc04.png"  width="700" height="370">
 이 프로젝트의 DB는 28개의 테이블으로 이루어져 있습니다.
 
+## 정보구조도 Information Architecture
+<img src="https://user-images.githubusercontent.com/111489860/235360856-a1b334c3-2f4d-46f8-b773-19782486cc04.png"  width="700" height="370">
+
 ### 특징적 기술 Key Features
 - [Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2) - 구글 소셜 로그인
 - [Naver OAuth 2.0](https://developers.naver.com/docs/login/api/api.md) - 네이버 소셜 로그인
