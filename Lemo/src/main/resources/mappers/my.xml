@@ -168,7 +168,11 @@
     </select>
 
     <select id="selectDiarySpot" resultType="kr.co.Lemo.domain.DiarySpotVO">
-        SELECT * FROM `lemo_diary_spot` WHERE `arti_no`=#{arti_no};
+        SELECT
+            a.*, b.`res_no`
+        FROM `lemo_diary_spot` AS a LEFT JOIN
+             `lemo_diary_article` AS b ON a.`arti_no` = b.`arti_no`
+        WHERE a.`arti_no`=#{arti_no};
     </select>
 
     <select id="selectDiarySpots" resultType="kr.co.Lemo.domain.DiarySpotVO">

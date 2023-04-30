@@ -57,7 +57,7 @@ $(function(){
 
             if(oFile.length < 1){
             }else {
-                fileMap.set(fileNo, e.target.files[0]);
+                fileMap.set(Number(fileNo), e.target.files[0]);
                 reader.readAsDataURL(e.target.files[0]);
                 reader.onload = function(event){
                     preview.attr('src', event.target.result);

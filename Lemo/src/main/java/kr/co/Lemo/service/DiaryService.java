@@ -67,6 +67,12 @@ public class DiaryService {
         return spotVO;
     }
 
+    public List<DiarySpotVO> usaveDiarySpot(int arti_no) {
+        List<DiarySpotVO> spotVO = dao.selectDiarySpot(arti_no);
+        return spotVO;
+    }
+
+
     // @since 2023/03/15
     public Map<Integer, List<DiaryCommentVO>> findDiaryComment(int arti_no) {
 

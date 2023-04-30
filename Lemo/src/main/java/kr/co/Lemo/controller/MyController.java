@@ -404,6 +404,7 @@ public class MyController {
     public String diary_modify(
             @AuthenticationPrincipal UserVO myUser,
             @RequestParam(defaultValue = "0") int arti_no,
+            @RequestParam(defaultValue = "0") long res_no,
             Model m
     ) {
         log.info("GET diary/modify start");
@@ -414,7 +415,10 @@ public class MyController {
 
         String uid = myUser.getUser_id();
 
-        List<DiarySpotVO> spotVO = diaryService.findDiarySpot(arti_no);
+        ProductAccommodationVO accommo = service.findeDiaryXY(res_no);
+        m.addAttribute("accommo", accommo);
+
+        List<DiarySpotVO> spotVO = diaryService.usaveDiarySpot(arti_no);
         m.addAttribute("article", spotVO);
 
         return "my/diary/modify";

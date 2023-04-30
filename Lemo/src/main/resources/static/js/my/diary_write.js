@@ -60,7 +60,7 @@ $(function(){
             }else {
                 // 서정현 TEST
                 fileInputList.push($(this).clone());
-                fileMap.set(fileNo, e.target.files[0])
+                fileMap.set(Number(fileNo), e.target.files[0])
 
                 reader.readAsDataURL(e.target.files[0]);
                 reader.onload = function(event){
