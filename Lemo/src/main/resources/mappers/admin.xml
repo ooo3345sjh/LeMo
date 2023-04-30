@@ -261,7 +261,7 @@
 
     <!-- 관리자 - 메인 - 판매량 그래프 (기간 고정) -->
     <select id="selectDaySale" resultType="kr.co.Lemo.domain.ReservationVO">
-        SELECT DATE(a.res_date) AS res_date,
+        SELECT DATE(a.res_checkIn) AS res_date,
             MAX(a.res_state) AS res_state,
             SUM(a.res_price) AS res_price,
             SUM(a.res_disPrice) AS res_disPrice,
@@ -270,8 +270,8 @@
         LEFT JOIN lemo_product_accommodation AS b ON a.acc_id = b.acc_id
         WHERE a.res_state NOT IN (0)
                 AND a.`res_checkIn` BETWEEN DATE(date_add(now(), INTERVAL -6 DAY)) AND DATE(NOW())
-        GROUP BY DATE(a.res_date)
-        ORDER BY `res_date`;
+        GROUP BY DATE(a.res_checkIn)
+        ORDER BY DATE(a.res_checkIn) desc;
     </select>
 
      <!-- 관리자 - 메인 - 결제 방법 결제 현황 -->
@@ -407,7 +407,7 @@
 
     <!-- 관리자 - 통계관리 - 일별 누적 판매량 그래프 (기간 변동) -->
     <select id="selectDaySales" parameterType="hashMap" resultType="kr.co.Lemo.domain.ReservationVO">
-        SELECT DATE(a.res_date) AS res_date,
+        SELECT DATE(a.res_checkIn) AS res_date,
             MAX(a.res_state) AS res_state,
             SUM(a.res_price) AS res_price,
             SUM(a.res_disPrice) AS res_disPrice,
@@ -430,8 +430,8 @@
             <if test="dateStart != null or dateEnd != null">
                 AND a.`res_checkIn` <include refid="searchDate"/>
             </if>
-        GROUP BY DATE(a.res_date)
-        ORDER BY `res_date` desc;
+        GROUP BY DATE(a.res_checkIn)
+        ORDER BY DATE(a.res_checkIn) desc;
     </select>
 
     <!-- 관리자 - 통계관리 - 결제방법 결제 현황 (기간 변동) -->

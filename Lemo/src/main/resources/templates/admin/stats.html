@@ -172,6 +172,8 @@
         // 출력 날짜 형태 지정
         date = nowMonth + '/' + nowDate;
 
+        console.log("stats.length: " + stats.length);
+
         // 이전 날짜
         let Daybefore = new Array();
         for (let i=0; i<stats.length; i++){
@@ -190,11 +192,14 @@
                 for (var i = Daybefore.length-1; i >= 0; i--) {
                     if(i==0) {
                         Daybefore[i] = date;
+                        console.log("hi");
                     }
-                    data.addRow([Daybefore[i], stats[i].tot_res_price, avg_res_price]);
+                    console.log("stats[i].res_date: " + stats[i].res_date);
+                    data.addRow([stats[i].res_date, stats[i].tot_res_price, avg_res_price]);
                 }
             }else {
                 for (var i = Daybefore.length-1; i >= 0; i--) {
+
                     data.addRow([stats[i].res_date, stats[i].tot_res_price, avg_res_price]);
                 }
             }
@@ -630,6 +635,8 @@
                 url.searchParams.delete('dateStart');
                 url.searchParams.delete('dateEnd');
                 window.location.href = url.toString();
+                $('.begin').val('');
+                $('.end').val('');
 
                 // 바로 전송
                 $('.sd_submit').click();
