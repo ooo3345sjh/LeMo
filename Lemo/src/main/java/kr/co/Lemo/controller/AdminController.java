@@ -177,12 +177,12 @@ public class AdminController {
         * 결론 - mapper의 조건 !=null을 만족시키기 위해서는 null의 경우, 빈 문자열의 경우 -> 확실하게 null을 입력
         */
         if (map.get("dateStart") == null || map.get("dateStart").isBlank() && map.get("dateEnd") == null || map.get("dateEnd").isBlank()) {
-            log.debug("dateStart: " + map.get("dateStart"));
+            log.warn("dateStart: " + map.get("dateStart"));
 
             map.put("dateStart",null);
             map.put("dateEnd",null);
         }else {
-            log.debug("dateStart type: " + dateStart.getClass().getName());
+            log.warn("dateStart type: " + dateStart.getClass().getName());
         }
 
 
@@ -196,8 +196,13 @@ public class AdminController {
             map.put("periodType", periodType);
         }
 
+        log.warn("periodType: " + periodType);
+
         // 예약 건수
         total = service.countWeeksSales(map);
+
+        log.warn("total: " + total);
+
         // 취소 건수
         totalCanceled = service.countWeeksCancel(map);
         // 1:1 문의 수
@@ -209,10 +214,20 @@ public class AdminController {
         // 매출 현황 그래프
         stats = service.findAllDaySales(map);
 
+        log.warn("stats: " + stats);
+
         for ( int i=0; i<stats.size(); i++ ){
+            log.warn("stats price: " + stats.get(i).getTot_res_price());
             sum_res_price += stats.get(i).getTot_res_price();
         }
-        avg_res_price = sum_res_price / stats.size();
+        if(stats.size() == 0){
+            avg_res_price = sum_res_price / 1;
+        }else if (stats.size() != 0){
+            avg_res_price = sum_res_price / stats.size();
+        }
+
+        log.warn("avg_res_price :" + avg_res_price);
+
         // 결제 수단 현황
         pays = service.findAllPayment(map);
         paysMap = pays.stream().collect(Collectors.groupingBy(ReservationVO::getRes_payment));
