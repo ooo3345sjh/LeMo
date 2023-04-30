@@ -69,7 +69,8 @@
                                                     <img th:if="${comment.photo != null}" th:src="@{/img/profile/__${comment.photo}__}" alt="프사">
                                                     <div>
                                                         <strong>[[${comment.nick}]]</strong>
-                                                        <span style="margin-left: 10px;">[[${comment.before24H}]]</span>
+                                                        <span class="articleWriter" th:if="${article.get(0).getNick == comment.nick}">작성자</span>
+                                                        <span style="margin-left: 5px;">[[${comment.before24H}]]</span>
                                                         <span class="comModified" th:if="${comment.com_rdate != comment.com_udate}">&nbsp;수정됨&nbsp;</span>
                                                     </div>
                                                 </div>
@@ -126,6 +127,7 @@
         let positionMap = [[${article}]];
         let arti_no     = [[${arti_no}]];
         let total       = [[${total}]];
+        let articleNick = [[${article.get(0).getNick}]];
         let accommoLng = [[${accommo.acc_longtitude}]];
         let accommoLat = [[${accommo.acc_lattitude}]];
 
