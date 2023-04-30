@@ -37,12 +37,12 @@ Blog type Hotel Booking Site<br/>
 - [Data.go.kr Open API](https://www.data.go.kr/data/15081808/openapi.do) - 국세청_사업자등록정보 진위확인 및 상태조회 API
 - [Naver SENS API](https://api.ncloud-docs.com/docs/ai-application-service-sens-smsv2) - 휴대폰 인증문자 발송 API
 
+### 프로젝트 규모 Project Scale Analysis Result
+<img src="https://user-images.githubusercontent.com/111489860/235368403-173bfe85-78e4-41cb-a8fe-239a00163243.JPG"  width="700" height="370">
+
 ### ERD
 <img src="https://user-images.githubusercontent.com/111489860/235360856-a1b334c3-2f4d-46f8-b773-19782486cc04.png"  width="700" height="370">
 이 프로젝트의 DB는 28개의 테이블으로 이루어져 있습니다.
-
-### 프로젝트 규모 Project Scale Analysis Result
-<img src="https://user-images.githubusercontent.com/111489860/235368403-173bfe85-78e4-41cb-a8fe-239a00163243.JPG"  width="700" height="370">
 
 ### 정보구조도 Information Architecture
 <img src="https://user-images.githubusercontent.com/111489860/235367370-5c37bd8e-2d85-495b-8564-0e90e81bfccc.JPG"  width="700" height="370">
