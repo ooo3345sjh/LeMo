@@ -14,7 +14,7 @@
 프로젝트에 사용된 언어와 기술, ERD와 개발환경 등을 소개합니다.
 
 ### 사용기술 Skills Utilized
-<img src="https://user-images.githubusercontent.com/111489860/235364612-4a4710f4-6a63-4067-80a8-106f62da7db4.JPG"  width="700" height="370">
+<img src="https://user-images.githubusercontent.com/111489860/235365245-620fffb9-679a-4547-b839-7fe9bf65476e.JPG"  width="700" height="370">
 
 ### ERD
 <img src="https://user-images.githubusercontent.com/111489860/235360856-a1b334c3-2f4d-46f8-b773-19782486cc04.png"  width="700" height="370">
