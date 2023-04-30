@@ -180,7 +180,7 @@
 
     <!-- 판매자 - 메인 - 일별 누적 판매량 (당일) -->
     <select id="selectTodaySales" resultType="kr.co.Lemo.domain.ReservationVO">
-        SELECT DATE(a.res_date) AS res_date,
+        SELECT DATE(a.res_checkIn) AS res_date,
             COUNT(`res_no`) as count_sales,
             (SUM(a.res_price - a.res_disPrice)) AS tot_res_price
         FROM lemo_product_reservation AS a
@@ -191,7 +191,7 @@
             <if test="acc_id != null">
                 and b.`acc_id`=#{acc_id}
             </if>
-        GROUP BY DATE(a.res_date);
+        GROUP BY DATE(a.res_checkIn);
     </select>
 
     <!-- 판매자 - 메인 - 취소 건수 (당일) -->
@@ -239,7 +239,7 @@
 
     <!-- 판매자 - 통계관리 - 일별 누적 판매량 (기간 변동) -->
     <select id="selectDaySales" parameterType="hashMap" resultType="kr.co.Lemo.domain.ReservationVO">
-        SELECT DATE(a.res_date) AS res_date,
+        SELECT DATE(a.res_checkIn) AS res_date,
             MAX(a.res_state) AS res_state,
             SUM(a.res_price) AS res_price,
             SUM(a.res_disPrice) AS res_disPrice,
@@ -266,8 +266,8 @@
             <if test="acc_id != null">
                 AND a.acc_id=#{acc_id}
             </if>
-        GROUP BY DATE(a.res_date)
-        ORDER BY `res_date` desc;
+        GROUP BY DATE(a.res_checkIn)
+        ORDER BY DATE(a.res_checkIn) desc;
     </select>
 
     <!-- 판매자 - 통계관리 - 당일 시간대별 판매량 -->

@@ -836,8 +836,8 @@ public class BusinessController {
         float rateAvg = 0;
 
         log.warn("rates: " + rates);
-        log.warn("rates: " + rates.size());
-        log.warn("rate: " + rates.get(0).getAcc_rate());
+        log.warn("rates size: " + rates.size());
+        //log.warn("rate: " + rates.get(0).getAcc_rate());
 
         int rates_sum = 0;
 
@@ -845,6 +845,9 @@ public class BusinessController {
             reteSum += rates.get(i).getAcc_rate();
         }
         rateAvg = reteSum / rates.size();
+        String formattedRateAvg = String.format("%.1f", rateAvg); // 소수점 첫째 자리까지 나타내기 위한 포맷팅
+
+        log.warn("formattedRateAvg: " + formattedRateAvg);
 
 
 
@@ -856,7 +859,7 @@ public class BusinessController {
             map.put("dateStart",null);
             map.put("dateEnd",null);
         }else {
-            log.warn("dateStart type: " + dateStart.getClass().getName());
+            //log.warn("dateStart type: " + dateStart.getClass().getName());
         }
 
         LocalDateTime end = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
@@ -926,7 +929,7 @@ public class BusinessController {
         // 일별 매출 현황 (대표 그래프)
         stats = service.findAllDaySales(map);
 
-        log.warn("stats: " + stats.size());
+        //log.warn("stats: " + stats.size());
 
         if(stats.size() == 0) {
             sum_res_price = 0;
@@ -945,13 +948,13 @@ public class BusinessController {
         // 객실 예약 현황  (일주일)
         roomPercent = service.selectWeeksRoom(map);
 
-        log.warn("RoomPercent : " + roomPercent);
+        //log.warn("RoomPercent : " + roomPercent);
 
         // 단위 기간별 매출현황 (기간 검색 미적용, 숙소선택 적용)
         // 당일 누적 판매량
         List<ReservationVO> todaySales = service.findAllTodaySales(map);
 
-        log.warn("todaySales : " + todaySales);
+        //log.warn("todaySales : " + todaySales);
 
         // 월별 매출 현황
         List<ReservationVO> statsMonth = service.findAllMonthSales(map);
@@ -971,7 +974,7 @@ public class BusinessController {
         // 연별 매출 현황
         List<ReservationVO> yearSales = service.findAllYearSales(map);
 
-        log.warn("yearSales : " + yearSales);
+        //log.warn("yearSales : " + yearSales);
 
         int yearSum = 0;
 
@@ -982,7 +985,7 @@ public class BusinessController {
 
         int yearAvg = yearSum/3;          // 3년 년평균 매출
 
-        log.warn("yearAvg : " + yearAvg);
+        //log.warn("yearAvg : " + yearAvg);
 
 
 
@@ -1006,6 +1009,7 @@ public class BusinessController {
         model.addAttribute("dateStart",dateStart);
         model.addAttribute("dateEnd",dateEnd);
         model.addAttribute("rateAvg",rateAvg);
+        model.addAttribute("formattedRateAvg",formattedRateAvg);
 
 
         return "business/stats";

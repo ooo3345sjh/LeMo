@@ -85,7 +85,7 @@
                                                 </div>
                                                 <div class="tsd_prod">
                                                     <p>평점</p>
-                                                    <h3>[[${rateAvg}]] <i>점</i></h3>
+                                                    <h3>[[${formattedRateAvg}]] <i>점</i></h3>
                                                 </div>
                                                 <div class="tsd_regi">
                                                     <p>리뷰수</p>
@@ -168,7 +168,6 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
-    <!-- Date Range Picker -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -215,7 +214,7 @@
                     if(i==0) {
                         Daybefore[i] = date;
                     }
-                    data.addRow([Daybefore[i], stats[i].tot_res_price, avg_res_price]);
+                    data.addRow([stats[i].res_date, stats[i].tot_res_price, avg_res_price]);
                 }
             }else {
                 for (var i = Daybefore.length-1; i >= 0; i--) {
@@ -405,13 +404,17 @@
         monthBefore[i] = Mmonth;
     }
 
+    let month3 = (MonNowMonth -3) + '월';
+    let month2 = (MonNowMonth -2) + '월';
+    let month1 = (MonNowMonth -1) + '월';
+
     function drawVisualization() {
         // 그래프 내용 : drawVisualization 구현
         var data = google.visualization.arrayToDataTable([
             ['날짜', '일별매출', '월매출평균'],
-            [monthBefore[3],  MstatsMonth[0] ? MstatsMonth[0].tot_res_price : 0, monthAvg],
-            [monthBefore[2],  MstatsMonth[1] ? MstatsMonth[1].tot_res_price : 0, monthAvg],
-            [monthBefore[1],  MstatsMonth[2] ? MstatsMonth[2].tot_res_price : 0, monthAvg],
+            [month3,  MstatsMonth[0] ? MstatsMonth[0].tot_res_price : 0, monthAvg],
+            [month2,  MstatsMonth[1] ? MstatsMonth[1].tot_res_price : 0, monthAvg],
+            [month1,  MstatsMonth[2] ? MstatsMonth[2].tot_res_price : 0, monthAvg],
             [MonDate,  MstatsMonth[3] ? MstatsMonth[3].tot_res_price : 0, monthAvg]
         ]);
 
@@ -684,6 +687,8 @@
             if(periodTypeParam){
                 $('ul.date_3ea a').removeClass('on');
                 $('ul.date_3ea a[data-value="'+periodTypeParam+'"]').addClass('on');
+
+
             }
 
             $('ul.date_3ea a').on('click', function(e) {
@@ -702,6 +707,8 @@
                 url.searchParams.delete('dateStart');
                 url.searchParams.delete('dateEnd');
                 window.location.href = url.toString();
+                $('.begin').val('');
+                $('.end').val('');
 
                 // 바로 전송
                 $('.sd_submit').click();

@@ -1675,19 +1675,20 @@ main .res_list_accName {width: 17% !important;}
 main .res_list_name {width: 8% !important;}
 
 main .accList1 {width: 5% !important; font-family: 'Noto Sans KR';}
-main .accList2 {width: 10% !important; font-family: 'Noto Sans KR';}
-main .accList3 {width: 34% !important; }
+main .accList2 {width: 13% !important; font-family: 'Noto Sans KR';}
+main .accList3 {width: 27% !important; }
 main .accList3:hover {
     text-decoration: underline;
 }
 main .accList3 > a {
     font-size: 14px;
     color: #505050 !important;
+    font-family: 'Noto Sans KR';
 }
 main .accList4 {width: 15% !important;}
 main .accList5 {width: 18% !important; font-family: 'Noto Sans KR';}
 main .accList6 {
-    width: 15% !important;
+    width: 20% !important;
     border-right: none !important;
 }
 
@@ -3247,3 +3248,8 @@ main .sa_select_acc select {
 }
 main .sa_select_acc option {}
 
+main .ratingList {
+    width: 20px;
+    height: 19px;
+    margin-top: 10px;
+}
