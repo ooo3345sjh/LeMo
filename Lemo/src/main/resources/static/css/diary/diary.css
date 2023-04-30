@@ -828,6 +828,14 @@ button {cursor: pointer;}
     margin-bottom: 10px;
 }
 
+.repdiv1 div .articleWriter {
+    border: 1px solid #424242;
+    padding: 0px 3px 0px 3px;
+    border-radius: 30px;
+    font-size: 10px;
+    color: #424242;
+}
+
 .repdiv1 div strong {
     font-weight: bold;
     font-size: 13px;

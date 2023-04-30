@@ -159,7 +159,9 @@ $(function(){
                     content += '<img src="/Lemo/img/profile/'+response["photo"]+'" alt="프사">';
                    }
                    content += '<div>';
-                   content += '<strong>'+response["nick"]+'</strong><span style="margin-left: 10px;">방금 전</span>';
+                   content += '<strong>'+response["nick"]+'</strong>'
+                   if(articleNick == response["nick"]) { content += '<span style="margin-left: 3px;" class="articleWriter">작성자</span>'; }
+                   content += '<span style="margin-left: 5px;">방금 전</span>';
                    content += '</div>';
                    content += '</div>';
                    content += '<div class="repdiv2">';
@@ -215,7 +217,9 @@ $(function(){
                 content += '<img src="/Lemo/img/profile/'+response["photo"]+'" alt="프사">';
                }
                content += '<div>';
-               content += '<strong>'+response["nick"]+'</strong><span style="margin-left: 10px;">방금 전</span>';
+               content += '<strong>'+response["nick"]+'</strong>'
+               if(articleNick == response["nick"]) { content += '<span style="margin-left: 3px;" class="articleWriter">작성자</span>'; }
+               content += '<span style="margin-left: 5px;">방금 전</span>';
                content += '</div>';
                content += '</div>';
                content += '<div class="repdiv2">';
