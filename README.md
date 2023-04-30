@@ -28,8 +28,11 @@ Blog type Hotel Booking Site
 - [Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2) - 구글 소셜 로그인
 - [Naver OAuth 2.0](https://developers.naver.com/docs/login/api/api.md) - 네이버 소셜 로그인
 - [Kakao OAuth 2.0](https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api) - 카카오 소셜 로그인
-- [Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview) - 여행하고자하는 지역 검색시 자동으로 주소를 완성해주는 API.
+- [Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview) - 여행하고자하는 지역 검색시 자동으로 주소를 완성해주는 API
 - [iamport.payment API](https://api.iamport.kr/) - 결제 API를 테스트할 수 있는 API
+- [Google Analytics Data API](https://developers.google.com/analytics/devguides/reporting/data/v1?hl=en) - 구글 애널리틱스 보고서 데이터를 조회할 수 있는 API
+- [Kakao Map API](https://apis.map.kakao.com/web/documentation/) - 호텔 및 여행 위치를 지도에 표시해주는 API
+-
 ### 팀원 Contributors
 * [서정현](https://github.com/ooo3345sjh)
 * [박종협](https://github.com/lazca2080)
