@@ -58,19 +58,42 @@
                                             <li class="accList4">
                                                 <div class="r_rating" style="margin: 0 22%;">
                                                     <th:block th:if="${acc.acc_rate == 5}">
-                                                        <h6 class="rating5mini">&nbsp;</h6>
+                                                        <h6>
+                                                            <th:block th:each="i : ${#numbers.sequence(1, acc.acc_rate)}">
+                                                                <img class="ratingList" th:src="@{/images/admin/full_star.png}">
+                                                            </th:block>
+                                                        </h6>
                                                     </th:block>
                                                     <th:block th:if="${acc.acc_rate == 4}">
-                                                        <h6 class="rating4mini">&nbsp;</h6>
+                                                        <h6>
+                                                            <th:block th:each="i : ${#numbers.sequence(1, acc.acc_rate)}">
+                                                                <img class="ratingList" th:src="@{/images/admin/full_star.png}">
+                                                            </th:block>
+                                                        </h6>
                                                     </th:block>
                                                     <th:block th:if="${acc.acc_rate == 3}">
-                                                        <h6 class="rating3mini">&nbsp;</h6>
+                                                        <h6>
+                                                            <th:block th:each="i : ${#numbers.sequence(1, acc.acc_rate)}">
+                                                                <img class="ratingList" th:src="@{/images/admin/full_star.png}">
+                                                            </th:block>
+                                                        </h6>
                                                     </th:block>
                                                     <th:block th:if="${acc.acc_rate == 2}">
-                                                        <h6 class="rating2mini">&nbsp;</h6>
+                                                        <h6>
+                                                            <th:block th:each="i : ${#numbers.sequence(1, acc.acc_rate)}">
+                                                                <img class="ratingList" th:src="@{/images/admin/full_star.png}">
+                                                            </th:block>
+                                                        </h6>
                                                     </th:block>
                                                     <th:block th:if="${acc.acc_rate == 1}">
-                                                        <h6 class="rating1mini">&nbsp;</h6>
+                                                        <h6>
+                                                            <th:block th:each="i : ${#numbers.sequence(1, acc.acc_rate)}">
+                                                                <img class="ratingList" th:src="@{/images/admin/full_star.png}">
+                                                            </th:block>
+                                                        </h6>
+                                                    </th:block>
+                                                    <th:block th:if="${acc.acc_rate == 0}">
+                                                        <p>평점이 없습니다</p>
                                                     </th:block>
                                                 </div>
                                             </li>

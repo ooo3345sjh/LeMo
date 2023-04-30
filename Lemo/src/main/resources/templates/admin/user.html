@@ -49,7 +49,7 @@
                                             <select name="searchField" class="searchField">
                                                 <option value="userId" th:selected="${ph.sc.searchField == 'userId'}">아이디</option>
                                                 <option value="userNick" th:selected="${ph.sc.searchField == 'userNick'}">닉네임</option>
-                                                <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요"/>
+                                                <input type="hidden" class="search_box" name="searchWord" placeholder="검색어를 입력하세요"/>
                                             </select>
                                         </td>
                                     </tr>
@@ -94,7 +94,7 @@
                                                         <section>
                                                             <nav class="d_tit">
                                                                 <h1 class="d_tit2">메모</h1>
-                                                                <input type="text" class="d_id">
+                                                                <input type="hidden" class="d_id">
                                                             </nav>
                                                             <div class="d_box">
                                                                 <textarea class="d_content" placeholder="메모 내용을 작성하세요" th:text="${user.memo}"></textarea>
@@ -678,7 +678,7 @@
                                         <section>
                                             <nav class="d_tit">
                                                 <h1 class="d_tit2">메모</h1>
-                                                <input type="text" class="d_id">
+                                                <input type="hidden" class="d_id">
                                             </nav>
                                             <div class="d_box">
                                                 <textarea class="d_content" placeholder="메모 내용을 작성하세요">${user.memo}</textarea>
