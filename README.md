@@ -21,7 +21,7 @@ Blog type Hotel Booking Site<br/>
 
 
 ## 프로젝트 기술 소개 Technology List
-프로젝트에 사용된 언어와 기술, ERD를 소개합니다.
+프로젝트에 사용된 언어와 기술, ERD 등을 소개합니다.
 
 ### 사용기술 Skills Utilized
 <img src="https://user-images.githubusercontent.com/111489860/235365245-620fffb9-679a-4547-b839-7fe9bf65476e.JPG"  width="700" height="370">
@@ -31,6 +31,9 @@ Blog type Hotel Booking Site<br/>
 이 프로젝트의 DB는 28개의 테이블으로 이루어져 있습니다.
 
 ## 정보구조도 Information Architecture
+<img src="https://user-images.githubusercontent.com/111489860/235367370-5c37bd8e-2d85-495b-8564-0e90e81bfccc.JPG"  width="700" height="370">
+
+## 프로젝트 규모 Project Scale Analysis Result
 <img src="https://user-images.githubusercontent.com/111489860/235367370-5c37bd8e-2d85-495b-8564-0e90e81bfccc.JPG"  width="700" height="370">
 
 ### 특징적 기술 Key Features
