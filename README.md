@@ -22,13 +22,6 @@
 ### 특징적 기술 Key Features
 
 
-### 개발환경 Development Environment
-* IntelliJ IDEA
-* Visual Studio Code
-* HeidiSQL
-
-
-
 ### 팀원 Contributors
 * [서정현](https://github.com/ooo3345sjh)
 * [박종협](https://github.com/lazca2080)
