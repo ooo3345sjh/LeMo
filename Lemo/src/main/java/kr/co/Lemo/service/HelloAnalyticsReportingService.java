@@ -1,7 +1,8 @@
 package kr.co.Lemo.service;
 
+import com.google.analytics.data.v1alpha.Funnel;
+import com.google.analytics.data.v1alpha.RunFunnelReportRequest;
 import com.google.analytics.data.v1beta.*;
-import com.google.analytics.data.v1beta.DateRange;
 import com.google.analytics.data.v1beta.Dimension;
 import com.google.analytics.data.v1beta.Metric;
 import com.google.api.gax.core.FixedCredentialsProvider;
@@ -51,8 +52,16 @@ public class HelloAnalyticsReportingService {
     try (BetaAnalyticsDataClient analyticsData =
                  BetaAnalyticsDataClient.create(betaAnalyticsDataSettings)) {
       // [END analyticsdata_json_credentials_initialize]
-
       // [START analyticsdata_json_credentials_run_report]
+//      RunRealtimeReportRequest request =
+//              RunRealtimeReportRequest.newBuilder()
+//                      .setProperty("properties/" + propertyId)
+//                      .addDimensions(Dimension.newBuilder().setName("country"))
+//                      .addMetrics(Metric.newBuilder().setName("activeUsers"))
+//
+//                      .build();
+
+      
       RunReportRequest request =
               RunReportRequest.newBuilder()
                       .setProperty("properties/" + propertyId)
@@ -63,16 +72,21 @@ public class HelloAnalyticsReportingService {
 
       // Make the request.
       RunReportResponse response = analyticsData.runReport(request);
+//      RunRealtimeReportResponse response = analyticsData.runRealtimeReport(request);
       // [END analyticsdata_json_credentials_run_report]
 
       // [START analyticsdata_json_credentials_print_report]
       System.out.println("Report result:");
       System.out.println(response.getRowCount());
+      System.out.println(response);
       // Iterate through every row of the API response.
+      int totalUsers = 0;
       for (Row row : response.getRowsList()) {
-        System.out.printf(
-                "%s, %s%n", row.getDimensionValues(0).getValue(), row.getMetricValues(0).getValue());
+        System.out.printf("%s, %s%n", row.getDimensionValues(0).getValue(), row.getMetricValues(0).getValue());
+
+        totalUsers += Integer.parseInt(row.getMetricValues(0).getValue());
       }
+      System.out.println("totalUsers = " + totalUsers);
       // [END analyticsdata_json_credentials_print_report]
     }
   }
