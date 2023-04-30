@@ -6,8 +6,8 @@ Blog type Hotel Booking Site<br/>
 <br/>
 
 ## 프로젝트 산출물
-[LEMO Project 스프레드시트](https://docs.google.com/spreadsheets/d/1g1_pXSo88nbbJbCdhzgQ4fqB4OPCF-Uaa3gWi8o0Ogw/edit#gid=0)
-[LEMO Project 시연 동영상](https://docs.google.com/spreadsheets/d/1g1_pXSo88nbbJbCdhzgQ4fqB4OPCF-Uaa3gWi8o0Ogw/edit#gid=0)
+[LEMO Project 스프레드시트](https://docs.google.com/spreadsheets/d/1g1_pXSo88nbbJbCdhzgQ4fqB4OPCF-Uaa3gWi8o0Ogw/edit#gid=0)<br/>
+[LEMO Project 시연 동영상](https://docs.google.com/spreadsheets/d/1g1_pXSo88nbbJbCdhzgQ4fqB4OPCF-Uaa3gWi8o0Ogw/edit#gid=0)<br/>
 [LEMO Project 발표 보고서](https://docs.google.com/spreadsheets/d/1g1_pXSo88nbbJbCdhzgQ4fqB4OPCF-Uaa3gWi8o0Ogw/edit#gid=0)
 
 ## 프로젝트 소개 Introduction
