@@ -240,7 +240,7 @@
                         let addContent  = `<div class="place place_D${withoutSpace}" data-no="${markerStatCount}">`;
                             addContent +=   '<div class="spot">';
                             addContent +=       '<img src="/Lemo/images/diary/marker7.png" width="30px" height="40px">';
-                            addContent +=           '<input type="text" class="diaryWriteInput" value="'+place+'" readonly placeholder="여행일기 제목을 작성해주세요.">'
+                            addContent +=       '<input type="text" class="diaryWriteInput" value="'+place+'" readonly placeholder="여행일기 제목을 작성해주세요.">'
                             addContent +=   '</div>';
                             addContent +=   '<img src="/Lemo/images/cs/arr_down.png" class="arrow">';
                             addContent +=   `<button class="delete_diary" data-place="${withoutSpace}" data-no="${markerStatCount}">삭제</button>`;
@@ -504,9 +504,15 @@
                         //FormData 새로운 객체 생성
                         let formData = new FormData();
 
+                        const sortFileMap = new Map([...fileMap].sort((a, b) => a[0] - b[0]));
+
+                        console.log(sortFileMap)
+
                         // file 가져오기
-                        for(const [key, value] of fileMap) {
+                        for(const [key, value] of sortFileMap) {
                             formData.append('file', value)
+                            console.log('key : ' + key)
+                            console.log('value : ' + value)
                         }
 
                         let submitSpotTitle = [];
@@ -552,7 +558,12 @@
 
                         formData.append('key', new Blob([ JSON.stringify(jsonData) ], {type : "application/json"}));
 
-                        if(!$('input[name=arti_title]').val()) {
+                        const writeInput = $('.diaryWriteInput.on').length;
+
+                        if(writeInput > 0) {
+                            sweetAlert('안내', '여행일기 제목 수정을 완료해주세요.!');
+                            return;
+                        }else if(!$('input[name=arti_title]').val()) {
                             sweetAlert('안내', '제목을 작성해주세요.!');
                             return;
                         }else if(markers.length == 0) {
@@ -604,7 +615,7 @@
                         e.preventDefault();
 
                         let fileNo = $(this).attr('data-no');
-                        fileMap.delete(fileNo);
+                        fileMap.delete(Number(fileNo));
 
                         let data_place = $(this).attr('data-place');
                         let data_no = $(this).data('no');

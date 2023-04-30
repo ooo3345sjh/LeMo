@@ -1,5 +1,7 @@
 package kr.co.Lemo.service;
 
+import com.google.analytics.data.v1alpha.Funnel;
+import com.google.analytics.data.v1alpha.RunFunnelReportRequest;
 import com.google.analytics.data.v1beta.*;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -62,6 +64,7 @@ public class HelloAnalyticsReportingService {
 
     try (BetaAnalyticsDataClient analyticsData =
                  BetaAnalyticsDataClient.create(betaAnalyticsDataSettings)) {
+
       // [START analyticsdata_json_credentials_run_report]
       // RunReportRequest : Google Analytics Data API를 사용하여 보고서를 실행하기 위한 요청 객체를 생성
       // 해당 클래스를 사용하여 보고서의 속성, 차원(Dimension), 측정 항목(Metric), 날짜 범위(DateRange) 등을 지정
@@ -80,12 +83,15 @@ public class HelloAnalyticsReportingService {
 
       // Make the request.
       RunReportResponse response = analyticsData.runReport(request);
+//      RunRealtimeReportResponse response = analyticsData.runRealtimeReport(request);
       // [END analyticsdata_json_credentials_run_report]
 
       // [START analyticsdata_json_credentials_print_report]
       System.out.println("Report result:");
       System.out.println(response.getRowCount());
+      System.out.println(response);
       // Iterate through every row of the API response.
+      int totalUsers = 0;
       for (Row row : response.getRowsList()) {
         System.out.printf(
                 "%s, %s%n", row.getDimensionValues(0).getValue(), row.getMetricValues(0).getValue());
@@ -95,6 +101,7 @@ public class HelloAnalyticsReportingService {
 
         reportData.add(vo);
       }
+      System.out.println("totalUsers = " + totalUsers);
       // [END analyticsdata_json_credentials_print_report]
     }
     return reportData;

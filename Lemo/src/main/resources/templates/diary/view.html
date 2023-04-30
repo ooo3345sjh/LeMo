@@ -105,7 +105,7 @@
                         </div>
                     </div>
                     <a class="diaryDelete" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.nick == article.get(0).getNick}">삭제</a>
-                    <a th:href="@{/my/diary/modify (arti_no = ${article.get(0).getArti_no})}" class="diaryModify" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.nick == article.get(0).getNick}">수정</a>
+                    <a th:href="@{/my/diary/modify (arti_no = ${article.get(0).getArti_no}, res_no = ${article.get(0).getRes_no})}" class="diaryModify" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.nick == article.get(0).getNick}">수정</a>
                     <a th:href="@{/diary/list}" class="diaryList">목록</a>
                 </div>
                 <!-- 지도 -->
