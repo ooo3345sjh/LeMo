@@ -23,6 +23,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,8 +49,8 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     @Autowired
-   private Environment environment;
-   private String group = "title.admin";
+    private Environment environment;
+    private String group = "title.admin";
 
     @Autowired
     private AdminService service;
@@ -73,18 +79,8 @@ public class AdminController {
         int totalVisitors = 0;
 
         // 구글 애널리틱스
-        List<AnalyticsVO> reportData = reportingService.getData("today", "today");
+        totalVisitors = reportingService.getTodayActiveUser();
 
-        log.warn("reportData :" + reportData);
-
-        for (AnalyticsVO vo : reportData) {
-            log.warn("activeUsers : " + vo.getActiveUsers());
-            visitors = vo.getActiveUsers();
-            totalVisitors += visitors;
-        }
-
-        log.warn("visitors : " + visitors);
-        log.warn("totalVisitors : " + totalVisitors);
 
         // 일별 누적 판매량 (당일)
         List<ReservationVO> todaySales = service.findAllTodaySales(map);
@@ -140,7 +136,7 @@ public class AdminController {
     // 관리자 - 통계 관리
     @GetMapping("stats")
     public String stats(Model model,
-                        @RequestParam Map<String, String> map) {
+                        @RequestParam Map<String, String> map) throws Exception {
 
         // 타이틀 설정
         model.addAttribute("title", environment.getProperty(group));
@@ -153,6 +149,7 @@ public class AdminController {
         int totalQna = 0;
         int totalAcc = 0;
         int totalRegister = 0;
+        int totalUsers = 0;
         List<ReservationVO> stats = new ArrayList<>();
         int sum_res_price = 0;
         int avg_res_price = 0;
@@ -183,19 +180,40 @@ public class AdminController {
             map.put("dateStart",null);
             map.put("dateEnd",null);
         }else {
-            log.warn("dateStart type: " + dateStart.getClass().getName());
+            totalUsers = reportingService.getActiveUser(dateStart, dateEnd);
         }
 
 
+        LocalDate now = LocalDate.now();
+        String endDay = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String startDay = null;
 
         // 기간 미 설정시 기본 -> 일주일
         if(map.get("periodType") == null){
             map.put("periodType", "week");
+            startDay = now.minusDays(6).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            totalUsers = reportingService.getActiveUser(startDay, endDay);
 
         // 기간 설정 시 -> 기간 설정에 따른 데이터 조회
         }else if(map.get("periodType") != null){
             map.put("periodType", periodType);
+
+            if(dateStart == null || dateEnd == null || dateStart.isBlank() || dateEnd.isBlank()){
+                switch (periodType){
+                    case "day":
+                        startDay = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                        break;
+                    case "month":
+                        startDay = now.minusMonths(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                        break;
+                    case "year":
+                        startDay = now.minusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                        break;
+                }
+                totalUsers = reportingService.getActiveUser(startDay, endDay);
+            }
         }
+
 
         log.warn("periodType: " + periodType);
 
@@ -270,6 +288,7 @@ public class AdminController {
         model.addAttribute("totalQna", totalQna);
         model.addAttribute("totalAcc", totalAcc);
         model.addAttribute("totalRegister", totalRegister);
+        model.addAttribute("totalUsers", totalUsers);
         model.addAttribute("stats", stats);
         model.addAttribute("sum_res_price",sum_res_price);
         model.addAttribute("avg_res_price", avg_res_price);
