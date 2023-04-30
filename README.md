@@ -17,7 +17,7 @@ Blog type Hotel Booking Site<br/>
 
 
 ## 프로젝트 기술 소개 Technology List
-프로젝트에 사용된 언어와 기술, ERD와 개발환경 등을 소개합니다.
+프로젝트에 사용된 언어와 기술, ERD를 소개합니다.
 
 ### 사용기술 Skills Utilized
 <img src="https://user-images.githubusercontent.com/111489860/235365245-620fffb9-679a-4547-b839-7fe9bf65476e.JPG"  width="700" height="370">
