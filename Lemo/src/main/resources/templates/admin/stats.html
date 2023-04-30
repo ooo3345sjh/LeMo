@@ -172,7 +172,6 @@
         // 출력 날짜 형태 지정
         date = nowMonth + '/' + nowDate;
 
-        console.log("stats.length: " + stats.length);
 
         // 이전 날짜
         let Daybefore = new Array();
@@ -192,14 +191,11 @@
                 for (var i = Daybefore.length-1; i >= 0; i--) {
                     if(i==0) {
                         Daybefore[i] = date;
-                        console.log("hi");
                     }
-                    console.log("stats[i].res_date: " + stats[i].res_date);
                     data.addRow([stats[i].res_date, stats[i].tot_res_price, avg_res_price]);
                 }
             }else {
                 for (var i = Daybefore.length-1; i >= 0; i--) {
-
                     data.addRow([stats[i].res_date, stats[i].tot_res_price, avg_res_price]);
                 }
             }
@@ -419,16 +415,21 @@
             const monthAgo = new Date(Montoday.getTime() - (i * 30 * 24 * 60 * 60 * 1000)); // 30일(한달)을 기준으로 계산
             const Mmonth = monthAgo.toLocaleString('default', { month: 'long' }); // 월을 문자열로 변환
             monthBefore[i] = Mmonth;
+
         }
+
+        let month3 = (MonNowMonth -3) + '월';
+        let month2 = (MonNowMonth -2) + '월';
+        let month1 = (MonNowMonth -1) + '월';
 
         function drawVisualization() {
             // 그래프 내용 : drawVisualization 구현
             var data = google.visualization.arrayToDataTable([
                 ['날짜', '일별매출', '월매출평균'],
-                [monthBefore[3],  MstatsMonth[0] ? MstatsMonth[0].tot_res_price : 0, monthAvg],
-                [monthBefore[2],  MstatsMonth[1] ? MstatsMonth[1].tot_res_price : 0, monthAvg],
-                [monthBefore[1],  MstatsMonth[2] ? MstatsMonth[2].tot_res_price : 0, monthAvg],
-                [MonDate,  MstatsMonth[3] ? MstatsMonth[3].tot_res_price : 0, monthAvg]
+                [month3,  MstatsMonth[3] ? MstatsMonth[3].tot_res_price : 0, monthAvg],
+                [month2,  MstatsMonth[2] ? MstatsMonth[2].tot_res_price : 0, monthAvg],
+                [month1,  MstatsMonth[1] ? MstatsMonth[1].tot_res_price : 0, monthAvg],
+                [MonDate,  MstatsMonth[0] ? MstatsMonth[0].tot_res_price : 0, monthAvg]
             ]);
 
             // 그래프 주석 표기
@@ -533,9 +534,9 @@
             // 그래프 내용 : drawVisualization 구현
             var data = google.visualization.arrayToDataTable([
                 ['날짜', '연매출', '연매출평균'],
-                [before[2],  yearSales[0] ? yearSales[0].tot_res_price : 0, yearAvg],
+                [before[2],  yearSales[2] ? yearSales[2].tot_res_price : 0, yearAvg],
                 [before[1],  yearSales[1] ? yearSales[1].tot_res_price : 0, yearAvg],
-                [Ydate,  yearSales[2] ? yearSales[2].tot_res_price : 0, yearAvg]
+                [Ydate,  yearSales[0] ? yearSales[0].tot_res_price : 0, yearAvg]
             ]);
 
             // 그래프 주석 표기
