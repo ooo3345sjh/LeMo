@@ -61,7 +61,7 @@
                                         </div>
                                         <div class="tsd_visit">
                                             <p>방문자</p>
-                                            <h3>1,234 <i>명</i></h3>
+                                            <h3>[[${totalVisitors}]] <i>명</i></h3>
                                         </div>
                                     </div>
                                     <div class="tsd_grid2">
@@ -210,6 +210,16 @@
     <th:block th:replace="~{fragments/_footer::footerFragment}"></th:block>
 </th:block>
 <th:block layout:fragment="script">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KZW2RVP"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <script>
+        // gtag: Google Analytics 태그를 전송하기 위한 함수
+        gtag('event', 'LEMOEVENT', {
+            'visitors':'http://junghyun.site/Lemo'
+        });
+    </script>
     <!-- 구글 차트 -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script th:inline="javascript">

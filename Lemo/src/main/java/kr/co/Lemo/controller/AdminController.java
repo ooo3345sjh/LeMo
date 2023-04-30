@@ -5,6 +5,7 @@ import kr.co.Lemo.domain.search.Admin_SearchVO;
 import kr.co.Lemo.domain.search.Cs_SearchVO;
 import kr.co.Lemo.service.AdminService;
 import kr.co.Lemo.service.CsService;
+import kr.co.Lemo.service.HelloAnalyticsReportingService;
 import kr.co.Lemo.utils.PageHandler;
 import kr.co.Lemo.utils.RemoteAddrHandler;
 import kr.co.Lemo.utils.SearchCondition;
@@ -51,12 +52,15 @@ public class AdminController {
     @Autowired
     private CsService csService;
 
+    @Autowired
+    private HelloAnalyticsReportingService reportingService;
+
 
     // 관리자 - 메인
     @GetMapping(value = {"", "index"})
      public String index_admin(
             Model model,
-            Map map) {
+            Map map) throws Exception {
 
         model.addAttribute("title", environment.getProperty(group));
 
@@ -65,6 +69,22 @@ public class AdminController {
         // 전역변수 선언
         int sum_res_price = 0;
         int avg_res_price = 0;
+        int visitors = 0;
+        int totalVisitors = 0;
+
+        // 구글 애널리틱스
+        List<AnalyticsVO> reportData = reportingService.getData();
+
+        log.warn("reportData :" + reportData);
+
+        for (AnalyticsVO vo : reportData) {
+            log.warn("activeUsers : " + vo.getActiveUsers());
+            visitors = vo.getActiveUsers();
+            totalVisitors += visitors;
+        }
+
+        log.warn("visitors : " + visitors);
+        log.warn("totalVisitors : " + totalVisitors);
 
         // 일별 누적 판매량 (당일)
         List<ReservationVO> todaySales = service.findAllTodaySales(map);
@@ -111,6 +131,7 @@ public class AdminController {
         model.addAttribute("bestAccs", bestAccs);
         model.addAttribute("notice", notice);
         model.addAttribute("qnaArticles", qnaArticles);
+        model.addAttribute("totalVisitors", totalVisitors);
 
         return "admin/index";
     }
