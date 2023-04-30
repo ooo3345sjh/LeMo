@@ -73,7 +73,7 @@ public class AdminController {
         int totalVisitors = 0;
 
         // 구글 애널리틱스
-        List<AnalyticsVO> reportData = reportingService.getData();
+        List<AnalyticsVO> reportData = reportingService.getData("today", "today");
 
         log.warn("reportData :" + reportData);
 

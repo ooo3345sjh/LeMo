@@ -23,22 +23,13 @@ public class HelloAnalyticsReportingService {
   @Value("${spring.servlet.multipart.location}")
   private String uploadPath;
 
-  public static void main(String[] args) throws Exception {
-    HelloAnalyticsReportingService service = new HelloAnalyticsReportingService();
-    List<AnalyticsVO> data = service.getData();
-    // 데이터 처리 로직 추가
-
-    System.out.println(data);
-  }
-
-
-  public List<AnalyticsVO> getData() throws Exception {
+  public List<AnalyticsVO> getData(String startDate, String endDate) throws Exception {
     // TODO(developer): Replace this variable with your Google Analytics 4 property ID before
     String propertyId = "373040723";
 
     // TODO(developer): Replace this variable with a valid path to the credentials.json file for
     // credentialsJsonPath: 인증 정보가 포함된 Service Account Key 파일의 경로
-    String credentialsJsonPath = "/Users/yiwonjeong/Desktop/Workspace/LeMo/credentials.json";
+    String credentialsJsonPath = uploadPath + "/credentials.json";
 
     // 파일 유무 확인 (true, false)
     File file = new File(credentialsJsonPath);
@@ -76,8 +67,8 @@ public class HelloAnalyticsReportingService {
                       .addDimensions(Dimension.newBuilder().setName("country"))      // addDimensions() 메서드는 보고서의 차원(Dimension)을 추가 (ex. 'city' 차원 추가)
                       .addMetrics(Metric.newBuilder().setName("activeUsers"))     // addMetrics() 메서드는 보고서의 측정 항목(Metric, 수집된 데이터에서 계산한 측정값)을 추가, (ex. activeUsers)
                       .addDateRanges(DateRange.newBuilder()
-                              .setStartDate("today")
-                              .setEndDate("today")
+                              .setStartDate(startDate)
+                              .setEndDate(endDate)
                       )  // addDateRanges() 메서드는 보고서에 포함할 날짜 범위(DateRange)를 추가
                       .build();
 

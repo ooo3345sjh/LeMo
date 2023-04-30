@@ -320,7 +320,6 @@ main .today_sales_status > p {
     height: 60px;
     color: #6c757d!important;
     border: none;
-    cursor: pointer;
     line-height: 60px;
     margin: 0 auto;
     font-family: 'Noto Sans KR';
