@@ -1,8 +1,9 @@
-# [LEMO](https://docs.google.com/spreadsheets/d/1g1_pXSo88nbbJbCdhzgQ4fqB4OPCF-Uaa3gWi8o0Ogw/edit#gid=0)
+# LEMO
 <img src="https://user-images.githubusercontent.com/111489860/235365625-ed717f1e-3bce-4e95-a261-7b1b296af02f.png" width="auto" height="70">
 
 블로그형 숙박 예약 웹사이트<br/>
 Blog type Hotel Booking Site
+[LEMO Project 산출물 보러가기](https://docs.google.com/spreadsheets/d/1g1_pXSo88nbbJbCdhzgQ4fqB4OPCF-Uaa3gWi8o0Ogw/edit#gid=0)
 
 ## 프로젝트 소개 Introduction
 프로젝트에 대한 간략한 소개와 의의를 설명합니다.
