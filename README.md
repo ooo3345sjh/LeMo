@@ -25,7 +25,9 @@ Blog type Hotel Booking Site
 이 프로젝트의 DB는 28개의 테이블으로 이루어져 있습니다.
 
 ### 특징적 기술 Key Features
-
+- [Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2) - 구글 소셜 로그인
+- [Naver OAuth 2.0](https://developers.naver.com/docs/login/api/api.md) - 네이버 소셜 로그인
+- [Kakao OAuth 2.0](https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api) - 카카오 소셜 로그인
 
 ### 팀원 Contributors
 * [서정현](https://github.com/ooo3345sjh)
