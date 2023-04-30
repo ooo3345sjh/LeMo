@@ -18,6 +18,7 @@
 
 ### ERD
 <img src="https://user-images.githubusercontent.com/111489860/235360856-a1b334c3-2f4d-46f8-b773-19782486cc04.png"  width="700" height="370">
+이 프로젝트의 DB는 28개의 테이블으로 이루어져 있습니다.
 
 ### 특징적 기술 Key Features
 
