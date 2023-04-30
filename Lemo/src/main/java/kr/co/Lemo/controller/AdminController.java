@@ -108,6 +108,7 @@ public class AdminController {
                 sum_res_price += stats.get(i).getTot_res_price();
             }
             avg_res_price = sum_res_price / stats.size();
+
         }else if (stats.size() == 0) {
             sum_res_price = 0;
             avg_res_price = 0;

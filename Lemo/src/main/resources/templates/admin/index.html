@@ -227,8 +227,9 @@
         let stats = [[${stats}]];
         let avg_res_price = [[${avg_res_price}]];
 
+        console.log("stats");
         console.log(stats);
-        console.log("avg_res_price: " + avg_res_price);
+        console.log(stats.length);
 
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
@@ -245,7 +246,6 @@
         date = nowMonth + '/' + nowDate;
 
         // 이전 날짜
-        // before[1] = 1일전 , before[2] = 2일전
         let before = new Array();
         for (let i=1; i<7; i++){
             before[i] = new Date(today.getTime()-(i * 24 * 60 * 60 * 1000));
@@ -254,21 +254,15 @@
 
             function drawVisualization() {
 
-                let totalGraph;
-
-                console.log(before[6], stats[0].tot_res_price);
-
                 // 그래프 내용 : drawVisualization 구현
-                var data = google.visualization.arrayToDataTable([
-                    ['날짜', '일별매출', '평균매출'],
-                    [before[6],  stats[0]? stats[0].tot_res_price:0, avg_res_price],
-                    [before[5],  stats[1]? stats[1].tot_res_price:0, avg_res_price],
-                    [before[4],  stats[2]? stats[2].tot_res_price:0, avg_res_price],
-                    [before[3],  stats[3]? stats[3].tot_res_price:0, avg_res_price],
-                    [before[2],  stats[4]? stats[4].tot_res_price:0, avg_res_price],
-                    [before[1],  stats[5]? stats[5].tot_res_price:0, avg_res_price],
-                    [date,  stats[6]? stats[6].tot_res_price:0, avg_res_price]
-                ]);
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', '날짜');
+                data.addColumn('number', '매출');
+                data.addColumn('number', '평균');
+
+                for (var i = stats.length-1; i >= 0; i--) {
+                    data.addRow([stats[i].res_date, stats[i].tot_res_price, avg_res_price]);
+                }
 
                 // 그래프 주석 표기
                 var view = new google.visualization.DataView(data);
