@@ -13,13 +13,8 @@
 ## 프로젝트 기술 소개 Technology List
 프로젝트에 사용된 언어와 기술, ERD와 개발환경 등을 소개합니다.
 
-### 사용언어 Main Languages
-- Java 11
-- JavaScript ES 6
-- HTML5
-- CSS3
-- MYSQL
-- Mongodb
+### 사용기술 Skills Utilized
+<img src="https://github.com/ooo3345sjh/LeMo/issues/796#issue-1689966817"  width="700" height="370">
 
 ### ERD
 <img src="https://user-images.githubusercontent.com/111489860/235360856-a1b334c3-2f4d-46f8-b773-19782486cc04.png"  width="700" height="370">
