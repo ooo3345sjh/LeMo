@@ -26,16 +26,6 @@ Blog type Hotel Booking Site<br/>
 ### 사용기술 Skills Utilized
 <img src="https://user-images.githubusercontent.com/111489860/235365245-620fffb9-679a-4547-b839-7fe9bf65476e.JPG"  width="700" height="370">
 
-### ERD
-<img src="https://user-images.githubusercontent.com/111489860/235360856-a1b334c3-2f4d-46f8-b773-19782486cc04.png"  width="700" height="370">
-이 프로젝트의 DB는 28개의 테이블으로 이루어져 있습니다.
-
-### 프로젝트 규모 Project Scale Analysis Result
-<img src="https://user-images.githubusercontent.com/111489860/235368403-173bfe85-78e4-41cb-a8fe-239a00163243.JPG"  width="700" height="370">
-
-### 정보구조도 Information Architecture
-<img src="https://user-images.githubusercontent.com/111489860/235367370-5c37bd8e-2d85-495b-8564-0e90e81bfccc.JPG"  width="700" height="370">
-
 ### 특징적 기술 Key Features
 - [Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2) - 구글 소셜 로그인
 - [Naver OAuth 2.0](https://developers.naver.com/docs/login/api/api.md) - 네이버 소셜 로그인
@@ -46,6 +36,16 @@ Blog type Hotel Booking Site<br/>
 - [Kakao Map API](https://apis.map.kakao.com/web/documentation/) - 호텔 및 여행 위치를 지도에 표시해주는 API
 - [Data.go.kr Open API](https://www.data.go.kr/data/15081808/openapi.do) - 국세청_사업자등록정보 진위확인 및 상태조회 API
 - [Naver SENS API](https://api.ncloud-docs.com/docs/ai-application-service-sens-smsv2) - 휴대폰 인증문자 발송 API
+
+### ERD
+<img src="https://user-images.githubusercontent.com/111489860/235360856-a1b334c3-2f4d-46f8-b773-19782486cc04.png"  width="700" height="370">
+이 프로젝트의 DB는 28개의 테이블으로 이루어져 있습니다.
+
+### 프로젝트 규모 Project Scale Analysis Result
+<img src="https://user-images.githubusercontent.com/111489860/235368403-173bfe85-78e4-41cb-a8fe-239a00163243.JPG"  width="700" height="370">
+
+### 정보구조도 Information Architecture
+<img src="https://user-images.githubusercontent.com/111489860/235367370-5c37bd8e-2d85-495b-8564-0e90e81bfccc.JPG"  width="700" height="370">
 
 ### 팀원 Contributors
 * [서정현](https://github.com/ooo3345sjh)
