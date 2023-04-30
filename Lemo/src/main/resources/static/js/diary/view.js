@@ -97,6 +97,14 @@ $(function(){
         $(this).parent().find('.toggle').prev().toggleClass('on');
     });
 
+    $('.arrow').click(function(e){
+        e.preventDefault();
+        let articleTextarea = $(this).parent().find('.toggle').children('textarea');
+        $(this).parent().find('.toggle').slideToggle(600);
+        articleTextarea.css('height', ( 15 + articleTextarea.prop('scrollHeight') ) + 'px');
+        $(this).parent().find('.toggle').prev().toggleClass('on');
+    });
+
     /* 답 댓글쓰기 팝업 */
     $(document).on('click', '.comment', function(e){
         e.preventDefault();
