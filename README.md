@@ -34,7 +34,7 @@ Blog type Hotel Booking Site<br/>
 <img src="https://user-images.githubusercontent.com/111489860/235367370-5c37bd8e-2d85-495b-8564-0e90e81bfccc.JPG"  width="700" height="370">
 
 ## 프로젝트 규모 Project Scale Analysis Result
-<img src="https://user-images.githubusercontent.com/111489860/235367370-5c37bd8e-2d85-495b-8564-0e90e81bfccc.JPG"  width="700" height="370">
+<img src="https://user-images.githubusercontent.com/111489860/235368403-173bfe85-78e4-41cb-a8fe-239a00163243.JPG"  width="700" height="370">
 
 ### 특징적 기술 Key Features
 - [Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2) - 구글 소셜 로그인
