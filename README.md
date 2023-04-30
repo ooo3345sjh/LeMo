@@ -28,7 +28,8 @@ Blog type Hotel Booking Site
 - [Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2) - 구글 소셜 로그인
 - [Naver OAuth 2.0](https://developers.naver.com/docs/login/api/api.md) - 네이버 소셜 로그인
 - [Kakao OAuth 2.0](https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api) - 카카오 소셜 로그인
-
+- [Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview) - 여행하고자하는 지역 검색시 자동으로 주소를 완성해준다.
+- 
 ### 팀원 Contributors
 * [서정현](https://github.com/ooo3345sjh)
 * [박종협](https://github.com/lazca2080)
