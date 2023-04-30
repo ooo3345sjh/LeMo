@@ -33,7 +33,7 @@ Blog type Hotel Booking Site<br/>
 ### 프로젝트 규모 Project Scale Analysis Result
 <img src="https://user-images.githubusercontent.com/111489860/235368403-173bfe85-78e4-41cb-a8fe-239a00163243.JPG"  width="700" height="370">
 
-## 정보구조도 Information Architecture
+### 정보구조도 Information Architecture
 <img src="https://user-images.githubusercontent.com/111489860/235367370-5c37bd8e-2d85-495b-8564-0e90e81bfccc.JPG"  width="700" height="370">
 
 ### 특징적 기술 Key Features
