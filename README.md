@@ -33,6 +33,7 @@ Blog type Hotel Booking Site
 - [Google Analytics Data API](https://developers.google.com/analytics/devguides/reporting/data/v1?hl=en) - 구글 애널리틱스 보고서 데이터를 조회할 수 있는 API
 - [Kakao Map API](https://apis.map.kakao.com/web/documentation/) - 호텔 및 여행 위치를 지도에 표시해주는 API
 - [Data.go.kr Open API](https://www.data.go.kr/data/15081808/openapi.do) - 국세청_사업자등록정보 진위확인 및 상태조회 API
+- [Naver SENS API](https://api.ncloud-docs.com/docs/ai-application-service-sens-smsv2) - 휴대폰 인증문자 발송 API
 
 ### 팀원 Contributors
 * [서정현](https://github.com/ooo3345sjh)
