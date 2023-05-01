@@ -44,6 +44,9 @@ Blog type Hotel Booking Site<br/>
 - [Dropzone](https://www.dropzone.dev/) - 이미지 업로드를 위한 dropzone 라이브러리 
 - [FullCalendar](https://fullcalendar.io/docs) - 통계 관리를 위한 Full Calendar 라이브러리 
 - [Summernote](https://summernote.org/) - 게시글 작성을 위한 Summernote 라이브러리
+- [bxSlider](https://bxslider.com/) - 이미지 슬라이더 
+- [slickSlider](https://kenwheeler.github.io/slick/) - 이미지 슬라이더
+- [swiperSlider](https://swiperjs.com/) - 이미지 슬라이더
 
 
 ### 프로젝트 규모 Project Scale Analysis Result
@@ -73,4 +76,4 @@ If you have a question or any comment, feel free to open an issue or to DM me on
 * [박종협](https://github.com/lazca2080)
 * [이원정](https://github.com/Yiwonjeong)
 * [이해빈](https://github.com/094haley)
-* [황원진](ghkddnjs1269@gmail)
+* [황원진](https://github.com/hwangwonjin)
