@@ -24,7 +24,7 @@ Blog type Hotel Booking Site<br/>
 프로젝트에 사용된 언어와 기술, ERD 등을 소개합니다.
 
 ### 사용기술 Skills Utilized
-<img src="https://user-images.githubusercontent.com/111489860/235369059-4cdc853f-9122-4512-b8c0-0b8c89d1015a.JPG"  width="700" height="370">
+<img src="https://user-images.githubusercontent.com/111489860/235429742-04497c3b-8a4b-4005-9a29-4df8f167fc8f.png"  width="700" height="370">
 
 ### 특징적 기술 Key Features 
 #### API
