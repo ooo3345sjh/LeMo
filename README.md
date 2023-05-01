@@ -37,11 +37,14 @@ Blog type Hotel Booking Site<br/>
 - [Kakao Map API](https://apis.map.kakao.com/web/documentation/) - 호텔 및 여행 위치를 지도에 표시해주는 API
 - [Data.go.kr Open API](https://www.data.go.kr/data/15081808/openapi.do) - 국세청_사업자등록정보 진위확인 및 상태조회 API
 - [Naver SENS API](https://api.ncloud-docs.com/docs/ai-application-service-sens-smsv2) - 휴대폰 인증문자 발송 API
-- [Google charts] (https://developers.google.com/chart?hl=ko) - 통계 데이터 출력을 위한 구글 차트 API
-- [Daum postcode API] (https://postcode.map.daum.net/guide) - 우편 번호 검색을 위한 다음 우편 번호 API
+- [Google charts](https://developers.google.com/chart?hl=ko) - 통계 데이터 출력을 위한 구글 차트 API
+- [Daum postcode API](https://postcode.map.daum.net/guide) - 우편 번호 검색을 위한 다음 우편 번호 API
 
 #### Library 
-- [Dropzone] (https://www.dropzone.dev/) - 이미지 업로드를 위한 dropzone 라이브러리 
+- [Dropzone](https://www.dropzone.dev/) - 이미지 업로드를 위한 dropzone 라이브러리 
+- [FullCalendar](https://fullcalendar.io/docs) - 통계 관리를 위한 Full Calendar 라이브러리 
+- [Summernote](https://summernote.org/) - 게시글 작성을 위한 Summernote 라이브러리
+
 
 ### 프로젝트 규모 Project Scale Analysis Result
 <img src="https://user-images.githubusercontent.com/111489860/235368403-173bfe85-78e4-41cb-a8fe-239a00163243.JPG"  width="700" height="370">
