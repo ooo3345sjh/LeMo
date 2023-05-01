@@ -41,10 +41,21 @@ function loadData(cate, acc_id) {
 
         if(cate=='review'){
             /** 리뷰 사진 슬라이더 */
-            $('.gallerySlider').bxSlider({
-                slideWidth: 500,
-                pager: false
+            let reviewSliders = $('.gallerySlider');
+
+            reviewSliders.each(function(index) {
+
+                let $slider = reviewSliders.eq(index);
+
+                $slider.bxSlider({
+                    slideWidth: 500,
+                    pager: false,
+                    touchEnabled: ($slider.find("div").length > 1) ? true: false,
+                });
+
             });
+
+
         }else if(cate=='diary'){
             $('#acc_name_tag').text(acc_name);
         }
@@ -62,9 +73,18 @@ function movePage(event,obj,cate){
 
         if(cate=='review'){
             /** 리뷰 사진 슬라이더 */
-            $('.gallerySlider').bxSlider({
-                slideWidth: 500,
-                pager: false
+            let reviewSliders = $('.gallerySlider');
+
+            reviewSliders.each(function(index) {
+
+                let $slider = reviewSliders.eq(index);
+
+                $slider.bxSlider({
+                    slideWidth: 500,
+                    pager: false,
+                    touchEnabled: ($slider.find("div").length > 1) ? true: false,
+                });
+
             });
         }
 
@@ -148,9 +168,11 @@ $(function(){
         /** 다중 클릭 방지 */
         if(name == 'expansionImg'){
             /** bxSlider 삽입 */
-            let mySlider = $(this).next().next().next().children('.view_slider').children().bxSlider({
+            let mySlider = $(this).next().next().next().children('.view_slider').children();
+            mySlider.bxSlider({
                 slideWidth: 1000,
-                pager: false
+                pager: false,
+                touchEnabled: (mySlider.find("div").length > 1) ? true: false,
             });
             mySliders.push(mySlider);
             mySlider.reloadSlider();
