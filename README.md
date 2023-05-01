@@ -64,7 +64,7 @@ Blog type Hotel Booking Site<br/>
 * [박종협](https://github.com/lazca2080)
 * [이원정](https://github.com/Yiwonjeong)
 * [이해빈](https://github.com/094haley)
-* [황원진](ghkddnjs1269@gmail)
+* [황원진](https://github.com/hwangwonjin)
 
 
 ## 연락 Contact
