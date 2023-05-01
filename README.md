@@ -57,7 +57,7 @@ Blog type Hotel Booking Site<br/>
 이 프로젝트의 DB는 28개의 테이블으로 이루어져 있습니다.
 
 ### 정보구조도 Information Architecture
-<img src="https://user-images.githubusercontent.com/111489860/235367370-5c37bd8e-2d85-495b-8564-0e90e81bfccc.JPG"  width="700" height="370">
+<img src="https://user-images.githubusercontent.com/111489860/235429656-7fa358d6-661e-4ece-99b8-62128ca91b40.PNG"  width="700" height="370">
 
 ### 팀원 Contributors
 * [서정현](https://github.com/ooo3345sjh)
