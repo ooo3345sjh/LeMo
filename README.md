@@ -60,14 +60,6 @@ Blog type Hotel Booking Site<br/>
 <img src="https://user-images.githubusercontent.com/111489860/235429656-7fa358d6-661e-4ece-99b8-62128ca91b40.PNG"  width="700" height="370">
 
 ### 팀원 Contributors
-* [서정현](https://github.com/ooo3345sjh)
-* [박종협](https://github.com/lazca2080)
-* [이원정](https://github.com/Yiwonjeong)
-* [이해빈](https://github.com/094haley)
-* [황원진](https://github.com/hwangwonjin)
-
-
-## 연락 Contact
 해당 프로젝트에 대한 이슈를 생성하고 싶거나 우리 팀원들에게 연락하고 싶다면 아래로 연락해주세요.
 
 If you have a question or any comment, feel free to open an issue or to DM me on us.
