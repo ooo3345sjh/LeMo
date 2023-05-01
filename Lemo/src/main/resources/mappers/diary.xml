@@ -45,7 +45,7 @@
 
     <select id="selectTotalDiarys" resultType="int">
         SELECT
-            COUNT(a.`arti_no`)
+            COUNT(DISTINCT a.`arti_no`) AS `arti_no`
         FROM
             `lemo_diary_article` AS a LEFT JOIN
             `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
