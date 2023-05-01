@@ -50,7 +50,7 @@ Blog type Hotel Booking Site<br/>
 
 
 ### 프로젝트 규모 Project Scale Analysis Result
-<img src="https://user-images.githubusercontent.com/111489860/235368403-173bfe85-78e4-41cb-a8fe-239a00163243.JPG"  width="700" height="370">
+<img src="https://user-images.githubusercontent.com/111489860/235433600-4386bc58-11b5-45fe-8930-02e2efc4ec51.PNG"  width="700" height="370">
 
 ### ERD
 <img src="https://user-images.githubusercontent.com/111489860/235360856-a1b334c3-2f4d-46f8-b773-19782486cc04.png"  width="700" height="370">
