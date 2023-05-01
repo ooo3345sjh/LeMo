@@ -26,7 +26,8 @@ Blog type Hotel Booking Site<br/>
 ### 사용기술 Skills Utilized
 <img src="https://user-images.githubusercontent.com/111489860/235369059-4cdc853f-9122-4512-b8c0-0b8c89d1015a.JPG"  width="700" height="370">
 
-### 특징적 기술 Key Features
+### 특징적 기술 Key Features 
+#### API
 - [Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2) - 구글 소셜 로그인
 - [Naver OAuth 2.0](https://developers.naver.com/docs/login/api/api.md) - 네이버 소셜 로그인
 - [Kakao OAuth 2.0](https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api) - 카카오 소셜 로그인
@@ -36,6 +37,11 @@ Blog type Hotel Booking Site<br/>
 - [Kakao Map API](https://apis.map.kakao.com/web/documentation/) - 호텔 및 여행 위치를 지도에 표시해주는 API
 - [Data.go.kr Open API](https://www.data.go.kr/data/15081808/openapi.do) - 국세청_사업자등록정보 진위확인 및 상태조회 API
 - [Naver SENS API](https://api.ncloud-docs.com/docs/ai-application-service-sens-smsv2) - 휴대폰 인증문자 발송 API
+- [Google charts] (https://developers.google.com/chart?hl=ko) - 통계 데이터 출력을 위한 구글 차트 API
+- [Daum postcode API] (https://postcode.map.daum.net/guide) - 우편 번호 검색을 위한 다음 우편 번호 API
+
+#### Library 
+- [Dropzone] (https://www.dropzone.dev/) - 이미지 업로드를 위한 dropzone 라이브러리 
 
 ### 프로젝트 규모 Project Scale Analysis Result
 <img src="https://user-images.githubusercontent.com/111489860/235368403-173bfe85-78e4-41cb-a8fe-239a00163243.JPG"  width="700" height="370">
