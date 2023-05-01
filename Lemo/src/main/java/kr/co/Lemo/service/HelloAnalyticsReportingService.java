@@ -58,7 +58,7 @@ public class HelloAnalyticsReportingService {
                       .build();
 
       RunReportResponse response = analyticsData.runReport(request);
-      log.info(response + "");
+      log.debug(response + "");
       for (Row row : response.getRowsList())
         totalUsers += Integer.parseInt(row.getMetricValues(0).getValue());
 
