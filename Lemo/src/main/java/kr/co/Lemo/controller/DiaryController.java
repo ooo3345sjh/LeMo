@@ -56,7 +56,7 @@ public class DiaryController {
 
         List<ArticleDiaryVO> articles = service.findDairyArticles(vo);
 
-        int totalDiary = articles.size();
+        int totalDiary = service.findTotalDiarys(vo);
         int totalDiaryPage = (int)Math.ceil(totalDiary / (double)vo.getPageSize());
         if(vo.getPage() > totalDiaryPage) vo.setPage(totalDiaryPage);
 
