@@ -54,14 +54,13 @@ public class DiaryController {
         if(myUser != null) { vo.setUser_id(myUser.getUser_id()); }
         vo.setMap(options);
 
+        List<ArticleDiaryVO> articles = service.findDairyArticles(vo);
 
-        int totalDiary = service.findTotalDiarys(vo);
+        int totalDiary = articles.size();
         int totalDiaryPage = (int)Math.ceil(totalDiary / (double)vo.getPageSize());
         if(vo.getPage() > totalDiaryPage) vo.setPage(totalDiaryPage);
 
         PageHandler qnaPageHandler = new PageHandler(totalDiary, vo);
-
-        List<ArticleDiaryVO> articles = service.findDairyArticles(vo);
 
         m.addAttribute("articles", articles);
         m.addAttribute("ph", qnaPageHandler);

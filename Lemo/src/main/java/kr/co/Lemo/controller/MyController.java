@@ -360,13 +360,13 @@ public class MyController {
         m.addAttribute("cate", "diary");
         vo.setUser_id(myUser.getUser_id());
 
-        int totalDiary = service.findTotalDiary(vo);
+        List<ArticleDiaryVO> articles = service.findDiaryArticles(vo);
+
+        int totalDiary = articles.size();
         int totalDiaryPage = (int)Math.ceil(totalDiary / (double)vo.getPageSize());
         if(vo.getPage() > totalDiaryPage) vo.setPage(totalDiaryPage);
 
         PageHandler qnaPageHandler = new PageHandler(totalDiary, vo);
-
-        List<ArticleDiaryVO> articles = service.findDiaryArticles(vo);
 
         m.addAttribute("articles", articles);
         m.addAttribute("ph", qnaPageHandler);
