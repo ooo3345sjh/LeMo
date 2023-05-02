@@ -389,8 +389,6 @@
         let monthAvg = [[${monthAvg}]];
         let MstatsMonth = [[${statsMonth}]];
 
-        console.log("statsMonth");
-        console.log(MstatsMonth);
 
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
@@ -496,9 +494,6 @@
         let yearSales = [[${yearSales}]];
         let yearAvg = [[${yearAvg}]];
 
-        //console.log("year");
-        //console.log(yearSales);
-
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
         // callback 정의 : drawVisualization
@@ -515,7 +510,6 @@
         // 출력 날짜 형태 지정
         let Ydate = YnowYear;
 
-        //console.log("Ydate : " + Ydate);
 
         // 이전 날짜
         before = new Array();
@@ -524,10 +518,6 @@
             const year = yearAgo.getFullYear(); // 연도만 추출
             before[i] = year;
         }
-        //console.log(before[2] + ":" + yearSales[0].tot_res_price);
-        //console.log(before[1] + ":" + yearSales[1].tot_res_price);
-        //console.log(Ydate + ":" + yearSales[2].tot_res_price);
-        //console.log( (yearSales[0].tot_res_price+yearSales[1].tot_res_price+yearSales[2].tot_res_price)/3 );
 
         function drawVisualization() {
 
@@ -688,10 +678,19 @@
 
             };
 
+            // submit 이벤트를 감지하는 함수
+            const handleSubmit = (event) => {
+                if(!$beginInput.val() || !$endInput.val()){
+                    event.preventDefault(); // submit 이벤트 막기
+                    sweetalert("시작 날짜와 종료 날짜를 선택해주세요.", "warning");
+                }
+            };
+
 
             // 이벤트 처리 함수
             $beginInput.on('input', handleDateChange);
             $endInput.on('input', handleDateChange);
+            $submitBtn.on('click', handleSubmit);
 
         });
     </script>

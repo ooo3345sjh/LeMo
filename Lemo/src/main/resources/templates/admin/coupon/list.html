@@ -152,7 +152,7 @@
 
                   let cp_id = $(this).attr('data-no');
 
-                    console.log('cp_id ajax: ' + cp_id);
+                    //console.log('cp_id ajax: ' + cp_id);
 
                     const jsonData = {"cp_id": cp_id};
 
@@ -166,7 +166,7 @@
                             alert('error');
                         }
                     }).catch((errorMsg) => {
-                    console.log(errorMsg);
+                        console.log(errorMsg);
                     });
                }
             });

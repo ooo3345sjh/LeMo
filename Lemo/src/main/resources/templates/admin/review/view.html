@@ -163,10 +163,10 @@
 
             // thumb 유무
             thumb_pa = $('#thumb_pa').val();
-            console.log('thumb_pa: ' + thumb_pa);
+            //console.log('thumb_pa: ' + thumb_pa);
 
             if(thumb_pa == ""){
-                console.log('empty');
+                //console.log('empty');
                 $('.col2_r_box').css("position", "static");
                 $('.col2_r_box').css("width", "95%");
                 $('.rating3').css("margin", "0 auto");
@@ -200,13 +200,13 @@
             button.addEventListener("click", ()=>{
                 dialog.showModal();
                 let r_revi_id = $('.r_revi_id').val();
-                console.log('r_revi_id :' +r_revi_id);
+                //console.log('r_revi_id :' +r_revi_id);
 
                 $('.rp_revi_id').attr('value', r_revi_id);
             });
 
             dialog.addEventListener("close", ()=>{
-                console.log(dialog.returnValue);
+                //console.log(dialog.returnValue);
             });
 
             // input 엔터키 submit 막기
@@ -219,27 +219,26 @@
             // 리뷰 답변 작성하기
             $('.btnRsubmit').click(function(e){
                 e.preventDefault();
-                alert('click the submit button in review reply form');
+
 
                 let revi_id = $('.rp_revi_id').val();
                 let revi_reply = $('.rp_revi_reply').val();
 
-                console.log('revi_id: '+ revi_id);
-                console.log('revi_reply: '+ revi_reply);
+                //console.log('revi_id: '+ revi_id);
+                //console.log('revi_reply: '+ revi_reply);
 
                 const jsonData = {
                     "revi_reply":revi_reply,
                     "revi_id":revi_id
                 }
 
-                console.log('here in admin/review html');
+                //console.log('here in admin/review html');
 
                 ajaxAPI("admin/usaveReply", jsonData, "POST").then((response) => {
                     if(response.result > 0) {
-                        alert('리뷰 답변 작성이 완료되었습니다.');
+                        sweetalert("리뷰 답변 작성이 완료되었습니다.", "success");
                         $('#d_review').hide();
                     } else {
-                        alert('error');
                     }
                  }).catch((errorMsg) => {
                     console.log(errorMsg);
@@ -255,7 +254,7 @@
                 if(isDeleteOK){
 
                     let revi_id = $('.r_revi_id').val();
-                    console.log('revi_id: '+ revi_id);
+                    //console.log('revi_id: '+ revi_id);
 
                     const jsonData = {"revi_id":revi_id};
 

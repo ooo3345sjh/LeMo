@@ -72,19 +72,16 @@ public class BusinessController {
         int visitorTotal = 0;
 
         for (ProductAccommodationVO vo : accs) {
-            log.warn("acc_id : " + vo.getAcc_id());
             String acc_id = String.valueOf(vo.getAcc_id());
             // 방문자수
             int visitorCount = visitorsLogRepo.countVisitors(start, end, acc_id);
             visitorTotal += visitorCount;
         }
 
-        log.warn("visitorTotal: " + visitorTotal);
 
         // 당일 누적 판매량
         List<ReservationVO> todaySales = service.findAllTodaySales(map);
 
-        log.warn("todaySales size: " + todaySales.size());
 
         if(todaySales.size() == 0){
 
@@ -131,7 +128,7 @@ public class BusinessController {
                                @AuthenticationPrincipal UserVO myUser,
                                @ModelAttribute Admin_SearchVO sc,
                                Model model) {
-        log.warn("GET manage Coupon in business");
+        log.debug("GET manage Coupon in business");
 
         model.addAttribute("title", environment.getProperty(group));
 
@@ -191,11 +188,10 @@ public class BusinessController {
 
         String cp_id = (String) map.get("cp_id");
 
-        log.warn("GET remove Coupon");
+        log.debug("GET remove Coupon");
 
         int result = service.removeCoupon(cp_id);
 
-        log.warn("after service : " + result);
 
         Map<String, Integer> resultMap = new HashMap<>();
         resultMap.put("result", result);
@@ -211,12 +207,11 @@ public class BusinessController {
         log.info("myUser2 : " + myUser);
         log.info("user_id2 : " + user_id);
 
-        log.warn("GET findAccOwned in business");
+        log.debug("GET findAccOwned in business");
 
         // stream().map().collect(): 이름들만 모아서 새로운 String 리스트를 만들어 낸다
         List<String> accs = service.findAccOwned(user_id).stream().map(CouponVO::getAcc_name).collect(Collectors.toList());
 
-        log.warn("after service : " + accs);
         return ResponseEntity.ok(accs);
     }
 
@@ -226,7 +221,7 @@ public class BusinessController {
                               @AuthenticationPrincipal UserVO myUser,
                               @ModelAttribute Admin_SearchVO sc,
                               Model model){
-        log.warn("GET review list...");
+        log.debug("GET review list...");
 
         model.addAttribute("title", environment.getProperty(group));
 
@@ -245,7 +240,6 @@ public class BusinessController {
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
 
         List<ReviewVO> reviews = service.findAllReview(sc);
-        log.info("Selected reviews: " + reviews.toString());
 
         model.addAttribute("reviews", reviews);
         model.addAttribute("ph", pageHandler);
@@ -260,7 +254,6 @@ public class BusinessController {
 
         ReviewVO review = service.findReview(revi_id);
 
-        log.warn("selected review: " + review);
 
         model.addAttribute("review", review);
         model.addAttribute("revi_id", revi_id);
@@ -268,26 +261,12 @@ public class BusinessController {
         return "business/review/view";
     }
 
-/* (확인 후 삭제 예정)
 
-    @GetMapping("review/findAccOwnedForReview")
-    public ResponseEntity<List<ReviewVO>> findAccOwnedForReview(String user_id) {
-
-        log.warn("GET findAccOwned in business");
-
-        // stream().map().collect(): 이름들만 모아서 새로운 String 리스트를 만들어 낸다
-        //List<String> accs = service.findAccOwnedForReview(user_id).stream().map(ReviewVO::getAcc_name).collect(Collectors.toList());
-        List<ReviewVO> accs = service.findAccOwnedForReview(user_id);
-
-        return ResponseEntity.ok(accs);
-    }
-*/
 
     // @since 2023/03/16 판매자 리뷰 답변 작성
     @ResponseBody
     @PostMapping("reply")
     public Map<String, Integer> usaveReply(@RequestBody Map map) throws Exception {
-        log.warn(map.toString());
 
         String revi_id = (String)map.get("revi_id");
         String revi_reply = (String)map.get("revi_reply");
@@ -344,7 +323,6 @@ public class BusinessController {
 
         List<ProductAccommodationVO> accs = service.findAllAccForInfo(sc);
 
-         log.warn("accs: " + accs.toString());
 
         model.addAttribute("accs", accs);
         model.addAttribute("ph", pageHandler);
@@ -361,8 +339,6 @@ public class BusinessController {
 
         List<ServicereginfoVO> servicereginfos = service.findServiceInAcc(acc_id);
 
-        log.warn("selected acc: " + acc);
-        log.warn("serviceInfo: " + servicereginfos);
 
         model.addAttribute("acc", acc);
         model.addAttribute("acc_id", acc_id);
@@ -378,8 +354,6 @@ public class BusinessController {
 
         List<ServicereginfoVO> servicereginfos = service.findServiceInAcc(acc_id);
 
-        log.warn("selected acc: " + acc);
-        log.warn("serviceInfo: " + servicereginfos);
 
         model.addAttribute("acc", acc);
         model.addAttribute("acc_id", acc_id);
@@ -409,12 +383,11 @@ public class BusinessController {
             uid = myUser.getUser_id();
         }
 
-        log.warn("here1: " + uid);
+        log.debug("here1: " + uid);
         log.info("request.getFileMap: "+ request.getFileMap());
 
         Map<String, MultipartFile> fileMap = request.getFileMap();
 
-        log.warn("here2 : " + fileMap);
 
         if(fileMap != null){
 
@@ -426,7 +399,7 @@ public class BusinessController {
 
             for(MultipartFile mf: fileMap.values()){
 
-                log.warn("count : " + count);
+                log.debug("count : " + count);
                 log.info("mf.getOriginalFilename() : " + mf.getOriginalFilename());
                 log.info("mf.getSize() : " + mf.getSize());
                 log.info("mf.getContentType() : " + mf.getContentType());
@@ -446,53 +419,6 @@ public class BusinessController {
 
         return "redirect:/business/info/list";
     }
-    /*
-    @ResponseBody
-    @PostMapping("info/usave")
-    public String info_usave(@RequestParam Map<String,Object> param,
-                             MultipartHttpServletRequest request,
-                             Model model) throws Exception {
-
-        model.addAttribute("title", environment.getProperty(group));
-
-        log.info("here1 "+ request.getFileMap());
-        log.info("param1 : " + param);
-        log.warn("here: " + param.get("acc_id"));
-        log.warn("param-acc_info :" + param.get("acc_info"));
-
-        Map<String, MultipartFile> fileMap = request.getFileMap();
-
-
-        log.warn("here3 : " + fileMap);
-
-        if(fileMap != null) {
-
-            log.info("fileMap : " + fileMap);
-            log.info("fileMap values : " + fileMap.values());
-            log.info("fileMap size : " + fileMap.size());
-
-            int count = 1;
-
-            for (MultipartFile mf : fileMap.values()) {
-
-                log.warn("count : " + count);
-                log.info("mf.getOriginalFilename() : " + mf.getOriginalFilename());
-                log.info("mf.getSize() : " + mf.getSize());
-                log.info("mf.getContentType() : " + mf.getContentType());
-                count++;
-
-            }
-
-            log.info("param2 : " + param);
-
-            service.info_usave(param, request);
-
-        }
-
-
-
-        return "redirect:/business/info/list";
-    }*/
 
 
     @ResponseBody
@@ -500,11 +426,9 @@ public class BusinessController {
     public Map<String,Integer> removeAcc(@RequestBody Map map) throws Exception {
         String acc_id = (String)map.get("acc_id");
 
-        log.warn("GET removeAcc");
+        log.debug("GET removeAcc");
 
         int result = service.removeAcc(acc_id);
-
-        log.warn("after service : " + result);
 
         Map<String, Integer> resultMap = new HashMap<>();
         resultMap.put("result", result);
@@ -564,8 +488,6 @@ public class BusinessController {
 
         List<ProductRoomVO> rooms = service.findAllRoom(sc);
 
-        log.warn("rooms: " + rooms.toString());
-        log.warn("totalCnt: " + totalCnt);
 
         model.addAttribute("rooms", rooms);
         model.addAttribute("ph", pageHandler);
@@ -578,11 +500,11 @@ public class BusinessController {
     @GetMapping("find-acc")
     public ResponseEntity<List<ProductAccommodationVO>> findAllAccOwnedForInfo(@AuthenticationPrincipal UserVO myUser){
 
-         log.warn("GET findAccOwned...");
+         log.debug("GET findAccOwned...");
 
          String user_id = myUser.getUser_id();
 
-         log.warn("user_id = " + user_id);
+         log.debug("user_id = " + user_id);
 
         //List<String> accs = service.finaAllAccOwnedForInfo(user_id).stream().map(ProductAccommodationVO::getAcc_name).collect(Collectors.toList());
         List<ProductAccommodationVO> accs = service.findAllAccOwnedForInfo(user_id);
@@ -601,12 +523,11 @@ public class BusinessController {
                             MultipartHttpServletRequest request,
                             Model model) throws Exception{
 
-        log.warn("POST rsaveRoom...");
+        log.debug("POST rsaveRoom...");
         model.addAttribute("title", environment.getProperty(group));
 
         Map<String, MultipartFile> fileMap = request.getFileMap();
 
-        log.warn("here1 : " + fileMap);
 
         if(fileMap != null) {
 
@@ -618,7 +539,7 @@ public class BusinessController {
 
             for (MultipartFile mf : fileMap.values()) {
 
-                log.warn("count : " + count);
+                log.debug("count : " + count);
                 log.info("mf.getOriginalFilename() : " + mf.getOriginalFilename());
                 log.info("mf.getSize() : " + mf.getSize());
                 log.info("mf.getContentType() : " + mf.getContentType());
@@ -641,8 +562,6 @@ public class BusinessController {
 
         ProductRoomVO room = service.findRoom(room_id);
 
-        log.warn("selected room: " + room);
-
         model.addAttribute("room", room);
         model.addAttribute("room_id", room_id);
 
@@ -655,7 +574,7 @@ public class BusinessController {
     public Map<String, Integer> removeRoom(@RequestBody Map map) throws Exception {
         String room_id = (String) map.get("room_id");
 
-        log.warn("GET removeRoom");
+        log.debug("GET removeRoom");
 
         int result = service.removeRoom(room_id);
 
@@ -671,7 +590,7 @@ public class BusinessController {
                                    @AuthenticationPrincipal UserVO myUser,
                                    @ModelAttribute Admin_SearchVO sc,
                                    Model model){
-        log.warn("GET reservation list...");
+        log.debug("GET reservation list...");
 
         model.addAttribute("title", environment.getProperty(group));
 
@@ -690,7 +609,6 @@ public class BusinessController {
         PageHandler pageHandler = new PageHandler(totalCnt, sc);
 
         List<ReservationVO> reservations = service.findAllReservaitons(sc);
-        log.info("Selected reservations: " + reservations.toString());
 
         model.addAttribute("reservations", reservations);
         model.addAttribute("ph", pageHandler);
@@ -703,7 +621,6 @@ public class BusinessController {
     @ResponseBody
     @PostMapping("reservation/memo")
     public Map<String, Integer> usaveMemoInRes(@RequestBody Map map) throws Exception {
-        log.warn(map.toString());
 
         String res_no = (String) map.get("res_no");
         String res_memo = (String) map.get("res_memo");
@@ -735,20 +652,12 @@ public class BusinessController {
 
         if (cal_date != null) {
 
-            log.warn("cal_date is not null");
-
-            log.warn("year: " + cal_date.substring(0,4));
-            log.warn("month: " + cal_date.substring(5,7));
-
             String cal_year = cal_date.substring(0, 4);
             String cal_month = cal_date.substring(5, 7);
 
             map.put("cal_year", cal_year);
             map.put("cal_month", cal_month);
         }else {
-
-            log.warn("cal_date is null");
-
             map.put("cal_year", "null");
             map.put("cal_month", "null");
         }
@@ -756,32 +665,17 @@ public class BusinessController {
 
         List<ReservationVO> timelines = service.findAllTimeline(map);
 
-        log.warn("timelines size: " + timelines.size());
-
         model.addAttribute("timelines", timelines);
 
         List<ProductAccommodationVO> accs = service.findAllAccOwnedForInfo(user_id);
         model.addAttribute("accs", accs);
-        //log.warn(""+accs);
-
-        //log.warn("Timelines after model add : " + timelines);
-
         return "business/reservation/timeline";
     }
 
     @GetMapping("reservation/timeline_reservation")
     @ResponseBody
     public List<ReservationVO> timeline_reservation(@RequestParam(value = "res_no") String res_no){
-
-        log.warn("here");
-        log.warn("res_no : " + res_no);
-
-
         List<ReservationVO> rv = service.findReservation(res_no);
-
-        log.warn("rv: " + rv);
-
-
         return rv;
     }
 
@@ -805,7 +699,7 @@ public class BusinessController {
         acc_id = (String) map.get("acc_id");
 
         //log.warn("map: " + map);
-        log.warn("get acc_id in map :" + acc_id);
+        //log.warn("get acc_id in map :" + acc_id);
 
         if(acc_id == null || acc_id.isBlank()){
             map.put("acc_id", null);
@@ -835,9 +729,6 @@ public class BusinessController {
         float reteSum = 0;
         float rateAvg = 0;
 
-        log.warn("rates: " + rates);
-        log.warn("rates size: " + rates.size());
-        //log.warn("rate: " + rates.get(0).getAcc_rate());
 
         int rates_sum = 0;
 
@@ -847,13 +738,13 @@ public class BusinessController {
         rateAvg = reteSum / rates.size();
         String formattedRateAvg = String.format("%.1f", rateAvg); // 소수점 첫째 자리까지 나타내기 위한 포맷팅
 
-        log.warn("formattedRateAvg: " + formattedRateAvg);
+        //log.warn("formattedRateAvg: " + formattedRateAvg);
 
 
 
 
-        log.warn("rateSum: " + reteSum);
-        log.warn("rateAvg: " + rateAvg);
+        //log.warn("rateSum: " + reteSum);
+        //log.warn("rateAvg: " + rateAvg);
 
         if (map.get("dateStart") == null || map.get("dateStart").isBlank() && map.get("dateEnd") == null || map.get("dateEnd").isBlank()) {
             map.put("dateStart",null);

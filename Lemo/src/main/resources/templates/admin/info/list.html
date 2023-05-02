@@ -47,7 +47,7 @@
                                 <button type="button" class="resetOption" onclick="location.href = window.location.origin + window.location.pathname;">초기화</button>
                                 <button type="submit" class="btnSearch">검색</button>
 
-                                <span class="totalCount">숙박 총 개수 ([[${totalAccs}]])</span>
+                                <span class="totalCount">숙박 총 개수 ([[${totalCnt}]])</span>
                                 <div class="board_list">
                                     <ul>
                                         <li class="info_list1">#</li>
@@ -113,7 +113,7 @@
                 //console.log('response1 : %o', response);
 
                 for (let i = 0; i < response.length; i++) {
-                    console.log("province_name : %s", response[i].province_name);
+                    //console.log("province_name : %s", response[i].province_name);
                     let option = document.createElement('option');
                     option.value = response[i].province_no;
                     option.innerHTML = response[i].province_name;
@@ -171,7 +171,7 @@
                 e.preventDefault();
 
                 let acc_id = $(this).val();
-                console.log('acc_id : ' + acc_id);
+                //console.log('acc_id : ' + acc_id);
 
                 const jsonData = {"acc_id": acc_id};
 

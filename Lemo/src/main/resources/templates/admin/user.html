@@ -154,7 +154,7 @@
 
             //let d_id = $(this).parent().closest('ul').find('.user_id').text();
             let d_id = $(this).val();
-            console.log('d_id: '+ d_id );
+            //console.log('d_id: '+ d_id );
             $(this).next().find('.d_id').attr('value', d_id);
 
         });
@@ -162,7 +162,7 @@
         // 메모 팝업 닫기
         $(document).on('click', '.btnRclose', function(e) {
             e.preventDefault();
-            console.log("click the close button");
+            //console.log("click the close button");
             $(this).closest('li').find('#d_Memo').hide();
         });
 
@@ -227,8 +227,8 @@
 
             let user_id = $(this).parent().prev().prev().find('.d_id').val();
             let memo = $(this).parent().prev().children().val();
-            console.log('user_id: ' + user_id);
-            console.log('memo: ' + memo);
+            //console.log('user_id: ' + user_id);
+            //console.log('memo: ' + memo);
 
             const jsonData = {
                 "user_id": user_id,
@@ -251,11 +251,11 @@
         // 회원 차단
         $('#userList').on('click', '.btnBlockUser', function(e) {
             e.preventDefault();
-            console.log("click");
+            //console.log("click");
 
             let user_id = $(this).val();
             let normal = $(this).parent().closest('ul').find('.normal');
-            console.log('user_id:' + user_id);
+            //console.log('user_id:' + user_id);
 
             const jsonData = {"user_id": user_id};
 
@@ -282,7 +282,7 @@
 
             let user_id = $(this).val();
             let block = $(this).parent().closest('ul').find('.block');
-            console.log('user_id:' + user_id);
+            //console.log('user_id:' + user_id);
 
             const jsonData = {"user_id": user_id};
 
@@ -308,7 +308,7 @@
     $('.sortIsEnabled').click(function() {
 
         const value = $(this).val();
-        console.log('value : ' + value);
+        //console.log('value : ' + value);
 
         // 1(asc) -> 2(desc) -> 3( )
         if(value == 1){
@@ -329,12 +329,12 @@
         }
 
         const jsonData = {"sorted": value};
-         console.log(jsonData);
+         //console.log(jsonData);
 
          const url = `admin/users?sorted=${value}`;
 
         ajaxAPI(url, null, "GET").then((response) => {
-            console.log(response);
+            //console.log(response);
 
             // 동적 태그 생성
             let tags = $("#userList > ul");
@@ -349,15 +349,6 @@
             let showNext = response.showNext;
             let showPrev = response.showPrev;
             let page = response.page;
-
-            console.log("게시글 총 개수 : " + totalCnt);
-            console.log("beginPage : " + beginPage);
-            console.log("endPage : " + endPage);
-            console.log("showPrev : " + showPrev);
-            console.log("showNext : " + showNext);
-            console.log("page : " + page);
-
-
 
 
             // 이전 페이지
@@ -387,7 +378,7 @@
     $('.sortLevel').click(function(){
 
          const value = $(this).val();
-         console.log('value : ' + value);
+         //console.log('value : ' + value);
 
         // 4(desc) -> 5(asc) -> 6( )
          if(value == 4){
@@ -408,12 +399,12 @@
          }
 
          const jsonData = {"sorted": value};
-         console.log(jsonData);
+         //console.log(jsonData);
 
          const url = `admin/users?sorted=${value}`;
 
         ajaxAPI(url, null, "GET").then((response) => {
-            console.log(response);
+            //console.log(response);
 
             // 동적 태그 생성
             let tags = $("#userList > ul");
@@ -428,13 +419,6 @@
             let showNext = response.showNext;
             let showPrev = response.showPrev;
             let page = response.page;
-
-            console.log("게시글 총 개수 : " + totalCnt);
-            console.log("beginPage : " + beginPage);
-            console.log("endPage : " + endPage);
-            console.log("showPrev : " + showPrev);
-            console.log("showNext : " + showNext);
-            console.log("page : " + page);
 
             // 이전 페이지
             if(showPrev == true){
@@ -453,14 +437,14 @@
 
 
         }).catch((errorMsg) => {
-        console.log(errorMsg);
+            console.log(errorMsg);
         });
     });
 
     // 구분 정렬 (홈회원/SNS회원)
     $('.sortType').click(function(){
         const value = $(this).val();
-        console.log('value : ' + value);
+        //console.log('value : ' + value);
 
         // 7(desc) -> 8(asc) -> 9( )
         if(value == 7){
@@ -481,12 +465,12 @@
         }
 
         const jsonData = {"sorted": value};
-        console.log(jsonData);
+        //console.log(jsonData);
 
         const url = `admin/users?sorted=${value}`;
 
         ajaxAPI(url, null, "GET").then((response) => {
-            console.log(response);
+            //console.log(response);
 
             // 동적 태그 생성
             let tags = $("#userList > ul");
@@ -501,13 +485,6 @@
             let showNext = response.showNext;
             let showPrev = response.showPrev;
             let page = response.page;
-
-            console.log("게시글 총 개수 : " + totalCnt);
-            console.log("beginPage : " + beginPage);
-            console.log("endPage : " + endPage);
-            console.log("showPrev : " + showPrev);
-            console.log("showNext : " + showNext);
-            console.log("page : " + page);
 
             // 이전 페이지
             if(showPrev == true){
@@ -526,14 +503,14 @@
 
 
         }).catch((errorMsg) => {
-        console.log(errorMsg);
+            console.log(errorMsg);
         });
     });
 
     // 가입일 정렬
     $('.sortRdate').click(function(){
         const value = $(this).val();
-        console.log('value : ' + value);
+        //console.log('value : ' + value);
 
         // 10(asc) -> 11(desc) -> 12( )
         if(value == 10){
@@ -554,12 +531,12 @@
         }
 
         const jsonData = {"sorted": value};
-        console.log(jsonData);
+        //console.log(jsonData);
 
         const url = `admin/users?sorted=${value}`;
 
         ajaxAPI(url, null, "GET").then((response) => {
-            console.log(response);
+            //console.log(response);
 
             // 동적 태그 생성
             let tags = $("#userList > ul");
@@ -575,12 +552,6 @@
             let showPrev = response.showPrev;
             let page = response.page;
 
-            console.log("게시글 총 개수 : " + totalCnt);
-            console.log("beginPage : " + beginPage);
-            console.log("endPage : " + endPage);
-            console.log("showPrev : " + showPrev);
-            console.log("showNext : " + showNext);
-            console.log("page : " + page);
 
             // 이전 페이지
             if(showPrev == true){
@@ -599,7 +570,7 @@
 
 
         }).catch((errorMsg) => {
-        console.log(errorMsg);
+            console.log(errorMsg);
         });
     });
 
@@ -607,14 +578,14 @@
     function pagingTags(value, page) {
 
         const jsonData = { "sorted": value, "page" : page };
-        console.log(jsonData);
+        //console.log(jsonData);
 
         const url = `admin/users?sorted=${value}&page=${page}`;
 
 
 
         ajaxAPI(url, null, "GET").then((response) => {
-            console.log(response);
+            //console.log(response);
 
             // 동적 태그 생성
             let tags = $("#userList > ul");
@@ -630,12 +601,6 @@
             let showPrev = response.showPrev;
             let page = response.page;
 
-            console.log("게시글 총 개수 : " + totalCnt);
-            console.log("beginPage : " + beginPage);
-            console.log("endPage : " + endPage);
-            console.log("showNext : " + showNext);
-            console.log("showPrev : " + showPrev);
-            console.log("page : " + page);
 
             // 이전 페이지
             if(showPrev == true){

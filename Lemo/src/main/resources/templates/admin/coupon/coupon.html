@@ -66,8 +66,8 @@
             var selectedDate = new Date($(this).val());
             var minDate = new Date($(this).attr('min'));
 
-            console.log("selectedDate : " + selectedDate.toISOString().split('T')[0]);
-            console.log("minDate : " + minDate);
+            //console.log("selectedDate : " + selectedDate.toISOString().split('T')[0]);
+            //console.log("minDate : " + minDate);
 
             document.getElementById("cp_end").setAttribute("min", selectedDate.toISOString().split('T')[0]);
 

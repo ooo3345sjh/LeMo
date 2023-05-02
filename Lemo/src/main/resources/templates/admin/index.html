@@ -227,10 +227,6 @@
         let stats = [[${stats}]];
         let avg_res_price = [[${avg_res_price}]];
 
-        console.log("stats");
-        console.log(stats);
-        console.log(stats.length);
-
         // 구글 열 차트를 로드
         google.charts.load('current', {'packages':['corechart']});
         // callback 정의 : drawVisualization
@@ -318,8 +314,6 @@
 
         // 참조 데이터 준비
         let paysMap = [[${paysMap}]];
-
-        console.log(paysMap);
 
         google.charts.load("current", {packages:["corechart"]});
         google.charts.setOnLoadCallback(drawChart);

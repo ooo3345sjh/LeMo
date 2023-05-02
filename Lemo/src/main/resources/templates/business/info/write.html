@@ -112,10 +112,10 @@
 
                         <!-- 숙소 등록 폼 -->
                         <form name="form" class="col_register_form" th:action="@{/business/info/post}" method="post" enctype="multipart/form-data">
-                            <input type="text" name="province_no">
-                            <input type="text" name="acc_city">
-                            <input type="text" name="acc_longtitude">
-                            <input type="text" name="acc_lattitude">
+                            <input type="hidden" name="province_no">
+                            <input type="hidden" name="acc_city">
+                            <input type="hidden" name="acc_longtitude">
+                            <input type="hidden" name="acc_lattitude">
                             <!-- 숙소명 등록 -->
                             <div class="col_register1">
                                 <div class="stayName">
@@ -398,7 +398,7 @@
     let province_ref = [];
 
     btnButton.addEventListener("click", function() {
-        console.log(addrInput.value);   // 경남 진주시 가좌길 11 (가좌동)
+        //console.log(addrInput.value);   // 경남 진주시 가좌길 11 (가좌동)
         let acc_city = addrInput.value.split(' ')[1];   // 진주시
 
         // 주소-좌표 변환 객체를 생성합니다
@@ -412,9 +412,9 @@
 
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-                console.log("coords: " + coords);
-                console.log(result[0].y);   // 위도 (acc_lattitude)
-                console.log(result[0].x);   // 경도 (acc_longtitude)
+                //console.log("coords: " + coords);
+                //console.log(result[0].y);   // 위도 (acc_lattitude)
+                //console.log(result[0].x);   // 경도 (acc_longtitude)
 
                 $('input[name=acc_lattitude]').attr("value", result[0].y);
                 $('input[name=acc_longtitude]').attr("value", result[0].x);
@@ -423,12 +423,12 @@
                 ajaxAPI("business/info/province", null, "GET").then((response)=>{
                     var province_txt = $('#addr').val();
 
-                    console.log('response province : %o', response);
-                    console.log('province_txt: ' + province_txt);
+                    //console.log('response province : %o', response);
+                    //console.log('province_txt: ' + province_txt);
                     province_ref = response;
 
                     for (let i = 0; i < response.length; i++) {
-                        console.log("province_no : %d, province_name : %s", response[i].province_no, response[i].province_name);
+                        //console.log("province_no : %d, province_name : %s", response[i].province_no, response[i].province_name);
                     }
 
                     province_ref.forEach(function(arg){
@@ -437,10 +437,10 @@
                         let name2 = arg.province_name.substring(0,2);          // 부산
                         let name3 = arg.province_name.substring(0,1) + arg.province_name.substring(2,3); // 경남
 
-                        console.log(name1, name2, name3);
+                        //console.log(name1, name2, name3);
 
                         if (province_txt.includes(name1) || province_txt.includes(name2) || province_txt.includes(name3)) {
-                            console.log("here : " +  name1, arg.province_no);
+                            //console.log("here : " +  name1, arg.province_no);
 
                             $('input[name=province_no]').attr("value", arg.province_no);
                             $('input[name=acc_city]').attr("value",acc_city);
@@ -569,7 +569,7 @@
                     $('#autoMaker').children().remove();
                     isComplete = true; // 자식 선택 완료
 
-                    console.log(submitRef);
+                    //console.log(submitRef);
                 });
             });
 
@@ -586,9 +586,9 @@
     }
 
     function tag_delete(tag_value){
-        console.log("delete tag selected: " + tag_value);
+        //console.log("delete tag selected: " + tag_value);
         $('.checkNo'+tag_value).remove();
-        console.log(ref);
+        //console.log(ref);
 
         submitRef = submitRef.filter(item => item != tag_value);
     }
