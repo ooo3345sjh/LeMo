@@ -678,13 +678,7 @@
 
             };
 
-            // submit 이벤트를 감지하는 함수
-            const handleSubmit = (event) => {
-                if(!$beginInput.val() || !$endInput.val()){
-                    event.preventDefault(); // submit 이벤트 막기
-                    sweetalert("시작 날짜와 종료 날짜를 선택해주세요.", "warning");
-                }
-            };
+
 
 
             // 이벤트 처리 함수
