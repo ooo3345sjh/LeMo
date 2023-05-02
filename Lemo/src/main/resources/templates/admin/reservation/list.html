@@ -232,7 +232,7 @@
                 $(this).next().show();
 
                 let res_no = $(this).val();
-                console.log('res_no: '+ res_no );
+                //console.log('res_no: '+ res_no );
 
                 $(this).next().find('.res_no').attr('value', res_no);
 
@@ -241,7 +241,7 @@
             // 상세정보 팝업 닫기
             $(document).on('click', '.btnRclose', function(e) {
                 e.preventDefault();
-                console.log("click the close button");
+                //console.log("click the close button");
                 $(this).closest('li').find('#d_Detail').hide();
             });
 
@@ -251,7 +251,7 @@
                 $(this).next().show();
 
                 let res_no = $(this).val();
-                console.log('res_no: '+ res_no );
+                //console.log('res_no: '+ res_no );
 
                 $(this).next().find('.res_no').attr('value', res_no);
 
@@ -260,7 +260,7 @@
             // 메모 팝업 닫기
             $(document).on('click', '.btnRclose', function(e) {
                 e.preventDefault();
-                console.log("click the close button");
+                //console.log("click the close button");
                 $(this).closest('li').find('#d_Memo').hide();
             });
 
@@ -277,8 +277,8 @@
 
                 let res_no = $(this).parent().prev().prev().find('.res_no').val();
                 let res_memo = $(this).parent().prev().children().val();
-                console.log('res_no: ' + res_no);
-                console.log('res_memo: ' + res_memo);
+                //console.log('res_no: ' + res_no);
+                //console.log('res_memo: ' + res_memo);
 
                 const jsonData = {
                     "res_no": res_no,

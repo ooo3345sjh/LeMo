@@ -23,11 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -175,7 +171,7 @@ public class AdminController {
         * 결론 - mapper의 조건 !=null을 만족시키기 위해서는 null의 경우, 빈 문자열의 경우 -> 확실하게 null을 입력
         */
         if (map.get("dateStart") == null || map.get("dateStart").isBlank() && map.get("dateEnd") == null || map.get("dateEnd").isBlank()) {
-            log.warn("dateStart: " + map.get("dateStart"));
+            //log.warn("dateStart: " + map.get("dateStart"));
 
             map.put("dateStart",null);
             map.put("dateEnd",null);
@@ -215,12 +211,10 @@ public class AdminController {
         }
 
 
-        log.warn("periodType: " + periodType);
 
         // 예약 건수
         total = service.countWeeksSales(map);
 
-        log.warn("total: " + total);
 
         // 취소 건수
         totalCanceled = service.countWeeksCancel(map);
@@ -233,10 +227,8 @@ public class AdminController {
         // 매출 현황 그래프
         stats = service.findAllDaySales(map);
 
-        log.warn("stats: " + stats);
 
         for ( int i=0; i<stats.size(); i++ ){
-            log.warn("stats price: " + stats.get(i).getTot_res_price());
             sum_res_price += stats.get(i).getTot_res_price();
         }
         if(stats.size() == 0){
@@ -245,7 +237,6 @@ public class AdminController {
             avg_res_price = sum_res_price / stats.size();
         }
 
-        log.warn("avg_res_price :" + avg_res_price);
 
         // 결제 수단 현황
         pays = service.findAllPayment(map);
@@ -744,7 +735,7 @@ public class AdminController {
     @DeleteMapping("cs/term")
     public Map<String, Integer> removeTerm(@RequestBody Map map){
         log.info("termRemoveStart...");
-        log.debug((String) map.get("terms_no"));
+        //log.debug((String) map.get("terms_no"));
 
         int terms_no = Integer.parseInt(String.valueOf(map.get("term_no")));
 

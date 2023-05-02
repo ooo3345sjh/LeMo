@@ -156,6 +156,7 @@
         select count(*) from `lemo_product_accommodation` as a
         where 1=1
         <include refid="searchAcc"/>
+        <include refid="searchAccProvince"/>
     </select>
 
     <!-- 관리자 - 숙박 지역 목록 -->
@@ -783,27 +784,6 @@
             </choose>
         </if>
     </sql>
-
-    <!-- 숙박 지역 검색 -->
-    <!--
-    <sql id="searchAccProvince">
-        <if test="searchAccProvince != null">
-            <where>
-                <foreach item="province" collection="searchAccProvince" separator=" OR ">
-                    `province_no`=#{province}
-                </foreach>
-            </where>
-        </if>
-    </sql>
-    -->
-
-  <!--
-    <sql id="searchAccProvince">
-        <if test="searchAccProvince != null">
-            and `province_no`= #{searchAccProvince};
-        </if>
-    </sql>-->
-
 
     <sql id="searchAccProvince">
         <if test="searchAccProvince != null">

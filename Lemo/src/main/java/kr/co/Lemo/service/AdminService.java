@@ -144,6 +144,7 @@ public class AdminService {
      */
     public List<ProductAccommodationVO> findAllAccs(Model model, SearchCondition sc){
         int totalCnt = dao.countAccs(sc);
+
         int totalPage = (int)Math.ceil(totalCnt / (double)sc.getPageSize());
         if(sc.getPage() > totalPage) sc.setPage(totalPage);
 
@@ -154,6 +155,7 @@ public class AdminService {
         model.addAttribute("accs", accs);
         model.addAttribute("ph", pageHandler);
         model.addAttribute("totalAccs", pageHandler.getTotalCnt());
+        model.addAttribute("totalCnt", totalCnt);
 
         return accs;
     }
@@ -319,9 +321,6 @@ public class AdminService {
 
     // 관리자 - 통계관리 - 예약 건수 (기간 변동, 기본: 일주일)
     public int countWeeksSales(Map map){
-
-        log.warn("map: " + map);
-
         return dao.countWeeksSales(map);
     }
     // 관리자 - 취소 건수 (기간 변동, 기본: 일주일)

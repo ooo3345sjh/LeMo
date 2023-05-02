@@ -295,6 +295,9 @@ main .main_content .col2 .board_list li {
     line-height: 36px;
     vertical-align: middle;
     font-family: 'Noto Sans KR';
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 main .main_content .col2 .board_list .prodName {
     text-align: left;
@@ -1658,7 +1661,7 @@ main .res_li7 {width: 18% !important;  font-family: 'Noto Sans KR';}
 main .res_li8 {width: 18% !important;  font-family: 'Noto Sans KR';}
 
 main .cancel_res {
-    width: 10% !important;
+    width: 7% !important;
     color: #f2552c;
 }
 main .complete_res {

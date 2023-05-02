@@ -45,7 +45,7 @@ public class BusinessService {
      */
     public List<CouponVO> findAccOwned(String user_id){
 
-        log.warn("service findAccOwned");
+        log.debug("service findAccOwned");
 
         return dao.selectAccOwned(user_id);
     }
@@ -101,10 +101,6 @@ public class BusinessService {
      * @param sc
      */
     public List<ProductAccommodationVO> findAllAccForInfo(Admin_SearchVO sc){
-
-        log.warn("service findAllAccForInfo: " + sc.toString());
-        log.warn("user_id: " + sc.getUser_id());
-
         return dao.selectAccForInfo(sc);
     }
 
@@ -140,9 +136,6 @@ public class BusinessService {
      * @param acc_id
      */
     public List<ServicereginfoVO> findServiceInAcc(Integer acc_id){
-
-         log.warn("서비스 카테 here2");
-
          return dao.selectServiceInAcc(acc_id);
      }
 
@@ -152,10 +145,6 @@ public class BusinessService {
      * @param sc
      */
      public List<ProductRoomVO> findAllRoom(Admin_SearchVO sc){
-
-        log.warn("Selected rooms: " + sc.toString());
-        log.warn("user_id: " + sc.getUser_id());
-
         return dao.selectRoom(sc);
      }
      public int countRoom(SearchCondition sc){
@@ -244,19 +233,16 @@ public class BusinessService {
             total += vo.getTot_res_price();
         }
 
-        //log.warn("total sales: " + total);
 
         for(ReservationVO vo : mp){
             double tot_month_percent = ((vo.getTot_res_price()+0.0)/(total+0.0))*100;
 
-            //log.warn("tot_month_percent: " + tot_month_percent);
             vo.setTot_month_percent(tot_month_percent);
         }
 
         // vo 확인용 로그 출력
         for(ReservationVO vo : mp){
             double test = vo.getTot_month_percent();
-            //log.warn("test : " + test);
         }
         return mp;
     }
@@ -315,7 +301,6 @@ public class BusinessService {
      * @apiNote 판매자 타임라인
      */
     public List<ReservationVO> findAllTimeline(Map map){
-        log.warn("map : " + map);
         return dao.selectTimeline(map);
     }
 
@@ -330,10 +315,6 @@ public class BusinessService {
      * @since 2023/03/13
      * */
     public void rsaveCoupon(Map<String,Object> param) throws Exception {
-
-         log.warn("param: " + param.toString());
-
-
         dao.insertCoupon(param);
     }
 
@@ -352,14 +333,8 @@ public class BusinessService {
     public void info_rsave(Map<String,Object> param,
                            MultipartHttpServletRequest request,
                            String uid){
-
-        log.warn("param: " + param.toString());
-
         // 업로드 파일 가져오기
         Map<String,MultipartFile> fileMap = request.getFileMap();
-
-        log.warn("fileMap: " + fileMap.toString());
-
         // 파일명 변경
         List<String> fileRenames = new ArrayList<>();
 
@@ -370,12 +345,9 @@ public class BusinessService {
             fileRenames.add(newName);
         }
 
-        log.warn("fileRenames: " + fileRenames.toString());
-
         // 파일 / join
         String newName = String.join("/", fileRenames);
 
-        log.warn("newName: " + newName);
 
         // 1. lemo_product_accommodation (숙소등록)
 
@@ -423,14 +395,12 @@ public class BusinessService {
         dao.insertRatePolicy(param);
 
         String[] service = ((String) param.get("sc_no")).split(",");
-        log.warn("here8 service: " + service.toString());
 
         for(int i=0; i<service.length; i++) {
             // lemo_product_servicereginfo (서비스 등록)
             //dao.insertServiceRegInfo(regVO);
             param.put("sc_no", service[i]);
             dao.insertServiceRegInfo(param);
-            log.warn("here9 service: " + service[i]);
         }
 
     }
@@ -442,11 +412,9 @@ public class BusinessService {
     public int rsaveRoom(Map<String, Object> param,
                          MultipartHttpServletRequest request) throws Exception{
 
-        log.warn("here2 param: " + param.toString());
 
         // 업로드 파일 가져오기
         Map<String,MultipartFile> fileMap = request.getFileMap();
-        log.warn("here3 fileMap: " + fileMap.toString());
 
         // 파일명 변경
         List<String> fileRenames = new ArrayList<>();
@@ -457,11 +425,9 @@ public class BusinessService {
             String newName = UUID.randomUUID().toString() + ext;
             fileRenames.add(newName);
         }
-        log.warn("here4 fileRenames: " + fileRenames.toString());
 
         // 파일 / join
         String newName = String.join("/", fileRenames);
-        log.warn("here5 newName: " + newName);
 
         param.put("room_thumb", newName);
 
@@ -508,94 +474,7 @@ public class BusinessService {
         return dao.updateMemoInRes(res_memo, res_no);
     }
 
-    /**
-     * 판매자 숙소 - 숙소 수정
-     * @since 2023/04/01
-     * @param param
-     * @param request
-     */
-    /*
-    public void info_usave(Map<String, Object> param,
-                           MultipartHttpServletRequest request){
 
-        log.warn("here4 param: " + param.toString());
-
-        // 업로드 파일 가져오기
-         Map<String,MultipartFile> fileMap = request.getFileMap();
-
-        log.warn("here6 fileMap: " + fileMap.toString());
-
-        // 파일명 변경
-        List<String> fileRenames = new ArrayList<>();
-
-        for(MultipartFile mf : fileMap.values()) {
-            String oriName = mf.getOriginalFilename();
-            String ext = oriName.substring(oriName.indexOf("."));
-            String newName = UUID.randomUUID().toString() + ext;
-            fileRenames.add(newName);
-        }
-
-        log.warn("here7 fileRenames: " + fileRenames.toString());
-
-        // 파일 / join
-        String newName = String.join("/", fileRenames);
-
-        log.warn("newName: " + newName);
-
-        param.put("acc_thumbs", newName);
-
-        dao.updateInfo(param);
-
-        String acc_id = String.valueOf(param.get("acc_id"));
-        String province_no = String.valueOf(param.get("province_no"));
-
-        log.warn("here8 acc_id: " + acc_id);
-        log.warn("here9 province_no: " + province_no);
-
-         // 파일 업로드
-        //String path = new File("/Users/yiwonjeong/Desktop/Workspace/LeMo/Lemo/img/product/" + province_no + acc_id).getAbsolutePath();
-        String path = new File(uploadPath+"product/"+province_no+"/"+acc_id).getAbsolutePath();
-
-        log.info(path);
-        // 저장 폴더가 없다면 생성
-        File checkFolder = new File(path);
-        if(!checkFolder.exists()){
-            try {
-                Files.createDirectories(checkFolder.toPath());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        int count = 0;
-        for(MultipartFile mf : fileMap.values()) {
-            try {
-                mf.transferTo(new File(path, fileRenames.get(count)));
-                count++;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        // lemo_product_ratepolicy (할인율 등록)
-        dao.updateRatePolicy(param);
-
-        String[] service = ((String) param.get("sc_no")).split(",");
-        log.warn("here service1: " + service);
-        log.warn("here service2: " + service.length);
-
-        // 기존 서비스 비우기
-        dao.deleteServiceRegInfo(param);
-
-        for(int i = 0; i< service.length; i++) {
-            log.warn("here service3: " + service[i]);
-            param.put("sc_no", service[i]);
-            log.warn("here service4: " + service[i]);
-
-            dao.insertServiceRegInfo(param);
-        }
-    }
-*/
 
 
     /**
@@ -789,16 +668,12 @@ public class BusinessService {
         dao.updateRatePolicy(param);
 
         String[] service = ((String) param.get("sc_no")).split(",");
-        log.warn("here service1: " + service);
-        log.warn("here service2: " + service.length);
 
         // 기존 서비스 비우기
         dao.deleteServiceRegInfo(param);
 
         for(int i = 0; i< service.length; i++) {
-            log.warn("here service3: " + service[i]);
             param.put("sc_no", service[i]);
-            log.warn("here service4: " + service[i]);
 
             dao.insertServiceRegInfo(param);
         }
