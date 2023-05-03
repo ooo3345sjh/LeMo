@@ -1,6 +1,6 @@
 /* 글 보기 */
-$('.show_list > li').on('click', function(e){
+$('.show_list > li a').on('click', function(e){
     e.preventDefault();
-    $(this).find('.toggle').slideToggle();
-    $(this).find('.list_n').toggleClass('open');
+    $(this).parent().find('.toggle').slideToggle();
+    $(this).parent().find('.list_n').toggleClass('open');
 });

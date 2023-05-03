@@ -84,7 +84,6 @@
                                     <span class="${faq.cs_type}" th:text="|[${faq.cs_type_ko}]|"></span> &nbsp&nbsp&nbsp <span>[[${faq.cs_title}]]</span>
                                 </a>
                                 <textarea class="toggleArea" th:text="${faq.cs_content}" readonly>
-
                                 </textarea>
                             </li>
                         </th:block>
@@ -115,10 +114,10 @@
 <th:block layout:fragment="script">
     <script>
         /* 글 보기 */
-        $('.show_list > li').on('click', function(e){
+        $('.show_list > li a').on('click', function(e){
             e.preventDefault();
-            $(this).find('.toggleArea').slideToggle();
-            $(this).find('.list_n').toggleClass('open');
+            $(this).parent().find('.toggleArea').slideToggle();
+            $(this).parent().find('.list_n').toggleClass('open');
         });
 
         $(document).on('load', function(){
