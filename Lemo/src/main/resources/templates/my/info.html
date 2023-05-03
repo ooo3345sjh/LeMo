@@ -49,14 +49,13 @@
                                     <li>
                                         <div class="info_nick">
                                             <div>
-                                                <span class="nick_text">[[${#authentication.principal.nick}]]
-                                                    <th:block th:if="${#authentication.principal.level eq 2}">
-                                                        <i id="user_level">엘리트회원</i>
-                                                    </th:block>
-                                                    <th:block th:unless="${#authentication.principal.level eq 2}">
-                                                        <i id="user_level" class="general">일반회원</i>
-                                                    </th:block>
-                                                </span>
+                                                <span class="nick_text">[[${#authentication.principal.nick}]]</span>
+                                                <th:block th:if="${#authentication.principal.level eq 2}">
+                                                    <i id="user_level">엘리트회원</i>
+                                                </th:block>
+                                                <th:block th:unless="${#authentication.principal.level eq 2}">
+                                                    <i id="user_level" class="general">일반회원</i>
+                                                </th:block>
                                                 <button type="button" class="btn_edit nick">
                                                     <span class="text">수정</span>
                                                 </button>
