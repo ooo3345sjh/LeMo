@@ -1137,7 +1137,7 @@
         font-size: 24px;
         font-weight: bold;
     }
-    .my_page .my_data .nick_text i {
+    .my_page .my_data i {
         position:relative;
         top:-4px;
         cursor:pointer;
@@ -1151,7 +1151,7 @@
         font-weight: 600;
         margin-right: 6px;
     }
-    .my_page .my_data .nick_text i.general {
+    .my_page .my_data i.general {
         border: 1px solid #dcdcdc;
         background: #dcdcdc;
         color: #5e5959;
@@ -1258,7 +1258,7 @@
        display: inline-block;
        position: absolute;
        top: 9px;
-       right: 145px;
+       right: 122px;
        height: 48px;
        line-height: 48px;
        font-size: 16px;
