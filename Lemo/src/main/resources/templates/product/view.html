@@ -117,7 +117,7 @@
                                 </div>
                                 <button type="button" th:onclick="'popup_room_guide('+${count.count}+')'">객실 이용 안내</button>
                             </div>
-                            <!--<button type="button" class="status" th:if="${room.room_state != 1}">예약불가</button>-->>
+                            <!--<button type="button" class="status" th:if="${room.room_state != 1}">예약불가</button>-->
                             <button type="button" class="status" th:if="${room.empty_room_stock == 0}">예약마감</button>
                             <button type="button" class="status on" th:if="${room.empty_room_stock != 0}" onclick=reserv(this)>예약</button>
                             <div class="expansionImg">

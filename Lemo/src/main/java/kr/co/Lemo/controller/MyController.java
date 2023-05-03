@@ -504,6 +504,7 @@ public class MyController {
 
         m.addAttribute("reservations", reservations);
         m.addAttribute("ph", ReservationPageHandler);
+        m.addAttribute("title", environment.getProperty(myGroup));
 
         return "my/reservation/list";
     }
@@ -517,6 +518,7 @@ public class MyController {
         log.info("GET reservation/view start");
 
         m.addAttribute("cate", "reservation");
+        m.addAttribute("title", environment.getProperty(myGroup));
 
         if(res_no == 0) { return "redirect:/my/reservation/list"; }
 

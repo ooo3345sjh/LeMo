@@ -187,7 +187,7 @@
                         <!-- item 1 -->
                             <th:block th:each="diary : ${map.diary}">
                                 <div class="main_best_item1">
-                                    <a th:href="@{diary/view?arti_no=} + ${diary.arti_no}">
+                                    <a th:href="@{diary/view(arti_no=${diary.arti_no}, res_no=${diary.res_no})}">
                                         <div class="main_best_item1_click">
                                             <div class="main_best_item1_img">
                                                 <img th:src="@{/img/diary/} + ${diary.arti_no} + '/' + ${diary.arti_thumb.split('/')[0]}"/>

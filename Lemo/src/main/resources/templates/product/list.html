@@ -143,7 +143,9 @@
                                                 </div>
                                                 <div class="stage-info">
                                                     <p>
-                                                        <span>남은 객실 : [[${acc.empty_room_stock}]]</span>
+                                                        <span th:if="${acc.empty_room_stock lt 3 and acc.empty_room_stock gt 0}">
+                                                            남은 객실 : [[${acc.empty_room_stock}]]
+                                                        </span>
                                                     </p>
                                                     <p th:if="${acc.empty_room_stock == 0}">
                                                         <b style="color:#9c9c9c; font-weight:700;">예약 마감 다른 날짜 확인</b>
