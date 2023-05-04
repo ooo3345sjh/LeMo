@@ -1829,10 +1829,6 @@
 
     /* 스타일 수정 2023/04/29 이해빈 */
 
-    .review_swiper-container .swiper-slide {
-        border: 1px solid red;
-    }
-
     .review_swiper-container .swiper-slide > img {
         width: 520px;
         height: auto;

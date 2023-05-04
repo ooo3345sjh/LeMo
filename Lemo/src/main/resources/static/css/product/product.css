@@ -487,7 +487,7 @@
 #detail_room .room > button {
     display: block;
     float: left;
-    width: 500px;
+    width: 548px;
     height: 40px;
     margin-left: 20px;
     border: none;
@@ -533,7 +533,7 @@
 #detail_room .room > div > span {}
 
 #detail_room .room .detail_room_info {
-    width: 500px;
+    width: 548px;
     float: left;
     margin-left: 20px;
 }
@@ -1955,6 +1955,10 @@ margin-left: 25px;
     align-items: center;
     width: 100%;
     height: 40px;
+}
+
+#price .discount_header > #dis_counpon_price {
+    font-size: 18px;
 }
 
 #price .discount_header .discount_button {

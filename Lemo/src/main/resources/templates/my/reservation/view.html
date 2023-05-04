@@ -18,7 +18,14 @@
                         <div id="reservePrint">
                             <div class="reserve_wrap">
                                 <div class="tit">
-                                    <h1>예약상세정보</h1>
+                                    <h1>예약상세정보
+                                        <th:block th:switch="${oi.res_state}">
+                                            <span th:case="0">예약취소</span>
+                                            <span th:case="1">예약완료</span>
+                                            <span th:case="2">숙박완료</span>
+                                        </th:block>
+                                    </h1>
+
                                     <span>
                                         예약번호:
                                         <i>[[${oi.res_no}]]</i>

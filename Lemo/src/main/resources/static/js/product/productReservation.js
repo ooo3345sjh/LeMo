@@ -14,13 +14,15 @@ function displayPrice(){
     let disprice = 0;
     let inputpoint = $('input[name=point]').val();
     let el = $('.coupon-el.on').find('.coupon-amount');
-
+    console.log(el);
     if(el.length > 0){
         if(!$('.coupon-el.on').hasClass('none')){
             disprice = el.attr("data-price");
+            $('#dis_counpon_price').text(-disprice + "원");
         }
+    } else {
+        $('#dis_counpon_price').text("-");
     }
-
     totPrice -= inputpoint;
     totPrice -= disprice;
     totalPrice = totPrice;
@@ -37,9 +39,6 @@ function displayPrice(){
     }
 
     $('.in_price').text(totPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원');
-    $('.product_amount > b').text(totPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원');
-
-
 }
 
 /* 주문 번호 만들기 */

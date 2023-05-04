@@ -342,8 +342,8 @@ main .main_best_table .main_top_item1_writer {
 main .main_best_table .item_left {}
 main .main_best_table .item_right {
     position: absolute;
-    top: 1px;
-    right: 7px;
+    top: -35px;
+    right: -1px;
 }
 main .main_best_table .main_top_item1_writer .nick {
     font-size: 15px;
@@ -380,7 +380,7 @@ main .main_best_table .main_top_item1_writer .replyCount > img {
     vertical-align: sub;
 }
 main .main_best_table .main_top_item1_writer .replyCount > p {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 20px;
     color: #777777;
