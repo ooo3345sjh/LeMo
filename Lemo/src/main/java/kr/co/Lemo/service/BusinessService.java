@@ -63,15 +63,6 @@ public class BusinessService {
     }
 
     /**
-     * 판매자 쿠폰 - 리뷰 목록 소유 숙소 선택
-     * @since 2023/03/16
-     * @param user_id
-     */
-    public List<ReviewVO> findAccOwnedForReview(String user_id){
-        return dao.selectAccOwnedForReview(user_id);
-    }
-
-    /**
      * 판매자 리뷰 - 리뷰 보기
      * @since 2023/03/16
      * @param revi_id
@@ -113,13 +104,6 @@ public class BusinessService {
         return dao.countAcc(sc);
      }
 
-    /**
-     * 판매자 숙소 - 숙소 목록 소유 숙소 선택
-     * @param user_id
-     */
-    public List<ProductAccommodationVO> findAccOwnedForInfo(String user_id){
-        return dao.selectAccOwnedForInfo(user_id);
-    }
 
     /**
      * 판매자 - 숙소 보기
@@ -207,15 +191,6 @@ public class BusinessService {
      * @apiNote 판매자 - 통계관리 - 일별 누적 판매량 (일주일)
      */
      public List<ReservationVO> findAllDaySales (Map map){return dao.selectDaySales(map);}
-
-
-
-    /**
-     * @since 2023/04/16
-     * @param map
-     * @apiNote 판매자 - 통계관리 - 당일 시간대별 판매량
-     */
-    public List<ReservationVO> selectTimeSales(Map map){return dao.selectTimeSales(map);}
 
     /**
      * @since 2023/04/15
