@@ -524,6 +524,7 @@ public class MyController {
 
         ReservationVO reservation = service.findReservation(res_no, myUser.getUser_id());
 
+        log.info(reservation + "");
         if(reservation == null) { return "redirect:/my/reservation/list"; }
 
         // 예약 정보 가져오기

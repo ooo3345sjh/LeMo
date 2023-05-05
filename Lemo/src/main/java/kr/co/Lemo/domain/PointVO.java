@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @since 2023/03/13
+ * @since 2023/03/13
  * @author 박종협
  * @apiNote lemo_member_point_log VO
  */

@@ -107,14 +107,14 @@ public class MyService {
         String[] lng     = ((String) param.get("diaryLng")).split("/");
 
         if(title.length != content.length && title.length != lat.length && title.length != lng.length
-            && content.length != lat.length && content.length != lat.length
-            && lat.length != lng.length)
+                && content.length != lat.length && content.length != lat.length
+                && lat.length != lng.length)
         {
             finalResult = 2;
             return finalResult;
         }
-        
-        
+
+
         List<String> fileRenames = new ArrayList<>();
 
         for(MultipartFile mf : fileList){
@@ -128,15 +128,15 @@ public class MyService {
 
         // diary_article 입력 데이터 분류
         ArticleDiaryVO diaryVO = ArticleDiaryVO.builder()
-                                .res_no( Long.parseLong(String.valueOf(param.get("res_no"))) )
-                                .user_id(user_id)
-                                .arti_title((String) param.get("diaryTitle"))
-                                .arti_thumb(newName)
-                                .arti_regip(RemoteAddrHandler.getRemoteAddr(req))
-                                .arti_start((String) param.get("diaryStart"))
-                                .arti_end((String) param.get("diaryEnd"))
-                                .build();
-        
+                .res_no( Long.parseLong(String.valueOf(param.get("res_no"))) )
+                .user_id(user_id)
+                .arti_title((String) param.get("diaryTitle"))
+                .arti_thumb(newName)
+                .arti_regip(RemoteAddrHandler.getRemoteAddr(req))
+                .arti_start((String) param.get("diaryStart"))
+                .arti_end((String) param.get("diaryEnd"))
+                .build();
+
         // diary_article 테이블 입력
         int result = dao.insertDiaryArticle(diaryVO);
 
@@ -150,18 +150,18 @@ public class MyService {
         }else {
 
         }
-        
+
         String[] images  = newName.split("/");
         for(int i = 0; i<images.length; i++){
             DiarySpotVO spotVO = DiarySpotVO.builder()
-                                .arti_no(arti_no)
-                                .spot_longtitude(Double.parseDouble(lng[i]))
-                                .spot_lattitude(Double.parseDouble(lat[i]))
-                                .spot_title(title[i])
-                                .spot_content(content[i])
-                                .spot_thumb(images[i])
-                                .province_name(accommo.getProvince_name())
-                                .spot_addr(accommo.getAcc_addr()).build();
+                    .arti_no(arti_no)
+                    .spot_longtitude(Double.parseDouble(lng[i]))
+                    .spot_lattitude(Double.parseDouble(lat[i]))
+                    .spot_title(title[i])
+                    .spot_content(content[i])
+                    .spot_thumb(images[i])
+                    .province_name(accommo.getProvince_name())
+                    .spot_addr(accommo.getAcc_addr()).build();
 
             // diary_spot 테이블 입력
             dao.insertDiarySpot(spotVO);
@@ -185,8 +185,8 @@ public class MyService {
         String[] lng     = ((String) param.get("diaryLng")).split("/");
 
         if(title.length != content.length && title.length != lat.length && title.length != lng.length
-            && content.length != lat.length && content.length != lat.length
-            && lat.length != lng.length)
+                && content.length != lat.length && content.length != lat.length
+                && lat.length != lng.length)
         {
             finalResult = 2;
             return finalResult;
@@ -205,13 +205,13 @@ public class MyService {
 
         // diary_article 입력 데이터 분류
         ArticleDiaryVO diaryVO = ArticleDiaryVO.builder()
-                                .arti_no(Integer.parseInt(String.valueOf(param.get("arti_no"))))
-                                .arti_title((String) param.get("diaryTitle"))
-                                .arti_thumb(newName)
-                                .arti_regip(RemoteAddrHandler.getRemoteAddr(req))
-                                .arti_start((String) param.get("diaryStart"))
-                                .arti_end((String) param.get("diaryEnd"))
-                                .build();
+                .arti_no(Integer.parseInt(String.valueOf(param.get("arti_no"))))
+                .arti_title((String) param.get("diaryTitle"))
+                .arti_thumb(newName)
+                .arti_regip(RemoteAddrHandler.getRemoteAddr(req))
+                .arti_start((String) param.get("diaryStart"))
+                .arti_end((String) param.get("diaryEnd"))
+                .build();
 
         // diary_article 테이블 입력
         int result = dao.updateDiaryArticle(diaryVO);
@@ -230,14 +230,14 @@ public class MyService {
         String[] images  = newName.split("/");
         for(int i = 0; i<images.length; i++){
             DiarySpotVO spotVO = DiarySpotVO.builder()
-                                .arti_no(arti_no)
-                                .spot_longtitude(Double.parseDouble(lng[i]))
-                                .spot_lattitude(Double.parseDouble(lat[i]))
-                                .spot_title(title[i])
-                                .spot_content(content[i])
-                                .spot_thumb(images[i])
-                                .province_name(accommo.getProvince_name())
-                                .spot_addr(accommo.getAcc_addr()).build();
+                    .arti_no(arti_no)
+                    .spot_longtitude(Double.parseDouble(lng[i]))
+                    .spot_lattitude(Double.parseDouble(lat[i]))
+                    .spot_title(title[i])
+                    .spot_content(content[i])
+                    .spot_thumb(images[i])
+                    .province_name(accommo.getProvince_name())
+                    .spot_addr(accommo.getAcc_addr()).build();
 
             dao.insertDiarySpot(spotVO);
         }
@@ -311,17 +311,17 @@ public class MyService {
         return dao.selectReservations(sc);
     }
     public List<PointVO> findPoints(SearchCondition sc) {
-            return dao.selectPoints(sc);
-        }
+        return dao.selectPoints(sc);
+    }
     public List<ReservationVO> findReviews(SearchCondition sc) {
         return dao.selectReviews(sc);
     }
     public int findTotalReservations(SearchCondition sc) {
-            return dao.selectTotalReservations(sc);
-        }
+        return dao.selectTotalReservations(sc);
+    }
     public int findTotalPoints(SearchCondition sc) {
-            return dao.selectTotalPoints(sc);
-        }
+        return dao.selectTotalPoints(sc);
+    }
     public int findTotalPicks(SearchCondition sc) {
         return dao.selectTotalPicks(sc);
     }
@@ -412,26 +412,48 @@ public class MyService {
 
         /* 토큰 발행 */
         String token = paymentservice.getToken();
-        String imp_uid = dao.selectReservationImpUid(res_no);
+        ReservationVO reservationVO = dao.selectReservation(res_no, user_id);
+
+        if(reservationVO.getRes_state() != 1){
+            return -9999;
+        }
 
         /* 결제 취소 */
-        paymentservice.paymentCancel(token, imp_uid);
+        paymentservice.paymentCancel(token, reservationVO.getImp_uid());
 
         result = dao.deleteReservation(res_no);
 
         if(result == 1) { result = dao.updateReservationState(res_no); }
 
+        PointVO pointVO = PointVO.builder()
+                .user_id(user_id)
+                .res_no(res_no)
+                .build();
         /**
-         * @since 2023/04/29
-         * @author 이해빈
-         * @apiNote 포인트, 쿠폰 원상복구
+         * @since 2023/04/23
+         * @author 서정현
+         * @apiNote 예약취소시 포인트 반환
          */
-        // 예약 내역 가져오기
-        ReservationVO vo = dao.selectReservation(res_no, user_id);
+        // 포인트 반환
+        dao.insertReturnPoint(pointVO);
+        if(pointVO.getPoi_id() != 0){
+            dao.insertReturnDetailPoint(pointVO.getPoi_id());
 
-        log.info("예약 내역 vo : " + vo);
+            // 만료포인트 업데이트
+            dao.expiredPoint(user_id);
+            dao.expiredDetailPoint(user_id);
 
-
+            // 유저 포인트 정보 최신화
+            dao.updateMemberUserInfo(user_id);
+        }
+        /**
+         * @since 2023/04/23
+         * @author 서정현
+         * @apiNote 예약취소시 쿠폰 반환
+         */
+        int resultCoupon = dao.updatreMemberCoupon(user_id, res_no);
+        if(resultCoupon > 0)
+            dao.deleteMemberCouponLog(user_id, res_no);
 
         return result;
     }
@@ -756,7 +778,7 @@ public class MyService {
      * @apNote 찜한 숙소 삭제
      */
     public int removePick(Map map){
-       return dao.deletePick(map);
+        return dao.deletePick(map);
     }
 
     /***

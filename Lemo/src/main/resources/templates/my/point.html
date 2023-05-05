@@ -40,23 +40,25 @@
                                         </div>
                                         <div>
                                             <div class="mph_5">
-                                                <div class="deleted" th:if="${point.poi_state == 0}">소멸</div>
-                                                <div class="save" th:if="${point.poi_state == 1}">적립</div>
-                                                <div class="used" th:if="${point.poi_state == 2}">사용</div>
+                                                <div class="deleted" th:if="${#strings.equals(point.poi_content, '포인트 만료')}">만료</div>
+                                                <div class="save" th:if="${#strings.equals(point.poi_content, '포인트 적립')}">적립</div>
+                                                <div class="save" th:if="${#strings.equals(point.poi_content, '포인트 반환')}">반환</div>
+                                                <div class="used" th:if="${#strings.equals(point.poi_content, '포인트 사용')}">사용</div>
                                                 <h2>[[${point.poi_content}]]</h2>
-                                                
                                             </div>
                                             <ul class="mph_6">
-                                                <!--<li>[HEM] 헥사 인센스 스틱</li>-->
-                                                <li th:if="${point.poi_state == 0}">소멸: [[${point.poi_maximum.substring(0,10)}]]</li>
-                                                <li th:if="${point.poi_state == 1}">유효기간: [[${point.poi_maximum.substring(0,10)}]] 까지</li>
-                                                <li th:if="${point.poi_state == 2}">사용: [[${point.poi_maximum.substring(0,10)}]]</li>
+                                                <li th:if="${#strings.equals(point.poi_content, '포인트 만료')}">만료: [[${point.poi_rdate.substring(0,10)}]]</li>
+                                                <li th:if="${#strings.equals(point.poi_content, '포인트 적립')}">유효기간: [[${point.poi_maximum}]] 까지</li>
+                                                <li th:if="${#strings.equals(point.poi_content, '포인트 반환')}">유효기간: [[${point.poi_maximum}]] 까지</li>
+                                                <li th:if="${#strings.equals(point.poi_content, '포인트 사용')}">사용: [[${point.poi_rdate.substring(0,10)}]]</li>
                                             </ul>
                                         </div>
+                                        </div>
                                         <div class="mph_7">
-                                            <span class="minus" th:if="${point.poi_state == 0}"> - [[${#numbers.formatInteger(point.poi_point, 0, 'COMMA')}]]P </span>
-                                            <span class="plus" th:if="${point.poi_state == 1}"> + [[${#numbers.formatInteger(point.poi_point, 0, 'COMMA')}]]P </span>
-                                            <span class="minus" th:if="${point.poi_state == 2}"> - [[${#numbers.formatInteger(point.poi_point, 0, 'COMMA')}]]P </span>
+                                            <span class="minus" th:if="${#strings.equals(point.poi_content, '포인트 만료')}">- [[${#numbers.formatInteger(-point.poi_point, 0, 'COMMA')}]]P </span>
+                                            <span class="plus" th:if="${#strings.equals(point.poi_content, '포인트 적립')}"> + [[${#numbers.formatInteger(point.poi_point, 0, 'COMMA')}]]P </span>
+                                            <span class="plus" th:if="${#strings.equals(point.poi_content, '포인트 반환')}"> + [[${#numbers.formatInteger(point.poi_point, 0, 'COMMA')}]]P </span>
+                                            <span class="minus" th:if="${#strings.equals(point.poi_content, '포인트 사용')}">- [[${#numbers.formatInteger(-point.poi_point, 0, 'COMMA')}]]P </span>
                                         </div>
                                     </div>
                                 </div>

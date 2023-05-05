@@ -94,6 +94,34 @@ public interface MyDAO {
      */
     int deleteUserCoupon (@Param("user_id")String user_id);
 
+    /**
+     * @since 2023/04/23
+     * @author 서정현
+     * @apiNote 예약취소시 포인트 반환
+     */
+    int insertReturnPoint (PointVO pointVO);
+    int insertReturnDetailPoint (@Param("poi_id")int poi_id);
+    /**
+     * @since 2023/04/23
+     * @author 서정현
+     * @apiNote 예약취소시 만료 포인트 업데이트
+     */
+    int expiredPoint (@Param("user_id") String user_id);
+    int expiredDetailPoint (@Param("user_id") String user_id);
+    /**
+     * @since 2023/04/23
+     * @author 서정현
+     * @apiNote 유저 포인트 정보 최신화
+     */
+    int updateMemberUserInfo(@Param("user_id") String user_id);
+    /**
+     * @since 2023/04/23
+     * @author 서정현
+     * @apiNote 예약취소시 쿠폰 반환
+     */
+    int updatreMemberCoupon(@Param("user_id") String user_id, @Param("res_no")Long res_no);
+    int deleteMemberCouponLog(@Param("user_id") String user_id, @Param("res_no")Long res_no);
+
     /***
      * @since 2023/04/11
      * @author 이해빈
@@ -131,15 +159,12 @@ public interface MyDAO {
     public int updateDiarySpot(DiarySpotVO spotVO);
 
     // @since 2023/04/15
-    public int insertSelectPointExpire();
+
     public List<PointVO> selectAvailablePoint();
-    public int updateAvailablePoint();
 
     // @since 2023/04/17
     public int selectMemberPoint(String user_id);
 
-    // @since 2023/04/18
-    public int updateAvailablePoiUsed();
 
     // @since 2023/04/20
     public List<ArticleDiaryVO> selectDiaryArticles(SearchCondition sc);

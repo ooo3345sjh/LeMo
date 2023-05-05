@@ -89,7 +89,7 @@
                                         </div>
                                         <div class="ord-el">
                                             <div>포인트할인</div>
-                                            <div>- [[${#numbers.formatInteger(oi.poi_point,1,'COMMA')}]]P</div>
+                                            <div>- [[${#numbers.formatInteger(-oi.poi_point,1,'COMMA')}]]P</div>
                                         </div>
                                         <div class="ord-price">
                                             <div>
@@ -112,6 +112,15 @@
             </th:block>
             <th:block layout:fragment="script">
                 <script>
+
+                    const error = "[[${param.error}]]"
+                    console.log(error);
+
+                    if(error || false) {
+                        Swal.fire('다시 시도해주세요.');
+                    }
+
+
                     var content;
                     var initBody;
 
@@ -166,7 +175,11 @@
                                             }).then(result => {
                                                 location.href='/Lemo/my/reservation/list';
                                             });
-                                        }else {
+                                        }
+                                        else if(response == -9999){
+                                            location.href=`/Lemo/my/reservation/view?res_no=${res_no}&error=true`;
+                                        }
+                                        else {
                                             Swal.fire( '다시 시도해주세요.' )
                                         }
                                     });

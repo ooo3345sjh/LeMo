@@ -12,7 +12,7 @@
     <!-- select -->
     <select id="selectPoints" resultType="kr.co.Lemo.domain.PointVO">
         SELECT * FROM
-            `lemo_member_point_log`
+        `lemo_member_point_log`
         WHERE `user_id`= #{user_id} ORDER BY `poi_rdate` DESC
         LIMIT #{offset}, 10;
     </select>
@@ -23,14 +23,14 @@
 
     <select id="selectReservations" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT
-           b.*, a.`acc_name`, a.`acc_id`, a.`acc_state`, a.`province_no`, a.`acc_thumbs`, c.`room_checkIn`, c.`room_checkOut`, b.`res_checkIn`,
-           b.`res_checkOut`, b.`res_state`, IFNULL(d.`arti_no`, 0) AS diaryStat, IF(e.`res_no` IS NULL , 0, 1) AS reviewStat
+        b.*, a.`acc_name`, a.`acc_id`, a.`acc_state`, a.`province_no`, a.`acc_thumbs`, c.`room_checkIn`, c.`room_checkOut`, b.`res_checkIn`,
+        b.`res_checkOut`, b.`res_state`, IFNULL(d.`arti_no`, 0) AS diaryStat, IF(e.`res_no` IS NULL , 0, 1) AS reviewStat
         FROM
-           `lemo_product_accommodation` AS a LEFT JOIN
-           `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
-           `lemo_product_room`          AS c ON b.`room_id` = c.`room_id` LEFT JOIN
-           `lemo_diary_article`         AS d ON b.`res_no` = d.`res_no` LEFT JOIN
-           `lemo_product_review`        AS e ON b.`res_no` = e.`res_no`
+        `lemo_product_accommodation` AS a LEFT JOIN
+        `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+        `lemo_product_room`          AS c ON b.`room_id` = c.`room_id` LEFT JOIN
+        `lemo_diary_article`         AS d ON b.`res_no` = d.`res_no` LEFT JOIN
+        `lemo_product_review`        AS e ON b.`res_no` = e.`res_no`
         WHERE b.`user_id` = #{user_id}
         ORDER BY b.`res_date` DESC
         LIMIT #{offset}, 10;
@@ -38,30 +38,33 @@
 
     <select id="selectReservation" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT
-            a.*, b.*, c.*, IFNULL(d.`dis_price`, 0) AS `dis_price`, IFNULL(e.`poi_point`, 0) AS `poi_point`
+        a.*, b.*, c.*, IFNULL(d.`dis_price`, 0) AS `dis_price`, IFNULL(e.`poi_point`, 0) AS `poi_point`
         FROM
-            `lemo_product_reservation`   AS a LEFT JOIN
-            `lemo_product_room`          AS b ON a.`room_id` = b.`room_id` LEFT JOIN
-            `lemo_product_accommodation` AS c ON a.`acc_id`  = c.`acc_id` LEFT JOIN
-            `lemo_member_coupon_log`     AS d ON a.`res_no`  = d.`res_no` LEFT JOIN
-            `lemo_member_point_log`      AS e ON a.`res_no`  = e.`res_no`
+        `lemo_product_reservation`   AS a LEFT JOIN
+        `lemo_product_room`          AS b ON a.`room_id` = b.`room_id` LEFT JOIN
+        `lemo_product_accommodation` AS c ON a.`acc_id`  = c.`acc_id` LEFT JOIN
+        `lemo_member_coupon_log`     AS d ON a.`res_no`  = d.`res_no` LEFT JOIN
+        (
+            SELECT `res_no`, `poi_point` FROM `lemo_member_point_log`
+            WHERE (poi_content IS NULL OR poi_content IN ('포인트 사용'))
+        ) AS e ON a.`res_no`  = e.`res_no`
         WHERE a.`res_no` = #{res_no} AND a.`user_id` = #{user_id};
     </select>
 
     <select id="selectTotalReservations" resultType="int">
         SELECT COUNT(a.`acc_name`) FROM
-            `lemo_product_accommodation` AS a LEFT JOIN
-            `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
-            `lemo_product_room`          AS c ON b.`room_id` = c.`room_id`
+        `lemo_product_accommodation` AS a LEFT JOIN
+        `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+        `lemo_product_room`          AS c ON b.`room_id` = c.`room_id`
         WHERE b.`user_id` = #{user_id}
     </select>
 
     <select id="selectMemberCoupons" resultType="kr.co.Lemo.domain.CouponVO">
         SELECT
-            a.`cp_id`, a.`cp_subject`, a.`cp_rate`, a.`cp_price`, a.`cp_start`, a.`cp_end`, a.`cp_minimum`, a.`cp_disType`, b.`user_id`, b.`mcp_isUsed`, b.`mcp_end`
+        a.`cp_id`, a.`cp_subject`, a.`cp_rate`, a.`cp_price`, a.`cp_start`, a.`cp_end`, a.`cp_minimum`, a.`cp_disType`, b.`user_id`, b.`mcp_isUsed`, b.`mcp_end`
         FROM
-            `lemo_product_coupon` AS a LEFT JOIN
-            `lemo_member_coupon` AS b ON a.`cp_id` = b.`cp_id`
+        `lemo_product_coupon` AS a LEFT JOIN
+        `lemo_member_coupon` AS b ON a.`cp_id` = b.`cp_id`
         WHERE ( a.`cp_end` >= DATE(NOW()) AND b.`mcp_end` >= DATE(NOW()) AND b.`mcp_isUsed` = 0 )
         AND b.`user_id`=#{user_id};
     </select>
@@ -80,26 +83,26 @@
 
     <select id="selectPicks" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
         SELECT
-            b.`acc_id`, b.`acc_name`, b.`province_no`, b.`acc_addr`, b.`acc_addrDetail`, b.`acc_rate`, b.`acc_thumbs`, b.`acc_review`
+        b.`acc_id`, b.`acc_name`, b.`province_no`, b.`acc_addr`, b.`acc_addrDetail`, b.`acc_rate`, b.`acc_thumbs`, b.`acc_review`
         FROM
-            `lemo_product_pick` AS a LEFT JOIN
-            `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
+        `lemo_product_pick` AS a LEFT JOIN
+        `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
         WHERE a.`user_id` = #{user_id}
         LIMIT #{offset}, 10;
     </select>
 
     <select id="selectTotalPicks" resultType="int">
         SELECT COUNT(b.`acc_id`) FROM
-            `lemo_product_pick` AS a LEFT JOIN
-            `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
+        `lemo_product_pick` AS a LEFT JOIN
+        `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
         WHERE a.`user_id` = #{user_id};
     </select>
 
     <select id="selectReviews" resultType="kr.co.Lemo.domain.ReservationVO">
         SELECT a.`province_no`, a.`acc_name`, a.`acc_id`, a.`acc_thumbs`,  b.`res_checkIn`, b.`res_checkOut`, b.`res_date`, b.`res_no`, IF(c.`revi_id` IS NULL, 0, 1) AS reviewStat FROM
-            `lemo_product_accommodation` AS a LEFT JOIN
-            `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
-            `lemo_product_review`        AS c ON b.`res_no` = c.`res_no`
+        `lemo_product_accommodation` AS a LEFT JOIN
+        `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+        `lemo_product_review`        AS c ON b.`res_no` = c.`res_no`
         WHERE b.`user_id` = #{user_id} AND b.`res_state` = 2
         <choose>
             <when test="reviewStat == 1"> AND c.`revi_id` IS NOT null </when>
@@ -111,9 +114,9 @@
 
     <select id="selectTotalReviews" resultType="int">
         SELECT COUNT( a.`province_no` ) FROM
-            `lemo_product_accommodation` AS a LEFT JOIN
-            `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
-            `lemo_product_review`        AS c ON b.`res_no` = c.`res_no`
+        `lemo_product_accommodation` AS a LEFT JOIN
+        `lemo_product_reservation`   AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+        `lemo_product_review`        AS c ON b.`res_no` = c.`res_no`
         WHERE b.`user_id` = #{user_id} AND b.`res_state` = 2
         <choose>
             <when test="reviewStat == 1"> AND c.`revi_id` IS NOT null </when>
@@ -123,20 +126,20 @@
 
     <select id="selectReview" resultType="kr.co.Lemo.domain.ReviewVO">
         SELECT a.`acc_id`, a.`acc_name`, b.`res_checkIn`, b.`res_checkOut`, b.`user_id`, c.* FROM
-            `lemo_product_accommodation` AS a LEFT JOIN
-            `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
-            `lemo_product_review` AS c ON b.`res_no` = c.`res_no`
+        `lemo_product_accommodation` AS a LEFT JOIN
+        `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+        `lemo_product_review` AS c ON b.`res_no` = c.`res_no`
         WHERE c.`res_no` = #{res_no} AND c.`user_id` = #{user_id};
     </select>
-    
+
     <select id="selectReservationImpUid" resultType="String">
         SELECT `imp_uid` FROM `lemo_product_reservation` WHERE `res_no`=#{res_no}
     </select>
 
     <select id="selectReviewAccommodation" resultType="kr.co.Lemo.domain.ReviewVO">
         SELECT a.`acc_name`, b.`res_checkIn`, b.`res_checkOut`, b.`user_id`  FROM
-            `lemo_product_accommodation` AS a LEFT JOIN
-            `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id`
+        `lemo_product_accommodation` AS a LEFT JOIN
+        `lemo_product_reservation` AS b ON a.`acc_id` = b.`acc_id`
         WHERE b.`res_no` = #{res_no} AND b.`user_id` = #{user_id};
     </select>
 
@@ -154,13 +157,13 @@
 
     <select id="selectDiaryArticles" resultType="kr.co.Lemo.domain.ArticleDiaryVO">
         SELECT
-            a.`arti_no`, a.`arti_title`, COUNT(b.`user_id`), e.`nick`, a.`res_no`
+        a.`arti_no`, a.`arti_title`, COUNT(b.`user_id`), e.`nick`, a.`res_no`
         FROM
-            `lemo_diary_article` AS a LEFT JOIN
-            `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
-            `lemo_product_reservation` AS c ON a.`res_no` = c.`res_no` LEFT JOIN
-            `lemo_product_accommodation` AS d ON c.`acc_id` = d.`acc_id` LEFT JOIN
-            `lemo_member_userinfo` AS e ON a.`user_id` = e.`user_id`
+        `lemo_diary_article` AS a LEFT JOIN
+        `lemo_diary_like`    AS b ON a.`arti_no` = b.`arti_no` LEFT JOIN
+        `lemo_product_reservation` AS c ON a.`res_no` = c.`res_no` LEFT JOIN
+        `lemo_product_accommodation` AS d ON c.`acc_id` = d.`acc_id` LEFT JOIN
+        `lemo_member_userinfo` AS e ON a.`user_id` = e.`user_id`
         WHERE a.`user_id` = #{user_id}
         GROUP BY a.`arti_no`
         ORDER BY a.`arti_no` DESC
@@ -169,9 +172,9 @@
 
     <select id="selectDiarySpot" resultType="kr.co.Lemo.domain.DiarySpotVO">
         SELECT
-            a.*, b.`res_no`
+        a.*, b.`res_no`
         FROM `lemo_diary_spot` AS a LEFT JOIN
-             `lemo_diary_article` AS b ON a.`arti_no` = b.`arti_no`
+        `lemo_diary_article` AS b ON a.`arti_no` = b.`arti_no`
         WHERE a.`arti_no`=#{arti_no};
     </select>
 
@@ -182,10 +185,10 @@
 
     <select id="selectDiary" resultType="kr.co.Lemo.domain.DiarySpotVO">
         SELECT
-            a.`arti_title`, b.*
+        a.`arti_title`, b.*
         FROM
-            `lemo_diary_article` AS a JOIN
-            `lemo_diary_spot` AS b ON a.`arti_no` = b.`arti_no`
+        `lemo_diary_article` AS a JOIN
+        `lemo_diary_spot` AS b ON a.`arti_no` = b.`arti_no`
         WHERE `user_id`=#{user_id}
         LIMIT #{offset}, 10;
     </select>
@@ -197,18 +200,18 @@
 
     <select id="selectProvinceAddr" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
         SELECT
-            c.`province_name`, b.`acc_addr`
+        c.`province_name`, b.`acc_addr`
         FROM
-            `lemo_product_reservation` AS a LEFT JOIN
-            `lemo_product_accommodation`  AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
-            `lemo_product_province` AS c ON b.`province_no` = c.`province_no`
+        `lemo_product_reservation` AS a LEFT JOIN
+        `lemo_product_accommodation`  AS b ON a.`acc_id` = b.`acc_id` LEFT JOIN
+        `lemo_product_province` AS c ON b.`province_no` = c.`province_no`
         WHERE a.`res_no` = #{res_no};
     </select>
 
     <select id="selectDiaryXY" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
         SELECT b.`acc_name`, b.`acc_longtitude`, b.`acc_lattitude`, a.`user_id`, a.`res_state`, a.`res_checkIn`, a.`res_checkOut` FROM
-            `lemo_product_reservation` AS a LEFT JOIN
-            `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
+        `lemo_product_reservation` AS a LEFT JOIN
+        `lemo_product_accommodation` AS b ON a.`acc_id` = b.`acc_id`
         WHERE a.`res_no` = #{res_no};
     </select>
 
@@ -264,27 +267,27 @@
     <!-- insert -->
     <insert id="insertDiaryArticle" parameterType="kr.co.Lemo.domain.ArticleDiaryVO" useGeneratedKeys="true" keyProperty="arti_no">
         INSERT INTO `lemo_diary_article` SET
-            `res_no`     = #{res_no},
-            `user_id`    = #{user_id},
-            `arti_title` = #{arti_title},
-            `arti_thumb` = #{arti_thumb},
-            `arti_rdate` = NOW(),
-            `arti_regip` = #{arti_regip},
-            `arti_start` = #{arti_start},
-            `arti_end`   = #{arti_end}
+        `res_no`     = #{res_no},
+        `user_id`    = #{user_id},
+        `arti_title` = #{arti_title},
+        `arti_thumb` = #{arti_thumb},
+        `arti_rdate` = NOW(),
+        `arti_regip` = #{arti_regip},
+        `arti_start` = #{arti_start},
+        `arti_end`   = #{arti_end}
     </insert>
 
     <insert id="insertDiarySpot" parameterType="kr.co.Lemo.domain.DiarySpotVO">
         INSERT INTO `lemo_diary_spot` SET
-            `arti_no`         = #{arti_no},
-            `spot_longtitude` = #{spot_longtitude},
-            `spot_lattitude`  = #{spot_lattitude},
-            `spot_xy`         = ST_GeomFromText(CONCAT('POINT(', #{spot_longtitude}, ' ', #{spot_lattitude}, ')')),
-            `spot_title`      = #{spot_title},
-            `spot_content`    = #{spot_content},
-            `spot_thumb`      = #{spot_thumb},
-            `province_name`   = #{province_name},
-            `spot_addr`       = #{spot_addr}
+        `arti_no`         = #{arti_no},
+        `spot_longtitude` = #{spot_longtitude},
+        `spot_lattitude`  = #{spot_lattitude},
+        `spot_xy`         = ST_GeomFromText(CONCAT('POINT(', #{spot_longtitude}, ' ', #{spot_lattitude}, ')')),
+        `spot_title`      = #{spot_title},
+        `spot_content`    = #{spot_content},
+        `spot_thumb`      = #{spot_thumb},
+        `province_name`   = #{province_name},
+        `spot_addr`       = #{spot_addr}
     </insert>
 
     <insert id="insertCoupon" parameterType="kr.co.Lemo.domain.CouponVO">
@@ -295,30 +298,110 @@
 
     <insert id="insertReview" parameterType="java.util.Map">
         INSERT INTO `lemo_product_review` SET
-            `res_no`       = #{res_no},
-            `user_id`      = #{user_id},
-            `revi_rate`    = #{revi_rate},
-            `revi_title`   = #{revi_title},
-            `revi_content` = #{revi_content},
-            `revi_regip`   = #{revi_regip},
-            `revi_rdate`   = NOW(),
-            `revi_thumb`   = #{revi_thumb}
+        `res_no`       = #{res_no},
+        `user_id`      = #{user_id},
+        `revi_rate`    = #{revi_rate},
+        `revi_title`   = #{revi_title},
+        `revi_content` = #{revi_content},
+        `revi_regip`   = #{revi_regip},
+        `revi_rdate`   = NOW(),
+        `revi_thumb`   = #{revi_thumb}
     </insert>
 
-    <insert id="insertSelectPointExpire">
-        INSERT INTO `lemo_member_point_log`
-            (`user_id`, `res_no`, `poi_content`, `poi_point`, `poi_maximum`, `poi_state`, `poi_rdate`, `poi_used`)
-            SELECT `user_id`, `res_no`, '포인트 소멸', (`poi_point` - `poi_used`), `poi_maximum`, 0, NOW(), 0 FROM
-            `lemo_member_point_log`
-            <![CDATA[
-            WHERE `poi_state` = 1 AND `poi_maximum` < NOW() AND NOT `poi_point` = `poi_used`
-            ]]>
+    <!--
+        날짜 : 2023/04/23
+        이름 : 서정현
+        내용 : 예약취소시 포인트 반환
+    -->
+    <insert id="insertReturnPoint" parameterType="kr.co.Lemo.domain.PointVO" useGeneratedKeys="true" keyProperty="poi_id">
+        <![CDATA[
+            INSERT INTO `lemo_member_point_log` (`user_id`, `res_no`, `poi_point`, `poi_content`,`poi_maximum`, `poi_rdate`)
+            SELECT poi.user_id, #{res_no}, -poi.poi_point, '포인트 반환', poidSave.poid_maximum, NOW()
+            FROM `lemo_member_point_log` poi
+            JOIN `lemo_member_point_detail_log` poid ON poi.`poi_id` = poid.`poi_id`
+            JOIN `lemo_member_point_detail_log` poidSave ON poid.`poid_save_id` = poidSave.`poid_id`
+            WHERE poi.`res_no`= #{res_no} AND poi.`poi_point` < 0 AND poi.`user_id`=#{user_id}
+            LIMIT 1;
+        ]]>
     </insert>
+    <insert id="insertReturnDetailPoint">
+        <selectKey resultType="int" keyProperty="poid_id" order="BEFORE">
+            SELECT `poid_id` FROM `lemo_member_point_detail_log` ORDER BY `poid_id` DESC LIMIT 1;
+        </selectKey>
+
+        INSERT INTO `lemo_member_point_detail_log` (`poid_id`, `user_id`, `poid_content`, `poid_point`, `poi_id`, `poid_save_id`, `poid_maximum`, `poid_rdate`)
+        SELECT #{poid_id} + 1, `user_id`, `poi_content`, `poi_point`, `poi_id`, #{poid_id} + 1, `poi_maximum`, NOW()
+        FROM `lemo_member_point_log`
+        WHERE `poi_id`=#{poi_id};
+    </insert>
+
+    <!--
+       날짜 : 2023/04/23
+       이름 : 서정현
+       내용 : 예약취소시 포인트 만료 업데이트
+   -->
+    <insert id="expiredPoint">
+        <![CDATA[
+            INSERT INTO `lemo_member_point_log` (`user_id`, `poi_point`, `poi_content`, `poi_maximum`, `poi_rdate`)
+            SELECT poi.`user_id`, -SUM(poid_sub.poid_point), '포인트 만료', poi.poi_maximum, NOW()
+            FROM `lemo_member_point_log` poi JOIN `lemo_member_point_detail_log` poid ON poi.poi_id = poid.poi_id
+            JOIN `lemo_member_point_detail_log` poid_sub ON poid.poid_id = poid_sub.poid_save_id
+            WHERE poi.`user_id`=#{user_id}
+            GROUP BY poid_sub.`poid_save_id`
+            HAVING SUM(poid_sub.poid_point) > 0 AND poi.poi_maximum < DATE_FORMAT(NOW(),'%Y-%m-%d');
+        ]]>
+    </insert>
+    <insert id="expiredDetailPoint">
+        <![CDATA[
+            INSERT INTO `lemo_member_point_detail_log` (`user_id`, `poid_content`, `poid_point`, `poid_save_id`, `poi_id`, `poid_maximum`, `poid_rdate`)
+            SELECT val.`user_id`, '포인트 만료' AS 'poid_content', -val.`sum` AS 'poid_point', val.`poid_save_id`, val.`poi_id`, val.`poid_maximum`, NOW()  FROM (
+            SELECT *, SUM(`poid_point`) AS 'sum' FROM `lemo_member_point_detail_log`
+            WHERE `user_id`=#{user_id}
+            GROUP BY `poid_save_id`
+            HAVING SUM(`poid_point`) != 0 AND `poid_maximum` < DATE_FORMAT(NOW(),'%Y-%m-%d')
+            ) val;
+       ]]>
+    </insert>
+
+    <!--
+        날짜 : 2023/04/23
+        이름 : 서정현
+        내용 : 유저 포인트 정보 최신화
+    -->
+    <update id="updateMemberUserInfo">
+        UPDATE `lemo_member_userinfo` user JOIN
+        (
+        SELECT `user_id`, SUM(`poid_point`) AS 'total'
+        FROM `lemo_member_point_detail_log`
+        WHERE `user_id`=#{user_id}
+        ) log ON user.user_id = log.user_id
+        SET
+        user.`point` = log.`total`;
+    </update>
+
+    <!--
+        날짜 : 2023/04/23
+        이름 : 서정현
+        내용 : 예약취소시 쿠폰 반환
+    -->
+    <update id="updatreMemberCoupon">
+        UPDATE `lemo_member_coupon` c
+        JOIN
+        (
+        SELECT mcp_id FROM  `lemo_member_coupon_log`
+        WHERE `res_no`= #{res_no} AND `user_id`=#{user_id}
+        ) cl ON c.mcp_id = cl.mcp_id
+        SET
+        c.mcp_isUsed = 0;
+    </update>
+    <delete id="deleteMemberCouponLog">
+        DELETE FROM `lemo_member_coupon_log` WHERE `res_no`=#{res_no} AND `user_id`=#{user_id};
+    </delete>
 
     <!-- update -->
     <update id="updateProductCoupon">
         UPDATE `lemo_product_coupon` SET
-            `cp_IssuedCnt` = ( `cp_IssuedCnt` + 1 )
+        `cp_IssuedCnt` = ( `cp_IssuedCnt` + 1 )
         WHERE `cp_id` = #{cp_id}
     </update>
 
@@ -328,54 +411,34 @@
 
     <update id="updateReview">
         UPDATE `lemo_product_review` SET
-            `revi_rate` = #{revi_rate},
-            `revi_title` = #{revi_title},
-            `revi_content` = #{revi_content},
-            `revi_regip` = #{revi_regip},
-            `revi_thumb` = #{revi_thumb}
+        `revi_rate` = #{revi_rate},
+        `revi_title` = #{revi_title},
+        `revi_content` = #{revi_content},
+        `revi_regip` = #{revi_regip},
+        `revi_thumb` = #{revi_thumb}
         WHERE `res_no` = #{res_no}
     </update>
 
     <update id="updateDiaryArticle" parameterType="kr.co.Lemo.domain.ArticleDiaryVO">
         UPDATE `lemo_diary_article` SET
-            `arti_title` = #{arti_title},
-            `arti_thumb` = #{arti_thumb},
-            `arti_udate` = NOW(),
-            `arti_regip` = #{arti_regip},
-            `arti_start` = #{arti_start},
-            `arti_end`   = #{arti_end}
+        `arti_title` = #{arti_title},
+        `arti_thumb` = #{arti_thumb},
+        `arti_udate` = NOW(),
+        `arti_regip` = #{arti_regip},
+        `arti_start` = #{arti_start},
+        `arti_end`   = #{arti_end}
         WHERE `arti_no` = #{arti_no}
     </update>
 
     <update id="updateDiarySpot" parameterType="kr.co.Lemo.domain.DiarySpotVO">
         UPDATE `lemo_diary_spot` SET
-            `spot_longtitude` = #{spot_longtitude},
-            `spot_lattitude`  = #{spot_lattitude},
-            `spot_xy`         = ST_GeomFromText(CONCAT('POINT(', #{spot_longtitude}, ' ', #{spot_lattitude}, ')')),
-            `spot_title`      = #{spot_title},
-            `spot_content`    = #{spot_content},
-            `spot_thumb`      = #{spot_thumb}
+        `spot_longtitude` = #{spot_longtitude},
+        `spot_lattitude`  = #{spot_lattitude},
+        `spot_xy`         = ST_GeomFromText(CONCAT('POINT(', #{spot_longtitude}, ' ', #{spot_lattitude}, ')')),
+        `spot_title`      = #{spot_title},
+        `spot_content`    = #{spot_content},
+        `spot_thumb`      = #{spot_thumb}
         WHERE `spot_no` = #{spot_no};
-    </update>
-
-    <update id="updateAvailablePoint">
-        UPDATE `lemo_member_userinfo` userinfo
-            JOIN (
-                SELECT (SUM(`poi_point`)-SUM(`poi_used`)) AS `poi_point`, `user_id` FROM `lemo_member_point_log` WHERE `poi_state` = 1 GROUP BY `user_id`
-            ) vals ON userinfo.user_id = vals.user_id
-        SET userinfo.`point` = vals.poi_point;
-    </update>
-
-    <update id="updateAvailablePoiUsed">
-        UPDATE `lemo_member_point_log` point_log
-            JOIN (
-                SELECT * FROM
-                    `lemo_member_point_log`
-                <![CDATA[
-                WHERE `poi_state` = 1 AND `poi_maximum` < NOW() AND NOT `poi_point` = `poi_used`
-                ]]>
-            ) vals ON point_log.poi_id = vals.poi_id
-        SET point_log.`poi_used` = vals.poi_point;
     </update>
 
     <!--
@@ -385,10 +448,10 @@
     -->
     <update id="updateWithdrawUser">
         UPDATE `lemo_member_userinfo` SET
-            `point`=0,
-            `isEnabled`=0,
-            `udate`=NOW(),
-            `wdate`=NOW()
+        `point`=0,
+        `isEnabled`=0,
+        `udate`=NOW(),
+        `wdate`=NOW()
         WHERE `user_id` = #{user_id};
     </update>
 
