@@ -40,7 +40,10 @@ public interface ProductDAO {
     public int insertMemberCouponLog(OrderInfoVO vo);
 
     //@since 2023/03/31
-    public int insertMemberPointLog(OrderInfoVO vo);
+    public int insertMemberPointLog(PointVO vo);
+
+    //@since 2023/03/31
+    public int insertMemberPointDetailLog(PointDetailVO vo);
 
     //@since 2023/04/19
     public void insertSavePointLog();
@@ -54,7 +57,7 @@ public interface ProductDAO {
 
     // @since 2023/03/17
     public List<ProductAccommodationVO> selectAccommodation(@Param("acc_id") int acc_id,
-                                                      @Param("checkIn")String checkIn, @Param("checkOut") String checkOut);
+                                                            @Param("checkIn")String checkIn, @Param("checkOut") String checkOut);
 
     // @since 2023/03/19
     public List<ServiceCateVO> selectServiceCates(@Param("acc_id") int acc_id);
@@ -126,7 +129,7 @@ public interface ProductDAO {
     public int updateMemberCoupon(OrderInfoVO vo);
 
     //@since 2023/03/31
-    public int updateMemberUserInfo(OrderInfoVO vo);
+    public int updateMemberUserInfo(@Param("user_id") String user_id);
 
     /**
      * @since 2023/04/08
@@ -142,20 +145,33 @@ public interface ProductDAO {
      */
     int usaveResNo(@Param("res_no") Long res_no) throws Exception;
 
+    /**
+     * @since 2023/04/23
+     * @author 서정현
+     * @apiNote 매일 자정에 숙박완료 내역 포인트 적립
+     */
+    int insertSaveDetailPointLog();
+    int updateDetailpointSaveId();
+
+    /**
+     * @since 2023/04/23
+     * @author 서정현
+     * @apiNote 매일 자정에 만료포인트 업데이트
+     */
+    int expiredPointAll();
+    int expriedDetailPointAll();
+
+    /**
+     * @since 2023/04/23
+     * @author 서정현
+     * @apiNote 매일 자정에 모든 회원의 포인트 최신화
+     */
+    int updateUsersInfoPoint();
+
     // delete
 
     // @since 2023/03/24
     public int deleteProductPick(Map map);
-
-    /**
-     * @since 2023/04/16
-     * @author 박종협
-     * @apiNote 소멸기간이 다가온 point select
-     */
-    public List<PointVO> shortestPointExpiration(OrderInfoVO vo);
-
-    // @since 2023/04/17
-    public int updateMemberPoint(@Param("poi_id") int poi_id, @Param("poi_used") int poi_used);
 
     // @since 2023/04/19
     public void updateProductReservation();

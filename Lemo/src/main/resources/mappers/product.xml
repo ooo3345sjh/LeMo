@@ -74,29 +74,122 @@
         `cl_datetime` = NOW()
     </insert>
 
-    <insert id="insertMemberPointLog" parameterType="kr.co.Lemo.domain.OrderInfoVO">
+    <insert id="insertMemberPointLog" parameterType="kr.co.Lemo.domain.PointVO"  useGeneratedKeys="true" keyProperty="poi_id">
         INSERT INTO `lemo_member_point_log`
         SET
         `user_id` = #{user_id},
         `res_no` = #{res_no},
         `poi_content` = '포인트 사용',
-        `poi_point` = #{point},
-        `poi_maximum` = NOW(),
-        `poi_state` = 2,
+        `poi_point` = -#{poi_point},
         `poi_rdate` = NOW()
     </insert>
 
+    <insert id="insertMemberPointDetailLog" parameterType="kr.co.Lemo.domain.PointDetailVO" >
+        <![CDATA[
+            INSERT INTO `lemo_member_point_detail_log`
+            (`user_id`, `poid_content`, `poid_point`, `poid_save_id`, `poi_id`, `poid_maximum`, `poid_rdate`)
+
+            SELECT result.`user_id`, '포인트 사용' AS 'poid_content',
+            if(result.`result` - #{poid_point} <= 0, -result.`total`, (result.`result` - result.`total`) - #{poid_point}) AS 'poid_point',
+            result.`poid_save_id`, #{poi_id} 'poi_id', null 'poid_maximum', NOW() 'poid_rdate'
+            FROM
+            (
+                SELECT *, SUM(val.`total`) OVER(ORDER BY `poid_id`) AS 'result'
+                FROM
+                (
+                    SELECT *, SUM(`poid_point`) AS 'total'
+                    FROM `lemo_member_point_detail_log`
+                    WHERE `poid_save_id`
+                    IN
+                    (
+                        SELECT `poid_save_id`FROM `lemo_member_point_detail_log`
+                        WHERE `user_id`=#{user_id}
+                        GROUP BY `poid_save_id`
+                        HAVING SUM(`poid_point`) > 0
+                    )
+                    GROUP BY `poid_save_id`
+                ) val
+            ) result
+            WHERE result.`total` > (result.`result`- #{poid_point}) ;
+        ]]>
+    </insert>
+
+
     <insert id="insertSavePointLog">
         INSERT INTO lemo_member_point_log
-        (`user_id`, `res_no`, `poi_point`, `poi_content`,`poi_maximum`, `poi_state`, `poi_rdate`)
+        (`user_id`, `res_no`, `poi_point`, `poi_content`,`poi_maximum`, `poi_rdate`)
         SELECT
         u.`user_id`, `res_no`,
-        if (u.`level` = 1, ROUND(`res_price` * 0.01), ROUND(`res_price` * 0.03)),
-        '포인트 적립', DATE_ADD(DATE(NOW()), INTERVAL 3 MONTH), 1, NOW()
+        if (u.`level` = 1, ROUND((`res_price`-`res_disPrice`) * 0.01), ROUND((`res_price`-`res_disPrice`) * 0.03)),
+        '포인트 적립', DATE_ADD(DATE(NOW()), INTERVAL 3 MONTH), NOW()
         FROM `lemo_product_reservation` r JOIN	`lemo_member_userinfo` u
         ON r.user_id = u.user_id
-        WHERE res_state = 1 AND DATE(res_checkOut) = DATE(NOW() - INTERVAL 1 DAY);
+        WHERE DATE(res_checkOut) = DATE(NOW() - INTERVAL 1 DAY) AND r.res_state = 1;
     </insert>
+
+    <!--
+       날짜 : 2023/04/23
+       이름 : 서정현
+       내용 : 디테일 포인트 테이블 포인트 적립
+    -->
+    <insert id="insertSaveDetailPointLog">
+        INSERT INTO `lemo_member_point_detail_log`  (`user_id`, `poid_content`, `poid_point`, `poi_id`, `poid_maximum`, `poid_rdate`)
+        SELECT poi.`user_id`, '포인트 적립', poi.`poi_point`, poi.poi_id, poi.`poi_maximum`, NOW()
+        FROM `lemo_member_point_log` poi JOIN `lemo_product_reservation` r
+        ON poi.res_no = r.res_no
+        WHERE DATE(r.res_checkOut) = DATE(NOW() - INTERVAL 1 DAY) AND r.res_state = 1 AND poi.poi_content = '포인트 적립';
+    </insert>
+    <!--
+      날짜 : 2023/04/23
+      이름 : 서정현
+      내용 : 디테일 포인트 테이블 save_id 업데이트
+   -->
+    <update id="updateDetailpointSaveId">
+        UPDATE `lemo_member_point_detail_log` SET `poid_save_id`=`poid_id`
+        WHERE `poid_content`='포인트 적립' AND `poid_save_id` IS NULL;
+    </update>
+    <!--
+      날짜 : 2023/04/23
+      이름 : 서정현
+      내용 : 전체 회원의 포인트 만료 업데이트
+   -->
+    <insert id="expiredPointAll">
+        <![CDATA[
+            INSERT INTO `lemo_member_point_log` (`user_id`, `poi_point`, `poi_content`, `poi_maximum`, `poi_rdate`)
+            SELECT poi.`user_id`, -SUM(poid_sub.poid_point), '포인트 만료', poi.poi_maximum, NOW()
+            FROM `lemo_member_point_log` poi JOIN `lemo_member_point_detail_log` poid ON poi.poi_id = poid.poi_id
+            JOIN `lemo_member_point_detail_log` poid_sub ON poid.poid_id = poid_sub.poid_save_id
+            GROUP BY poid_sub.`poid_save_id`
+            HAVING SUM(poid_sub.poid_point) > 0 AND poi.poi_maximum < DATE_FORMAT(NOW(),'%Y-%m-%d');
+        ]]>
+    </insert>
+    <insert id="expriedDetailPointAll">
+        <![CDATA[
+            INSERT INTO `lemo_member_point_detail_log` (`user_id`, `poid_content`, `poid_point`, `poid_save_id`, `poi_id`, `poid_maximum`, `poid_rdate`)
+            SELECT val.`user_id`, '포인트 만료' AS 'poid_content', -val.`sum` AS 'poid_point', val.`poid_save_id`, val.`poi_id`, val.`poid_maximum`, NOW()
+            FROM (
+                SELECT *, SUM(`poid_point`) AS 'sum' FROM `lemo_member_point_detail_log`
+                GROUP BY `poid_save_id`
+                HAVING SUM(`poid_point`) != 0 AND `poid_maximum` < DATE_FORMAT(NOW(),'%Y-%m-%d')
+            ) val;
+        ]]>
+    </insert>
+
+    <!--
+     날짜 : 2023/04/23
+     이름 : 서정현
+     내용 : 전체 회원의 포인트 정보 최신화
+    -->
+    <update id="updateUsersInfoPoint">
+        UPDATE `lemo_member_userinfo` user LEFT JOIN
+        (
+        SELECT `user_id`, SUM(`poid_point`) AS 'total'
+        FROM `lemo_member_point_detail_log`
+        GROUP BY `user_id`
+        ) log ON user.user_id = log.user_id
+        SET
+        user.`point` = IFNULL(log.`total`, 0);
+    </update>
 
     <!-- select-->
     <select id="selectAccommodations" parameterType="kr.co.Lemo.utils.SearchCondition" resultType="kr.co.Lemo.domain.ProductAccommodationVO">
@@ -119,15 +212,15 @@
 
         JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
         LEFT JOIN (
-            SELECT a.acc_id 'acc_id', r.room_id 'room_id', (r.room_stock - COUNT(rero.rero_id)) 'empty_room_stock' FROM `lemo_product_accommodation` a
-            JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
-            JOIN    `lemo_product_reserved_room` rero ON r.room_id = rero.room_id AND r.acc_id = rero.acc_id
+        SELECT a.acc_id 'acc_id', r.room_id 'room_id', (r.room_stock - COUNT(rero.rero_id)) 'empty_room_stock' FROM `lemo_product_accommodation` a
+        JOIN    `lemo_product_room` r ON a.acc_id = r.acc_id
+        JOIN    `lemo_product_reserved_room` rero ON r.room_id = rero.room_id AND r.acc_id = rero.acc_id
 
-            <![CDATA[
+        <![CDATA[
                 AND (rero.rero_checkOut_date > #{checkIn} AND rero.rero_checkIn_date < #{checkOut})
             ]]>
 
-            GROUP BY a.`acc_id`, r.room_id
+        GROUP BY a.`acc_id`, r.room_id
         ) b
         ON a.acc_id = b.acc_id AND r.room_id = b.room_id
         JOIN `lemo_product_ratepolicy` c
@@ -216,7 +309,7 @@
         <![CDATA[
            AND CURDATE() <= `mcp_end`
         ]]>
-         AND `mcp_isUsed`= 0
+        AND `mcp_isUsed`= 0
     </select>
 
     <select id="getCoupon" resultType="kr.co.Lemo.domain.CouponVO">
@@ -295,20 +388,14 @@
         ON a.res_no = d.res_no
         LEFT JOIN `lemo_member_coupon_log` AS e
         ON a.res_no = e.res_no
-        WHERE a.`res_no`=#{res_no}
+        WHERE a.`res_no`=#{res_no} AND (d.poi_content IS NULL OR d.poi_content IN ('포인트 사용'));
     </select>
-    
+
     <!--
         날짜 : 2023/04/16
         이름 : 박종협
         내용 : 소멸기간이 다가온 point select
     -->
-    <select id="shortestPointExpiration" resultType="kr.co.Lemo.domain.PointVO">
-        SELECT * FROM
-            `lemo_member_point_log`
-        WHERE `poi_state` = 1 AND `poi_maximum` > NOW() AND NOT `poi_point` = `poi_used` AND `user_id` = #{user_id}
-        ORDER BY `poi_maximum` ASC
-    </select>
 
     <!-- update -->
     <update id="updateProductCoupon">
@@ -323,17 +410,15 @@
         WHERE `user_id`=#{user_id} AND `cp_id`=#{cp_id}
     </update>
 
-    <update id="updateMemberUserInfo" parameterType="kr.co.Lemo.domain.OrderInfoVO">
-        UPDATE `lemo_member_userinfo`
+    <update id="updateMemberUserInfo">
+        UPDATE `lemo_member_userinfo` user JOIN
+        (
+        SELECT `user_id`, SUM(`poid_point`) AS 'total'
+        FROM `lemo_member_point_detail_log`
+        WHERE `user_id`=#{user_id}
+        ) log ON user.user_id = log.user_id
         SET
-        `point` = `point` - #{point}
-        WHERE `user_id` = #{user_id}
-    </update>
-    
-    <update id="updateMemberPoint">
-        UPDATE `lemo_member_point_log` SET
-            `poi_used` = #{poi_used}
-        WHERE `poi_id` = #{poi_id};
+        user.`point` = log.`total`;
     </update>
 
     <!--
@@ -344,10 +429,10 @@
     <update id="updateAvgRate">
         UPDATE `lemo_product_accommodation` acc
         JOIN (
-            SELECT a.acc_id, AVG(r.revi_rate) 'acc_rate'  FROM  `lemo_product_accommodation` a
-            JOIN `lemo_product_reservation` res ON a.acc_id = res.acc_id
-            JOIN `lemo_product_review` r ON res.res_no = r.res_no
-            GROUP BY a.acc_id
+        SELECT a.acc_id, AVG(r.revi_rate) 'acc_rate'  FROM  `lemo_product_accommodation` a
+        JOIN `lemo_product_reservation` res ON a.acc_id = res.acc_id
+        JOIN `lemo_product_review` r ON res.res_no = r.res_no
+        GROUP BY a.acc_id
         ) vals ON acc.acc_id = vals.acc_id
         SET acc.acc_rate = TRUNCATE(vals.acc_rate ,1);
     </update>

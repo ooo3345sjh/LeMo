@@ -62,6 +62,7 @@ public class ReservationVO {
     }
 
     private String res_memo;
+    private String imp_uid;
 
     // 추가
 

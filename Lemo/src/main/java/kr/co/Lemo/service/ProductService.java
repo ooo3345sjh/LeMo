@@ -182,7 +182,7 @@ public class ProductService {
 
         String acc_address = "";
         String addr_detail = vo.getBis_addrDetail();
-        
+
         // 상세주소가 있는경우 acc_address 에 상세주소까지 포함
         if(addr_detail != null && !addr_detail.equals("") && !addr_detail.equals("None")){
             acc_address = vo.getBis_addr() + " " + addr_detail;
@@ -209,7 +209,7 @@ public class ProductService {
     public List<ReviewVO> findAllReviews(ProductDetail_SearchVO vo){
 
         List<ReviewVO> reviews = dao.selectProductReviews(vo);
-        
+
         // 리뷰 답변 날짜 n일전, n개월전 .. 설정
         reviews = setReviewDateBF(reviews);
 
@@ -274,7 +274,7 @@ public class ProductService {
         List<CouponVO> cps = dao.selectCouponsForReservation(map);
         /* 쿠폰 할인가격 설정 */
         cps = setCouponDisprice(map, cps);
-        
+
         return cps;
     }
 
@@ -499,7 +499,7 @@ public class ProductService {
         int avg = room.getAvg_price() / (int) days;
         avg = avg / 10 * 10;
         room.setAvg_price(avg);
-        
+
         // 체크인, 체크아웃 요일 구하기
 
         map.put("days", days);
@@ -632,11 +632,11 @@ public class ProductService {
 
         /* 결제한 숙박 관련한 map */
         Map map = (Map) session.getAttribute("resultmap");
-        
-        
+
+
         /* 쿠폰 검증 */
         List<CouponVO> cps = (List<CouponVO>) map.get("cps");
-        
+
         if(cp_id != null && cp_id !=""){ // 쿠폰 사용내역이 있으면
 
             int stat = 0;
@@ -658,7 +658,7 @@ public class ProductService {
         /* 포인트 검증 */
         if(vo.getPoint() != null && vo.getPoint() !=""){ // 포인트 사용내역이 있으면
             point = Integer.parseInt(vo.getPoint());
-            
+
             if(user_point < point){ // 유저가 실제 보유한 포인트보다 사용한 포인트가 많을 경우
                 vo.setStatus(0);
                 return vo;
@@ -706,67 +706,42 @@ public class ProductService {
 
         // 예약 객실 등록
         dao.insetProductReservedRoom(vo);
-        
+
         // 쿠폰 사용내역이 있으면
         if(vo.getCp_id() != null && vo.getCp_id() != ""){
             // 쿠폰 업데이트
             dao.updateMemberCoupon(vo);
-            
+
             // 쿠폰 로그 등록
             dao.insertMemberCouponLog(vo);
 
         }
-        
+
 
         // 포인트 사용내역이 있으면
-        if(vo.getPoint() != null && vo.getPoint() !="") {
+        if(vo.getPoint() != null && !vo.getPoint().isBlank() && !"0".equals(vo.getPoint())) {
+
+            PointVO point = PointVO.builder()
+                    .user_id(vo.getUser_id())
+                    .res_no(vo.getRes_no())
+                    .poi_point(Integer.parseInt(vo.getPoint()))
+                    .build();
 
             // 포인트 로그 등록
-            dao.insertMemberPointLog(vo);
+            dao.insertMemberPointLog(point);
 
-            /**
-             * @since 2023/04/16
-             * @author 박종협
-             * @apiNote 소멸기간이 다가온 point select
-             */
-            // 소멸 임박 순 적립 포인트 리스트
-            List<PointVO> expiration = dao.shortestPointExpiration(vo);
+            PointDetailVO poinDetail = PointDetailVO.builder()
+                    .user_id(point.getUser_id())
+                    .poid_point(point.getPoi_point())
+                    .poi_id(point.getPoi_id())
+                    .build();
 
-            // 사용한 point
-            int usedPoint = Integer.parseInt(vo.getPoint());
-
-            // 소멸기간이 다가온 순으로 for문
-            for(PointVO point : expiration) {
-                int poi_id    = point.getPoi_id();
-                int poi_point = point.getPoi_point();
-                int poi_used  = point.getPoi_used();
-
-                if(point.getPoi_used() == 0) {
-                    if(poi_point >= usedPoint) {
-                        dao.updateMemberPoint(poi_id, usedPoint);
-                        break;
-                    }else if(poi_point < usedPoint) {
-                        usedPoint = usedPoint - point.getPoi_point();
-                        dao.updateMemberPoint(poi_id, poi_point);
-                    }
-                }else {
-                    if( ( poi_point-poi_used ) > usedPoint) {
-                        dao.updateMemberPoint(poi_id, (usedPoint+poi_used));
-                        break;
-
-                    }else if( ( poi_point-poi_used ) <= usedPoint) {
-                        usedPoint = usedPoint - ( poi_point-poi_used );
-                        dao.updateMemberPoint( poi_id, poi_point );
-                    }
-                }
-            }
+            // 포인트 디테일 로그 등록
+            dao.insertMemberPointDetailLog(poinDetail);
 
             // 유저 정보에 포인트 업데이트
-            dao.updateMemberUserInfo(vo);
+            dao.updateMemberUserInfo(vo.getUser_id());
         }
-
-
-
     }
 
     /**
@@ -862,9 +837,6 @@ public class ProductService {
         return device;
     }
 
-
-
-
     //    @Scheduled(cron = "0 0 0 1 * *") 매달 1일 00시
     //    @Scheduled(cron = "0 0 0 * * *") 자정
     //    @Scheduled(cron = "0 0 0/1 * * *") // 1시간 마다
@@ -878,21 +850,26 @@ public class ProductService {
 
         // 적립퇸 포인트 포인트 로그테이블에 추가
         dao.insertSavePointLog();
+        dao.insertSaveDetailPointLog();
+        dao.updateDetailpointSaveId();
+
         // 숙박 완료 상태로 업데이트
         dao.updateProductReservation();
 
         /**
-         * @since 2023/04/14
-         * @author 박종협
-         * @apiNote point 갱신
+         * @since 2023/04/23
+         * @author 서정현
+         * @apiNote 만료 포인트 업데이트
          */
+        dao.expiredPointAll();
+        dao.expriedDetailPointAll();
 
-        log.info("**************************포인트 스케쥴러 사용(1일 자정)****************************************");
-        myDAO.insertSelectPointExpire();
-        myDAO.updateAvailablePoiUsed();
-
-        // point 다시 계산
-        myDAO.updateAvailablePoint();
+        /**
+         * @since 2023/04/23
+         * @author 서정현
+         * @apiNote 모든 회원 포인트 최신화
+         */
+        dao.updateUsersInfoPoint();
 
         /**
          * @since 2023/04/28
@@ -901,5 +878,5 @@ public class ProductService {
          */
         userDAO.usaveLevel();
     }
-    
+
 }
