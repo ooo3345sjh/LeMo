@@ -201,22 +201,87 @@
                                 <div class="col2">
                                     <form action="#">
                                         <!-- 선택 -->
-                                        <div class="select_user_type">
-                                            <ul>
-                                                <li>
-                                                    <a href="#" class="on">차단회원</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">탈퇴회원</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">일반회원</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">엘리트회원</a>
-                                                </li>
-                                            </ul>
+                                        <div class="selectProd">
+                                            <select name="searchField">
+                                                <option value="userId" th:selected="${ph.sc.searchField == 'userId'}">회원 아이디</option>
+                                                <option value="userNick" th:selected="${ph.sc.searchField == 'userNick'}">회원 닉네임</option>
+                                            </select>
                                         </div>
+                                        <div class="searchProd">
+                                            <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요" th:value="${param.searchWord}"/>
+                                            <button type="submit" class="btnSearch">
+                                                <img th:src="@{/images/admin/btn_search.png}">
+                                            </button>
+                                        </div>
+                                        <button type="button" class="download_list">
+                                            엑셀 다운로드
+                                        </button>
+                                        <div class="select_user_type">
+                                            <table>
+                                                <tr>
+                                                    <th>상태</th>
+                                                    <td>
+                                                        <input type="radio" name="searchIsEnabled" value="1" id="rdNorm"><laebl for="rdNorm">정상</laebl>
+                                                    </td>
+                                                    <td>
+                                                        <input type="radio" name="searchIsEnabled" value="0" id="rdDrop"><label for="rdDrop">탈퇴</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>등급</th>
+                                                    <td>
+                                                        <input type="radio" name="searchLevel" value="1" id="rdGen"><label for="rdGen">일반</label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="radio" name="searchLevel" value="2" id="rdElite"><label for="rdElite">엘리트</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>구분</th>
+                                                    <td>
+                                                        <input type="radio" name="searchType" value="1" id="rdHome"><label for="rdHome">홈회원</label>
+                                                    </td>
+                                                    <td><input type="radio" name="searchType" value="2" id="rdSns"><label for="rdSns">SNS회원</label></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3"><input type="submit" value="검색" class="btnSelectUser"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div>
+                                            <table border="1">
+                                                <tr>
+                                                    <th>회원등급</th>
+                                                    <td>
+                                                        <input type="radio" name="searchLevel" value="1" id="rdGen"><label for="rdGen">일반</label>
+                                                        <input type="radio" name="searchLevel" value="2" id="rdElite"><label for="rdElite">엘리트</label>
+                                                    </td>
+                                                    <th>회원구분</th>
+                                                    <td>
+                                                        <input type="radio" name="searchType" value="1" id="rdSns"><label for="rdSns">일반</label>
+                                                        <input type="radio" name="searchType" value="2" id="rdGoogle"><label for="rdGoogle">구글</label>
+                                                        <input type="radio" name="searchType" value="2" id="rdNaver"><label for="rdNaver">네이버</label>
+                                                        <input type="radio" name="searchType" value="2" id="rdKakao"><label for="rdKakao">카카오</label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>알림동의여부</th>
+                                                    <td>
+                                                        <input type="radio" name="searchEnbaled" value="1" id="rdPer"><label for="rdPer">수신허용</label>
+                                                        <input type="radio" name="searchEnbaled" value="0" id="rdDec"><label for="rdDec">수신거부</label>
+                                                    </td>
+                                                    <td>검색</td>
+                                                    <td>
+                                                        <select>
+                                                            <option value="1">아이디</option>
+                                                            <option value="1">닉네임</option>
+                                                            <input type="text" class="search_box" name="searchWord" placeholder="검색어를 입력하세요"/>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <button type="submit" class="btnSearch">검색</button>
                                         <!-- 목록 -->
                                         <div class="board_list">
                                             <ul>
