@@ -66,12 +66,6 @@ public class UserService {
     }
 
     // @since 2023/03/26
-    public int countByEmailAndType1(String email) throws Exception{
-        log.info("Myservice countByEmailAndType1");
-        return userDAO.countByEmailAndType1(email);
-    }
-
-    // @since 2023/03/26
     public UserInfoEntity findByEmailAndType1(String email) throws Exception{
         log.info("Myservice findByEmailAndType1");
         return userDAO.findByEmailAndType1(email);

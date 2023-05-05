@@ -132,10 +132,6 @@
         WHERE c.`res_no` = #{res_no} AND c.`user_id` = #{user_id};
     </select>
 
-    <select id="selectReservationImpUid" resultType="String">
-        SELECT `imp_uid` FROM `lemo_product_reservation` WHERE `res_no`=#{res_no}
-    </select>
-
     <select id="selectReviewAccommodation" resultType="kr.co.Lemo.domain.ReviewVO">
         SELECT a.`acc_name`, b.`res_checkIn`, b.`res_checkOut`, b.`user_id`  FROM
         `lemo_product_accommodation` AS a LEFT JOIN
