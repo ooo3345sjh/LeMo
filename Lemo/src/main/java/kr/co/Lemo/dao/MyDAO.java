@@ -142,7 +142,6 @@ public interface MyDAO {
 
     // @since 2023/03/31
     public ProductAccommodationVO selectDiaryXY(long res_no);
-    public String selectReservationImpUid(long res_no);
 
     // @since 2023/04/05
     public List<ProductQnaVO> selectDiaryQna(SearchCondition sc);

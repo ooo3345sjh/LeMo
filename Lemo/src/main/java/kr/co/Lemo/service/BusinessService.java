@@ -342,7 +342,6 @@ public class BusinessService {
 
 
         // 파일 업로드
-        //String path = new File("/Users/yiwonjeong/Desktop/Workspace/LeMo/Lemo/img/product/" + province_no + acc_id).getAbsolutePath();
         String path = new File(uploadPath+"product/"+province_no+"/"+acc_id).getAbsolutePath();
 
         log.info(path);
@@ -413,7 +412,6 @@ public class BusinessService {
         log.info("here7 province_no: " + province_no);
 
         // 파일 업로드
-        //String path = new File("/Users/yiwonjeong/Desktop/Workspace/LeMo/Lemo/img/product/" + province_no + acc_id).getAbsolutePath();
         String path = new File(uploadPath+"product/"+province_no+"/"+acc_id).getAbsolutePath();
 
          // 저장 폴더가 없다면 생성

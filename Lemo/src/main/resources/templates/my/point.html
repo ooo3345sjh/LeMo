@@ -7,82 +7,77 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layouts/default-layout">
-    <th:block layout:fragment="css-js">
-        <link rel="stylesheet" th:href="@{/css/my/my.css}">
-    </th:block>
-    <th:block layout:fragment="content">
-            <main>
-                <section id="my">
-                    <th:block th:replace="~{fragments/_aside::myAside}"></th:block>
-                    <div class="content">
-                        <!-- 카테고리 -->
-                        <div class="tab">
+<th:block layout:fragment="css-js">
+    <link rel="stylesheet" th:href="@{/css/my/my.css}">
+</th:block>
+<th:block layout:fragment="content">
+    <main>
+        <section id="my">
+            <th:block th:replace="~{fragments/_aside::myAside}"></th:block>
+            <div class="content">
+                <!-- 카테고리 -->
+                <div class="tab">
                             <span class="my_title">
                                 포인트
                             </span>
+                </div>
+                <div class="my_point">
+                    <div class="nowPoint">
+                        <p>내 포인트</p>
+                        <span>[[${#numbers.formatInteger(point, 0, 'COMMA')}]] P</span>
+                    </div>
+                    <div class="my_point_history">
+                        <div class="mph_1">
+                            <h2>포인트 내역</h2>
                         </div>
-                        <div class="my_point">
-                            <div class="nowPoint">
-                                <p>내 포인트</p>
-                                <span>[[${#numbers.formatInteger(point, 0, 'COMMA')}]] P</span>
-                            </div>
-                            <div class="my_point_history">
-                                <div class="mph_1">
-                                    <h2>포인트 내역</h2>
+                        <div class="mph_2" th:if="${points.size() == 0}">
+                            <p>포인트 이용내역이 없습니다.</p>
+                        </div>
+                        <div class="mph_2" th:if="${points.size() != 0}">
+                            <div class="mph_3" th:each="point:${points}">
+                                <div class="mph_4">
+                                    <div class="mph_4_1">[[${point.poi_rdate.substring(0,10)}]]</div>
                                 </div>
-                                <div class="mph_2" th:if="${points.size() == 0}">
-                                    <p>포인트 이용내역이 없습니다.</p>
-                                </div>
-                                <div class="mph_2" th:if="${points.size() != 0}">
-                                    <div class="mph_3" th:each="point:${points}">
-                                        <div class="mph_4">
-                                            <div class="mph_4_1">[[${point.poi_rdate.substring(0,10)}]]</div>
-                                        </div>
-                                        <div>
-                                            <div class="mph_5">
-                                                <div class="deleted" th:if="${#strings.equals(point.poi_content, '포인트 만료')}">만료</div>
-                                                <div class="save" th:if="${#strings.equals(point.poi_content, '포인트 적립')}">적립</div>
-                                                <div class="save" th:if="${#strings.equals(point.poi_content, '포인트 반환')}">반환</div>
-                                                <div class="used" th:if="${#strings.equals(point.poi_content, '포인트 사용')}">사용</div>
-                                                <h2>[[${point.poi_content}]]</h2>
-                                            </div>
-                                            <ul class="mph_6">
-                                                <li th:if="${#strings.equals(point.poi_content, '포인트 만료')}">만료: [[${point.poi_rdate.substring(0,10)}]]</li>
-                                                <li th:if="${#strings.equals(point.poi_content, '포인트 적립')}">유효기간: [[${point.poi_maximum}]] 까지</li>
-                                                <li th:if="${#strings.equals(point.poi_content, '포인트 반환')}">유효기간: [[${point.poi_maximum}]] 까지</li>
-                                                <li th:if="${#strings.equals(point.poi_content, '포인트 사용')}">사용: [[${point.poi_rdate.substring(0,10)}]]</li>
-                                            </ul>
-                                        </div>
-                                        </div>
-                                        <div class="mph_7">
-                                            <span class="minus" th:if="${#strings.equals(point.poi_content, '포인트 만료')}">- [[${#numbers.formatInteger(-point.poi_point, 0, 'COMMA')}]]P </span>
-                                            <span class="plus" th:if="${#strings.equals(point.poi_content, '포인트 적립')}"> + [[${#numbers.formatInteger(point.poi_point, 0, 'COMMA')}]]P </span>
-                                            <span class="plus" th:if="${#strings.equals(point.poi_content, '포인트 반환')}"> + [[${#numbers.formatInteger(point.poi_point, 0, 'COMMA')}]]P </span>
-                                            <span class="minus" th:if="${#strings.equals(point.poi_content, '포인트 사용')}">- [[${#numbers.formatInteger(-point.poi_point, 0, 'COMMA')}]]P </span>
-                                        </div>
+                                <div>
+                                    <div class="mph_5">
+                                        <div class="deleted" th:if="${#strings.equals(point.poi_content, '포인트 만료')}">만료</div>
+                                        <div class="save" th:if="${#strings.equals(point.poi_content, '포인트 적립')}">적립</div>
+                                        <div class="save" th:if="${#strings.equals(point.poi_content, '포인트 반환')}">반환</div>
+                                        <div class="used" th:if="${#strings.equals(point.poi_content, '포인트 사용')}">사용</div>
+                                        <h2>[[${point.poi_content}]]</h2>
                                     </div>
+                                    <ul class="mph_6">
+                                        <li th:if="${#strings.equals(point.poi_content, '포인트 만료')}">만료 : [[${point.poi_rdate.substring(0,10)}]]</li>
+                                        <li th:if="${#strings.equals(point.poi_content, '포인트 적립')}">유효기간 : [[${point.poi_maximum}]] 까지</li>
+                                        <li th:if="${#strings.equals(point.poi_content, '포인트 반환')}">유효기간 : [[${point.poi_maximum}]] 까지</li>
+                                        <li th:if="${#strings.equals(point.poi_content, '포인트 사용')}">사용 : [[${point.poi_rdate.substring(0,10)}]]</li>
+                                    </ul>
+                                </div>
+                                <div class="mph_7">
+                                    <span class="minus" th:if="${#strings.equals(point.poi_content, '포인트 만료')}">- [[${#numbers.formatInteger(-point.poi_point, 0, 'COMMA')}]]P </span>
+                                    <span class="plus" th:if="${#strings.equals(point.poi_content, '포인트 적립')}"> + [[${#numbers.formatInteger(point.poi_point, 0, 'COMMA')}]]P </span>
+                                    <span class="plus" th:if="${#strings.equals(point.poi_content, '포인트 반환')}"> + [[${#numbers.formatInteger(point.poi_point, 0, 'COMMA')}]]P </span>
+                                    <span class="minus" th:if="${#strings.equals(point.poi_content, '포인트 사용')}">- [[${#numbers.formatInteger(-point.poi_point, 0, 'COMMA')}]]P </span>
                                 </div>
                             </div>
                         </div>
-                        <!-- 페이징 -->
-                        <div class="paging" th:object="${ph}" th:unless="${points.size() == 0}">
-                            <span th:if="*{showPrev}" class="prev">
-                                <a th:href="@{/my/point} + ${ph.sc.getQueryString(ph.beginPage-1)}"></a>
-                            </span>
-                            <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
-                                <a th:href="@{/my/point} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
-                            </span>
-                            <span th:if="*{showNext}" class="next">
-                                <a th:href="@{/my/point} + ${ph.sc.getQueryString(ph.endPage+1)}"></a>
-                            </span>
-                        </div>
-                    </div>  
-                </section>
-            </main>
-    </th:block>
-    <th:block layout:fragment="script">
-        <script>
-
-        </script>
-    </th:block>
+                    </div>
+                </div>
+            </div>
+            <!-- 페이징 -->
+            <div class="paging" th:object="${ph}" th:unless="${points.size() == 0}">
+                <span th:if="*{showPrev}" class="prev">
+                    <a th:href="@{/my/point} + ${ph.sc.getQueryString(ph.beginPage-1)}"></a>
+                </span>
+                <span th:each="num:${#numbers.sequence(ph.beginPage, ph.endPage)}" th:class="${num == ph.sc.page} ? 'on':'off'">
+                    <a th:href="@{/my/point} + ${ph.sc.getQueryString(num)}"> [[${num}]] </a>
+                </span>
+                <span th:if="*{showNext}" class="next">
+                    <a th:href="@{/my/point} + ${ph.sc.getQueryString(ph.endPage+1)}"></a>
+                </span>
+            </div>
+            </div>
+        </section>
+    </main>
+</th:block>
 </html>
