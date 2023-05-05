@@ -116,7 +116,6 @@ public class MyController {
                 
                 List<PointVO> points = service.findPoints(vo);
 
-                log.info(points.toString());
                 m.addAttribute("points", points);
                 m.addAttribute("ph", pointPageHandler);
                 m.addAttribute("point", point);

@@ -496,6 +496,7 @@
         align-items: center;
         border-top: 1px solid rgb(234, 237, 239);
         padding: 20px 10px;
+        height: 97px;
     }
     .my_point_history .mph_4 {
         box-sizing: border-box;
@@ -510,7 +511,7 @@
     }
     .my_point_history .mph_5 {
         display: flex;
-        width: 100%;
+        width: 580px;
         margin-left: 20px;
     }
     .my_point_history .mph_5 > .save {
@@ -547,7 +548,6 @@
     }
     .my_point_history .mph_6 {
         margin-top: 11px;
-        width: 580px;
     }
     .my_point_history .mph_6 > li {
         font-size: 15px;
