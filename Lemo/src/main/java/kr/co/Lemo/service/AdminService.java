@@ -65,15 +65,6 @@ public class AdminService {
     }
 
     /**
-     * 관리자 쿠폰 - 쿠폰 목록 소유 숙소 선택
-     * @since 2023/03/12
-     * @param user_id
-     */
-    public List<CouponVO> findAccOwned(String user_id){
-        return dao.selectAccOwned(user_id);
-    }
-
-    /**
      * 관리자 리뷰 - 리뷰 목록
      * @since 2023/03/14
      * @param model

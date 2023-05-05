@@ -167,9 +167,6 @@ public interface BusinessDAO {
     // @since 2023/04/01 판매자 숙소 수정 (할인율)
     public int updateRatePolicy(Map<String, Object> param);
 
-    // @since 2023/04/01 판매자 숙소 수정 (서비스)
-    public int updateServiceRegInfo(Map<String, Object> param);
-
     // @since 2023/03/16
     public int updateReply(@Param("revi_reply") String revi_reply, @Param("revi_id") String revi_id);
 
