@@ -54,7 +54,7 @@ Blog type Hotel Booking Site<br/>
 
 ### ERD
 <img src="https://user-images.githubusercontent.com/111489860/236471527-9a751155-2a05-4355-9386-7f5333849d49.png"  width="700" height="370">
-이 프로젝트의 DB는 28개의 테이블으로 이루어져 있습니다.
+이 프로젝트의 DB는 29개의 테이블으로 이루어져 있습니다.(토큰기반 자동로그인 테이블 포함)
 
 ### 정보구조도 Information Architecture
 <img src="https://user-images.githubusercontent.com/111489860/235429656-7fa358d6-661e-4ece-99b8-62128ca91b40.PNG"  width="700" height="370">
