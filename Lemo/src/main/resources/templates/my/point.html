@@ -46,11 +46,9 @@
                                         <div class="used" th:if="${#strings.equals(point.poi_content, '포인트 사용')}">사용</div>
                                         <h2>[[${point.poi_content}]]</h2>
                                     </div>
-                                    <ul class="mph_6">
-                                        <li th:if="${#strings.equals(point.poi_content, '포인트 만료')}">만료 : [[${point.poi_rdate.substring(0,10)}]]</li>
+                                    <ul class="mph_6" th:if="${#strings.equals(point.poi_content, '포인트 적립') or #strings.equals(point.poi_content, '포인트 반환')}">
                                         <li th:if="${#strings.equals(point.poi_content, '포인트 적립')}">유효기간 : [[${point.poi_maximum}]] 까지</li>
                                         <li th:if="${#strings.equals(point.poi_content, '포인트 반환')}">유효기간 : [[${point.poi_maximum}]] 까지</li>
-                                        <li th:if="${#strings.equals(point.poi_content, '포인트 사용')}">사용 : [[${point.poi_rdate.substring(0,10)}]]</li>
                                     </ul>
                                 </div>
                                 <div class="mph_7">
