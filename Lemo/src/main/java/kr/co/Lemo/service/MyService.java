@@ -53,14 +53,6 @@ public class MyService {
     private String uploadPath;
 
     // @since 2023/03/13
-    public Map<Integer, List<DiarySpotVO>> findDiaryArticle(SearchCondition sc) {
-        List<DiarySpotVO> spotVO = dao.selectDiary(sc);
-
-        Map<Integer, List<DiarySpotVO>> map = spotVO.stream().collect(Collectors.groupingBy(DiarySpotVO::getArti_no));
-
-        return map;
-    }
-
     public List<ArticleDiaryVO> findDiaryArticles(SearchCondition sc) {
         List<ArticleDiaryVO> articles = dao.selectDiaryArticles(sc);
         List<DiarySpotVO> spots = dao.selectDiarySpots();
@@ -462,10 +454,6 @@ public class MyService {
         return dao.selectCheckReview(res_no);
     }
 
-    public int findCheckDiary(long res_no) {
-        return dao.selectCheckReview(res_no);
-    }
-
     // @since 2023/03/30
     public ProductAccommodationVO findeDiaryXY(long res_no) {
         return dao.selectDiaryXY(res_no);
@@ -673,73 +661,6 @@ public class MyService {
         int reuslt = diaryDAO.deleteDiarySpot(Integer.parseInt(String.valueOf(param.get("arti_no"))));
 
         return reuslt;
-    }
-
-    // @since 2023/04/12
-    public List<String> checkDiaryFile(List<MultipartFile> fileList, Map<String, Object> param) {
-
-        String dirPath = new File(uploadPath+"diary/"+param.get("arti_no")).getAbsolutePath();
-
-        File dir = new File(dirPath);
-        File Files[] = dir.listFiles();
-
-        List<String> oriDiary = new ArrayList<>();
-        List<String> newDiary = new ArrayList<>();
-        List<String> oriRemoveDiary = new ArrayList<>();
-        List<String> newRemoveDiary = new ArrayList<>();
-
-        for(File fname : Files) {
-            oriDiary.add(fname.getName());
-            oriRemoveDiary.add(fname.getName());
-        }
-
-        for(MultipartFile mf : fileList) {
-            newDiary.add(mf.getOriginalFilename());
-            newRemoveDiary.add(mf.getOriginalFilename());
-        }
-
-        // 저장되어질 reviewImage
-        newDiary.removeAll(oriRemoveDiary);
-        log.debug("저장 : " + newDiary);
-
-        // 삭제되어질 reviewImage
-        oriDiary.removeAll(newRemoveDiary);
-        log.debug("삭제 : " + oriDiary);
-
-        if(oriDiary.size() != 0) {
-            // 삭제
-            for(String deleteFile : oriDiary) {
-
-                File df = new File(dirPath + "/" + deleteFile);
-                if(df.exists()) { df.delete(); }
-            }
-        }
-
-        List<String> changeSaveFile = new ArrayList<>();
-
-        int count = 0;
-        if(newDiary.size() != 0) {
-            // 저장
-            for(String saveFile : newDiary) {
-                String ext = saveFile.substring(saveFile.indexOf("."));
-                String newName = UUID.randomUUID() + ext;
-                changeSaveFile.add(newName);
-
-                MultipartFile mf = fileList.get(count);
-
-                try {
-                    mf.transferTo(new File(dirPath, newName));
-                    count++;
-                } catch (IllegalStateException e) {
-                    log.error(e.getMessage());
-                } catch (IOException e) {
-                    log.error(e.getMessage());
-                }
-            }
-        }
-
-        return changeSaveFile;
-
     }
 
     /**

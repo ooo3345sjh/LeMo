@@ -123,7 +123,7 @@ $(function(){
         let content = '<div class="write_reReply re'+com_pno+'">';
            content += '<form action="#" class="comWrite">';
            content += '<textarea class="comTextarea" onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)"></textarea>';
-           content += '<button data-pno='+com_no+' data-no='+com_pno+'>댓글 작성</button>';
+           content += '<button data-pno='+com_pno+' data-no='+com_no+'>댓글 작성</button>';
            content += '</form>';
            content += '</div>';
 
@@ -209,7 +209,7 @@ $(function(){
 
         ajaxAPI("diary/comment", jsonData, "POST").then((response)=>{
 
-            let content = '<li class="re_reply com'+com_pno+'" style="display:block;" data-no="'+com_no+'" data-pno="'+response["com_pno"]+'">';
+            let content = '<li class="re_reply com'+com_pno+'" style="display:block;" data-no="'+response["com_no"]+'" data-pno="'+com_pno+'">';
                content += '<div class="repdiv1">';
                if(response["photo"] == null ) {
                 content += '<img src="/Lemo/images/my/profile.png" alt="프사">';
@@ -239,7 +239,17 @@ $(function(){
             let commentHide  = $(this).parent().prev().find('.showall');
 
             $('.com'+com_no).attr('style', "display:block;");
-            $(this).parent().prev().after(content);
+
+            if($('.com'+com_pno).length == 0) {
+                console.log(com_pno)
+                $(this).parent().prev().after(content);
+            }else {
+                console.log(com_pno)
+                $('.com'+com_pno).last().after(content);
+            }
+
+
+
             let com_pno_textarea = $('.com'+com_no+' .comTextarea');
             com_pno_textarea.each(function(index, height){ resizeHeight(height); });
             $(this).parent().parent().find('.emptyCom'+com_pno).remove();
@@ -296,7 +306,7 @@ $(function(){
 
         let jsonData;
         if( $(this).parent().parent().parent().hasClass('oriCom'+com_no) ) {
-            jsonData = { "com_no":com_pno, "com_state":0 };
+            jsonData = { "com_no":com_no, "com_state":0 };
             ajaxAPI("diary/oriComment", jsonData, "PATCH").then((response)=>{
                 if(response == 1) {
                     Swal.fire(`삭제 되었습니다.!`)
@@ -315,7 +325,7 @@ $(function(){
                 }
             });
         }else {
-            jsonData = { "com_no":com_pno };
+            jsonData = { "com_no":com_no };
             ajaxAPI("diary/comment", jsonData, "DELETE").then((response)=>{
                 if(response == 1) {
                     Swal.fire(`삭제 되었습니다.!`)
@@ -367,10 +377,11 @@ $(function(){
 
         let textarea = $(this).parent().parent().prev().children('textarea');
         let com_pno     = $(this).parent().parent().parent().attr('data-pno');
+        let com_no     = $(this).parent().parent().parent().attr('data-no');
         let com_comment = textarea.val();
         let modified = $(this).parent().parent().parent().find('.repdiv1');
 
-        let jsonData = { "com_no":com_pno, "com_comment":com_comment };
+        let jsonData = { "com_no":com_no, "com_comment":com_comment };
 
         ajaxAPI("diary/comment", jsonData, "PATCH").then((response)=>{
             if(response == 1) {
