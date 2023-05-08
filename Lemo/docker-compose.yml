@@ -10,8 +10,8 @@ services:
     environment:
       MYSQL_DATABASE: lemo
       MYSQL_USER: user1
-      MYSQL_PASSWORD: Dnjswjd@1523
-      MYSQL_ROOT_PASSWORD: Dnjswjd@1523
+      MYSQL_PASSWORD: Girc@!23
+      MYSQL_ROOT_PASSWORD: Girc@!23
       TZ: Asia/Seoul
     ports:
       - 3308:3306

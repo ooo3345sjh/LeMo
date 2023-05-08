@@ -90,7 +90,7 @@
                 LEFT JOIN `lemo_product_ratepolicy` c ON a.acc_id = c.acc_id
                 WHERE r.room_state = 1
             ) a
-            WHERE a.empty_room_stock <>0 AND a.top = 1 AND a.acc_state = 1 AND a.acc_review > 10
+            WHERE a.empty_room_stock <>0 AND a.top = 1 AND a.acc_state = 1
             ORDER BY a.acc_rate DESC
             LIMIT 10)
         ]]>

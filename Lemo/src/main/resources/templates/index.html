@@ -99,17 +99,19 @@
                                         <div class="main_top_item_stayName">
                                             <span>[[${best.acc_name}]]</span>
                                         </div>
-                                        <div class="main_top_item_rating">
+                                        <div class="main_top_item_rating" th:style="${best.acc_rate gt 0? '':'height:22.4px;'}">
                                             <!-- 임시 평점 -->
                                             <div class="star-ratings">
                                                 <div class="star-ratings-fill space-x-2 text-lg"
                                                      :style="{ width: ratingToPercent + '%' }">
-
+                                                    <th:block th:if="${best.acc_rate ne 0}">
                                                         <span th:each="i:${#numbers.sequence(0, best.acc_rate-1)}">★</span>
-
+                                                    </th:block>
                                                 </div>
                                                 <div class="star-ratings-base space-x-2 text-lg">
+                                                    <th:block th:if="${best.acc_rate ne 0}">
                                                         <span th:each="i:${#numbers.sequence(0, best.acc_rate-1)}">★</span>
+                                                    </th:block>
                                                 </div>
                                             </div>
                                             <div class="main_review_count">
@@ -145,21 +147,25 @@
                                         <div class="main_top_item_stayName">
                                             <span>[[${re.acc_name}]]</span>
                                         </div>
-                                        <div class="main_top_item_rating">
+                                        <div class="main_top_item_rating" th:style="${re.acc_rate gt 0? '':'height:22.4px;'}">
                                             <!-- 임시 평점 -->
                                             <div class="star-ratings">
                                                 <div class="star-ratings-fill space-x-2 text-lg"
                                                      :style="{ width: ratingToPercent + '%' }">
-
-                                                    <span th:each="i:${#numbers.sequence(0, re.acc_rate-1)}">★</span>
-
+                                                    <th:block th:if="${re.acc_rate ne 0}">
+                                                        <span th:each="i:${#numbers.sequence(0, re.acc_rate-1)}">★</span>
+                                                    </th:block>
                                                 </div>
                                                 <div class="star-ratings-base space-x-2 text-lg">
-                                                    <span th:each="i:${#numbers.sequence(0, re.acc_rate-1)}">★</span>
+                                                    <th:block th:if="${re.acc_rate ne 0}">
+                                                        <span th:each="i:${#numbers.sequence(0, re.acc_rate-1)}">★</span>
+                                                    </th:block>
                                                 </div>
                                             </div>
                                             <div class="main_review_count">
-                                                <span>[[${re.acc_review}]]</span>
+                                                <th:block th:if="${re.acc_rate ne 0}">
+                                                    <span>[[${re.acc_review}]]</span>
+                                                <th:block th:if="${re.acc_rate ne 0}">
                                             </div>
                                         </div>
                                         <div class="main_top_item_day">
@@ -265,6 +271,7 @@
 <th:block layout:fragment="script">
     <script>
         const revisitCnt = "[[${#lists.size(map.revisit)}]]";
+        const bestCnt = "[[${#lists.size(map.best)}]]";
     </script>
     <script th:src="@{/js/index.js}"></script>
 </th:block>

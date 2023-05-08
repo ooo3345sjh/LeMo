@@ -101,6 +101,7 @@ main .sidebar {
     width: 270px;
     height: 100vh;
     position: fixed;
+    padding: 0 0 18px 0;
     left: 0;
     top: 0;
     z-index: 999;
@@ -115,13 +116,11 @@ main .sidebar::-webkit-scrollbar {
 main .sidebar > .sidebar_logo {
     position: relative;
     margin: 20px;
-    padding-bottom: 20px;
     padding-left: 20px;
     display: flex;
 }
 main .welcome {
     margin: 20px;
-    padding-bottom: 20px;
     padding-left: 20px;
     display: flex;
     font-size: 14px;
@@ -164,7 +163,7 @@ main .sidebar > .sidebar_menu > li a {
     position: relative;
     background: 0 0;
     color: #8890b5;
-    margin-top: 25px;
+    margin-top: 22px;
 }
 main .sidebar > .sidebar_menu > li a .icon_menu {
     background: #fff;

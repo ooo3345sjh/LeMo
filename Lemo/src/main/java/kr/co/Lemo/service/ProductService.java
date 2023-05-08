@@ -844,6 +844,7 @@ public class ProductService {
     //    @Scheduled(cron = "0 * * * * *") 1분마다
 
     // @since 2023/04/29
+
 //    @Scheduled(cron = "0 0 0 * * *")
     @Scheduled(cron = "0 0/5 * * * ?") // 5분마다
     public void updateReservationAndPoint() throws Exception {
