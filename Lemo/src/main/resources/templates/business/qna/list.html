@@ -107,37 +107,36 @@
 <th:block layout:fragment="script">
     <script th:src="@{/js/admin/qnaListDelete.js}"></script>
     <script th:inline="javascript">
-    // 상품문의 목록 셀렉트 옵션 추가
     window.onload = function() {
         let selectAccOwned = document.getElementById("c_role_type");
+        let urlParams = new URLSearchParams(window.location.search);
+        let selectedOptionValue = urlParams.get('acc_id');
 
-        ajaxAPI("business/find-all-product-qna", null, "GET").then((response)=>{
+        ajaxAPI("business/find-all-product-qna", null, "GET")
+            .then((response) => {
+                console.log('response1: %o', response);
 
-            console.log('response1 : %o', response);
+                for (let i = 0; i < response.length; i++) {
+                    let option = document.createElement("option");
+                    option.value = response[i].acc_id;
+                    option.text = response[i].acc_name;
 
-            for (let i = 0; i < response.length; i++) {
-                let option = document.createElement("option");
-                option.value = response[i].acc_id;
-                option.text = response[i].acc_name;
+                    // 옵션값 고정
+                    if (selectedOptionValue == response[i].acc_id) {
+                        option.setAttribute('selected', 'selected');
+                    }
 
-
-                // 옵션값 고정
-                if (localStorage.getItem('selectedAccId') == response[i].acc_id) {
-                    option.setAttribute('selected', 'selected');
+                    selectAccOwned.add(option);
                 }
 
-                selectAccOwned.add(option);
-            }
-
-            // 옵션 변경 시에도 옵션 고정
-            selectAccOwned.addEventListener('change', function() {
-                localStorage.setItem('selectedAccId', this.value);
+                // 옵션 변경 시에도 옵션 고정
+                selectAccOwned.addEventListener('change', function() {
+                    selectedOptionValue = this.value; // 변경된 옵션 값 업데이트
+                });
+            })
+            .catch((errorMsg) => {
+                console.log(errorMsg);
             });
-
-
-        }).catch((errorMsg)=>{
-            console.log(errorMsg);
-        });
     };
 
     // 리스트 전체 선택
@@ -157,15 +156,6 @@
                 console.log("checklist : " + checkList);
             });
          });
-
-        $(document).ready(function() {
-            $('#asideReview').click(function(){
-                window.localStorage.clear();
-            });
-            $('#asideQna').click(function(){
-                window.localStorage.clear();
-            });
-        });
     </script>
 </th:block>
 </html>

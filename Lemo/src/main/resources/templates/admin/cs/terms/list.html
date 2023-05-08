@@ -152,6 +152,8 @@
         window.onload = function() {
 
         let selectAccOwned = document.getElementById("c_role_type");
+        let urlParams = new URLSearchParams(window.location.search);
+        let selectedOptionValue = urlParams.get('termsType_no');
 
 
         ajaxAPI("admin/cs/terms/find-terms-type", null, "GET").then((response)=>{
@@ -165,7 +167,7 @@
 
 
                 // 옵션값 고정
-                if (localStorage.getItem('selectedAccId') == response[i].termsType_no) {
+                if (selectedOptionValue == response[i].termsType_no) {
                     option.setAttribute('selected', 'selected');
                 }
 
@@ -175,19 +177,13 @@
 
             // 옵션 변경 시에도 옵션 고정
             selectAccOwned.addEventListener('change', function() {
-                localStorage.setItem('selectedAccId', this.value);
+                selectedOptionValue = this.value; // 변경된 옵션 값 업데이트
             });
 
         }).catch((errorMsg)=>{
             console.log(errorMsg);
         });
     };
-
-     $(document).ready(function() {
-            $('#asideTerms').click(function(){
-                window.localStorage.clear();
-            });
-        });
     </script>
 </th:block>
 </html>
