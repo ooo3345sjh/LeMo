@@ -134,7 +134,7 @@ public class DiaryController {
                 map.put("nick", myUser.getNick());
                 map.put("com_nick", userVO.getNick());
                 map.put("result", Integer.toString(result));
-                map.put("com_pno", Integer.toString(commentVO.getCom_no()));
+                map.put("com_no", Integer.toString(commentVO.getCom_no()));
                 map.put("photo", myUser.getPhoto());
             }
 

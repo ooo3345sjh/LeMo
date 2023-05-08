@@ -52,7 +52,7 @@
                                     <!--댓글-->
                                     <th:block th:each="com:${map}">
                                         <th:block th:each="comment, i:${map.get(com.key)}">
-                                            <li th:classappend="${comment.com_no != comment.com_pno} ? 're_reply com__${comment.com_pno}__' : 'oriCom__${comment.com_no}__'" th:data-no="${com.key}" th:data-pno="${comment.com_no}">
+                                            <li th:classappend="${comment.com_no != comment.com_pno} ? 're_reply com__${comment.com_pno}__' : 'oriCom__${comment.com_no}__'" th:data-no="${comment.com_no}" th:data-pno="${com.key}">
                                                 <th:block th:if="${comment.com_state == 0}">
                                                     <div class="removeCom">
                                                         <p>

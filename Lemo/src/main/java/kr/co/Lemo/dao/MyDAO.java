@@ -22,11 +22,6 @@ public interface MyDAO {
     public int insertDiaryArticle(ArticleDiaryVO diaryVO);
     public int insertDiarySpot(DiarySpotVO spotVO);
 
-    // @since 2023/03/13
-    public List<ArticleDiaryVO> selectDiaryArticle(String uid);
-    public List<DiarySpotVO> selectDiarySpot(int arti_no);
-    public List<DiarySpotVO> selectDiary(SearchCondition sc);
-
     // @since 2023/03/24
     public List<ProductAccommodationVO> selectPicks(SearchCondition sc);
     public List<ReservationVO> selectReservations(SearchCondition sc);
@@ -55,7 +50,6 @@ public interface MyDAO {
     public ReservationVO selectReservation(@Param("res_no") long res_no, @Param("user_id") String user_id);
     public int deleteReservation(long res_no);
     public int selectCheckReview(long res_no);
-    public int selectCheckDiary(long res_no);
 
     // @since 2023/04/120
     public int selectTotalDiary(SearchCondition sc);
@@ -154,12 +148,6 @@ public interface MyDAO {
 
     // @since 2023/04/12
     public int updateDiaryArticle(ArticleDiaryVO diaryVO);
-
-    public int updateDiarySpot(DiarySpotVO spotVO);
-
-    // @since 2023/04/15
-
-    public List<PointVO> selectAvailablePoint();
 
     // @since 2023/04/17
     public int selectMemberPoint(String user_id);

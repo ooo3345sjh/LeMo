@@ -166,12 +166,14 @@
     <insert id="expriedDetailPointAll">
         <![CDATA[
             INSERT INTO `lemo_member_point_detail_log` (`user_id`, `poid_content`, `poid_point`, `poid_save_id`, `poi_id`, `poid_maximum`, `poid_rdate`)
-            SELECT val.`user_id`, '포인트 만료' AS 'poid_content', -val.`sum` AS 'poid_point', val.`poid_save_id`, val.`poi_id`, val.`poid_maximum`, NOW()
-            FROM (
-                SELECT *, SUM(`poid_point`) AS 'sum' FROM `lemo_member_point_detail_log`
+            SELECT poid_l.`user_id`, '포인트 만료' AS 'poid_content', -poid_r.`sum` AS 'poid_point', poid_l.`poid_id`, poid_l.`poi_id`, poid_l.`poid_maximum`, NOW()
+            FROM `lemo_member_point_detail_log` poid_l JOIN
+            (
+                SELECT `poid_save_id`, SUM(`poid_point`) AS 'sum' FROM `lemo_member_point_detail_log`
                 GROUP BY `poid_save_id`
-                HAVING SUM(`poid_point`) != 0 AND `poid_maximum` < DATE_FORMAT(NOW(),'%Y-%m-%d')
-            ) val;
+                HAVING SUM(`poid_point`) != 0
+            ) poid_r ON poid_l.poid_id = poid_r.poid_save_id
+            WHERE poid_l.`poid_maximum` < DATE_FORMAT(NOW(),'%Y-%m-%d')
         ]]>
     </insert>
 
