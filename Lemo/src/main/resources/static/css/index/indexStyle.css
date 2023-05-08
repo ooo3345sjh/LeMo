@@ -177,8 +177,7 @@ main .main_top_container .main_top_table > .main_top_item1 {
 }
 main .main_top_container .main_top_table .main_top_item1_click {
     box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
+    margin-right: 13px;
 }
 main .main_top_container .main_top_table .main_top_item1_click.noFull {
     display: block;

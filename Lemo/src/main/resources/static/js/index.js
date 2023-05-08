@@ -16,8 +16,9 @@ $(document).ready(function(){
         $( '.main_top_table.best' ).slick( {
             slidesToShow: 4,
             slidesToScroll: 1,
-            autoplay: true,
+            autoplay: Number(bestCnt) > 4,
             autoplaySpeed: 2000,
+            variableWidth:Number(bestCnt) < 4
         } );
         $( '.main_top_table.re' ).slick( {
             slidesToShow: 4,

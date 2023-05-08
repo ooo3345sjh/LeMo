@@ -86,18 +86,18 @@
 
     <insert id="insertMemberPointDetailLog" parameterType="kr.co.Lemo.domain.PointDetailVO" >
         <![CDATA[
-            INSERT INTO `lemo_member_point_detail_log`
+           INSERT INTO `lemo_member_point_detail_log`
             (`user_id`, `poid_content`, `poid_point`, `poid_save_id`, `poi_id`, `poid_maximum`, `poid_rdate`)
 
-            SELECT result.`user_id`, '포인트 사용' AS 'poid_content',
+            SELECT #{user_id}, '포인트 사용' AS 'poid_content',
             if(result.`result` - #{poid_point} <= 0, -result.`total`, (result.`result` - result.`total`) - #{poid_point}) AS 'poid_point',
             result.`poid_save_id`, #{poi_id} 'poi_id', null 'poid_maximum', NOW() 'poid_rdate'
             FROM
             (
-                SELECT *, SUM(val.`total`) OVER(ORDER BY `poid_id`) AS 'result'
+                SELECT `poid_save_id`, val.total,  SUM(val.`total`) OVER(ORDER BY `poid_save_id`) AS 'result'
                 FROM
                 (
-                    SELECT *, SUM(`poid_point`) AS 'total'
+                    SELECT `poid_save_id`, SUM(`poid_point`) AS 'total'
                     FROM `lemo_member_point_detail_log`
                     WHERE `poid_save_id`
                     IN
