@@ -735,7 +735,6 @@ public class AdminController {
     @DeleteMapping("cs/term")
     public Map<String, Integer> removeTerm(@RequestBody Map map){
         log.info("termRemoveStart...");
-        //log.debug((String) map.get("terms_no"));
 
         int terms_no = Integer.parseInt(String.valueOf(map.get("term_no")));
 
