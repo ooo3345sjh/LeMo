@@ -100,7 +100,7 @@
                         <!-- 댓글 쓰기 -->
                         <div class="write_reply" sec:authorize="isAuthenticated()" th:if="${#authentication.principal.user_id != null}">
                             <form action="#" class="comOriWrite">
-                                <textarea class="comTextarea" onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)"></textarea>
+                                <textarea class="comTextarea" onkeydown="resizeHeight(this)" onkeyup="resizeHeight(this)" placeholder="댓글을 입력해주세요."></textarea>
                                 <button>댓글 쓰기</button>
                             </form>
                         </div>
