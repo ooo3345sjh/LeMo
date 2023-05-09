@@ -138,7 +138,7 @@ public class ProductService {
         // 숙박 업소 가져오기
         List<ProductAccommodationVO> accs = dao.selectAccommodations(sc);
 
-        log.debug(accs.toString());
+        log.info(accs.toString());
         // 가격 데이터 가공
         accs = setAvgPrice(sc, accs);
 
@@ -750,6 +750,7 @@ public class ProductService {
      * @apiNote 매일 자정 모든 상품의 리뷰 평균 점수 업데이트
      */
     @Scheduled(cron = "0 0 0 * * *")
+//    @Scheduled(cron = "0 0/5 * * * ?") // 5분마다
     public void usaveAvgRate() throws Exception {
         log.debug("usaveAvgRate start...");
         dao.updateAvgRate();
@@ -845,8 +846,8 @@ public class ProductService {
 
     // @since 2023/04/29
 
-//    @Scheduled(cron = "0 0 0 * * *")
-    @Scheduled(cron = "0 0/5 * * * ?") // 5분마다
+    @Scheduled(cron = "0 0 0 * * *")
+//    @Scheduled(cron = "0 0/5 * * * ?") // 5분마다
     public void updateReservationAndPoint() throws Exception {
         log.info("**************************숙박완료, 포인트 적립 스케쥴러 사용(매일 자정)****************************************");
 

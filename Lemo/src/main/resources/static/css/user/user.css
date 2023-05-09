@@ -761,6 +761,7 @@ main > section .signup > .sub_title {
     position: relative;
 }
 .wd_wrap > .wd_tit > span {
+    font-family: 'jalnan';
     font-size: 24px;
 }
 .wd_wrap > .wd_tit > a {

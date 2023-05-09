@@ -431,12 +431,14 @@
     <update id="updateAvgRate">
         UPDATE `lemo_product_accommodation` acc
         JOIN (
-        SELECT a.acc_id, AVG(r.revi_rate) 'acc_rate'  FROM  `lemo_product_accommodation` a
+        SELECT a.acc_id, AVG(r.revi_rate) 'acc_rate', COUNT(*) 'acc_review' FROM  `lemo_product_accommodation` a
         JOIN `lemo_product_reservation` res ON a.acc_id = res.acc_id
         JOIN `lemo_product_review` r ON res.res_no = r.res_no
         GROUP BY a.acc_id
         ) vals ON acc.acc_id = vals.acc_id
-        SET acc.acc_rate = TRUNCATE(vals.acc_rate ,1);
+        SET
+        acc.acc_rate = TRUNCATE(vals.acc_rate ,1),
+        acc.acc_review = vals.acc_review;
     </update>
 
     <!--
