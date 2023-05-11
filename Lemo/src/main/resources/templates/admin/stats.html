@@ -165,6 +165,7 @@
 
         // 오늘 날짜
         let today = new Date();
+
         // 오늘 날짜 (월)
         nowMonth = today.getMonth() + 1;
         // 오늘 날짜 (일)
@@ -645,6 +646,7 @@
 
             // 오늘 날짜
             const today = new Date().toISOString().split('T')[0];
+            console.log(new Date().toISOString());
 
             // end input 요소의 최대 선택값을 오늘 날짜로 설정
             $beginInput.attr('max', today);
