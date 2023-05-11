@@ -147,7 +147,7 @@
                     const urlParams = new URLSearchParams(window.location.search);
                     const res_no = urlParams.get('res_no');
                     $(function(){
-                        $('.reserveCancel').click(function(e){
+                        $(document).on('click', '.reserveCancel', function(e){
                             e.preventDefault();
 
                             Swal.fire({
@@ -164,6 +164,8 @@
                                     let jsonData = { "res_no":res_no }
 
                                     ajaxAPI("my/reservation", jsonData, "DELETE").then((response)=>{
+                                        console.log(response);
+
                                         if(response == 1) {
                                             Swal.fire({
                                                 title: '예약 취소되었습니다.',
@@ -182,6 +184,9 @@
                                         else {
                                             Swal.fire( '다시 시도해주세요.' )
                                         }
+                                    })
+                                    .catch((errorMsg) => {
+                                        console.log(errorMsg)
                                     });
                                 }
                             });

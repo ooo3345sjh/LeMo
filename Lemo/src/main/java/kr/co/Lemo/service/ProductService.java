@@ -846,8 +846,8 @@ public class ProductService {
 
     // @since 2023/04/29
 
-    @Scheduled(cron = "0 0 0 * * *")
-//    @Scheduled(cron = "0 0/5 * * * ?") // 5분마다
+//    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0/5 * * * ?") // 5분마다
     public void updateReservationAndPoint() throws Exception {
         log.info("**************************숙박완료, 포인트 적립 스케쥴러 사용(매일 자정)****************************************");
 
