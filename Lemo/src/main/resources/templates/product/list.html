@@ -147,10 +147,10 @@
                                                             남은 객실 : [[${acc.empty_room_stock}]]
                                                         </span>
                                                     </p>
-                                                    <p th:if="${acc.empty_room_stock lt 0}">
+                                                    <p th:if="${acc.empty_room_stock le 0}">
                                                         <b style="color:#9c9c9c; font-weight:700;">예약 마감 다른 날짜 확인</b>
                                                     </p>
-                                                    <p th:unless="${acc.empty_room_stock gt 0}" class="price">
+                                                    <p th:unless="${acc.empty_room_stock le 0}" class="price">
                                                         <b>[[${#numbers.formatInteger(acc.avg_price,1,'COMMA')}]]</b>원/1박
                                                     </p>
                                                 </div>
