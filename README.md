@@ -8,7 +8,7 @@ Blog type Hotel Booking Site<br/>
 ## 프로젝트 산출물
 [LEMO Project 스프레드시트](https://docs.google.com/spreadsheets/d/1g1_pXSo88nbbJbCdhzgQ4fqB4OPCF-Uaa3gWi8o0Ogw/edit#gid=0) - 개발 기간 동안의 회의록, 일정표, 플로우 차트 등에 대한 자료들이 정리되어 있습니다.<br/>
 [LEMO Project 시연 동영상](https://www.youtube.com/playlist?list=PL1mzjfr5p2obtALJpcc-zskZDSRy-Me9-) - 개발한 서비스를 시연하는 영상입니다.<br/>
-[LEMO Project 발표 보고서](https://drive.google.com/file/d/1EsBUGIPut80GmbWt6zGgNPwscTF7G6aV/view) - 개발한 서비스 발표 보고서입니다.<br/>
+[LEMO Project 발표 보고서](https://drive.google.com/open?id=1EsBUGIPut80GmbWt6zGgNPwscTF7G6aV) - 개발한 서비스 발표 보고서입니다.<br/>
 [LEMO Project 발표 동영상](https://www.youtube.com/watch?v=QCpChcM28WY&list=PL1mzjfr5p2obtALJpcc-zskZDSRy-Me9-&index=10) - 개발한 서비스를 발표 영상입니다.
 
 ## 프로젝트 소개 Introduction
